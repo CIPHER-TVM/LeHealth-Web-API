@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LeHealth.Common\LeHealth.Common\LeHealth.Common.csproj" />
+    <ProjectReference Include="..\LeHealth.Common\LeHealth.Common.csproj" />
     <ProjectReference Include="..\LeHealth.Core\LeHealth.Core.csproj" />
     <ProjectReference Include="..\LeHealth.Entity\LeHealth.Entity.csproj" />
   </ItemGroup>
