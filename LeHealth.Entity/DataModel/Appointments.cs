@@ -9,7 +9,7 @@ namespace LeHealth.Entity.DataModel
     public int AppId { get; set; }
         public string PatientName { get; set; }
         public string AppType { get; set; }
-        public int TimeNo { get; set; }
+        public string TimeNo { get; set; }
         public string RegNo { get; set; }
         public string Status { get; set; }
         public int ConsultantId { get; set; }

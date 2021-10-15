@@ -115,14 +115,15 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
-                string AppQuery = "[stLH_GetAppOfaDay]";
-                using (SqlCommand cmd = new SqlCommand(AppQuery, con))
+                
+                using (SqlCommand cmd = new SqlCommand("stLH_GetAppOfaDay", con))
                 {
                     con.Open();
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
-                    cmd.Parameters.AddWithValue("@AppDate", DateTime.Now.ToString("dd/MMM/yyyy hh:mm:ss tt"));
+                    cmd.Parameters.AddWithValue("@DeptId", appointment.DeptId);
+                    cmd.Parameters.AddWithValue("@AppDate", DateTime.Now.ToString("yyyy-MM-dd"));
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
@@ -135,7 +136,7 @@ namespace LeHealth.Core.DataManager
                             obj.AppId = Convert.ToInt32(ds.Tables[0].Rows[i]["AppId"]);
                             obj.AppType = ds.Tables[0].Rows[i]["AppType"].ToString();
                             obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.TimeNo = Convert.ToInt32(ds.Tables[0].Rows[i]["TimeNo"]);
+                            obj.TimeNo = ds.Tables[0].Rows[i]["TimeNo"].ToString();
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
                             Appointmentlist.Add(obj);
