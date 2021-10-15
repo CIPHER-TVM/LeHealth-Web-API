@@ -6,7 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
    public  class ConsultantModel
     {
-    public string ConsultantName { get; set; }
+        public string ConsultantName { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -14,7 +14,7 @@ namespace LeHealth.Entity.DataModel
         public string AppType { get; set; }
 
         public string ConsultantCode { get; set; }
-        public int ConsultantId { get; set; }
+        public Int32 ConsultantId { get; set; }
 
     }
 }
