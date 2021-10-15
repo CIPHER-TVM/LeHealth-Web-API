@@ -10,8 +10,11 @@ namespace LeHealth.Service.ServiceInterface
     {
         List<HospitalModel> GetUserHospitals();
         List<DepartmentModel> GetDepartments();
-        List<ConsultantModel> GetConsultant();
-        List<Appointments> GetAppointments();
-        List<ConsultationModel> GetConsultation();
+        List<ConsultantModel> GetConsultant(int deptId);
+        List<Appointments> GetAppointments(AppointmentModel appointment);
+        List<ConsultationModel> GetConsultation(ConsultantModel consultation);
+        List<Appointments> InsertUpdateAppointment(Appointments appointments);
+        List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
+
     }
 }

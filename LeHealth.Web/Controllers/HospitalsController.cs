@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -38,7 +38,7 @@ namespace LeHealth.Catalogue.API.Controllers
         /// </returns>
 
         [Route("GetUserHospitals")]
-        [HttpPost]
+        [HttpGet]
         public ResponseDataModel<IEnumerable<HospitalModel>> GetUserHospitals()
         {
             try
@@ -93,23 +93,23 @@ namespace LeHealth.Catalogue.API.Controllers
         ///   
         /// </summary>
         /// <returns></returns>
-        [Route("GetConsultant")]
-        [HttpGet]
+        //[Route("GetConsultant")]
+        //[HttpGet]
         // Use ResponseDataModel as general return type insteand of list
-        public List<ConsultantModel> GetConsultant()
-        {
-            DataTable dt = new DataTable();  // no need of dt
-            List<ConsultantModel> consultantList = new List<ConsultantModel>();
-            try
-            {
-                consultantList = hospitalsService.GetConsultant();
-            }
-            catch (Exception ex)
-            {
-                // handle exeption here
-            }
-            return consultantList;
+        //public List<ConsultantModel> GetConsultant()
+        //{
+        //    DataTable dt = new DataTable();  // no need of dt
+        //    List<ConsultantModel> consultantList = new List<ConsultantModel>();
+        //    try
+        //    {
+        //        consultantList = hospitalsService.GetConsultant();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // handle exeption here
+        //    }
+        //    return consultantList;
 
-        }
+        //}
     }
 }

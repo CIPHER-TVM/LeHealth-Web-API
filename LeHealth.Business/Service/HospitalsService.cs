@@ -14,11 +14,11 @@ namespace LeHealth.Service
     public class HospitalsService: IHospitalsService
     {
         private readonly IHospitalsManager hospitalsManager;
-        private readonly IMapper mapper;
+        //private readonly IMapper mapper;
 
-        public HospitalsService(IMapper _mapper, IHospitalsManager _hospitalsManager)
+        public HospitalsService(/*IMapper _mapper,*/ IHospitalsManager _hospitalsManager)
         {
-            mapper = _mapper;
+            //mapper = _mapper;
             hospitalsManager = _hospitalsManager;
 
         }
@@ -26,23 +26,31 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetDepartments();
         }
-        public List<ConsultantModel> GetConsultant()
+        public List<ConsultantModel> GetConsultant(int deptId)
         {
-            return hospitalsManager.GetConsultant();
+            return hospitalsManager.GetConsultant(deptId);
         }
-        public List<Appointments> GetAppointments()
+        public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
-            return hospitalsManager.GetAppointments();
+            return hospitalsManager.GetAppointments(appointment);
         }
-        public List<ConsultationModel> GetConsultation()
+        public List<ConsultationModel> GetConsultation(ConsultantModel consultation)
         {
-            return hospitalsManager.GetConsultation();
+            return hospitalsManager.GetConsultation(consultation);
         }
-
+        public List<Appointments> InsertUpdateAppointment(Appointments appointments)
+        {
+            return hospitalsManager.InsertUpdateAppointment(appointments);
+        }
+        public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
+        {
+            return hospitalsManager.InsertUpdateConsultation(consultations);
+        }
         public List<HospitalModel> GetUserHospitals()
         {
             return hospitalsManager.GetUserHospitals();
         }
+
        
     }
 }
