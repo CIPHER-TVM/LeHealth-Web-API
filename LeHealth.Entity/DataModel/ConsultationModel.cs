@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +9,7 @@ namespace LeHealth.Entity.DataModel
     public string TokenNO { get; set; }
         public string PatientName { get; set; }
         public int TimeNo { get; set; }
-        public int RegNo { get; set; }
+        public string RegNo { get; set; }
         public string Sponsor { get; set; }
         public int ConsultationId { get; set; }
         public int AppId { get; set; }
