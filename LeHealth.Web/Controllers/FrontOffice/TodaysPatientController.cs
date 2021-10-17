@@ -31,7 +31,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </summary>
         /// <returns></returns>
         [Route("GetDepartments")]
-        [HttpGet]
+        [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments()
         {
             List<DepartmentModel> departmentList = new List<DepartmentModel>();
@@ -70,7 +70,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <param name="deptId"></param>
         /// <returns></returns>
         [Route("GetConsultant/{deptId}")]
-        [HttpGet]
+        [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultant(int deptId)
         {
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
@@ -147,7 +147,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </summary>
         /// <returns></returns>
         [Route("GetConsultation")]
-        [HttpGet]
+        [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> GetConsultation(ConsultantModel consultation)
         {
             List<ConsultationModel> consultationList = new List<ConsultationModel>();

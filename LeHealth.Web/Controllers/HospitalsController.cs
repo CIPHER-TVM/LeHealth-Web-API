@@ -38,7 +38,7 @@ namespace LeHealth.Catalogue.API.Controllers
         /// </returns>
 
         [Route("GetUserHospitals")]
-        [HttpGet]
+        [HttpPost]
         public ResponseDataModel<IEnumerable<HospitalModel>> GetUserHospitals()
         {
             try
@@ -71,45 +71,7 @@ namespace LeHealth.Catalogue.API.Controllers
                 // dispose can be managed here
             }
         }
-        [Route("GetDepartments")]
-        [HttpGet]
-        public List<DepartmentModel> GetDepartments()
-        {
-            List < DepartmentModel > departmentlist = new List < DepartmentModel > ();
-            try
-            {
-                departmentlist = hospitalsService.GetDepartments();
-                return departmentlist;
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return departmentlist;
-
-        }
-        /// <summary>
-        ///  
-        ///   
-        /// </summary>
-        /// <returns></returns>
-        //[Route("GetConsultant")]
-        //[HttpGet]
-        // Use ResponseDataModel as general return type insteand of list
-        //public List<ConsultantModel> GetConsultant()
-        //{
-        //    DataTable dt = new DataTable();  // no need of dt
-        //    List<ConsultantModel> consultantList = new List<ConsultantModel>();
-        //    try
-        //    {
-        //        consultantList = hospitalsService.GetConsultant();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // handle exeption here
-        //    }
-        //    return consultantList;
-
-        //}
+    
+       
     }
 }

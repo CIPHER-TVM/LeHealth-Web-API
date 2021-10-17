@@ -6,7 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
    public class DepartmentModel
     {
-   public int DeptId { get; set; }
+        public Int32 DeptId { get; set; }
         public string DeptName { get; set; }
         public string DeptCode { get; set; }
         public string Description { get; set; }
