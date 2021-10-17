@@ -31,7 +31,7 @@ namespace LeHealth.Entity.DataModel
         public int RetVal { get; set; }
         public string RetDesc { get; set; }
         public int RetSeqNo { get; set; }
-
+    public string Status { get; set; }
 
     }
 }

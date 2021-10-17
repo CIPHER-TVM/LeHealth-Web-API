@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,8 +14,8 @@ namespace LeHealth.Entity.DataModel
         public string Status { get; set; }
         public int ConsultantId { get; set; }
         public int PatientId { get; set; }
-        public DateTime EntryDate { get; set; }
-        public DateTime AppDate { get; set; }
+        public string EntryDate { get; set; }
+        public string AppDate { get; set; }
         public int AppNo { get; set; }
         public int SliceNo { get; set; }
         public string SliceTime { get; set; }
