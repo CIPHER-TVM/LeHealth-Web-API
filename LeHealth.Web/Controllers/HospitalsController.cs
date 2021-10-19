@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using LeHealth.Entity.ViewModel;
+//using LeHealth.Entity.ViewModel;
 using LeHealth.Service.ServiceInterface;
 using LeHealth.Entity.DataModel;
 using System.Data;

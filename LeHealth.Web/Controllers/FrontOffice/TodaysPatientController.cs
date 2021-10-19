@@ -1,4 +1,4 @@
-﻿using LeHealth.Catalogue.API;
+using LeHealth.Catalogue.API;
 using LeHealth.Entity.DataModel;
 using LeHealth.Service.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +20,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
     {
         private readonly ILogger<TodaysPatientController> logger;
         private readonly IHospitalsService hospitalsService;
+        private readonly ITodaysPatientService todaysPatientService;
 
-        public TodaysPatientController(ILogger<TodaysPatientController> _logger, IHospitalsService _hospitalsService)
+        public TodaysPatientController(ILogger<TodaysPatientController> _logger, IHospitalsService _hospitalsService,ITodaysPatientService _todaysPatientService)
         {
             logger = _logger;
             hospitalsService = _hospitalsService;
+            todaysPatientService = _todaysPatientService;
         }
         /// <summary>
         /// To list of all Departments
@@ -180,6 +182,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
          }
+        /// <summary>
+        /// Adding a new Appointment
+        /// </summary>
+        /// <param name="appointments"></param>
+        /// <returns></returns>
         [Route("InsertUpdateAppointment")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertUpdateAppointment(Appointments appointments)
@@ -214,6 +221,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        /// <summary>
+        /// Adding a new Consultation
+        /// </summary>
+        /// <param name="consultations"></param>
+        /// <returns></returns>
         [Route("InsertUpdateConsultation")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> InsertUpdateConsultation(ConsultationModel consultations)
@@ -248,5 +260,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-    }
+        /// <summary>
+        /// Adding patient registrtion
+        /// </summary>
+        /// <param name="patientDetail"></param>
+        /// <returns></returns>
+        [Route("InsertPatientRegistration")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration(PatientModel patientDetail)
+        {
+            List<PatientModel> registrationDetail = new List<PatientModel>();
+            try
+            {
+                registrationDetail = todaysPatientService.InsertPatient(patientDetail);
+                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                  //  Response = consultationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // dispose can be managed here
+            }
+        }
+        }
 }

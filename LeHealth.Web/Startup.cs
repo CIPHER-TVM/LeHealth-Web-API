@@ -15,6 +15,7 @@ using LeHealth.Core.Interface;
 using LeHealth.Service;
 
 using LeHealth.Service.ServiceInterface;
+using LeHealth.Service.Service;
 
 namespace LeHealth.Catalogue.API
 {
@@ -34,19 +35,19 @@ namespace LeHealth.Catalogue.API
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-           // services.ConfigureCors();
+            // services.ConfigureCors();
             services.AddControllers();
-            services.AddAutoMapper(typeof(AutoMapping));
+           // services.AddAutoMapper(typeof(AutoMapping));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
 
-            services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<IStudentManager, StudentManager>();
+           // adding the service dependencies injection
+            services.AddScoped<IHospitalsService, HospitalsService>();
+            services.AddScoped<IHospitalsManager, HospitalsManager>();
 
-           services.AddScoped<IHospitalsService, HospitalsService>();
-           services.AddScoped<IHospitalsManager, HospitalsManager>();
-
+            services.AddScoped<ITodaysPatientService, TodaysPatientService>();
+            services.AddScoped<ITodaysPatientManager, TodaysPatientManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
