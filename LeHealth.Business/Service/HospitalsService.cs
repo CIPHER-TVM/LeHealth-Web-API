@@ -14,54 +14,58 @@ namespace LeHealth.Service
     public class HospitalsService: IHospitalsService
     {
         private readonly IHospitalsManager hospitalsManager;
-
+        /// <summary>
+        /// Initialising hospital manager object
+        /// </summary>
         public HospitalsService( IHospitalsManager _hospitalsManager)
         {
             hospitalsManager = _hospitalsManager;
 
         }
         /// <summary>
-        ///To list of all departments from the hospitals
+        ///Returns  all departments from the hospital as Generic List. Step two in code execution flow
         /// </summary>
         public List<DepartmentModel> GetDepartments()
         {
             return hospitalsManager.GetDepartments();
         }
         /// <summary>
-        /// To list of all consultants by dept id
+        /// Returns all consultants by dept id as Generic List. Step two in code execution flow
         /// </summary>
         public List<ConsultantModel> GetConsultant(int deptId)
         {
             return hospitalsManager.GetConsultant(deptId);
         }
         /// <summary>
-        /// To list of all appointments by today
+        /// Returns list of all appointments on present day as Generic List. Step two in code execution flow
         /// </summary>
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
             return hospitalsManager.GetAppointments(appointment);
         }
+        /// <summary>
+        /// Returns Consultation Details as Generic List. Step two in code execution flow
+        /// </summary>
         public List<ConsultationModel> GetConsultation(ConsultantModel consultation)
         {
             return hospitalsManager.GetConsultation(consultation);
         }
         /// <summary>
-        ///adding a appointment details
+        ///adding an appointment detail.Step two in code execution flow
         /// </summary>
         public List<Appointments> InsertUpdateAppointment(Appointments appointments)
         {
             return hospitalsManager.InsertUpdateAppointment(appointments);
         }
         /// <summary>
-        /// adding a new consultation details
+        /// adding a new consultation details.Step two in code execution flow
         /// </summary>
-        /// <param name="consultations"></param>
         public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
         {
             return hospitalsManager.InsertUpdateConsultation(consultations);
         }
         /// <summary>
-        /// To list of all hospital details 
+        /// To list of all hospital details .Step two in code execution flow
         /// </summary>
         public List<HospitalModel> GetUserHospitals()
         {

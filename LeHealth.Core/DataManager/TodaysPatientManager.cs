@@ -20,12 +20,15 @@ namespace LeHealth.Core.DataManager
 
         public List<PatientModel> InsertPatient(PatientModel patientDetail)
         {
+            SqlTransaction transaction;
             List<PatientModel> patientDetails = new List<PatientModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con))
+                con.Open();
+                transaction = con.BeginTransaction();
+                try
                 {
+                    SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PatientId", DBNull.Value);
                     cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
@@ -69,33 +72,46 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@VisaTypeId", patientDetail.VisaTypeId);
                     cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
                     cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
-                    //cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo);
+                    cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo);
                     SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
                     };
                     cmd.Parameters.Add(outputIdParam);
-                    con.Open();
-                    cmd.ExecuteNonQuery();
+                    cmd.Transaction = transaction;
+                    //SqlCommand patientCmd=InsertPatient()
+                    //cmd.ExecuteNonQuery();
+                    int patientId = (int)outputIdParam.Value;
+
+                    transaction.Commit();
+
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+                // using (SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con))
+                // {
+                    
+                   // con.Open();
+                   // cmd.ExecuteNonQuery();
                     //con.BeginTransaction();
                     //cmd.Transaction()
-                    int patientId = (int)outputIdParam.Value;
-                    patientid = patientId.ToString();
                     con.Close();
-                    if (patientId > 0)// check patient basic detail is inserted
-                    {
-                        patientDetail.PatientId = patientId;
-                        bool isPatIdentityUpdated = InsertPatIdentity(patientDetail);
-                        if (isPatIdentityUpdated == true)//checke patient identity is updated
-                        {
-                            bool isPatAddressUpdated = InsertPatAddress(patientDetail);
-                            if (isPatAddressUpdated == true)//check patient address is updated
-                            {
-                                bool isRegDetailsUpdated = InsertPatRegs(patientDetail);
-                            }
-                        }
-                    }
-                }
+                    //if (patientId > 0)// check patient basic detail is inserted
+                    //{
+                    //    patientDetail.PatientId = patientId;
+                    //    bool isPatIdentityUpdated = InsertPatIdentity(patientDetail);
+                    //    if (isPatIdentityUpdated == true)//checke patient identity is updated
+                    //    {
+                    //        bool isPatAddressUpdated = InsertPatAddress(patientDetail);
+                    //        if (isPatAddressUpdated == true)//check patient address is updated
+                    //        {
+                    //            bool isRegDetailsUpdated = InsertPatRegs(patientDetail);
+                    //        }
+                    //    }
+                    //}
+               // }
             }
 
             return patientDetails;

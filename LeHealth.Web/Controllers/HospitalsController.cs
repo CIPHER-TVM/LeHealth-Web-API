@@ -23,6 +23,10 @@ namespace LeHealth.Catalogue.API.Controllers
         private readonly ILogger<HospitalsController> logger;
         private readonly IHospitalsService hospitalsService;
 
+        /// <summary>
+        /// Initialisation of logger,hospital service objects
+
+        /// </summary>
         public HospitalsController(ILogger<HospitalsController> _logger, IHospitalsService _hospitalsService)
         {
             logger = _logger;
@@ -30,11 +34,11 @@ namespace LeHealth.Catalogue.API.Controllers
         }
 
         /// <summary>
-        /// To get list of hospitals .
+        /// To get list of hospitals . A controller class. Step One in code execution flow
         /// branches=hospitals
         /// </summary>
         /// <returns>
-        /// List of Hospitals
+        /// returns List of Hospitals as JSON
         /// </returns>
 
         [Route("GetUserHospitals")]

@@ -22,16 +22,22 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         private readonly IHospitalsService hospitalsService;
         private readonly ITodaysPatientService todaysPatientService;
 
-        public TodaysPatientController(ILogger<TodaysPatientController> _logger, IHospitalsService _hospitalsService,ITodaysPatientService _todaysPatientService)
+        /// <summary>
+        /// Initialisation of logger,hospital service,patient service objects
+
+        /// </summary>
+        public TodaysPatientController(ILogger<TodaysPatientController> _logger, IHospitalsService _hospitalsService, ITodaysPatientService _todaysPatientService)
         {
             logger = _logger;
             hospitalsService = _hospitalsService;
             todaysPatientService = _todaysPatientService;
         }
         /// <summary>
-        /// To list of all Departments
+        /// To get list of all Departments. A controller class. Step One in code execution flow
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Department list as JSON
+        /// </returns>
         [Route("GetDepartments")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments()
@@ -49,7 +55,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             catch (Exception ex)
             {
-                logger.LogInformation("Failed to perform operation by given Exception: "+ex.Message+" "+DateTime.Now.ToString());
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<DepartmentModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
@@ -63,14 +69,17 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
+                departmentList.Clear();
                 // dispose can be managed here
             }
         }
         /// <summary>
-        /// To list of Consultant with department id
+        /// To get list of Doctors belongs to specific department.Controller class . Step One in code execution flow
         /// </summary>
         /// <param name="deptId"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// Consultant list as JSON
+        /// </returns>
         [Route("GetConsultant/{deptId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultant(int deptId)
@@ -102,17 +111,20 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
+                consultantList.Clear();
                 // dispose can be managed here
             }
         }
         /// <summary>
-        /// To list of all Appointments 
+        /// To get list of all Appoinments. Controller class . Step One in code execution flow
         /// </summary>
         /// <param name="appointment"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// Appoinment list as json
+        /// </returns>
         [Route("GetAppointments")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<Appointments>> GetAppointments(AppointmentModel appointment )
+        public ResponseDataModel<IEnumerable<Appointments>> GetAppointments(AppointmentModel appointment)
         {
             List<Appointments> appointmentList = new List<Appointments>();
             try
@@ -141,13 +153,16 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
+                appointmentList.Clear();
                 // dispose can be managed here
             }
         }
         /// <summary>
-        /// To list of all Consultations
+        /// To get list of all consultations. Controller class . Step One in code execution flow
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Consultation list as JSON
+        /// </returns>
         [Route("GetConsultation")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> GetConsultation(ConsultantModel consultation)
@@ -179,14 +194,18 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
+                consultationList.Clear();
                 // dispose can be managed here
             }
-         }
+        }
         /// <summary>
-        /// Adding a new Appointment
+        /// Save new Appointment,Controller class . Step One in code execution flow
         /// </summary>
         /// <param name="appointments"></param>
-        /// <returns></returns>
+        /// All details regarding new appoinments
+        /// <returns>
+        /// Success or failure status
+        /// </returns>
         [Route("InsertUpdateAppointment")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertUpdateAppointment(Appointments appointments)
@@ -218,14 +237,18 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
+                consultationList.Clear();
                 // dispose can be managed here
             }
         }
         /// <summary>
-        /// Adding a new Consultation
+        /// Save new Consultation ,Controller class . Step One in code execution flow
         /// </summary>
         /// <param name="consultations"></param>
-        /// <returns></returns>
+        ///  All details regarding new consultation
+        /// <returns>
+        /// Success or failure status
+        /// </returns>
         [Route("InsertUpdateConsultation")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> InsertUpdateConsultation(ConsultationModel consultations)
@@ -257,14 +280,18 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
+                consultationList.Clear();
                 // dispose can be managed here
             }
         }
         /// <summary>
-        /// Adding patient registrtion
+        /// Save new patient details,Controller class . Step One in code execution flow
         /// </summary>
         /// <param name="patientDetail"></param>
-        /// <returns></returns>
+        ///  All details regarding patient
+        /// <returns>
+        /// Success or failure status
+        /// </returns>
         [Route("InsertPatientRegistration")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration(PatientModel patientDetail)
@@ -276,7 +303,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                  //  Response = consultationList
+                    //  Response = consultationList
                 };
                 return response;
             }
@@ -296,8 +323,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
+                registrationDetail.Clear();
                 // dispose can be managed here
             }
         }
-        }
+    }
 }

@@ -10,15 +10,18 @@ namespace LeHealth.Service.Service
     public class TodaysPatientService : ITodaysPatientService
     {
         private readonly ITodaysPatientManager todaysPatientManager;
+        /// <summary>
+        /// Initialising todaysPatientManager object
+        /// </summary>
+        /// <param name="_todaysPatientManager"></param>
         public TodaysPatientService( ITodaysPatientManager _todaysPatientManager)
         {
             todaysPatientManager = _todaysPatientManager;
 
         }
         /// <summary>
-        /// adding a new patient registration
+        /// adding a new patient registration 
         /// </summary>
-        /// <param name="patientDetail"></param>
         public List<PatientModel> InsertPatient(PatientModel patientDetail)
         {
             return todaysPatientManager.InsertPatient(patientDetail);
