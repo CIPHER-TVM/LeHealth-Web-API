@@ -13,7 +13,7 @@ namespace LeHealth.Entity.DataModel
         public string Sponsor { get; set; }
         public int ConsultationId { get; set; }
         public int AppId { get; set; }
-        public DateTime ConsultDate { get; set; }
+        public string ConsultDate { get; set; }
         public int ConsultantId { get; set; }
         public int PatientId { get; set; }
         public string Symptoms { get; set; }

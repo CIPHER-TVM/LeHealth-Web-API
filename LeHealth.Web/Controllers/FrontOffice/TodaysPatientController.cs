@@ -69,7 +69,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                departmentList.Clear();
+               // departmentList.Clear();
                 // dispose can be managed here
             }
         }
@@ -111,7 +111,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                consultantList.Clear();
+               // consultantList.Clear();
                 // dispose can be managed here
             }
         }
@@ -153,7 +153,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                appointmentList.Clear();
+               // appointmentList.Clear();
                 // dispose can be managed here
             }
         }
@@ -194,7 +194,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                consultationList.Clear();
+              //  consultationList.Clear();
                 // dispose can be managed here
             }
         }
@@ -237,7 +237,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                consultationList.Clear();
+               // consultationList.Clear();
                 // dispose can be managed here
             }
         }
@@ -280,7 +280,42 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                consultationList.Clear();
+               // consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+        [HttpPost]
+        [Route("GetCountry")]
+        public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(CountryModel countryDetails)
+        {
+            List<CountryModel> countryList = new List<CountryModel>();
+            try
+            {
+                countryList = todaysPatientService.GetCountry(countryDetails);
+                var response = new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = countryList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+               // countryList.Clear();
                 // dispose can be managed here
             }
         }

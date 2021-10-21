@@ -26,5 +26,9 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.InsertPatient(patientDetail);
         }
+        public List<CountryModel> GetCountry(CountryModel countryDetails)
+        {
+            return todaysPatientManager.GetCountry(countryDetails);
+        }
     }
 }

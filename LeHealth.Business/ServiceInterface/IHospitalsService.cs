@@ -15,6 +15,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultationModel> GetConsultation(ConsultantModel consultation);
         List<Appointments> InsertUpdateAppointment(Appointments appointments);
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
+        //List<CountryModel> GetCountry(CountryModel countryDetails);
 
     }
 }

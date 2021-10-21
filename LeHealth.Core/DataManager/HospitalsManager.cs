@@ -285,7 +285,7 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
-                    cmd.Parameters.AddWithValue("@ConsultDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
                     cmd.Parameters.AddWithValue("@AppId", consultations.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
                     cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
