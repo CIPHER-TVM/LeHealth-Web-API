@@ -51,7 +51,8 @@ namespace LeHealth.Catalogue.API.Controllers
                 var response = new ResponseDataModel<IEnumerable<HospitalModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = hospitals
+                    Response = hospitals,
+                    
                 };
                 return response;
             }
@@ -70,10 +71,7 @@ namespace LeHealth.Catalogue.API.Controllers
 
                 };
             }
-            finally
-            {
-                // dispose can be managed here
-            }
+            
         }
     
        

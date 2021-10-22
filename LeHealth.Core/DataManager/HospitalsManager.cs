@@ -11,8 +11,10 @@ using LeHealth.Common;
 
 namespace LeHealth.Core.DataManager
 {
-    public class HospitalsManager : IHospitalsManager
+    public class HospitalsManager  : IHospitalsManager , IDisposable
     {
+        bool disposed = false;
+
         private readonly string _connStr;
         /// <summary>
         /// Initializing connection string
@@ -22,6 +24,33 @@ namespace LeHealth.Core.DataManager
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
+
+         //Garbage Dispose
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+
+            }
+
+            disposed = true;
+        }
+
+        ~HospitalsManager()
+        {
+            Dispose(false);
+        }
+
+
         /// <summary>
         /// Get Hospital list from database.Step three in code execution flow
         /// </summary>
