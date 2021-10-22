@@ -210,14 +210,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertUpdateAppointment(Appointments appointments)
         {
-            List<Appointments> consultationList = new List<Appointments>();
+            List<Appointments> appointmentList = new List<Appointments>();
             try
             {
-                consultationList = hospitalsService.InsertUpdateAppointment(appointments);
+                appointmentList = hospitalsService.InsertUpdateAppointment(appointments);
                 var response = new ResponseDataModel<IEnumerable<Appointments>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = consultationList
+                    Response = appointmentList
                 };
                 return response;
             }

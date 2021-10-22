@@ -284,7 +284,12 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
+                    cmd.Parameters.AddWithValue("@ConsultationId",DBNull.Value);
+
+                    else
                     cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+
                     cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
                     cmd.Parameters.AddWithValue("@AppId", consultations.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
