@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LeHealth.Entity.DataModel
+{
+   public  class PatientListModel
+    {
+        public int PatientId { get; set; }
+        public string PatientName { get; set; }
+        public int Age { get; set; }
+        public string RegNo { get; set; }
+        public string Address { get; set; }
+        public string Mobile { get; set; }
+        public string Sponsor { get; set; }
+        public string Consultant { get; set; }
+        public string PolicyNo { get; set; }
+        public string EmiratesId { get; set; }
+        public string SponsorId { get; set; }
+
+
+    }
+}

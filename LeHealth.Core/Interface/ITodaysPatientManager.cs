@@ -9,6 +9,8 @@ namespace LeHealth.Core.Interface
     {
         List<PatientModel> InsertPatient(PatientModel patientDetail);
         List<CountryModel> GetCountry(CountryModel countryDetails);
-
+        List<Appointments> GetAllAppointments(AppointmentModel appointment);
+        List<Appointments> SearchAppointment(AppointmentModel appointment);
+        List<PatientListModel> GetAllPatient();
     }
 }

@@ -69,7 +69,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-               // departmentList.Clear();
+                // departmentList.Clear();
                 // dispose can be managed here
             }
         }
@@ -111,7 +111,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-               // consultantList.Clear();
+                // consultantList.Clear();
                 // dispose can be managed here
             }
         }
@@ -153,9 +153,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-               // appointmentList.Clear();
                 // dispose can be managed here
             }
+        }
+        [Route("GetAllAppointments")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<Appointments>> GetAllAppointments(AppointmentModel appointment)
+        {
+            List<Appointments> consultationList = new List<Appointments>();
+            try
+            {
+                consultationList = todaysPatientService.GetAllAppointments(appointment);
+                var response = new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+
         }
         /// <summary>
         /// To get list of all consultations. Controller class . Step One in code execution flow
@@ -194,7 +229,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-              //  consultationList.Clear();
+                //  consultationList.Clear();
                 // dispose can be managed here
             }
         }
@@ -237,7 +272,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-               // consultationList.Clear();
+                // consultationList.Clear();
                 // dispose can be managed here
             }
         }
@@ -280,7 +315,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-               // consultationList.Clear();
+                // consultationList.Clear();
                 // dispose can be managed here
             }
         }
@@ -315,7 +350,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-               // countryList.Clear();
+                // countryList.Clear();
                 // dispose can be managed here
             }
         }
@@ -362,5 +397,77 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        [HttpPost]
+        [Route("SearchAppointment")]
+        public ResponseDataModel<IEnumerable<Appointments>> SearchAppointment(AppointmentModel appointment)
+        {
+            List<Appointments> consultationList = new List<Appointments>();
+            try
+            {
+                consultationList = todaysPatientService.SearchAppointment(appointment);
+                var response = new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+
+        }
+        [HttpPost]
+        [Route("GetAllPatient")]
+        public ResponseDataModel<IEnumerable<PatientListModel>> GetAllPatient()
+        {
+            List<PatientListModel> patientList = new List<PatientListModel>();
+            try
+            {
+                patientList = todaysPatientService.GetAllPatient();
+                var response = new ResponseDataModel<IEnumerable<PatientListModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientListModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+       
     }
 }

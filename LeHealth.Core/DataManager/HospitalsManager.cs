@@ -185,7 +185,7 @@ namespace LeHealth.Core.DataManager
                         {
                             Appointments obj = new Appointments();
                             obj.AppId = Convert.ToInt32(ds.Tables[0].Rows[i]["AppId"]);
-                            obj.AppType = ds.Tables[0].Rows[i]["AppType"].ToString();
+                           // obj.AppType =Convert.ToInt32( ds.Tables[0].Rows[i]["AppType"]);
                             obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.TimeNo = ds.Tables[0].Rows[i]["TimeNo"].ToString();
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
@@ -197,6 +197,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+       
         /// <summary>
         /// Get consultantion's list from database, Step three in code execution flow
         /// </summary>
@@ -204,7 +205,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public List<ConsultationModel> GetConsultation(ConsultantModel consultation)
         {
-            List<ConsultationModel> Appointmentlist = new List<ConsultationModel>();
+            List<ConsultationModel> appointmentlist = new List<ConsultationModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con))
@@ -232,10 +233,10 @@ namespace LeHealth.Core.DataManager
                             obj.TimeNo = (ds.Tables[0].Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["TimeNo"]);
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();// == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["RegNo"]);//int.Parse(ds.Tables[0].Rows[i]["RegNo"].ToString());
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
-                            Appointmentlist.Add(obj);
+                            appointmentlist.Add(obj);
                         }
                     }
-                    return Appointmentlist;
+                    return appointmentlist;
                 }
             }
         }
@@ -283,11 +284,11 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@OffPhone", appointments.OffPhone);
                     cmd.Parameters.AddWithValue("@Email", appointments.Email);
                     cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
-                    cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
+                    //cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
                     cmd.Parameters.AddWithValue("@AppStatus", appointments.AppStatus);
                     cmd.Parameters.AddWithValue("@CancelReason", appointments.CancelReason);
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
-                    cmd.Parameters.AddWithValue("@AppTypeId", appointments.appTypeId);
+                    cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppTypeId);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
                     cmd.Parameters.AddWithValue("@RetVal", appointments.RetVal);
                     cmd.Parameters.AddWithValue("@RetDesc", appointments.RetDesc);
@@ -320,7 +321,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
 
                     cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
-                    cmd.Parameters.AddWithValue("@AppId", consultations.AppId);
+                    cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
                     cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
                     cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
