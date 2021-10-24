@@ -158,23 +158,23 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetAllAppointments")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<Appointments>> GetAllAppointments(AppointmentModel appointment)
+        public ResponseDataModel<IEnumerable<SearchAppointmentModel>> GetAllAppointments(AppointmentModel appointment)
         {
-            List<Appointments> consultationList = new List<Appointments>();
+            List<SearchAppointmentModel> appointmentSearch = new List<SearchAppointmentModel>();
             try
             {
-                consultationList = todaysPatientService.GetAllAppointments(appointment);
-                var response = new ResponseDataModel<IEnumerable<Appointments>>()
+                appointmentSearch = todaysPatientService.GetAllAppointments(appointment);
+                var response = new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = consultationList
+                    Response = appointmentSearch
                 };
                 return response;
             }
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<Appointments>>()
+                return new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -399,23 +399,23 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [HttpPost]
         [Route("SearchAppointment")]
-        public ResponseDataModel<IEnumerable<Appointments>> SearchAppointment(AppointmentModel appointment)
+        public ResponseDataModel<IEnumerable<AppSearchModel>> SearchAppointment(AppointmentModel appointment)
         {
-            List<Appointments> consultationList = new List<Appointments>();
+            List<AppSearchModel> appointmentList = new List<AppSearchModel>();
             try
             {
-                consultationList = todaysPatientService.SearchAppointment(appointment);
-                var response = new ResponseDataModel<IEnumerable<Appointments>>()
+                appointmentList = todaysPatientService.SearchAppointment(appointment);
+                var response = new ResponseDataModel<IEnumerable<AppSearchModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = consultationList
+                    Response = appointmentList
                 };
                 return response;
             }
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<Appointments>>()
+                return new ResponseDataModel<IEnumerable<AppSearchModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

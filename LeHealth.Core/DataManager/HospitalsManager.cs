@@ -284,11 +284,11 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@OffPhone", appointments.OffPhone);
                     cmd.Parameters.AddWithValue("@Email", appointments.Email);
                     cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
-                    //cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
+                    cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
                     cmd.Parameters.AddWithValue("@AppStatus", appointments.AppStatus);
                     cmd.Parameters.AddWithValue("@CancelReason", appointments.CancelReason);
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
-                    cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppTypeId);
+                    cmd.Parameters.AddWithValue("@AppTypeId",1);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
                     cmd.Parameters.AddWithValue("@RetVal", appointments.RetVal);
                     cmd.Parameters.AddWithValue("@RetDesc", appointments.RetDesc);

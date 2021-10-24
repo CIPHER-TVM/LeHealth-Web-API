@@ -6,9 +6,8 @@ namespace LeHealth.Entity.DataModel
 {
     public class Appointments
     {
-        public SearchAppointmentModel SearchAppointment { get; set; }
         public int AppId { get; set; }
-        public DateTime AppDate { get; set; }
+        public string AppDate { get; set; }
         public int AppNo { get; set; }
         public string CFirstName { get; set; }
         public string FirstName { get; set; }
@@ -51,7 +50,5 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int RetVal { get; set; }
         public string RetDesc { get; set; }
-
-
     }
 }

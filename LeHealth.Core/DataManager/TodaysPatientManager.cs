@@ -244,9 +244,9 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
-        public List<Appointments> GetAllAppointments(AppointmentModel appointment)
+        public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment)
         {
-            List<Appointments> appointmentlist = new List<Appointments>();
+            List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetAppointment", con))
@@ -260,15 +260,17 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     //converting datatable to list of Appointments
                     if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
-                        appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<Appointments>();
+                        appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<SearchAppointmentModel>();
                     return appointmentlist;
                 }
             }
         }
 
-        public List<Appointments> SearchAppointment(AppointmentModel appointment)
+        public List<AppSearchModel> SearchAppointment(AppointmentModel appointment)
         {
-            List<Appointments> appointmentlist = new List<Appointments>();
+            List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
+            List<AppSearchModel> appList = new List<AppSearchModel>();
+
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchAppointment", con))
@@ -289,14 +291,35 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AppFromDate", appointment.AppFromDate);
                     cmd.Parameters.AddWithValue("@AppToDate", appointment.AppToDate);
                     cmd.Parameters.AddWithValue("@RegNo", appointment.RegNo);
+                    cmd.Parameters.AddWithValue("@AppointmentType", appointment.AppType);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsAppointmentsList = new DataSet();
-                    adapter.Fill(dsAppointmentsList);
+                    DataSet dsAppointments = new DataSet();
+                    adapter.Fill(dsAppointments);
                     con.Close();
                     //converting datatable to list of Appointments by Searching Patient details
-                    if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
-                        appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<Appointments>();
-                    return appointmentlist;
+                    if ((dsAppointments != null) && (dsAppointments.Tables.Count > 0) && (dsAppointments.Tables[0] != null) && (dsAppointments.Tables[0].Rows.Count > 0))                   {
+                        for (int i = 0; i < dsAppointments.Tables[0].Rows.Count; i++)
+                        {
+                            AppSearchModel obj = new AppSearchModel();
+                            obj.AppId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppId"]);
+                            obj.AppDate = Convert.ToDateTime(dsAppointments.Tables[0].Rows[i]["AppDate"]);
+                            obj.AppType = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppType"]);                            
+                            obj.AppNo =dsAppointments.Tables[0].Rows[i]["AppNo"].ToString();
+                            obj.PatientId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["PatientId"]);
+                            obj.FirstName = dsAppointments.Tables[0].Rows[i]["PatientName"].ToString();
+                            obj.PatientRegNo = dsAppointments.Tables[0].Rows[i]["RegNo"].ToString();
+                            obj.PIN = dsAppointments.Tables[0].Rows[i]["PIN"].ToString();
+                            obj.Mobile = dsAppointments.Tables[0].Rows[i]["ContactNumber"].ToString();
+                            obj.CFirstName = dsAppointments.Tables[0].Rows[i]["ConsultantName"].ToString();
+                            obj.AppStatus = dsAppointments.Tables[0].Rows[i]["Status"].ToString();
+                            obj.ResPhone = dsAppointments.Tables[0].Rows[i]["TelePhone"].ToString();
+                            obj.Address1 = dsAppointments.Tables[0].Rows[i]["Address"].ToString();
+                            appList.Add(obj);
+                        }
+                    }
+                    //if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
+                    //    appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<Appointments>();
+                    return appList;
                 }
             }
         }

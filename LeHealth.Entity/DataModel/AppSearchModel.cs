@@ -1,12 +1,15 @@
-﻿using System;
+﻿
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
-    public class SearchAppointmentModel
+   public class AppSearchModel
     {
         public Int32 AppId { get; set; }
         public DateTime AppDate { get; set; }
-        public int AppNo { get; set; }
+        public string AppNo { get; set; }
         public string CFirstName { get; set; }
         public string FirstName { get; set; }
         public string PatientRegNo { get; set; }
@@ -48,7 +51,6 @@ namespace LeHealth.Entity.DataModel
         public Int32 BranchId { get; set; }
         public Int32 RetVal { get; set; }
         public string RetDesc { get; set; }
-
 
     }
 }

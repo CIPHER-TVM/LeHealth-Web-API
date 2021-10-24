@@ -12,8 +12,8 @@ namespace LeHealth.Service.ServiceInterface
         /// </summary>
         List<PatientModel> InsertPatient(PatientModel patientDetail);
         List<CountryModel> GetCountry(CountryModel countryDetail);
-        List<Appointments> GetAllAppointments(AppointmentModel appointment);
-        List<Appointments> SearchAppointment(AppointmentModel appointment);
+        List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
+        List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> GetAllPatient();
 
 
