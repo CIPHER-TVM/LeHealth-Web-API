@@ -72,6 +72,15 @@ namespace LeHealth.Service
             return hospitalsManager.GetUserHospitals();
         }
 
-       
+        public List<ConsultationModel> GetAllConsultation()
+        {
+            return hospitalsManager.GetAllConsultation();
+        }
+        public List<ConsultationModel> SearchConsultation(ConsultationModel consultation)
+        {
+            return hospitalsManager.SearchConsultation(consultation);
+        }
+
+
     }
 }

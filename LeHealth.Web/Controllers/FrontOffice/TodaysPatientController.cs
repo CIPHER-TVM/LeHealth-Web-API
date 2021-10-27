@@ -233,15 +233,50 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-        /// <summary>
-        /// Save new Appointment,Controller class . Step One in code execution flow
-        /// </summary>
-        /// <param name="appointments"></param>
-        /// All details regarding new appoinments
-        /// <returns>
-        /// Success or failure status
-        /// </returns>
-        [Route("InsertUpdateAppointment")]
+        [Route("SearchPatient")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientListModel>> SearchPatient(PatientSearchModel patientDetails)
+        {
+            List<PatientListModel> patientList = new List<PatientListModel>();
+            try
+            {
+                patientList = todaysPatientService.SearchPatient(patientDetails);
+                var response = new ResponseDataModel<IEnumerable<PatientListModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientListModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+            /// <summary>
+            /// Save new Appointment,Controller class . Step One in code execution flow
+            /// </summary>
+            /// <param name="appointments"></param>
+            /// All details regarding new appoinments
+            /// <returns>
+            /// Success or failure status
+            /// </returns>
+            [Route("InsertUpdateAppointment")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertUpdateAppointment(Appointments appointments)
         {
@@ -435,13 +470,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [HttpPost]
         [Route("GetAllPatient")]
-        public ResponseDataModel<IEnumerable<PatientListModel>> GetAllPatient()
+        public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient()
         {
-            List<PatientListModel> patientList = new List<PatientListModel>();
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
             try
             {
                 patientList = todaysPatientService.GetAllPatient();
-                var response = new ResponseDataModel<IEnumerable<PatientListModel>>()
+                var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = patientList
@@ -451,7 +486,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<PatientListModel>>()
+                return new ResponseDataModel<IEnumerable<AllPatientModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -468,6 +503,78 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-       
+        [Route("GetAllConsultation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationModel>> GetAllConsultation()
+        {
+            List<ConsultationModel> consultationList = new List<ConsultationModel>();
+            try
+            {
+                consultationList = hospitalsService.GetAllConsultation();
+                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+        [Route("SearchConsultation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationModel>> SearchConsultation(ConsultationModel consultation)
+        {
+            List<ConsultationModel> consultationList = new List<ConsultationModel>();
+            try
+            {
+                consultationList = hospitalsService.SearchConsultation(consultation);
+                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
     }
 }

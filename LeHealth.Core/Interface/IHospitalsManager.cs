@@ -35,7 +35,8 @@ namespace LeHealth.Core.Interface
         ///adding a new Consultation details
         /// </summary>
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel appointments);
-
+        List<ConsultationModel> GetAllConsultation();
+        List<ConsultationModel> SearchConsultation(ConsultationModel consultation);
 
     }
 }

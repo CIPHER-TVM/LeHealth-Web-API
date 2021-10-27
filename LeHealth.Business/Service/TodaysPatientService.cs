@@ -38,10 +38,13 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.SearchAppointment(countryDetails);
         }
-        public List<PatientListModel> GetAllPatient()
+        public List<AllPatientModel> GetAllPatient()
         {
             return todaysPatientManager.GetAllPatient();
         }
-
+        public List<PatientListModel> SearchPatient(PatientSearchModel patientList)
+        {
+            return todaysPatientManager.SearchPatient(patientList);
+        }
     }
 }

@@ -220,6 +220,7 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
+
         public SqlCommand InsertPatAddress(PatientModel patIdentityDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatAddress"))
@@ -297,14 +298,15 @@ namespace LeHealth.Core.DataManager
                     adapter.Fill(dsAppointments);
                     con.Close();
                     //converting datatable to list of Appointments by Searching Patient details
-                    if ((dsAppointments != null) && (dsAppointments.Tables.Count > 0) && (dsAppointments.Tables[0] != null) && (dsAppointments.Tables[0].Rows.Count > 0))                   {
+                    if ((dsAppointments != null) && (dsAppointments.Tables.Count > 0) && (dsAppointments.Tables[0] != null) && (dsAppointments.Tables[0].Rows.Count > 0))
+                    {
                         for (int i = 0; i < dsAppointments.Tables[0].Rows.Count; i++)
                         {
                             AppSearchModel obj = new AppSearchModel();
                             obj.AppId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppId"]);
                             obj.AppDate = Convert.ToDateTime(dsAppointments.Tables[0].Rows[i]["AppDate"]);
-                            obj.AppType = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppType"]);                            
-                            obj.AppNo =dsAppointments.Tables[0].Rows[i]["AppNo"].ToString();
+                            obj.AppType = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppType"]);
+                            obj.AppNo = dsAppointments.Tables[0].Rows[i]["AppNo"].ToString();
                             obj.PatientId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["PatientId"]);
                             obj.FirstName = dsAppointments.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.PatientRegNo = dsAppointments.Tables[0].Rows[i]["RegNo"].ToString();
@@ -323,9 +325,9 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<PatientListModel> GetAllPatient()
+        public List<AllPatientModel> GetAllPatient()
         {
-            List<PatientListModel> patientList = new List<PatientListModel>();
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetPatientList", con))
@@ -338,10 +340,43 @@ namespace LeHealth.Core.DataManager
                     adapter.Fill(dsPatientList);
                     con.Close();
                     if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
-                        patientList = dsPatientList.Tables[0].ToListOfObject<PatientListModel>();
+                        patientList = dsPatientList.Tables[0].ToListOfObject<AllPatientModel>();
                     return patientList;
                 }
             }
         }
+        public List<PatientListModel> SearchPatient(PatientSearchModel patientDetails)
+        {
+            List<PatientListModel> patientList = new List<PatientListModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsBase", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", patientDetails.ConsultantId);
+                    cmd.Parameters.AddWithValue("@Name", patientDetails.Name);
+                    cmd.Parameters.AddWithValue("@RegNo", patientDetails.RegNo);
+                    cmd.Parameters.AddWithValue("@Mobile", patientDetails.Mobile);
+                    cmd.Parameters.AddWithValue("@ResNo", patientDetails.ResNo);
+                    cmd.Parameters.AddWithValue("@PIN", patientDetails.PIN);
+                    cmd.Parameters.AddWithValue("@PolicyNo", patientDetails.PolicyNo);
+                    cmd.Parameters.AddWithValue("@IdentityNo", patientDetails.IdentityNo);
+                    cmd.Parameters.AddWithValue("@Address", patientDetails.Address);
+                    cmd.Parameters.AddWithValue("@Mode", patientDetails.Mode);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                        patientList = dsPatientList.Tables[0].ToListOfObject<PatientListModel>();
+
+                    return patientList;
+                }
+            }
+           
+        }
     }
+
 }

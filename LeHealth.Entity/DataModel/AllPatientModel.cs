@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
-   public  class PatientListModel
+    public class AllPatientModel
     {
         public int PatientId { get; set; }
         public string Patient { get; set; }
@@ -12,7 +12,7 @@ namespace LeHealth.Entity.DataModel
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Telephone { get; set; }
-        public string Status { get; set; }
+        public int Status { get; set; }
         public int Age { get; set; }
         public string RegNo { get; set; }
         public string Address { get; set; }
@@ -24,7 +24,6 @@ namespace LeHealth.Entity.DataModel
         public string EmirateID { get; set; }
         public string SponsorId { get; set; }
         public string TextForSearch { get; set; }
-
 
     }
 }

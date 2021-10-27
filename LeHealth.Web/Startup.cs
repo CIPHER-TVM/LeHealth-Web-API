@@ -13,9 +13,13 @@ using LeHealth.Core;
 using LeHealth.Core.DataManager;
 using LeHealth.Core.Interface;
 using LeHealth.Service;
+using Microsoft.AspNetCore.Authentication;
 
 using LeHealth.Service.ServiceInterface;
 using LeHealth.Service.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace LeHealth.Catalogue.API
 {
@@ -35,6 +39,25 @@ namespace LeHealth.Catalogue.API
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+             //Authenticating JWT token and validating token
+            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x => {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false;
+                x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
             // services.ConfigureCors();
             services.AddControllers();
            // services.AddAutoMapper(typeof(AutoMapping));
@@ -48,6 +71,9 @@ namespace LeHealth.Catalogue.API
 
             services.AddScoped<ITodaysPatientService, TodaysPatientService>();
             services.AddScoped<ITodaysPatientManager, TodaysPatientManager>();
+
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAccountManager, AccountManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +97,8 @@ namespace LeHealth.Catalogue.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

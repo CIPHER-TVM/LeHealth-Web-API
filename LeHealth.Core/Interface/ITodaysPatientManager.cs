@@ -11,6 +11,7 @@ namespace LeHealth.Core.Interface
         List<CountryModel> GetCountry(CountryModel countryDetails);
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
-        List<PatientListModel> GetAllPatient();
+        List<AllPatientModel> GetAllPatient();
+        List<PatientListModel> SearchPatient(PatientSearchModel patientList);
     }
 }

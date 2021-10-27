@@ -14,7 +14,8 @@ namespace LeHealth.Service.ServiceInterface
         List<CountryModel> GetCountry(CountryModel countryDetail);
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
-        List<PatientListModel> GetAllPatient();
+        List<AllPatientModel> GetAllPatient();
+        List<PatientListModel> SearchPatient(PatientSearchModel patientList);
 
 
     }
