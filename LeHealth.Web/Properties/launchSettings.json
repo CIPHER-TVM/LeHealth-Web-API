@@ -1,9 +1,13 @@
 {
   "iisSettings": {
-    "windowsAuthentication": false,
+    "windowsAuthentication": true,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/LeHealth.Base.API",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:58946",
+      "applicationUrl": "http://localhost:58946/",
       "sslPort": 0
     }
   },

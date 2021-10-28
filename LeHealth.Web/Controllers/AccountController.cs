@@ -1,6 +1,7 @@
 ﻿using LeHealth.Catalogue.API;
 using LeHealth.Entity.DataModel;
 using LeHealth.Service.ServiceInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,6 +14,7 @@ namespace LeHealth.Base.API.Controllers
 {
     [Route("api/Account")]
     [ApiController]
+   [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> logger;
@@ -23,6 +25,7 @@ namespace LeHealth.Base.API.Controllers
             logger = _logger;
             accountService = _accountService; 
         }
+        [AllowAnonymous]
         [Route("Login")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<LoginOutputModel>> Login(CredentialModel credentials)
@@ -57,6 +60,12 @@ namespace LeHealth.Base.API.Controllers
                 // appointmentList.Clear();
                 // dispose can be managed here
             }
+        }
+        [HttpPost]
+        [Route("Getdata")]
+        public string Getdata()
+        {
+            return "success";
         }
     }
 }
