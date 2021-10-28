@@ -21,15 +21,17 @@ namespace LeHealth.Core.DataManager
 
         private readonly string _connStr;
         private readonly string _key;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Initializing connection string
         /// </summary>
         /// <param name="_configuration"></param>
-        public AccountManager(IConfiguration _configuration)
+        public AccountManager(IConfiguration configuration)
         {
-            _connStr = _configuration.GetConnectionString("NetroxeDb");
-            _key = _configuration["ApplicationSettings:JWT_Secret"].ToString();
+            _connStr = configuration.GetConnectionString("NetroxeDb");
+            _key = configuration["ApplicationSettings:JWT_Secret"].ToString();
+            _configuration = configuration;
         }
 
         //Garbage Dispose
@@ -95,18 +97,27 @@ namespace LeHealth.Core.DataManager
 
         public string GenerateToken()
         {
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                                {
-                                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key)), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(securityToken);
-            return token;
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWT_Secret"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+           var  Subject = new ClaimsIdentity(new Claim[] { });
+
+            var token = new JwtSecurityToken(_configuration["ApplicationSettings:Issuer"],
+             _configuration["ApplicationSettings:Issuer"],
+             null,
+             expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(new Claim[]{}),
+            //    Expires = DateTime.UtcNow.AddDays(1),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key)), SecurityAlgorithms.HmacSha256Signature)
+            //};
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            //var token = tokenHandler.WriteToken(securityToken);
+            //return token;
         }
     }
 }

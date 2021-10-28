@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authentication;
 
 using LeHealth.Service.ServiceInterface;
 using LeHealth.Service.Service;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -39,33 +39,47 @@ namespace LeHealth.Catalogue.API
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-             //Authenticating JWT token and validating token
+            //Authenticating JWT token and validating token
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = false;
-                x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+            //services.AddAuthentication(x =>
+            //{
+            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(x => {
+            //    x.RequireHttpsMetadata = false;
+            //    x.SaveToken = false;
+            //    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false,
+            //        ClockSkew = TimeSpan.Zero
+            //    };
+            //});
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+   //.AddJwtBearer(options =>
+   //{
+   //    options.TokenValidationParameters = new TokenValidationParameters
+   //    {
+   //        ValidateIssuer = true,
+   //        ValidateAudience = true,
+   //        ValidateLifetime = true,
+   //        ValidateIssuerSigningKey = true,
+   //        ValidIssuer = Configuration["ApplicationSettings:Issuer"],
+   //        ValidAudience = Configuration["ApplicationSettings:Audience"],
+   //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"]))
+   //    };
+   //});
             // services.ConfigureCors();
             services.AddControllers();
-           // services.AddAutoMapper(typeof(AutoMapping));
+            // services.AddAutoMapper(typeof(AutoMapping));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
 
-           // adding the service dependencies injection
+            // adding the service dependencies injection
             services.AddScoped<IHospitalsService, HospitalsService>();
             services.AddScoped<IHospitalsManager, HospitalsManager>();
 
