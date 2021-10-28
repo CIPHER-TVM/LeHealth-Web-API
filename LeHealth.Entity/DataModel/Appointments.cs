@@ -4,9 +4,9 @@ using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
-   public  class Appointments
+    public class Appointments
     {
-    public int AppId { get; set; }
+        public int AppId { get; set; }
         public string PatientName { get; set; }
         public string AppType { get; set; }
         public string TimeNo { get; set; }

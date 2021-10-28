@@ -18,7 +18,7 @@ namespace LeHealth.Core.DataManager
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
-        public List<CountryModel> GetCountry(CountryModel countryDetails) 
+        public List<CountryModel> GetCountry(CountryModel countryDetails)
         {
             List<CountryModel> countryList = new List<CountryModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -41,7 +41,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-            public List<PatientModel> InsertPatient(PatientModel patientDetail)
+        public List<PatientModel> InsertPatient(PatientModel patientDetail)
         {
             SqlTransaction transaction;
             List<PatientModel> patientDetails = new List<PatientModel>();
@@ -128,7 +128,7 @@ namespace LeHealth.Core.DataManager
                         patientRegsCmd.Parameters.Add(regIdParam);
                         var isupdated = patientRegsCmd.ExecuteNonQuery();
                         int RegsId = (int)regIdParam.Value;
-                        if(RegsId > 0)
+                        if (RegsId > 0)
                         {
                             patientDetail.Consultation.PatientId = patientDetail.PatientId;
                         }
@@ -140,7 +140,7 @@ namespace LeHealth.Core.DataManager
                         SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
                         patientConsultationCmd.Transaction = transaction;
                         patientConsultationCmd.Connection = con;
-                       var isUpdated= patientConsultationCmd.ExecuteNonQuery();
+                        var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                         transaction.Commit();
                     }
                     else
@@ -163,7 +163,7 @@ namespace LeHealth.Core.DataManager
             using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ConsultationId",DBNull.Value);
+                cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
                 cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
                 cmd.Parameters.AddWithValue("@AppId", consultations.AppId);
                 cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
@@ -186,7 +186,7 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
-                public SqlCommand InsertPatRegs(PatientModel patientRegDetail)
+        public SqlCommand InsertPatRegs(PatientModel patientRegDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs"))
             {
@@ -224,26 +224,26 @@ namespace LeHealth.Core.DataManager
         }
         public SqlCommand InsertPatAddress(PatientModel patIdentityDetail)
         {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertPatAddress"))
+            using (SqlCommand cmd = new SqlCommand("stLH_InsertPatAddress"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PatientId", patIdentityDetail.PatientId);
+                cmd.Parameters.AddWithValue("@AddType", patIdentityDetail.AddType);
+                cmd.Parameters.AddWithValue("@Street", patIdentityDetail.Street);
+                cmd.Parameters.AddWithValue("@PlacePO", patIdentityDetail.PlacePO);
+                cmd.Parameters.AddWithValue("@City", patIdentityDetail.City);
+                cmd.Parameters.AddWithValue("@PIN", patIdentityDetail.PIN);
+                cmd.Parameters.AddWithValue("@CountryId", patIdentityDetail.CountryId);
+                cmd.Parameters.AddWithValue("@Address1", patIdentityDetail.Address1);
+                cmd.Parameters.AddWithValue("@Address2", patIdentityDetail.Address2);
+                cmd.Parameters.AddWithValue("@State", patIdentityDetail.State);
+                cmd.Parameters.AddWithValue("@RetDesc", patIdentityDetail.RetDesc);
+                SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PatientId", patIdentityDetail.PatientId);
-                    cmd.Parameters.AddWithValue("@AddType", patIdentityDetail.AddType);
-                    cmd.Parameters.AddWithValue("@Street", patIdentityDetail.Street);
-                    cmd.Parameters.AddWithValue("@PlacePO", patIdentityDetail.PlacePO);
-                    cmd.Parameters.AddWithValue("@City", patIdentityDetail.City);
-                    cmd.Parameters.AddWithValue("@PIN", patIdentityDetail.PIN);
-                    cmd.Parameters.AddWithValue("@CountryId", patIdentityDetail.CountryId);
-                    cmd.Parameters.AddWithValue("@Address1", patIdentityDetail.Address1);
-                    cmd.Parameters.AddWithValue("@Address2", patIdentityDetail.Address2);
-                    cmd.Parameters.AddWithValue("@State", patIdentityDetail.State);
-                    cmd.Parameters.AddWithValue("@RetDesc", patIdentityDetail.RetDesc);
-                    SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(outputIdParam);
-                    return cmd;
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(outputIdParam);
+                return cmd;
             }
         }
     }

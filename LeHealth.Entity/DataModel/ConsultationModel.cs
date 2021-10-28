@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
-   public  class ConsultationModel
+    public class ConsultationModel
     {
         public string TokenNO { get; set; }
         public string PatientName { get; set; }
@@ -20,7 +20,7 @@ namespace LeHealth.Entity.DataModel
         public int? ConsultType { get; set; }
         public float ConsultFee { get; set; }
         public float EmerFee { get; set; }
-         public int Emergency { get; set; }
+        public int Emergency { get; set; }
         public int ItemId { get; set; }
         public int? AgentId { get; set; }
         public int? LocationId { get; set; }
@@ -31,7 +31,16 @@ namespace LeHealth.Entity.DataModel
         public int? RetVal { get; set; }
         public string RetDesc { get; set; }
         public int? RetSeqNo { get; set; }
-    public string Status { get; set; }
-
+        public string Status { get; set; }
+        //
+        //new
+        public string Consultant { get; set; } 
+        public string ConsultTypeStr { get; set; } 
+        public string Pin { get; set; } 
+        public string Mobile { get; set; } 
+        public string Telephone { get; set; }  
+        public string Address { get; set; }  
+        public string FromDate { get; set; }  
+        public string ToDate { get; set; }  
     }
 }
