@@ -17,7 +17,7 @@ namespace LeHealth.Core.DataManager
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
-        public List<CountryModel> GetCountry(CountryModel countryDetails)
+        public List<CountryModel> GetCountry(CountryModel countryDetails) 
         {
             List<CountryModel> countryList = new List<CountryModel>();
             using (SqlConnection con = new SqlConnection(_connStr))

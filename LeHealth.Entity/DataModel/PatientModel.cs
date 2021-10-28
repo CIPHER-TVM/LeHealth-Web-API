@@ -28,7 +28,7 @@ namespace LeHealth.Entity.DataModel
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public int IdentityType { get; set; } 
+        public int IdentityType { get; set; }
         public int IdentityNo { get; set; }
         public string Gender { get; set; }
         public string DOB { get; set; }
@@ -67,5 +67,20 @@ namespace LeHealth.Entity.DataModel
         public int RetVal { get; set; }
         public string RetDesc { get; set; }
         public string RetRegNo { get; set; }
+
+        //
+
+        //Nikhil
+        public string RegFromDate { get; set; }
+        public string RegToDate { get; set; }
+        public string PolicyNo { get; set; }
+        public string PatientName { get; set; }
+        public string Age { get; set; }
+        public string Consultant { get; set; }
+        public string Telephone { get; set; }
+        public string SponsorName { get; set; }
+        public string SponsorId { get; set; }
+        public string EnableSponsorConsent { get; set; }
+        public string EmirateID { get; set; }
     }
 }
