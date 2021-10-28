@@ -40,7 +40,7 @@ namespace LeHealth.Catalogue.API
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
             //Authenticating JWT token and validating token
-            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            //var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
             //services.AddAuthentication(x =>
             //{
             //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,7 +58,7 @@ namespace LeHealth.Catalogue.API
             //        ClockSkew = TimeSpan.Zero
             //    };
             //});
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+   //         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
    //.AddJwtBearer(options =>
    //{
    //    options.TokenValidationParameters = new TokenValidationParameters
@@ -72,7 +72,7 @@ namespace LeHealth.Catalogue.API
    //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"]))
    //    };
    //});
-            // services.ConfigureCors();
+            services.ConfigureCors();
             services.AddControllers();
             // services.AddAutoMapper(typeof(AutoMapping));
 

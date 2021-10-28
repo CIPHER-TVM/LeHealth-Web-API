@@ -13,7 +13,7 @@ namespace LeHealth.Entity.DataModel
         public int DeptId { get; set; }
         public string AppType { get; set; }
         public string ConsultantDate { get; set; } 
-
+        public string Status { get; set; }
         public string ConsultantCode { get; set; }
         public int ConsultantId { get; set; }
 

@@ -213,7 +213,7 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Status", "W");
+                    cmd.Parameters.AddWithValue("@Status", consultation.Status);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
                     cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
                     cmd.Parameters.AddWithValue("@BranchId", 0);
