@@ -11,7 +11,12 @@ namespace LeHealth.Service.ServiceInterface
         /// adding a new patient registration 
         /// </summary>
         List<PatientModel> InsertPatient(PatientModel patientDetail);
-        List<CountryModel> GetCountry(CountryModel countryDetails);
+        List<CountryModel> GetCountry(CountryModel countryDetail);
+        List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
+        List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
+        List<AllPatientModel> GetAllPatient();
+        List<PatientListModel> SearchPatient(PatientSearchModel patientList);
+
 
     }
 }

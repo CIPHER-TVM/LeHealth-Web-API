@@ -32,15 +32,14 @@ namespace LeHealth.Entity.DataModel
         public string RetDesc { get; set; }
         public int? RetSeqNo { get; set; }
         public string Status { get; set; }
-        //
-        //new
-        public string Consultant { get; set; } 
-        public string ConsultTypeStr { get; set; } 
-        public string Pin { get; set; } 
-        public string Mobile { get; set; } 
-        public string Telephone { get; set; }  
-        public string Address { get; set; }  
-        public string FromDate { get; set; }  
-        public string ToDate { get; set; }  
+        public string Consultant { get; set; }
+        public string ConsultType2 { get; set; }
+        public string PIN { get; set; }
+        public string Mobile { get; set; }
+        public string Telephone { get; set; }
+        public string Address { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+
     }
 }

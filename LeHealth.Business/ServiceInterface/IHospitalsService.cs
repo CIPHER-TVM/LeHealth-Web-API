@@ -18,8 +18,8 @@ namespace LeHealth.Service.ServiceInterface
         List<PatientModel> SearchPatient(PatientModel patient);
         List<Appointments> InsertUpdateAppointment(Appointments appointments);
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
-        List<TabOrderModel> GetTabOrder(string screenname);
-        //List<CountryModel> GetCountry(CountryModel countryDetails);
+        List<ConsultationModel> GetAllConsultation();
+        List<ConsultationModel> SearchConsultation(ConsultationModel consultation);
 
     }
 }

@@ -30,5 +30,21 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetCountry(countryDetails);
         }
+        public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel countryDetails)
+        {
+            return todaysPatientManager.GetAllAppointments(countryDetails);
+        }
+        public List<AppSearchModel> SearchAppointment(AppointmentModel countryDetails)
+        {
+            return todaysPatientManager.SearchAppointment(countryDetails);
+        }
+        public List<AllPatientModel> GetAllPatient()
+        {
+            return todaysPatientManager.GetAllPatient();
+        }
+        public List<PatientListModel> SearchPatient(PatientSearchModel patientList)
+        {
+            return todaysPatientManager.SearchPatient(patientList);
+        }
     }
 }

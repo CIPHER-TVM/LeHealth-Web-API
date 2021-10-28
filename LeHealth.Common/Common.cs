@@ -340,6 +340,7 @@ namespace LeHealth.Common
 
 
         }
+       
         public static long ToInt64(this string str)
         {
             string retString = "0";

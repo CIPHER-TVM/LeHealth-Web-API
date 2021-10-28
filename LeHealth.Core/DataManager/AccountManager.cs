@@ -8,6 +8,10 @@ using System.Data;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using LeHealth.Common;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace LeHealth.Core.DataManager
 {
@@ -16,6 +20,8 @@ namespace LeHealth.Core.DataManager
         bool disposed = false;
 
         private readonly string _connStr;
+        private readonly string _key;
+
         /// <summary>
         /// Initializing connection string
         /// </summary>
@@ -23,6 +29,7 @@ namespace LeHealth.Core.DataManager
         public AccountManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
+            _key = _configuration["ApplicationSettings:JWT_Secret"].ToString();
         }
 
         //Garbage Dispose
@@ -52,7 +59,7 @@ namespace LeHealth.Core.DataManager
 
         public List<LoginOutputModel> Login(CredentialModel credential)
         {
-            List<LoginOutputModel> Appointmentlist = new List<LoginOutputModel>();
+            List<LoginOutputModel> userDetails = new List<LoginOutputModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -80,13 +87,26 @@ namespace LeHealth.Core.DataManager
                             obj.UserState = ds.Tables[0].Rows[i]["State"].ToString();
                             obj.UserActive = ds.Tables[0].Rows[i]["Active"].ToString();
                             obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
-                            Appointmentlist.Add(obj);
                         }
                     }
-                    return Appointmentlist;
                 }
             }
         }
 
+        public string GenerateToken()
+        {
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                                {
+                                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key)), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(securityToken);
+            return token;
+        }
     }
 }
