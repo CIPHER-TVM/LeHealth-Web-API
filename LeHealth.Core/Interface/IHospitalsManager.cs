@@ -27,8 +27,6 @@ namespace LeHealth.Core.Interface
         /// To list of  all Consultation by today
         /// </summary>
         List<ConsultationModel> GetConsultation(ConsultantModel consultation);
-        List<ConsultationModel> GetAllConsultation(); 
-        List<ConsultationModel> SearchConsultation(ConsultationModel consultation);  
         List<TabOrderModel> GetTabOrder(string screenname);   
         List<PatientModel> SearchPatient(PatientModel patient);  
         /// <summary>

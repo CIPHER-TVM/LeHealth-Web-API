@@ -7,23 +7,15 @@ namespace LeHealth.Entity.DataModel
     public class AllPatientModel
     {
         public int PatientId { get; set; }
-        public string Patient { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public string Telephone { get; set; }
-        public int Status { get; set; }
-        public int Age { get; set; }
         public string RegNo { get; set; }
-        public string Address { get; set; }
+        public string PatientName { get; set; }
+        public Decimal Age { get; set; }
         public string Mobile { get; set; }
-        public string Sponsor { get; set; }
+        public string Address { get; set; }
+        public string SponsorName { get; set; }
         public string Consultant { get; set; }
         public string PolicyNo { get; set; }
         public string EmiratesId { get; set; }
-        public string EmirateID { get; set; }
         public string SponsorId { get; set; }
-        public string TextForSearch { get; set; }
-
     }
 }

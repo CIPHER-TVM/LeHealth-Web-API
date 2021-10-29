@@ -91,6 +91,7 @@ namespace LeHealth.Core.DataManager
                             obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
                         }
                     }
+                    return userDetails;
                 }
             }
         }

@@ -50,14 +50,6 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetConsultation(consultation);
         }
-        public List<ConsultationModel> GetAllConsultation()
-        {
-            return hospitalsManager.GetAllConsultation(); 
-        }
-        public List<ConsultationModel> SearchConsultation(ConsultationModel consultation)
-        {
-            return hospitalsManager.SearchConsultation(consultation); 
-        }
         public List<TabOrderModel> GetTabOrder(string screenname)
         {
             return hospitalsManager.GetTabOrder(screenname);

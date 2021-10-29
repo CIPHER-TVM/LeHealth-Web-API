@@ -351,7 +351,7 @@ namespace LeHealth.Core.DataManager
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsBase", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatients", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
