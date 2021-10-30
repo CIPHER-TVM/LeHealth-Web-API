@@ -19,7 +19,6 @@ namespace LeHealth.Entity.DataModel
         public string RegDateTo { get; set; } 
         public int ConsultantId { get; set; }
         public int BranchId { get; set; }
-
         public string ResNo { get; set; } 
         public string Mode { get; set; } 
     }
