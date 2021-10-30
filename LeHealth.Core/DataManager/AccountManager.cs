@@ -89,6 +89,7 @@ namespace LeHealth.Core.DataManager
                             obj.UserState = ds.Tables[0].Rows[i]["State"].ToString();
                             obj.UserActive = ds.Tables[0].Rows[i]["Active"].ToString();
                             obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
+                            userDetails.Add(obj);
                         }
                     }
                     return userDetails;

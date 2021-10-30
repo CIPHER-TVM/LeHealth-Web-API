@@ -14,7 +14,7 @@ namespace LeHealth.Service.Service
         /// Initialising todaysPatientManager object
         /// </summary>
         /// <param name="_todaysPatientManager"></param>
-        public TodaysPatientService( ITodaysPatientManager _todaysPatientManager)
+        public TodaysPatientService(ITodaysPatientManager _todaysPatientManager)
         {
             todaysPatientManager = _todaysPatientManager;
 
@@ -46,9 +46,17 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.SearchPatient(patientList);
         }
-         public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
+        public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
         {
-            return todaysPatientManager.SearchPatientInList(patientList); 
+            return todaysPatientManager.SearchPatientInList(patientList);
+        }
+        public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
+        {
+            return todaysPatientManager.GetSavingSchemaMandatory(formname);
+        }
+        public List<SchemeModel> GetSchemeByConsultant(int consultantid)
+        {
+            return todaysPatientManager.GetSchemeByConsultant(consultantid);
         }
 
 

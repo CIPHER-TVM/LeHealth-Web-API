@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace LeHealth.Service
 {
-    public class HospitalsService: IHospitalsService
+    public class HospitalsService : IHospitalsService
     {
         private readonly IHospitalsManager hospitalsManager;
         /// <summary>
         /// Initialising hospital manager object
         /// </summary>
-        public HospitalsService( IHospitalsManager _hospitalsManager)
+        public HospitalsService(IHospitalsManager _hospitalsManager)
         {
             hospitalsManager = _hospitalsManager;
 
@@ -54,7 +54,7 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetTabOrder(screenname);
         }
-        
+
 
 
         /// <summary>
@@ -78,7 +78,6 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetUserHospitals();
         }
-
         public List<ConsultationModel> GetAllConsultation()
         {
             return hospitalsManager.GetAllConsultation();

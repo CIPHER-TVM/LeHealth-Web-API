@@ -429,6 +429,55 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
+        {
+            List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSavingSchemaMandatory", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@FormName", formname);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsMandatoryList = new DataSet();
+                    adapter.Fill(dsMandatoryList);
+                    con.Close();
+
+                    if ((dsMandatoryList != null) && (dsMandatoryList.Tables.Count > 0) && (dsMandatoryList.Tables[0] != null) && (dsMandatoryList.Tables[0].Rows.Count > 0))
+                        mandatoryList = dsMandatoryList.Tables[0].ToListOfObject<MandatoryFieldsModel>();
+                    return mandatoryList;
+                }
+            }
+
+        }
+        
+        public List<SchemeModel> GetSchemeByConsultant(int consultantid)
+        {
+            List<SchemeModel> schemeList = new List<SchemeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantItem", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsSchemeList = new DataSet();
+                    adapter.Fill(dsSchemeList);
+                    con.Close();
+
+                    if ((dsSchemeList != null) && (dsSchemeList.Tables.Count > 0) && (dsSchemeList.Tables[0] != null) && (dsSchemeList.Tables[0].Rows.Count > 0))
+                        schemeList = dsSchemeList.Tables[0].ToListOfObject<SchemeModel>();
+                    return schemeList;
+                }
+            }
+
+        }
     }
 
 }
