@@ -19,6 +19,7 @@ namespace LeHealth.Service.ServiceInterface
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
         List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname); 
         List<SchemeModel> GetSchemeByConsultant(int consultantid); 
+        List<VisaTypeModel> GetVisaType(); 
 
 
     }

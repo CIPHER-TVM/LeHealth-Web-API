@@ -376,6 +376,42 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("GetVisaType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType()
+        {
+            List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
+            try
+            {
+                schemeList = todaysPatientService.GetVisaType();
+                var response = new ResponseDataModel<IEnumerable<VisaTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = schemeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<VisaTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
 
 
 

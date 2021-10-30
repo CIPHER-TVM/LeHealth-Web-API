@@ -478,6 +478,30 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+
+        public List<VisaTypeModel> GetVisaType()
+        {
+            List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetVisaType", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsVisaTypeList = new DataSet();
+                    adapter.Fill(dsVisaTypeList);
+                    con.Close();
+
+                    if ((dsVisaTypeList != null) && (dsVisaTypeList.Tables.Count > 0) && (dsVisaTypeList.Tables[0] != null) && (dsVisaTypeList.Tables[0].Rows.Count > 0))
+                        schemeList = dsVisaTypeList.Tables[0].ToListOfObject<VisaTypeModel>();
+                    return schemeList;
+                }
+            }
+
+        }
     }
 
 }
