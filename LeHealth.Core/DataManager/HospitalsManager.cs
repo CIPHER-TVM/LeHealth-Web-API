@@ -242,46 +242,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public List<ConsultationModel> GetAllConsultation()
-        {
-            List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetAllConsultation", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultationId", 0);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel();
-                            obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
-                            obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
-                            obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.Consultant = ds.Tables[0].Rows[i]["Consultant"].ToString();
-                            obj.ConsultTypeStr = ds.Tables[0].Rows[i]["ConsultType"].ToString();
-                            obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
-                            obj.Pin = ds.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.Symptoms = ds.Tables[0].Rows[i]["Symptoms"].ToString();
-                            obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
-                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
-                            obj.Sponsor = ds.Tables[0].Rows[i]["ConsultationSponsors"].ToString();
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
-                }
-            }
-        }
+        
 
         public List<PatientModel> SearchPatient(PatientModel patient)
         {
@@ -340,57 +301,7 @@ namespace LeHealth.Core.DataManager
         }
 
 
-        public List<ConsultationModel> SearchConsultation(ConsultationModel consultation)
-        {
-            List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultation", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@Name", consultation.PatientName);
-                    cmd.Parameters.AddWithValue("@RegNo", consultation.RegNo);
-                    cmd.Parameters.AddWithValue("@Mobile", consultation.Mobile);
-                    cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
-                    cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@Phone", consultation.Mobile);
-                    cmd.Parameters.AddWithValue("@Address", consultation.Address);
-                    cmd.Parameters.AddWithValue("@PIN", consultation.Pin);
-
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel();
-                            obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
-                            obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
-                            obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.Consultant = ds.Tables[0].Rows[i]["Consultant"].ToString();
-                            obj.ConsultTypeStr = ds.Tables[0].Rows[i]["ConsultType"].ToString();
-                            obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
-                            obj.Pin = ds.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.Symptoms = ds.Tables[0].Rows[i]["Symptoms"].ToString();
-                            obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
-                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.Telephone = ds.Tables[0].Rows[i]["Telephone"].ToString();
-                            obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
-                            obj.Sponsor = ds.Tables[0].Rows[i]["ConsultationSponsors"].ToString();
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
-                }
-            }
-        }
+       
 
         public List<TabOrderModel> GetTabOrder(string screenname)
         {
@@ -448,15 +359,14 @@ namespace LeHealth.Core.DataManager
                     else
                         cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
 
-                    //string DateString = appointments.AppDate;
-                    //IFormatProvider culture = new CultureInfo("en-US", true);
-                    //DateTime dateVal = DateTime.ParseExact(DateString, "yyyy-MM-dd", culture);
-
+                    string DateString = appointments.AppDate;
+                    IFormatProvider culture = new CultureInfo("en-US", true);
+                    DateTime dateVal = DateTime.ParseExact(DateString, "yyyy-MM-dd", culture);
 
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@AppDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@AppDate", dateVal);
                     cmd.Parameters.AddWithValue("@AppNo", appointments.AppNo);
                     cmd.Parameters.AddWithValue("@SliceNo", appointments.SliceNo);
                     cmd.Parameters.AddWithValue("@SliceTime", appointments.SliceTime);
@@ -481,7 +391,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AppStatus", appointments.AppStatus);
                     cmd.Parameters.AddWithValue("@CancelReason", appointments.CancelReason);
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
-                    cmd.Parameters.AddWithValue("@AppTypeId", 1);
+                    cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
                     cmd.Parameters.AddWithValue("@RetVal", appointments.RetVal);
                     cmd.Parameters.AddWithValue("@RetDesc", appointments.RetDesc);
@@ -581,6 +491,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
         public List<ConsultationModel> SearchConsultation(ConsultationModel consultation)
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
@@ -632,5 +543,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
     }
 }

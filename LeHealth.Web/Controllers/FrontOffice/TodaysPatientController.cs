@@ -276,7 +276,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             /// <returns>
             /// Success or failure status
             /// </returns>
-            [Route("InsertUpdateAppointment")]
+        [Route("InsertUpdateAppointment")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertUpdateAppointment(Appointments appointments)
         {
