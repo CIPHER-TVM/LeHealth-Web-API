@@ -28,7 +28,6 @@ namespace LeHealth.Core.Interface
         /// </summary>
         List<ConsultationModel> GetConsultation(ConsultantModel consultation);
         List<TabOrderModel> GetTabOrder(string screenname);   
-        List<PatientModel> SearchPatient(PatientModel patient);  
         /// <summary>
         /// adding a new appointments details
         /// </summary>

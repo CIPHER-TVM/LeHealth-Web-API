@@ -241,66 +241,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-        
-
-        public List<PatientModel> SearchPatient(PatientModel patient)
-        {
-            List<PatientModel> Consultationlist = new List<PatientModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatients", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@Name", patient.PatientName);
-                    cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
-                    cmd.Parameters.AddWithValue("@RegNo", patient.RegNo);
-                    cmd.Parameters.AddWithValue("@Mobile", patient.Mobile);
-                    cmd.Parameters.AddWithValue("@RegFromDate", patient.RegFromDate);
-                    cmd.Parameters.AddWithValue("@RegToDate", patient.RegToDate);
-                    cmd.Parameters.AddWithValue("@Phone", patient.Mobile);
-                    cmd.Parameters.AddWithValue("@Address", patient.Address1);
-                    cmd.Parameters.AddWithValue("@PIN", patient.PIN);
-                    cmd.Parameters.AddWithValue("@PolicyNo", patient.PolicyNo);
-                    cmd.Parameters.AddWithValue("@IdentityNo", patient.IdentityNo);
-                    cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
-
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            PatientModel obj = new PatientModel();
-                            obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
-                            obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
-                            obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.Age = ds.Tables[0].Rows[i]["Age"].ToString();
-                            obj.PIN = ds.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.Consultant = ds.Tables[0].Rows[i]["Consultant"].ToString();
-                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.Telephone = ds.Tables[0].Rows[i]["Telephone"].ToString();
-                            obj.Address1 = ds.Tables[0].Rows[i]["Address"].ToString();
-                            obj.SponsorName = ds.Tables[0].Rows[i]["SponsorName"].ToString();
-                            obj.SponsorId = ds.Tables[0].Rows[i]["SponsorId"].ToString();
-                            obj.EnableSponsorConsent = ds.Tables[0].Rows[i]["EnableSponsorConsent"].ToString();
-                            obj.PolicyNo = ds.Tables[0].Rows[i]["PolicyNo"].ToString();
-                            obj.EmirateID = ds.Tables[0].Rows[i]["EmirateID"].ToString();
-                            obj.Active = Convert.ToInt32(ds.Tables[0].Rows[i]["Active"]);
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
-                }
-            }
-        }
-
-
        
 
         public List<TabOrderModel> GetTabOrder(string screenname)

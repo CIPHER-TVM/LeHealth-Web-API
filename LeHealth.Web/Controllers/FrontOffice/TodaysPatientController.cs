@@ -268,14 +268,56 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-            /// <summary>
-            /// Save new Appointment,Controller class . Step One in code execution flow
-            /// </summary>
-            /// <param name="appointments"></param>
-            /// All details regarding new appoinments
-            /// <returns>
-            /// Success or failure status
-            /// </returns>
+
+        [Route("SearchPatientInList")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<AllPatientModel>> SearchPatientInList(PatientSearchModel patientDetails)
+        {
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
+            try
+            {
+                patientList = todaysPatientService.SearchPatientInList(patientDetails);
+                var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AllPatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// Save new Appointment,Controller class . Step One in code execution flow
+        /// </summary>
+        /// <param name="appointments"></param>
+        /// All details regarding new appoinments
+        /// <returns>
+        /// Success or failure status
+        /// </returns>
         [Route("InsertUpdateAppointment")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertUpdateAppointment(Appointments appointments)

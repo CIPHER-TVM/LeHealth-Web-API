@@ -54,10 +54,7 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetTabOrder(screenname);
         }
-        public List<PatientModel> SearchPatient(PatientModel patient)
-        {
-            return hospitalsManager.SearchPatient(patient); 
-        }
+        
 
 
         /// <summary>

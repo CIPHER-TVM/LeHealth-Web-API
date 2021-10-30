@@ -17,7 +17,7 @@ namespace LeHealth.Core.DataManager
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
-        public List<CountryModel> GetCountry(CountryModel countryDetails) 
+        public List<CountryModel> GetCountry(CountryModel countryDetails)
         {
             List<CountryModel> countryList = new List<CountryModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -359,12 +359,12 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Name", patientDetails.Name);
                     cmd.Parameters.AddWithValue("@RegNo", patientDetails.RegNo);
                     cmd.Parameters.AddWithValue("@Mobile", patientDetails.Mobile);
-                    cmd.Parameters.AddWithValue("@ResNo", patientDetails.ResNo);
+                    cmd.Parameters.AddWithValue("@ResNo", patientDetails.ResNo);//?????
                     cmd.Parameters.AddWithValue("@PIN", patientDetails.PIN);
                     cmd.Parameters.AddWithValue("@PolicyNo", patientDetails.PolicyNo);
                     cmd.Parameters.AddWithValue("@IdentityNo", patientDetails.IdentityNo);
                     cmd.Parameters.AddWithValue("@Address", patientDetails.Address);
-                    cmd.Parameters.AddWithValue("@Mode", patientDetails.Mode);
+                    cmd.Parameters.AddWithValue("@Mode", patientDetails.Mode);//????
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsPatientList = new DataSet();
                     adapter.Fill(dsPatientList);
@@ -375,7 +375,59 @@ namespace LeHealth.Core.DataManager
                     return patientList;
                 }
             }
-           
+
+        }
+
+        public List<AllPatientModel> SearchPatientInList(PatientSearchModel patient)
+        {
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatients", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Name", patient.Name);
+                    cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
+                    cmd.Parameters.AddWithValue("@RegNo", patient.RegNo);
+                    cmd.Parameters.AddWithValue("@Mobile", patient.Mobile);
+                    cmd.Parameters.AddWithValue("@RegFromDate", patient.RegDateFrom);
+                    cmd.Parameters.AddWithValue("@RegToDate", patient.RegDateTo);
+                    cmd.Parameters.AddWithValue("@Phone", patient.Phone);
+                    cmd.Parameters.AddWithValue("@Address", patient.Address);
+                    cmd.Parameters.AddWithValue("@PIN", patient.PIN);
+                    cmd.Parameters.AddWithValue("@PolicyNo", patient.PolicyNo);
+                    cmd.Parameters.AddWithValue("@IdentityNo", patient.IdentityNo);
+                    cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsPatientList.Tables[0].Rows.Count; i++)
+                        {
+                            AllPatientModel obj = new AllPatientModel();
+                            obj.PatientId = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["PatientId"]);
+                            obj.RegNo = dsPatientList.Tables[0].Rows[i]["RegNo"].ToString();
+                            obj.PatientName = dsPatientList.Tables[0].Rows[i]["PatientName"].ToString();
+                            obj.Age = dsPatientList.Tables[0].Rows[i]["Age"].ToString();
+                            obj.Mobile = dsPatientList.Tables[0].Rows[i]["Mobile"].ToString();
+                            obj.Address = dsPatientList.Tables[0].Rows[i]["Address"].ToString();
+                            obj.SponsorName = dsPatientList.Tables[0].Rows[i]["SponsorName"].ToString();
+                            obj.Consultant = dsPatientList.Tables[0].Rows[i]["Consultant"].ToString();
+                            obj.PolicyNo = dsPatientList.Tables[0].Rows[i]["PolicyNo"].ToString();
+                            obj.EmiratesId = dsPatientList.Tables[0].Rows[i]["EmirateID"].ToString();
+                            obj.SponsorId = dsPatientList.Tables[0].Rows[i]["SponsorId"].ToString();
+                            patientList.Add(obj);
+                        }
+                    }
+                    return patientList;
+                }
+            }
+
         }
     }
 
