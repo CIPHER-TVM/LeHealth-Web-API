@@ -13,7 +13,6 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultantModel> GetConsultant(int deptId);
         List<Appointments> GetAppointments(AppointmentModel appointment);
         List<ConsultationModel> GetConsultation(ConsultantModel consultation);
-        List<PatientModel> SearchPatient(PatientModel patient);
         List<Appointments> InsertUpdateAppointment(Appointments appointments);
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
         List<ConsultationModel> GetAllConsultation();
