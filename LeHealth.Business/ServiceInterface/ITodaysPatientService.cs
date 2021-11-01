@@ -17,9 +17,10 @@ namespace LeHealth.Service.ServiceInterface
         List<AllPatientModel> GetAllPatient();
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
-        List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname); 
-        List<SchemeModel> GetSchemeByConsultant(int consultantid); 
-        List<VisaTypeModel> GetVisaType(); 
+        List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
+        List<SchemeModel> GetSchemeByConsultant(int consultantid);
+        List<VisaTypeModel> GetVisaType();
+        List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
 
 
     }

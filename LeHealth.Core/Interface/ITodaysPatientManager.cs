@@ -17,5 +17,6 @@ namespace LeHealth.Core.Interface
         List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
         List<VisaTypeModel> GetVisaType();
+        List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
     } 
 }

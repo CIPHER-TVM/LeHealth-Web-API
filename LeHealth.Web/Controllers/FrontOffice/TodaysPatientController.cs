@@ -580,6 +580,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        
+        
         [HttpPost]
         [Route("SearchAppointment")]
         public ResponseDataModel<IEnumerable<AppSearchModel>> SearchAppointment(AppointmentModel appointment)
@@ -616,6 +618,47 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
 
         }
+        
+        [HttpPost]
+        [Route("GetAppNumber")]
+        public ResponseDataModel<IEnumerable<GetAppNoModel>> GetAppNumber(GetAppNumberIPModel gan) 
+        {
+            List<GetAppNoModel> appointmentList = new List<GetAppNoModel>();
+            try
+            {
+                appointmentList = todaysPatientService.GetAppNumber(gan); 
+                var response = new ResponseDataModel<IEnumerable<GetAppNoModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = appointmentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<GetAppNoModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+
+        }
+        
+        
+        
+        
         [HttpPost]
         [Route("GetAllPatient")]
         public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient()
@@ -653,6 +696,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetAllConsultation")]
         [HttpPost]
+        //public ResponseDataModel<IEnumerable<ConsultationModel>> GetAllConsultation()
         public ResponseDataModel<IEnumerable<ConsultationModel>> GetAllConsultation()
         {
             List<ConsultationModel> consultationList = new List<ConsultationModel>();
@@ -664,6 +708,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     Status = HttpStatusCode.OK,
                     Response = consultationList
                 };
+                var asdf = response.Response;
                 return response;
             }
             catch (Exception ex)

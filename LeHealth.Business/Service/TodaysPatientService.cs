@@ -58,9 +58,13 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetSchemeByConsultant(consultantid);
         }
-         public List<VisaTypeModel> GetVisaType()
+        public List<VisaTypeModel> GetVisaType()
         {
             return todaysPatientManager.GetVisaType();
+        }
+        public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
+        {
+            return todaysPatientManager.GetAppNumber(gap);
         }
 
 
