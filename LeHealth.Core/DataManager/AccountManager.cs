@@ -101,7 +101,7 @@ namespace LeHealth.Core.DataManager
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWT_Secret"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-           var  Subject = new ClaimsIdentity(new Claim[] { });
+            var Subject = new ClaimsIdentity(new Claim[] { });
 
             var token = new JwtSecurityToken(_configuration["ApplicationSettings:Issuer"],
              _configuration["ApplicationSettings:Issuer"],

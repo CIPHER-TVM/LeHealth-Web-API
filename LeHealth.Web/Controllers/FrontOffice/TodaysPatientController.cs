@@ -696,7 +696,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetAllConsultation")]
         [HttpPost]
-        //public ResponseDataModel<IEnumerable<ConsultationModel>> GetAllConsultation()
         public ResponseDataModel<IEnumerable<ConsultationModel>> GetAllConsultation()
         {
             List<ConsultationModel> consultationList = new List<ConsultationModel>();
