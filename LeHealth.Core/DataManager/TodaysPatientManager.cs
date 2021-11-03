@@ -527,6 +527,31 @@ namespace LeHealth.Core.DataManager
 
         }
 
+        public List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap) 
+        {
+            List<GetAppTimeModel> scheduleList = new List<GetAppTimeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetAppTime", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ConsultantId", gap.ConsultantId);
+                    cmd.Parameters.AddWithValue("@AppDate", gap.AppDate);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsScheduleList = new DataSet();
+                    adapter.Fill(dsScheduleList);
+                    con.Close();
+                    if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
+                        scheduleList = dsScheduleList.Tables[0].ToListOfObject<GetAppTimeModel>();
+                    return scheduleList;
+                }
+            }
+
+        }
+
     }
 
 }

@@ -655,10 +655,47 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
 
         }
-        
-        
-        
-        
+
+        [HttpPost]
+        [Route("GetAppTime")]
+        public ResponseDataModel<IEnumerable<GetAppTimeModel>> GetAppTime(GetAppNumberIPModel gan)
+        {
+            List<GetAppTimeModel> appointmentList = new List<GetAppTimeModel>();
+            try
+            {
+                appointmentList = todaysPatientService.GetAppTime(gan);
+                var response = new ResponseDataModel<IEnumerable<GetAppTimeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = appointmentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<GetAppTimeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+
+        }
+
+
+
+
         [HttpPost]
         [Route("GetAllPatient")]
         public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient()

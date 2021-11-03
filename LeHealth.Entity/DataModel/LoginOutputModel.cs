@@ -8,6 +8,7 @@ namespace LeHealth.Entity.DataModel
     {
         public string UserId { get; set; }
         public string Username { get; set; }
+        public string Usersname { get; set; }
         public string Usertype { get; set; }
         public string UserState { get; set; }
         public string UserActive { get; set; }

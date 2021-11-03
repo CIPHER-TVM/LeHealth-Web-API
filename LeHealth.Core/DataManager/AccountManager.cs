@@ -85,6 +85,7 @@ namespace LeHealth.Core.DataManager
                             LoginOutputModel obj = new LoginOutputModel();
                             obj.UserId = ds.Tables[0].Rows[i]["UserId"].ToString();
                             obj.Username = ds.Tables[0].Rows[i]["UserName"].ToString();
+                            obj.Usersname = ds.Tables[0].Rows[i]["UsersName"].ToString();
                             obj.Usertype = ds.Tables[0].Rows[i]["UserType"].ToString();
                             obj.UserState = ds.Tables[0].Rows[i]["State"].ToString();
                             obj.UserActive = ds.Tables[0].Rows[i]["Active"].ToString();

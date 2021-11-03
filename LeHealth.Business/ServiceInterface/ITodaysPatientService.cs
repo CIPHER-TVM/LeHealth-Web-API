@@ -21,6 +21,7 @@ namespace LeHealth.Service.ServiceInterface
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
         List<VisaTypeModel> GetVisaType();
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
+        List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
 
 
     }

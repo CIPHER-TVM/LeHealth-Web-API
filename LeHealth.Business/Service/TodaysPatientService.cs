@@ -66,6 +66,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAppNumber(gap);
         }
+        public List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap)
+        {
+            return todaysPatientManager.GetAppTime(gap);
+        }
 
 
     }
