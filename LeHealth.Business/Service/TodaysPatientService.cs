@@ -42,6 +42,8 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAllPatient();
         }
+
+
         public List<PatientListModel> SearchPatient(PatientSearchModel patientList)
         {
             return todaysPatientManager.SearchPatient(patientList);
@@ -70,7 +72,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAppTime(gap);
         }
-
+        public string SendAddPatientInformation(int patientid)
+        {
+            return todaysPatientManager.SendAddPatientInformation(patientid);
+        }
 
     }
 }

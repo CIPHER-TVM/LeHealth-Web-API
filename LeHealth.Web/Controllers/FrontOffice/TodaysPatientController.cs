@@ -731,6 +731,32 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        [HttpPost]
+        [Route("SendAddPatientInformation")]
+        public string SendAddPatientInformation()
+        {
+            //List<AllPatientModel> patientList = new List<AllPatientModel>();
+            try
+            {
+                string patientList = todaysPatientService.SendAddPatientInformation(5);
+                return "";
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return "";
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
+
+
+
         [Route("GetAllConsultation")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> GetAllConsultation()

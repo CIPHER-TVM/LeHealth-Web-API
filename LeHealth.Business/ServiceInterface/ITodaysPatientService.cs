@@ -22,6 +22,7 @@ namespace LeHealth.Service.ServiceInterface
         List<VisaTypeModel> GetVisaType();
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
+        string SendAddPatientInformation(int patientId); 
 
 
     }
