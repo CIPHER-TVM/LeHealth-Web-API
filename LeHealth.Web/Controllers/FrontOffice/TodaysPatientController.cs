@@ -411,11 +411,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-
-
-
-
-
         /// <summary>
         /// Save new Appointment,Controller class . Step One in code execution flow
         /// </summary>
