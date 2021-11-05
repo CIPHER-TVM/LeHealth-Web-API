@@ -39,10 +39,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<PatientModel> InsertPatient(PatientModel patientDetail)
+        public string  InsertPatient(PatientModel patientDetail)
         {
             SqlTransaction transaction;
-            List<PatientModel> patientDetails = new List<PatientModel>();
+            string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -140,21 +140,23 @@ namespace LeHealth.Core.DataManager
                         patientConsultationCmd.Connection = con;
                         var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                         transaction.Commit();
+                        response = patientId.ToString();
                     }
                     else
                     {
                         transaction.Rollback();
+                        response = "error";
                     }
 
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
+                    response = "error";
                 }
                 con.Close();
-
             }
-            return patientDetails;
+            return response;
         }
         public SqlCommand InsertConsultation(ConsultationModel consultations)
         {

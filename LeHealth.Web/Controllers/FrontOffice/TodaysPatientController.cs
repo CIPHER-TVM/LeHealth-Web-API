@@ -549,14 +549,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration(PatientModel patientDetail)
         {
-            List<PatientModel> registrationDetail = new List<PatientModel>();
+            string registrationDetail = "";
             try
             {
                 registrationDetail = todaysPatientService.InsertPatient(patientDetail);
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    //  Response = consultationList
+                    Message = registrationDetail
                 };
                 return response;
             }
@@ -576,12 +576,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                registrationDetail.Clear();
+                // registrationDetail.Clear();
                 // dispose can be managed here
             }
         }
-        
-        
+
+
         [HttpPost]
         [Route("SearchAppointment")]
         public ResponseDataModel<IEnumerable<AppSearchModel>> SearchAppointment(AppointmentModel appointment)
@@ -618,15 +618,15 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
 
         }
-        
+
         [HttpPost]
         [Route("GetAppNumber")]
-        public ResponseDataModel<IEnumerable<GetAppNoModel>> GetAppNumber(GetAppNumberIPModel gan) 
+        public ResponseDataModel<IEnumerable<GetAppNoModel>> GetAppNumber(GetAppNumberIPModel gan)
         {
             List<GetAppNoModel> appointmentList = new List<GetAppNoModel>();
             try
             {
-                appointmentList = todaysPatientService.GetAppNumber(gan); 
+                appointmentList = todaysPatientService.GetAppNumber(gan);
                 var response = new ResponseDataModel<IEnumerable<GetAppNoModel>>()
                 {
                     Status = HttpStatusCode.OK,

@@ -22,7 +22,7 @@ namespace LeHealth.Service.Service
         /// <summary>
         /// adding a new patient registration 
         /// </summary>
-        public List<PatientModel> InsertPatient(PatientModel patientDetail)
+        public string InsertPatient(PatientModel patientDetail)
         {
             return todaysPatientManager.InsertPatient(patientDetail);
         }
