@@ -115,6 +115,49 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+
+
+        [Route("GetConsultantByArray")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultantByArray(DepartmentIdModel deptId)
+        {
+            List<ConsultantModel> consultantList = new List<ConsultantModel>();
+            try
+            {
+                for (int i = 0; i < deptId.Departments.Length; i++)
+                {
+                    List<ConsultantModel> templist = new List<ConsultantModel>();
+                    templist = hospitalsService.GetConsultant(Convert.ToInt32(deptId.Departments[i]));
+                    consultantList.AddRange(templist);
+                }
+
+                var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultantList.Clear();
+                // dispose can be managed here
+            }
+        }
         /// <summary>
         /// To get list of all Appoinments. Controller class . Step One in code execution flow
         /// </summary>

@@ -282,7 +282,6 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (appointment.ConsultantId == 0 || appointment.ConsultantId == null)
                         cmd.Parameters.AddWithValue("@ConsultantId", 0);
-
                     else
                         cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
 
