@@ -19,6 +19,15 @@ namespace LeHealth.Core.Interface
         List<VisaTypeModel> GetVisaType();
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
-        string SendAddPatientInformation(int patientid); 
+        List<StateModel> GetStateByCountryId(int countryId);
+        List<ReligionModel> GetReligion();
+        string SendAddPatientInformation(int patientid);
+        //
+        string InsertZone(ZoneModel zone);
+        string UpdateZone(ZoneModel zone);
+        string DeleteZone(int zoneId);
+        List<ZoneModel> GetZoneById(int zoneId);
+        List<ZoneModel> GetAllZone();
+
     } 
 }

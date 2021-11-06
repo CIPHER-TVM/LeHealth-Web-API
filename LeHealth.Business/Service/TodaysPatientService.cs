@@ -76,6 +76,35 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.SendAddPatientInformation(patientid);
         }
+        public List<StateModel> GetStateByCountryId(int countryid)
+        {
+            return todaysPatientManager.GetStateByCountryId(countryid);
+        }
+        public List<ReligionModel> GetReligion()
+        {
+            return todaysPatientManager.GetReligion();
+        }
+        //
+        public string InsertZone(ZoneModel zone)
+        {
+            return todaysPatientManager.InsertZone(zone);
+        }
+        public string UpdateZone(ZoneModel zone)
+        {
+            return todaysPatientManager.UpdateZone(zone);
+        }
+        public string DeleteZone(int zoneId)
+        {
+            return todaysPatientManager.DeleteZone(zoneId);
+        }
+        public List<ZoneModel> GetZoneById(int zoneId)
+        {
+            return todaysPatientManager.GetZoneById(zoneId);
+        }
+        public List<ZoneModel> GetAllZone()
+        {
+            return todaysPatientManager.GetAllZone();
+        }
 
     }
 }
