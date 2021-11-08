@@ -39,7 +39,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public string  InsertPatient(PatientModel patientDetail)
+        public string InsertPatient(PatientModel patientDetail)
         {
             SqlTransaction transaction;
             string response = "";
@@ -282,7 +282,6 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (appointment.ConsultantId == 0 || appointment.ConsultantId == null)
                         cmd.Parameters.AddWithValue("@ConsultantId", 0);
-
                     else
                         cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
 
@@ -504,6 +503,31 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        public List<ReligionModel> GetReligion()
+        {
+            List<ReligionModel> religionList = new List<ReligionModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetReligion", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsReligionList = new DataSet();
+                    adapter.Fill(dsReligionList);
+                    con.Close();
+                    if ((dsReligionList != null) && (dsReligionList.Tables.Count > 0) && (dsReligionList.Tables[0] != null) && (dsReligionList.Tables[0].Rows.Count > 0))
+                        religionList = dsReligionList.Tables[0].ToListOfObject<ReligionModel>();
+                    return religionList;
+                }
+            }
+
+        }
+
+
+
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
         {
             List<GetAppNoModel> scheduleList = new List<GetAppNoModel>();
@@ -553,6 +577,127 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+
+        public List<StateModel> GetStateByCountryId(int countryId)
+        {
+            List<StateModel> stateList = new List<StateModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetEmirate", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@CountryId", countryId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                        stateList = dsStateList.Tables[0].ToListOfObject<StateModel>();
+                    return stateList;
+                }
+            }
+        }
+        //ZONE START
+        public string InsertZone(ZoneModel zone)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertZone", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@zoneName", zone.ZoneName);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+        public string UpdateZone(ZoneModel zone)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UpdateZone", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@zoneId", zone.Id);
+                    cmd.Parameters.AddWithValue("@zoneName", zone.ZoneName);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+        public string DeleteZone(int zoneId)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteZone", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@zoneId", zoneId);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+        public List<ZoneModel> GetZoneById(int zoneId) 
+        {
+            List<ZoneModel> stateList = new List<ZoneModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_ZoneById", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@zoneId", zoneId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                        stateList = dsStateList.Tables[0].ToListOfObject<ZoneModel>();
+                    return stateList;
+                }
+            }
+        }
+        public List<ZoneModel> GetAllZone()
+        {
+            List<ZoneModel> stateList = new List<ZoneModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetAllZone", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                        stateList = dsStateList.Tables[0].ToListOfObject<ZoneModel>();
+                    return stateList;
+                }
+            }
+        }
+
+
+        //ZONE END
 
         public string SendAddPatientInformation(int patientid)
         {
