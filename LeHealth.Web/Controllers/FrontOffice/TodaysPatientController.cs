@@ -10,8 +10,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-
-
 namespace LeHealth.Base.API.Controllers.FrontOffice
 {
     [Route("api/TodaysPatient")]
@@ -87,7 +85,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             try
             {
-                consultantList = hospitalsService.GetConsultant(deptId);
+               // consultantList = hospitalsService.GetConsultant(deptId);
                 var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -115,6 +113,48 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+
+        [Route("GetConsultantData/{deptId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultantData(int[] categoryIds)
+        {
+            List<ConsultantModel> consultantList = new List<ConsultantModel>();
+            try
+            {
+                
+                   //for (int i = 0; i < dept.DeptId.Length; i++)
+                   //{
+                   //    consultantList = hospitalsService.GetConsultant(dept.DeptId[i]);
+                   //}
+                   var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultantList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
         /// <summary>
         /// To get list of all Appoinments. Controller class . Step One in code execution flow
         /// </summary>
@@ -575,7 +615,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-
 
         [HttpPost]
         [Route("SearchAppointment")]
