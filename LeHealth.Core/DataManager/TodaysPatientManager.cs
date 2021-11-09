@@ -600,6 +600,23 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public string DeleteAppointment(AppointmentModel appointment)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteAppointment", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AppId", appointment.AppId);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
         //ZONE START
         public string InsertZone(ZoneModel zone)
         {

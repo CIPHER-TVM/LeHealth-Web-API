@@ -26,6 +26,7 @@ namespace LeHealth.Core.Interface
         string InsertZone(ZoneModel zone);
         string UpdateZone(ZoneModel zone);
         string DeleteZone(int zoneId);
+        string DeleteAppointment(AppointmentModel appointment);
         List<ZoneModel> GetZoneById(int zoneId);
         List<ZoneModel> GetAllZone();
 

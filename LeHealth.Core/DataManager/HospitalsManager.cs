@@ -351,40 +351,87 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
         {
             List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
+            var descrip = "";
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation", con))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
-                        cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
+                            cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
 
-                    else
-                        cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                        else
+                            cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
 
-                    cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
-                    cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
-                    cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
-                    cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
-                    cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
-                    cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
-                    cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);
-                    cmd.Parameters.AddWithValue("@Emergency", consultations.Emergency);
-                    cmd.Parameters.AddWithValue("@ItemId", consultations.ItemId);
-                    cmd.Parameters.AddWithValue("@AgentId", consultations.AgentId);
-                    cmd.Parameters.AddWithValue("@LocationId", consultations.LocationId);
-                    cmd.Parameters.AddWithValue("@LeadAgentId", consultations.LeadAgentId);
-                    cmd.Parameters.AddWithValue("@InitiateCall", consultations.InitiateCall);
-                    cmd.Parameters.AddWithValue("@UserId", consultations.UserId);
-                    cmd.Parameters.AddWithValue("@RetSeqNo", consultations.RetSeqNo);
-                    cmd.Parameters.AddWithValue("@SessionId", consultations.SessionId);
-                    cmd.Parameters.AddWithValue("@RetVal", consultations.RetVal);
-                    cmd.Parameters.AddWithValue("@RetDesc", consultations.RetDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
+                        cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
+                        cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
+                        cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
+                        cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
+                        cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
+                        cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
+                        cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);
+                        cmd.Parameters.AddWithValue("@Emergency", consultations.Emergency);
+                        cmd.Parameters.AddWithValue("@ItemId", consultations.ItemId);
+                        cmd.Parameters.AddWithValue("@AgentId", consultations.AgentId);
+                        cmd.Parameters.AddWithValue("@LocationId", consultations.LocationId);
+                        cmd.Parameters.AddWithValue("@LeadAgentId", consultations.LeadAgentId);
+                        cmd.Parameters.AddWithValue("@InitiateCall", consultations.InitiateCall);
+                        cmd.Parameters.AddWithValue("@UserId", consultations.UserId);
+                        //cmd.Parameters.AddWithValue("@RetSeqNo", consultations.RetSeqNo);
+                        cmd.Parameters.AddWithValue("@SessionId", consultations.SessionId);
+                        //cmd.Parameters.AddWithValue("@RetVal", consultations.RetVal);
+                        //cmd.Parameters.AddWithValue("@RetDesc", consultations.RetDesc);
+
+                        SqlParameter retSeqNumber = new SqlParameter("@RetSeqNo", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retSeqNumber);
+
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+
+
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        //var seq = retSeqNumber.Value;
+                        var ret = retValV.Value;
+                        descrip = retDesc.Value.ToString();
+                        con.Close();
+                       
+                        if (int.Parse(ret.ToString()) == -1)
+                        {
+                            consultations.RetVal = -1;
+                            consultations.RetDesc = "Success";
+                            consultaionsList.Add(consultations);
+                        }
+                        else
+                        {
+                            consultations.RetVal = -2;
+                            consultations.RetDesc = descrip;
+                            consultaionsList.Add(consultations);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                        consultations.RetVal = -2;
+                        consultations.RetDesc = descrip;
+                        consultaionsList.Add(consultations);
+                    }
                 }
             }
             return consultaionsList;
