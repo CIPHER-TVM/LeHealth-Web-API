@@ -306,7 +306,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             try
             {
-                // consultantList = hospitalsService.GetConsultant(deptId);
+                consultantList = hospitalsService.GetConsultant(deptId);
                 var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
                     Status = HttpStatusCode.OK,
