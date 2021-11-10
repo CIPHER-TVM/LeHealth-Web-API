@@ -29,8 +29,10 @@ namespace LeHealth.Service.ServiceInterface
         string UpdateZone(ZoneModel zone);
         string DeleteZone(int zoneId);
         string DeleteAppointment(AppointmentModel appointment);
-
         List<ZoneModel> GetZoneById(int zoneId);
         List<ZoneModel> GetAllZone();
+        List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
+        List<int> GetNewTokenNumber(ConsultationModel cm);
+        List<SponsorModel> GetSponsorListByPatientId(int patientId);
     }
 }
