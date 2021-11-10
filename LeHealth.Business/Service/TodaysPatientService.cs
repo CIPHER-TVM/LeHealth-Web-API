@@ -128,6 +128,14 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetRecentConsultationData(cm);
         }
+        public List<SymptomModel> GetActiveSymptoms()
+        {
+            return todaysPatientManager.GetActiveSymptoms();
+        }
+        public List<ConsultRateModel> GetConsultRate(ConsultationModel cm)
+        {
+            return todaysPatientManager.GetConsultRate(cm);
+        }
 
 
     }

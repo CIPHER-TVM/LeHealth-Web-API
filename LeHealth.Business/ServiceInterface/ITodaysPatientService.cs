@@ -35,5 +35,7 @@ namespace LeHealth.Service.ServiceInterface
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
         List<SponsorModel> GetSponsorListByPatientId(int patientId);
         List<RecentConsultationModel> GetRecentConsultationData(string cm);
+        List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
+        List<SymptomModel> GetActiveSymptoms();
     }
 }

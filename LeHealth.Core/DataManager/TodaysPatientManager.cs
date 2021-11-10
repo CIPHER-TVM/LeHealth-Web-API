@@ -767,6 +767,61 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public List<SymptomModel> GetActiveSymptoms()
+        {
+            List<SymptomModel> stateList = new List<SymptomModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetActiveSymptoms", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                        stateList = dsStateList.Tables[0].ToListOfObject<SymptomModel>();
+                    return stateList;
+                }
+            }
+        }
+        public List<ConsultRateModel> GetConsultRate(ConsultationModel cm)
+        {
+            List<ConsultRateModel> stateList = new List<ConsultRateModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultRate", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+                    cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+                    cmd.Parameters.AddWithValue("@ItemId", cm.ItemId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
+                        {
+                            ConsultRateModel obj = new ConsultRateModel();
+                            obj.ItemId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ItemId"]);
+                            obj.ItemName = dsStateList.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.Rate = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Rate"]);
+                            obj.EmergencyFees = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["EmergencyFees"]);
+                            stateList.Add(obj);
+                        }
+                    }
+                    return stateList;
+                }
+            }
+        }
+
+
 
 
         //ZONE END
