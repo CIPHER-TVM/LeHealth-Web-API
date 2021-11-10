@@ -343,53 +343,7 @@ namespace LeHealth.Core.DataManager
             }
             return appointmentsList;
         }
-        /// <summary>
-        /// Save consultation details to database,Step three in code execution flow
-        /// </summary>
-        /// <param name="consultations"></param>
-        /// <returns></returns>
-        public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
-        {
-            List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
-                        cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
-
-                    else
-                        cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
-
-                    cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
-                    cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
-                    cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
-                    cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
-                    cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
-                    cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
-                    cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);
-                    cmd.Parameters.AddWithValue("@Emergency", consultations.Emergency);
-                    cmd.Parameters.AddWithValue("@ItemId", consultations.ItemId);
-                    cmd.Parameters.AddWithValue("@AgentId", consultations.AgentId);
-                    cmd.Parameters.AddWithValue("@LocationId", consultations.LocationId);
-                    cmd.Parameters.AddWithValue("@LeadAgentId", consultations.LeadAgentId);
-                    cmd.Parameters.AddWithValue("@InitiateCall", consultations.InitiateCall);
-                    cmd.Parameters.AddWithValue("@UserId", consultations.UserId);
-                    cmd.Parameters.AddWithValue("@RetSeqNo", consultations.RetSeqNo);
-                    cmd.Parameters.AddWithValue("@SessionId", consultations.SessionId);
-                    cmd.Parameters.AddWithValue("@RetVal", consultations.RetVal);
-                    cmd.Parameters.AddWithValue("@RetDesc", consultations.RetDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-            return consultaionsList;
-        }
-
+        
 
         public List<ConsultationModel> GetAllConsultation()
         {

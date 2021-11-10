@@ -89,6 +89,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.InsertZone(zone);
         }
+        public string DeleteAppointment(AppointmentModel appointment)
+        {
+            return todaysPatientManager.DeleteAppointment(appointment);
+        }
         public string UpdateZone(ZoneModel zone)
         {
             return todaysPatientManager.UpdateZone(zone);
@@ -105,6 +109,22 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAllZone();
         }
+        /// <summary>
+        /// adding a new consultation details.Step two in code execution flow
+        /// </summary>
+        public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
+        {
+            return todaysPatientManager.InsertUpdateConsultation(consultations);
+        }
+        public List<int> GetNewTokenNumber(ConsultationModel consultations)
+        {
+            return todaysPatientManager.GetNewTokenNumber(consultations);
+        }
+        public List<SponsorModel> GetSponsorListByPatientId(int patientId)
+        {
+            return todaysPatientManager.GetSponsorListByPatientId(patientId);
+        }
+
 
     }
 }

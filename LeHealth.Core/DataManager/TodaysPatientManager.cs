@@ -633,6 +633,23 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public string DeleteAppointment(AppointmentModel appointment)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteAppointment", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AppId", appointment.AppId);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
         //ZONE START
         public string InsertZone(ZoneModel zone)
         {
@@ -731,7 +748,162 @@ namespace LeHealth.Core.DataManager
 
 
         //ZONE END
+        /// <summary>
+        /// Save consultation details to database,Step three in code execution flow
+        /// </summary>
+        /// <param name="consultations"></param>
+        /// <returns></returns>
+        public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
+        {
+            List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
+            var descrip = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
 
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation", con))
+                {
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
+                            cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
+
+                        else
+                            cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+
+                        cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
+                        cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
+                        cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
+                        cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
+                        cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
+                        cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
+                        cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);
+                        cmd.Parameters.AddWithValue("@Emergency", consultations.Emergency);
+                        cmd.Parameters.AddWithValue("@ItemId", consultations.ItemId);
+                        cmd.Parameters.AddWithValue("@AgentId", consultations.AgentId);
+                        cmd.Parameters.AddWithValue("@LocationId", consultations.LocationId);
+                        cmd.Parameters.AddWithValue("@LeadAgentId", consultations.LeadAgentId);
+                        cmd.Parameters.AddWithValue("@InitiateCall", consultations.InitiateCall);
+                        cmd.Parameters.AddWithValue("@UserId", consultations.UserId);
+                        //cmd.Parameters.AddWithValue("@RetSeqNo", consultations.RetSeqNo);
+                        cmd.Parameters.AddWithValue("@SessionId", consultations.SessionId);
+                        //cmd.Parameters.AddWithValue("@RetVal", consultations.RetVal);
+                        //cmd.Parameters.AddWithValue("@RetDesc", consultations.RetDesc);
+
+                        SqlParameter retSeqNumber = new SqlParameter("@RetSeqNo", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retSeqNumber);
+
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+
+
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        //var seq = retSeqNumber.Value;
+                        var ret = retValV.Value;
+                        descrip = retDesc.Value.ToString();
+                        con.Close();
+
+                        if (int.Parse(ret.ToString()) == -1)
+                        {
+                            consultations.RetVal = -1;
+                            consultations.RetDesc = "Success";
+                            consultaionsList.Add(consultations);
+                        }
+                        else
+                        {
+                            consultations.RetVal = -2;
+                            consultations.RetDesc = descrip;
+                            consultaionsList.Add(consultations);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        consultations.RetVal = -2;
+                        consultations.RetDesc = descrip;
+                        consultaionsList.Add(consultations);
+                    }
+                }
+            }
+            return consultaionsList;
+        }
+        public List<int> GetNewTokenNumber(ConsultationModel cm)
+        {
+            List<int> tokenNo = new List<int>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetNewTokenNumber", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+                    cmd.Parameters.AddWithValue("@ConsultDate", cm.ConsultDate);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsTokenList = new DataSet();
+                    adapter.Fill(dsTokenList);
+                    con.Close();
+                    if ((dsTokenList != null) && (dsTokenList.Tables.Count > 0) && (dsTokenList.Tables[0] != null) && (dsTokenList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsTokenList.Tables[0].Rows.Count; i++)
+                        {
+                            tokenNo.Add(Convert.ToInt32(dsTokenList.Tables[0].Rows[0][0]));
+                        }
+                    }
+                    return tokenNo;
+                }
+            }
+        }
+
+
+        public List<SponsorModel> GetSponsorListByPatientId(int patientId)
+        {
+            List<SponsorModel> sponsorList = new List<SponsorModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetActiveCredits", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@PatientId", patientId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsSponsorList = new DataSet();
+                    adapter.Fill(dsSponsorList);
+                    con.Close();
+                    if ((dsSponsorList != null) && (dsSponsorList.Tables.Count > 0) && (dsSponsorList.Tables[0] != null) && (dsSponsorList.Tables[0].Rows.Count > 0))
+                        for (int i = 0; i < dsSponsorList.Tables[0].Rows.Count; i++)
+                        {
+                            SponsorModel obj = new SponsorModel();
+                            obj.OpenDate = dsSponsorList.Tables[0].Rows[i]["OpenDate"].ToString();
+                            obj.CreditRefNo = dsSponsorList.Tables[0].Rows[i]["CreditRefNo"].ToString();
+                            obj.SponsorName = dsSponsorList.Tables[0].Rows[i]["Sponsor"].ToString();
+                            obj.AgentName = dsSponsorList.Tables[0].Rows[i]["AgentName"].ToString();
+                            obj.PolicyNo = dsSponsorList.Tables[0].Rows[i]["PolicyNumber"].ToString();
+                            obj.ValidUpto = dsSponsorList.Tables[0].Rows[i]["ValidUpto"].ToString();
+                            sponsorList.Add(obj);
+                        }
+                    return sponsorList;
+                }
+            }
+        }
+
+        //Malaffi start
         public string SendAddPatientInformation(int patientid)
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
@@ -746,7 +918,8 @@ namespace LeHealth.Core.DataManager
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds
+                        != null) && (ds.Tables[0].Rows.Count > 0))
                     {
                         DataTable dt = ds.Tables[0];
                         string strFile = DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -862,6 +1035,8 @@ namespace LeHealth.Core.DataManager
             }
             return true;
         }
+
+
 
     }
 

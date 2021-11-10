@@ -64,13 +64,7 @@ namespace LeHealth.Service
         {
             return hospitalsManager.InsertUpdateAppointment(appointments);
         }
-        /// <summary>
-        /// adding a new consultation details.Step two in code execution flow
-        /// </summary>
-        public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
-        {
-            return hospitalsManager.InsertUpdateConsultation(consultations);
-        }
+       
         /// <summary>
         /// To list of all hospital details .Step two in code execution flow
         /// </summary>
