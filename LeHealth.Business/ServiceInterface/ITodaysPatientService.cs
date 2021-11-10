@@ -32,7 +32,8 @@ namespace LeHealth.Service.ServiceInterface
         List<ZoneModel> GetZoneById(int zoneId);
         List<ZoneModel> GetAllZone();
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
-        List<int> GetNewTokenNumber(ConsultationModel cm);
+        List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
         List<SponsorModel> GetSponsorListByPatientId(int patientId);
+        List<RecentConsultationModel> GetRecentConsultationData(string cm);
     }
 }
