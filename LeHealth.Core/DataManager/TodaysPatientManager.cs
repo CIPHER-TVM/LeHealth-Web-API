@@ -578,6 +578,61 @@ namespace LeHealth.Core.DataManager
 
         }
 
+        public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsim)
+        {
+            List<SheduleGetDataModel> scheduleList = new List<SheduleGetDataModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleData", con))
+                {
+                    for (int i = 0; i < gsim.Consultant.Length; i++)
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@ConsultantId", gsim.Consultant[i]);
+                        cmd.Parameters.AddWithValue("@AppDate", gsim.DateValue);
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataSet dsScheduleList = new DataSet();
+                        adapter.Fill(dsScheduleList);
+                        con.Close();
+                        if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
+                        {
+                            for (int j = 0; j < dsScheduleList.Tables[0].Rows.Count; i++)
+                            {
+
+                            }
+                        }
+                    }
+                    return scheduleList;
+                }
+            }
+
+        }
+        public List<RecentConsultationModel> GetRecentConsultationData(String date)
+        {
+            List<RecentConsultationModel> scheduleList = new List<RecentConsultationModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetRecentConsultantations", con))
+                {
+
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultDate", date);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsScheduleList = new DataSet();
+                    adapter.Fill(dsScheduleList);
+                    con.Close();
+                    if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
+                        scheduleList = dsScheduleList.Tables[0].ToListOfObject<RecentConsultationModel>();
+                    return scheduleList;
+                }
+            }
+        }
+
         public List<StateModel> GetStateByCountryId(int countryId)
         {
             List<StateModel> stateList = new List<StateModel>();
@@ -808,9 +863,9 @@ namespace LeHealth.Core.DataManager
             }
             return consultaionsList;
         }
-        public List<int> GetNewTokenNumber(ConsultationModel cm)
+        public List<TokenModel> GetNewTokenNumber(ConsultationModel cm)
         {
-            List<int> tokenNo = new List<int>();
+            List<TokenModel> tokenNo = new List<TokenModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetNewTokenNumber", con))
@@ -828,7 +883,9 @@ namespace LeHealth.Core.DataManager
                     {
                         for (int i = 0; i < dsTokenList.Tables[0].Rows.Count; i++)
                         {
-                            tokenNo.Add(Convert.ToInt32(dsTokenList.Tables[0].Rows[0][0]));
+                            TokenModel tm = new TokenModel();
+                            tm.TokenNo = Convert.ToInt32(dsTokenList.Tables[0].Rows[0][0]);
+                            tokenNo.Add(tm);
                         }
                     }
                     return tokenNo;

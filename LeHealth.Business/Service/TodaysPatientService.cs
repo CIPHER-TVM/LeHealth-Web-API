@@ -116,13 +116,17 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.InsertUpdateConsultation(consultations);
         }
-        public List<int> GetNewTokenNumber(ConsultationModel consultations)
+        public List<TokenModel> GetNewTokenNumber(ConsultationModel consultations)
         {
             return todaysPatientManager.GetNewTokenNumber(consultations);
         }
         public List<SponsorModel> GetSponsorListByPatientId(int patientId)
         {
             return todaysPatientManager.GetSponsorListByPatientId(patientId);
+        }
+        public List<RecentConsultationModel> GetRecentConsultationData(String cm)
+        {
+            return todaysPatientManager.GetRecentConsultationData(cm);
         }
 
 

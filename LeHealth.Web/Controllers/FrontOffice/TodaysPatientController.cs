@@ -342,12 +342,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             try
             {
-                
-                   //for (int i = 0; i < dept.DeptId.Length; i++)
-                   //{
-                   //    consultantList = hospitalsService.GetConsultant(dept.DeptId[i]);
-                   //}
-                   var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
+
+                //for (int i = 0; i < dept.DeptId.Length; i++)
+                //{
+                //    consultantList = hospitalsService.GetConsultant(dept.DeptId[i]);
+                //}
+                var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = consultantList
@@ -882,8 +882,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-        
-        
+
+
         [HttpPost]
         [Route("GetCountry")]
         public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(CountryModel countryDetails)
@@ -1075,6 +1075,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
         [HttpPost]
+        [Route("GetRecentConsultationData")]
+        public ResponseDataModel<IEnumerable<RecentConsultationModel>> GetRecentConsultationData(ConsultationModel cm)
+        {
+            List<RecentConsultationModel> appointmentList = new List<RecentConsultationModel>();
+            try
+            {
+                appointmentList = todaysPatientService.GetRecentConsultationData(cm.ConsultDate);
+                var response = new ResponseDataModel<IEnumerable<RecentConsultationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = appointmentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<RecentConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+
+        }
+
+
+
+
+        [HttpPost]
         [Route("GetAppTime")]
         public ResponseDataModel<IEnumerable<GetAppTimeModel>> GetAppTime(GetAppNumberIPModel gan)
         {
@@ -1110,6 +1148,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
 
         }
+
+        //
+        //[HttpPost]
+        //[Route("GetScheduleData")]
+        //public ResponseDataModel<IEnumerable<SheduleGetDataModel>> GetScheduleData(GetScheduleInputModel gan)  
+        //{
+        //    List<SheduleGetDataModel> appointmentList = new List<SheduleGetDataModel>();
+        //    try
+        //    {
+        //        appointmentList = todaysPatientService.GetScheduleData(gan);
+        //        var response = new ResponseDataModel<IEnumerable<SheduleGetDataModel>>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Response = appointmentList
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<IEnumerable<SheduleGetDataModel>>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
+
+        //        };
+        //    }
+        //    finally
+        //    {
+        //        //  consultationList.Clear();
+        //        // dispose can be managed here
+        //    }
+
+        //}
 
 
 
@@ -1250,13 +1326,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [HttpPost]
         [Route("GetNewTokenNumber")]
-        public ResponseDataModel<IEnumerable<int>> GetNewTokenNumber(ConsultationModel cm)
+        public ResponseDataModel<IEnumerable<TokenModel>> GetNewTokenNumber(ConsultationModel cm)
         {
-            List<int> tokenNumberList = new List<int>(); 
+            List<TokenModel> tokenNumberList = new List<TokenModel>();
             try
             {
                 tokenNumberList = todaysPatientService.GetNewTokenNumber(cm);
-                var response = new ResponseDataModel<IEnumerable<int>>()
+                var response = new ResponseDataModel<IEnumerable<TokenModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = tokenNumberList
@@ -1266,7 +1342,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<int>>() 
+                return new ResponseDataModel<IEnumerable<TokenModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
