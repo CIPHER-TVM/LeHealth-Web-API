@@ -987,7 +987,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
-        public List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm) 
+        public List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm)
         {
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1018,6 +1018,82 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
+
+        public List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm)
+        {
+            List<ConsultationByPatientIdModel> consultationList = new List<ConsultationByPatientIdModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultationByPatientId", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        {
+                            ConsultationByPatientIdModel obj = new ConsultationByPatientIdModel();
+                            obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
+                            obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
+                            obj.SeqNo = Convert.ToInt32(ds.Tables[0].Rows[i]["SeqNo"]);
+                            obj.ConsultFee = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultFee"]);
+                            obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
+                            obj.RemainVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["RemainVisits"]);
+                            obj.Symptoms = ds.Tables[0].Rows[i]["Symptoms"].ToString();
+                            obj.ConsultType = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultType"]);
+                            obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
+                            obj.ExpiryVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["ExpiryVisits"]);
+                            consultationList.Add(obj);
+                        }
+                    }
+                    return consultationList;
+                }
+            }
+        }
+
+        public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
+        {
+            List<PatRegByPatientIdModel> consultationList = new List<PatRegByPatientIdModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatRegByPatientId", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        {
+                            PatRegByPatientIdModel obj = new PatRegByPatientIdModel();
+                            obj.RegId = Convert.ToInt32(ds.Tables[0].Rows[i]["RegId"]);
+                            obj.RegDate = ds.Tables[0].Rows[i]["RegDate"].ToString();
+                            obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
+                            obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
+                            obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
+                            obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
+                            obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
+                            consultationList.Add(obj);
+                        }
+                    }
+                    return consultationList;
+                }
+            }
+        }
+
 
         //Malaffi start
         public string SendAddPatientInformation(int patientid)

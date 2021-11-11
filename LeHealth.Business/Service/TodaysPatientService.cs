@@ -142,6 +142,14 @@ namespace LeHealth.Service.Service
         public List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm)
         {
             return todaysPatientManager.GetConsultant(cm);
+        } 
+        public List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm)
+        {
+            return todaysPatientManager.GetConsultationByPatientId(cm);
+        }
+         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
+        {
+            return todaysPatientManager.GetPatRegByPatientId(cm);
         }
 
     }

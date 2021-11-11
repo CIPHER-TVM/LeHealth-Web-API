@@ -45,5 +45,7 @@ namespace LeHealth.Core.Interface
         /// To list of  all Consultants by dept id
         /// </summary>
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm); 
+        List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm); 
+        List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);  
     } 
 }

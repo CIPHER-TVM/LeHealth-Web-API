@@ -335,6 +335,80 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("GetConsultationByPatientId")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationByPatientIdModel>> GetConsultationByPatientId(ConsultationModel cd)
+        {
+            List<ConsultationByPatientIdModel> consultantList = new List<ConsultationByPatientIdModel>();
+            try
+            {
+                consultantList = todaysPatientService.GetConsultationByPatientId(cd);
+                var response = new ResponseDataModel<IEnumerable<ConsultationByPatientIdModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationByPatientIdModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultantList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+        [Route("GetPatRegByPatientId")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatRegByPatientIdModel>> GetPatRegByPatientId(ConsultationModel cd)
+        {
+            List<PatRegByPatientIdModel> consultantList = new List<PatRegByPatientIdModel>();
+            try
+            {
+                consultantList = todaysPatientService.GetPatRegByPatientId(cd);
+                var response = new ResponseDataModel<IEnumerable<PatRegByPatientIdModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatRegByPatientIdModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultantList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
+
         [Route("GetStateByCountryId/{countryId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<StateModel>> GetStateByCountryId(int countryId)
