@@ -610,7 +610,7 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-        public List<RecentConsultationModel> GetRecentConsultationData(String date)
+        public List<RecentConsultationModel> GetRecentConsultationData()
         {
             List<RecentConsultationModel> scheduleList = new List<RecentConsultationModel>();
 
@@ -621,7 +621,7 @@ namespace LeHealth.Core.DataManager
 
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultDate", date);
+                    cmd.Parameters.AddWithValue("@ConsultDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsScheduleList = new DataSet();
                     adapter.Fill(dsScheduleList);

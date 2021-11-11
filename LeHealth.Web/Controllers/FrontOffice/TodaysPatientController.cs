@@ -1076,12 +1076,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [HttpPost]
         [Route("GetRecentConsultationData")]
-        public ResponseDataModel<IEnumerable<RecentConsultationModel>> GetRecentConsultationData(ConsultationModel cm)
+        public ResponseDataModel<IEnumerable<RecentConsultationModel>> GetRecentConsultationData()
         {
             List<RecentConsultationModel> appointmentList = new List<RecentConsultationModel>();
             try
             {
-                appointmentList = todaysPatientService.GetRecentConsultationData(cm.ConsultDate);
+                appointmentList = todaysPatientService.GetRecentConsultationData();
                 var response = new ResponseDataModel<IEnumerable<RecentConsultationModel>>()
                 {
                     Status = HttpStatusCode.OK,

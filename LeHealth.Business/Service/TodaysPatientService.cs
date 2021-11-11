@@ -124,9 +124,9 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetSponsorListByPatientId(patientId);
         }
-        public List<RecentConsultationModel> GetRecentConsultationData(String cm)
+        public List<RecentConsultationModel> GetRecentConsultationData()
         {
-            return todaysPatientManager.GetRecentConsultationData(cm);
+            return todaysPatientManager.GetRecentConsultationData();
         }
         public List<SymptomModel> GetActiveSymptoms()
         {
