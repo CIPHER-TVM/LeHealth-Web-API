@@ -29,13 +29,7 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetDepartments();
         }
-        /// <summary>
-        /// Returns all consultants by dept id as Generic List. Step two in code execution flow
-        /// </summary>
-        public List<ConsultantModel> GetConsultant(int deptId)
-        {
-            return hospitalsManager.GetConsultant(deptId);
-        }
+       
         /// <summary>
         /// Returns list of all appointments on present day as Generic List. Step two in code execution flow
         /// </summary>

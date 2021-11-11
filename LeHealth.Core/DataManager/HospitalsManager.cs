@@ -118,43 +118,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        /// <summary>
-        /// Get consultant list from database,Step three in code execution flow
-        /// </summary>
-        /// <param name="deptId"></param>
-        /// <returns></returns>
-        public List<ConsultantModel> GetConsultant(int deptId)
-        {
-            List<ConsultantModel> consultantList = new List<ConsultantModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DeptId", deptId); // avoid hard coding
-                    cmd.Parameters.AddWithValue("@ShowExternal", false);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            ConsultantModel obj = new ConsultantModel();
-                            obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultantId"]);
-                            obj.ConsultantName = ds.Tables[0].Rows[i]["ConsultantName"].ToString();
-                            //obj.ConsultantCode = ds.Tables[0].Rows[i]["ConsultantCode"].ToString();
-                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
-                            consultantList.Add(obj);
-                        }
-                    }
-                    return consultantList;
-                }
-            }
-        }
+        
         /// <summary>
         /// Get appoinment list from database,Step three in code execution flow
         /// </summary>

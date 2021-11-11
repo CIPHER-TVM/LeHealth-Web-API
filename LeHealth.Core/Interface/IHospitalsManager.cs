@@ -15,10 +15,7 @@ namespace LeHealth.Core.Interface
         /// To list of all departments
         /// </summary>
         List<DepartmentModel> GetDepartments();
-        /// <summary>
-        /// To list of  all Consultants by dept id
-        /// </summary>
-        List<ConsultantModel> GetConsultant(int deptId);
+        
         /// <summary>
         /// To list of  all appointments by today
         /// </summary>

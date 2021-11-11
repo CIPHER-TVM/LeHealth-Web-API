@@ -39,7 +39,11 @@ namespace LeHealth.Core.Interface
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm); 
         List<SponsorModel> GetSponsorListByPatientId(int patientId);  
         List<SymptomModel> GetActiveSymptoms();  
-        List<ConsultRateModel> GetConsultRate(ConsultationModel cm);  
+        List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
 
+        /// <summary>
+        /// To list of  all Consultants by dept id
+        /// </summary>
+        List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm); 
     } 
 }

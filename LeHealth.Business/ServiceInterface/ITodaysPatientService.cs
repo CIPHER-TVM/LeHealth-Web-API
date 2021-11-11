@@ -37,5 +37,6 @@ namespace LeHealth.Service.ServiceInterface
         List<RecentConsultationModel> GetRecentConsultationData();
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
         List<SymptomModel> GetActiveSymptoms();
+        List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm); 
     }
 }

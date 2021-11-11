@@ -299,54 +299,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// Consultant list as JSON
         /// </returns>
-        [Route("GetConsultant/{deptId}")]
+        [Route("GetConsultant")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultant(int deptId)
+        public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultant(ConsultantByDeptModel cd)
         {
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             try
             {
-                consultantList = hospitalsService.GetConsultant(deptId);
-                var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = consultantList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // consultantList.Clear();
-                // dispose can be managed here
-            }
-        }
-
-        [Route("GetConsultantData/{deptId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultantData(int[] categoryIds)
-        {
-            List<ConsultantModel> consultantList = new List<ConsultantModel>();
-            try
-            {
-
-                //for (int i = 0; i < dept.DeptId.Length; i++)
-                //{
-                //    consultantList = hospitalsService.GetConsultant(dept.DeptId[i]);
-                //}
+                consultantList = todaysPatientService.GetConsultant(cd);
                 var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -421,8 +381,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 for (int i = 0; i < deptId.Departments.Length; i++)
                 {
+                    ConsultantByDeptModel cm = new ConsultantByDeptModel();
+                    cm.DeptId = Convert.ToInt32(deptId.Departments[i]);
+                    cm.ShowExternal = false;
                     List<ConsultantModel> templist = new List<ConsultantModel>();
-                    templist = hospitalsService.GetConsultant(Convert.ToInt32(deptId.Departments[i]));
+                    templist = todaysPatientService.GetConsultant(cm);
                     consultantList.AddRange(templist);
                 }
 

@@ -136,7 +136,13 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultRate(cm);
         }
-
+        /// <summary>
+        /// Returns all consultants by dept id as Generic List. Step two in code execution flow
+        /// </summary>
+        public List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm)
+        {
+            return todaysPatientManager.GetConsultant(cm);
+        }
 
     }
 }
