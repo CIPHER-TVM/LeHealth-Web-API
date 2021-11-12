@@ -889,7 +889,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 }
                 else
                 {
-                    msg = "Failure" + consultationList[0].RetDesc;
+                    msg = "Failure " + consultationList[0].RetDesc;
                 }
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
                 {
