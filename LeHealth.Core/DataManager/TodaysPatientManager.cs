@@ -897,13 +897,19 @@ namespace LeHealth.Core.DataManager
                         if (int.Parse(ret.ToString()) == -1)
                         {
                             consultations.RetVal = -1;
-                            consultations.RetDesc = "Success";
+                            consultations.RetDesc = descrip;
+                            consultaionsList.Add(consultations);
+                        }
+                        else if(int.Parse(ret.ToString()) == -2)
+                        {
+                            consultations.RetVal = -2;
+                            consultations.RetDesc = descrip;
                             consultaionsList.Add(consultations);
                         }
                         else
                         {
-                            consultations.RetVal = -2;
-                            consultations.RetDesc = descrip;
+                            consultations.RetVal = int.Parse(ret.ToString());
+                            consultations.RetDesc = "Success";
                             consultaionsList.Add(consultations);
                         }
                     }
