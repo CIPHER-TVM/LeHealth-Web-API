@@ -331,7 +331,7 @@ namespace LeHealth.Core.DataManager
                             ConsultationModel obj = new ConsultationModel();
                             obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
                             obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
+                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString().Substring(0, 10);
                             obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultantId"]);
                             obj.Consultant = ds.Tables[0].Rows[i]["Consultant"].ToString();
