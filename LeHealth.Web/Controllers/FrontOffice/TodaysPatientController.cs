@@ -883,13 +883,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 string msg = "";
                 consultationList = todaysPatientService.InsertUpdateConsultation(consultations);
-                if (consultationList[0].RetVal == -1)
+                if (consultationList[0].RetVal > 0)
                 {
                     msg = "Success";
                 }
                 else
                 {
-                    msg = "Failure";
+                    msg = "Failure" + consultationList[0].RetDesc;
                 }
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
                 {
