@@ -656,7 +656,7 @@ namespace LeHealth.Core.DataManager
 
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    cmd.Parameters.AddWithValue("@ConsultDate", "");
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsScheduleList = new DataSet();
                     adapter.Fill(dsScheduleList);
