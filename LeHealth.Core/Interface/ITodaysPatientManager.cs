@@ -48,5 +48,6 @@ namespace LeHealth.Core.Interface
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm); 
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);  
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);  
+        List<PatientModel> GetPatient(int pid);   
     } 
 }
