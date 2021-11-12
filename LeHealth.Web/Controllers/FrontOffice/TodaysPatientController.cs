@@ -956,6 +956,45 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        
+        [HttpPost]
+        [Route("GetRegSchmAmtOfPatient")]
+        public ResponseDataModel<IEnumerable<ConsultRateModel>> GetRegSchmAmtOfPatient(ConsultationModel cm)
+        {
+            List<ConsultRateModel> countryList = new List<ConsultRateModel>();
+            try
+            {
+                countryList = todaysPatientService.GetRegSchmAmtOfPatient(cm); 
+                var response = new ResponseDataModel<IEnumerable<ConsultRateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = countryList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultRateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // countryList.Clear();
+                // dispose can be managed here
+            }
+        }
+        
+        
+        
         [HttpPost]
         [Route("GetSponsorListByPatientId/{patientId}")]
         public ResponseDataModel<IEnumerable<SponsorModel>> GetSponsorListByPatientId(int patientId)
