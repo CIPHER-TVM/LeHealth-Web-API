@@ -1094,7 +1094,41 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-
+        //public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
+        //{
+        //    List<PatRegByPatientIdModel> consultationList = new List<PatRegByPatientIdModel>();
+        //    using (SqlConnection con = new SqlConnection(_connStr))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand("stLH_GetPatRegByPatientId", con))
+        //        {
+        //            con.Open();
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+        //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //            DataSet ds = new DataSet();
+        //            adapter.Fill(ds);
+        //            con.Close();
+        //            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+        //            {
+        //                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        //                {
+        //                    PatRegByPatientIdModel obj = new PatRegByPatientIdModel();
+        //                    obj.RegId = Convert.ToInt32(ds.Tables[0].Rows[i]["RegId"]);
+        //                    obj.RegDate = ds.Tables[0].Rows[i]["RegDate"].ToString();
+        //                    obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
+        //                    obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
+        //                    obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
+        //                    obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
+        //                    obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
+        //                    consultationList.Add(obj);
+        //                }
+        //            }
+        //            return consultationList;
+        //        }
+        //    }
+        //}
+       
+        
         //Malaffi start
         public string SendAddPatientInformation(int patientid)
         {
