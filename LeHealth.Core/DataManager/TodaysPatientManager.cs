@@ -479,6 +479,41 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        public List<PatientModel> GetPatient(int patientId)
+        {
+            List<PatientModel> patientDataList = new List<PatientModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatient", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", patientId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsPatientList.Tables[0].Rows.Count; i++)
+                        {
+                            PatientModel obj = new PatientModel();
+                            obj.PatientId = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["PatientId"]);
+                            obj.RegNo = dsPatientList.Tables[0].Rows[i]["RegNo"].ToString();
+                            obj.FirstName = dsPatientList.Tables[0].Rows[i]["FirstName"].ToString();
+                            obj.MiddleName = dsPatientList.Tables[0].Rows[i]["MiddleName"].ToString();
+                            obj.LastName = dsPatientList.Tables[0].Rows[i]["LastName"].ToString();
+                            obj.NationalityId = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["NationalityId"]);
+                            patientDataList.Add(obj);
+                        }
+                    }
+                    return patientDataList;
+                }
+            }
+
+        }
 
         public List<VisaTypeModel> GetVisaType()
         {

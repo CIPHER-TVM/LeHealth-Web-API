@@ -151,9 +151,13 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetPatRegByPatientId(cm);
         }
-         public List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm)
+        public List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm)
         {
             return todaysPatientManager.GetRegSchmAmtOfPatient(cm);
+        }
+         public List<PatientModel> GetPatient(int pid)
+        {
+            return todaysPatientManager.GetPatient(pid);
         }
 
     }
