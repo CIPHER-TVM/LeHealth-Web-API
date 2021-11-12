@@ -40,5 +40,6 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm); 
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm); 
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm); 
+        List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm); 
     }
 }
