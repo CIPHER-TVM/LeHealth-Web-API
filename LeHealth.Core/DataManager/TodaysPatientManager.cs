@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Text;
 
 namespace LeHealth.Core.DataManager
@@ -1095,7 +1096,6 @@ namespace LeHealth.Core.DataManager
             List<ConsultationByPatientIdModel> consultationList = new List<ConsultationByPatientIdModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 using (SqlCommand cmd = new SqlCommand("stLH_GetConsultationByPatientId", con))
                 {
                     con.Open();
@@ -1116,6 +1116,9 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
                             obj.SeqNo = Convert.ToInt32(ds.Tables[0].Rows[i]["SeqNo"]);
                             obj.ConsultFee = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultFee"]);
+                            //DateTime dt = DateTime.ParseExact(ds.Tables[0].Rows[i]["ExpiryDate"].ToString(), "ddMMyyyy",
+                            //      CultureInfo.InvariantCulture);
+                            //obj.ExpiryDate = dt.ToString("DDMMYYYY");
                             obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
                             obj.RemainVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["RemainVisits"]);
                             obj.Symptoms = ds.Tables[0].Rows[i]["Symptoms"].ToString();

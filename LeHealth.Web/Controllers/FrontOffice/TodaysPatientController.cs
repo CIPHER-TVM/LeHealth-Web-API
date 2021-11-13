@@ -339,14 +339,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationByPatientIdModel>> GetConsultationByPatientId(ConsultationModel cd)
         {
-            List<ConsultationByPatientIdModel> consultantList = new List<ConsultationByPatientIdModel>();
+            List<ConsultationByPatientIdModel> consultantionList = new List<ConsultationByPatientIdModel>();
             try
             {
-                consultantList = todaysPatientService.GetConsultationByPatientId(cd);
+                consultantionList = todaysPatientService.GetConsultationByPatientId(cd);
                 var response = new ResponseDataModel<IEnumerable<ConsultationByPatientIdModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = consultantList
+                    Response = consultantionList
                 };
                 return response;
             }
@@ -375,14 +375,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatRegByPatientIdModel>> GetPatRegByPatientId(ConsultationModel cd)
         {
-            List<PatRegByPatientIdModel> consultantList = new List<PatRegByPatientIdModel>();
+            List<PatRegByPatientIdModel> patientRegistrationDataList = new List<PatRegByPatientIdModel>();
             try
             {
-                consultantList = todaysPatientService.GetPatRegByPatientId(cd);
+                patientRegistrationDataList = todaysPatientService.GetPatRegByPatientId(cd);
                 var response = new ResponseDataModel<IEnumerable<PatRegByPatientIdModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = consultantList
+                    Response = patientRegistrationDataList
                 };
                 return response;
             }
