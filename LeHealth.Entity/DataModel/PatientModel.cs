@@ -7,6 +7,7 @@ namespace LeHealth.Entity.DataModel
     public class PatientModel
     {
         public ConsultationModel Consultation { get; set; }
+
         public int PatientId { get; set; }
         public int RegId { get; set; }
         public string RegNo { get; set; }
@@ -67,10 +68,10 @@ namespace LeHealth.Entity.DataModel
         public int RetVal { get; set; }
         public string RetDesc { get; set; }
         public string RetRegNo { get; set; }
+        public string Hook { get; set; } 
 
         //
 
-        //Nikhil
         public string RegFromDate { get; set; }
         public string RegToDate { get; set; }
         public string PolicyNo { get; set; }

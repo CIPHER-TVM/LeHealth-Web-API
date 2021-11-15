@@ -83,7 +83,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Active", patientDetail.Active);
                 cmd.Parameters.AddWithValue("@AppId", patientDetail.AppId);
                 cmd.Parameters.AddWithValue("@RefBy", patientDetail.RefBy);
-                cmd.Parameters.AddWithValue("@RetDesc", patientDetail.RetDesc);
                 cmd.Parameters.AddWithValue("@PrivilegeCard", patientDetail.PrivilegeCard);
                 cmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
                 cmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
@@ -99,11 +98,19 @@ namespace LeHealth.Core.DataManager
                     Direction = ParameterDirection.Output
                 };
                 cmd.Parameters.Add(patientIdParam);
+
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+
                 cmd.Transaction = transaction;
                 try
                 {
                     cmd.ExecuteNonQuery();
                     int patientId = (int)patientIdParam.Value;
+                    string descr = retDesc.Value.ToString();
                     if (patientId > 0)
                     {
                         patientDetail.PatientId = patientId;
@@ -127,20 +134,21 @@ namespace LeHealth.Core.DataManager
                         patientRegsCmd.Parameters.Add(regIdParam);
                         var isupdated = patientRegsCmd.ExecuteNonQuery();
                         int RegsId = (int)regIdParam.Value;
-                        if (RegsId > 0)
+                        if (patientDetail.Consultation.EnableConsultation == true && RegsId > 0)//checking consultation true and reg id is created
                         {
                             patientDetail.Consultation.PatientId = patientDetail.PatientId;
+                            SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
+                            patientConsultationCmd.Transaction = transaction;
+                            patientConsultationCmd.Connection = con;
+                            var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                         }
-                        else
+                        else if (RegsId < 0)
                         {
                             transaction.Rollback();
                         }
 
-                        SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
-                        patientConsultationCmd.Transaction = transaction;
-                        patientConsultationCmd.Connection = con;
-                        var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                         transaction.Commit();
+
                         response = patientId.ToString();
                     }
                     else
@@ -506,6 +514,7 @@ namespace LeHealth.Core.DataManager
                             obj.FirstName = dsPatientList.Tables[0].Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsPatientList.Tables[0].Rows[i]["MiddleName"].ToString();
                             obj.LastName = dsPatientList.Tables[0].Rows[i]["LastName"].ToString();
+                            obj.Hook = dsPatientList.Tables[0].Rows[i]["Hook"].ToString();
                             obj.NationalityId = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["NationalityId"]);
                             patientDataList.Add(obj);
                         }
@@ -559,7 +568,44 @@ namespace LeHealth.Core.DataManager
                     return religionList;
                 }
             }
+        }
+        public List<GetNumberModel> GetNumber(string numId)
+        {
+            List<GetNumberModel> numberList = new List<GetNumberModel>();
 
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetNumber", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@NumId", numId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            GetNumberModel obj = new GetNumberModel();
+                            obj.selectopt = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["selectopt"]);
+                            obj.NumId = dsNumber.Tables[0].Rows[i]["NumId"].ToString();
+                            obj.Description = dsNumber.Tables[0].Rows[i]["Description"].ToString();
+                            obj.Value = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Value"]);
+                            obj.Prefix = dsNumber.Tables[0].Rows[i]["Prefix"].ToString();
+                            obj.Suffix = dsNumber.Tables[0].Rows[i]["Suffix"].ToString();
+                            obj.Length = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Length"]);
+                            obj.State = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["State"]);
+                            obj.Status = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Status"]);
+                            obj.MaxLength = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["MaxLength"]);
+                            obj.Preview = dsNumber.Tables[0].Rows[i]["Preview"].ToString();
+                            numberList.Add(obj);
+                        }
+                    }
+                    return numberList;
+                }
+            }
         }
 
 
@@ -708,6 +754,139 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        public List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr)
+        {
+            List<GetConsultantItemSchemeRateModel> numberList = new List<GetConsultantItemSchemeRateModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantItemSchemeRate", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ItemId", cisr.ItemId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", cisr.ConsultantId);
+                    cmd.Parameters.AddWithValue("@RGroupId", cisr.RGroupId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            GetConsultantItemSchemeRateModel obj = new GetConsultantItemSchemeRateModel();
+                            obj.ItemName = dsNumber.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.Rate = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Rate"]);
+                            obj.EmergencyFees = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["EmergencyFees"]);
+                            numberList.Add(obj);
+                        }
+                    }
+                    return numberList;
+                }
+            }
+        }
+        public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
+        {
+            List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetItemsByType", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            ItemsByTypeModel obj = new ItemsByTypeModel();
+                            obj.ItemId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ItemId"]);
+                            obj.ItemCode = dsNumber.Tables[0].Rows[i]["ItemCode"].ToString();
+                            obj.ItemName = dsNumber.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.GroupId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["GroupId"]);
+                            obj.GroupCode = dsNumber.Tables[0].Rows[i]["GroupCode"].ToString();
+                            itemList.Add(obj);
+                        }
+                    }
+                    return itemList;
+                }
+            }
+        }
+
+
+        public List<LeadAgentModel> GetLeadAgent(LeadAgentModel la)
+        {
+            List<LeadAgentModel> itemList = new List<LeadAgentModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetLeadAgent", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@LeadAgentId", la.LeadAgentId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            LeadAgentModel obj = new LeadAgentModel();
+                            obj.LeadAgentId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LeadAgentId"]);
+                            obj.Name = dsNumber.Tables[0].Rows[i]["Name"].ToString();
+                            obj.ContactNo = dsNumber.Tables[0].Rows[i]["ContactNo"].ToString();
+                            obj.CommisionPercent = dsNumber.Tables[0].Rows[i]["CommisionPercent"].ToString();
+                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            itemList.Add(obj);
+                        }
+                    }
+                    return itemList;
+                }
+            }
+        }
+        public List<CompanyModel> GetCompany()
+        {
+            List<CompanyModel> companyList = new List<CompanyModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetCompany", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CmpId", 0);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsCompany = new DataSet();
+                    adapter.Fill(dsCompany);
+                    con.Close();
+                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        {
+                            CompanyModel obj = new CompanyModel();
+                            obj.CmpId = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["CmpId"]);
+                            obj.CmpName = dsCompany.Tables[0].Rows[i]["CmpName"].ToString();
+                            obj.Active = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsCompany.Tables[0].Rows[i]["BlockReason"].ToString();
+                            companyList.Add(obj);
+                        }
+                    }
+                    return companyList;
+                }
+            }
+        }
+        
+
+
         //ZONE START
         public string InsertZone(ZoneModel zone)
         {
@@ -1116,9 +1295,7 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
                             obj.SeqNo = Convert.ToInt32(ds.Tables[0].Rows[i]["SeqNo"]);
                             obj.ConsultFee = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultFee"]);
-                            //DateTime dt = DateTime.ParseExact(ds.Tables[0].Rows[i]["ExpiryDate"].ToString(), "ddMMyyyy",
-                            //      CultureInfo.InvariantCulture);
-                            //obj.ExpiryDate = dt.ToString("DDMMYYYY");
+
                             obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
                             obj.RemainVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["RemainVisits"]);
                             obj.Symptoms = ds.Tables[0].Rows[i]["Symptoms"].ToString();
@@ -1135,7 +1312,7 @@ namespace LeHealth.Core.DataManager
 
         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
         {
-            List<PatRegByPatientIdModel> consultationList = new List<PatRegByPatientIdModel>();
+            List<PatRegByPatientIdModel> patregdataList = new List<PatRegByPatientIdModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetPatRegByPatientId", con))
@@ -1159,10 +1336,10 @@ namespace LeHealth.Core.DataManager
                             obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
                             obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
                             obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
-                            consultationList.Add(obj);
+                            patregdataList.Add(obj);
                         }
                     }
-                    return consultationList;
+                    return patregdataList;
                 }
             }
         }

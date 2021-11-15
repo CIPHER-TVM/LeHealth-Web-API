@@ -6,6 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsultationModel
     {
+        public bool EnableConsultation { get; set; }
         public string TokenNO { get; set; }
         public string PatientName { get; set; }
         public int? TimeNo { get; set; }

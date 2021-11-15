@@ -88,6 +88,12 @@ namespace LeHealth.Catalogue.API
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAccountManager, AccountManager>();
+
+            services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddScoped<IRegistrationManager, RegistrationManager>();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

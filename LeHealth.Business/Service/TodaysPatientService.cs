@@ -155,10 +155,36 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetRegSchmAmtOfPatient(cm);
         }
-         public List<PatientModel> GetPatient(int pid)
+        public List<PatientModel> GetPatient(int pid)
         {
             return todaysPatientManager.GetPatient(pid);
         }
+        public List<GetNumberModel> GetNumber(string numid)
+        {
+            return todaysPatientManager.GetNumber(numid);
+        }
+        public List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr)
+        {
+            return todaysPatientManager.GetConsultantItemSchemeRate(cisr);
+        }
+        public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
+        {
+            return todaysPatientManager.GetItemsByType(ibt);
+        }
+        public List<LeadAgentModel> GetLeadAgent(LeadAgentModel la)
+        {
+            return todaysPatientManager.GetLeadAgent(la);
+        }
+        public List<CompanyModel> GetCompany()
+        {
+            return todaysPatientManager.GetCompany();
+        }
+       
+
+
+
+
+
 
     }
 }

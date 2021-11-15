@@ -37,10 +37,16 @@ namespace LeHealth.Service.ServiceInterface
         List<RecentConsultationModel> GetRecentConsultationData();
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
         List<SymptomModel> GetActiveSymptoms();
-        List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm); 
-        List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm); 
-        List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm); 
-        List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm); 
-        List<PatientModel> GetPatient(int pid); 
+        List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
+        List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
+        List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
+        List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
+        List<PatientModel> GetPatient(int pid);
+        List<GetNumberModel> GetNumber(String nid);
+        List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
+        List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
+        List<LeadAgentModel> GetLeadAgent(LeadAgentModel la);
+        List<CompanyModel> GetCompany();
+        
     }
 }

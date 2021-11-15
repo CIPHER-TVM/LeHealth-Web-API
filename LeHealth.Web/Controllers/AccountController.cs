@@ -14,7 +14,7 @@ namespace LeHealth.Base.API.Controllers
 {
     [Route("api/Account")]
     [ApiController]
-   [Authorize]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> logger;
@@ -23,7 +23,7 @@ namespace LeHealth.Base.API.Controllers
         public AccountController(ILogger<AccountController> _logger, IAccountService _accountService)
         {
             logger = _logger;
-            accountService = _accountService; 
+            accountService = _accountService;
         }
         [AllowAnonymous]
         [Route("Login")]
