@@ -13,5 +13,6 @@ namespace LeHealth.Entity.DataModel
         public int RegAmount { get; set; }
         public String ExpiryDate { get; set; }
         public String ItemName { get; set; }
+        public bool IsRegistrationExpired { get; set; } 
     }
 }

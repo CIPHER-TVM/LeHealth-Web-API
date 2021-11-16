@@ -81,6 +81,25 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-
+        public List<AllPatientModel> GetAllPatient()
+        {
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatientList", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", 0);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                        patientList = dsPatientList.Tables[0].ToListOfObject<AllPatientModel>();
+                    return patientList;
+                }
+            }
+        }
     }
 }

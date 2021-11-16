@@ -12,5 +12,6 @@ namespace LeHealth.Entity.DataModel
         public String AgentName { get; set; }
         public String PolicyNo { get; set; }
         public String ValidUpto { get; set; } 
+        public bool IsSponsorExpired { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace LeHealth.Entity.DataModel
         public int ConsultType { get; set; }
         public int Emergency { get; set; }
         public int ExpiryVisits { get; set; }
+        public bool IsConsultationExpired { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LeHealth.Service.Service
 {
-    public class RegistrationService: IRegistrationService
+    public class RegistrationService : IRegistrationService
     {
         private readonly IRegistrationManager registrationManager;
         public RegistrationService(IRegistrationManager _registrationManager)
@@ -18,9 +18,14 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetProfession();
         }
-         public List<RateGroupModel> GetRateGroup(int rgroup)
+        public List<RateGroupModel> GetRateGroup(int rgroup)
         {
             return registrationManager.GetRateGroup(rgroup);
+        }
+
+        public List<AllPatientModel> GetAllPatient()
+        {
+            return registrationManager.GetAllPatient();
         }
 
 

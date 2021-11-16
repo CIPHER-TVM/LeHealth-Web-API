@@ -8,6 +8,8 @@ namespace LeHealth.Core.Interface
     public interface IRegistrationManager
     {
         List<ProffessionModel> GetProfession();
-        List<RateGroupModel> GetRateGroup(int rgroup); 
+        List<RateGroupModel> GetRateGroup(int rgroup);
+        List<AllPatientModel> GetAllPatient(); 
+
     }
 }

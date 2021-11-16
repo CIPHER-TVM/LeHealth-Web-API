@@ -179,7 +179,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetCompany();
         }
-       
+
 
 
 

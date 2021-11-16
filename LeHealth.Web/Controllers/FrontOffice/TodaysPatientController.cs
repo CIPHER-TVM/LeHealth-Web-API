@@ -717,14 +717,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<CompanyModel>> GetCompany()
         {
-            List<CompanyModel> leadAgentList = new List<CompanyModel>();
+            List<CompanyModel> companyList = new List<CompanyModel>();
             try
             {
-                leadAgentList = todaysPatientService.GetCompany();
+                companyList = todaysPatientService.GetCompany();
                 var response = new ResponseDataModel<IEnumerable<CompanyModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = leadAgentList
+                    Response = companyList
                 };
                 return response;
             }
@@ -977,14 +977,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType()
         {
-            List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
+            List<VisaTypeModel> visaTypeList = new List<VisaTypeModel>();
             try
             {
-                schemeList = todaysPatientService.GetVisaType();
+                visaTypeList = todaysPatientService.GetVisaType();
                 var response = new ResponseDataModel<IEnumerable<VisaTypeModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = schemeList
+                    Response = visaTypeList
                 };
                 return response;
             }
@@ -1146,14 +1146,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetRegSchmAmtOfPatient")]
         public ResponseDataModel<IEnumerable<ConsultRateModel>> GetRegSchmAmtOfPatient(ConsultationModel cm)
         {
-            List<ConsultRateModel> countryList = new List<ConsultRateModel>();
+            List<ConsultRateModel> schemeAmtList = new List<ConsultRateModel>();
             try
             {
-                countryList = todaysPatientService.GetRegSchmAmtOfPatient(cm);
+                schemeAmtList = todaysPatientService.GetRegSchmAmtOfPatient(cm);
                 var response = new ResponseDataModel<IEnumerable<ConsultRateModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = countryList
+                    Response = schemeAmtList
                 };
                 return response;
             }
@@ -1302,14 +1302,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetAppNumber")]
         public ResponseDataModel<IEnumerable<GetAppNoModel>> GetAppNumber(GetAppNumberIPModel gan)
         {
-            List<GetAppNoModel> appointmentList = new List<GetAppNoModel>();
+            List<GetAppNoModel> appNumberList = new List<GetAppNoModel>();
             try
             {
-                appointmentList = todaysPatientService.GetAppNumber(gan);
+                appNumberList = todaysPatientService.GetAppNumber(gan);
                 var response = new ResponseDataModel<IEnumerable<GetAppNoModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = appointmentList
+                    Response = appNumberList
                 };
                 return response;
             }
@@ -1339,14 +1339,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetRecentConsultationData")]
         public ResponseDataModel<IEnumerable<RecentConsultationModel>> GetRecentConsultationData()
         {
-            List<RecentConsultationModel> appointmentList = new List<RecentConsultationModel>();
+            List<RecentConsultationModel> recentConsultationList = new List<RecentConsultationModel>();
             try
             {
-                appointmentList = todaysPatientService.GetRecentConsultationData();
+                recentConsultationList = todaysPatientService.GetRecentConsultationData();
                 var response = new ResponseDataModel<IEnumerable<RecentConsultationModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = appointmentList
+                    Response = recentConsultationList
                 };
                 return response;
             }
@@ -1377,14 +1377,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetAppTime")]
         public ResponseDataModel<IEnumerable<GetAppTimeModel>> GetAppTime(GetAppNumberIPModel gan)
         {
-            List<GetAppTimeModel> appointmentList = new List<GetAppTimeModel>();
+            List<GetAppTimeModel> apptimeList = new List<GetAppTimeModel>();
             try
             {
-                appointmentList = todaysPatientService.GetAppTime(gan);
+                apptimeList = todaysPatientService.GetAppTime(gan);
                 var response = new ResponseDataModel<IEnumerable<GetAppTimeModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = appointmentList
+                    Response = apptimeList
                 };
                 return response;
             }
@@ -1486,6 +1486,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        
+        
         [HttpPost]
         [Route("SendAddPatientInformation")]
         public string SendAddPatientInformation()
@@ -1626,14 +1628,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetActiveSymptoms")]
         public ResponseDataModel<IEnumerable<SymptomModel>> GetActiveSymptoms()
         {
-            List<SymptomModel> tokenNumberList = new List<SymptomModel>();
+            List<SymptomModel> activeSymptomsList = new List<SymptomModel>();
             try
             {
-                tokenNumberList = todaysPatientService.GetActiveSymptoms();
+                activeSymptomsList = todaysPatientService.GetActiveSymptoms();
                 var response = new ResponseDataModel<IEnumerable<SymptomModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = tokenNumberList
+                    Response = activeSymptomsList
                 };
                 return response;
             }
@@ -1663,14 +1665,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetConsultRate")]
         public ResponseDataModel<IEnumerable<ConsultRateModel>> GetConsultRate(ConsultationModel cm)
         {
-            List<ConsultRateModel> tokenNumberList = new List<ConsultRateModel>();
+            List<ConsultRateModel> consultRateList = new List<ConsultRateModel>();
             try
             {
-                tokenNumberList = todaysPatientService.GetConsultRate(cm);
+                consultRateList = todaysPatientService.GetConsultRate(cm);
                 var response = new ResponseDataModel<IEnumerable<ConsultRateModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = tokenNumberList
+                    Response = consultRateList
                 };
                 return response;
             }
@@ -1700,14 +1702,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetPatient")]
         public ResponseDataModel<IEnumerable<PatientModel>> GetPatient(PatientModel cm)
         {
-            List<PatientModel> tokenNumberList = new List<PatientModel>();
+            List<PatientModel> patientList = new List<PatientModel>();
             try
             {
-                tokenNumberList = todaysPatientService.GetPatient(cm.PatientId);
+                patientList = todaysPatientService.GetPatient(cm.PatientId);
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = tokenNumberList
+                    Response = patientList
                 };
                 return response;
             }

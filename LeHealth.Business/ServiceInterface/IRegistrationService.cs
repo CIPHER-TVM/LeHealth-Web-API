@@ -1,5 +1,4 @@
 ﻿using LeHealth.Entity.DataModel;
-using LeHealth.Entity.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +9,6 @@ namespace LeHealth.Service.ServiceInterface
     {
         List<ProffessionModel> GetProfession();
         List<RateGroupModel> GetRateGroup(int rgroup);
+        List<AllPatientModel> GetAllPatient();
     }
 }
