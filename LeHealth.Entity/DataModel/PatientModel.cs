@@ -7,7 +7,9 @@ namespace LeHealth.Entity.DataModel
     public class PatientModel
     {
         public ConsultationModel Consultation { get; set; }
-
+        public List<RegAddressModel> RegAddress { get; set; }
+        public List<RegIdentitiesModel> RegIdentities { get; set; }
+        public List<RegDetModel> RegDet { get; set; }  
         public int PatientId { get; set; }
         public int RegId { get; set; }
         public string RegNo { get; set; }
@@ -68,7 +70,7 @@ namespace LeHealth.Entity.DataModel
         public int RetVal { get; set; }
         public string RetDesc { get; set; }
         public string RetRegNo { get; set; }
-        public string Hook { get; set; } 
+        public string Hook { get; set; }
 
         //
 
@@ -83,5 +85,6 @@ namespace LeHealth.Entity.DataModel
         public string SponsorId { get; set; }
         public string EnableSponsorConsent { get; set; }
         public string EmirateID { get; set; }
+        public string CompanyName { get; set; } 
     }
 }

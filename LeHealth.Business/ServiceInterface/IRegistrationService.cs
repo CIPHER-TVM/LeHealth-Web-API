@@ -10,5 +10,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ProffessionModel> GetProfession();
         List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
+        List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
+
     }
 }

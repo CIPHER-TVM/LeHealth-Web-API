@@ -747,7 +747,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-        
+
 
 
         [Route("DeleteAppointment")]
@@ -866,41 +866,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("SearchPatientInList")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<AllPatientModel>> SearchPatientInList(PatientSearchModel patientDetails)
-        {
-            List<AllPatientModel> patientList = new List<AllPatientModel>();
-            try
-            {
-                patientList = todaysPatientService.SearchPatientInList(patientDetails);
-                var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = patientList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AllPatientModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
 
-                };
-            }
-            finally
-            {
-                //  consultationList.Clear();
-                // dispose can be managed here
-            }
-        }
         [Route("GetSavingSchemaMandatory")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<MandatoryFieldsModel>> GetSavingSchemaMandatory(FormNameModel formname)
@@ -945,10 +911,20 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 schemeList = todaysPatientService.GetSchemeByConsultant(consultant.ConsultantId);
+                string msg = "";
+                if (schemeList.Count > 0)
+                {
+                    msg = "Success";
+                }
+                else
+                {
+                    msg = "Empty";
+                }
                 var response = new ResponseDataModel<IEnumerable<SchemeModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = schemeList
+                    Response = schemeList,
+                    Message = msg
                 };
                 return response;
             }
@@ -1486,8 +1462,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-        
-        
+
+
         [HttpPost]
         [Route("SendAddPatientInformation")]
         public string SendAddPatientInformation()

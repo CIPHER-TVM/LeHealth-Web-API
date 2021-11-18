@@ -48,10 +48,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.SearchPatient(patientList);
         }
-        public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
-        {
-            return todaysPatientManager.SearchPatientInList(patientList);
-        }
+        
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
             return todaysPatientManager.GetSavingSchemaMandatory(formname);

@@ -9,7 +9,8 @@ namespace LeHealth.Core.Interface
     {
         List<ProffessionModel> GetProfession();
         List<RateGroupModel> GetRateGroup(int rgroup);
-        List<AllPatientModel> GetAllPatient(); 
+        List<AllPatientModel> GetAllPatient();
+        List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
 
     }
 }

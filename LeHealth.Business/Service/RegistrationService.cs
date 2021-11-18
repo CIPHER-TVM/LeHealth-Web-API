@@ -27,7 +27,10 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetAllPatient();
         }
-
+        public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
+        {
+            return registrationManager.SearchPatientInList(patientList);
+        }
 
     }
 }

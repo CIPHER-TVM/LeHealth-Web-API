@@ -52,6 +52,7 @@ namespace LeHealth.Core.DataManager
 
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@PatientId", DBNull.Value);
                 cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
                 cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
@@ -79,6 +80,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);
                 cmd.Parameters.AddWithValue("@Remarks", patientDetail.Remarks);
                 cmd.Parameters.AddWithValue("@NationalityId", patientDetail.NationalityId);
+
                 cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
                 cmd.Parameters.AddWithValue("@Active", patientDetail.Active);
                 cmd.Parameters.AddWithValue("@AppId", patientDetail.AppId);
@@ -89,6 +91,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@WorkEnvironment", patientDetail.WorkEnvironMent);
                 cmd.Parameters.AddWithValue("@ProfessionalExperience", patientDetail.ProfessionalExperience);
                 cmd.Parameters.AddWithValue("@ProfessionalNoxious", patientDetail.ProfessionalNoxious);
+
                 cmd.Parameters.AddWithValue("@VisaTypeId", patientDetail.VisaTypeId);
                 cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
                 cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
@@ -114,15 +117,24 @@ namespace LeHealth.Core.DataManager
                     if (patientId > 0)
                     {
                         patientDetail.PatientId = patientId;
-                        SqlCommand patientIdentityCmd = InsertPatIdentity(patientDetail);
-                        patientIdentityCmd.Transaction = transaction;
-                        patientIdentityCmd.Connection = con;
-                        patientIdentityCmd.ExecuteNonQuery();
-
-                        SqlCommand patientAddressCmd = InsertPatAddress(patientDetail);
-                        patientAddressCmd.Transaction = transaction;
-                        patientAddressCmd.Connection = con;
-                        patientAddressCmd.ExecuteNonQuery();
+                        for (int i = 0; i < patientDetail.RegAddress.Count; i++)
+                        {
+                            SqlCommand patientAddressCmd = InsertPatAddress(patientDetail.RegAddress[i]);
+                            patientAddressCmd.Transaction = transaction;
+                            patientAddressCmd.Connection = con;
+                            patientAddressCmd.ExecuteNonQuery();
+                        }
+                        for (int i = 0; i < patientDetail.RegIdentities.Count; i++)
+                        {
+                            SqlCommand patientIdentityCmd = InsertPatIdentity(patientDetail.RegIdentities[i]);
+                            patientIdentityCmd.Transaction = transaction;
+                            patientIdentityCmd.Connection = con;
+                            patientIdentityCmd.ExecuteNonQuery();
+                        }
+                        //SqlCommand patientCompanyCmd = InsertCompany(patientDetail);
+                        //patientCompanyCmd.Transaction = transaction;
+                        //patientCompanyCmd.Connection = con;
+                        //patientCompanyCmd.ExecuteNonQuery();
 
                         SqlCommand patientRegsCmd = InsertPatRegs(patientDetail);
                         patientRegsCmd.Transaction = transaction;
@@ -134,34 +146,36 @@ namespace LeHealth.Core.DataManager
                         patientRegsCmd.Parameters.Add(regIdParam);
                         var isupdated = patientRegsCmd.ExecuteNonQuery();
                         int RegsId = (int)regIdParam.Value;
-                        if (patientDetail.Consultation.EnableConsultation == true && RegsId > 0)//checking consultation true and reg id is created
+
+                        if (RegsId > 0)
                         {
-                            patientDetail.Consultation.PatientId = patientDetail.PatientId;
-                            SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
-                            patientConsultationCmd.Transaction = transaction;
-                            patientConsultationCmd.Connection = con;
-                            var isUpdated = patientConsultationCmd.ExecuteNonQuery();
+                            if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
+                            {
+                                patientDetail.Consultation.PatientId = patientDetail.PatientId;
+                                SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
+                                patientConsultationCmd.Transaction = transaction;
+                                patientConsultationCmd.Connection = con;
+                                var isUpdated = patientConsultationCmd.ExecuteNonQuery();
+                            }
+                            transaction.Commit();
                         }
-                        else if (RegsId < 0)
+                        else
                         {
                             transaction.Rollback();
                         }
-
-                        transaction.Commit();
-
                         response = patientId.ToString();
                     }
                     else
                     {
                         transaction.Rollback();
-                        response = "error";
+                        response = descr;
                     }
 
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    response = "error";
+                    response = ex.Message.ToString();
                 }
                 con.Close();
             }
@@ -195,6 +209,22 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
+        public SqlCommand InsertCompany(PatientModel patient)
+        {
+            using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CmpId", 0);//NIKTODO
+                cmd.Parameters.AddWithValue("@CmpName", patient.CompanyName);
+                cmd.Parameters.AddWithValue("@UserId", 0);//NIKTODO
+                cmd.Parameters.AddWithValue("@SessionId", 0);
+
+                cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
+                cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
+
+                return cmd;
+            }
+        }
         public SqlCommand InsertPatRegs(PatientModel patientRegDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs"))
@@ -203,9 +233,9 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@RegId", DBNull.Value);
                 cmd.Parameters.AddWithValue("@RegDate", patientRegDetail.RegDate);
                 cmd.Parameters.AddWithValue("@PatientId", patientRegDetail.PatientId);
-                cmd.Parameters.AddWithValue("@RegAmount", patientRegDetail.RegAmount);
+                cmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
                 cmd.Parameters.AddWithValue("@LocationId", patientRegDetail.LocationId);
-                cmd.Parameters.AddWithValue("@ExpiryDate", patientRegDetail.ExpiryDate);
+                cmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
                 cmd.Parameters.AddWithValue("@UserId", patientRegDetail.UserId);
                 cmd.Parameters.AddWithValue("@SessionId", patientRegDetail.SessionId);
                 cmd.Parameters.AddWithValue("@ItemId", patientRegDetail.ItemId);
@@ -214,7 +244,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public SqlCommand InsertPatIdentity(PatientModel patIdentityDetail)
+        public SqlCommand InsertPatIdentity(RegIdentitiesModel patIdentityDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatIdentity"))
             {
@@ -222,7 +252,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@PatientId", patIdentityDetail.PatientId);
                 cmd.Parameters.AddWithValue("@IdentityType", patIdentityDetail.IdentityType);
                 cmd.Parameters.AddWithValue("@IdentityNo", patIdentityDetail.IdentityNo);
-                cmd.Parameters.AddWithValue("@RetDesc", patIdentityDetail.RetDesc);
+                cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
                 SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -232,7 +262,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public SqlCommand InsertPatAddress(PatientModel patIdentityDetail)
+        public SqlCommand InsertPatAddress(RegAddressModel patIdentityDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatAddress"))
             {
@@ -247,7 +277,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Address1", patIdentityDetail.Address1);
                 cmd.Parameters.AddWithValue("@Address2", patIdentityDetail.Address2);
                 cmd.Parameters.AddWithValue("@State", patIdentityDetail.State);
-                cmd.Parameters.AddWithValue("@RetDesc", patIdentityDetail.RetDesc);
+                cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
                 SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -388,57 +418,7 @@ namespace LeHealth.Core.DataManager
 
         }
 
-        public List<AllPatientModel> SearchPatientInList(PatientSearchModel patient)
-        {
-            List<AllPatientModel> patientList = new List<AllPatientModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatients", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@Name", patient.Name);
-                    cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
-                    cmd.Parameters.AddWithValue("@RegNo", patient.RegNo);
-                    cmd.Parameters.AddWithValue("@Mobile", patient.Mobile);
-                    cmd.Parameters.AddWithValue("@RegFromDate", patient.RegDateFrom);
-                    cmd.Parameters.AddWithValue("@RegToDate", patient.RegDateTo);
-                    cmd.Parameters.AddWithValue("@Phone", patient.Phone);
-                    cmd.Parameters.AddWithValue("@Address", patient.Address);
-                    cmd.Parameters.AddWithValue("@PIN", patient.PIN);
-                    cmd.Parameters.AddWithValue("@PolicyNo", patient.PolicyNo);
-                    cmd.Parameters.AddWithValue("@IdentityNo", patient.IdentityNo);
-                    cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsPatientList = new DataSet();
-                    adapter.Fill(dsPatientList);
-                    con.Close();
-                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < dsPatientList.Tables[0].Rows.Count; i++)
-                        {
-                            AllPatientModel obj = new AllPatientModel();
-                            obj.PatientId = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["PatientId"]);
-                            obj.RegNo = dsPatientList.Tables[0].Rows[i]["RegNo"].ToString();
-                            obj.PatientName = dsPatientList.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.Age = dsPatientList.Tables[0].Rows[i]["Age"].ToString();
-                            obj.Mobile = dsPatientList.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.Address = dsPatientList.Tables[0].Rows[i]["Address"].ToString();
-                            obj.SponsorName = dsPatientList.Tables[0].Rows[i]["SponsorName"].ToString();
-                            obj.Consultant = dsPatientList.Tables[0].Rows[i]["Consultant"].ToString();
-                            obj.PolicyNo = dsPatientList.Tables[0].Rows[i]["PolicyNo"].ToString();
-                            obj.EmiratesId = dsPatientList.Tables[0].Rows[i]["EmirateID"].ToString();
-                            obj.SponsorId = dsPatientList.Tables[0].Rows[i]["SponsorId"].ToString();
-                            patientList.Add(obj);
-                        }
-                    }
-                    return patientList;
-                }
-            }
-
-        }
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
             List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
@@ -1216,12 +1196,12 @@ namespace LeHealth.Core.DataManager
                         for (int i = 0; i < dsSponsorList.Tables[0].Rows.Count; i++)
                         {
                             SponsorModel obj = new SponsorModel();
-                            obj.OpenDate = dsSponsorList.Tables[0].Rows[i]["OpenDate"].ToString();
+                            obj.OpenDate = dsSponsorList.Tables[0].Rows[i]["OpenDate"].ToString().Substring(0, 10);
                             obj.CreditRefNo = dsSponsorList.Tables[0].Rows[i]["CreditRefNo"].ToString();
                             obj.SponsorName = dsSponsorList.Tables[0].Rows[i]["Sponsor"].ToString();
                             obj.AgentName = dsSponsorList.Tables[0].Rows[i]["AgentName"].ToString();
                             obj.PolicyNo = dsSponsorList.Tables[0].Rows[i]["PolicyNumber"].ToString();
-                            string validupto = dsSponsorList.Tables[0].Rows[i]["ValidUpto"].ToString();
+                            string validupto = dsSponsorList.Tables[0].Rows[i]["ValidUpto"].ToString().Substring(0, 10);
                             DateTime todaydate = DateTime.Now.Date;
                             DateTime validuptodttime = Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
