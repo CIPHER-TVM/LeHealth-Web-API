@@ -1210,7 +1210,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 registrationDetail = todaysPatientService.InsertPatient(patientDetail);
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
-
                     Status = HttpStatusCode.OK,
                     Message = registrationDetail
                 };

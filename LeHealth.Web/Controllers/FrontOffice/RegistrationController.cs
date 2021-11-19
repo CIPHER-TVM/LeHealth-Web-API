@@ -170,6 +170,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("SaveReRegistration")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientModel>> SaveReRegistration(PatientModel patientDetail)
+        {
+            string registrationDetail = "";
+            try
+            {
+                registrationDetail = registrationService.SaveReRegistration(patientDetail);
+                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = registrationDetail
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
+                };
+            }
+            finally
+            {
+                // registrationDetail.Clear();
+                // dispose can be managed here
+            }
+        }
     }
 }

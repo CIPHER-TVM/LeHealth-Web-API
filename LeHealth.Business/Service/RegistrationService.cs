@@ -32,5 +32,10 @@ namespace LeHealth.Service.Service
             return registrationManager.SearchPatientInList(patientList);
         }
 
+        public string SaveReRegistration(PatientModel patient)
+        {
+            return registrationManager.SaveReRegistration(patient);
+        }
+
     }
 }

@@ -11,6 +11,6 @@ namespace LeHealth.Service.ServiceInterface
         List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
-
+        string SaveReRegistration(PatientModel patient);
     }
 }

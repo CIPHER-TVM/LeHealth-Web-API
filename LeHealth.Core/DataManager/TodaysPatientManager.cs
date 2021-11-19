@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 
 namespace LeHealth.Core.DataManager
@@ -42,13 +43,13 @@ namespace LeHealth.Core.DataManager
         }
         public string InsertPatient(PatientModel patientDetail)
         {
-            SqlTransaction transaction;
+            //SqlTransaction transaction;
             string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
                 con.Open();
-                transaction = con.BeginTransaction();
+                //transaction = con.BeginTransaction();
 
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -107,37 +108,114 @@ namespace LeHealth.Core.DataManager
                     Direction = ParameterDirection.Output
                 };
                 cmd.Parameters.Add(retDesc);
-
-                cmd.Transaction = transaction;
+                //cmd.Transaction = transaction;
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    //transaction.Commit();
                     int patientId = (int)patientIdParam.Value;
                     string descr = retDesc.Value.ToString();
                     if (patientId > 0)
                     {
                         patientDetail.PatientId = patientId;
-                        for (int i = 0; i < patientDetail.RegAddress.Count; i++)
-                        {
-                            SqlCommand patientAddressCmd = InsertPatAddress(patientDetail.RegAddress[i]);
-                            patientAddressCmd.Transaction = transaction;
-                            patientAddressCmd.Connection = con;
-                            patientAddressCmd.ExecuteNonQuery();
-                        }
-                        for (int i = 0; i < patientDetail.RegIdentities.Count; i++)
-                        {
-                            SqlCommand patientIdentityCmd = InsertPatIdentity(patientDetail.RegIdentities[i]);
-                            patientIdentityCmd.Transaction = transaction;
-                            patientIdentityCmd.Connection = con;
-                            patientIdentityCmd.ExecuteNonQuery();
-                        }
+
+                        //ORIGINAL CODE One START
+                        //for (int i = 0; i < patientDetail.RegAddress.Count; i++)
+                        //{
+                        //    SqlCommand patientAddressCmd = InsertPatAddress(patientDetail.RegAddress[i]);
+                        //    patientAddressCmd.Transaction = transaction;
+                        //    patientAddressCmd.Connection = con;
+                        //    patientAddressCmd.ExecuteNonQuery();
+                        //}
+                        //for (int i = 0; i < patientDetail.RegIdentities.Count; i++)
+                        //{
+                        //    SqlCommand patientIdentityCmd = InsertPatIdentity(patientDetail.RegIdentities[i]);
+                        //    patientIdentityCmd.Transaction = transaction;
+                        //    patientIdentityCmd.Connection = con;
+                        //    patientIdentityCmd.ExecuteNonQuery();
+                        //}
+                        //ORIGINAL CODE One END
+                        //TEMPORARY CODE ONE STARTS
+                        patientDetail.RegAddress[0].PatientId = patientId;
+                        patientDetail.RegAddress[1].PatientId = patientId;
+                        patientDetail.RegAddress[2].PatientId = patientId;
+                        DataTable dt = new DataTable();
+                        dt = ToDataTable(patientDetail.RegAddress);
+                        Insert_Patient_Address(dt, _connStr);
+
+                        patientDetail.RegIdentities[0].PatientId = patientId;
+                        patientDetail.RegIdentities[1].PatientId = patientId;
+                        patientDetail.RegIdentities[2].PatientId = patientId;
+                        patientDetail.RegIdentities[3].PatientId = patientId;
+                        patientDetail.RegIdentities[4].PatientId = patientId;
+                        patientDetail.RegIdentities[5].PatientId = patientId;
+                        patientDetail.RegIdentities[6].PatientId = patientId;
+                        DataTable dti = new DataTable();
+                        dti = ToDataTable(patientDetail.RegIdentities);
+                        Insert_Patient_Identity(dti, _connStr);
+
+
+                        SqlCommand patientAddressCmd0 = InsertPatAddress(patientDetail.RegAddress[0]);
+                        //patientAddressCmd0.Transaction = transaction;
+                        patientAddressCmd0.Connection = con;
+                        var isupdated00 = patientAddressCmd0.ExecuteNonQuery();
+
+
+                        SqlCommand patientAddressCmd1 = InsertPatAddress(patientDetail.RegAddress[1]);
+                        //patientAddressCmd1.Transaction = transaction;
+                        patientAddressCmd1.Connection = con;
+                        var isupdated01 = patientAddressCmd1.ExecuteNonQuery();
+
+                        SqlCommand patientAddressCmd2 = InsertPatAddress(patientDetail.RegAddress[2]);
+                        //patientAddressCmd2.Transaction = transaction;
+                        patientAddressCmd2.Connection = con;
+                        var isupdated02 = patientAddressCmd2.ExecuteNonQuery();
+
+
+                        SqlCommand patientIdentityCmd0 = InsertPatIdentity(patientDetail.RegIdentities[0]);
+                        //patientIdentityCmd0.Transaction = transaction;
+                        patientIdentityCmd0.Connection = con;
+                        var isupdated0 = patientIdentityCmd0.ExecuteNonQuery();
+
+                        SqlCommand patientIdentityCmd1 = InsertPatIdentity(patientDetail.RegIdentities[1]);
+                        //patientIdentityCmd1.Transaction = transaction;
+                        patientIdentityCmd1.Connection = con;
+                        var isupdated1 = patientIdentityCmd1.ExecuteNonQuery();
+
+                        SqlCommand patientIdentityCmd2 = InsertPatIdentity(patientDetail.RegIdentities[2]);
+                        //patientIdentityCmd2.Transaction = transaction;
+                        patientIdentityCmd2.Connection = con;
+                        var isupdated2 = patientIdentityCmd2.ExecuteNonQuery();
+
+                        SqlCommand patientIdentityCmd3 = InsertPatIdentity(patientDetail.RegIdentities[3]);
+                        //patientIdentityCmd3.Transaction = transaction;
+                        patientIdentityCmd3.Connection = con;
+                        var isupdated3 = patientIdentityCmd3.ExecuteNonQuery();
+
+                        SqlCommand patientIdentityCmd4 = InsertPatIdentity(patientDetail.RegIdentities[4]);
+                        //patientIdentityCmd4.Transaction = transaction;
+                        patientIdentityCmd4.Connection = con;
+                        var isupdated4 = patientIdentityCmd4.ExecuteNonQuery();
+
+                        SqlCommand patientIdentityCmd5 = InsertPatIdentity(patientDetail.RegIdentities[5]);
+                        //patientIdentityCmd5.Transaction = transaction;
+                        patientIdentityCmd5.Connection = con;
+                        var isupdated5 = patientIdentityCmd5.ExecuteNonQuery();
+
+                        SqlCommand patientIdentityCmd6 = InsertPatIdentity(patientDetail.RegIdentities[6]);
+                        //patientIdentityCmd6.Transaction = transaction;
+                        patientIdentityCmd6.Connection = con;
+                        var isupdated6 = patientIdentityCmd6.ExecuteNonQuery();
+
+                        //TEMPORARY CODE ONE ENDS
+
                         //SqlCommand patientCompanyCmd = InsertCompany(patientDetail);
                         //patientCompanyCmd.Transaction = transaction;
                         //patientCompanyCmd.Connection = con;
                         //patientCompanyCmd.ExecuteNonQuery();
 
                         SqlCommand patientRegsCmd = InsertPatRegs(patientDetail);
-                        patientRegsCmd.Transaction = transaction;
+                        //patientRegsCmd.Transaction = transaction;
                         patientRegsCmd.Connection = con;
                         SqlParameter regIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
@@ -146,35 +224,39 @@ namespace LeHealth.Core.DataManager
                         patientRegsCmd.Parameters.Add(regIdParam);
                         var isupdated = patientRegsCmd.ExecuteNonQuery();
                         int RegsId = (int)regIdParam.Value;
-
                         if (RegsId > 0)
                         {
                             if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
                             {
                                 patientDetail.Consultation.PatientId = patientDetail.PatientId;
                                 SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
-                                patientConsultationCmd.Transaction = transaction;
+                                //patientConsultationCmd.Transaction = transaction;
                                 patientConsultationCmd.Connection = con;
                                 var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                             }
-                            transaction.Commit();
+                            SqlCommand updateRegNoCmd = UPDATERegNo();
+                            //updateRegNoCmd.Transaction = transaction;
+                            updateRegNoCmd.Connection = con;
+                            updateRegNoCmd.ExecuteNonQuery();
+
+                            //transaction.Commit();
                         }
                         else
                         {
-                            transaction.Rollback();
+                            //transaction.Rollback();
                         }
-                        response = patientId.ToString();
+                        response = "success";//patientId.ToString();
                     }
                     else
                     {
-                        transaction.Rollback();
+                        //transaction.Rollback();
                         response = descr;
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
+                    //transaction.Rollback();
                     response = ex.Message.ToString();
                 }
                 con.Close();
@@ -225,6 +307,71 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
+
+        public static void Insert_Patient_Address(DataTable csvData, string con)
+        {
+            using (SqlConnection dbConnection = new SqlConnection(con))
+            {
+                dbConnection.Open();
+                using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
+                {
+                    s.DestinationTableName = "LH_PatAddress";
+                    s.ColumnMappings.Add("PatientId", "PatientId");
+                    s.ColumnMappings.Add("AddType", "AddType");
+                    s.ColumnMappings.Add("Address1", "Address1");
+                    s.ColumnMappings.Add("Address2", "Address2");
+                    s.ColumnMappings.Add("Street", "Street");
+                    s.ColumnMappings.Add("PlacePO", "PlacePO");
+                    s.ColumnMappings.Add("PIN", "PIN");
+                    s.ColumnMappings.Add("City", "City");
+                    s.ColumnMappings.Add("State", "State");
+                    s.ColumnMappings.Add("CountryId", "CountryId");
+                    s.WriteToServer(csvData);
+                }
+            }
+        }
+        public static void Insert_Patient_Identity(DataTable csvData, string con) 
+        {
+            using (SqlConnection dbConnection = new SqlConnection(con))
+            {
+                dbConnection.Open();
+                using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
+                {
+                    s.DestinationTableName = "LH_PatIdentity";
+
+                    s.ColumnMappings.Add("IdentityType", "IdentityType");
+                    s.ColumnMappings.Add("IdentityNo", "IdentityNo");
+                    s.ColumnMappings.Add("PatientId", "PatientId");
+
+                    s.WriteToServer(csvData);
+
+                }
+            }
+        }
+        
+        
+        
+        public DataTable ToDataTable<T>(List<T> items)
+        {
+            DataTable dataTable = new DataTable(typeof(T).Name);
+            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo prop in Props)
+            {
+                dataTable.Columns.Add(prop.Name);
+            }
+            foreach (T item in items)
+            {
+                var values = new object[Props.Length];
+                for (int i = 0; i < Props.Length; i++)
+                {
+
+                    values[i] = Props[i].GetValue(item, null);
+                }
+                dataTable.Rows.Add(values);
+            }
+
+            return dataTable;
+        }
         public SqlCommand InsertPatRegs(PatientModel patientRegDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs"))
@@ -261,6 +408,23 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
+        public SqlCommand UPDATERegNo()
+        {
+            using (SqlCommand cmd = new SqlCommand("stLH_AutoNumber"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@NumId", "REG-NO");
+                SqlParameter outputIdParam = new SqlParameter("@NewNo", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(outputIdParam);
+                return cmd;
+            }
+        }
+
+
+
 
         public SqlCommand InsertPatAddress(RegAddressModel patIdentityDetail)
         {
@@ -866,7 +1030,7 @@ namespace LeHealth.Core.DataManager
         }
 
 
-
+        
         //ZONE START
         public string InsertZone(ZoneModel zone)
         {

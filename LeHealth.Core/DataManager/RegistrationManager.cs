@@ -152,5 +152,33 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+
+        public string SaveReRegistration(PatientModel reregistration)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RegId", 0);
+                    cmd.Parameters.AddWithValue("@RegDate", reregistration.RegDate);
+                    cmd.Parameters.AddWithValue("@PatientId", reregistration.PatientId);
+                    cmd.Parameters.AddWithValue("@ItemId", reregistration.ItemId);
+                    cmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@UserId", reregistration.UserId);
+                    cmd.Parameters.AddWithValue("@LocationId", reregistration.LocationId);
+                    cmd.Parameters.AddWithValue("@SessionId", reregistration.SessionId);
+                    cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
+                    con.Open();
+                    var isInserted = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "success";
+                }
+            }
+            return response;
+        }
     }
 }
