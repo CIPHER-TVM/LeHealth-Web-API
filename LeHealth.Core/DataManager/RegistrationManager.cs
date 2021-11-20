@@ -156,27 +156,44 @@ namespace LeHealth.Core.DataManager
         public string SaveReRegistration(PatientModel reregistration)
         {
             string response = "";
-            using (SqlConnection con = new SqlConnection(_connStr))
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs", con))
+                using (SqlConnection con = new SqlConnection(_connStr))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@RegId", 0);
-                    cmd.Parameters.AddWithValue("@RegDate", reregistration.RegDate);
-                    cmd.Parameters.AddWithValue("@PatientId", reregistration.PatientId);
-                    cmd.Parameters.AddWithValue("@ItemId", reregistration.ItemId);
-                    cmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@UserId", reregistration.UserId);
-                    cmd.Parameters.AddWithValue("@LocationId", reregistration.LocationId);
-                    cmd.Parameters.AddWithValue("@SessionId", reregistration.SessionId);
-                    cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
-                    con.Open();
-                    var isInserted = cmd.ExecuteNonQuery();
-                    con.Close();
-                    response = "success";
+                    using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@RegId", 0);
+                        cmd.Parameters.AddWithValue("@RegDate", reregistration.RegDate);
+                        cmd.Parameters.AddWithValue("@PatientId", reregistration.PatientId);
+                        cmd.Parameters.AddWithValue("@ItemId", reregistration.ItemId);
+                        cmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
+                        cmd.Parameters.AddWithValue("@UserId", reregistration.UserId);
+                        cmd.Parameters.AddWithValue("@LocationId", reregistration.LocationId);
+                        cmd.Parameters.AddWithValue("@SessionId", reregistration.SessionId);
+                        SqlParameter patientIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(patientIdParam);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isInserted = cmd.ExecuteNonQuery();
+                        con.Close();
+                        response = retDesc.Value.ToString();
+                       
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                response = ex.Message.ToString();
             }
             return response;
         }

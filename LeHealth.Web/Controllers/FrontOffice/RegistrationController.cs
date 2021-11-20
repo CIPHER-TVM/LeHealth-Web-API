@@ -174,14 +174,22 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatientModel>> SaveReRegistration(PatientModel patientDetail)
         {
-            string registrationDetail = "";
+            string msg = "";
             try
             {
-                registrationDetail = registrationService.SaveReRegistration(patientDetail);
+                string registrationDetail = registrationService.SaveReRegistration(patientDetail);
+                if(registrationDetail== "Saved Successfully")
+                {
+                    msg = "success";
+                }
+                else
+                {
+                    msg = registrationDetail;
+                }
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Message = registrationDetail
+                    Message = msg
                 };
                 return response;
             }

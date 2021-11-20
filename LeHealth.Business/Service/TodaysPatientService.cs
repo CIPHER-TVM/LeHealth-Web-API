@@ -38,10 +38,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.SearchAppointment(countryDetails);
         }
-        public List<AllPatientModel> GetAllPatient()
-        {
-            return todaysPatientManager.GetAllPatient();
-        }
+       
 
 
         public List<PatientListModel> SearchPatient(PatientSearchModel patientList)
@@ -80,6 +77,10 @@ namespace LeHealth.Service.Service
         public List<ReligionModel> GetReligion()
         {
             return todaysPatientManager.GetReligion();
+        }
+        public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi)
+        {
+            return todaysPatientManager.GetScheduleData(gsi);
         }
         //
         public string InsertZone(ZoneModel zone)

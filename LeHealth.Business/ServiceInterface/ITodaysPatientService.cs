@@ -14,7 +14,6 @@ namespace LeHealth.Service.ServiceInterface
         List<CountryModel> GetCountry(CountryModel countryDetail);
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
-        List<AllPatientModel> GetAllPatient();
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
@@ -31,7 +30,8 @@ namespace LeHealth.Service.ServiceInterface
         List<ZoneModel> GetZoneById(int zoneId);
         List<ZoneModel> GetAllZone();
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
-        List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
+        List<TokenModel> GetNewTokenNumber(ConsultationModel cm); 
+        List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi); 
         List<SponsorModel> GetSponsorListByPatientId(int patientId);
         List<RecentConsultationModel> GetRecentConsultationData();
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);

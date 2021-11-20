@@ -1385,66 +1385,26 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         }
 
-        //
-        //[HttpPost]
-        //[Route("GetScheduleData")]
-        //public ResponseDataModel<IEnumerable<SheduleGetDataModel>> GetScheduleData(GetScheduleInputModel gan)  
-        //{
-        //    List<SheduleGetDataModel> appointmentList = new List<SheduleGetDataModel>();
-        //    try
-        //    {
-        //        appointmentList = todaysPatientService.GetScheduleData(gan);
-        //        var response = new ResponseDataModel<IEnumerable<SheduleGetDataModel>>()
-        //        {
-        //            Status = HttpStatusCode.OK,
-        //            Response = appointmentList
-        //        };
-        //        return response;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-        //        return new ResponseDataModel<IEnumerable<SheduleGetDataModel>>()
-        //        {
-        //            Status = HttpStatusCode.InternalServerError,
-        //            Response = null,
-        //            ErrorMessage = new ErrorResponse()
-        //            {
-        //                Message = ex.Message
-        //            }
-
-        //        };
-        //    }
-        //    finally
-        //    {
-        //        //  consultationList.Clear();
-        //        // dispose can be managed here
-        //    }
-
-        //}
-
-
-
-
+        
         [HttpPost]
-        [Route("GetAllPatient")]
-        public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient()
+        [Route("GetScheduleData")]
+        public ResponseDataModel<IEnumerable<SheduleGetDataModel>> GetScheduleData(GetScheduleInputModel gan)
         {
-            List<AllPatientModel> patientList = new List<AllPatientModel>();
+            List<SheduleGetDataModel> appointmentList = new List<SheduleGetDataModel>();
             try
             {
-                patientList = todaysPatientService.GetAllPatient();
-                var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
+                appointmentList = todaysPatientService.GetScheduleData(gan);
+                var response = new ResponseDataModel<IEnumerable<SheduleGetDataModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = patientList
+                    Response = appointmentList
                 };
                 return response;
             }
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AllPatientModel>>()
+                return new ResponseDataModel<IEnumerable<SheduleGetDataModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1461,7 +1421,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-
 
         [HttpPost]
         [Route("SendAddPatientInformation")]

@@ -11,7 +11,6 @@ namespace LeHealth.Core.Interface
         List<CountryModel> GetCountry(CountryModel countryDetails);
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
-        List<AllPatientModel> GetAllPatient();
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
@@ -27,6 +26,7 @@ namespace LeHealth.Core.Interface
         string DeleteZone(int zoneId);
         string DeleteAppointment(AppointmentModel appointment);
         List<ZoneModel> GetZoneById(int zoneId);
+        List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi); 
         List<ZoneModel> GetAllZone();
 
         /// <summary>
