@@ -93,6 +93,9 @@ namespace LeHealth.Catalogue.API
             services.AddScoped<IRegistrationManager, RegistrationManager>();
 
 
+            services.AddScoped<IFormValidationService, FormValidationService>();
+            services.AddScoped<IFormValidationManager, FormValidationManager>();
+
 
         }
 
