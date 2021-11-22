@@ -52,6 +52,7 @@ namespace LeHealth.Core.Interface
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);    
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<LeadAgentModel> GetLeadAgent(LeadAgentModel la);
+        string CancelConsultation(ConsultationModel cons); 
         List<CompanyModel> GetCompany();
         
     } 

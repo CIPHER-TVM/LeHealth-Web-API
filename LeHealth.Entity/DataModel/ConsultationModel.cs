@@ -41,6 +41,7 @@ namespace LeHealth.Entity.DataModel
         public string Address { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public string CancelReason { get; set; }
 
     }
 }

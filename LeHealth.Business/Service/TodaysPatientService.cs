@@ -91,6 +91,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.DeleteAppointment(appointment);
         }
+        public string CancelConsultation(ConsultationModel consultation)
+        {
+            return todaysPatientManager.CancelConsultation(consultation); 
+        }
         public string UpdateZone(ZoneModel zone)
         {
             return todaysPatientManager.UpdateZone(zone);

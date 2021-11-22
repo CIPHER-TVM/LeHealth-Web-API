@@ -187,7 +187,7 @@ namespace LeHealth.Core.DataManager
                         var isInserted = cmd.ExecuteNonQuery();
                         con.Close();
                         response = retDesc.Value.ToString();
-                       
+
                     }
                 }
             }
@@ -196,6 +196,109 @@ namespace LeHealth.Core.DataManager
                 response = ex.Message.ToString();
             }
             return response;
+        }
+
+
+        public List<PatientModel> GetRegsteredDataById(int patid)
+        {
+            PatientModel obj = new PatientModel();
+            List<PatientModel> patientData = new List<PatientModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("stLH_GetRegsteredDataById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PatientId", patid);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dsRate = new DataSet();
+                adapter.Fill(dsRate);
+                con.Close();
+                if ((dsRate != null) && (dsRate.Tables.Count > 0) && (dsRate.Tables[0] != null) && (dsRate.Tables[0].Rows.Count > 0))
+                {
+                    obj.Salutation = dsRate.Tables[0].Rows[0]["Salutation"].ToString();
+                    obj.FirstName = dsRate.Tables[0].Rows[0]["FirstName"].ToString();
+                    obj.MiddleName = dsRate.Tables[0].Rows[0]["MiddleName"].ToString();
+                    obj.LastName = dsRate.Tables[0].Rows[0]["LastName"].ToString();
+                    obj.DOB = dsRate.Tables[0].Rows[0]["DOB"].ToString();
+                    obj.Gender = dsRate.Tables[0].Rows[0]["Gender"].ToString();
+                    obj.MaritalStatus = dsRate.Tables[0].Rows[0]["MaritalStatus"].ToString();
+                    obj.KinName = dsRate.Tables[0].Rows[0]["KinName"].ToString();
+                    obj.KinRelation = dsRate.Tables[0].Rows[0]["KinRelation"].ToString();
+                    obj.Mobile = dsRate.Tables[0].Rows[0]["Mobile"].ToString();
+                    obj.ResNo = dsRate.Tables[0].Rows[0]["ResNo"].ToString();
+                    obj.OffNo = dsRate.Tables[0].Rows[0]["OffNo"].ToString();
+                    obj.Remarks = dsRate.Tables[0].Rows[0]["Remarks"].ToString();
+                    obj.Email = dsRate.Tables[0].Rows[0]["Email"].ToString();
+                    obj.FaxNo = dsRate.Tables[0].Rows[0]["FaxNo"].ToString();
+                    obj.Religion = dsRate.Tables[0].Rows[0]["Religion"].ToString();
+                    obj.ProfId = (dsRate.Tables[0].Rows[0]["ProfId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsRate.Tables[0].Rows[0]["ProfId"]);
+                    obj.CmpId = (dsRate.Tables[0].Rows[0]["CmpId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsRate.Tables[0].Rows[0]["CmpId"]);
+                    obj.RGroupId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["RGroupId"]);
+                    obj.Mode = dsRate.Tables[0].Rows[0]["Mode"].ToString();
+                    obj.NationalityId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["NationalityId"]);
+                    obj.RefBy = dsRate.Tables[0].Rows[0]["ReferredBy"].ToString();
+                    obj.PrivilegeCard = Convert.ToBoolean(dsRate.Tables[0].Rows[0]["PrivilegeCard"]);
+                    obj.UserId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["UserId"]);
+                    obj.WorkEnvironMent = dsRate.Tables[0].Rows[0]["WorkEnvironment"].ToString();
+                    obj.ProfessionalNoxious = dsRate.Tables[0].Rows[0]["ProfessionalNoxious"].ToString();
+                    obj.ProfessionalExperience = dsRate.Tables[0].Rows[0]["ProfessionalExperience"].ToString();
+                    obj.LocationId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["LocationId"]);
+                    obj.VisaTypeId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["VisaTypeID"]);
+                    obj.BranchId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["BranchId"]);
+                }
+
+                con.Open();
+                SqlCommand cmd2 = new SqlCommand("stLH_GetPatIdentity", con);
+                cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@PatientId", patid);
+                SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
+                DataSet dsRate2 = new DataSet();
+                adapter2.Fill(dsRate2);
+                con.Close();
+                List<RegIdentitiesModel> rim = new List<RegIdentitiesModel>();
+                if ((dsRate2 != null) && (dsRate2.Tables.Count > 0) && (dsRate2.Tables[0] != null) && (dsRate2.Tables[0].Rows.Count > 0))
+                {
+                    for (int i = 0; i < dsRate2.Tables[0].Rows.Count; i++)
+                    {
+                        RegIdentitiesModel obj2 = new RegIdentitiesModel();
+                        obj2.IdentityType = Convert.ToInt32(dsRate2.Tables[0].Rows[i]["IdentityType"]);
+                        obj2.IdentityNo = dsRate2.Tables[0].Rows[i]["IdentityNo"].ToString();
+                        obj2.PatientId = Convert.ToInt32(dsRate2.Tables[0].Rows[i]["PatientId"]);
+                        rim.Add(obj2);
+                    }
+                }
+
+                con.Open();
+                SqlCommand cmd3 = new SqlCommand("stLH_GetPatAddress", con);
+                cmd3.CommandType = CommandType.StoredProcedure;
+                cmd3.Parameters.AddWithValue("@PatientId", patid);
+                SqlDataAdapter adapter3 = new SqlDataAdapter(cmd3);
+                DataSet dsRate3 = new DataSet();
+                adapter3.Fill(dsRate3);
+                con.Close();
+                List<RegAddressModel> ram = new List<RegAddressModel>();
+                if ((dsRate3 != null) && (dsRate3.Tables.Count > 0) && (dsRate3.Tables[0] != null) && (dsRate3.Tables[0].Rows.Count > 0))
+                {
+                    for (int i = 0; i < dsRate3.Tables[0].Rows.Count; i++)
+                    {
+                        RegAddressModel obj3 = new RegAddressModel();
+                        obj3.PatientId = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["PatientId"]);
+                        obj3.AddType = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["AddType"]);
+                        obj3.Address1 = dsRate3.Tables[0].Rows[i]["Address1"].ToString();
+                        obj3.Address2 = dsRate3.Tables[0].Rows[i]["Address2"].ToString();
+                        obj3.Street = dsRate3.Tables[0].Rows[i]["Street"].ToString();
+                        obj3.PlacePO = dsRate3.Tables[0].Rows[i]["PlacePO"].ToString();
+                        obj3.PIN = dsRate3.Tables[0].Rows[i]["PIN"].ToString();
+                        obj3.City = dsRate3.Tables[0].Rows[i]["City"].ToString();
+                        obj3.State = dsRate3.Tables[0].Rows[i]["State"].ToString();
+                        ram.Add(obj3);
+                    }
+                }
+                obj.RegIdentities = rim;
+                obj.RegAddress = ram;
+                patientData.Add(obj);
+                return patientData;
+            }
         }
     }
 }

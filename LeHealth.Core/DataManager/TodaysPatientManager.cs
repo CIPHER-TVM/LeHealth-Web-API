@@ -330,7 +330,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public static void Insert_Patient_Identity(DataTable csvData, string con) 
+        public static void Insert_Patient_Identity(DataTable csvData, string con)
         {
             using (SqlConnection dbConnection = new SqlConnection(con))
             {
@@ -348,9 +348,9 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        
-        
-        
+
+
+
         public DataTable ToDataTable<T>(List<T> items)
         {
             DataTable dataTable = new DataTable(typeof(T).Name);
@@ -529,7 +529,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        
+
         public List<PatientListModel> SearchPatient(PatientSearchModel patientDetails)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
@@ -1009,8 +1009,47 @@ namespace LeHealth.Core.DataManager
             }
         }
 
+        public string CancelConsultation(ConsultationModel consultation) 
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_ActionCancelConsultation", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultationId", consultation.ConsultationId);
+                    cmd.Parameters.AddWithValue("@UserId", consultation.UserId);
+                    cmd.Parameters.AddWithValue("@CancelReason", consultation.CancelReason);
 
-        
+                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retVal);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var retV = retVal.Value;
+                    var retD = retDesc.Value.ToString();
+                    con.Close();
+                    if (retV.ToString() == "1")
+                    {
+                        response = "success";
+                    }
+                    else
+                    {
+                        response = retD;
+                    }
+                    
+                }
+            }
+            return response;
+        }
+
         //ZONE START
         public string InsertZone(ZoneModel zone)
         {

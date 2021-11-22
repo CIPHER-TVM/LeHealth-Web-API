@@ -31,6 +31,10 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.SearchPatientInList(patientList);
         }
+         public List<PatientModel> GetRegsteredDataById(int patientId)
+        {
+            return registrationManager.GetRegsteredDataById(patientId);
+        }
 
         public string SaveReRegistration(PatientModel patient)
         {

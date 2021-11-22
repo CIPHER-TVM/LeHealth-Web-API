@@ -1081,6 +1081,43 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("CancelConsultation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationModel>> CancelConsultation(ConsultationModel consultations)
+        {
+            try
+            {
+                string msg = "";
+                msg = todaysPatientService.CancelConsultation(consultations);
+                
+                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
 
         [HttpPost]
         [Route("GetCountry")]

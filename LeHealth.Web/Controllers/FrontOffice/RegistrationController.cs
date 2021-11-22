@@ -134,6 +134,43 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+
+        [HttpPost]
+        [Route("GetRegsteredDataById")]
+        public ResponseDataModel<IEnumerable<PatientModel>> GetRegsteredDataById(PatientModel patientId)
+        {
+            List<PatientModel> patientList = new List<PatientModel>();
+            try
+            {
+                patientList = registrationService.GetRegsteredDataById(patientId.PatientId);
+                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
         [Route("SearchPatientInList")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<AllPatientModel>> SearchPatientInList(PatientSearchModel patientDetails)

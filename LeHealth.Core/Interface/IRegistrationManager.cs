@@ -11,6 +11,7 @@ namespace LeHealth.Core.Interface
         List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
+        List<PatientModel> GetRegsteredDataById(int patientId); 
         string SaveReRegistration(PatientModel patient);
 
     }
