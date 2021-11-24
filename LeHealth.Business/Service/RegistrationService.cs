@@ -27,6 +27,12 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetAllPatient();
         }
+        public List<MaritalStatusModel> GetMaritalStatus()
+        {
+            return registrationManager.GetMaritalStatus();
+        }
+
+
         public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
         {
             return registrationManager.SearchPatientInList(patientList);
@@ -39,6 +45,10 @@ namespace LeHealth.Service.Service
         public string SaveReRegistration(PatientModel patient)
         {
             return registrationManager.SaveReRegistration(patient);
+        }
+        public string BlockUnblockPatient(PatientModel patient)     
+        {
+            return registrationManager.BlockUnblockPatient(patient);
         }
 
     }

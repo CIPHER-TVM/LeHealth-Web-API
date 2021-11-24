@@ -49,6 +49,36 @@ namespace LeHealth.Core.DataManager
             }
         }
 
+        public List<MaritalStatusModel> GetMaritalStatus()
+        {
+            List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetMaritalStatus", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsmaritalStatus = new DataSet();
+                    adapter.Fill(dsmaritalStatus);
+                    con.Close();
+                    if ((dsmaritalStatus != null) && (dsmaritalStatus.Tables.Count > 0) && (dsmaritalStatus.Tables[0] != null) && (dsmaritalStatus.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsmaritalStatus.Tables[0].Rows.Count; i++)
+                        {
+                            MaritalStatusModel obj = new MaritalStatusModel();
+                            obj.Id = Convert.ToInt32(dsmaritalStatus.Tables[0].Rows[i]["Id"]);
+                            obj.MaritalStatusCode = dsmaritalStatus.Tables[0].Rows[i]["MaritalStatusCode"].ToString();
+                            obj.MaritalStatusDescription = dsmaritalStatus.Tables[0].Rows[i]["MaritalStatusDescription"].ToString();
+                            maritalStatusList.Add(obj);
+                        }
+                    }
+                    return maritalStatusList;
+                }
+            }
+        }
+
         public List<RateGroupModel> GetRateGroup(int rgroup)
         {
             List<RateGroupModel> rateList = new List<RateGroupModel>();
@@ -135,6 +165,9 @@ namespace LeHealth.Core.DataManager
                             AllPatientModel obj = new AllPatientModel();
                             obj.PatientId = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["PatientId"]);
                             obj.RegNo = dsPatientList.Tables[0].Rows[i]["RegNo"].ToString();
+                            obj.RegDate = Convert.ToDateTime(dsPatientList.Tables[0].Rows[i]["RegDate"]);
+                            obj.RegisteredDate = dsPatientList.Tables[0].Rows[i]["RegisteredDate"].ToString();
+                            obj.AgeInYears = dsPatientList.Tables[0].Rows[i]["AgeInYears"].ToString();
                             obj.PatientName = dsPatientList.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.Age = dsPatientList.Tables[0].Rows[i]["Age"].ToString();
                             obj.Mobile = dsPatientList.Tables[0].Rows[i]["Mobile"].ToString();
@@ -187,7 +220,6 @@ namespace LeHealth.Core.DataManager
                         var isInserted = cmd.ExecuteNonQuery();
                         con.Close();
                         response = retDesc.Value.ToString();
-
                     }
                 }
             }
@@ -299,6 +331,54 @@ namespace LeHealth.Core.DataManager
                 patientData.Add(obj);
                 return patientData;
             }
+        }
+
+        public string BlockUnblockPatient(PatientModel patient)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_BlockPatient", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@PatientId", patient.PatientId);
+                        cmd.Parameters.AddWithValue("@BlockReason", patient.BlockReason);
+                        cmd.Parameters.AddWithValue("@UserId", patient.UserId);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        if (Convert.ToInt32(ret) == patient.PatientId)
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
         }
     }
 }

@@ -150,11 +150,11 @@ namespace LeHealth.Core.DataManager
                         {
                             Appointments obj = new Appointments();
                             obj.AppId = Convert.ToInt32(ds.Tables[0].Rows[i]["AppId"]);
-                            // obj.AppType =Convert.ToInt32( ds.Tables[0].Rows[i]["AppType"]);
                             obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.TimeNo = ds.Tables[0].Rows[i]["TimeNo"].ToString();
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                            obj.Gender = ds.Tables[0].Rows[i]["Gender"].ToString(); 
                             Appointmentlist.Add(obj);
                         }
                     }
@@ -198,6 +198,7 @@ namespace LeHealth.Core.DataManager
                             obj.TimeNo = (ds.Tables[0].Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["TimeNo"]);
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();// == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["RegNo"]);//int.Parse(ds.Tables[0].Rows[i]["RegNo"].ToString());
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                            obj.Gender = ds.Tables[0].Rows[i]["Gender"].ToString(); 
                             appointmentlist.Add(obj);
                         }
                     }

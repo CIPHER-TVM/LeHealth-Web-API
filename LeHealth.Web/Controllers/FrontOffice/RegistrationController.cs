@@ -135,6 +135,43 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+
+        [HttpPost]
+        [Route("GetMaritalStatus")]
+        public ResponseDataModel<IEnumerable<MaritalStatusModel>> GetMaritalStatus()
+        {
+            List<MaritalStatusModel> patientList = new List<MaritalStatusModel>();
+            try
+            {
+                patientList = registrationService.GetMaritalStatus();
+                var response = new ResponseDataModel<IEnumerable<MaritalStatusModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<MaritalStatusModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
         [HttpPost]
         [Route("GetRegsteredDataById")]
         public ResponseDataModel<IEnumerable<PatientModel>> GetRegsteredDataById(PatientModel patientId)
@@ -215,7 +252,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 string registrationDetail = registrationService.SaveReRegistration(patientDetail);
-                if(registrationDetail== "Saved Successfully")
+                if (registrationDetail == "Saved Successfully")
                 {
                     msg = "success";
                 }
@@ -247,6 +284,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // registrationDetail.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
+        [Route("BlockUnblockPatient")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationModel>> BlockUnblockPatient(PatientModel patient)
+        {
+            try
+            {
+                string msg = "";
+                msg = registrationService.BlockUnblockPatient(patient);
+
+                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultationList.Clear();
                 // dispose can be managed here
             }
         }

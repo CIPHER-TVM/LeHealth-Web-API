@@ -42,10 +42,20 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public string InsertPatient(PatientModel patientDetail)
+        //Insert patient working
+        public string InsertPatientOriginal(PatientModel patientDetail)
         {
             SqlTransaction transaction;
             string response = "";
+            int IsUpdate = 0;
+            if (patientDetail.PatientId > 0)
+            {
+                IsUpdate = 1;
+            }
+            else
+            {
+                IsUpdate = 0;
+            }
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -55,7 +65,7 @@ namespace LeHealth.Core.DataManager
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@PatientId", DBNull.Value);
+                cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
                 cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
                 cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
                 cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation);
@@ -82,7 +92,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);
                 cmd.Parameters.AddWithValue("@Remarks", patientDetail.Remarks);
                 cmd.Parameters.AddWithValue("@NationalityId", patientDetail.NationalityId);
-
                 cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
                 cmd.Parameters.AddWithValue("@Active", patientDetail.Active);
                 cmd.Parameters.AddWithValue("@AppId", patientDetail.AppId);
@@ -93,7 +102,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@WorkEnvironment", patientDetail.WorkEnvironMent);
                 cmd.Parameters.AddWithValue("@ProfessionalExperience", patientDetail.ProfessionalExperience);
                 cmd.Parameters.AddWithValue("@ProfessionalNoxious", patientDetail.ProfessionalNoxious);
-
                 cmd.Parameters.AddWithValue("@VisaTypeId", patientDetail.VisaTypeId);
                 cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
                 cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
@@ -188,8 +196,6 @@ namespace LeHealth.Core.DataManager
                         {
                             transaction.Rollback();
                         }
-
-
                     }
                     else
                     {
@@ -206,6 +212,9 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+
+
         public SqlCommand InsertConsultation(ConsultationModel consultations)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation"))
@@ -334,7 +343,6 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
-
         public SqlCommand InsertPatIdentity(RegIdentitiesModel patIdentityDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatIdentity"))
@@ -366,10 +374,6 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
-
-
-
-
         public SqlCommand InsertPatAddress(RegAddressModel patIdentityDetail)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertPatAddress"))
@@ -415,7 +419,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<AppSearchModel> SearchAppointment(AppointmentModel appointment)
         {
             List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
@@ -473,7 +476,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<PatientListModel> SearchPatient(PatientSearchModel patientDetails)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
@@ -506,8 +508,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-
-
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
             List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
@@ -822,7 +822,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr)
         {
             List<GetConsultantItemSchemeRateModel> numberList = new List<GetConsultantItemSchemeRateModel>();
@@ -1650,7 +1649,242 @@ namespace LeHealth.Core.DataManager
             return true;
         }
 
+        //INSERT UPDATE PATIENT
+        public string InsertPatient(PatientModel patientDetail)
+        {
+            SqlTransaction transaction;
+            string response = "";
+            int IsUpdate = 0;
+            if (patientDetail.PatientId > 0)
+            {
+                IsUpdate = 1;
+            }
+            else
+            {
+                IsUpdate = 0;
+            }
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
 
+                con.Open();
+                transaction = con.BeginTransaction();
+
+                SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
+                cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
+                cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
+                cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation);
+                cmd.Parameters.AddWithValue("@FirstName", patientDetail.FirstName);
+                cmd.Parameters.AddWithValue("@MiddleName", patientDetail.MiddleName);
+                cmd.Parameters.AddWithValue("@LastName", patientDetail.LastName);
+                cmd.Parameters.AddWithValue("@DOB", patientDetail.DOB);
+                cmd.Parameters.AddWithValue("@Gender", patientDetail.Gender);
+                cmd.Parameters.AddWithValue("@MaritalStatus", patientDetail.MaritalStatus);
+                cmd.Parameters.AddWithValue("@KinName", patientDetail.KinName);
+                cmd.Parameters.AddWithValue("@KinRelation", patientDetail.KinRelation);
+                cmd.Parameters.AddWithValue("@KinContactNo", patientDetail.KinContactNo);
+                cmd.Parameters.AddWithValue("@Mobile", patientDetail.Mobile);
+                cmd.Parameters.AddWithValue("@ResNo", patientDetail.ResNo);
+                cmd.Parameters.AddWithValue("@OffNo", patientDetail.OffNo);
+                cmd.Parameters.AddWithValue("@Email", patientDetail.Email);
+                cmd.Parameters.AddWithValue("@FaxNo", patientDetail.FaxNo);
+                cmd.Parameters.AddWithValue("@Religion", patientDetail.Religion);
+                cmd.Parameters.AddWithValue("@ProfId", patientDetail.ProfId);
+                cmd.Parameters.AddWithValue("@CmpId", patientDetail.CmpId);
+                cmd.Parameters.AddWithValue("@Status", patientDetail.Status);
+                cmd.Parameters.AddWithValue("@PatState", patientDetail.PatState);
+                cmd.Parameters.AddWithValue("@RGroupId", patientDetail.RGroupId);
+                cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);
+                cmd.Parameters.AddWithValue("@Remarks", patientDetail.Remarks);
+                cmd.Parameters.AddWithValue("@NationalityId", patientDetail.NationalityId);
+                cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
+                cmd.Parameters.AddWithValue("@Active", patientDetail.Active);
+                cmd.Parameters.AddWithValue("@AppId", patientDetail.AppId);
+                cmd.Parameters.AddWithValue("@RefBy", patientDetail.RefBy);
+                cmd.Parameters.AddWithValue("@PrivilegeCard", patientDetail.PrivilegeCard);
+                cmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
+                cmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
+                cmd.Parameters.AddWithValue("@WorkEnvironment", patientDetail.WorkEnvironMent);
+                cmd.Parameters.AddWithValue("@ProfessionalExperience", patientDetail.ProfessionalExperience);
+                cmd.Parameters.AddWithValue("@ProfessionalNoxious", patientDetail.ProfessionalNoxious);
+                cmd.Parameters.AddWithValue("@VisaTypeId", patientDetail.VisaTypeId);
+                cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
+                cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
+                cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo);
+                SqlParameter patientIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(patientIdParam);
+
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                cmd.Transaction = transaction;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int patientId = (int)patientIdParam.Value;
+                    string descr = retDesc.Value.ToString();
+                    if (patientId > 0)//Inserted / Updated Successfully
+                    {
+                        //SqlCommand patientCompanyCmd = InsertCompany(patientDetail);
+                        //patientCompanyCmd.Connection = con;
+                        //patientCompanyCmd.ExecuteNonQuery();
+                        transaction.Commit();
+
+                        //SEVEN TIMES START
+                        //SqlCommand savepatidentity1CMD = new SqlCommand("stLH_InsertPatIdentity", con);
+                        //savepatidentity1CMD.CommandType = CommandType.StoredProcedure;
+                        //savepatidentity1CMD.Parameters.AddWithValue("@PatientId", patientId);
+                        //savepatidentity1CMD.Parameters.AddWithValue("@IdentityType", patientDetail.RegIdentities[0].IdentityType);
+                        //savepatidentity1CMD.Parameters.AddWithValue("@IdentityNo", patientDetail.RegIdentities[0].IdentityNo);
+                        //SqlParameter patidReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                        //{
+                        //    Direction = ParameterDirection.Output
+                        //};
+                        //SqlParameter patidReturnDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        //{
+                        //    Direction = ParameterDirection.Output
+                        //};
+                        //savepatidentity1CMD.Parameters.Add(patidReturn1);
+                        //savepatidentity1CMD.Parameters.Add(patidReturnDesc1);
+                        //var isInserted = savepatidentity1CMD.ExecuteNonQuery();
+                        //int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
+                        //var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
+                        for (int i=0;i< patientDetail.RegIdentities.Count; i++)
+                        {
+                            SqlCommand savepatidentity1CMD = new SqlCommand("stLH_InsertPatIdentity", con);
+                            savepatidentity1CMD.CommandType = CommandType.StoredProcedure;
+                            savepatidentity1CMD.Parameters.AddWithValue("@PatientId", patientId);
+                            savepatidentity1CMD.Parameters.AddWithValue("@IdentityType", patientDetail.RegIdentities[i].IdentityType);
+                            savepatidentity1CMD.Parameters.AddWithValue("@IdentityNo", patientDetail.RegIdentities[i].IdentityNo);
+                            SqlParameter patidReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            SqlParameter patidReturnDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savepatidentity1CMD.Parameters.Add(patidReturn1);
+                            savepatidentity1CMD.Parameters.Add(patidReturnDesc1);
+                            var isInserted = savepatidentity1CMD.ExecuteNonQuery();
+                            int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
+                            var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
+                        }
+
+
+
+                        //SEVEN TIMES END
+
+
+                        //THREE TIMES START
+
+                        for (int i = 0; i < patientDetail.RegAddress.Count; i++)
+                        {
+                            SqlCommand savepataddress1CMD = new SqlCommand("stLH_InsertPatAddress", con);
+                            savepataddress1CMD.CommandType = CommandType.StoredProcedure;
+                            savepataddress1CMD.Parameters.AddWithValue("@PatientId", patientId);
+                            savepataddress1CMD.Parameters.AddWithValue("@AddType", patientDetail.RegAddress[i].AddType);
+                            savepataddress1CMD.Parameters.AddWithValue("@Street", patientDetail.RegAddress[i].Street);
+                            savepataddress1CMD.Parameters.AddWithValue("@PlacePO", patientDetail.RegAddress[i].PlacePO);
+                            savepataddress1CMD.Parameters.AddWithValue("@City", patientDetail.RegAddress[i].City);
+                            savepataddress1CMD.Parameters.AddWithValue("@PIN", patientDetail.RegAddress[i].PIN);
+                            savepataddress1CMD.Parameters.AddWithValue("@CountryId", patientDetail.RegAddress[i].CountryId);
+                            savepataddress1CMD.Parameters.AddWithValue("@Address1", patientDetail.RegAddress[i].Address1);
+                            savepataddress1CMD.Parameters.AddWithValue("@Address2", patientDetail.RegAddress[i].Address2);
+                            savepataddress1CMD.Parameters.AddWithValue("@State", patientDetail.RegAddress[i].State);
+                            SqlParameter patadrReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            SqlParameter patadrReturnDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savepataddress1CMD.Parameters.Add(patadrReturn1);
+                            savepataddress1CMD.Parameters.Add(patadrReturnDesc1);
+                            var isInsertedAdr1 = savepataddress1CMD.ExecuteNonQuery();
+                            int patadrReturn1V = Convert.ToInt32(patadrReturn1.Value);
+                            var patadrReturnDesc1V = patadrReturnDesc1.Value.ToString();
+                        }
+
+                        //THREE TIMES END
+
+
+                        //IF INSERT ONLY STARTS
+                        if (IsUpdate == 0)
+                        {
+                            SqlCommand patientRegscmd = new SqlCommand("stLH_InsertPatRegs", con);
+                            patientRegscmd.CommandType = CommandType.StoredProcedure;
+                            patientRegscmd.Parameters.AddWithValue("@RegId", DBNull.Value);
+                            patientRegscmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
+                            patientRegscmd.Parameters.AddWithValue("@PatientId", patientId);
+                            patientRegscmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
+                            patientRegscmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
+                            patientRegscmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
+                            patientRegscmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
+                            patientRegscmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
+                            patientRegscmd.Parameters.AddWithValue("@ItemId", patientDetail.ItemId);
+                            SqlParameter returnParam = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            patientRegscmd.Parameters.Add(returnParam);
+                            SqlParameter returnDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            patientRegscmd.Parameters.Add(returnDesc);
+                            var isInsertedVV = patientRegscmd.ExecuteNonQuery();
+                            var patregsresponse = returnDesc.Value.ToString();
+                            int RegId = Convert.ToInt32(returnParam.Value);
+                            if (RegId > 0)
+                            {
+                                if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
+                                {
+                                    patientDetail.Consultation.PatientId = patientDetail.PatientId;
+                                    SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
+                                    patientConsultationCmd.Connection = con;
+                                    var isUpdated = patientConsultationCmd.ExecuteNonQuery();
+                                }
+                                SqlCommand updateRegNoCmd = UPDATERegNo();
+                                updateRegNoCmd.Connection = con;
+                                updateRegNoCmd.ExecuteNonQuery();
+                                //transaction.Commit();
+                                response = "success";//patientId.ToString();
+                            }
+                            else
+                            {
+                                transaction.Rollback();
+                            }
+                        }
+                        else
+                        {
+                            response = "success";
+                        }
+                        //IF INSERT ONLY ENDS
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        response = descr;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //transaction.Rollback();
+                    response = ex.Message.ToString();
+                }
+                con.Close();
+            }
+            return response;
+        }
 
     }
 
