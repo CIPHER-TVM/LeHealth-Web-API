@@ -323,6 +323,7 @@ namespace LeHealth.Core.DataManager
                         obj3.PIN = dsRate3.Tables[0].Rows[i]["PIN"].ToString();
                         obj3.City = dsRate3.Tables[0].Rows[i]["City"].ToString();
                         obj3.State = dsRate3.Tables[0].Rows[i]["State"].ToString();
+                        obj3.CountryId = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["CountryId"]);
                         ram.Add(obj3);
                     }
                 }
@@ -372,7 +373,7 @@ namespace LeHealth.Core.DataManager
                             response = descrip;
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         response = ex.Message;
                     }
