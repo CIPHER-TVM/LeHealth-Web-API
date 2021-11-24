@@ -47,15 +47,7 @@ namespace LeHealth.Core.DataManager
         {
             SqlTransaction transaction;
             string response = "";
-            int IsUpdate = 0;
-            if (patientDetail.PatientId > 0)
-            {
-                IsUpdate = 1;
-            }
-            else
-            {
-                IsUpdate = 0;
-            }
+            
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -1665,7 +1657,6 @@ namespace LeHealth.Core.DataManager
             }
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 con.Open();
                 transaction = con.BeginTransaction();
 
