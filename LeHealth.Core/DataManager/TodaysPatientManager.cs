@@ -69,57 +69,6 @@ namespace LeHealth.Core.DataManager
                 return cmd;
             }
         }
-        public SqlCommand InsertCompany(PatientModel patient)
-        {
-            using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CmpId", 0);//NIKTODO
-                cmd.Parameters.AddWithValue("@CmpName", patient.CompanyName);
-                cmd.Parameters.AddWithValue("@UserId", 0);//NIKTODO
-                cmd.Parameters.AddWithValue("@SessionId", 0);
-
-                cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
-                cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
-
-                return cmd;
-            }
-        }
-        public SqlCommand InsertPatRegs(PatientModel patientRegDetail)
-        {
-            using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RegId", DBNull.Value);
-                cmd.Parameters.AddWithValue("@RegDate", patientRegDetail.RegDate);
-                cmd.Parameters.AddWithValue("@PatientId", patientRegDetail.PatientId);
-                cmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
-                cmd.Parameters.AddWithValue("@LocationId", patientRegDetail.LocationId);
-                cmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
-                cmd.Parameters.AddWithValue("@UserId", patientRegDetail.UserId);
-                cmd.Parameters.AddWithValue("@SessionId", patientRegDetail.SessionId);
-                cmd.Parameters.AddWithValue("@ItemId", patientRegDetail.ItemId);
-                cmd.Parameters.AddWithValue("@RetDesc", patientRegDetail.RetDesc);
-                return cmd;
-            }
-        }
-        public SqlCommand InsertPatIdentity(RegIdentitiesModel patIdentityDetail)
-        {
-            using (SqlCommand cmd = new SqlCommand("stLH_InsertPatIdentity"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@PatientId", patIdentityDetail.PatientId);
-                cmd.Parameters.AddWithValue("@IdentityType", patIdentityDetail.IdentityType);
-                cmd.Parameters.AddWithValue("@IdentityNo", patIdentityDetail.IdentityNo);
-                cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
-                SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(outputIdParam);
-                return cmd;
-            }
-        }
         public SqlCommand UPDATERegNo()
         {
             using (SqlCommand cmd = new SqlCommand("stLH_AutoNumber"))
@@ -127,30 +76,6 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@NumId", "REG-NO");
                 SqlParameter outputIdParam = new SqlParameter("@NewNo", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(outputIdParam);
-                return cmd;
-            }
-        }
-        public SqlCommand InsertPatAddress(RegAddressModel patIdentityDetail)
-        {
-            using (SqlCommand cmd = new SqlCommand("stLH_InsertPatAddress"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@PatientId", patIdentityDetail.PatientId);
-                cmd.Parameters.AddWithValue("@AddType", patIdentityDetail.AddType);
-                cmd.Parameters.AddWithValue("@Street", patIdentityDetail.Street);
-                cmd.Parameters.AddWithValue("@PlacePO", patIdentityDetail.PlacePO);
-                cmd.Parameters.AddWithValue("@City", patIdentityDetail.City);
-                cmd.Parameters.AddWithValue("@PIN", patIdentityDetail.PIN);
-                cmd.Parameters.AddWithValue("@CountryId", patIdentityDetail.CountryId);
-                cmd.Parameters.AddWithValue("@Address1", patIdentityDetail.Address1);
-                cmd.Parameters.AddWithValue("@Address2", patIdentityDetail.Address2);
-                cmd.Parameters.AddWithValue("@State", patIdentityDetail.State);
-                cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
-                SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
                 };
@@ -701,7 +626,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public string CancelConsultation(ConsultationModel consultation)
         {
             string response = "";
@@ -742,7 +666,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         //ZONE START
         public string InsertZone(ZoneModel zone)
         {
@@ -891,7 +814,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm)
         {
             List<ConsultRateModel> rateList = new List<ConsultRateModel>();
@@ -1048,8 +970,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
         public List<SponsorModel> GetSponsorListByPatientId(int patientId)
         {
             List<SponsorModel> sponsorList = new List<SponsorModel>();
@@ -1287,6 +1207,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ProfessionalExperience", patientDetail.ProfessionalExperience);
                 cmd.Parameters.AddWithValue("@ProfessionalNoxious", patientDetail.ProfessionalNoxious);
                 cmd.Parameters.AddWithValue("@VisaTypeId", patientDetail.VisaTypeId);
+                cmd.Parameters.AddWithValue("@CommunicationType", patientDetail.CommunicationType);
                 cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
                 cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
                 cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo);
@@ -1543,7 +1464,6 @@ namespace LeHealth.Core.DataManager
 //                Convert.ToString(dr["MSHVersion"]) + "\r";
 //    if (!MessageType.Equals("OMP^O09") && !MessageType.Equals("ORU^R01") && !MessageType.Equals("RAS^O17") && !MessageType.Equals("PPR^PC1"))
 //        strValue += "EVN|" + MessageType.Substring(4, 3) + "|" + Convert.ToString(dr["EVNRecDate"]) + "\r";
-
 //    strValue += "PID|" + Convert.ToString(dr["PIDSetId"]) + "||" +
 //                 Convert.ToString(dr["PIDRegNo"]) + "^^^&" + Convert.ToString(dr["MalaffiSystemcode"]) + "||" +
 //                 Convert.ToString(dr["PIDPatLastName"]) + "^" + Convert.ToString(dr["PIDPatFirstName"]) + "^" + Convert.ToString(dr["PIDMiddleName"]) +
@@ -1580,7 +1500,6 @@ namespace LeHealth.Core.DataManager
 //    }
 //    return strValue;
 //}
-
 //private bool MalaffiValidations(DataRow dr)
 //{
 //    string strValidationMessage = string.Empty;
@@ -1625,22 +1544,17 @@ namespace LeHealth.Core.DataManager
 //    }
 //    return true;
 //}
-
 ////Insert patient working
 //public string InsertPatientOriginal(PatientModel patientDetail)
 //{
 //    SqlTransaction transaction;
 //    string response = "";
-
 //    using (SqlConnection con = new SqlConnection(_connStr))
 //    {
-
 //        con.Open();
 //        transaction = con.BeginTransaction();
-
 //        SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
 //        cmd.CommandType = CommandType.StoredProcedure;
-
 //        cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
 //        cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
 //        cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
@@ -1687,7 +1601,6 @@ namespace LeHealth.Core.DataManager
 //            Direction = ParameterDirection.Output
 //        };
 //        cmd.Parameters.Add(patientIdParam);
-
 //        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
 //        {
 //            Direction = ParameterDirection.Output
@@ -1719,8 +1632,6 @@ namespace LeHealth.Core.DataManager
 //                DataTable dti = new DataTable();
 //                dti = ToDataTable(patientDetail.RegIdentities);
 //                Insert_Patient_Identity(dti, _connStr);
-
-
 //                //SqlCommand patientCompanyCmd = InsertCompany(patientDetail);
 //                //patientCompanyCmd.Connection = con;
 //                //patientCompanyCmd.ExecuteNonQuery();
@@ -1746,10 +1657,6 @@ namespace LeHealth.Core.DataManager
 //                    Direction = ParameterDirection.Output
 //                };
 //                patientRegscmd.Parameters.Add(returnDesc);
-
-
-
-
 //                var isInserted = patientRegscmd.ExecuteNonQuery();
 //                var patregsresponse = returnDesc.Value.ToString();
 //                int RegId = Convert.ToInt32(returnParam.Value);
@@ -1846,5 +1753,80 @@ namespace LeHealth.Core.DataManager
 //            s.WriteToServer(csvData);
 
 //        }
+//    }
+//}
+//public SqlCommand InsertPatAddress(RegAddressModel patIdentityDetail)
+//{
+//    using (SqlCommand cmd = new SqlCommand("stLH_InsertPatAddress"))
+//    {
+//        cmd.CommandType = CommandType.StoredProcedure;
+//        cmd.Parameters.AddWithValue("@PatientId", patIdentityDetail.PatientId);
+//        cmd.Parameters.AddWithValue("@AddType", patIdentityDetail.AddType);
+//        cmd.Parameters.AddWithValue("@Street", patIdentityDetail.Street);
+//        cmd.Parameters.AddWithValue("@PlacePO", patIdentityDetail.PlacePO);
+//        cmd.Parameters.AddWithValue("@City", patIdentityDetail.City);
+//        cmd.Parameters.AddWithValue("@PIN", patIdentityDetail.PIN);
+//        cmd.Parameters.AddWithValue("@CountryId", patIdentityDetail.CountryId);
+//        cmd.Parameters.AddWithValue("@Address1", patIdentityDetail.Address1);
+//        cmd.Parameters.AddWithValue("@Address2", patIdentityDetail.Address2);
+//        cmd.Parameters.AddWithValue("@State", patIdentityDetail.State);
+//        cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
+//        SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
+//        {
+//            Direction = ParameterDirection.Output
+//        };
+//        cmd.Parameters.Add(outputIdParam);
+//        return cmd;
+//    }
+//}
+//public SqlCommand InsertCompany(PatientModel patient)
+//{
+//    using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany"))
+//    {
+//        cmd.CommandType = CommandType.StoredProcedure;
+//        cmd.Parameters.AddWithValue("@CmpId", 0);//NIKTODO
+//        cmd.Parameters.AddWithValue("@CmpName", patient.CompanyName);
+//        cmd.Parameters.AddWithValue("@UserId", 0);//NIKTODO
+//        cmd.Parameters.AddWithValue("@SessionId", 0);
+
+//        cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
+//        cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
+
+//        return cmd;
+//    }
+//}
+//public SqlCommand InsertPatRegs(PatientModel patientRegDetail)
+//{
+//    using (SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs"))
+//    {
+//        cmd.CommandType = CommandType.StoredProcedure;
+//        cmd.Parameters.AddWithValue("@RegId", DBNull.Value);
+//        cmd.Parameters.AddWithValue("@RegDate", patientRegDetail.RegDate);
+//        cmd.Parameters.AddWithValue("@PatientId", patientRegDetail.PatientId);
+//        cmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
+//        cmd.Parameters.AddWithValue("@LocationId", patientRegDetail.LocationId);
+//        cmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
+//        cmd.Parameters.AddWithValue("@UserId", patientRegDetail.UserId);
+//        cmd.Parameters.AddWithValue("@SessionId", patientRegDetail.SessionId);
+//        cmd.Parameters.AddWithValue("@ItemId", patientRegDetail.ItemId);
+//        cmd.Parameters.AddWithValue("@RetDesc", patientRegDetail.RetDesc);
+//        return cmd;
+//    }
+//}
+//public SqlCommand InsertPatIdentity(RegIdentitiesModel patIdentityDetail)
+//{
+//    using (SqlCommand cmd = new SqlCommand("stLH_InsertPatIdentity"))
+//    {
+//        cmd.CommandType = CommandType.StoredProcedure;
+//        cmd.Parameters.AddWithValue("@PatientId", patIdentityDetail.PatientId);
+//        cmd.Parameters.AddWithValue("@IdentityType", patIdentityDetail.IdentityType);
+//        cmd.Parameters.AddWithValue("@IdentityNo", patIdentityDetail.IdentityNo);
+//        cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
+//        SqlParameter outputIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
+//        {
+//            Direction = ParameterDirection.Output
+//        };
+//        cmd.Parameters.Add(outputIdParam);
+//        return cmd;
 //    }
 //}

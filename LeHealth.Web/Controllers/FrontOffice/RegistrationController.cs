@@ -67,14 +67,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation()
         {
-            List<SalutationModel> professionList = new List<SalutationModel>();
+            List<SalutationModel> salutationList = new List<SalutationModel>();
             try
             {
-                professionList = registrationService.GetSalutation();
+                salutationList = registrationService.GetSalutation();
                 var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = professionList
+                    Response = salutationList
                 };
                 return response;
             }
@@ -102,14 +102,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<GenderModel>> GetGender() 
         {
-            List<GenderModel> professionList = new List<GenderModel>();
+            List<GenderModel> genderList = new List<GenderModel>();
             try
             {
-                professionList = registrationService.GetGender(); 
+                genderList = registrationService.GetGender(); 
                 var response = new ResponseDataModel<IEnumerable<GenderModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = professionList
+                    Response = genderList
                 };
                 return response;
             }
@@ -137,14 +137,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<KinRelationModel>> GetKinRelation() 
         {
-            List<KinRelationModel> professionList = new List<KinRelationModel>();
+            List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
             try
             {
-                professionList = registrationService.GetKinRelation(); 
+                kinRelationList = registrationService.GetKinRelation(); 
                 var response = new ResponseDataModel<IEnumerable<KinRelationModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = professionList
+                    Response = kinRelationList
                 };
                 return response;
             }
@@ -247,14 +247,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetMaritalStatus")]
         public ResponseDataModel<IEnumerable<MaritalStatusModel>> GetMaritalStatus()
         {
-            List<MaritalStatusModel> patientList = new List<MaritalStatusModel>();
+            List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
             try
             {
-                patientList = registrationService.GetMaritalStatus();
+                maritalStatusList = registrationService.GetMaritalStatus();
                 var response = new ResponseDataModel<IEnumerable<MaritalStatusModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = patientList
+                    Response = maritalStatusList
                 };
                 return response;
             }
@@ -278,6 +278,42 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        [HttpPost]
+        [Route("GetCommunicationType")]
+        public ResponseDataModel<IEnumerable<CommunicationTypeModel>> GetCommunicationType()
+        {
+            List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
+            try
+            {
+                communicationTypeList = registrationService.GetCommunicationType();
+                var response = new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = communicationTypeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
 
         [HttpPost]
         [Route("GetRegsteredDataById")]

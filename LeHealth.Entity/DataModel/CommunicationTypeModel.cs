@@ -4,9 +4,9 @@ using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
-   public class MaritalStatusModel
+   public class CommunicationTypeModel
     {
         public int Id { get; set; }
-        public string MaritalStatusDescription { get; set; }
+        public string CommunicationType { get; set; } 
     }
 }

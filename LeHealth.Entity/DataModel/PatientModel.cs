@@ -87,5 +87,6 @@ namespace LeHealth.Entity.DataModel
         public string EmirateID { get; set; }
         public string CompanyName { get; set; } 
         public string BlockReason { get; set; } 
+        public int CommunicationType { get; set; }  
     }
 }

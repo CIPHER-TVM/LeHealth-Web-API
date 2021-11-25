@@ -14,6 +14,7 @@ namespace LeHealth.Core.Interface
         List<KinRelationModel> GetKinRelation();
         List<SalutationModel> GetSalutation();
         List<MaritalStatusModel> GetMaritalStatus();
+        List<CommunicationTypeModel> GetCommunicationType();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
         List<PatientModel> GetRegsteredDataById(int patientId); 
         string SaveReRegistration(PatientModel patient);

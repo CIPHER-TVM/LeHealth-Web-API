@@ -14,6 +14,7 @@ namespace LeHealth.Service.ServiceInterface
         List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
         List<MaritalStatusModel> GetMaritalStatus();
+        List<CommunicationTypeModel> GetCommunicationType();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
         List<PatientModel> GetRegsteredDataById(int patientId); 
         string SaveReRegistration(PatientModel patient);

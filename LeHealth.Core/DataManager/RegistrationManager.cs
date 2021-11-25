@@ -18,7 +18,6 @@ namespace LeHealth.Core.DataManager
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
-
         public List<ProffessionModel> GetProfession()
         {
             List<ProffessionModel> profList = new List<ProffessionModel>();
@@ -31,16 +30,16 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ProfId", 0);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsCompany = new DataSet();
-                    adapter.Fill(dsCompany);
+                    DataSet dsProfession = new DataSet();
+                    adapter.Fill(dsProfession);
                     con.Close();
-                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
                         {
                             ProffessionModel obj = new ProffessionModel();
-                            obj.ProfId = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["ProfId"]);
-                            obj.ProfName = dsCompany.Tables[0].Rows[i]["ProfName"].ToString();
+                            obj.ProfId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["ProfId"]);
+                            obj.ProfName = dsProfession.Tables[0].Rows[i]["ProfName"].ToString();
                             profList.Add(obj);
                         }
                     }
@@ -48,12 +47,9 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
-        //
         public List<GenderModel> GetGender()
         {
-            List<GenderModel> profList = new List<GenderModel>();
+            List<GenderModel> genderList = new List<GenderModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -62,29 +58,26 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsCompany = new DataSet();
-                    adapter.Fill(dsCompany);
+                    DataSet dsGender = new DataSet();
+                    adapter.Fill(dsGender);
                     con.Close();
-                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    if ((dsGender != null) && (dsGender.Tables.Count > 0) && (dsGender.Tables[0] != null) && (dsGender.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        for (int i = 0; i < dsGender.Tables[0].Rows.Count; i++)
                         {
                             GenderModel obj = new GenderModel();
-                            obj.Id = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Id"]);
-                            obj.GenderName = dsCompany.Tables[0].Rows[i]["GenderName"].ToString();
-                            profList.Add(obj);
+                            obj.Id = Convert.ToInt32(dsGender.Tables[0].Rows[i]["Id"]);
+                            obj.GenderName = dsGender.Tables[0].Rows[i]["GenderName"].ToString();
+                            genderList.Add(obj);
                         }
                     }
-                    return profList;
+                    return genderList;
                 }
             }
         }
-
-
-
         public List<SalutationModel> GetSalutation()
         {
-            List<SalutationModel> profList = new List<SalutationModel>();
+            List<SalutationModel> salutationList = new List<SalutationModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -93,26 +86,26 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsCompany = new DataSet();
-                    adapter.Fill(dsCompany);
+                    DataSet dsSalutation = new DataSet();
+                    adapter.Fill(dsSalutation);
                     con.Close();
-                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    if ((dsSalutation != null) && (dsSalutation.Tables.Count > 0) && (dsSalutation.Tables[0] != null) && (dsSalutation.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        for (int i = 0; i < dsSalutation.Tables[0].Rows.Count; i++)
                         {
                             SalutationModel obj = new SalutationModel();
-                            obj.Id = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Id"]);
-                            obj.Salutation = dsCompany.Tables[0].Rows[i]["Salutation"].ToString();
-                            profList.Add(obj);
+                            obj.Id = Convert.ToInt32(dsSalutation.Tables[0].Rows[i]["Id"]);
+                            obj.Salutation = dsSalutation.Tables[0].Rows[i]["Salutation"].ToString();
+                            salutationList.Add(obj);
                         }
                     }
-                    return profList;
+                    return salutationList;
                 }
             }
         }
         public List<KinRelationModel> GetKinRelation()
         {
-            List<KinRelationModel> profList = new List<KinRelationModel>();
+            List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -121,20 +114,20 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsCompany = new DataSet();
-                    adapter.Fill(dsCompany);
+                    DataSet dsKinRelation = new DataSet();
+                    adapter.Fill(dsKinRelation);
                     con.Close();
-                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    if ((dsKinRelation != null) && (dsKinRelation.Tables.Count > 0) && (dsKinRelation.Tables[0] != null) && (dsKinRelation.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        for (int i = 0; i < dsKinRelation.Tables[0].Rows.Count; i++)
                         {
                             KinRelationModel obj = new KinRelationModel();
-                            obj.Id = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Id"]);
-                            obj.KinRelation = dsCompany.Tables[0].Rows[i]["KinRelation"].ToString();
-                            profList.Add(obj);
+                            obj.Id = Convert.ToInt32(dsKinRelation.Tables[0].Rows[i]["Id"]);
+                            obj.KinRelation = dsKinRelation.Tables[0].Rows[i]["KinRelation"].ToString();
+                            kinRelationList.Add(obj);
                         }
                     }
-                    return profList;
+                    return kinRelationList;
                 }
             }
         }
@@ -160,7 +153,6 @@ namespace LeHealth.Core.DataManager
                         {
                             MaritalStatusModel obj = new MaritalStatusModel();
                             obj.Id = Convert.ToInt32(dsmaritalStatus.Tables[0].Rows[i]["Id"]);
-                            obj.MaritalStatusCode = dsmaritalStatus.Tables[0].Rows[i]["MaritalStatusCode"].ToString();
                             obj.MaritalStatusDescription = dsmaritalStatus.Tables[0].Rows[i]["MaritalStatusDescription"].ToString();
                             maritalStatusList.Add(obj);
                         }
@@ -169,6 +161,36 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public List<CommunicationTypeModel> GetCommunicationType()
+        {
+            List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetCommunicationType", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dscommunicationType = new DataSet();
+                    adapter.Fill(dscommunicationType);
+                    con.Close();
+                    if ((dscommunicationType != null) && (dscommunicationType.Tables.Count > 0) && (dscommunicationType.Tables[0] != null) && (dscommunicationType.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dscommunicationType.Tables[0].Rows.Count; i++)
+                        {
+                            CommunicationTypeModel obj = new CommunicationTypeModel();
+                            obj.Id = Convert.ToInt32(dscommunicationType.Tables[0].Rows[i]["Id"]);
+                            obj.CommunicationType = dscommunicationType.Tables[0].Rows[i]["CommunicationType"].ToString();
+                            communicationTypeList.Add(obj);
+                        }
+                    }
+                    return communicationTypeList;
+                }
+            }
+        }
+
+
 
         public List<RateGroupModel> GetRateGroup(int rgroup)
         {
@@ -333,41 +355,42 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PatientId", patid);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet dsRate = new DataSet();
-                adapter.Fill(dsRate);
+                DataSet dsPatientData = new DataSet();
+                adapter.Fill(dsPatientData);
                 con.Close();
-                if ((dsRate != null) && (dsRate.Tables.Count > 0) && (dsRate.Tables[0] != null) && (dsRate.Tables[0].Rows.Count > 0))
+                if ((dsPatientData != null) && (dsPatientData.Tables.Count > 0) && (dsPatientData.Tables[0] != null) && (dsPatientData.Tables[0].Rows.Count > 0))
                 {
-                    obj.Salutation = dsRate.Tables[0].Rows[0]["Salutation"].ToString();
-                    obj.FirstName = dsRate.Tables[0].Rows[0]["FirstName"].ToString();
-                    obj.MiddleName = dsRate.Tables[0].Rows[0]["MiddleName"].ToString();
-                    obj.LastName = dsRate.Tables[0].Rows[0]["LastName"].ToString();
-                    obj.DOB = dsRate.Tables[0].Rows[0]["DOB"].ToString();
-                    obj.Gender = dsRate.Tables[0].Rows[0]["Gender"].ToString();
-                    obj.MaritalStatus = dsRate.Tables[0].Rows[0]["MaritalStatus"].ToString();
-                    obj.KinName = dsRate.Tables[0].Rows[0]["KinName"].ToString();
-                    obj.KinRelation = dsRate.Tables[0].Rows[0]["KinRelation"].ToString();
-                    obj.Mobile = dsRate.Tables[0].Rows[0]["Mobile"].ToString();
-                    obj.ResNo = dsRate.Tables[0].Rows[0]["ResNo"].ToString();
-                    obj.OffNo = dsRate.Tables[0].Rows[0]["OffNo"].ToString();
-                    obj.Remarks = dsRate.Tables[0].Rows[0]["Remarks"].ToString();
-                    obj.Email = dsRate.Tables[0].Rows[0]["Email"].ToString();
-                    obj.FaxNo = dsRate.Tables[0].Rows[0]["FaxNo"].ToString();
-                    obj.Religion = dsRate.Tables[0].Rows[0]["Religion"].ToString();
-                    obj.ProfId = (dsRate.Tables[0].Rows[0]["ProfId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsRate.Tables[0].Rows[0]["ProfId"]);
-                    obj.CmpId = (dsRate.Tables[0].Rows[0]["CmpId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsRate.Tables[0].Rows[0]["CmpId"]);
-                    obj.RGroupId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["RGroupId"]);
-                    obj.Mode = dsRate.Tables[0].Rows[0]["Mode"].ToString();
-                    obj.NationalityId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["NationalityId"]);
-                    obj.RefBy = dsRate.Tables[0].Rows[0]["ReferredBy"].ToString();
-                    obj.PrivilegeCard = Convert.ToBoolean(dsRate.Tables[0].Rows[0]["PrivilegeCard"]);
-                    obj.UserId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["UserId"]);
-                    obj.WorkEnvironMent = dsRate.Tables[0].Rows[0]["WorkEnvironment"].ToString();
-                    obj.ProfessionalNoxious = dsRate.Tables[0].Rows[0]["ProfessionalNoxious"].ToString();
-                    obj.ProfessionalExperience = dsRate.Tables[0].Rows[0]["ProfessionalExperience"].ToString();
-                    obj.LocationId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["LocationId"]);
-                    obj.VisaTypeId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["VisaTypeID"]);
-                    obj.BranchId = Convert.ToInt32(dsRate.Tables[0].Rows[0]["BranchId"]);
+                    obj.Salutation = dsPatientData.Tables[0].Rows[0]["Salutation"].ToString();
+                    obj.FirstName = dsPatientData.Tables[0].Rows[0]["FirstName"].ToString();
+                    obj.MiddleName = dsPatientData.Tables[0].Rows[0]["MiddleName"].ToString();
+                    obj.LastName = dsPatientData.Tables[0].Rows[0]["LastName"].ToString();
+                    obj.DOB = dsPatientData.Tables[0].Rows[0]["DOB"].ToString();
+                    obj.Gender = dsPatientData.Tables[0].Rows[0]["Gender"].ToString();
+                    obj.MaritalStatus = dsPatientData.Tables[0].Rows[0]["MaritalStatus"].ToString();
+                    obj.KinName = dsPatientData.Tables[0].Rows[0]["KinName"].ToString();
+                    obj.KinRelation = dsPatientData.Tables[0].Rows[0]["KinRelation"].ToString();
+                    obj.Mobile = dsPatientData.Tables[0].Rows[0]["Mobile"].ToString();
+                    obj.ResNo = dsPatientData.Tables[0].Rows[0]["ResNo"].ToString();
+                    obj.OffNo = dsPatientData.Tables[0].Rows[0]["OffNo"].ToString();
+                    obj.Remarks = dsPatientData.Tables[0].Rows[0]["Remarks"].ToString();
+                    obj.Email = dsPatientData.Tables[0].Rows[0]["Email"].ToString();
+                    obj.FaxNo = dsPatientData.Tables[0].Rows[0]["FaxNo"].ToString();
+                    obj.Religion = dsPatientData.Tables[0].Rows[0]["Religion"].ToString();
+                    obj.ProfId = (dsPatientData.Tables[0].Rows[0]["ProfId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ProfId"]);
+                    obj.CmpId = (dsPatientData.Tables[0].Rows[0]["CmpId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CmpId"]);
+                    obj.RGroupId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["RGroupId"]);
+                    obj.Mode = dsPatientData.Tables[0].Rows[0]["Mode"].ToString();
+                    obj.NationalityId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["NationalityId"]);
+                    obj.RefBy = dsPatientData.Tables[0].Rows[0]["ReferredBy"].ToString();
+                    obj.PrivilegeCard = Convert.ToBoolean(dsPatientData.Tables[0].Rows[0]["PrivilegeCard"]);
+                    obj.UserId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["UserId"]);
+                    obj.WorkEnvironMent = dsPatientData.Tables[0].Rows[0]["WorkEnvironment"].ToString();
+                    obj.ProfessionalNoxious = dsPatientData.Tables[0].Rows[0]["ProfessionalNoxious"].ToString();
+                    obj.ProfessionalExperience = dsPatientData.Tables[0].Rows[0]["ProfessionalExperience"].ToString();
+                    obj.LocationId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["LocationId"]);
+                    obj.VisaTypeId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["VisaTypeID"]);
+                    obj.CommunicationType = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
+                    obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
                 }
 
                 con.Open();
@@ -375,19 +398,19 @@ namespace LeHealth.Core.DataManager
                 cmd2.CommandType = CommandType.StoredProcedure;
                 cmd2.Parameters.AddWithValue("@PatientId", patid);
                 SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
-                DataSet dsRate2 = new DataSet();
-                adapter2.Fill(dsRate2);
+                DataSet dsIdentity = new DataSet();
+                adapter2.Fill(dsIdentity);
                 con.Close();
                 List<RegIdentitiesModel> rim = new List<RegIdentitiesModel>();
-                if ((dsRate2 != null) && (dsRate2.Tables.Count > 0) && (dsRate2.Tables[0] != null) && (dsRate2.Tables[0].Rows.Count > 0))
+                if ((dsIdentity != null) && (dsIdentity.Tables.Count > 0) && (dsIdentity.Tables[0] != null) && (dsIdentity.Tables[0].Rows.Count > 0))
                 {
-                    for (int i = 0; i < dsRate2.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < dsIdentity.Tables[0].Rows.Count; i++)
                     {
-                        RegIdentitiesModel obj2 = new RegIdentitiesModel();
-                        obj2.IdentityType = Convert.ToInt32(dsRate2.Tables[0].Rows[i]["IdentityType"]);
-                        obj2.IdentityNo = dsRate2.Tables[0].Rows[i]["IdentityNo"].ToString();
-                        obj2.PatientId = Convert.ToInt32(dsRate2.Tables[0].Rows[i]["PatientId"]);
-                        rim.Add(obj2);
+                        RegIdentitiesModel objIdentity = new RegIdentitiesModel();
+                        objIdentity.IdentityType = Convert.ToInt32(dsIdentity.Tables[0].Rows[i]["IdentityType"]);
+                        objIdentity.IdentityNo = dsIdentity.Tables[0].Rows[i]["IdentityNo"].ToString();
+                        objIdentity.PatientId = Convert.ToInt32(dsIdentity.Tables[0].Rows[i]["PatientId"]);
+                        rim.Add(objIdentity);
                     }
                 }
 
