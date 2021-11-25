@@ -19,7 +19,7 @@ namespace LeHealth.Core.Interface
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         List<StateModel> GetStateByCountryId(int countryId);
         List<ReligionModel> GetReligion();
-        string SendAddPatientInformation(int patientid);
+        //string SendAddPatientInformation(int patientid);
         //
         string InsertZone(ZoneModel zone);
         string UpdateZone(ZoneModel zone);

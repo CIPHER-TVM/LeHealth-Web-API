@@ -22,7 +22,7 @@ namespace LeHealth.Service.ServiceInterface
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         List<StateModel> GetStateByCountryId(int countryId);
         List<ReligionModel> GetReligion();
-        string SendAddPatientInformation(int patientId);
+        //string SendAddPatientInformation(int patientId);
         string InsertZone(ZoneModel zone);
         string UpdateZone(ZoneModel zone);
         string DeleteZone(int zoneId);

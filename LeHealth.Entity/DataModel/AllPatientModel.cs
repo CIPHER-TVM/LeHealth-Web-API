@@ -21,5 +21,6 @@ namespace LeHealth.Entity.DataModel
         public string PolicyNo { get; set; }
         public string EmiratesId { get; set; }
         public string SponsorId { get; set; }
+        public int Active { get; set; } 
     }
 }

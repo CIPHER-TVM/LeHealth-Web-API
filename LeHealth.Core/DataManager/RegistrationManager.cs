@@ -49,6 +49,97 @@ namespace LeHealth.Core.DataManager
             }
         }
 
+
+        //
+        public List<GenderModel> GetGender()
+        {
+            List<GenderModel> profList = new List<GenderModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetGender", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsCompany = new DataSet();
+                    adapter.Fill(dsCompany);
+                    con.Close();
+                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        {
+                            GenderModel obj = new GenderModel();
+                            obj.Id = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Id"]);
+                            obj.GenderName = dsCompany.Tables[0].Rows[i]["GenderName"].ToString();
+                            profList.Add(obj);
+                        }
+                    }
+                    return profList;
+                }
+            }
+        }
+
+
+
+        public List<SalutationModel> GetSalutation()
+        {
+            List<SalutationModel> profList = new List<SalutationModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsCompany = new DataSet();
+                    adapter.Fill(dsCompany);
+                    con.Close();
+                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        {
+                            SalutationModel obj = new SalutationModel();
+                            obj.Id = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Id"]);
+                            obj.Salutation = dsCompany.Tables[0].Rows[i]["Salutation"].ToString();
+                            profList.Add(obj);
+                        }
+                    }
+                    return profList;
+                }
+            }
+        }
+        public List<KinRelationModel> GetKinRelation()
+        {
+            List<KinRelationModel> profList = new List<KinRelationModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetKinRelation", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsCompany = new DataSet();
+                    adapter.Fill(dsCompany);
+                    con.Close();
+                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        {
+                            KinRelationModel obj = new KinRelationModel();
+                            obj.Id = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Id"]);
+                            obj.KinRelation = dsCompany.Tables[0].Rows[i]["KinRelation"].ToString();
+                            profList.Add(obj);
+                        }
+                    }
+                    return profList;
+                }
+            }
+        }
+        //
+
         public List<MaritalStatusModel> GetMaritalStatus()
         {
             List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
@@ -334,7 +425,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public string BlockUnblockPatient(PatientModel patient)
+        public string BlockPatient(PatientModel patient)
         {
             string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -366,7 +457,7 @@ namespace LeHealth.Core.DataManager
                         var descrip = retDesc.Value.ToString();
                         if (Convert.ToInt32(ret) == patient.PatientId)
                         {
-                            response = "Success";
+                            response = "success";
                         }
                         else
                         {
@@ -381,5 +472,54 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        public string UnblockPatient(PatientModel patient) 
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UnblockPatient", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@PatientId", patient.PatientId);
+                        cmd.Parameters.AddWithValue("@UserId", patient.UserId);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        if (Convert.ToInt32(ret) == patient.PatientId)
+                        {
+                            response = "success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+
+
     }
 }

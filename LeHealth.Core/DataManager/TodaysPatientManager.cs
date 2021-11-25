@@ -41,172 +41,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-        //Insert patient working
-        public string InsertPatientOriginal(PatientModel patientDetail)
-        {
-            SqlTransaction transaction;
-            string response = "";
-            
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-
-                con.Open();
-                transaction = con.BeginTransaction();
-
-                SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
-                cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
-                cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
-                cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation);
-                cmd.Parameters.AddWithValue("@FirstName", patientDetail.FirstName);
-                cmd.Parameters.AddWithValue("@MiddleName", patientDetail.MiddleName);
-                cmd.Parameters.AddWithValue("@LastName", patientDetail.LastName);
-                cmd.Parameters.AddWithValue("@DOB", patientDetail.DOB);
-                cmd.Parameters.AddWithValue("@Gender", patientDetail.Gender);
-                cmd.Parameters.AddWithValue("@MaritalStatus", patientDetail.MaritalStatus);
-                cmd.Parameters.AddWithValue("@KinName", patientDetail.KinName);
-                cmd.Parameters.AddWithValue("@KinRelation", patientDetail.KinRelation);
-                cmd.Parameters.AddWithValue("@KinContactNo", patientDetail.KinContactNo);
-                cmd.Parameters.AddWithValue("@Mobile", patientDetail.Mobile);
-                cmd.Parameters.AddWithValue("@ResNo", patientDetail.ResNo);
-                cmd.Parameters.AddWithValue("@OffNo", patientDetail.OffNo);
-                cmd.Parameters.AddWithValue("@Email", patientDetail.Email);
-                cmd.Parameters.AddWithValue("@FaxNo", patientDetail.FaxNo);
-                cmd.Parameters.AddWithValue("@Religion", patientDetail.Religion);
-                cmd.Parameters.AddWithValue("@ProfId", patientDetail.ProfId);
-                cmd.Parameters.AddWithValue("@CmpId", patientDetail.CmpId);
-                cmd.Parameters.AddWithValue("@Status", patientDetail.Status);
-                cmd.Parameters.AddWithValue("@PatState", patientDetail.PatState);
-                cmd.Parameters.AddWithValue("@RGroupId", patientDetail.RGroupId);
-                cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);
-                cmd.Parameters.AddWithValue("@Remarks", patientDetail.Remarks);
-                cmd.Parameters.AddWithValue("@NationalityId", patientDetail.NationalityId);
-                cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
-                cmd.Parameters.AddWithValue("@Active", patientDetail.Active);
-                cmd.Parameters.AddWithValue("@AppId", patientDetail.AppId);
-                cmd.Parameters.AddWithValue("@RefBy", patientDetail.RefBy);
-                cmd.Parameters.AddWithValue("@PrivilegeCard", patientDetail.PrivilegeCard);
-                cmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
-                cmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
-                cmd.Parameters.AddWithValue("@WorkEnvironment", patientDetail.WorkEnvironMent);
-                cmd.Parameters.AddWithValue("@ProfessionalExperience", patientDetail.ProfessionalExperience);
-                cmd.Parameters.AddWithValue("@ProfessionalNoxious", patientDetail.ProfessionalNoxious);
-                cmd.Parameters.AddWithValue("@VisaTypeId", patientDetail.VisaTypeId);
-                cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
-                cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
-                cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo);
-                SqlParameter patientIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(patientIdParam);
-
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                cmd.Transaction = transaction;
-                try
-                {
-                    cmd.ExecuteNonQuery();
-                    int patientId = (int)patientIdParam.Value;
-                    string descr = retDesc.Value.ToString();
-                    if (patientId > 0)
-                    {
-                        patientDetail.PatientId = patientId;
-                        patientDetail.RegAddress[0].PatientId = patientId;
-                        patientDetail.RegAddress[1].PatientId = patientId;
-                        patientDetail.RegAddress[2].PatientId = patientId;
-                        DataTable dt = new DataTable();
-                        dt = ToDataTable(patientDetail.RegAddress);
-                        Insert_Patient_Address(dt, _connStr);
-
-                        patientDetail.RegIdentities[0].PatientId = patientId;
-                        patientDetail.RegIdentities[1].PatientId = patientId;
-                        patientDetail.RegIdentities[2].PatientId = patientId;
-                        patientDetail.RegIdentities[3].PatientId = patientId;
-                        patientDetail.RegIdentities[4].PatientId = patientId;
-                        patientDetail.RegIdentities[5].PatientId = patientId;
-                        patientDetail.RegIdentities[6].PatientId = patientId;
-                        DataTable dti = new DataTable();
-                        dti = ToDataTable(patientDetail.RegIdentities);
-                        Insert_Patient_Identity(dti, _connStr);
-
-
-                        //SqlCommand patientCompanyCmd = InsertCompany(patientDetail);
-                        //patientCompanyCmd.Connection = con;
-                        //patientCompanyCmd.ExecuteNonQuery();
-                        transaction.Commit();
-                        SqlCommand patientRegscmd = new SqlCommand("stLH_InsertPatRegs", con);
-                        patientRegscmd.CommandType = CommandType.StoredProcedure;
-                        patientRegscmd.Parameters.AddWithValue("@RegId", DBNull.Value);
-                        patientRegscmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
-                        patientRegscmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
-                        patientRegscmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
-                        patientRegscmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
-                        patientRegscmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
-                        patientRegscmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
-                        patientRegscmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
-                        patientRegscmd.Parameters.AddWithValue("@ItemId", patientDetail.ItemId);
-                        SqlParameter returnParam = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        patientRegscmd.Parameters.Add(returnParam);
-                        SqlParameter returnDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        patientRegscmd.Parameters.Add(returnDesc);
-
-
-
-
-                        var isInserted = patientRegscmd.ExecuteNonQuery();
-                        var patregsresponse = returnDesc.Value.ToString();
-                        int RegId = Convert.ToInt32(returnParam.Value);
-                        if (RegId > 0)
-                        {
-                            if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
-                            {
-                                patientDetail.Consultation.PatientId = patientDetail.PatientId;
-                                SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
-                                patientConsultationCmd.Connection = con;
-                                var isUpdated = patientConsultationCmd.ExecuteNonQuery();
-                            }
-                            SqlCommand updateRegNoCmd = UPDATERegNo();
-                            updateRegNoCmd.Connection = con;
-                            updateRegNoCmd.ExecuteNonQuery();
-                            //transaction.Commit();
-                            response = "success";//patientId.ToString();
-                        }
-                        else
-                        {
-                            transaction.Rollback();
-                        }
-                    }
-                    else
-                    {
-                        transaction.Rollback();
-                        response = descr;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    response = ex.Message.ToString();
-                }
-                con.Close();
-            }
-            return response;
-        }
-
-
-
         public SqlCommand InsertConsultation(ConsultationModel consultations)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation"))
@@ -250,72 +84,6 @@ namespace LeHealth.Core.DataManager
 
                 return cmd;
             }
-        }
-
-        public static void Insert_Patient_Address(DataTable csvData, string con)
-        {
-            using (SqlConnection dbConnection = new SqlConnection(con))
-            {
-                dbConnection.Open();
-                using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
-                {
-                    s.DestinationTableName = "LH_PatAddress";
-                    s.ColumnMappings.Add("PatientId", "PatientId");
-                    s.ColumnMappings.Add("AddType", "AddType");
-                    s.ColumnMappings.Add("Address1", "Address1");
-                    s.ColumnMappings.Add("Address2", "Address2");
-                    s.ColumnMappings.Add("Street", "Street");
-                    s.ColumnMappings.Add("PlacePO", "PlacePO");
-                    s.ColumnMappings.Add("PIN", "PIN");
-                    s.ColumnMappings.Add("City", "City");
-                    s.ColumnMappings.Add("State", "State");
-                    s.ColumnMappings.Add("CountryId", "CountryId");
-                    s.WriteToServer(csvData);
-                }
-            }
-        }
-        public static void Insert_Patient_Identity(DataTable csvData, string con)
-        {
-            using (SqlConnection dbConnection = new SqlConnection(con))
-            {
-                dbConnection.Open();
-                using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
-                {
-                    s.DestinationTableName = "LH_PatIdentity";
-
-                    s.ColumnMappings.Add("IdentityType", "IdentityType");
-                    s.ColumnMappings.Add("IdentityNo", "IdentityNo");
-                    s.ColumnMappings.Add("PatientId", "PatientId");
-
-                    s.WriteToServer(csvData);
-
-                }
-            }
-        }
-
-
-
-
-        public DataTable ToDataTable<T>(List<T> items)
-        {
-            DataTable dataTable = new DataTable(typeof(T).Name);
-            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo prop in Props)
-            {
-                dataTable.Columns.Add(prop.Name);
-            }
-            foreach (T item in items)
-            {
-                var values = new object[Props.Length];
-                for (int i = 0; i < Props.Length; i++)
-                {
-
-                    values[i] = Props[i].GetValue(item, null);
-                }
-                dataTable.Rows.Add(values);
-            }
-
-            return dataTable;
         }
         public SqlCommand InsertPatRegs(PatientModel patientRegDetail)
         {
@@ -524,7 +292,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-
         public List<SchemeModel> GetSchemeByConsultant(int consultantid)
         {
             List<SchemeModel> schemeList = new List<SchemeModel>();
@@ -585,7 +352,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-
         public List<VisaTypeModel> GetVisaType()
         {
             List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
@@ -668,9 +434,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
-
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
         {
             List<GetAppNoModel> scheduleList = new List<GetAppNoModel>();
@@ -694,7 +457,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap)
         {
             List<GetAppTimeModel> scheduleList = new List<GetAppTimeModel>();
@@ -719,7 +481,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsim)
         {
             List<SheduleGetDataModel> scheduleList = new List<SheduleGetDataModel>();
@@ -774,7 +535,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<StateModel> GetStateByCountryId(int countryId)
         {
             List<StateModel> stateList = new List<StateModel>();
@@ -878,8 +638,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
         public List<LeadAgentModel> GetLeadAgent(LeadAgentModel la)
         {
             List<LeadAgentModel> itemList = new List<LeadAgentModel>();
@@ -1164,8 +922,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
         //ZONE END
         /// <summary>
         /// Save consultation details to database,Step three in code execution flow
@@ -1374,8 +1130,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
         public List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm)
         {
             List<ConsultationByPatientIdModel> consultationList = new List<ConsultationByPatientIdModel>();
@@ -1473,174 +1227,6 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        //public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
-        //{
-        //    List<PatRegByPatientIdModel> consultationList = new List<PatRegByPatientIdModel>();
-        //    using (SqlConnection con = new SqlConnection(_connStr))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand("stLH_GetPatRegByPatientId", con))
-        //        {
-        //            con.Open();
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
-        //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //            DataSet ds = new DataSet();
-        //            adapter.Fill(ds);
-        //            con.Close();
-        //            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-        //            {
-        //                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-        //                {
-        //                    PatRegByPatientIdModel obj = new PatRegByPatientIdModel();
-        //                    obj.RegId = Convert.ToInt32(ds.Tables[0].Rows[i]["RegId"]);
-        //                    obj.RegDate = ds.Tables[0].Rows[i]["RegDate"].ToString();
-        //                    obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
-        //                    obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
-        //                    obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
-        //                    obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
-        //                    obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
-        //                    consultationList.Add(obj);
-        //                }
-        //            }
-        //            return consultationList;
-        //        }
-        //    }
-        //}
-
-
-        //Malaffi start
-        public string SendAddPatientInformation(int patientid)
-        {
-            List<AllPatientModel> patientList = new List<AllPatientModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetMalaffiRegisterPatient", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PatientId", patientid);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds
-                        != null) && (ds.Tables[0].Rows.Count > 0))
-                    {
-                        DataTable dt = ds.Tables[0];
-                        string strFile = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        string strFileName = "Path.GetTempPath()" + @"\" + Convert.ToString(ds.Tables[0].Rows[0]["MalaffiSystemcode"]) + "_REGISTERPATIENT_" + strFile + ".HL7";
-                        string strValue = MalaffiStringBuilder(dt, "ADT^A28");
-                        if (strValue == string.Empty)
-                        {
-                            return "";
-                        }
-                    }
-                    return "";
-                }
-            }
-        }
-
-        private string MalaffiStringBuilder(DataTable dt, string MessageType)
-        {
-            string strValue = string.Empty;
-
-            DataRow dr = dt.Rows[0];
-            if (!this.MalaffiValidations(dr))
-                return string.Empty;
-            strValue = @"MSH|" + Convert.ToString(dr["MSHEncode"]) + "|" +
-                        Convert.ToString(dr["MalaffiSystemcode"]) + "^" + Convert.ToString(dr["MalaffiSystemcode"]) + "|" +
-                        Convert.ToString(dr["MalaffiSystemcode"]) + "^" + Convert.ToString(dr["MalaffiSystemcode"]) + "|" +
-                        Convert.ToString(dr["MSHRecApp"]) + "||" +
-                        Convert.ToString(dr["MSHDate"]) + "||" +
-                        MessageType + "|" +
-                        DateTime.Now.ToString("ddMMyyyyhhmmssffftt") +
-                        "|P|" +
-                        Convert.ToString(dr["MSHVersion"]) + "\r";
-            if (!MessageType.Equals("OMP^O09") && !MessageType.Equals("ORU^R01") && !MessageType.Equals("RAS^O17") && !MessageType.Equals("PPR^PC1"))
-                strValue += "EVN|" + MessageType.Substring(4, 3) + "|" + Convert.ToString(dr["EVNRecDate"]) + "\r";
-
-            strValue += "PID|" + Convert.ToString(dr["PIDSetId"]) + "||" +
-                         Convert.ToString(dr["PIDRegNo"]) + "^^^&" + Convert.ToString(dr["MalaffiSystemcode"]) + "||" +
-                         Convert.ToString(dr["PIDPatLastName"]) + "^" + Convert.ToString(dr["PIDPatFirstName"]) + "^" + Convert.ToString(dr["PIDMiddleName"]) +
-                         "||" +
-                         Convert.ToString(dr["PIDDOB"]) + "|" + Convert.ToString(dr["PIDSex"]) +
-                         "|||" +
-                         Convert.ToString(dr["PatAddress"]) + "|||" +
-                         Convert.ToString(dr["PIDMobile"]) + "||" +
-                         Convert.ToString(dr["PIDMaritalStat"]) + "|" +
-                         Convert.ToString(dr["PIDReligionCode"]) + "^" + Convert.ToString(dr["PIDReligionName"]) + "^MALAFFI"
-                         + "||" + Convert.ToString(dr["PIDEmiratesId"]) + "|||||||||" +
-                         Convert.ToString(dr["PIDMalaffiNationalityCode"]) + "^" + Convert.ToString(dr["PIDNationalityName"]) + "^MALAFFI"
-                         + "|||||||||||||||\r";
-            if (!MessageType.Equals("ADT^A28"))
-                strValue += "PV1|" +
-                            Convert.ToString(dr["PV1SedId"]) + "|" +
-                            Convert.ToString(dr["PVIPatClass"]) + "|" +
-                            "^^^" + Convert.ToString(dr["PV1DHAFacilityId"] + "&" + Convert.ToString(dr["PV1MalaffiSystemcode"]) + "-DOHID" +
-                            "||||||" +
-                            Convert.ToString(dr["PV1CRegNo"]) + "^" + Convert.ToString(dr["PV1ConLastName"]) + "^" + Convert.ToString(dr["PV1ConFirstName"]) + "^^^^^^&" +
-                            Convert.ToString(dr["PV1MalaffiSystemcode"]) + "-DOHID" + "|" +
-                            Convert.ToString(dr["PV1HospSpeciality"]) + "||||" +
-                            Convert.ToString(dr["PV1AdmitSource"]) + "|||||" +
-                            Convert.ToString(dr["PV1VisitNo"]) + "^^^&" + Convert.ToString(dr["PV1MalaffiSystemcode"]) + "|||||||||||||||||" +
-                            Convert.ToString(dr["PV1DischrgPosition"]) + "||||||||" +
-                            Convert.ToString(dr["PV1AdmitDate"]) + "|" +
-                            (MessageType == "ADT^A03" ? Convert.ToString(dr["PV1DischargeDate"]) : string.Empty)) +
-                            "|||||||\r";
-            if (!MessageType.Equals("PPR^PC1"))
-            {
-                if (dt.Columns.Contains("PV2VisitReason"))
-                    if (Convert.ToString(dt.Rows[0]["PV2VisitReason"]).Trim().Length > 0)
-                        strValue += "PV2|||" + "^" + Convert.ToString(dt.Rows[0]["PV2VisitReason"]).Trim() + "|||||||||\r";
-            }
-            return strValue;
-        }
-
-        private bool MalaffiValidations(DataRow dr)
-        {
-            string strValidationMessage = string.Empty;
-            if (Convert.ToString(dr["MalaffiSystemcode"]).Trim().Length <= 0)
-                strValidationMessage += "Malaffi System Code\r\n";
-            if (Convert.ToString(dr["PIDPatFirstName"]).Trim().Length <= 0)
-                strValidationMessage += "Patient First Name\r\n";
-            //if (Convert.ToString(dr["PIDMiddleName"]).Length <= 0)
-            //    strValidationMessage += "Patient Middle Name\r\n";
-            if (Convert.ToString(dr["PIDPatLastName"]).Trim().Length <= 0)
-                strValidationMessage += "Patient Last Name\r\n";
-            if (Convert.ToString(dr["PIDDOB"]).Trim().Length <= 0)
-                strValidationMessage += "DOB\r\n";
-            if (Convert.ToString(dr["PIDSex"]).Trim().Length <= 0)
-                strValidationMessage += "Sex\r\n";
-            if (Convert.ToString(dr["PIDMobile"]).Trim().Length <= 0)
-                strValidationMessage += "Mobile\r\n";
-            if (Convert.ToString(dr["PIDMaritalStat"]).Trim().Length <= 0)
-                strValidationMessage += "MaritalStatus\r\n";
-            if (Convert.ToString(dr["PIDReligionCode"]).Trim().Length <= 0 || Convert.ToString(dr["PIDReligionName"]).Trim().Length <= 0)
-                strValidationMessage += "Religion Code/Name\r\n";
-            if (Convert.ToString(dr["PIDEmiratesId"]).Trim().Length <= 0)
-                strValidationMessage += "Emirates ID Number\r\n";
-            if (Convert.ToString(dr["PIDMalaffiNationalityCode"]).Trim().Length <= 0 || Convert.ToString(dr["PIDNationalityName"]).Trim().Length <= 0)
-                strValidationMessage += "Nationality Code/Name\r\n";
-            string strConsultant = string.Empty;
-            if (Convert.ToString(dr["PV1CRegNo"]).Trim().Length <= 0)
-                strConsultant += "Consultant Register Number\r\n";
-            if (Convert.ToString(dr["PV1ConLastName"]).Trim().Length <= 0)
-                strConsultant += "Consultant Last Name\r\n";
-            if (Convert.ToString(dr["PV1HospSpeciality"]).Trim().Length <= 0)
-                strConsultant += "Consultant Speciality Code\r\n";
-            if (strConsultant.Length > 0)
-            {
-                strValidationMessage += "\r\nBelow Consultant (" + (dr["PV1CRegNo"] == null || dr["PV1CRegNo"] == DBNull.Value ? string.Empty
-                    : Convert.ToString(dr["PV1CRegNo"])) + ") details are empty \r\n" + strConsultant;
-            }
-            if (strValidationMessage.Length > 0)
-            {
-                string aaa = "Malaffi Validation details. Below required fields are empty\r\n" + strValidationMessage;
-                return false;
-            }
-            return true;
-        }
-
         //INSERT UPDATE PATIENT
         public string InsertPatient(PatientModel patientDetail)
         {
@@ -1723,31 +1309,8 @@ namespace LeHealth.Core.DataManager
                     string descr = retDesc.Value.ToString();
                     if (patientId > 0)//Inserted / Updated Successfully
                     {
-                        //SqlCommand patientCompanyCmd = InsertCompany(patientDetail);
-                        //patientCompanyCmd.Connection = con;
-                        //patientCompanyCmd.ExecuteNonQuery();
                         transaction.Commit();
-
-                        //SEVEN TIMES START
-                        //SqlCommand savepatidentity1CMD = new SqlCommand("stLH_InsertPatIdentity", con);
-                        //savepatidentity1CMD.CommandType = CommandType.StoredProcedure;
-                        //savepatidentity1CMD.Parameters.AddWithValue("@PatientId", patientId);
-                        //savepatidentity1CMD.Parameters.AddWithValue("@IdentityType", patientDetail.RegIdentities[0].IdentityType);
-                        //savepatidentity1CMD.Parameters.AddWithValue("@IdentityNo", patientDetail.RegIdentities[0].IdentityNo);
-                        //SqlParameter patidReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
-                        //{
-                        //    Direction = ParameterDirection.Output
-                        //};
-                        //SqlParameter patidReturnDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        //{
-                        //    Direction = ParameterDirection.Output
-                        //};
-                        //savepatidentity1CMD.Parameters.Add(patidReturn1);
-                        //savepatidentity1CMD.Parameters.Add(patidReturnDesc1);
-                        //var isInserted = savepatidentity1CMD.ExecuteNonQuery();
-                        //int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
-                        //var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
-                        for (int i=0;i< patientDetail.RegIdentities.Count; i++)
+                        for (int i = 0; i < patientDetail.RegIdentities.Count; i++)
                         {
                             SqlCommand savepatidentity1CMD = new SqlCommand("stLH_InsertPatIdentity", con);
                             savepatidentity1CMD.CommandType = CommandType.StoredProcedure;
@@ -1768,9 +1331,6 @@ namespace LeHealth.Core.DataManager
                             int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
                             var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
                         }
-
-
-
                         //SEVEN TIMES END
 
 
@@ -1876,7 +1436,415 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
     }
-
 }
+//public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
+//{
+//    List<PatRegByPatientIdModel> consultationList = new List<PatRegByPatientIdModel>();
+//    using (SqlConnection con = new SqlConnection(_connStr))
+//    {
+//        using (SqlCommand cmd = new SqlCommand("stLH_GetPatRegByPatientId", con))
+//        {
+//            con.Open();
+//            cmd.CommandType = CommandType.StoredProcedure;
+//            cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+//            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+//            DataSet ds = new DataSet();
+//            adapter.Fill(ds);
+//            con.Close();
+//            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+//            {
+//                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+//                {
+//                    PatRegByPatientIdModel obj = new PatRegByPatientIdModel();
+//                    obj.RegId = Convert.ToInt32(ds.Tables[0].Rows[i]["RegId"]);
+//                    obj.RegDate = ds.Tables[0].Rows[i]["RegDate"].ToString();
+//                    obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
+//                    obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
+//                    obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
+//                    obj.ExpiryDate = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
+//                    obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
+//                    consultationList.Add(obj);
+//                }
+//            }
+//            return consultationList;
+//        }
+//    }
+//}
+
+//public DataTable ToDataTable<T>(List<T> items)
+//{
+//    DataTable dataTable = new DataTable(typeof(T).Name);
+//    PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+//    foreach (PropertyInfo prop in Props)
+//    {
+//        dataTable.Columns.Add(prop.Name);
+//    }
+//    foreach (T item in items)
+//    {
+//        var values = new object[Props.Length];
+//        for (int i = 0; i < Props.Length; i++)
+//        {
+
+//            values[i] = Props[i].GetValue(item, null);
+//        }
+//        dataTable.Rows.Add(values);
+//    }
+
+//    return dataTable;
+//}
+
+//public string SendAddPatientInformation(int patientid)
+//{
+//    List<AllPatientModel> patientList = new List<AllPatientModel>();
+//    using (SqlConnection con = new SqlConnection(_connStr))
+//    {
+//        using (SqlCommand cmd = new SqlCommand("stLH_GetMalaffiRegisterPatient", con))
+//        {
+//            con.Open();
+//            cmd.CommandType = CommandType.StoredProcedure;
+//            cmd.Parameters.AddWithValue("@PatientId", patientid);
+//            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+//            DataSet ds = new DataSet();
+//            adapter.Fill(ds);
+//            con.Close();
+//            if ((ds != null) && (ds.Tables.Count > 0) && (ds
+//                != null) && (ds.Tables[0].Rows.Count > 0))
+//            {
+//                DataTable dt = ds.Tables[0];
+//                string strFile = DateTime.Now.ToString("yyyyMMddHHmmss");
+//                string strFileName = "Path.GetTempPath()" + @"\" + Convert.ToString(ds.Tables[0].Rows[0]["MalaffiSystemcode"]) + "_REGISTERPATIENT_" + strFile + ".HL7";
+//                string strValue = MalaffiStringBuilder(dt, "ADT^A28");
+//                if (strValue == string.Empty)
+//                {
+//                    return "";
+//                }
+//            }
+//            return "";
+//        }
+//    }
+//}
+
+//private string MalaffiStringBuilder(DataTable dt, string MessageType)
+//{
+//    string strValue = string.Empty;
+
+//    DataRow dr = dt.Rows[0];
+//    if (!this.MalaffiValidations(dr))
+//        return string.Empty;
+//    strValue = @"MSH|" + Convert.ToString(dr["MSHEncode"]) + "|" +
+//                Convert.ToString(dr["MalaffiSystemcode"]) + "^" + Convert.ToString(dr["MalaffiSystemcode"]) + "|" +
+//                Convert.ToString(dr["MalaffiSystemcode"]) + "^" + Convert.ToString(dr["MalaffiSystemcode"]) + "|" +
+//                Convert.ToString(dr["MSHRecApp"]) + "||" +
+//                Convert.ToString(dr["MSHDate"]) + "||" +
+//                MessageType + "|" +
+//                DateTime.Now.ToString("ddMMyyyyhhmmssffftt") +
+//                "|P|" +
+//                Convert.ToString(dr["MSHVersion"]) + "\r";
+//    if (!MessageType.Equals("OMP^O09") && !MessageType.Equals("ORU^R01") && !MessageType.Equals("RAS^O17") && !MessageType.Equals("PPR^PC1"))
+//        strValue += "EVN|" + MessageType.Substring(4, 3) + "|" + Convert.ToString(dr["EVNRecDate"]) + "\r";
+
+//    strValue += "PID|" + Convert.ToString(dr["PIDSetId"]) + "||" +
+//                 Convert.ToString(dr["PIDRegNo"]) + "^^^&" + Convert.ToString(dr["MalaffiSystemcode"]) + "||" +
+//                 Convert.ToString(dr["PIDPatLastName"]) + "^" + Convert.ToString(dr["PIDPatFirstName"]) + "^" + Convert.ToString(dr["PIDMiddleName"]) +
+//                 "||" +
+//                 Convert.ToString(dr["PIDDOB"]) + "|" + Convert.ToString(dr["PIDSex"]) +
+//                 "|||" +
+//                 Convert.ToString(dr["PatAddress"]) + "|||" +
+//                 Convert.ToString(dr["PIDMobile"]) + "||" +
+//                 Convert.ToString(dr["PIDMaritalStat"]) + "|" +
+//                 Convert.ToString(dr["PIDReligionCode"]) + "^" + Convert.ToString(dr["PIDReligionName"]) + "^MALAFFI"
+//                 + "||" + Convert.ToString(dr["PIDEmiratesId"]) + "|||||||||" +
+//                 Convert.ToString(dr["PIDMalaffiNationalityCode"]) + "^" + Convert.ToString(dr["PIDNationalityName"]) + "^MALAFFI"
+//                 + "|||||||||||||||\r";
+//    if (!MessageType.Equals("ADT^A28"))
+//        strValue += "PV1|" +
+//                    Convert.ToString(dr["PV1SedId"]) + "|" +
+//                    Convert.ToString(dr["PVIPatClass"]) + "|" +
+//                    "^^^" + Convert.ToString(dr["PV1DHAFacilityId"] + "&" + Convert.ToString(dr["PV1MalaffiSystemcode"]) + "-DOHID" +
+//                    "||||||" +
+//                    Convert.ToString(dr["PV1CRegNo"]) + "^" + Convert.ToString(dr["PV1ConLastName"]) + "^" + Convert.ToString(dr["PV1ConFirstName"]) + "^^^^^^&" +
+//                    Convert.ToString(dr["PV1MalaffiSystemcode"]) + "-DOHID" + "|" +
+//                    Convert.ToString(dr["PV1HospSpeciality"]) + "||||" +
+//                    Convert.ToString(dr["PV1AdmitSource"]) + "|||||" +
+//                    Convert.ToString(dr["PV1VisitNo"]) + "^^^&" + Convert.ToString(dr["PV1MalaffiSystemcode"]) + "|||||||||||||||||" +
+//                    Convert.ToString(dr["PV1DischrgPosition"]) + "||||||||" +
+//                    Convert.ToString(dr["PV1AdmitDate"]) + "|" +
+//                    (MessageType == "ADT^A03" ? Convert.ToString(dr["PV1DischargeDate"]) : string.Empty)) +
+//                    "|||||||\r";
+//    if (!MessageType.Equals("PPR^PC1"))
+//    {
+//        if (dt.Columns.Contains("PV2VisitReason"))
+//            if (Convert.ToString(dt.Rows[0]["PV2VisitReason"]).Trim().Length > 0)
+//                strValue += "PV2|||" + "^" + Convert.ToString(dt.Rows[0]["PV2VisitReason"]).Trim() + "|||||||||\r";
+//    }
+//    return strValue;
+//}
+
+//private bool MalaffiValidations(DataRow dr)
+//{
+//    string strValidationMessage = string.Empty;
+//    if (Convert.ToString(dr["MalaffiSystemcode"]).Trim().Length <= 0)
+//        strValidationMessage += "Malaffi System Code\r\n";
+//    if (Convert.ToString(dr["PIDPatFirstName"]).Trim().Length <= 0)
+//        strValidationMessage += "Patient First Name\r\n";
+//    //if (Convert.ToString(dr["PIDMiddleName"]).Length <= 0)
+//    //    strValidationMessage += "Patient Middle Name\r\n";
+//    if (Convert.ToString(dr["PIDPatLastName"]).Trim().Length <= 0)
+//        strValidationMessage += "Patient Last Name\r\n";
+//    if (Convert.ToString(dr["PIDDOB"]).Trim().Length <= 0)
+//        strValidationMessage += "DOB\r\n";
+//    if (Convert.ToString(dr["PIDSex"]).Trim().Length <= 0)
+//        strValidationMessage += "Sex\r\n";
+//    if (Convert.ToString(dr["PIDMobile"]).Trim().Length <= 0)
+//        strValidationMessage += "Mobile\r\n";
+//    if (Convert.ToString(dr["PIDMaritalStat"]).Trim().Length <= 0)
+//        strValidationMessage += "MaritalStatus\r\n";
+//    if (Convert.ToString(dr["PIDReligionCode"]).Trim().Length <= 0 || Convert.ToString(dr["PIDReligionName"]).Trim().Length <= 0)
+//        strValidationMessage += "Religion Code/Name\r\n";
+//    if (Convert.ToString(dr["PIDEmiratesId"]).Trim().Length <= 0)
+//        strValidationMessage += "Emirates ID Number\r\n";
+//    if (Convert.ToString(dr["PIDMalaffiNationalityCode"]).Trim().Length <= 0 || Convert.ToString(dr["PIDNationalityName"]).Trim().Length <= 0)
+//        strValidationMessage += "Nationality Code/Name\r\n";
+//    string strConsultant = string.Empty;
+//    if (Convert.ToString(dr["PV1CRegNo"]).Trim().Length <= 0)
+//        strConsultant += "Consultant Register Number\r\n";
+//    if (Convert.ToString(dr["PV1ConLastName"]).Trim().Length <= 0)
+//        strConsultant += "Consultant Last Name\r\n";
+//    if (Convert.ToString(dr["PV1HospSpeciality"]).Trim().Length <= 0)
+//        strConsultant += "Consultant Speciality Code\r\n";
+//    if (strConsultant.Length > 0)
+//    {
+//        strValidationMessage += "\r\nBelow Consultant (" + (dr["PV1CRegNo"] == null || dr["PV1CRegNo"] == DBNull.Value ? string.Empty
+//            : Convert.ToString(dr["PV1CRegNo"])) + ") details are empty \r\n" + strConsultant;
+//    }
+//    if (strValidationMessage.Length > 0)
+//    {
+//        string aaa = "Malaffi Validation details. Below required fields are empty\r\n" + strValidationMessage;
+//        return false;
+//    }
+//    return true;
+//}
+
+////Insert patient working
+//public string InsertPatientOriginal(PatientModel patientDetail)
+//{
+//    SqlTransaction transaction;
+//    string response = "";
+
+//    using (SqlConnection con = new SqlConnection(_connStr))
+//    {
+
+//        con.Open();
+//        transaction = con.BeginTransaction();
+
+//        SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
+//        cmd.CommandType = CommandType.StoredProcedure;
+
+//        cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
+//        cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
+//        cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
+//        cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation);
+//        cmd.Parameters.AddWithValue("@FirstName", patientDetail.FirstName);
+//        cmd.Parameters.AddWithValue("@MiddleName", patientDetail.MiddleName);
+//        cmd.Parameters.AddWithValue("@LastName", patientDetail.LastName);
+//        cmd.Parameters.AddWithValue("@DOB", patientDetail.DOB);
+//        cmd.Parameters.AddWithValue("@Gender", patientDetail.Gender);
+//        cmd.Parameters.AddWithValue("@MaritalStatus", patientDetail.MaritalStatus);
+//        cmd.Parameters.AddWithValue("@KinName", patientDetail.KinName);
+//        cmd.Parameters.AddWithValue("@KinRelation", patientDetail.KinRelation);
+//        cmd.Parameters.AddWithValue("@KinContactNo", patientDetail.KinContactNo);
+//        cmd.Parameters.AddWithValue("@Mobile", patientDetail.Mobile);
+//        cmd.Parameters.AddWithValue("@ResNo", patientDetail.ResNo);
+//        cmd.Parameters.AddWithValue("@OffNo", patientDetail.OffNo);
+//        cmd.Parameters.AddWithValue("@Email", patientDetail.Email);
+//        cmd.Parameters.AddWithValue("@FaxNo", patientDetail.FaxNo);
+//        cmd.Parameters.AddWithValue("@Religion", patientDetail.Religion);
+//        cmd.Parameters.AddWithValue("@ProfId", patientDetail.ProfId);
+//        cmd.Parameters.AddWithValue("@CmpId", patientDetail.CmpId);
+//        cmd.Parameters.AddWithValue("@Status", patientDetail.Status);
+//        cmd.Parameters.AddWithValue("@PatState", patientDetail.PatState);
+//        cmd.Parameters.AddWithValue("@RGroupId", patientDetail.RGroupId);
+//        cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);
+//        cmd.Parameters.AddWithValue("@Remarks", patientDetail.Remarks);
+//        cmd.Parameters.AddWithValue("@NationalityId", patientDetail.NationalityId);
+//        cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
+//        cmd.Parameters.AddWithValue("@Active", patientDetail.Active);
+//        cmd.Parameters.AddWithValue("@AppId", patientDetail.AppId);
+//        cmd.Parameters.AddWithValue("@RefBy", patientDetail.RefBy);
+//        cmd.Parameters.AddWithValue("@PrivilegeCard", patientDetail.PrivilegeCard);
+//        cmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
+//        cmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
+//        cmd.Parameters.AddWithValue("@WorkEnvironment", patientDetail.WorkEnvironMent);
+//        cmd.Parameters.AddWithValue("@ProfessionalExperience", patientDetail.ProfessionalExperience);
+//        cmd.Parameters.AddWithValue("@ProfessionalNoxious", patientDetail.ProfessionalNoxious);
+//        cmd.Parameters.AddWithValue("@VisaTypeId", patientDetail.VisaTypeId);
+//        cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
+//        cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
+//        cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo);
+//        SqlParameter patientIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
+//        {
+//            Direction = ParameterDirection.Output
+//        };
+//        cmd.Parameters.Add(patientIdParam);
+
+//        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+//        {
+//            Direction = ParameterDirection.Output
+//        };
+//        cmd.Parameters.Add(retDesc);
+//        cmd.Transaction = transaction;
+//        try
+//        {
+//            cmd.ExecuteNonQuery();
+//            int patientId = (int)patientIdParam.Value;
+//            string descr = retDesc.Value.ToString();
+//            if (patientId > 0)
+//            {
+//                patientDetail.PatientId = patientId;
+//                patientDetail.RegAddress[0].PatientId = patientId;
+//                patientDetail.RegAddress[1].PatientId = patientId;
+//                patientDetail.RegAddress[2].PatientId = patientId;
+//                DataTable dt = new DataTable();
+//                dt = ToDataTable(patientDetail.RegAddress);
+//                Insert_Patient_Address(dt, _connStr);
+
+//                patientDetail.RegIdentities[0].PatientId = patientId;
+//                patientDetail.RegIdentities[1].PatientId = patientId;
+//                patientDetail.RegIdentities[2].PatientId = patientId;
+//                patientDetail.RegIdentities[3].PatientId = patientId;
+//                patientDetail.RegIdentities[4].PatientId = patientId;
+//                patientDetail.RegIdentities[5].PatientId = patientId;
+//                patientDetail.RegIdentities[6].PatientId = patientId;
+//                DataTable dti = new DataTable();
+//                dti = ToDataTable(patientDetail.RegIdentities);
+//                Insert_Patient_Identity(dti, _connStr);
+
+
+//                //SqlCommand patientCompanyCmd = InsertCompany(patientDetail);
+//                //patientCompanyCmd.Connection = con;
+//                //patientCompanyCmd.ExecuteNonQuery();
+//                transaction.Commit();
+//                SqlCommand patientRegscmd = new SqlCommand("stLH_InsertPatRegs", con);
+//                patientRegscmd.CommandType = CommandType.StoredProcedure;
+//                patientRegscmd.Parameters.AddWithValue("@RegId", DBNull.Value);
+//                patientRegscmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
+//                patientRegscmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
+//                patientRegscmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
+//                patientRegscmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
+//                patientRegscmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
+//                patientRegscmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
+//                patientRegscmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
+//                patientRegscmd.Parameters.AddWithValue("@ItemId", patientDetail.ItemId);
+//                SqlParameter returnParam = new SqlParameter("@RetVal", SqlDbType.Int)
+//                {
+//                    Direction = ParameterDirection.Output
+//                };
+//                patientRegscmd.Parameters.Add(returnParam);
+//                SqlParameter returnDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+//                {
+//                    Direction = ParameterDirection.Output
+//                };
+//                patientRegscmd.Parameters.Add(returnDesc);
+
+
+
+
+//                var isInserted = patientRegscmd.ExecuteNonQuery();
+//                var patregsresponse = returnDesc.Value.ToString();
+//                int RegId = Convert.ToInt32(returnParam.Value);
+//                if (RegId > 0)
+//                {
+//                    if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
+//                    {
+//                        patientDetail.Consultation.PatientId = patientDetail.PatientId;
+//                        SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
+//                        patientConsultationCmd.Connection = con;
+//                        var isUpdated = patientConsultationCmd.ExecuteNonQuery();
+//                    }
+//                    SqlCommand updateRegNoCmd = UPDATERegNo();
+//                    updateRegNoCmd.Connection = con;
+//                    updateRegNoCmd.ExecuteNonQuery();
+//                    //transaction.Commit();
+//                    response = "success";//patientId.ToString();
+//                }
+//                else
+//                {
+//                    transaction.Rollback();
+//                }
+//            }
+//            else
+//            {
+//                transaction.Rollback();
+//                response = descr;
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            transaction.Rollback();
+//            response = ex.Message.ToString();
+//        }
+//        con.Close();
+//    }
+//    return response;
+//}
+//SEVEN TIMES START
+//SqlCommand savepatidentity1CMD = new SqlCommand("stLH_InsertPatIdentity", con);
+//savepatidentity1CMD.CommandType = CommandType.StoredProcedure;
+//savepatidentity1CMD.Parameters.AddWithValue("@PatientId", patientId);
+//savepatidentity1CMD.Parameters.AddWithValue("@IdentityType", patientDetail.RegIdentities[0].IdentityType);
+//savepatidentity1CMD.Parameters.AddWithValue("@IdentityNo", patientDetail.RegIdentities[0].IdentityNo);
+//SqlParameter patidReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
+//{
+//    Direction = ParameterDirection.Output
+//};
+//SqlParameter patidReturnDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+//{
+//    Direction = ParameterDirection.Output
+//};
+//savepatidentity1CMD.Parameters.Add(patidReturn1);
+//savepatidentity1CMD.Parameters.Add(patidReturnDesc1);
+//var isInserted = savepatidentity1CMD.ExecuteNonQuery();
+//int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
+//var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
+
+//public static void Insert_Patient_Address(DataTable csvData, string con)
+//{
+//    using (SqlConnection dbConnection = new SqlConnection(con))
+//    {
+//        dbConnection.Open();
+//        using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
+//        {
+//            s.DestinationTableName = "LH_PatAddress";
+//            s.ColumnMappings.Add("PatientId", "PatientId");
+//            s.ColumnMappings.Add("AddType", "AddType");
+//            s.ColumnMappings.Add("Address1", "Address1");
+//            s.ColumnMappings.Add("Address2", "Address2");
+//            s.ColumnMappings.Add("Street", "Street");
+//            s.ColumnMappings.Add("PlacePO", "PlacePO");
+//            s.ColumnMappings.Add("PIN", "PIN");
+//            s.ColumnMappings.Add("City", "City");
+//            s.ColumnMappings.Add("State", "State");
+//            s.ColumnMappings.Add("CountryId", "CountryId");
+//            s.WriteToServer(csvData);
+//        }
+//    }
+//}
+//public static void Insert_Patient_Identity(DataTable csvData, string con)
+//{
+//    using (SqlConnection dbConnection = new SqlConnection(con))
+//    {
+//        dbConnection.Open();
+//        using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
+//        {
+//            s.DestinationTableName = "LH_PatIdentity";
+
+//            s.ColumnMappings.Add("IdentityType", "IdentityType");
+//            s.ColumnMappings.Add("IdentityNo", "IdentityNo");
+//            s.ColumnMappings.Add("PatientId", "PatientId");
+
+//            s.WriteToServer(csvData);
+
+//        }
+//    }
+//}

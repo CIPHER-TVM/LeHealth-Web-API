@@ -18,6 +18,22 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetProfession();
         }
+
+        public List<GenderModel> GetGender() 
+        {
+            return registrationManager.GetGender();
+        }
+        public List<KinRelationModel> GetKinRelation()
+        {
+            return registrationManager.GetKinRelation();
+        }
+        public List<SalutationModel> GetSalutation()
+        {
+            return registrationManager.GetSalutation();
+        }
+
+
+
         public List<RateGroupModel> GetRateGroup(int rgroup)
         {
             return registrationManager.GetRateGroup(rgroup);
@@ -46,9 +62,13 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.SaveReRegistration(patient);
         }
-        public string BlockUnblockPatient(PatientModel patient)     
+        public string BlockPatient(PatientModel patient)     
         {
-            return registrationManager.BlockUnblockPatient(patient);
+            return registrationManager.BlockPatient(patient);
+        }
+         public string UnblockPatient(PatientModel patient)     
+        {
+            return registrationManager.UnblockPatient(patient);
         }
 
     }

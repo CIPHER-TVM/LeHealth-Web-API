@@ -1089,7 +1089,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 string msg = "";
                 msg = todaysPatientService.CancelConsultation(consultations);
-                
+
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
                 {
                     Message = msg,
@@ -1422,7 +1422,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         }
 
-        
+
         [HttpPost]
         [Route("GetScheduleData")]
         public ResponseDataModel<IEnumerable<SheduleGetDataModel>> GetScheduleData(GetScheduleInputModel gan)
@@ -1459,27 +1459,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [HttpPost]
-        [Route("SendAddPatientInformation")]
-        public string SendAddPatientInformation()
-        {
-            //List<AllPatientModel> patientList = new List<AllPatientModel>();
-            try
-            {
-                string patientList = todaysPatientService.SendAddPatientInformation(5);
-                return "";
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return "";
-            }
-            finally
-            {
-                //  consultationList.Clear();
-                // dispose can be managed here
-            }
-        }
 
 
 
@@ -1709,3 +1688,26 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
     }
 }
+
+//[HttpPost]
+//[Route("SendAddPatientInformation")]
+//public string SendAddPatientInformation()
+//{
+//    //List<AllPatientModel> patientList = new List<AllPatientModel>();
+//    try
+//    {
+//        string patientList = todaysPatientService.SendAddPatientInformation(5);
+//        return "";
+//    }
+//    catch (Exception ex)
+//    {
+//        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+//        return "";
+//    }
+//    finally
+//    {
+//        //  consultationList.Clear();
+//        // dispose can be managed here
+//    }
+//}
+

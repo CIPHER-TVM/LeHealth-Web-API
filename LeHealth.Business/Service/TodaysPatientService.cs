@@ -66,10 +66,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAppTime(gap);
         }
-        public string SendAddPatientInformation(int patientid)
-        {
-            return todaysPatientManager.SendAddPatientInformation(patientid);
-        }
+        //public string SendAddPatientInformation(int patientid)
+        //{
+        //    return todaysPatientManager.SendAddPatientInformation(patientid);
+        //}
         public List<StateModel> GetStateByCountryId(int countryid)
         {
             return todaysPatientManager.GetStateByCountryId(countryid);

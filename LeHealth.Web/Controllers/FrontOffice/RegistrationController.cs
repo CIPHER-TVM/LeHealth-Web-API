@@ -62,8 +62,113 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        //NEW API STARTS
+        [Route("GetSalutation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation()
+        {
+            List<SalutationModel> professionList = new List<SalutationModel>();
+            try
+            {
+                professionList = registrationService.GetSalutation();
+                var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = professionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
+                };
+            }
+            finally
+            {
+                // dispose can be managed here
+            }
+        }
 
+        [Route("GetGender")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<GenderModel>> GetGender() 
+        {
+            List<GenderModel> professionList = new List<GenderModel>();
+            try
+            {
+                professionList = registrationService.GetGender(); 
+                var response = new ResponseDataModel<IEnumerable<GenderModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = professionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<GenderModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // dispose can be managed here
+            }
+        }
+
+        [Route("GetKinRelation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<KinRelationModel>> GetKinRelation() 
+        {
+            List<KinRelationModel> professionList = new List<KinRelationModel>();
+            try
+            {
+                professionList = registrationService.GetKinRelation(); 
+                var response = new ResponseDataModel<IEnumerable<KinRelationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = professionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<KinRelationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // dispose can be managed here
+            }
+        }
+
+        //NEW API ENDS
         [Route("GetRateGroup")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroup(RateGroupModel rgroup)
@@ -99,6 +204,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        
+        
         [HttpPost]
         [Route("GetAllPatient")]
         public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient()
@@ -289,14 +396,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
 
-        [Route("BlockUnblockPatient")]
+        [Route("BlockPatient")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> BlockUnblockPatient(PatientModel patient)
         {
             try
             {
                 string msg = "";
-                msg = registrationService.BlockUnblockPatient(patient);
+                msg = registrationService.BlockPatient(patient);
 
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
                 {
@@ -325,5 +432,43 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+        [Route("UnblockPatient")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationModel>> UnblockPatient(PatientModel patient)
+        {
+            try
+            {
+                string msg = "";
+                msg = registrationService.UnblockPatient(patient);
+
+                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
     }
 }
