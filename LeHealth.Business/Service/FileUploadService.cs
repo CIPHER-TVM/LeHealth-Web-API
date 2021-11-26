@@ -60,7 +60,7 @@ namespace LeHealth.Service.Service
         }
         public string SaveFile(IFormFile File)
         {
-            //
+            string actualFileName = "";
             using (var ms = new MemoryStream())
             {
                 //filep.TestingFile.CopyTo(ms);
@@ -78,7 +78,7 @@ namespace LeHealth.Service.Service
                 var fileNameArray = fileName.Split('.');
                 var extension = fileNameArray[(fileNameArray.Length - 1)];
                 Guid Uniquefilename = Guid.NewGuid();
-                var actualFileName = Uniquefilename + "." + extension;
+                 actualFileName = Uniquefilename + "." + extension;
                 using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
                     {
                     File.CopyTo(stream);

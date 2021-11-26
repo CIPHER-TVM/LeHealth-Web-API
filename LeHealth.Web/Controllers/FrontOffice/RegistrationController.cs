@@ -20,14 +20,50 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
     {
         private readonly ILogger<RegistrationController> logger;
         private readonly IRegistrationService registrationService;
-       
+        private readonly IFileUploadService fileUploadService; 
         public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService,IFileUploadService _fileUploadService)
         {
             logger = _logger;
             registrationService = _registrationService;
+            fileUploadService = _fileUploadService;
         }
 
-       
+        //START
+        //FileTesting
+        [HttpPost]
+        [Route("FileTesting")]
+        public ResponseDataModel<IEnumerable<PatientModel>> FileTesting(AAASampleFileUploadTest fileob)
+        {
+            List<PatientModel> patientList = new List<PatientModel>();
+            try
+            {
+               // string asdf = fileUploadService.SaveFile(fileob); 
+                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        //END
 
         [Route("GetProfession")]
         [HttpPost]
@@ -396,11 +432,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             string msg = "";
             try
             {
-               
                 string registrationDetail = registrationService.SaveReRegistration(patientDetail);
                 if (registrationDetail == "Saved Successfully")
                 {
-                   
+                    msg = "success";
                 }
                 else
                 {
