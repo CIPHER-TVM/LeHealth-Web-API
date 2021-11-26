@@ -27,25 +27,25 @@ namespace LeHealth.Entity.DataModel
         public string PIN { get; set; }
         public int CountryId { get; set; }
 
-        public string Salutation { get; set; }
+        public int Salutation { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public int IdentityType { get; set; }
         public int IdentityNo { get; set; }
-        public string Gender { get; set; }
+        public int Gender { get; set; }
         public string DOB { get; set; }
-        public string MaritalStatus { get; set; }
+        public int MaritalStatus { get; set; }
         public string KinName { get; set; }
         public string KinDOB { get; set; }
-        public string KinRelation { get; set; }
+        public int KinRelation { get; set; }
         public string KinContactNo { get; set; }
         public string Mobile { get; set; }
         public string ResNo { get; set; }
         public string OffNo { get; set; }
         public string Email { get; set; }
         public string FaxNo { get; set; }
-        public string Religion { get; set; }
+        public int Religion { get; set; }
         public int CmpId { get; set; }
         public int Status { get; set; }
         public int PatState { get; set; }

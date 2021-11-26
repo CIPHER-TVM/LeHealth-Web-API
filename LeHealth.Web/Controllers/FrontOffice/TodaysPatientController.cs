@@ -68,7 +68,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                // dispose can be managed here
+                
             }
         }
         [Route("GetReligion")]
@@ -103,7 +103,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                // dispose can be managed here
+                
             }
         }
         //Zone Management Start
@@ -140,7 +140,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -176,7 +176,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -211,8 +211,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -247,8 +247,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -283,8 +283,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -330,8 +330,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultantList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -366,8 +365,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultantList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -402,8 +401,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultantList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -440,8 +439,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultantList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
         [Route("GetNumber/{numid}")]
@@ -475,8 +474,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultantList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -512,8 +511,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultantList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -557,8 +556,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultantList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
         /// <summary>
@@ -599,7 +598,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
+                
             }
         }
 
@@ -637,7 +636,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -674,7 +673,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
+                
             }
         }
 
@@ -710,7 +709,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
+                
             }
         }
         [Route("GetCompany")]
@@ -744,7 +743,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
+                
             }
         }
 
@@ -784,7 +783,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
         /// <summary>
@@ -825,7 +824,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -862,7 +861,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -899,7 +898,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -945,7 +944,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -980,8 +979,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                //  consultationList.Clear();
-                // dispose can be managed here
             }
         }
         /// <summary>
@@ -1023,8 +1020,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
             }
         }
         /// <summary>
@@ -1076,8 +1071,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -1113,8 +1108,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
+                
+                
             }
         }
 
@@ -1151,7 +1146,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // countryList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -1187,7 +1182,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // countryList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -1224,7 +1219,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // countryList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -1269,7 +1264,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // registrationDetail.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -1305,7 +1300,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -1342,7 +1337,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -1417,7 +1412,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -1455,7 +1450,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -1497,7 +1492,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -1533,7 +1528,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 
@@ -1569,7 +1564,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -1606,7 +1601,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -1643,7 +1638,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -1680,7 +1675,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
 
         }
@@ -1707,7 +1702,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 //    finally
 //    {
 //        //  consultationList.Clear();
-//        // dispose can be managed here
+//        
 //    }
 //}
 

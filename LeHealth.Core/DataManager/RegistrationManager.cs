@@ -131,8 +131,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        //
-
         public List<MaritalStatusModel> GetMaritalStatus()
         {
             List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
@@ -360,22 +358,22 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if ((dsPatientData != null) && (dsPatientData.Tables.Count > 0) && (dsPatientData.Tables[0] != null) && (dsPatientData.Tables[0].Rows.Count > 0))
                 {
-                    obj.Salutation = dsPatientData.Tables[0].Rows[0]["Salutation"].ToString();
+                    obj.Salutation = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["Salutation"]);
                     obj.FirstName = dsPatientData.Tables[0].Rows[0]["FirstName"].ToString();
                     obj.MiddleName = dsPatientData.Tables[0].Rows[0]["MiddleName"].ToString();
                     obj.LastName = dsPatientData.Tables[0].Rows[0]["LastName"].ToString();
-                    obj.DOB = dsPatientData.Tables[0].Rows[0]["DOB"].ToString();
-                    obj.Gender = dsPatientData.Tables[0].Rows[0]["Gender"].ToString();
-                    obj.MaritalStatus = dsPatientData.Tables[0].Rows[0]["MaritalStatus"].ToString();
+                    obj.DOB = dsPatientData.Tables[0].Rows[0]["DOB"].ToString().Substring(0, 10);
+                    obj.Gender = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["Gender"]);
+                    obj.MaritalStatus = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["MaritalStatus"]);
                     obj.KinName = dsPatientData.Tables[0].Rows[0]["KinName"].ToString();
-                    obj.KinRelation = dsPatientData.Tables[0].Rows[0]["KinRelation"].ToString();
+                    obj.KinRelation = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["KinRelation"]);
                     obj.Mobile = dsPatientData.Tables[0].Rows[0]["Mobile"].ToString();
                     obj.ResNo = dsPatientData.Tables[0].Rows[0]["ResNo"].ToString();
                     obj.OffNo = dsPatientData.Tables[0].Rows[0]["OffNo"].ToString();
                     obj.Remarks = dsPatientData.Tables[0].Rows[0]["Remarks"].ToString();
                     obj.Email = dsPatientData.Tables[0].Rows[0]["Email"].ToString();
                     obj.FaxNo = dsPatientData.Tables[0].Rows[0]["FaxNo"].ToString();
-                    obj.Religion = dsPatientData.Tables[0].Rows[0]["Religion"].ToString();
+                    obj.Religion = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["Religion"]);
                     obj.ProfId = (dsPatientData.Tables[0].Rows[0]["ProfId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ProfId"]);
                     obj.CmpId = (dsPatientData.Tables[0].Rows[0]["CmpId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CmpId"]);
                     obj.RGroupId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["RGroupId"]);
@@ -389,7 +387,7 @@ namespace LeHealth.Core.DataManager
                     obj.ProfessionalExperience = dsPatientData.Tables[0].Rows[0]["ProfessionalExperience"].ToString();
                     obj.LocationId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["LocationId"]);
                     obj.VisaTypeId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["VisaTypeID"]);
-                    obj.CommunicationType = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
+                    obj.CommunicationType = (dsPatientData.Tables[0].Rows[0]["CommunicationType"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);// Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
                     obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
                 }
 
@@ -496,7 +494,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        public string UnblockPatient(PatientModel patient) 
+        public string UnblockPatient(PatientModel patient)
         {
             string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))

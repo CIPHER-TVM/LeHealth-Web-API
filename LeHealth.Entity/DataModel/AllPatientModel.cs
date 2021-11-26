@@ -11,7 +11,7 @@ namespace LeHealth.Entity.DataModel
         public DateTime RegDate { get; set; } 
         public string PatientName { get; set; }
         public string RegisteredDate { get; set; } 
-        public string Gender { get; set; } 
+        public int Gender { get; set; } 
         public string Age { get; set; }
         public string AgeInYears { get; set; } 
         public string Mobile { get; set; }

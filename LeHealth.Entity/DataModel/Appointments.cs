@@ -42,7 +42,7 @@ namespace LeHealth.Entity.DataModel
         public string AppStatus { get; set; }
         public bool Reminder { get; set; }
         public string CancelReason { get; set; }
-        public string Gender { get; set; } 
+        public int Gender { get; set; } 
         public int UserId { get; set; }
 
         //public int appTypeId = 1;

@@ -58,20 +58,20 @@ namespace LeHealth.Catalogue.API
             //        ClockSkew = TimeSpan.Zero
             //    };
             //});
-   //         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-   //.AddJwtBearer(options =>
-   //{
-   //    options.TokenValidationParameters = new TokenValidationParameters
-   //    {
-   //        ValidateIssuer = true,
-   //        ValidateAudience = true,
-   //        ValidateLifetime = true,
-   //        ValidateIssuerSigningKey = true,
-   //        ValidIssuer = Configuration["ApplicationSettings:Issuer"],
-   //        ValidAudience = Configuration["ApplicationSettings:Audience"],
-   //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"]))
-   //    };
-   //});
+            //         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //.AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = Configuration["ApplicationSettings:Issuer"],
+            //        ValidAudience = Configuration["ApplicationSettings:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"]))
+            //    };
+            //});
             services.ConfigureCors();
             services.AddControllers();
             // services.AddAutoMapper(typeof(AutoMapping));
@@ -96,6 +96,8 @@ namespace LeHealth.Catalogue.API
             services.AddScoped<IFormValidationService, FormValidationService>();
             services.AddScoped<IFormValidationManager, FormValidationManager>();
 
+            //
+            services.AddScoped<IFileUploadService, FileUploadService>();
 
         }
 
