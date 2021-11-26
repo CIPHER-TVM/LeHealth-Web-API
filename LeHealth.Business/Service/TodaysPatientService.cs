@@ -10,20 +10,23 @@ namespace LeHealth.Service.Service
     public class TodaysPatientService : ITodaysPatientService
     {
         private readonly ITodaysPatientManager todaysPatientManager;
+        private readonly IFileUploadService fileUploadService;
         /// <summary>
         /// Initialising todaysPatientManager object
         /// </summary>
         /// <param name="_todaysPatientManager"></param>
-        public TodaysPatientService(ITodaysPatientManager _todaysPatientManager)
+        public TodaysPatientService(ITodaysPatientManager _todaysPatientManager, IFileUploadService _fileUploadService)
         {
             todaysPatientManager = _todaysPatientManager;
-
+            fileUploadService = _fileUploadService;
         }
         /// <summary>
         /// adding a new patient registration 
         /// </summary>
         public string InsertPatient(PatientModel patientDetail)
         {
+            patientDetail.PatientDocNames = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
+            patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto);
             return todaysPatientManager.InsertPatient(patientDetail);
         }
         public List<CountryModel> GetCountry(CountryModel countryDetails)

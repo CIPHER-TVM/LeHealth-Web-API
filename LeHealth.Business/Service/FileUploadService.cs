@@ -25,7 +25,7 @@ namespace LeHealth.Service.Service
 
         }
 
-        public string SaveFile(AAASampleFileUploadTest filep)
+        public List<string> SaveFileMultiple(List<IFormFile> Files)
         {
             //
             using (var ms = new MemoryStream())
@@ -40,14 +40,42 @@ namespace LeHealth.Service.Service
                 //    Directory.CreateDirectory(PathWithFolderName);
                 //}
                 //System.IO.File.WriteAllBytes(PathWithFolderName , fileBytes);
-
-                string fileName = "asdf.txt";
-                using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
+                Files.ForEach(a =>
                 {
-                    filep.TestingFile.CopyTo(stream);
-                    string asdfv = "";
-                    
-                }
+                    string fileName = a.FileName;
+                    using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
+                    {
+                        a.CopyTo(stream);
+
+                    }
+                });
+                
+            }
+            return "Success";
+        }
+        public string SaveFile(IFormFile File)
+        {
+            //
+            using (var ms = new MemoryStream())
+            {
+                //filep.TestingFile.CopyTo(ms);
+                //var fileBytes = ms.ToArray();
+                var webRoot = _env.WebRootPath;
+                webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
+                //if (!Directory.Exists(PathWithFolderName))
+                //{
+                //    Directory.CreateDirectory(PathWithFolderName);
+                //}
+                //System.IO.File.WriteAllBytes(PathWithFolderName , fileBytes);
+               
+                    string fileName = File.FileName;
+                    using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
+                    {
+                    File.CopyTo(stream);
+
+                    }
+
             }
             return "Success";
         }

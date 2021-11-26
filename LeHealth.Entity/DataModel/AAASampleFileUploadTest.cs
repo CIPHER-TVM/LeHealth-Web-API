@@ -7,7 +7,7 @@ namespace LeHealth.Entity.DataModel
 {
    public class AAASampleFileUploadTest
     {
-        public IFormFile TestingFile { get; set; } 
+        public List<IFormFile> Files { get; set; } 
         public string FilePathName { get; set; } 
         public string FileName  { get; set; } 
     }
