@@ -27,7 +27,7 @@ namespace LeHealth.Service.Service
 
         public List<string> SaveFileMultiple(List<IFormFile> Files)
         {
-            //
+            List<string> retvals = new List<string>();
             using (var ms = new MemoryStream())
             {
                 //filep.TestingFile.CopyTo(ms);
@@ -43,6 +43,11 @@ namespace LeHealth.Service.Service
                 Files.ForEach(a =>
                 {
                     string fileName = a.FileName;
+                    var fileNameArray = fileName.Split('.');
+                    var extension = fileNameArray[(fileNameArray.Length - 1)];
+                    Guid Uniquefilename = Guid.NewGuid();
+                    var actualFileName = Uniquefilename + "." + extension;
+                    retvals.Add(actualFileName);
                     using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
                     {
                         a.CopyTo(stream);
@@ -51,7 +56,7 @@ namespace LeHealth.Service.Service
                 });
                 
             }
-            return "Success";
+            return retvals;
         }
         public string SaveFile(IFormFile File)
         {
@@ -68,16 +73,20 @@ namespace LeHealth.Service.Service
                 //    Directory.CreateDirectory(PathWithFolderName);
                 //}
                 //System.IO.File.WriteAllBytes(PathWithFolderName , fileBytes);
-               
-                    string fileName = File.FileName;
-                    using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
+              
+                string fileName = File.FileName;
+                var fileNameArray = fileName.Split('.');
+                var extension = fileNameArray[(fileNameArray.Length - 1)];
+                Guid Uniquefilename = Guid.NewGuid();
+                var actualFileName = Uniquefilename + "." + extension;
+                using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
                     {
                     File.CopyTo(stream);
 
                     }
 
             }
-            return "Success";
+            return actualFileName;
         }
     }
 }
