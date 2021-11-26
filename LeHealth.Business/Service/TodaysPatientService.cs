@@ -25,7 +25,9 @@ namespace LeHealth.Service.Service
         /// </summary>
         public string InsertPatient(PatientModel patientDetail)
         {
+            if(patientDetail.PatientDocs!=null)
             patientDetail.PatientDocNames = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
+            if(patientDetail.PatientPhoto!=null)
             patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto);
             return todaysPatientManager.InsertPatient(patientDetail);
         }
