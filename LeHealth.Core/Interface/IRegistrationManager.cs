@@ -7,7 +7,7 @@ namespace LeHealth.Core.Interface
 {
     public interface IRegistrationManager
     {
-        string InsertPatient(PatientModel patientDetail);
+        string InsertPatient(PatientRegModel patientDetail);
         
         List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
