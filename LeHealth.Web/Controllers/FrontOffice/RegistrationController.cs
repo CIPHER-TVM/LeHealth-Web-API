@@ -37,7 +37,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<PatientModel> patientList = new List<PatientModel>();
             try
             {
-                string asdf = fileUploadService.SaveFile(fileob); 
+               // string asdf = fileUploadService.SaveFile(fileob); 
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
                     Status = HttpStatusCode.OK,

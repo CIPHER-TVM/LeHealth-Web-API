@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +10,12 @@ namespace LeHealth.Entity.DataModel
         public ConsultationModel Consultation { get; set; }
         public List<RegAddressModel> RegAddress { get; set; }
         public List<RegIdentitiesModel> RegIdentities { get; set; }
-        public List<RegDetModel> RegDet { get; set; }  
+        public List<RegDetModel> RegDet { get; set; }
+        public List<IFormFile> PatientDocs { get; set; }
+        public IFormFile PatientPhoto { get; set; }
+        public List<string> PatientDocNames { get; set; }
+        public string PatientPhotoName { get; set; }
+
         public int PatientId { get; set; }
         public int RegId { get; set; }
         public string RegNo { get; set; }

@@ -10,9 +10,11 @@ namespace LeHealth.Service.Service
     public class RegistrationService : IRegistrationService
     {
         private readonly IRegistrationManager registrationManager;
-        public RegistrationService(IRegistrationManager _registrationManager)
+        private readonly IFileUploadService fileUploadService;
+        public RegistrationService(IRegistrationManager _registrationManager, IFileUploadService _fileUploadService)
         {
             registrationManager = _registrationManager;
+            fileUploadService = _fileUploadService;
         }
         public List<ProffessionModel> GetProfession()
         {
@@ -64,6 +66,7 @@ namespace LeHealth.Service.Service
 
         public string SaveReRegistration(PatientModel patient)
         {
+            
             return registrationManager.SaveReRegistration(patient);
         }
         public string BlockPatient(PatientModel patient)
