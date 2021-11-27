@@ -1235,7 +1235,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         ///  
         [HttpPost]
         [Route("InsertPatientRegistration")]
-        public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromBody] PatientModel patientDetail)
+        public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromForm] PatientModel patientDetail)
         {
             string registrationDetail = "";
             try
