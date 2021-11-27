@@ -47,8 +47,9 @@ namespace LeHealth.Service.Service
                     var extension = fileNameArray[(fileNameArray.Length - 1)];
                     Guid Uniquefilename = Guid.NewGuid();
                     var actualFileName = Uniquefilename + "." + extension;
+                  
                     retvals.Add(actualFileName);
-                    using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
+                    using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
                     {
                         a.CopyTo(stream);
 
@@ -79,7 +80,7 @@ namespace LeHealth.Service.Service
                 var extension = fileNameArray[(fileNameArray.Length - 1)];
                 Guid Uniquefilename = Guid.NewGuid();
                  actualFileName = Uniquefilename + "." + extension;
-                using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, fileName), FileMode.Create))
+                using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
                     {
                     File.CopyTo(stream);
 
