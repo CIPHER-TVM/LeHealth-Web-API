@@ -7,7 +7,7 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IRegistrationService
     {
-        List<ProffessionModel> GetProfession();
+        string InsertPatient(PatientModel patientDetail);
         List<GenderModel> GetGender();
         List<SalutationModel> GetSalutation();
         List<KinRelationModel> GetKinRelation();
@@ -16,7 +16,7 @@ namespace LeHealth.Service.ServiceInterface
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
-        List<PatientModel> GetRegsteredDataById(int patientId); 
+        List<PatientModel> GetRegisteredDataById(int patientId); 
         string SaveReRegistration(PatientModel patient);
         string BlockPatient(PatientModel patient); 
         string UnblockPatient(PatientModel patient); 

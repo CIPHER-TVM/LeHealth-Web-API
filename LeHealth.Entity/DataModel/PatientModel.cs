@@ -11,8 +11,8 @@ namespace LeHealth.Entity.DataModel
         public List<RegAddressModel> RegAddress { get; set; }
         public List<RegIdentitiesModel> RegIdentities { get; set; }
         public List<RegDetModel> RegDet { get; set; }
-        public List<IFormFile> PatientDocs { get; set; }
-        public IFormFile PatientPhoto { get; set; }
+        //public List<IFormFile> PatientDocs { get; set; }
+        //public IFormFile PatientPhoto { get; set; }
         public List<string> PatientDocNames { get; set; }
         public string PatientPhotoName { get; set; }
 

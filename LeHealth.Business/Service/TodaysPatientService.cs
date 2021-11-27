@@ -20,17 +20,7 @@ namespace LeHealth.Service.Service
             todaysPatientManager = _todaysPatientManager;
             fileUploadService = _fileUploadService;
         }
-        /// <summary>
-        /// adding a new patient registration 
-        /// </summary>
-        public string InsertPatient(PatientModel patientDetail)
-        {
-            if(patientDetail.PatientDocs!=null)
-            patientDetail.PatientDocNames = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
-            if(patientDetail.PatientPhoto!=null)
-            patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto);
-            return todaysPatientManager.InsertPatient(patientDetail);
-        }
+        
         public List<CountryModel> GetCountry(CountryModel countryDetails)
         {
             return todaysPatientManager.GetCountry(countryDetails);

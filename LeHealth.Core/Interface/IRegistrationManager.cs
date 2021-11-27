@@ -7,7 +7,8 @@ namespace LeHealth.Core.Interface
 {
     public interface IRegistrationManager
     {
-        List<ProffessionModel> GetProfession();
+        string InsertPatient(PatientModel patientDetail);
+        
         List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
         List<GenderModel> GetGender(); 
@@ -16,7 +17,7 @@ namespace LeHealth.Core.Interface
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
-        List<PatientModel> GetRegsteredDataById(int patientId); 
+        List<PatientModel> GetRegisteredDataById(int patientId); 
         string SaveReRegistration(PatientModel patient);
         string BlockPatient(PatientModel patient);
         string UnblockPatient(PatientModel patient); 

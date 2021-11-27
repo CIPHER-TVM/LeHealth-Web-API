@@ -370,7 +370,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
                     cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@Phone", consultation.Mobile);
+                    cmd.Parameters.AddWithValue("@Phone", "");
                     cmd.Parameters.AddWithValue("@Address", consultation.Address);
                     cmd.Parameters.AddWithValue("@PIN", consultation.PIN);
 

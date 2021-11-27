@@ -7,7 +7,7 @@ namespace LeHealth.Core.Interface
 {
    public interface ITodaysPatientManager
     {
-        string InsertPatient(PatientModel patientDetail);
+        
         List<CountryModel> GetCountry(CountryModel countryDetails);
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
