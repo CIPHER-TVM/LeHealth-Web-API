@@ -701,15 +701,15 @@ namespace LeHealth.Core.DataManager
                                     patientConsultationCmd.Connection = con;
                                     var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                                 }
+                                //Manual aano allayo ennu oru parameter varanam
                                 SqlCommand updateRegNoCmd = UPDATERegNo();
                                 updateRegNoCmd.Connection = con;
                                 updateRegNoCmd.ExecuteNonQuery();
-                                //transaction.Commit();
                                 response = patientId.ToString();
                             }
                             else
                             {
-                                transaction.Rollback();
+                                //transaction.Rollback();
                             }
                         }
                         else
