@@ -678,7 +678,7 @@ namespace LeHealth.Core.DataManager
                             patientRegscmd.Parameters.AddWithValue("@RegId", DBNull.Value);
                             patientRegscmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
                             patientRegscmd.Parameters.AddWithValue("@PatientId", patientId);
-                            patientRegscmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
+                            patientRegscmd.Parameters.AddWithValue("@RegAmount", 0);
                             patientRegscmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
                             patientRegscmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
                             patientRegscmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
@@ -714,7 +714,7 @@ namespace LeHealth.Core.DataManager
                             }
                             else
                             {
-                                transaction.Rollback();
+                                //transaction.Rollback();
                             }
                         }
                         else
