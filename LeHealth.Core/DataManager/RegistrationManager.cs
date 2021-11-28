@@ -314,7 +314,7 @@ namespace LeHealth.Core.DataManager
 
 
         public List<PatientModel> GetRegisteredDataById(int patid)
-        { 
+        {
             PatientModel obj = new PatientModel();
             List<PatientModel> patientData = new List<PatientModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -568,6 +568,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@PrivilegeCard", patientDetail.PrivilegeCard);
                 cmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
                 cmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
+                cmd.Parameters.AddWithValue("@ProfilePicLocation", patientDetail.PatientPhotoName);
                 cmd.Parameters.AddWithValue("@WorkEnvironment", patientDetail.WorkEnvironMent);
                 cmd.Parameters.AddWithValue("@ProfessionalExperience", patientDetail.ProfessionalExperience);
                 cmd.Parameters.AddWithValue("@ProfessionalNoxious", patientDetail.ProfessionalNoxious);
@@ -653,6 +654,16 @@ namespace LeHealth.Core.DataManager
 
                         //THREE TIMES END
 
+                        //FileUploadStarts
+                        for (int k = 0; k < patientDetail.PatientDocNames.Count; k++)
+                        {
+                            SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
+                            savepatdocCMD.CommandType = CommandType.StoredProcedure;
+                            savepatdocCMD.Parameters.AddWithValue("@PatientId", patientId);
+                            savepatdocCMD.Parameters.AddWithValue("@FilePath", patientDetail.PatientDocNames[k]);
+                            var isInserted = savepatdocCMD.ExecuteNonQuery();
+                        }
+                        //FileUploadEnds
 
                         //IF INSERT ONLY STARTS
                         if (IsUpdate == 0)
