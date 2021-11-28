@@ -24,7 +24,15 @@ namespace LeHealth.Service.Service
             if (patientDetail.PatientDocs != null)
                 patientDetail.PatientDocNames = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
             if (patientDetail.PatientPhoto != null)
+            {
                 patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto);
+            }
+            else
+            {
+                patientDetail.PatientPhotoName = "";
+            }
+               
+
             return registrationManager.InsertPatient(patientDetail);
         }
         
