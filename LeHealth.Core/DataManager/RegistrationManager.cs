@@ -576,7 +576,8 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@CommunicationType", patientDetail.CommunicationType);
                 cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
                 cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
-                cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo);
+               
+                cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo == null ? "" : patientDetail.RetRegNo);
                 SqlParameter patientIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -655,14 +656,18 @@ namespace LeHealth.Core.DataManager
                         //THREE TIMES END
 
                         //FileUploadStarts
-                        for (int k = 0; k < patientDetail.PatientDocNames.Count; k++)
+                        if(patientDetail.PatientDocNames!=null)
                         {
-                            SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
-                            savepatdocCMD.CommandType = CommandType.StoredProcedure;
-                            savepatdocCMD.Parameters.AddWithValue("@PatientId", patientId);
-                            savepatdocCMD.Parameters.AddWithValue("@FilePath", patientDetail.PatientDocNames[k]);
-                            var isInserted = savepatdocCMD.ExecuteNonQuery();
+                            for (int k = 0; k < patientDetail.PatientDocNames.Count; k++)
+                            {
+                                SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
+                                savepatdocCMD.CommandType = CommandType.StoredProcedure;
+                                savepatdocCMD.Parameters.AddWithValue("@PatientId", patientId);
+                                savepatdocCMD.Parameters.AddWithValue("@FilePath", patientDetail.PatientDocNames[k]);
+                                var isInserted = savepatdocCMD.ExecuteNonQuery();
+                            }
                         }
+                        
                         //FileUploadEnds
 
                         //IF INSERT ONLY STARTS
@@ -673,7 +678,7 @@ namespace LeHealth.Core.DataManager
                             patientRegscmd.Parameters.AddWithValue("@RegId", DBNull.Value);
                             patientRegscmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
                             patientRegscmd.Parameters.AddWithValue("@PatientId", patientId);
-                            patientRegscmd.Parameters.AddWithValue("@RegAmount", DBNull.Value);
+                            patientRegscmd.Parameters.AddWithValue("@RegAmount", 0);
                             patientRegscmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);
                             patientRegscmd.Parameters.AddWithValue("@ExpiryDate", DBNull.Value);
                             patientRegscmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
