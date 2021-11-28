@@ -7,7 +7,7 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IRegistrationService
     {
-        string InsertPatient(PatientModel patientDetail);
+        string InsertPatient(PatientRegModel patientDetail);
         List<GenderModel> GetGender();
         List<SalutationModel> GetSalutation();
         List<KinRelationModel> GetKinRelation();
