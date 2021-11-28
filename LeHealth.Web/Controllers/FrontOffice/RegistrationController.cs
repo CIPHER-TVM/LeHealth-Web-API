@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using LeHealth.Catalogue.API;
 using LeHealth.Entity.DataModel;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Newtonsoft.Json;
+
 
 namespace LeHealth.Base.API.Controllers.FrontOffice
 {
@@ -20,6 +21,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
     {
         private readonly ILogger<RegistrationController> logger;
         private readonly IRegistrationService registrationService;
+       
         //private readonly IFileUploadService fileUploadService; 
         //public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService,IFileUploadService _fileUploadService)
         public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService)
@@ -27,6 +29,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             logger = _logger;
             registrationService = _registrationService;
             //fileUploadService = _fileUploadService;
+           
         }
 
         ////START
@@ -325,14 +328,19 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// Success or failure status
         /// </returns>
         ///  
+       
+
+
         [HttpPost]
         [Route("InsertPatientRegistration")]
-        public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromForm] PatientModel patientDetail)
+        public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromForm] PatientRequestModel obj)
         {
             string message = "";
             try
             {
-                
+                PatientRegModel patientDetail = JsonConvert.DeserializeObject<PatientRegModel>(obj.PatientJson);
+                patientDetail.PatientDocs = obj.PatientDocs;
+                patientDetail.PatientPhoto = obj.PatientPhoto;
                 string registrationDetail = registrationService.InsertPatient(patientDetail);
                 ErrorResponse er = new ErrorResponse();
                 var isNumeric = int.TryParse(registrationDetail, out int n);

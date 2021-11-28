@@ -513,7 +513,7 @@ namespace LeHealth.Core.DataManager
         }
 
         //INSERT UPDATE PATIENT
-        public string InsertPatient(PatientModel patientDetail)
+        public string InsertPatient(PatientRegModel patientDetail)
         {
             SqlTransaction transaction;
             string response = "";

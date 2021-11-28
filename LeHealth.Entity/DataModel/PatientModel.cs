@@ -5,14 +5,25 @@ using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
+    public class PatientRequestModel
+    {
+        public string PatientJson { get; set; }
+        public List<IFormFile> PatientDocs { get; set; }
+        public IFormFile PatientPhoto { get; set; }
+    }
+    public class PatientRegModel: PatientModel
+    {
+       
+        public List<IFormFile> PatientDocs { get; set; }
+        public IFormFile PatientPhoto { get; set; }
+    }
     public class PatientModel
     {
         public ConsultationModel Consultation { get; set; }
         public List<RegAddressModel> RegAddress { get; set; }
         public List<RegIdentitiesModel> RegIdentities { get; set; }
         public List<RegDetModel> RegDet { get; set; }
-        public List<IFormFile> PatientDocs { get; set; }
-        public IFormFile PatientPhoto { get; set; }
+       
         public List<string> PatientDocNames { get; set; }
         public string PatientPhotoName { get; set; }
 
