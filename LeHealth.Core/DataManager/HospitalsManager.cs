@@ -199,6 +199,8 @@ namespace LeHealth.Core.DataManager
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();// == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["RegNo"]);//int.Parse(ds.Tables[0].Rows[i]["RegNo"].ToString());
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
                             obj.Gender = ds.Tables[0].Rows[i]["Gender"].ToString();
+                            obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
+                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
                             appointmentlist.Add(obj);
                         }
                     }
@@ -368,7 +370,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
                     cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@Phone", consultation.Mobile);
+                    cmd.Parameters.AddWithValue("@Phone", "");
                     cmd.Parameters.AddWithValue("@Address", consultation.Address);
                     cmd.Parameters.AddWithValue("@PIN", consultation.PIN);
 

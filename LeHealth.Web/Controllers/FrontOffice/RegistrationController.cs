@@ -15,90 +15,58 @@ using System.Data;
 namespace LeHealth.Base.API.Controllers.FrontOffice
 {
     [Route("api/Registration")]
-    //[ApiController]
+    [ApiController]
     public class RegistrationController : ControllerBase
     {
         private readonly ILogger<RegistrationController> logger;
         private readonly IRegistrationService registrationService;
-        private readonly IFileUploadService fileUploadService; 
-        public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService,IFileUploadService _fileUploadService)
+        //private readonly IFileUploadService fileUploadService; 
+        //public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService,IFileUploadService _fileUploadService)
+        public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService)
         {
             logger = _logger;
             registrationService = _registrationService;
-            fileUploadService = _fileUploadService;
+            //fileUploadService = _fileUploadService;
         }
 
-        //START
-        //FileTesting
-        [HttpPost]
-        [Route("FileTesting")]
-        public ResponseDataModel<IEnumerable<PatientModel>> FileTesting(AAASampleFileUploadTest fileob)
-        {
-            List<PatientModel> patientList = new List<PatientModel>();
-            try
-            {
-               // string asdf = fileUploadService.SaveFile(fileob); 
-                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = patientList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<PatientModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+        ////START
+        ////FileTesting
+        //[HttpPost]
+        //[Route("FileTesting")]
+        //public ResponseDataModel<IEnumerable<PatientModel>> FileTesting(AAASampleFileUploadTest fileob)
+        //{
+        //    List<PatientModel> patientList = new List<PatientModel>();
+        //    try
+        //    {
+        //       // string asdf = fileUploadService.SaveFile(fileob); 
+        //        var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Response = patientList
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<IEnumerable<PatientModel>>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
 
-                };
-            }
-            finally
-            {
-            }
-        }
-        //END
+        //        };
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
+        ////END
 
-        [Route("GetProfession")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ProffessionModel>> GetProfession()
-        {
-            List<ProffessionModel> professionList = new List<ProffessionModel>();
-            try
-            {
-                professionList = registrationService.GetProfession();
-                var response = new ResponseDataModel<IEnumerable<ProffessionModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = professionList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ProffessionModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // dispose can be managed here
-            }
-        }
+       
 
         //NEW API STARTS
         [Route("GetSalutation")]
@@ -138,12 +106,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetGender")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<GenderModel>> GetGender() 
+        public ResponseDataModel<IEnumerable<GenderModel>> GetGender()
         {
             List<GenderModel> genderList = new List<GenderModel>();
             try
             {
-                genderList = registrationService.GetGender(); 
+                genderList = registrationService.GetGender();
                 var response = new ResponseDataModel<IEnumerable<GenderModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -173,12 +141,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetKinRelation")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<KinRelationModel>> GetKinRelation() 
+        public ResponseDataModel<IEnumerable<KinRelationModel>> GetKinRelation()
         {
             List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
             try
             {
-                kinRelationList = registrationService.GetKinRelation(); 
+                kinRelationList = registrationService.GetKinRelation();
                 var response = new ResponseDataModel<IEnumerable<KinRelationModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -242,8 +210,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        
-        
+
+
         [HttpPost]
         [Route("GetAllPatient")]
         public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient()
@@ -275,8 +243,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                //  consultationList.Clear();
-                // dispose can be managed here
             }
         }
 
@@ -350,17 +316,77 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        /// <summary>
+        /// Save new patient details,Controller class . Step One in code execution flow
+        /// </summary>
+        /// <param name="patientDetail"></param>
+        ///  All details regarding patient
+        /// <returns>
+        /// Success or failure status
+        /// </returns>
+        ///  
+        [HttpPost]
+        [Route("InsertPatientRegistration")]
+        public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromForm] PatientModel patientDetail)
+        {
+            string message = "";
+            try
+            {
+                
+                string registrationDetail = registrationService.InsertPatient(patientDetail);
+                ErrorResponse er = new ErrorResponse();
+                var isNumeric = int.TryParse(registrationDetail, out int n);
+                if (isNumeric == true)
+                {
+                    message = registrationDetail;
+                    er.Message = "success";
+                }
+                else
+                {
+                    message = "error";
+                    er.Message = registrationDetail;
+                }
+                er.Code = "";
+
+                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message,
+                    ErrorMessage = er
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // registrationDetail.Clear();
+
+            }
+        }
 
 
 
         [HttpPost]
-        [Route("GetRegsteredDataById")]
-        public ResponseDataModel<IEnumerable<PatientModel>> GetRegsteredDataById(PatientModel patientId)
+        [Route("GetRegisteredDataById")]
+        public ResponseDataModel<IEnumerable<PatientModel>> GetRegisteredDataById(PatientModel patient) 
         {
             List<PatientModel> patientList = new List<PatientModel>();
             try
             {
-                patientList = registrationService.GetRegsteredDataById(patientId.PatientId);
+                patientList = registrationService.GetRegisteredDataById(patient.PatientId);
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -543,7 +569,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-       
+
 
     }
 }

@@ -1224,51 +1224,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
 
-        /// <summary>
-        /// Save new patient details,Controller class . Step One in code execution flow
-        /// </summary>
-        /// <param name="patientDetail"></param>
-        ///  All details regarding patient
-        /// <returns>
-        /// Success or failure status
-        /// </returns>
-        ///  
-        [HttpPost]
-        [Route("InsertPatientRegistration")]
-        public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromForm] PatientModel patientDetail)
-        {
-            string registrationDetail = "";
-            try
-            {
-                registrationDetail = todaysPatientService.InsertPatient(patientDetail);
-                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = registrationDetail
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<PatientModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // registrationDetail.Clear();
-                
-            }
-        }
-
+        
         [HttpPost]
         [Route("SearchAppointment")]
         public ResponseDataModel<IEnumerable<AppSearchModel>> SearchAppointment(AppointmentModel appointment)

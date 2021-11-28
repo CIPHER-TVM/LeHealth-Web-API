@@ -16,10 +16,18 @@ namespace LeHealth.Service.Service
             registrationManager = _registrationManager;
             fileUploadService = _fileUploadService;
         }
-        public List<ProffessionModel> GetProfession()
+        /// <summary>
+        /// adding a new patient registration 
+        /// </summary>
+        public string InsertPatient(PatientModel patientDetail)
         {
-            return registrationManager.GetProfession();
+            //if (patientDetail.PatientDocs != null)
+            //    patientDetail.PatientDocNames = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
+            //if (patientDetail.PatientPhoto != null)
+            //    patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto);
+            return registrationManager.InsertPatient(patientDetail);
         }
+        
 
         public List<GenderModel> GetGender()
         {
@@ -59,9 +67,9 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.SearchPatientInList(patientList);
         }
-        public List<PatientModel> GetRegsteredDataById(int patientId)
+        public List<PatientModel> GetRegisteredDataById(int patientId)
         {
-            return registrationManager.GetRegsteredDataById(patientId);
+            return registrationManager.GetRegisteredDataById(patientId);
         }
 
         public string SaveReRegistration(PatientModel patient)
