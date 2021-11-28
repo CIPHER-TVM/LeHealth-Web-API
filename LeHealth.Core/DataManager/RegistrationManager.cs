@@ -159,9 +159,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
-
         public List<RateGroupModel> GetRateGroup(int rgroup)
         {
             List<RateGroupModel> rateList = new List<RateGroupModel>();
