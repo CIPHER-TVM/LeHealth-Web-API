@@ -44,7 +44,6 @@ namespace LeHealth.Entity.DataModel
         public string State { get; set; }
         public string PIN { get; set; }
         public int CountryId { get; set; }
-
         public int Salutation { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -89,6 +88,7 @@ namespace LeHealth.Entity.DataModel
         public string RetDesc { get; set; }
         public string RetRegNo { get; set; }
         public string Hook { get; set; }
+        public string SchemeName { get; set; } 
 
         //
 

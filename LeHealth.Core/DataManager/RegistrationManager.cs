@@ -261,6 +261,7 @@ namespace LeHealth.Core.DataManager
                             obj.PolicyNo = dsPatientList.Tables[0].Rows[i]["PolicyNo"].ToString();
                             obj.EmiratesId = dsPatientList.Tables[0].Rows[i]["EmirateID"].ToString();
                             obj.SponsorId = dsPatientList.Tables[0].Rows[i]["SponsorId"].ToString();
+                            obj.Active = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["Active"]);
                             patientList.Add(obj);
                         }
                     }
@@ -362,6 +363,7 @@ namespace LeHealth.Core.DataManager
                     obj.VisaTypeId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["VisaTypeID"]);
                     obj.CommunicationType = (dsPatientData.Tables[0].Rows[0]["CommunicationType"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);// Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
                     obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
+                    obj.SchemeName = "";
                 }
 
                 con.Open();
@@ -407,7 +409,7 @@ namespace LeHealth.Core.DataManager
                         obj3.PlacePO = dsRate3.Tables[0].Rows[i]["PlacePO"].ToString();
                         obj3.PIN = dsRate3.Tables[0].Rows[i]["PIN"].ToString();
                         obj3.City = dsRate3.Tables[0].Rows[i]["City"].ToString();
-                        obj3.State = dsRate3.Tables[0].Rows[i]["State"].ToString();
+                        obj3.State = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["State"]);
                         obj3.CountryId = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["CountryId"]);
                         ram.Add(obj3);
                     }
