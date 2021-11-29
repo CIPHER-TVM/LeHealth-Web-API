@@ -11,18 +11,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace LeHealth.Service.Service
 {
     public class FileUploadService : IFileUploadService
     {
-        private readonly IFileUploadService hospitalsManager;
+        private readonly IConfiguration _configuration;
         private IHostingEnvironment _env;
-        public FileUploadService(IHospitalsManager _hospitalsManager, IHostingEnvironment env)
+        private readonly string _uploadpath;
+        public FileUploadService(IHospitalsManager _hospitalsManager, IHostingEnvironment env, IConfiguration configuration)
         {
             _env = env;
-            // hospitalsManager = _hospitalsManager;
-
+            _uploadpath = configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
         public List<string> SaveFileMultiple(List<IFormFile> Files)
@@ -30,64 +31,62 @@ namespace LeHealth.Service.Service
             List<string> retvals = new List<string>();
             using (var ms = new MemoryStream())
             {
-                //filep.TestingFile.CopyTo(ms);
-                //var fileBytes = ms.ToArray();
                 var webRoot = _env.WebRootPath;
                 webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
-                //if (!Directory.Exists(PathWithFolderName))
-                //{
-                //    Directory.CreateDirectory(PathWithFolderName);
-                //}
-                //System.IO.File.WriteAllBytes(PathWithFolderName , fileBytes);
+                var PathWithFolderName = System.IO.Path.Combine(webRoot, @"uploads\documents");
                 Files.ForEach(a =>
                 {
+                    //string fileName = a.FileName;
+                    //var fileNameArray = fileName.Split('.');
+                    //var extension = fileNameArray[(fileNameArray.Length - 1)];
+                    //Guid Uniquefilename = Guid.NewGuid();
+                    //var actualFileName = Uniquefilename + "." + extension;
+                    //retvals.Add(PathWithFolderName + @"\" + actualFileName);
+                    //using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
+                    //{
+                    //    a.CopyTo(stream);
+                    //}
                     string fileName = a.FileName;
                     var fileNameArray = fileName.Split('.');
                     var extension = fileNameArray[(fileNameArray.Length - 1)];
                     Guid Uniquefilename = Guid.NewGuid();
                     var actualFileName = Uniquefilename + "." + extension;
-                  
-                    retvals.Add(actualFileName);
+                    //retvals.Add(PathWithFolderName + @"\" + actualFileName);
+                    //NEW CODE START
+                    string fullpathtest = "uploads/documents/" + actualFileName;
+                    retvals.Add(fullpathtest);
+                    //NEW CODE END
                     using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
                     {
                         a.CopyTo(stream);
-
                     }
                 });
-                
+
             }
             return retvals;
         }
         public string SaveFile(IFormFile File)
         {
-            string actualFileName = "";
+            string returnFilePath = "";
             using (var ms = new MemoryStream())
             {
-                //filep.TestingFile.CopyTo(ms);
-                //var fileBytes = ms.ToArray();
+
+
                 var webRoot = _env.WebRootPath;
                 webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
                 var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
-                //if (!Directory.Exists(PathWithFolderName))
-                //{
-                //    Directory.CreateDirectory(PathWithFolderName);
-                //}
-                //System.IO.File.WriteAllBytes(PathWithFolderName , fileBytes);
-              
                 string fileName = File.FileName;
                 var fileNameArray = fileName.Split('.');
                 var extension = fileNameArray[(fileNameArray.Length - 1)];
                 Guid Uniquefilename = Guid.NewGuid();
-                 actualFileName = Uniquefilename + "." + extension;
+                string actualFileName = Uniquefilename + "." + extension;
+                returnFilePath = "uploads/documents/" + actualFileName;
                 using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
-                    {
+                {
                     File.CopyTo(stream);
-
-                    }
-
+                }
             }
-            return actualFileName;
+            return returnFilePath;
         }
     }
 }

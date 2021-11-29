@@ -23,6 +23,7 @@ namespace LeHealth.Entity.DataModel
         public List<RegAddressModel> RegAddress { get; set; }
         public List<RegIdentitiesModel> RegIdentities { get; set; }
         public List<RegDetModel> RegDet { get; set; }
+        public List<RegDocLocationModel> RegDocLocation { get; set; } 
        
         public List<string> PatientDocNames { get; set; }
         public string PatientPhotoName { get; set; }
@@ -43,7 +44,6 @@ namespace LeHealth.Entity.DataModel
         public string State { get; set; }
         public string PIN { get; set; }
         public int CountryId { get; set; }
-
         public int Salutation { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -88,6 +88,7 @@ namespace LeHealth.Entity.DataModel
         public string RetDesc { get; set; }
         public string RetRegNo { get; set; }
         public string Hook { get; set; }
+        public string SchemeName { get; set; } 
 
         //
 

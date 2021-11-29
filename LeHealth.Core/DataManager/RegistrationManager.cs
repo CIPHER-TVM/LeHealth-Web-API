@@ -14,9 +14,11 @@ namespace LeHealth.Core.DataManager
     public class RegistrationManager : IRegistrationManager
     {
         private readonly string _connStr;
+        private readonly string _uploadpath;
         public RegistrationManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
+            _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
         public List<GenderModel> GetGender()
@@ -259,6 +261,7 @@ namespace LeHealth.Core.DataManager
                             obj.PolicyNo = dsPatientList.Tables[0].Rows[i]["PolicyNo"].ToString();
                             obj.EmiratesId = dsPatientList.Tables[0].Rows[i]["EmirateID"].ToString();
                             obj.SponsorId = dsPatientList.Tables[0].Rows[i]["SponsorId"].ToString();
+                            obj.Active = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["Active"]);
                             patientList.Add(obj);
                         }
                     }
@@ -360,6 +363,7 @@ namespace LeHealth.Core.DataManager
                     obj.VisaTypeId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["VisaTypeID"]);
                     obj.CommunicationType = (dsPatientData.Tables[0].Rows[0]["CommunicationType"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);// Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
                     obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
+                    obj.SchemeName = "";
                     obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
                     
                 }
@@ -407,13 +411,35 @@ namespace LeHealth.Core.DataManager
                         obj3.PlacePO = dsRate3.Tables[0].Rows[i]["PlacePO"].ToString();
                         obj3.PIN = dsRate3.Tables[0].Rows[i]["PIN"].ToString();
                         obj3.City = dsRate3.Tables[0].Rows[i]["City"].ToString();
-                        obj3.State = dsRate3.Tables[0].Rows[i]["State"].ToString();
+                        obj3.State = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["State"]);
                         obj3.CountryId = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["CountryId"]);
                         ram.Add(obj3);
                     }
                 }
+
+
+                con.Open();
+                SqlCommand cmd4 = new SqlCommand("stLH_GetRegFileNameByPatientId", con);
+                cmd4.CommandType = CommandType.StoredProcedure;
+                cmd4.Parameters.AddWithValue("@PatientId", patid);
+                SqlDataAdapter adapter4 = new SqlDataAdapter(cmd4);
+                DataSet ds4 = new DataSet();
+                adapter4.Fill(ds4);
+                con.Close();
+                List<RegDocLocationModel> doclistobj = new List<RegDocLocationModel>();
+                if ((ds4 != null) && (ds4.Tables.Count > 0) && (ds4.Tables[0] != null) && (ds4.Tables[0].Rows.Count > 0))
+                {
+                    for (int i = 0; i < ds4.Tables[0].Rows.Count; i++)
+                    {
+                        RegDocLocationModel obj4 = new RegDocLocationModel();
+                        obj4.Id = Convert.ToInt32(ds4.Tables[0].Rows[i]["Id"]);
+                        obj4.FilePath = _uploadpath + ds4.Tables[0].Rows[i]["FilePath"].ToString();
+                        doclistobj.Add(obj4);
+                    }
+                }
                 obj.RegIdentities = rim;
                 obj.RegAddress = ram;
+                obj.RegDocLocation = doclistobj;
                 patientData.Add(obj);
                 return patientData;
             }
@@ -578,7 +604,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@CommunicationType", patientDetail.CommunicationType);
                 cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
                 cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
-               
                 cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo == null ? "" : patientDetail.RetRegNo);
                 SqlParameter patientIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -658,7 +683,7 @@ namespace LeHealth.Core.DataManager
                         //THREE TIMES END
 
                         //FileUploadStarts
-                        if(patientDetail.PatientDocNames!=null)
+                        if (patientDetail.PatientDocNames != null)
                         {
                             for (int k = 0; k < patientDetail.PatientDocNames.Count; k++)
                             {
@@ -669,7 +694,7 @@ namespace LeHealth.Core.DataManager
                                 var isInserted = savepatdocCMD.ExecuteNonQuery();
                             }
                         }
-                        
+
                         //FileUploadEnds
 
                         //IF INSERT ONLY STARTS
@@ -708,10 +733,10 @@ namespace LeHealth.Core.DataManager
                                     patientConsultationCmd.Connection = con;
                                     var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                                 }
+                                //Manual aano allayo ennu oru parameter varanam
                                 SqlCommand updateRegNoCmd = UPDATERegNo();
                                 updateRegNoCmd.Connection = con;
                                 updateRegNoCmd.ExecuteNonQuery();
-                                //transaction.Commit();
                                 response = patientId.ToString();
                             }
                             else

@@ -1,0 +1,12 @@
+https://www.c-sharpcorner.com/blogs/example-on-how-to-use-output-parameter-in-stored-procedure-in-c-sharp
+
+
+check this one !
+OK
+
+187179
+
+2021-11-29
+W
+
+SearchConsultation regno like

@@ -1,0 +1,5 @@
+https://www.c-sharpcorner.com/blogs/example-on-how-to-use-output-parameter-in-stored-procedure-in-c-sharp
+
+
+check this one !
+OK

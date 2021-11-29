@@ -31,8 +31,6 @@ namespace LeHealth.Service.Service
             {
                 patientDetail.PatientPhotoName = "";
             }
-               
-
             return registrationManager.InsertPatient(patientDetail);
         }
         
