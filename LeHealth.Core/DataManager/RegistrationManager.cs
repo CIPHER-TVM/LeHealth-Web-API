@@ -14,9 +14,11 @@ namespace LeHealth.Core.DataManager
     public class RegistrationManager : IRegistrationManager
     {
         private readonly string _connStr;
+        private readonly string _uploadpath;
         public RegistrationManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
+            _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
         public List<GenderModel> GetGender()
@@ -410,8 +412,30 @@ namespace LeHealth.Core.DataManager
                         ram.Add(obj3);
                     }
                 }
+
+
+                con.Open();
+                SqlCommand cmd4 = new SqlCommand("stLH_GetRegFileNameByPatientId", con);
+                cmd4.CommandType = CommandType.StoredProcedure;
+                cmd4.Parameters.AddWithValue("@PatientId", patid);
+                SqlDataAdapter adapter4 = new SqlDataAdapter(cmd4);
+                DataSet ds4 = new DataSet();
+                adapter4.Fill(ds4);
+                con.Close();
+                List<RegDocLocationModel> doclistobj = new List<RegDocLocationModel>();
+                if ((ds4 != null) && (ds4.Tables.Count > 0) && (ds4.Tables[0] != null) && (ds4.Tables[0].Rows.Count > 0))
+                {
+                    for (int i = 0; i < ds4.Tables[0].Rows.Count; i++)
+                    {
+                        RegDocLocationModel obj4 = new RegDocLocationModel();
+                        obj4.Id = Convert.ToInt32(ds4.Tables[0].Rows[i]["Id"]);
+                        obj4.FilePath = _uploadpath + ds4.Tables[0].Rows[i]["FilePath"].ToString();
+                        doclistobj.Add(obj4);
+                    }
+                }
                 obj.RegIdentities = rim;
                 obj.RegAddress = ram;
+                obj.RegDocLocation = doclistobj;
                 patientData.Add(obj);
                 return patientData;
             }
@@ -576,7 +600,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@CommunicationType", patientDetail.CommunicationType);
                 cmd.Parameters.AddWithValue("@SessionId", patientDetail.SessionId);
                 cmd.Parameters.AddWithValue("@BranchId", patientDetail.BranchId);
-               
                 cmd.Parameters.AddWithValue("@RetRegNo", patientDetail.RetRegNo == null ? "" : patientDetail.RetRegNo);
                 SqlParameter patientIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -656,7 +679,7 @@ namespace LeHealth.Core.DataManager
                         //THREE TIMES END
 
                         //FileUploadStarts
-                        if(patientDetail.PatientDocNames!=null)
+                        if (patientDetail.PatientDocNames != null)
                         {
                             for (int k = 0; k < patientDetail.PatientDocNames.Count; k++)
                             {
@@ -667,7 +690,7 @@ namespace LeHealth.Core.DataManager
                                 var isInserted = savepatdocCMD.ExecuteNonQuery();
                             }
                         }
-                        
+
                         //FileUploadEnds
 
                         //IF INSERT ONLY STARTS

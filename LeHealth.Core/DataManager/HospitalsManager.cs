@@ -192,6 +192,7 @@ namespace LeHealth.Core.DataManager
                         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             ConsultationModel obj = new ConsultationModel();
+                            obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
                             obj.TokenNO = ds.Tables[0].Rows[i]["TokenNO"].ToString();
                             obj.Sponsor = ds.Tables[0].Rows[i]["Sponsor"].ToString();
                             obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
