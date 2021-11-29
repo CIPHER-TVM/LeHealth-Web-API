@@ -360,6 +360,8 @@ namespace LeHealth.Core.DataManager
                     obj.VisaTypeId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["VisaTypeID"]);
                     obj.CommunicationType = (dsPatientData.Tables[0].Rows[0]["CommunicationType"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);// Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
                     obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
+                    obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
+                    
                 }
 
                 con.Open();
@@ -537,7 +539,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
                 cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
                 cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
-                cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation);
+                cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation != null ? patientDetail.Salutation : 0  );
                 cmd.Parameters.AddWithValue("@FirstName", patientDetail.FirstName);
                 cmd.Parameters.AddWithValue("@MiddleName", patientDetail.MiddleName);
                 cmd.Parameters.AddWithValue("@LastName", patientDetail.LastName);
