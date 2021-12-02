@@ -20,7 +20,7 @@ namespace LeHealth.Service.Service
             todaysPatientManager = _todaysPatientManager;
             fileUploadService = _fileUploadService;
         }
-        
+
         public List<CountryModel> GetCountry(CountryModel countryDetails)
         {
             return todaysPatientManager.GetCountry(countryDetails);
@@ -33,14 +33,19 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.SearchAppointment(countryDetails);
         }
-       
+
 
 
         public List<PatientListModel> SearchPatient(PatientSearchModel patientList)
         {
             return todaysPatientManager.SearchPatient(patientList);
         }
-        
+        public FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList)
+        {
+            return todaysPatientManager.GetFrontOfficeProgressBars(patientList);
+        }
+
+
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
             return todaysPatientManager.GetSavingSchemaMandatory(formname);
@@ -88,8 +93,14 @@ namespace LeHealth.Service.Service
         }
         public string CancelConsultation(ConsultationModel consultation)
         {
-            return todaysPatientManager.CancelConsultation(consultation); 
+            return todaysPatientManager.CancelConsultation(consultation);
         }
+        public string SetUrgentConsultation(ConsultationModel consultation)
+        {
+            return todaysPatientManager.SetUrgentConsultation(consultation);
+        }
+
+
         public string UpdateZone(ZoneModel zone)
         {
             return todaysPatientManager.UpdateZone(zone);

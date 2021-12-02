@@ -12,6 +12,7 @@ namespace LeHealth.Core.Interface
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
+        FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
         List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
         List<VisaTypeModel> GetVisaType();
@@ -53,6 +54,7 @@ namespace LeHealth.Core.Interface
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<LeadAgentModel> GetLeadAgent(LeadAgentModel la);
         string CancelConsultation(ConsultationModel cons); 
+        string SetUrgentConsultation(ConsultationModel cons);  
         List<CompanyModel> GetCompany();
         
     } 

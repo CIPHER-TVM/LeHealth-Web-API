@@ -17,9 +17,11 @@ namespace LeHealth.Core.Interface
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
+        List<AllPatientModel> ViewPatientFiles(int patientId); 
         List<PatientModel> GetRegisteredDataById(int patientId); 
         string SaveReRegistration(PatientModel patient);
         string BlockPatient(PatientModel patient);
+        string DeletePatRegFiles(int Id); 
         string UnblockPatient(PatientModel patient); 
 
     }

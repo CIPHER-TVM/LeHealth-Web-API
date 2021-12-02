@@ -11,9 +11,9 @@ namespace LeHealth.Entity.DataModel
         public List<IFormFile> PatientDocs { get; set; }
         public IFormFile PatientPhoto { get; set; }
     }
-    public class PatientRegModel: PatientModel
+    public class PatientRegModel : PatientModel
     {
-       
+
         public List<IFormFile> PatientDocs { get; set; }
         public IFormFile PatientPhoto { get; set; }
     }
@@ -22,39 +22,22 @@ namespace LeHealth.Entity.DataModel
         public ConsultationModel Consultation { get; set; }
         public List<RegAddressModel> RegAddress { get; set; }
         public List<RegIdentitiesModel> RegIdentities { get; set; }
-        public List<RegDetModel> RegDet { get; set; }
-        public List<RegDocLocationModel> RegDocLocation { get; set; } 
-       
+        public List<RegDocLocationModel> RegDocLocation { get; set; }
         public List<string> PatientDocNames { get; set; }
         public string PatientPhotoName { get; set; }
-
         public int PatientId { get; set; }
-        public int RegId { get; set; }
         public string RegNo { get; set; }
+        public int IsManualRegNo { get; set; } 
         public string RegDate { get; set; }
-        public int RegAmount { get; set; }
         public int ItemId { get; set; }
-        public string ExpiryDate { get; set; }
-        public int AddType { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string Street { get; set; }
-        public string PlacePO { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string PIN { get; set; }
-        public int CountryId { get; set; }
         public int Salutation { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public int IdentityType { get; set; }
-        public int IdentityNo { get; set; }
         public int Gender { get; set; }
         public string DOB { get; set; }
         public int MaritalStatus { get; set; }
         public string KinName { get; set; }
-        public string KinDOB { get; set; }
         public int KinRelation { get; set; }
         public string KinContactNo { get; set; }
         public string Mobile { get; set; }
@@ -64,7 +47,7 @@ namespace LeHealth.Entity.DataModel
         public string FaxNo { get; set; }
         public int Religion { get; set; }
         public int CmpId { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } 
         public int PatState { get; set; }
         public int ProfId { get; set; }
         public int RGroupId { get; set; }
@@ -84,27 +67,23 @@ namespace LeHealth.Entity.DataModel
         public int VisaTypeId { get; set; }
         public int SessionId { get; set; }
         public int BranchId { get; set; }
-        public int RetVal { get; set; }
-        public string RetDesc { get; set; }
         public string RetRegNo { get; set; }
         public string Hook { get; set; }
-        public string SchemeName { get; set; } 
-
+        public string SchemeName { get; set; }
+        public string BlockReason { get; set; }
+        public int CommunicationType { get; set; }
+        public int AgeInMonth { get; set; }
+        public int AgeInYear { get; set; } 
         //
+        public string RGroupName { get; set; } 
+        public string ItemName { get; set; } 
+        public string CountryName { get; set; } 
+        public string MaritalStatusDescription { get; set; } 
+        public string GenderName { get; set; } 
+        public string VisaType { get; set; } 
+        public string ProfName { get; set; } 
+        public string CmpName { get; set; } 
+        public string StateName { get; set; }  
 
-        public string RegFromDate { get; set; }
-        public string RegToDate { get; set; }
-        public string PolicyNo { get; set; }
-        public string PatientName { get; set; }
-        public string Age { get; set; }
-        public string Consultant { get; set; }
-        public string Telephone { get; set; }
-        public string SponsorName { get; set; }
-        public string SponsorId { get; set; }
-        public string EnableSponsorConsent { get; set; }
-        public string EmirateID { get; set; }
-        public string CompanyName { get; set; } 
-        public string BlockReason { get; set; } 
-        public int CommunicationType { get; set; }  
     }
 }

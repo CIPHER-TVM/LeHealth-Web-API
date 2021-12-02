@@ -33,7 +33,7 @@ namespace LeHealth.Service.Service
             }
             return registrationManager.InsertPatient(patientDetail);
         }
-        
+
 
         public List<GenderModel> GetGender()
         {
@@ -73,6 +73,12 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.SearchPatientInList(patientList);
         }
+        public List<AllPatientModel> ViewPatientFiles(int patientId)
+        {
+            return registrationManager.ViewPatientFiles(patientId);
+        }
+
+
         public List<PatientModel> GetRegisteredDataById(int patientId)
         {
             return registrationManager.GetRegisteredDataById(patientId);
@@ -80,13 +86,20 @@ namespace LeHealth.Service.Service
 
         public string SaveReRegistration(PatientModel patient)
         {
-            
+
             return registrationManager.SaveReRegistration(patient);
         }
         public string BlockPatient(PatientModel patient)
         {
             return registrationManager.BlockPatient(patient);
         }
+
+        public string DeletePatRegFiles(int Id)
+        {
+            return registrationManager.DeletePatRegFiles(Id);
+        }
+
+
         public string UnblockPatient(PatientModel patient)
         {
             return registrationManager.UnblockPatient(patient);

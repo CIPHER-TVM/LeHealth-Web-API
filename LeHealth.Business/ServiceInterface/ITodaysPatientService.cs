@@ -15,6 +15,7 @@ namespace LeHealth.Service.ServiceInterface
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
+        FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
         List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
         List<VisaTypeModel> GetVisaType();
@@ -28,6 +29,7 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteZone(int zoneId);
         string DeleteAppointment(AppointmentModel appointment);
         string CancelConsultation(ConsultationModel consultantion); 
+        string SetUrgentConsultation(ConsultationModel consultantion);  
         List<ZoneModel> GetZoneById(int zoneId);
         List<ZoneModel> GetAllZone();
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);

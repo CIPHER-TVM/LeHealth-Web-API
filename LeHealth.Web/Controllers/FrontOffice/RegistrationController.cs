@@ -21,7 +21,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
     {
         private readonly ILogger<RegistrationController> logger;
         private readonly IRegistrationService registrationService;
-       
+
         //private readonly IFileUploadService fileUploadService; 
         //public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService,IFileUploadService _fileUploadService)
         public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService)
@@ -29,7 +29,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             logger = _logger;
             registrationService = _registrationService;
             //fileUploadService = _fileUploadService;
-           
+
         }
 
         ////START
@@ -69,7 +69,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //}
         ////END
 
-       
+
 
         //NEW API STARTS
         [Route("GetSalutation")]
@@ -328,7 +328,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// Success or failure status
         /// </returns>
         ///  
-       
+
 
 
         [HttpPost]
@@ -389,7 +389,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [HttpPost]
         [Route("GetRegisteredDataById")]
-        public ResponseDataModel<IEnumerable<PatientModel>> GetRegisteredDataById(PatientModel patient) 
+        public ResponseDataModel<IEnumerable<PatientModel>> GetRegisteredDataById(PatientModel patient)
         {
             List<PatientModel> patientList = new List<PatientModel>();
             try
@@ -420,8 +420,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
-
 
         [Route("SearchPatientInList")]
         [HttpPost]
@@ -458,6 +456,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+
+        [Route("ViewPatientFiles")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<AllPatientModel>> ViewPatientFiles(PatientModel patientDetails)
+        {
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
+            try
+            {
+                patientList = registrationService.ViewPatientFiles(patientDetails.PatientId);
+                var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AllPatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+                // dispose can be managed here
+            }
+        }
+
+
 
         [Route("SaveReRegistration")]
         [HttpPost]
@@ -498,8 +534,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // registrationDetail.Clear();
-                // dispose can be managed here
             }
         }
 
@@ -540,6 +574,46 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+       
+        [Route("DeletePatRegFiles")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> DeletePatRegFiles(RegDocLocationModel rlm)
+        {
+            try
+            {
+                string msg = "";
+                msg = registrationService.DeletePatRegFiles(rlm.Id);
+
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // consultationList.Clear();
+                // dispose can be managed here
+            }
+        } 
+       
+        
+        
         [Route("UnblockPatient")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> UnblockPatient(PatientModel patient)

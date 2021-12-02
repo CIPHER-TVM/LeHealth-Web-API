@@ -68,7 +68,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                
+
             }
         }
         [Route("GetReligion")]
@@ -103,7 +103,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                
+
             }
         }
         //Zone Management Start
@@ -140,7 +140,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                
+
             }
         }
 
@@ -176,7 +176,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // departmentList.Clear();
-                
+
             }
         }
 
@@ -211,8 +211,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -247,8 +247,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -283,8 +283,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -330,7 +330,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
+
             }
         }
 
@@ -365,8 +365,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -401,8 +401,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -439,8 +439,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
         [Route("GetNumber/{numid}")]
@@ -474,8 +474,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -511,8 +511,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -556,8 +556,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
         /// <summary>
@@ -598,7 +598,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
+
             }
         }
 
@@ -636,7 +636,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
@@ -673,7 +673,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
+
             }
         }
 
@@ -709,7 +709,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
+
             }
         }
         [Route("GetCompany")]
@@ -743,7 +743,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
+
             }
         }
 
@@ -783,7 +783,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
         /// <summary>
@@ -824,7 +824,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
 
@@ -861,10 +861,47 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
+        [Route("GetFrontOfficeProgressBars")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<FrontOfficePBarModel>> GetFrontOfficeProgressBars(ConsultationModel CM)
+        {
+            List<FrontOfficePBarModel> patientList = new List<FrontOfficePBarModel>();
+            try
+            {
 
+                FrontOfficePBarModel asdf = new FrontOfficePBarModel();
+                asdf = todaysPatientService.GetFrontOfficeProgressBars(CM.ConsultDate);
+                patientList.Add(asdf);
+                var response = new ResponseDataModel<IEnumerable<FrontOfficePBarModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FrontOfficePBarModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+
+            }
+        }
 
         [Route("GetSavingSchemaMandatory")]
         [HttpPost]
@@ -898,7 +935,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
 
@@ -944,7 +981,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
 
@@ -1071,8 +1108,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -1108,8 +1145,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                
-                
+
+
             }
         }
 
@@ -1146,7 +1183,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // countryList.Clear();
-                
+
             }
         }
 
@@ -1182,7 +1219,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // countryList.Clear();
-                
+
             }
         }
 
@@ -1219,12 +1256,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 // countryList.Clear();
-                
+
             }
         }
 
 
-        
+
         [HttpPost]
         [Route("SearchAppointment")]
         public ResponseDataModel<IEnumerable<AppSearchModel>> SearchAppointment(AppointmentModel appointment)
@@ -1257,7 +1294,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
@@ -1294,7 +1331,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
@@ -1369,7 +1406,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
@@ -1407,7 +1444,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
 
@@ -1449,7 +1486,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
 
@@ -1485,7 +1522,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
         }
 
@@ -1521,7 +1558,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
@@ -1558,7 +1595,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
@@ -1595,7 +1632,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
@@ -1632,11 +1669,59 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
                 //  consultationList.Clear();
-                
+
             }
 
         }
 
+
+        [Route("SetUrgentConsultation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> SetUrgentConsultation(ConsultationModel consultations)
+        {
+            string Message = "";
+            try
+            {
+                string queryresponse = todaysPatientService.SetUrgentConsultation(consultations);
+                ErrorResponse er = new ErrorResponse();
+                if (queryresponse != "success")
+                {
+                    Message = "error";
+                    er.Message = queryresponse;
+                }
+                else
+                {
+                    Message = "success";
+                }
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+
+                    Message = Message,
+                    Status = HttpStatusCode.OK,
+                    ErrorMessage = er
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = "error",
+                    Status = HttpStatusCode.InternalServerError,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
 
     }
 }

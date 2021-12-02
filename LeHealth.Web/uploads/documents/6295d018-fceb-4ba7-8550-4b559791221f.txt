@@ -1,0 +1,6 @@
+Requirements check failed for JDK 1.8.x! Detected version: 16.0.2
+Check your ANDROID_SDK_ROOT / JAVA_HOME / PATH environment variables.
+
+No installed build tools found. Install the Android build tools version 19.1.0 or higher.
+
+186855

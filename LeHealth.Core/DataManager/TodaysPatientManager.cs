@@ -41,8 +41,8 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-       
-        
+
+
         public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment)
         {
             List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
@@ -389,6 +389,9 @@ namespace LeHealth.Core.DataManager
                         {
                             for (int j = 0; j < dsScheduleList.Tables[0].Rows.Count; i++)
                             {
+                                SheduleGetDataModel sgdm = new SheduleGetDataModel();
+                                sgdm.drName = dsScheduleList.Tables[0].Rows[i]["selectopt"].ToString();
+                                sgdm.id = Convert.ToInt32(dsScheduleList.Tables[0].Rows[i]["NumId"]);
 
                             }
                         }
@@ -622,6 +625,45 @@ namespace LeHealth.Core.DataManager
                         response = retD;
                     }
 
+                }
+            }
+            return response;
+        }
+
+        public string SetUrgentConsultation(ConsultationModel consultation)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_ActionSetUrgentConsultation", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultationId", consultation.ConsultationId);
+                    cmd.Parameters.AddWithValue("@UserId", consultation.UserId);
+                    cmd.Parameters.AddWithValue("@LocationId", consultation.LocationId);
+                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retVal);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isSetUrgent = cmd.ExecuteNonQuery();
+                    var retV = retVal.Value;
+                    var retD = retDesc.Value.ToString();
+                    con.Close();
+                    if (retV.ToString() == "1")
+                    {
+                        response = "success";
+                    }
+                    else
+                    {
+                        response = retD;
+                    }
                 }
             }
             return response;
@@ -1107,7 +1149,133 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        
+
+        public FrontOfficePBarModel GetFrontOfficeProgressBars(string todaydate)
+        {
+            FrontOfficePBarModel fopb = new FrontOfficePBarModel();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                List<PercentageCountGetModel> AppcountGetList = new List<PercentageCountGetModel>();
+                List<PercentageCountGetModel> ConscountGetList = new List<PercentageCountGetModel>();
+                SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetAppointmentCount", con);
+                appointmentCountCMD.CommandType = CommandType.StoredProcedure;
+                appointmentCountCMD.Parameters.AddWithValue("@AppDate", todaydate);
+                con.Open();
+                SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
+                DataSet ds = new DataSet();
+                adapter1.Fill(ds);
+                con.Close();
+                int AppTotalCount = 0;
+                int AppStatA = 0;
+                int AppStatC = 0;
+                int AppStatF = 0;
+                int AppStatW = 0;
+                int AppStatUnknown = 0;
+
+                int ConsTotalCount = 0;
+                int ConsStatW = 0;
+                int ConsStatF = 0;
+                int ConsStatC = 0;
+                int ConsStatO = 0;
+                int ConsStatUnknown = 0;
+                if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                {
+                    //AppcountGetList = ds.Tables[0].ToListOfObject<PercentageCountGetModel>();
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        PatientModel obj = new PatientModel();
+                        string StatusName = ds.Tables[0].Rows[i]["StatusName"].ToString();
+                        if (StatusName == "A")
+                        {
+                            AppStatA = Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else if (StatusName == "C")
+                        {
+                            AppStatC = Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else if (StatusName == "F")
+                        {
+                            AppStatF = Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else if (StatusName == "W")
+                        {
+                            AppStatW = Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else
+                        {
+                            AppStatUnknown = Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        AppTotalCount = AppTotalCount + Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
+                    }
+                }
+
+                SqlCommand consultantcountCMD = new SqlCommand("stLH_GetConsultationCount", con);
+                consultantcountCMD.CommandType = CommandType.StoredProcedure;
+                consultantcountCMD.Parameters.AddWithValue("@ConsultDate", todaydate);
+                con.Open();
+                SqlDataAdapter adapter2 = new SqlDataAdapter(consultantcountCMD);
+                DataSet ds2 = new DataSet();
+                adapter2.Fill(ds2);
+                con.Close();
+                if ((ds2 != null) && (ds2.Tables.Count > 0) && (ds2.Tables[0] != null) && (ds2.Tables[0].Rows.Count > 0))
+                {
+                    //ConscountGetList = ds2.Tables[0].ToListOfObject<PercentageCountGetModel>();
+                    for (int i = 0; i < ds2.Tables[0].Rows.Count; i++)
+                    {
+                        PatientModel obj = new PatientModel();
+                        string StatusName = ds2.Tables[0].Rows[i]["StatusName"].ToString();
+                        if (StatusName == "W")
+                        {
+                            ConsStatW = Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else if (StatusName == "F")
+                        {
+                            ConsStatF = Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else if (StatusName == "C")
+                        {
+                            ConsStatC = Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else if (StatusName == "O")
+                        {
+                            ConsStatO = Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        else
+                        {
+                            ConsStatUnknown = Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
+                        }
+                        ConsTotalCount = ConsTotalCount + Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
+                    }
+                }
+
+                //AppcountGetList.Find(c => c.StatusName == "A").StatusCount;
+                if (AppTotalCount != 0)
+                {
+                    fopb.AppPercA = ((decimal)AppStatA / (decimal)AppTotalCount) * 100;
+                    fopb.AppPercC = ((decimal)AppStatC / (decimal)AppTotalCount) * 100;
+                    fopb.AppPercF = ((decimal)AppStatF / (decimal)AppTotalCount) * 100;
+                    fopb.AppPercW = ((decimal)AppStatW / (decimal)AppTotalCount) * 100;
+                    fopb.AppPercA = Math.Round(fopb.AppPercA, 2);
+                    fopb.AppPercC = Math.Round(fopb.AppPercC, 2);
+                    fopb.AppPercF = Math.Round(fopb.AppPercF, 2);
+                    fopb.AppPercW = Math.Round(fopb.AppPercW, 2);
+                }
+                if (ConsTotalCount != 0)
+                {
+                    fopb.ConsPercW = ((decimal)ConsStatW / (decimal)ConsTotalCount) * 100;
+                    fopb.ConsPercF = ((decimal)ConsStatF / (decimal)ConsTotalCount) * 100;
+                    fopb.ConsPercC = ((decimal)ConsStatC / (decimal)ConsTotalCount) * 100;
+                    fopb.ConsPercO = ((decimal)ConsStatO / (decimal)ConsTotalCount) * 100;
+                    fopb.ConsPercW = Math.Round(fopb.ConsPercW, 2);
+                    fopb.ConsPercF = Math.Round(fopb.ConsPercF, 2);
+                    fopb.ConsPercC = Math.Round(fopb.ConsPercC, 2);
+                    fopb.ConsPercO = Math.Round(fopb.ConsPercO, 2);
+                }
+
+            }
+            return fopb;
+        }
+
     }
 }
 //public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)

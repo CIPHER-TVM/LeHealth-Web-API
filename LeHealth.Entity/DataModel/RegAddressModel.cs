@@ -14,7 +14,7 @@ namespace LeHealth.Entity.DataModel
         public String PlacePO { get; set; }
         public String PIN { get; set; }
         public String City { get; set; }
-        public Int32 State { get; set; }
+        public String State { get; set; }
         public int CountryId { get; set; }
     }
 }

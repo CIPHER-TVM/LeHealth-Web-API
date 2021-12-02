@@ -20,7 +20,6 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
-
         public List<GenderModel> GetGender()
         {
             List<GenderModel> genderList = new List<GenderModel>();
@@ -192,7 +191,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<AllPatientModel> GetAllPatient()
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
@@ -216,14 +214,12 @@ namespace LeHealth.Core.DataManager
         public List<AllPatientModel> SearchPatientInList(PatientSearchModel patient)
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchPatients", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.AddWithValue("@Name", patient.Name);
                     cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
                     cmd.Parameters.AddWithValue("@RegNo", patient.RegNo);
@@ -268,9 +264,7 @@ namespace LeHealth.Core.DataManager
                     return patientList;
                 }
             }
-
         }
-
         public string SaveReRegistration(PatientModel reregistration)
         {
             string response = "";
@@ -314,8 +308,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
-
         public List<PatientModel> GetRegisteredDataById(int patid)
         {
             PatientModel obj = new PatientModel();
@@ -337,10 +329,13 @@ namespace LeHealth.Core.DataManager
                     obj.MiddleName = dsPatientData.Tables[0].Rows[0]["MiddleName"].ToString();
                     obj.LastName = dsPatientData.Tables[0].Rows[0]["LastName"].ToString();
                     obj.DOB = dsPatientData.Tables[0].Rows[0]["DOB"].ToString().Substring(0, 10);
+                    obj.AgeInMonth = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["AgeInMonth"]);
+                    obj.AgeInYear = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["AgeInYear"]);
                     obj.Gender = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["Gender"]);
                     obj.MaritalStatus = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["MaritalStatus"]);
                     obj.KinName = dsPatientData.Tables[0].Rows[0]["KinName"].ToString();
                     obj.KinRelation = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["KinRelation"]);
+                    obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
                     obj.Mobile = dsPatientData.Tables[0].Rows[0]["Mobile"].ToString();
                     obj.ResNo = dsPatientData.Tables[0].Rows[0]["ResNo"].ToString();
                     obj.OffNo = dsPatientData.Tables[0].Rows[0]["OffNo"].ToString();
@@ -363,6 +358,14 @@ namespace LeHealth.Core.DataManager
                     obj.VisaTypeId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["VisaTypeID"]);
                     obj.CommunicationType = (dsPatientData.Tables[0].Rows[0]["CommunicationType"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);// Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
                     obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
+                    obj.RGroupName = dsPatientData.Tables[0].Rows[0]["RGroupName"].ToString();
+                    obj.ItemName = dsPatientData.Tables[0].Rows[0]["ItemName"].ToString();
+                    obj.CountryName = dsPatientData.Tables[0].Rows[0]["CountryName"].ToString();
+                    obj.MaritalStatusDescription = dsPatientData.Tables[0].Rows[0]["MaritalStatusDescription"].ToString();
+                    obj.GenderName = dsPatientData.Tables[0].Rows[0]["GenderName"].ToString();
+                    obj.VisaType = dsPatientData.Tables[0].Rows[0]["VisaType"].ToString();
+                    obj.ProfName = dsPatientData.Tables[0].Rows[0]["ProfName"].ToString();
+                    obj.StateName = dsPatientData.Tables[0].Rows[0]["StateName"].ToString(); 
                     obj.SchemeName = "";
                 }
 
@@ -409,7 +412,7 @@ namespace LeHealth.Core.DataManager
                         obj3.PlacePO = dsRate3.Tables[0].Rows[i]["PlacePO"].ToString();
                         obj3.PIN = dsRate3.Tables[0].Rows[i]["PIN"].ToString();
                         obj3.City = dsRate3.Tables[0].Rows[i]["City"].ToString();
-                        obj3.State = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["State"]);
+                        obj3.State = dsRate3.Tables[0].Rows[i]["State"].ToString();
                         obj3.CountryId = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["CountryId"]);
                         ram.Add(obj3);
                     }
@@ -442,7 +445,6 @@ namespace LeHealth.Core.DataManager
                 return patientData;
             }
         }
-
         public string BlockPatient(PatientModel patient)
         {
             string response = "";
@@ -491,6 +493,32 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
+        public string DeletePatRegFiles(int Id)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeletePatRegFiles", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", Id);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        response = "success";
+
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
         public string UnblockPatient(PatientModel patient)
         {
             string response = "";
@@ -500,7 +528,6 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
-
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@PatientId", patient.PatientId);
                         cmd.Parameters.AddWithValue("@UserId", patient.UserId);
@@ -548,18 +575,24 @@ namespace LeHealth.Core.DataManager
             {
                 IsUpdate = 1;
             }
-            else
-            {
-                IsUpdate = 0;
-            }
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                if (IsUpdate == 0 && patientDetail.IsManualRegNo == 0)
+                {
+                    for (int m = 0; m < 100; m++)
+                    {
+                        string rno = AutoregnoCreate();
+                        if (rno != "duplicate")
+                        {
+                            patientDetail.RegNo = rno;
+                            break;
+                        }
+                    }
+                }
                 con.Open();
                 transaction = con.BeginTransaction();
-
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-
                 cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
                 cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
                 cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
@@ -581,10 +614,10 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Religion", patientDetail.Religion);
                 cmd.Parameters.AddWithValue("@ProfId", patientDetail.ProfId);
                 cmd.Parameters.AddWithValue("@CmpId", patientDetail.CmpId);
-                cmd.Parameters.AddWithValue("@Status", patientDetail.Status);
-                cmd.Parameters.AddWithValue("@PatState", patientDetail.PatState);
+                cmd.Parameters.AddWithValue("@Status", patientDetail.Status);//All Existing Rows Are 0 No details known
+                cmd.Parameters.AddWithValue("@PatState", 0);//The Table column is not using Anywhere
                 cmd.Parameters.AddWithValue("@RGroupId", patientDetail.RGroupId);
-                cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);
+                cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);//R,N Two Modes Und. Details Ariyilla
                 cmd.Parameters.AddWithValue("@Remarks", patientDetail.Remarks);
                 cmd.Parameters.AddWithValue("@NationalityId", patientDetail.NationalityId);
                 cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
@@ -726,15 +759,15 @@ namespace LeHealth.Core.DataManager
                             {
                                 if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
                                 {
-                                    patientDetail.Consultation.PatientId = patientDetail.PatientId;
+                                    patientDetail.Consultation.PatientId = patientId;
                                     SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
                                     patientConsultationCmd.Connection = con;
                                     var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                                 }
                                 //Manual aano allayo ennu oru parameter varanam
-                                SqlCommand updateRegNoCmd = UPDATERegNo();
-                                updateRegNoCmd.Connection = con;
-                                updateRegNoCmd.ExecuteNonQuery();
+                                //SqlCommand updateRegNoCmd = UPDATERegNo();
+                                //updateRegNoCmd.Connection = con;
+                                //updateRegNoCmd.ExecuteNonQuery();
                                 response = patientId.ToString();
                             }
                             else
@@ -763,6 +796,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
         public SqlCommand InsertConsultation(ConsultationModel consultations)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation"))
@@ -803,6 +837,75 @@ namespace LeHealth.Core.DataManager
                 };
                 cmd.Parameters.Add(outputIdParam);
                 return cmd;
+            }
+        }
+
+        public string AutoregnoCreate()
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                SqlCommand autonumberCMD = new SqlCommand("stLH_AutoNumberReg", con);
+                autonumberCMD.CommandType = CommandType.StoredProcedure;
+                autonumberCMD.Parameters.AddWithValue("@NumId", "REG-NO");
+                SqlParameter patidReturnDesc1 = new SqlParameter("@NewNo", SqlDbType.VarChar, 20)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                autonumberCMD.Parameters.Add(patidReturnDesc1);
+                con.Open();
+                var isgenerated = autonumberCMD.ExecuteNonQuery();
+                con.Close();
+                var newregno = patidReturnDesc1.Value.ToString();
+                return newregno;
+            }
+        }
+        public List<AllPatientModel> ViewPatientFiles(int patientid)
+        {
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetRegFileNameByPatientId", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", patientid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    List<RegDocLocationModel> fileList = new List<RegDocLocationModel>();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        {
+                            RegDocLocationModel obj4 = new RegDocLocationModel();
+                            obj4.Id = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["Id"]);
+                            obj4.FilePath = _uploadpath + dsPatientList.Tables[0].Rows[j]["FilePath"].ToString();
+
+
+                            var fileNameArray = obj4.FilePath.Split('.');
+                            var extension = fileNameArray[(fileNameArray.Length - 1)];
+                            string extname = extension.ToString().ToLower();
+                            if (extname == "png" || extname == "jpeg" || extname == "jpg" || extension == "gif")
+                            {
+                                obj4.FileType = "image";
+                            }
+                            else if (extname == "pdf")
+                            {
+                                obj4.FileType = "pdf";
+                            }
+                            else
+                            {
+                                obj4.FileType = "document";
+                            }
+                            fileList.Add(obj4);
+                        }
+                    }
+                    AllPatientModel apm = new AllPatientModel();
+                    apm.RegDocLocation = fileList;
+                    patientList.Add(apm);
+                    return patientList;
+                }
             }
         }
     }
