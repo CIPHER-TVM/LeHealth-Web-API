@@ -11,7 +11,9 @@ using LeHealth.Entity.DataModel;
 using System.Net;
 using System.Data;
 using Newtonsoft.Json;
-
+using System.Text.Json;
+using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LeHealth.Base.API.Controllers.FrontOffice
 {
@@ -391,6 +393,18 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetRegisteredDataById")]
         public ResponseDataModel<IEnumerable<PatientModel>> GetRegisteredDataById(PatientModel patient)
         {
+            IServiceCollection services = new ServiceCollection();
+            services.AddControllers()
+           .AddJsonOptions(options =>
+           {
+               options.JsonSerializerOptions.PropertyNamingPolicy = null;
+           });
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
+
             List<PatientModel> patientList = new List<PatientModel>();
             try
             {
