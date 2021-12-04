@@ -26,9 +26,9 @@ namespace LeHealth.Service.Service
             _uploadpath = configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
-        public List<string> SaveFileMultiple(List<IFormFile> Files)
+        public List<RegDocLocationModel> SaveFileMultiple(List<IFormFile> Files)
         {
-            List<string> retvals = new List<string>();
+            List<RegDocLocationModel> retvals = new List<RegDocLocationModel>();
             using (var ms = new MemoryStream())
             {
                 var webRoot = _env.WebRootPath;
@@ -36,30 +36,20 @@ namespace LeHealth.Service.Service
                 var PathWithFolderName = System.IO.Path.Combine(webRoot, @"uploads\documents");
                 Files.ForEach(a =>
                 {
-                    //string fileName = a.FileName;
-                    //var fileNameArray = fileName.Split('.');
-                    //var extension = fileNameArray[(fileNameArray.Length - 1)];
-                    //Guid Uniquefilename = Guid.NewGuid();
-                    //var actualFileName = Uniquefilename + "." + extension;
-                    //retvals.Add(PathWithFolderName + @"\" + actualFileName);
-                    //using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
-                    //{
-                    //    a.CopyTo(stream);
-                    //}
+                    RegDocLocationModel rlm = new RegDocLocationModel();
                     string fileName = a.FileName;
                     var fileNameArray = fileName.Split('.');
                     var extension = fileNameArray[(fileNameArray.Length - 1)];
                     Guid Uniquefilename = Guid.NewGuid();
                     var actualFileName = Uniquefilename + "." + extension;
-                    //retvals.Add(PathWithFolderName + @"\" + actualFileName);
-                    //NEW CODE START
                     string fullpathtest = "uploads/documents/" + actualFileName;
-                    retvals.Add(fullpathtest);
-                    //NEW CODE END
                     using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
                     {
                         a.CopyTo(stream);
                     }
+                    rlm.FilePath = fullpathtest;
+                    rlm.FileOriginalName = fileName;
+                    retvals.Add(rlm);
                 });
 
             }
@@ -70,8 +60,6 @@ namespace LeHealth.Service.Service
             string returnFilePath = "";
             using (var ms = new MemoryStream())
             {
-
-
                 var webRoot = _env.WebRootPath;
                 webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
                 var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");

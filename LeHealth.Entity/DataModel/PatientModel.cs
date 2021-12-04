@@ -54,6 +54,7 @@ namespace LeHealth.Entity.DataModel
         public string Mode { get; set; }
         public string Remarks { get; set; }
         public int NationalityId { get; set; }
+        public string NationalityName { get; set; }  
         public int ConsultantId { get; set; }
         public int Active { get; set; }
         public int AppId { get; set; }
@@ -82,8 +83,7 @@ namespace LeHealth.Entity.DataModel
         public string GenderName { get; set; } 
         public string VisaType { get; set; } 
         public string ProfName { get; set; } 
-        public string CmpName { get; set; } 
-        public string StateName { get; set; }  
+        public string CmpName { get; set; }  
 
     }
 }

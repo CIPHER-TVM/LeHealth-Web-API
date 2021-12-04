@@ -22,7 +22,7 @@ namespace LeHealth.Service.Service
         public string InsertPatient(PatientRegModel patientDetail)
         {
             if (patientDetail.PatientDocs != null)
-                patientDetail.PatientDocNames = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
+                patientDetail.RegDocLocation = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
             if (patientDetail.PatientPhoto != null)
             {
                 patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto);
@@ -32,6 +32,11 @@ namespace LeHealth.Service.Service
                 patientDetail.PatientPhotoName = "";
             }
             return registrationManager.InsertPatient(patientDetail);
+        }
+        public string ValidateHL7(string nabidh)
+        {
+
+            return registrationManager.ValidateHL7(nabidh);
         }
 
 

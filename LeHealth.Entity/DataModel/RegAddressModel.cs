@@ -15,6 +15,8 @@ namespace LeHealth.Entity.DataModel
         public String PIN { get; set; }
         public String City { get; set; }
         public String State { get; set; }
+        public String StateName { get; set; }
+        public String CountryName { get; set; } 
         public int CountryId { get; set; }
     }
 }

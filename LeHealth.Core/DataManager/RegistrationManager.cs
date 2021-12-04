@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 using System.Text;
 using LeHealth.Common;
 using System.Globalization;
+using System.Net;
+using System.IO;
 
 namespace LeHealth.Core.DataManager
 {
@@ -360,15 +362,14 @@ namespace LeHealth.Core.DataManager
                     obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
                     obj.RGroupName = dsPatientData.Tables[0].Rows[0]["RGroupName"].ToString();
                     obj.ItemName = dsPatientData.Tables[0].Rows[0]["ItemName"].ToString();
-                    obj.CountryName = dsPatientData.Tables[0].Rows[0]["CountryName"].ToString();
                     obj.MaritalStatusDescription = dsPatientData.Tables[0].Rows[0]["MaritalStatusDescription"].ToString();
                     obj.GenderName = dsPatientData.Tables[0].Rows[0]["GenderName"].ToString();
                     obj.VisaType = dsPatientData.Tables[0].Rows[0]["VisaType"].ToString();
                     obj.ProfName = dsPatientData.Tables[0].Rows[0]["ProfName"].ToString();
-                    obj.StateName = dsPatientData.Tables[0].Rows[0]["StateName"].ToString(); 
+                    obj.NationalityName = dsPatientData.Tables[0].Rows[0]["NationalityName"].ToString();
                     obj.SchemeName = "";
                     obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
-                    
+
                 }
 
                 con.Open();
@@ -415,6 +416,8 @@ namespace LeHealth.Core.DataManager
                         obj3.PIN = dsRate3.Tables[0].Rows[i]["PIN"].ToString();
                         obj3.City = dsRate3.Tables[0].Rows[i]["City"].ToString();
                         obj3.State = dsRate3.Tables[0].Rows[i]["State"].ToString();
+                        obj3.StateName = dsRate3.Tables[0].Rows[i]["StateName"].ToString();
+                        obj3.CountryName = dsRate3.Tables[0].Rows[i]["CountryName"].ToString();
                         obj3.CountryId = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["CountryId"]);
                         ram.Add(obj3);
                     }
@@ -437,6 +440,7 @@ namespace LeHealth.Core.DataManager
                         RegDocLocationModel obj4 = new RegDocLocationModel();
                         obj4.Id = Convert.ToInt32(ds4.Tables[0].Rows[i]["Id"]);
                         obj4.FilePath = _uploadpath + ds4.Tables[0].Rows[i]["FilePath"].ToString();
+                        obj4.FileOriginalName = _uploadpath + ds4.Tables[0].Rows[i]["OriginalFileName"].ToString();
                         doclistobj.Add(obj4);
                     }
                 }
@@ -598,7 +602,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
                 cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
                 cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
-                cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation != null ? patientDetail.Salutation : 0  );
+                cmd.Parameters.AddWithValue("@Salutation", patientDetail.Salutation);
                 cmd.Parameters.AddWithValue("@FirstName", patientDetail.FirstName);
                 cmd.Parameters.AddWithValue("@MiddleName", patientDetail.MiddleName);
                 cmd.Parameters.AddWithValue("@LastName", patientDetail.LastName);
@@ -716,20 +720,20 @@ namespace LeHealth.Core.DataManager
                         //THREE TIMES END
 
                         //FileUploadStarts
-                        if (patientDetail.PatientDocNames != null)
+                        if (patientDetail.RegDocLocation != null)
                         {
-                            for (int k = 0; k < patientDetail.PatientDocNames.Count; k++)
+                            for (int k = 0; k < patientDetail.RegDocLocation.Count; k++)
                             {
                                 SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
                                 savepatdocCMD.CommandType = CommandType.StoredProcedure;
                                 savepatdocCMD.Parameters.AddWithValue("@PatientId", patientId);
-                                savepatdocCMD.Parameters.AddWithValue("@FilePath", patientDetail.PatientDocNames[k]);
+                                savepatdocCMD.Parameters.AddWithValue("@OriginalFilename", patientDetail.RegDocLocation[k].FileOriginalName);
+                                savepatdocCMD.Parameters.AddWithValue("@FilePath", patientDetail.RegDocLocation[k].FilePath);
                                 var isInserted = savepatdocCMD.ExecuteNonQuery();
                             }
                         }
 
                         //FileUploadEnds
-
                         //IF INSERT ONLY STARTS
                         if (IsUpdate == 0)
                         {
@@ -766,11 +770,37 @@ namespace LeHealth.Core.DataManager
                                     patientConsultationCmd.Connection = con;
                                     var isUpdated = patientConsultationCmd.ExecuteNonQuery();
                                 }
-                                //Manual aano allayo ennu oru parameter varanam
-                                //SqlCommand updateRegNoCmd = UPDATERegNo();
-                                //updateRegNoCmd.Connection = con;
-                                //updateRegNoCmd.ExecuteNonQuery();
                                 response = patientId.ToString();
+                                ////Call API Block Starts
+                                //using (SqlCommand cmdy = new SqlCommand("stLH_GetNabidhRegisterPatient", con))
+                                //{
+                                //    cmdy.CommandType = CommandType.StoredProcedure;
+                                //    cmdy.Parameters.AddWithValue("@PatientId", patientId);
+                                //    SqlDataAdapter adaptery = new SqlDataAdapter(cmdy);
+                                //    DataSet dsNabidh = new DataSet();
+                                //    adaptery.Fill(dsNabidh);
+                                //    if ((dsNabidh != null) && (dsNabidh.Tables.Count > 0) && (dsNabidh.Tables[0] != null) && (dsNabidh.Tables[0].Rows.Count > 0))
+                                //    {
+                                //        DataTable dtemp = dsNabidh.Tables[0];
+                                //        string returnstr = CreateHeader(dtemp, "ADT^A28");
+                                //        string xcvb = "";
+                                //        var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
+                                //        httpWebRequest.ContentType = "text/plain";
+                                //        httpWebRequest.Method = "POST";
+                                //        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                                //        {
+                                //            streamWriter.Write(returnstr);
+                                //        }
+                                //        var responsev = "";
+                                //        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                                //        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                                //        {
+                                //            responsev = streamReader.ReadToEnd();
+                                //        }
+                                //        string xcde = "";
+                                //    }
+                                //}
+                                ////Call API Block Ends
                             }
                             else
                             {
@@ -780,6 +810,7 @@ namespace LeHealth.Core.DataManager
                         else
                         {
                             response = patientId.ToString();//"success";
+
                         }
                         //IF INSERT ONLY ENDS
                     }
@@ -798,7 +829,104 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        private string CreateHeader(DataTable dt, string MessageType)
+        {
+            string strValue = string.Empty;
+            DataRow dr = dt.Rows[0];
+            var strRegNo = Convert.ToString(dr["PV1CRegNo"]);
+            //strRegNo.Replace("/-/g", "").Substring(strRegNo.Length - 8, 8);
+            //strRegNo = Convert.ToString(dr["PV1CRegNo"]).Split('-')[1] + Convert.ToString(dr["PV1CRegNo"]).Split('-')[2];
+            //if (!this.HeaderValidations(dr))
+            //    return string.Empty;
+            strValue = @"MSH|" + Convert.ToString(dr["MSHEncode"]) + "|" +
+                        Convert.ToString(dr["MSHNabSystemcode"]) + "|" +
+                        Convert.ToString(dr["MSHNabSystemcode"]) +
+                        "|NABIDH|DHA|" +
+                        Convert.ToString(dr["MSHDate"]) + "||" +
+                        MessageType + "|" +
+                        DateTime.Now.ToString("ddMMyyyyhhmmssffftt") + "|T|" +
+                        Convert.ToString(dr["MSHVersion"]) + "||||||" +
+                        Convert.ToString(dr["MSHCharSet"]) + "\r";
+            if (!MessageType.Equals("OMP^O09") && !MessageType.Equals("ORU^R01") && !MessageType.Equals("RAS^O17") && !MessageType.Equals("PPR^PC1"))
+                strValue += "EVN|" + MessageType.Substring(4, 3) + "|" +
+                            Convert.ToString(dr["EVNRecDate"]) +
+                            "||||" + Convert.ToString(dr["EVNRecDate"]) + "|" +
+                            Convert.ToString(dr["EVNFacility"]) + "\r";
+            strValue += "PID|" + Convert.ToString(dr["PIDSetId"]) + "||" +
+                     Convert.ToString(dr["PIDRegNo"]) + "^^^" + Convert.ToString(dr["MalaffiSystemcode"]) + "^MRN~" + Convert.ToString(dr["PIDRegNo"]) +
+                     Convert.ToString(dr["PIDIdenLst"])
+                     + "||" +
+                     Convert.ToString(dr["PIDPatLastName"]) + "^" + Convert.ToString(dr["PIDPatFirstName"]) + "^" +
+                     Convert.ToString(dr["PIDMiddleName"]) + "^^^^D^^^^^^^" + Convert.ToString(dr["PIDProfession"]) + //professionid is wrong
+                     "||" +
+                     Convert.ToString(dr["PIDDOB"]) + "|" + Convert.ToString(dr["PIDSex"]) +
+                     "|||" +
+                     //Convert.ToString(dr["PatAddress"]) + "^" + Convert.ToString(dr["PatCity"]) + '^' + Convert.ToString(dr["PatState"])+"^^"+
+                     Convert.ToString(dr["PatAddress"]) + "^^" + Convert.ToString(dr["PatState"]) + "^" + Convert.ToString(dr["PatState"]) + "^^" +
+                     Convert.ToString(dr["MalaffiNationalityCode"]) + "^H" + "||" +
+                     Convert.ToString(dr["PIDMobile"]) + "~^" + Convert.ToString(dr["PIDMail"]) + "|" + Convert.ToString(dr["PIDPhone"]) + "|" +
+                     Convert.ToString(dr["PIDLanguage"]) + "|" +
+                     //Convert.ToString(dr["PIDMobile"]) + "||" + Convert.ToString(dr["PIDLanguage"]) + "|" +
+                     Convert.ToString(dr["PIDMaritalStat"]) + "|" +
+                     Convert.ToString(dr["PIDReligionCode"]) + "^" + Convert.ToString(dr["PIDReligionName"]) + "^NAB003"
+                      //+ "||" + Convert.ToString(dr["PIDEmiratesId"]) + "|||||||||" +
+                      + "||" + Convert.ToString(dr["PIDEmiratesId"]) + "|||" +
+                      "UNK^Unknown^NAB005" +//Need to fetch real items, this is for test purpose only.This Ethnic Group is optional too
+                                            //Convert.ToString(dr["PIDNabCountryCd"]) + "^" + Convert.ToString(dr["PIDNationalityName"]) + "^NAB005"+
+                     "||" + Convert.ToString(dr["PIDPatDeath"]) + "|" + "|||" +//Need to fetch real items, this is for test purpose only.
+                    Convert.ToString(dr["PIDNabCountryCd"]) + "^" + Convert.ToString(dr["PIDNationalityName"]) + "^NAB038"
+                     + "||" + Convert.ToString(dr["PIDPatDeath"]) + "|" + Convert.ToString(dr["PIDUnIden"])
+                     + "||" + Convert.ToString(dr["PIDDate"])
+                     //+ "|" + Convert.ToString(dr["MSHNabSystemcode"]) + "||||||\r";
+                     + "|" + Convert.ToString(dr["MSHNabSystemcode"]) + "|||||\r";
+            if (!MessageType.Equals("ADT^A28"))
+                strValue += "PV1|" +
+                            Convert.ToString(dr["PV1SedId"]) + "|" +
+                            Convert.ToString(dr["PVIPatClass"]) + "|" +
+                            Convert.ToString(dr["PV1PointOfCare"]) + "^^^" + Convert.ToString(dr["PV1DHAFacilityId"] + "^^^^^" + Convert.ToString(dr["PV1HospitalName"]) +
+                            "|" + Convert.ToString(dr["PV1AdmmisionType"]) +
+                            "|||" + strRegNo + "^" + Convert.ToString(dr["PV1ConLastName"]) + "^" +
+                            //Convert.ToString(dr["PV1CRegNo"])+ "^" + Convert.ToString(dr["PV1ConLastName"]) + "^" +
+                            Convert.ToString(dr["PV1ConFirstName"]) + "^" +
+                            Convert.ToString(dr["PV1ConMiddleName"]) + "^^" + "Dr.^^^SHERYAN"
+                            + "|||" +
+                            Convert.ToString(dr["PV1HospSpeciality"]) + "||||" +
+                            Convert.ToString(dr["PV1AdmitSource"]) + "|||||" +
+                            //This is just an id of visit
+                            //Convert.ToString(dr["PV1VisitNo"]) + "^^^" + Convert.ToString(dr["DHAFacilityId"]) + "|||||||||||||||||||||||||" +
+                            "1" + "|||||||||||||||||||||||||" +
+                            Convert.ToString(dr["PV1AdmitDate"]) + "|" +
+                            (MessageType == "ADT^A03" ? Convert.ToString(dr["PV1DischargeDate"]) : string.Empty)) +
+                            "|||||||\r";
+            if (!MessageType.Equals("PPR^PC1"))
+            {
+                if (dt.Columns.Contains("PV2VisitReason"))
+                    if (Convert.ToString(dt.Rows[0]["PV2VisitReason"]).Trim().Length > 0)
+                        strValue += "PV2||||||||||||" + Convert.ToString(dr["PV2VisitReason"]) + "\r";
+            }
 
+            return strValue;
+        }
+
+
+        public string ValidateHL7(string nabidh)
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
+            httpWebRequest.ContentType = "text/plain";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                streamWriter.Write(nabidh);
+            }
+            var responsev = "";
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                responsev = streamReader.ReadToEnd();
+            }
+            return responsev;
+        }
         public SqlCommand InsertConsultation(ConsultationModel consultations)
         {
             using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation"))

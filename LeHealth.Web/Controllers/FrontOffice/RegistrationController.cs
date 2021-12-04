@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Text.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace LeHealth.Base.API.Controllers.FrontOffice
 {
@@ -350,6 +351,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 {
                     message = registrationDetail;
                     er.Message = "success";
+                    //call api
+
+                    //End Call API
                 }
                 else
                 {
@@ -385,6 +389,20 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // registrationDetail.Clear();
 
             }
+        }
+
+        [HttpPost]
+        [Route("ValidateHL7")]
+        //public ResponseDataModel<IEnumerable<PatientModel>> ValidateHL7([FromForm] PatientRequestModel obj) 
+        public string ValidateHL7()
+        {
+            string body = "";
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = reader.ReadToEndAsync().Result;//.ReadToEnd().ToString(); 
+            }
+            string registrationDetail = registrationService.ValidateHL7(body);
+            return registrationDetail;
         }
 
 
@@ -588,7 +606,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
-       
+
         [Route("DeletePatRegFiles")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> DeletePatRegFiles(RegDocLocationModel rlm)
@@ -624,10 +642,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // consultationList.Clear();
                 // dispose can be managed here
             }
-        } 
-       
-        
-        
+        }
+
+
+
         [Route("UnblockPatient")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> UnblockPatient(PatientModel patient)

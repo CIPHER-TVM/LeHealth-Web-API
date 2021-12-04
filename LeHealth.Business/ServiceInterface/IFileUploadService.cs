@@ -10,7 +10,7 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IFileUploadService 
     {
-        List<string> SaveFileMultiple(List<IFormFile> Files); 
+        List<RegDocLocationModel> SaveFileMultiple(List<IFormFile> Files); 
         string SaveFile(IFormFile File); 
     }
 }
