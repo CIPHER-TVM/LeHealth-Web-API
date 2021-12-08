@@ -106,7 +106,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
             }
         }
 
@@ -141,7 +140,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
             }
         }
 
@@ -176,11 +174,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
             }
         }
 
-        //NEW API ENDS
         [Route("GetRateGroup")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroup(RateGroupModel rgroup)
@@ -212,7 +208,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
             }
         }
 
@@ -284,8 +279,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                //  consultationList.Clear();
-                // dispose can be managed here
             }
         }
         [HttpPost]
@@ -351,9 +344,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 {
                     message = registrationDetail;
                     er.Message = "success";
-                    //call api
-
-                    //End Call API
                 }
                 else
                 {
@@ -393,7 +383,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [HttpPost]
         [Route("ValidateHL7")]
-        //public ResponseDataModel<IEnumerable<PatientModel>> ValidateHL7([FromForm] PatientRequestModel obj) 
         public string ValidateHL7()
         {
             string body = "";
@@ -484,8 +473,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                //  consultationList.Clear();
-                // dispose can be managed here
             }
         }
 
@@ -520,11 +507,42 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                //  consultationList.Clear();
-                // dispose can be managed here
             }
         }
 
+        [Route("GetConsentPreviewContent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentPreviewModel>> GetConsentPreviewContent(PatientModel patientDetails)
+        {
+            List<ConsentPreviewModel> patientList = new List<ConsentPreviewModel>(); 
+            try
+            {
+                patientList = registrationService.GetConsentPreviewContent(patientDetails.PatientId); 
+                var response = new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
 
         [Route("SaveReRegistration")]
@@ -602,8 +620,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
             }
         }
 
@@ -639,8 +655,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
             }
         }
 
@@ -678,8 +692,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // consultationList.Clear();
-                // dispose can be managed here
             }
         }
 

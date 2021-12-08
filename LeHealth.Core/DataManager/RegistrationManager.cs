@@ -249,6 +249,7 @@ namespace LeHealth.Core.DataManager
                             obj.AgeInYears = dsPatientList.Tables[0].Rows[i]["AgeInYears"].ToString();
                             obj.PatientName = dsPatientList.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.Age = dsPatientList.Tables[0].Rows[i]["Age"].ToString();
+                            obj.Pin = dsPatientList.Tables[0].Rows[i]["PIN"].ToString();
                             obj.Gender = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["Gender"]);
                             obj.GenderName = dsPatientList.Tables[0].Rows[i]["GenderName"].ToString();
                             obj.Email = dsPatientList.Tables[0].Rows[i]["Email"].ToString();
@@ -361,6 +362,7 @@ namespace LeHealth.Core.DataManager
                     obj.CommunicationType = (dsPatientData.Tables[0].Rows[0]["CommunicationType"] == DBNull.Value) ? 0 : Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);// Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["CommunicationType"]);
                     obj.BranchId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["BranchId"]);
                     obj.RGroupName = dsPatientData.Tables[0].Rows[0]["RGroupName"].ToString();
+                    obj.ItemId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ItemId"]);
                     obj.ItemName = dsPatientData.Tables[0].Rows[0]["ItemName"].ToString();
                     obj.MaritalStatusDescription = dsPatientData.Tables[0].Rows[0]["MaritalStatusDescription"].ToString();
                     obj.GenderName = dsPatientData.Tables[0].Rows[0]["GenderName"].ToString();
@@ -1036,6 +1038,58 @@ namespace LeHealth.Core.DataManager
                     patientList.Add(apm);
                     return patientList;
                 }
+            }
+        }
+
+        public List<ConsentPreviewModel> GetConsentPreviewContent(int patientid)
+        {
+            List<ConsentPreviewModel> consentpreviewList = new List<ConsentPreviewModel>();
+            List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
+            string patientname = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsent", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ContentId", 0);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        {
+                            ConsentContentModel obj4 = new ConsentContentModel();
+                            obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
+                            obj4.CTEnglish = dsPatientList.Tables[0].Rows[j]["CTEnglish"].ToString();
+                            obj4.CTArabic = dsPatientList.Tables[0].Rows[j]["CTArabic"].ToString();
+                            ccmlist.Add(obj4);
+                        }
+                    }
+                }
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsentDetails", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", patientid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        patientname = dsPatientList.Tables[0].Rows[0]["PatientName"].ToString();
+                    }
+                }
+                ConsentPreviewModel cpm = new ConsentPreviewModel();
+                cpm.ConsentContentValue = ccmlist;
+                cpm.PatientName = patientname;
+                consentpreviewList.Add(cpm);
+                return consentpreviewList;
             }
         }
     }

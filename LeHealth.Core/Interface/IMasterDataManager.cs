@@ -9,5 +9,6 @@ namespace LeHealth.Core.Interface
     public interface IMasterDataManager
     {
         List<ProffessionModel> GetProfession();
+        List<AppTypeModel> GetAppType();
     }
 }

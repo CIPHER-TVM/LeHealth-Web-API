@@ -9,6 +9,7 @@ namespace LeHealth.Service.ServiceInterface
     public interface IMasterDataService
     {
         List<ProffessionModel> GetProfession();
+        List<AppTypeModel> GetAppType(); 
 
     }
 }

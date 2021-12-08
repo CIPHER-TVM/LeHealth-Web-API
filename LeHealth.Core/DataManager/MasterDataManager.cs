@@ -49,5 +49,34 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public List<AppTypeModel> GetAppType()
+        {
+            List<AppTypeModel> profList = new List<AppTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetAppointTypes", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsProfession = new DataSet();
+                    adapter.Fill(dsProfession);
+                    con.Close();
+                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        {
+                            AppTypeModel obj = new AppTypeModel();
+                            obj.AppTypeId  = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["AppTypeId"]);
+                            obj.AppCode = dsProfession.Tables[0].Rows[i]["AppCode"].ToString();
+                            obj.AppDesc = dsProfession.Tables[0].Rows[i]["AppDesc"].ToString();
+                            profList.Add(obj);
+                        }
+                    }
+                    return profList;
+                }
+            }
+        }
     }
 }

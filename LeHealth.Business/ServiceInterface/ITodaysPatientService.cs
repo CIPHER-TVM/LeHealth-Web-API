@@ -13,8 +13,9 @@ namespace LeHealth.Service.ServiceInterface
        
         List<CountryModel> GetCountry(CountryModel countryDetail);
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
-        List<AppSearchModel> SearchAppointment(AppointmentModel appointment);
+        List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
+        List<PatientListModel> GetPatientByRegNo(string Regno);
         FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
         List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);

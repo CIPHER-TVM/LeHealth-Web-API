@@ -59,15 +59,34 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     //converting datatable to list of Appointments
                     if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
-                        appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<SearchAppointmentModel>();
+                    //appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<SearchAppointmentModel>();
+                    {
+                        for (int i = 0; i < dsAppointmentsList.Tables[0].Rows.Count; i++)
+                        {
+                            SearchAppointmentModel obj = new SearchAppointmentModel();
+                            obj.AppId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["AppId"]);
+                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString();
+                            obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
+                            obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
+                            obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
+                            obj.PatientName = dsAppointmentsList.Tables[0].Rows[i]["PatientName"].ToString();
+                            obj.PatientRegNo = dsAppointmentsList.Tables[0].Rows[i]["PatientRegNo"].ToString();
+                            obj.PIN = dsAppointmentsList.Tables[0].Rows[i]["PIN"].ToString();
+                            obj.Mobile = dsAppointmentsList.Tables[0].Rows[i]["Mobile"].ToString();
+                            obj.ConsultantName = dsAppointmentsList.Tables[0].Rows[i]["ConsultantName"].ToString();
+                            obj.AppStatus = dsAppointmentsList.Tables[0].Rows[i]["AppStatus"].ToString();
+                            obj.ResPhone = dsAppointmentsList.Tables[0].Rows[i]["ResPhone"].ToString();
+                            obj.Address1 = dsAppointmentsList.Tables[0].Rows[i]["Address1"].ToString();
+                            appointmentlist.Add(obj);
+                        }
+                    }
                     return appointmentlist;
                 }
             }
         }
-        public List<AppSearchModel> SearchAppointment(AppointmentModel appointment)
+        public List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment)
         {
-            List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
-            List<AppSearchModel> appList = new List<AppSearchModel>();
+            List<SearchAppointmentModel> appList = new List<SearchAppointmentModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -98,13 +117,13 @@ namespace LeHealth.Core.DataManager
                     {
                         for (int i = 0; i < dsAppointments.Tables[0].Rows.Count; i++)
                         {
-                            AppSearchModel obj = new AppSearchModel();
+                            SearchAppointmentModel obj = new SearchAppointmentModel();
                             obj.AppId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppId"]);
-                            obj.AppDate = Convert.ToDateTime(dsAppointments.Tables[0].Rows[i]["AppDate"]);
-                            obj.AppType = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppType"]);
+                            obj.AppDate = dsAppointments.Tables[0].Rows[i]["AppDate"].ToString();
+                            obj.AppType = (dsAppointments.Tables[0].Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointments.Tables[0].Rows[0]["AppType"]);//Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["AppType"]);
                             obj.AppNo = dsAppointments.Tables[0].Rows[i]["AppNo"].ToString();
-                            obj.PatientId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["PatientId"]);
-                            obj.FirstName = dsAppointments.Tables[0].Rows[i]["PatientName"].ToString();
+                            obj.PatientId = (dsAppointments.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointments.Tables[0].Rows[0]["PatientId"]);//Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["PatientId"]);
+                            obj.PatientName = dsAppointments.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.PatientRegNo = dsAppointments.Tables[0].Rows[i]["RegNo"].ToString();
                             obj.PIN = dsAppointments.Tables[0].Rows[i]["PIN"].ToString();
                             obj.Mobile = dsAppointments.Tables[0].Rows[i]["ContactNumber"].ToString();
@@ -153,6 +172,30 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        public List<PatientListModel> GetPatientByRegNo(string regNo)
+        {
+            List<PatientListModel> patientList = new List<PatientListModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByRegNo", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RegNo", regNo);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                        patientList = dsPatientList.Tables[0].ToListOfObject<PatientListModel>();
+
+                    return patientList;
+                }
+            }
+
+        }
+
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
             List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
@@ -369,32 +412,42 @@ namespace LeHealth.Core.DataManager
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsim)
         {
             List<SheduleGetDataModel> scheduleList = new List<SheduleGetDataModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleData", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleByDateConsultant", con))
                 {
                     for (int i = 0; i < gsim.Consultant.Length; i++)
                     {
+                        SheduleGetDataModel sgdm = new SheduleGetDataModel();
+                        List<Label> labelsList = new List<Label>();
+                        sgdm.id = (int)gsim.Consultant[i];
+                        sgdm.drName = "";
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
-
                         cmd.Parameters.AddWithValue("@ConsultantId", gsim.Consultant[i]);
                         cmd.Parameters.AddWithValue("@AppDate", gsim.DateValue);
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                         DataSet dsScheduleList = new DataSet();
                         adapter.Fill(dsScheduleList);
                         con.Close();
+
                         if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
                         {
                             for (int j = 0; j < dsScheduleList.Tables[0].Rows.Count; i++)
                             {
-                                SheduleGetDataModel sgdm = new SheduleGetDataModel();
-                                sgdm.drName = dsScheduleList.Tables[0].Rows[i]["selectopt"].ToString();
-                                sgdm.id = Convert.ToInt32(dsScheduleList.Tables[0].Rows[i]["NumId"]);
-
+                                Label lb = new Label();
+                                lb.SliceNo = dsScheduleList.Tables[0].Rows[i]["SliceNo"].ToString();
+                                lb.TaskDate = dsScheduleList.Tables[0].Rows[i]["TaskDate"].ToString();
+                                lb.AppId = dsScheduleList.Tables[0].Rows[i]["AppId"].ToString();
+                                lb.AppNo = dsScheduleList.Tables[0].Rows[i]["AppNo"].ToString();
+                                lb.SliceTime = dsScheduleList.Tables[0].Rows[i]["SliceTime"].ToString();
+                                lb.PatientId = dsScheduleList.Tables[0].Rows[i]["PatientId"].ToString();
+                                lb.PatientName = dsScheduleList.Tables[0].Rows[i]["PatientName"].ToString();
+                                labelsList.Add(lb);
                             }
                         }
+                        sgdm.labels = labelsList;
+                        scheduleList.Add(sgdm);
                     }
                     return scheduleList;
                 }

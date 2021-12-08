@@ -18,6 +18,7 @@ namespace LeHealth.Service.ServiceInterface
         List<CommunicationTypeModel> GetCommunicationType();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
         List<AllPatientModel> ViewPatientFiles(int patientId); 
+        List<ConsentPreviewModel> GetConsentPreviewContent(int patientId);  
         List<PatientModel> GetRegisteredDataById(int patientId); 
         string SaveReRegistration(PatientModel patient);
         string BlockPatient(PatientModel patient); 

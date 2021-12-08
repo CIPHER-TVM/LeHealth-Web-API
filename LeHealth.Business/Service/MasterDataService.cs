@@ -7,7 +7,7 @@ using LeHealth.Entity.DataModel;
 
 namespace LeHealth.Service.Service
 {
-   public class MasterDataService: IMasterDataService
+    public class MasterDataService : IMasterDataService
     {
         private readonly IMasterDataManager masterdataManager;
         private readonly IFileUploadService fileUploadService;
@@ -21,5 +21,11 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetProfession();
         }
+        public List<AppTypeModel> GetAppType()
+        {
+            return masterdataManager.GetAppType();
+        }
+
+
     }
 }

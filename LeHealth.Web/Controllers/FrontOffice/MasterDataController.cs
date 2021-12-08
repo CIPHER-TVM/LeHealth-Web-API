@@ -57,5 +57,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 // dispose can be managed here
             }
         }
+
+        [Route("GetAppType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<AppTypeModel>> GetAppType()
+        {
+            List<AppTypeModel> professionList = new List<AppTypeModel>();
+            try
+            {
+                professionList = masterdataService.GetAppType();
+                var response = new ResponseDataModel<IEnumerable<AppTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = professionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AppTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }

@@ -29,7 +29,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAllAppointments(countryDetails);
         }
-        public List<AppSearchModel> SearchAppointment(AppointmentModel countryDetails)
+        public List<SearchAppointmentModel> SearchAppointment(AppointmentModel countryDetails)
         {
             return todaysPatientManager.SearchAppointment(countryDetails);
         }
@@ -40,6 +40,12 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.SearchPatient(patientList);
         }
+        public List<PatientListModel> GetPatientByRegNo(string regNo)
+        {
+            return todaysPatientManager.GetPatientByRegNo(regNo);
+        }
+
+
         public FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList)
         {
             return todaysPatientManager.GetFrontOfficeProgressBars(patientList);

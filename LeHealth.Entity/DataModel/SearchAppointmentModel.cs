@@ -5,13 +5,12 @@ namespace LeHealth.Entity.DataModel
     public class SearchAppointmentModel
     {
         public Int32 AppId { get; set; }
-        public DateTime AppDate { get; set; }
-        public int AppNo { get; set; }
+        public string AppDate { get; set; }
+        public string AppNo { get; set; } 
         public string CFirstName { get; set; }
-        public string FirstName { get; set; }
         public string PatientRegNo { get; set; }
         public string Mobile { get; set; }
-        public string Sponsor { get; set; }
+        public string ConsultantName { get; set; }
         public string PatientName { get; set; }
         public Int32 AppType { get; set; }
         public string TimeNo { get; set; }
@@ -23,8 +22,6 @@ namespace LeHealth.Entity.DataModel
         public Int32 SliceNo { get; set; }
         public string SliceTime { get; set; }
         public string Title { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Street { get; set; }

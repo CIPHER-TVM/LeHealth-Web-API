@@ -864,6 +864,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
             }
         }
+
+
+        [Route("GetPatientByRegNo")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientListModel>> GetPatientByRegNo(PatientSearchModel patientDetails)
+        {
+            List<PatientListModel> patientList = new List<PatientListModel>();
+            try
+            {
+                patientList = todaysPatientService.GetPatientByRegNo(patientDetails.RegNo);
+                var response = new ResponseDataModel<IEnumerable<PatientListModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientListModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+
+            }
+        }
+
         [Route("GetFrontOfficeProgressBars")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<FrontOfficePBarModel>> GetFrontOfficeProgressBars(ConsultationModel CM)
@@ -1264,13 +1302,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [HttpPost]
         [Route("SearchAppointment")]
-        public ResponseDataModel<IEnumerable<AppSearchModel>> SearchAppointment(AppointmentModel appointment)
+        public ResponseDataModel<IEnumerable<SearchAppointmentModel>> SearchAppointment(AppointmentModel appointment)
         {
-            List<AppSearchModel> appointmentList = new List<AppSearchModel>();
+            List<SearchAppointmentModel> appointmentList = new List<SearchAppointmentModel>();
             try
             {
                 appointmentList = todaysPatientService.SearchAppointment(appointment);
-                var response = new ResponseDataModel<IEnumerable<AppSearchModel>>()
+                var response = new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = appointmentList
@@ -1280,7 +1318,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AppSearchModel>>()
+                return new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
