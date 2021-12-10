@@ -585,6 +585,26 @@ namespace LeHealth.Core.DataManager
             }
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                con.Open();
+                SqlCommand cmdmobilemailcheck = new SqlCommand("stLH_CheckPatientEmailExists", con);
+                cmdmobilemailcheck.CommandType = CommandType.StoredProcedure;
+                cmdmobilemailcheck.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
+                cmdmobilemailcheck.Parameters.AddWithValue("@PatientEmail", patientDetail.Email);
+                cmdmobilemailcheck.Parameters.AddWithValue("@PatientMobile", patientDetail.Mobile);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmdmobilemailcheck);
+                DataSet dsMobileMailCheckData = new DataSet();
+                adapter.Fill(dsMobileMailCheckData);
+                con.Close();
+                if ((dsMobileMailCheckData != null) && (dsMobileMailCheckData.Tables.Count > 0) && (dsMobileMailCheckData.Tables[0] != null) && (dsMobileMailCheckData.Tables[0].Rows.Count > 0))
+                {
+                    int CountDatas = Convert.ToInt32(dsMobileMailCheckData.Tables[0].Rows[0]["CountData"]);
+                    string Messagedatas = dsMobileMailCheckData.Tables[0].Rows[0]["MessageData"].ToString();
+                    if(Messagedatas!= "NoDuplicate")
+                    {
+                        response = Messagedatas;
+                        return response;
+                    }
+                }
                 if (IsUpdate == 0 && patientDetail.IsManualRegNo == 0)
                 {
                     for (int m = 0; m < 100; m++)
