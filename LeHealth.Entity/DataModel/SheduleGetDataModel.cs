@@ -15,7 +15,7 @@ namespace LeHealth.Entity.DataModel
     {
         public string SliceNo { get; set; }
         public string ConsultantName { get; set; } 
-        public string TaskDate { get; set; }
+        //public string TaskDate { get; set; }
         public string AppId { get; set; }
         public string AppNo { get; set; }
         public string SliceTime { get; set; }
