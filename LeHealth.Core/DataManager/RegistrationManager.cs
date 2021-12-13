@@ -424,8 +424,6 @@ namespace LeHealth.Core.DataManager
                         ram.Add(obj3);
                     }
                 }
-
-
                 con.Open();
                 SqlCommand cmd4 = new SqlCommand("stLH_GetRegFileNameByPatientId", con);
                 cmd4.CommandType = CommandType.StoredProcedure;

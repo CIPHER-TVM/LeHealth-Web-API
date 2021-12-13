@@ -414,30 +414,30 @@ namespace LeHealth.Core.DataManager
             List<SheduleGetDataModel> scheduleList = new List<SheduleGetDataModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                if (gsim.Consultant.Length == 0)
-                {
-                    using (SqlCommand cmda = new SqlCommand("stLH_GetConsultantTaskListByDate", con))
-                    {
-                        List<int?> doctorList = new List<int?>();
-                        con.Open();
-                        cmda.CommandType = CommandType.StoredProcedure;
-                        cmda.Parameters.Clear();
-                        cmda.Parameters.AddWithValue("@AppDate", gsim.DateValue);
-                        SqlDataAdapter adaptera = new SqlDataAdapter(cmda);
-                        DataSet dsConsultantList = new DataSet();
-                        adaptera.Fill(dsConsultantList);
-                        con.Close();
-                        if ((dsConsultantList != null) && (dsConsultantList.Tables.Count > 0) && (dsConsultantList.Tables[0] != null) && (dsConsultantList.Tables[0].Rows.Count > 0))
-                        {
-                            for (int m = 0; m < dsConsultantList.Tables[0].Rows.Count; m++)
-                            {
-                                int consultantId =Convert.ToInt32( dsConsultantList.Tables[0].Rows[m]["ConsultantId"]);
-                                doctorList.Add(consultantId);
-                            }
-                            gsim.Consultant = doctorList.ToArray();
-                        }
-                    }
-                }
+                //if (gsim.Consultant.Length == 0)
+                //{
+                //    using (SqlCommand cmda = new SqlCommand("stLH_GetConsultantTaskListByDate", con))
+                //    {
+                //        List<int?> doctorList = new List<int?>();
+                //        con.Open();
+                //        cmda.CommandType = CommandType.StoredProcedure;
+                //        cmda.Parameters.Clear();
+                //        cmda.Parameters.AddWithValue("@AppDate", gsim.DateValue);
+                //        SqlDataAdapter adaptera = new SqlDataAdapter(cmda);
+                //        DataSet dsConsultantList = new DataSet();
+                //        adaptera.Fill(dsConsultantList);
+                //        con.Close();
+                //        if ((dsConsultantList != null) && (dsConsultantList.Tables.Count > 0) && (dsConsultantList.Tables[0] != null) && (dsConsultantList.Tables[0].Rows.Count > 0))
+                //        {
+                //            for (int m = 0; m < dsConsultantList.Tables[0].Rows.Count; m++)
+                //            {
+                //                int consultantId =Convert.ToInt32( dsConsultantList.Tables[0].Rows[m]["ConsultantId"]);
+                //                doctorList.Add(consultantId);
+                //            }
+                //            gsim.Consultant = doctorList.ToArray();
+                //        }
+                //    }
+                //}
                 for (int i = 0; i < gsim.Consultant.Length; i++)
                 {
                     using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleByDateConsultant", con))
@@ -462,7 +462,8 @@ namespace LeHealth.Core.DataManager
                             {
                                 Label lb = new Label();
                                 lb.SliceNo = dsScheduleList.Tables[0].Rows[j]["SliceNo"].ToString();
-                                lb.TaskDate = dsScheduleList.Tables[0].Rows[j]["TaskDate"].ToString();
+                                //lb.TaskDate = dsScheduleList.Tables[0].Rows[j]["TaskDate"].ToString();
+                                lb.ConsultantName = dsScheduleList.Tables[0].Rows[j]["ConsultantName"].ToString();
                                 lb.AppId = dsScheduleList.Tables[0].Rows[j]["AppId"].ToString();
                                 lb.AppNo = dsScheduleList.Tables[0].Rows[j]["AppNo"].ToString();
                                 lb.SliceTime = dsScheduleList.Tables[0].Rows[j]["SliceTime"].ToString();
