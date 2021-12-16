@@ -36,259 +36,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// Department list as JSON
         /// </returns>
-        [Route("GetDepartments")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments()
-        {
-            List<DepartmentModel> departmentList = new List<DepartmentModel>();
-            try
-            {
-                departmentList = hospitalsService.GetDepartments();
-                var response = new ResponseDataModel<IEnumerable<DepartmentModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = departmentList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<DepartmentModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // departmentList.Clear();
-
-            }
-        }
-        [Route("GetReligion")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ReligionModel>> GetReligion()
-        {
-            List<ReligionModel> religionList = new List<ReligionModel>();
-            try
-            {
-                religionList = todaysPatientService.GetReligion();
-                var response = new ResponseDataModel<IEnumerable<ReligionModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = religionList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ReligionModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // departmentList.Clear();
-
-            }
-        }
-        //Zone Management Start
-
-        [Route("GetAllZones")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> GetAllZones()
-        {
-            List<ZoneModel> zoneList = new List<ZoneModel>();
-            try
-            {
-                zoneList = todaysPatientService.GetAllZone();
-                var response = new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = zoneList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // departmentList.Clear();
-
-            }
-        }
-
-        [Route("GetZoneById/{zoneId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> GetZoneById(int zoneId)
-        {
-            List<ZoneModel> zoneList = new List<ZoneModel>();
-            try
-            {
-                zoneList = todaysPatientService.GetZoneById(zoneId);
-                var response = new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = zoneList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // departmentList.Clear();
-
-            }
-        }
-
-        [Route("InsertZone")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> InsertZone(ZoneModel zone)
-        {
-            string message = "";
-            try
-            {
-                message = todaysPatientService.InsertZone(zone);
-                var response = new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-        [Route("UpdateZone")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> UpdateZone(ZoneModel zone)
-        {
-            string message = "";
-            try
-            {
-                message = todaysPatientService.UpdateZone(zone);
-                var response = new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-        [Route("DeleteZone/{zoneId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> DeleteZone(int zoneId)
-        {
-            string message = "";
-            try
-            {
-                message = todaysPatientService.DeleteZone(zoneId);
-                var response = new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ZoneModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-
 
         //ZONE MANAGEMENT END
 
@@ -318,6 +65,42 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+            }
+        }
+
+        [Route("AppoinmentValidCheck")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> AppoinmentValidCheck(AppoinmentValidCheckModel ap)
+        {
+            string IsValid = "";
+            try
+            {
+                IsValid = todaysPatientService.AppoinmentValidCheck(ap); 
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = null,
+                    Message = IsValid
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -635,7 +418,45 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                //  consultationList.Clear();
+
+            }
+
+        }
+
+
+
+
+        [Route("GetAppointmentById")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SearchAppointmentModel>> GetAppointmentById(AppointmentModel appointment) 
+        {
+            List<SearchAppointmentModel> appointmentSearch = new List<SearchAppointmentModel>();
+            try
+            {
+                appointmentSearch = todaysPatientService.GetAppointmentById(appointment);
+                var response = new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = appointmentSearch
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
 
             }
 
@@ -1097,6 +918,41 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("UpdateAppointment")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<Appointments>> UpdateAppointment(Appointments appointments)
+        {
+            try
+            {
+                string appointmentret = hospitalsService.UpdateAppointment(appointments); 
+                var response = new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message=appointmentret,
+                    Response = null
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
         /// <summary>
         /// Save new Consultation ,Controller class . Step One in code execution flow
         /// </summary>
@@ -1183,11 +1039,43 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-
-
             }
         }
 
+        [Route("PostponeAppointment")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> PostponeAppointment(Appointments app)
+        {
+            try
+            {
+                string msg = "";
+                msg = todaysPatientService.PostponeAppointment(app);
+
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
         [HttpPost]
         [Route("GetCountry")]

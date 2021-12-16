@@ -597,7 +597,7 @@ namespace LeHealth.Core.DataManager
                 {
                     int CountDatas = Convert.ToInt32(dsMobileMailCheckData.Tables[0].Rows[0]["CountData"]);
                     string Messagedatas = dsMobileMailCheckData.Tables[0].Rows[0]["MessageData"].ToString();
-                    if(Messagedatas!= "NoDuplicate")
+                    if (Messagedatas != "NoDuplicate")
                     {
                         response = Messagedatas;
                         return response;
@@ -739,6 +739,8 @@ namespace LeHealth.Core.DataManager
 
                         //THREE TIMES END
 
+
+
                         //FileUploadStarts
                         if (patientDetail.RegDocLocation != null)
                         {
@@ -786,9 +788,54 @@ namespace LeHealth.Core.DataManager
                                 if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
                                 {
                                     patientDetail.Consultation.PatientId = patientId;
-                                    SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
-                                    patientConsultationCmd.Connection = con;
-                                    var isUpdated = patientConsultationCmd.ExecuteNonQuery();
+                                    //SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
+                                    //patientConsultationCmd.Connection = con;
+                                    //var isUpdated = patientConsultationCmd.ExecuteNonQuery();
+
+                                    SqlCommand patientRegConsultationSavecmd = new SqlCommand("stLH_InsertUpdateConsultation", con);
+                                    patientRegConsultationSavecmd.CommandType = CommandType.StoredProcedure;
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultDate", patientDetail.Consultation.ConsultDate);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@AppId", patientDetail.Consultation.AppId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultantId", patientDetail.Consultation.ConsultantId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@PatientId", patientDetail.Consultation.PatientId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@Symptoms", patientDetail.Consultation.OtherReasonForVisit);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultFee", patientDetail.Consultation.ConsultFee);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultType", patientDetail.Consultation.ConsultType);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@EmerFee", patientDetail.Consultation.EmerFee);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@Emergency", patientDetail.Consultation.Emergency);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@ItemId", patientDetail.Consultation.ItemId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@AgentId", patientDetail.Consultation.AgentId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@LocationId", patientDetail.Consultation.LocationId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@LeadAgentId", patientDetail.Consultation.LeadAgentId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@InitiateCall", patientDetail.Consultation.InitiateCall);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@UserId", patientDetail.Consultation.UserId);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@RetSeqNo", patientDetail.Consultation.RetSeqNo);
+                                    patientRegConsultationSavecmd.Parameters.AddWithValue("@SessionId", patientDetail.Consultation.SessionId);
+                                    SqlParameter patConsReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                                    {
+                                        Direction = ParameterDirection.Output
+                                    };
+                                    SqlParameter patConsReturnDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                                    {
+                                        Direction = ParameterDirection.Output
+                                    };
+                                    patientRegConsultationSavecmd.Parameters.Add(patConsReturn1);
+                                    patientRegConsultationSavecmd.Parameters.Add(patConsReturnDesc1);
+                                    var isInsertedCons = patientRegConsultationSavecmd.ExecuteNonQuery();
+                                    int savedConsultationId = Convert.ToInt32(patConsReturn1.Value);
+                                    var patadrReturnDesc1V = patConsReturnDesc1.Value.ToString();
+
+                                    //Symptom Save Starts
+                                    for (int b = 0; b < patientDetail.Symptoms.Count; b++)
+                                    {
+                                        SqlCommand savesymptomCMD = new SqlCommand("stLH_SaveConsultationSymptoms", con);
+                                        savesymptomCMD.CommandType = CommandType.StoredProcedure;
+                                        savesymptomCMD.Parameters.AddWithValue("@ConsultationId", savedConsultationId);
+                                        savesymptomCMD.Parameters.AddWithValue("@SymptomId", patientDetail.Symptoms[b].SymptomId);
+                                        var isInsertedSymptom1 = savesymptomCMD.ExecuteNonQuery();
+                                    }
+                                    //Symptom Save Ends
                                 }
                                 response = patientId.ToString();
                                 ////Call API Block Starts
@@ -829,7 +876,7 @@ namespace LeHealth.Core.DataManager
                         }
                         else
                         {
-                            response = patientId.ToString();//"success";
+                            response = patientId.ToString();
 
                         }
                         //IF INSERT ONLY ENDS
@@ -947,49 +994,6 @@ namespace LeHealth.Core.DataManager
             }
             return responsev;
         }
-        public SqlCommand InsertConsultation(ConsultationModel consultations)
-        {
-            using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
-                cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
-                cmd.Parameters.AddWithValue("@AppId", consultations.AppId);
-                cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
-                cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
-                cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
-                cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
-                cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
-                cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);
-                cmd.Parameters.AddWithValue("@Emergency", consultations.Emergency);
-                cmd.Parameters.AddWithValue("@ItemId", consultations.ItemId);
-                cmd.Parameters.AddWithValue("@AgentId", consultations.AgentId);
-                cmd.Parameters.AddWithValue("@LocationId", consultations.LocationId);
-                cmd.Parameters.AddWithValue("@LeadAgentId", consultations.LeadAgentId);
-                cmd.Parameters.AddWithValue("@InitiateCall", consultations.InitiateCall);
-                cmd.Parameters.AddWithValue("@UserId", consultations.UserId);
-                cmd.Parameters.AddWithValue("@RetSeqNo", consultations.RetSeqNo);
-                cmd.Parameters.AddWithValue("@SessionId", consultations.SessionId);
-                cmd.Parameters.AddWithValue("@RetVal", consultations.RetVal);
-                cmd.Parameters.AddWithValue("@RetDesc", consultations.RetDesc);
-                return cmd;
-            }
-        }
-        public SqlCommand UPDATERegNo()
-        {
-            using (SqlCommand cmd = new SqlCommand("stLH_AutoNumber"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@NumId", "REG-NO");
-                SqlParameter outputIdParam = new SqlParameter("@NewNo", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(outputIdParam);
-                return cmd;
-            }
-        }
-
         public string AutoregnoCreate()
         {
             using (SqlConnection con = new SqlConnection(_connStr))

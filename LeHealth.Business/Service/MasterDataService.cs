@@ -25,7 +25,41 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetAppType();
         }
+        public string InsertZone(ZoneModel zone)
+        {
+            return masterdataManager.InsertZone(zone);
+        }
 
+
+        public string UpdateZone(ZoneModel zone)
+        {
+            return masterdataManager.UpdateZone(zone);
+        }
+        public string DeleteZone(int zoneId)
+        {
+            return masterdataManager.DeleteZone(zoneId);
+        }
+        public List<ZoneModel> GetZoneById(int zoneId)
+        {
+            return masterdataManager.GetZoneById(zoneId);
+        }
+        public List<ZoneModel> GetAllZone()
+        {
+            return masterdataManager.GetAllZone();
+        }
+
+        public List<ReligionModel> GetReligion()
+        {
+            return masterdataManager.GetReligion();
+        }
+
+        /// <summary>
+        ///Returns  all departments from the hospital as Generic List. Step two in code execution flow
+        /// </summary>
+        public List<DepartmentModel> GetDepartments()
+        {
+            return masterdataManager.GetDepartments();
+        }
 
     }
 }

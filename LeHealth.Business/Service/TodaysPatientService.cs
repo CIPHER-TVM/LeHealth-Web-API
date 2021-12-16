@@ -29,6 +29,12 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAllAppointments(countryDetails);
         }
+         public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel countryDetails)
+        {
+            return todaysPatientManager.GetAppointmentById(countryDetails);
+        }
+
+
         public List<SearchAppointmentModel> SearchAppointment(AppointmentModel countryDetails)
         {
             return todaysPatientManager.SearchAppointment(countryDetails);
@@ -80,19 +86,13 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetStateByCountryId(countryid);
         }
-        public List<ReligionModel> GetReligion()
-        {
-            return todaysPatientManager.GetReligion();
-        }
+        
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi)
         {
             return todaysPatientManager.GetScheduleData(gsi);
         }
         //
-        public string InsertZone(ZoneModel zone)
-        {
-            return todaysPatientManager.InsertZone(zone);
-        }
+        
         public string DeleteAppointment(AppointmentModel appointment)
         {
             return todaysPatientManager.DeleteAppointment(appointment);
@@ -101,28 +101,17 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.CancelConsultation(consultation);
         }
+        public string PostponeAppointment(Appointments appointments)
+        {
+            return todaysPatientManager.PostponeAppointment(appointments);
+        }
+
+
         public string SetUrgentConsultation(ConsultationModel consultation)
         {
             return todaysPatientManager.SetUrgentConsultation(consultation);
         }
 
-
-        public string UpdateZone(ZoneModel zone)
-        {
-            return todaysPatientManager.UpdateZone(zone);
-        }
-        public string DeleteZone(int zoneId)
-        {
-            return todaysPatientManager.DeleteZone(zoneId);
-        }
-        public List<ZoneModel> GetZoneById(int zoneId)
-        {
-            return todaysPatientManager.GetZoneById(zoneId);
-        }
-        public List<ZoneModel> GetAllZone()
-        {
-            return todaysPatientManager.GetAllZone();
-        }
         /// <summary>
         /// adding a new consultation details.Step two in code execution flow
         /// </summary>
@@ -157,6 +146,12 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultant(cm);
         }
+         public string AppoinmentValidCheck(AppoinmentValidCheckModel cm)
+        {
+            return todaysPatientManager.AppoinmentValidCheck(cm);
+        }
+
+
         public List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm)
         {
             return todaysPatientManager.GetConsultationByPatientId(cm);

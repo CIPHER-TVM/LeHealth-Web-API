@@ -84,6 +84,61 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
+        public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment)
+        {
+            List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetAppointmentById", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AppId", appointment.AppId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsAppointmentsList = new DataSet();
+                    adapter.Fill(dsAppointmentsList);
+                    con.Close();
+                    //converting datatable to list of Appointments
+                    if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
+                    //appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<SearchAppointmentModel>();
+                    {
+                        for (int i = 0; i < dsAppointmentsList.Tables[0].Rows.Count; i++)
+                        {
+                            SearchAppointmentModel obj = new SearchAppointmentModel();
+                            obj.AppId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["AppId"]);
+                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString();
+                            obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
+                            obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
+                            obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
+                            obj.Title = dsAppointmentsList.Tables[0].Rows[i]["Salutation"].ToString();
+                            obj.FirstName = dsAppointmentsList.Tables[0].Rows[i]["FirstName"].ToString();
+                            obj.MiddleName = dsAppointmentsList.Tables[0].Rows[i]["MiddleName"].ToString();
+                            obj.LastName = dsAppointmentsList.Tables[0].Rows[i]["LastName"].ToString();
+                            obj.PatientRegNo = dsAppointmentsList.Tables[0].Rows[i]["PatientRegNo"].ToString();
+                            obj.PIN = dsAppointmentsList.Tables[0].Rows[i]["PIN"].ToString();
+                            obj.Email = dsAppointmentsList.Tables[0].Rows[i]["Email"].ToString();
+                            obj.Mobile = dsAppointmentsList.Tables[0].Rows[i]["Mobile"].ToString();
+                            obj.SliceTime = dsAppointmentsList.Tables[0].Rows[i]["SliceTime"].ToString();
+                            obj.SliceNo = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["SliceNo"]);
+                            obj.Address1 = dsAppointmentsList.Tables[0].Rows[i]["Address1"].ToString();
+                            obj.Address2 = dsAppointmentsList.Tables[0].Rows[i]["Address2"].ToString();
+                            obj.Street = dsAppointmentsList.Tables[0].Rows[i]["Street"].ToString();
+                            obj.PlacePO = dsAppointmentsList.Tables[0].Rows[i]["PlacePO"].ToString();
+                            obj.City = dsAppointmentsList.Tables[0].Rows[i]["City"].ToString();
+                            obj.CountryName = dsAppointmentsList.Tables[0].Rows[i]["CountryName"].ToString();
+                            obj.State = dsAppointmentsList.Tables[0].Rows[i]["StateName"].ToString();
+                            obj.ConsultantName = dsAppointmentsList.Tables[0].Rows[i]["ConsultantName"].ToString();
+                            obj.AppStatus = dsAppointmentsList.Tables[0].Rows[i]["AppStatus"].ToString();
+                            obj.ResPhone = dsAppointmentsList.Tables[0].Rows[i]["ResPhone"].ToString();
+                            
+                            appointmentlist.Add(obj);
+                        }
+                    }
+                    return appointmentlist;
+                }
+            }
+        }
         public List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment)
         {
             List<SearchAppointmentModel> appList = new List<SearchAppointmentModel>();
@@ -303,27 +358,7 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-        public List<ReligionModel> GetReligion()
-        {
-            List<ReligionModel> religionList = new List<ReligionModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetReligion", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsReligionList = new DataSet();
-                    adapter.Fill(dsReligionList);
-                    con.Close();
-                    if ((dsReligionList != null) && (dsReligionList.Tables.Count > 0) && (dsReligionList.Tables[0] != null) && (dsReligionList.Tables[0].Rows.Count > 0))
-                        religionList = dsReligionList.Tables[0].ToListOfObject<ReligionModel>();
-                    return religionList;
-                }
-            }
-        }
         public List<GetNumberModel> GetNumber(string numId)
         {
             List<GetNumberModel> numberList = new List<GetNumberModel>();
@@ -708,6 +743,75 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string PostponeAppointment(Appointments app)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AppId", app.AppId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
+                    cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(app.AppDate));
+                    cmd.Parameters.AddWithValue("@AppNo", app.AppNo);
+                    cmd.Parameters.AddWithValue("@SliceNo", app.SliceNo);
+                    cmd.Parameters.AddWithValue("@SliceTime", app.SliceTime);
+                    cmd.Parameters.AddWithValue("@UserId", app.UserId);
+                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retVal);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var retV = retVal.Value;
+                    var retD = retDesc.Value.ToString();
+                    con.Close();
+                    if (retD.ToString() == "Appointment Postponed")
+                    {
+                        response = "success";
+                    }
+                    else
+                    {
+                        response = retD;
+                    }
+                }
+            }
+            return response;
+        }
+
+        public string AppoinmentValidCheck(AppoinmentValidCheckModel appoinment)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_AppoinmentValidCheck", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", appoinment.ConsultantId);
+                    cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(appoinment.AppDate));
+                    cmd.Parameters.AddWithValue("@TimeSliceFirst", appoinment.TimeSliceFirst);
+                    cmd.Parameters.AddWithValue("@RequiredSlots", appoinment.RequiredSlots);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var retD = retDesc.Value.ToString();
+                    con.Close();
+                    response = retD;
+                }
+            }
+            return response;
+        }
 
         public string SetUrgentConsultation(ConsultationModel consultation)
         {
@@ -748,100 +852,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //ZONE START
-        public string InsertZone(ZoneModel zone)
-        {
-            string response = "";
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertZone", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@zoneName", zone.ZoneName);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
-                    response = "Success";
-                }
-            }
-            return response;
-        }
-        public string UpdateZone(ZoneModel zone)
-        {
-            string response = "";
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_UpdateZone", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@zoneId", zone.Id);
-                    cmd.Parameters.AddWithValue("@zoneName", zone.ZoneName);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
-                    response = "Success";
-                }
-            }
-            return response;
-        }
-        public string DeleteZone(int zoneId)
-        {
-            string response = "";
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_DeleteZone", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@zoneId", zoneId);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
-                    response = "Success";
-                }
-            }
-            return response;
-        }
-        public List<ZoneModel> GetZoneById(int zoneId)
-        {
-            List<ZoneModel> stateList = new List<ZoneModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_ZoneById", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@zoneId", zoneId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
-                    con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<ZoneModel>();
-                    return stateList;
-                }
-            }
-        }
-        public List<ZoneModel> GetAllZone()
-        {
-            List<ZoneModel> stateList = new List<ZoneModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetAllZone", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
-                    con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<ZoneModel>();
-                    return stateList;
-                }
-            }
-        }
         public List<SymptomModel> GetActiveSymptoms()
         {
             List<SymptomModel> stateList = new List<SymptomModel>();
@@ -953,7 +964,7 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                         cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
                         cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
-                        cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
+                        cmd.Parameters.AddWithValue("@Symptoms", consultations.OtherReasonForVisit);
                         cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
                         cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
                         cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);

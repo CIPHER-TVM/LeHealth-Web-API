@@ -17,7 +17,7 @@ namespace LeHealth.Entity.DataModel
         public string ConsultDate { get; set; }
         public int? ConsultantId { get; set; }
         public int? PatientId { get; set; }
-        public string Symptoms { get; set; }
+        public string OtherReasonForVisit { get; set; } 
         public string Gender { get; set; }
         public int? ConsultType { get; set; }
         public float ConsultFee { get; set; }

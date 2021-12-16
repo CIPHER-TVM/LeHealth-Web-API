@@ -10,6 +10,7 @@ namespace LeHealth.Core.Interface
         
         List<CountryModel> GetCountry(CountryModel countryDetails);
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
+        List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<PatientListModel> GetPatientByRegNo(string regNo); 
@@ -20,16 +21,12 @@ namespace LeHealth.Core.Interface
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         List<StateModel> GetStateByCountryId(int countryId);
-        List<ReligionModel> GetReligion();
         //string SendAddPatientInformation(int patientid);
         //
-        string InsertZone(ZoneModel zone);
-        string UpdateZone(ZoneModel zone);
-        string DeleteZone(int zoneId);
+
         string DeleteAppointment(AppointmentModel appointment);
-        List<ZoneModel> GetZoneById(int zoneId);
+
         List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi); 
-        List<ZoneModel> GetAllZone();
 
         /// <summary>
         ///adding a new Consultation details
@@ -46,6 +43,7 @@ namespace LeHealth.Core.Interface
         /// To list of  all Consultants by dept id
         /// </summary>
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm); 
+        string AppoinmentValidCheck(AppoinmentValidCheckModel cm); 
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm); 
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);  
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);  
@@ -55,6 +53,7 @@ namespace LeHealth.Core.Interface
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<LeadAgentModel> GetLeadAgent(LeadAgentModel la);
         string CancelConsultation(ConsultationModel cons); 
+        string PostponeAppointment(Appointments cons); 
         string SetUrgentConsultation(ConsultationModel cons);  
         List<CompanyModel> GetCompany();
         

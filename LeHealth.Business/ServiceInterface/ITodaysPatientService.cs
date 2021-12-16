@@ -12,7 +12,8 @@ namespace LeHealth.Service.ServiceInterface
         /// </summary>
        
         List<CountryModel> GetCountry(CountryModel countryDetail);
-        List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
+        List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment); 
+        List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<PatientListModel> GetPatientByRegNo(string Regno);
@@ -23,16 +24,12 @@ namespace LeHealth.Service.ServiceInterface
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         List<StateModel> GetStateByCountryId(int countryId);
-        List<ReligionModel> GetReligion();
-        //string SendAddPatientInformation(int patientId);
-        string InsertZone(ZoneModel zone);
-        string UpdateZone(ZoneModel zone);
-        string DeleteZone(int zoneId);
+        
         string DeleteAppointment(AppointmentModel appointment);
         string CancelConsultation(ConsultationModel consultantion); 
+        string PostponeAppointment(Appointments appointments); 
         string SetUrgentConsultation(ConsultationModel consultantion);  
-        List<ZoneModel> GetZoneById(int zoneId);
-        List<ZoneModel> GetAllZone();
+        
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm); 
         List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi); 
@@ -41,6 +38,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
         List<SymptomModel> GetActiveSymptoms();
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
+        string AppoinmentValidCheck(AppoinmentValidCheckModel cm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);

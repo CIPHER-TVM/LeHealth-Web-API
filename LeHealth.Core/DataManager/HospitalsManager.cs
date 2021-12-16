@@ -81,43 +81,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-        /// <summary>
-        /// Get department list from database,Step three in code execution flow
-        /// </summary>
-        /// <returns></returns>
-        public List<DepartmentModel> GetDepartments()
-        {
-            List<DepartmentModel> departmentlist = new List<DepartmentModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-
-                using (SqlCommand cmd = new SqlCommand("stLH_GetDepartment", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DeptId", 0);
-                    cmd.Parameters.AddWithValue("@Active", 1);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            DepartmentModel obj = new DepartmentModel();
-                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
-                            obj.DeptName = ds.Tables[0].Rows[i]["DeptName"].ToString();
-                            obj.DeptCode = ds.Tables[0].Rows[i]["DeptCode"].ToString();
-                            obj.Active = Convert.ToInt32(ds.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
-                            departmentlist.Add(obj);
-                        }
-                    }
-                    return departmentlist;
-                }
-            }
-        }
 
         /// <summary>
         /// Get appoinment list from database,Step three in code execution flow
@@ -258,7 +221,6 @@ namespace LeHealth.Core.DataManager
             List<Appointments> appointmentsList = new List<Appointments>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -271,7 +233,6 @@ namespace LeHealth.Core.DataManager
                     string DateString = appointments.AppDate;
                     IFormatProvider culture = new CultureInfo("en-US", true);
                     DateTime dateVal = DateTime.ParseExact(DateString, "yyyy-MM-dd", culture);
-
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
@@ -302,8 +263,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
                     cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
-                    cmd.Parameters.AddWithValue("@RetVal", appointments.RetVal);
-                    cmd.Parameters.AddWithValue("@RetDesc", appointments.RetDesc);
+                    cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
                     con.Open();
                     var isUpdated = cmd.ExecuteNonQuery();
                     con.Close();
@@ -313,7 +274,67 @@ namespace LeHealth.Core.DataManager
             return appointmentsList;
         }
 
+        /// <summary>
+        /// Update appoinments to database,Step three in code execution flow
+        /// </summary>
+        /// <param name="appointments"></param>
+        /// <returns></returns>
+        public string UpdateAppointment(Appointments appointments)
+        {
+            string appointmentret = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
 
+                using (SqlCommand cmd = new SqlCommand("stLH_UpdateAppointment", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
+                    cmd.Parameters.AddWithValue("@Title", appointments.Title);
+                    cmd.Parameters.AddWithValue("@FirstName", appointments.FirstName);
+                    cmd.Parameters.AddWithValue("@MiddleName", appointments.MiddleName);
+                    cmd.Parameters.AddWithValue("@LastName", appointments.LastName);
+                    cmd.Parameters.AddWithValue("@Address1", appointments.Address1);
+                    cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
+                    cmd.Parameters.AddWithValue("@Street", appointments.Street);
+                    cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
+                    cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
+                    cmd.Parameters.AddWithValue("@City", appointments.City);
+                    cmd.Parameters.AddWithValue("@State", appointments.State);
+                    cmd.Parameters.AddWithValue("@CountryId", appointments.CountryId);
+                    cmd.Parameters.AddWithValue("@Mobile", appointments.Mobile);
+                    cmd.Parameters.AddWithValue("@ResPhone", appointments.ResPhone);
+                    cmd.Parameters.AddWithValue("@OffPhone", appointments.OffPhone);
+                    cmd.Parameters.AddWithValue("@Email", appointments.Email);
+                    cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
+                    cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
+                    cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        appointmentret = ret.ToString();
+                    }
+                    else
+                    {
+                        appointmentret = descrip;
+                    }
+                }
+            }
+            return appointmentret;
+        }
         public List<ConsultationModel> GetAllConsultation()
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
@@ -343,7 +364,7 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultType2 = ds.Tables[0].Rows[i]["ConsultType"].ToString();
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
                             obj.PIN = ds.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.Symptoms = ds.Tables[0].Rows[i]["Symptoms"].ToString();
+                            obj.OtherReasonForVisit = ds.Tables[0].Rows[i]["Symptoms"].ToString();
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
                             obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
                             obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
@@ -394,7 +415,7 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultType2 = ds.Tables[0].Rows[i]["ConsultType"].ToString();
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
                             obj.PIN = ds.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.Symptoms = ds.Tables[0].Rows[i]["Symptoms"].ToString();
+                            obj.OtherReasonForVisit = ds.Tables[0].Rows[i]["Symptoms"].ToString();
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
                             obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
                             obj.Telephone = ds.Tables[0].Rows[i]["Telephone"].ToString();

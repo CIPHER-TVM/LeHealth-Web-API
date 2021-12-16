@@ -22,13 +22,7 @@ namespace LeHealth.Service
             hospitalsManager = _hospitalsManager;
 
         }
-        /// <summary>
-        ///Returns  all departments from the hospital as Generic List. Step two in code execution flow
-        /// </summary>
-        public List<DepartmentModel> GetDepartments()
-        {
-            return hospitalsManager.GetDepartments();
-        }
+        
        
         /// <summary>
         /// Returns list of all appointments on present day as Generic List. Step two in code execution flow
@@ -57,6 +51,10 @@ namespace LeHealth.Service
         public List<Appointments> InsertUpdateAppointment(Appointments appointments)
         {
             return hospitalsManager.InsertUpdateAppointment(appointments);
+        }
+        public string UpdateAppointment(Appointments appointments)
+        {
+            return hospitalsManager.UpdateAppointment(appointments);
         }
        
         /// <summary>

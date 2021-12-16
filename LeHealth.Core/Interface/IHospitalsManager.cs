@@ -14,7 +14,7 @@ namespace LeHealth.Core.Interface
         /// <summary>
         /// To list of all departments
         /// </summary>
-        List<DepartmentModel> GetDepartments();
+        
         
         /// <summary>
         /// To list of  all appointments by today
@@ -29,6 +29,7 @@ namespace LeHealth.Core.Interface
         /// adding a new appointments details
         /// </summary>
         List<Appointments> InsertUpdateAppointment(Appointments appointments);
+        string UpdateAppointment(Appointments appointments);
      
         List<ConsultationModel> GetAllConsultation();
         List<ConsultationModel> SearchConsultation(ConsultationModel consultation);
