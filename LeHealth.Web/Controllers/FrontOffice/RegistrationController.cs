@@ -281,6 +281,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
         [HttpPost]
         [Route("GetCommunicationType")]
         public ResponseDataModel<IEnumerable<CommunicationTypeModel>> GetCommunicationType()
@@ -514,10 +515,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentPreviewModel>> GetConsentPreviewContent(PatientModel patientDetails)
         {
-            List<ConsentPreviewModel> patientList = new List<ConsentPreviewModel>(); 
+            List<ConsentPreviewModel> patientList = new List<ConsentPreviewModel>();
             try
             {
-                patientList = registrationService.GetConsentPreviewContent(patientDetails.PatientId); 
+                patientList = registrationService.GetConsentPreviewContent(patientDetails.PatientId);
                 var response = new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
                 {
                     Status = HttpStatusCode.OK,

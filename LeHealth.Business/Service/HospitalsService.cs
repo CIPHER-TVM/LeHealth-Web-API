@@ -57,13 +57,7 @@ namespace LeHealth.Service
             return hospitalsManager.UpdateAppointment(appointments);
         }
        
-        /// <summary>
-        /// To list of all hospital details .Step two in code execution flow
-        /// </summary>
-        public List<HospitalModel> GetUserHospitals()
-        {
-            return hospitalsManager.GetUserHospitals();
-        }
+        
         public List<ConsultationModel> GetAllConsultation()
         {
             return hospitalsManager.GetAllConsultation();

@@ -19,7 +19,8 @@ namespace LeHealth.Entity.DataModel
 		public string Response { get; set; }
 		public string PIN { get; set; }
 		public string RegNo { get; set; }
+		public string Reason { get; set; } 
+		public int UserId { get; set; } 
 		public int AppType { get; set; }
-
 	}
 }

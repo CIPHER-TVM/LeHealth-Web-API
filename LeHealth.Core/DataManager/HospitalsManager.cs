@@ -52,41 +52,7 @@ namespace LeHealth.Core.DataManager
         }
 
 
-        /// <summary>
-        /// Get Hospital list from database.Step three in code execution flow
-        /// </summary>
-        /// <returns></returns>
-
-        public List<HospitalModel> GetUserHospitals()
-        {
-            List<HospitalModel> hospitalList = new List<HospitalModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-
-                using (SqlCommand cmd = new SqlCommand("stLH_GetUserHospitals", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsHospitalList = new DataSet();
-                    adapter.Fill(dsHospitalList);
-                    con.Close();
-
-
-                    if ((dsHospitalList != null) && (dsHospitalList.Tables.Count > 0) && (dsHospitalList.Tables[0] != null) && (dsHospitalList.Tables[0].Rows.Count > 0))
-                        hospitalList = dsHospitalList.Tables[0].ToListOfObject<HospitalModel>();
-                    return hospitalList;
-
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// Get appoinment list from database,Step three in code execution flow
-        /// </summary>
-        /// <param name="appointment"></param>
-        /// <returns></returns>
+        
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
             List<Appointments> Appointmentlist = new List<Appointments>();

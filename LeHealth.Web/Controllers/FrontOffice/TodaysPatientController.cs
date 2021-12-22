@@ -498,76 +498,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        //Get Referenced by Doctor DDL Data
-        [Route("GetLeadAgent")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<LeadAgentModel>> GetLeadAgent(LeadAgentModel la)
-        {
-            List<LeadAgentModel> leadAgentList = new List<LeadAgentModel>();
-            try
-            {
-                leadAgentList = todaysPatientService.GetLeadAgent(la);
-                var response = new ResponseDataModel<IEnumerable<LeadAgentModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = leadAgentList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<LeadAgentModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-            }
-        }
-        [Route("GetCompany")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<CompanyModel>> GetCompany()
-        {
-            List<CompanyModel> companyList = new List<CompanyModel>();
-            try
-            {
-                companyList = todaysPatientService.GetCompany();
-                var response = new ResponseDataModel<IEnumerable<CompanyModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = companyList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CompanyModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-            }
-        }
-
+        
+        
+      
 
 
         [Route("DeleteAppointment")]

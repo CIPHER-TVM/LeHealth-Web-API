@@ -10,11 +10,6 @@ namespace LeHealth.Core.Interface
         /// <summary>
         /// To list of all hospital details
         /// </summary>
-        List<HospitalModel> GetUserHospitals();
-        /// <summary>
-        /// To list of all departments
-        /// </summary>
-        
         
         /// <summary>
         /// To list of  all appointments by today

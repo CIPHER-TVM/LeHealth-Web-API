@@ -51,11 +51,10 @@ namespace LeHealth.Core.Interface
         List<GetNumberModel> GetNumber(string numid);    
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);    
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
-        List<LeadAgentModel> GetLeadAgent(LeadAgentModel la);
         string CancelConsultation(ConsultationModel cons); 
         string PostponeAppointment(Appointments cons); 
         string SetUrgentConsultation(ConsultationModel cons);  
-        List<CompanyModel> GetCompany();
+        
         
     } 
 } 

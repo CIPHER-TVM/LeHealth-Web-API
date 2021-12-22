@@ -370,6 +370,7 @@ namespace LeHealth.Core.DataManager
                     obj.ProfName = dsPatientData.Tables[0].Rows[0]["ProfName"].ToString();
                     obj.NationalityName = dsPatientData.Tables[0].Rows[0]["NationalityName"].ToString();
                     obj.SchemeName = "";
+                    obj.CmpName = dsPatientData.Tables[0].Rows[0]["CmpName"].ToString(); 
                     obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
 
                 }

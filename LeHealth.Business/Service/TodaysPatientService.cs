@@ -180,20 +180,5 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetItemsByType(ibt);
         }
-        public List<LeadAgentModel> GetLeadAgent(LeadAgentModel la)
-        {
-            return todaysPatientManager.GetLeadAgent(la);
-        }
-        public List<CompanyModel> GetCompany()
-        {
-            return todaysPatientManager.GetCompany();
-        }
-
-
-
-
-
-
-
     }
 }

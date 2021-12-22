@@ -33,47 +33,7 @@ namespace LeHealth.Catalogue.API.Controllers
             hospitalsService = _hospitalsService;
         }
 
-        /// <summary>
-        /// To get list of hospitals . A controller class. Step One in code execution flow
-        /// branches=hospitals
-        /// </summary>
-        /// <returns>
-        /// returns List of Hospitals as JSON
-        /// </returns>
-
-        [Route("GetUserHospitals")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<HospitalModel>> GetUserHospitals()
-        {
-            try
-            {
-                var hospitals = hospitalsService.GetUserHospitals();
-                var response = new ResponseDataModel<IEnumerable<HospitalModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = hospitals,
-                    
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "HospitalsController", "GetUserHospitals()");
-
-                return new ResponseDataModel<IEnumerable<HospitalModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            
-        }
-
+        
         [Route("GetTabOrder")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<TabOrderModel>> GetTabOrder(FormNameModel formname)

@@ -17,10 +17,20 @@ namespace LeHealth.Service.Service
             fileUploadService = _fileUploadService;
         }
 
-        public List<ProffessionModel> GetProfession()
+        public List<ProfessionModel> GetProfession(int profid)
         {
-            return masterdataManager.GetProfession();
+            return masterdataManager.GetProfession(profid);
         }
+        public string InsertUpdateProfession(ProfessionModel zone)
+        {
+            return masterdataManager.InsertUpdateProfession(zone);
+        }
+        public string DeleteProfession(int zone)
+        {
+            return masterdataManager.DeleteProfession(zone);
+        }
+
+
         public List<AppTypeModel> GetAppType()
         {
             return masterdataManager.GetAppType();
@@ -28,12 +38,6 @@ namespace LeHealth.Service.Service
         public string InsertZone(ZoneModel zone)
         {
             return masterdataManager.InsertZone(zone);
-        }
-
-
-        public string UpdateZone(ZoneModel zone)
-        {
-            return masterdataManager.UpdateZone(zone);
         }
         public string DeleteZone(int zoneId)
         {
@@ -48,17 +52,142 @@ namespace LeHealth.Service.Service
             return masterdataManager.GetAllZone();
         }
 
+        //
+        /// <summary>
+        /// To list of all hospital details .Step two in code execution flow
+        /// </summary>
+        public List<HospitalModel> GetUserHospitals(int id)
+        {
+            return masterdataManager.GetUserHospitals(id);
+        }
+        public string InsertUpdateUserHospitals(HospitalRegModel hm)
+        {
+            if (hm.LogoFile != null)
+            {
+                hm.Logo = fileUploadService.SaveFile(hm.LogoFile);
+            }
+            if (hm.ReportLogoFile != null)
+            {
+                hm.ReportLogo = fileUploadService.SaveFile(hm.LogoFile);
+            }
+            return masterdataManager.InsertUpdateUserHospital(hm);
+        }
+        public string DeleteUserHospital(int id)
+        {
+            return masterdataManager.DeleteUserHospital(id);
+        }
+
+
+        public string InsertRegScheme(RegSchemeModel RegScheme)
+        {
+            return masterdataManager.InsertRegScheme(RegScheme);
+        }
+        public string UpdateRegScheme(RegSchemeModel RegScheme)
+        {
+            return masterdataManager.UpdateRegScheme(RegScheme);
+        }
+        public string DeleteRegScheme(int RegSchemeId)
+        {
+            return masterdataManager.DeleteRegScheme(RegSchemeId);
+        }
+        public List<RegSchemeModel> GetRegSchemeById(int RegSchemeId)
+        {
+            return masterdataManager.GetRegSchemeById(RegSchemeId);
+        }
+        public List<RegSchemeModel> GetAllRegScheme()
+        {
+            return masterdataManager.GetAllRegScheme();
+        }
+        //
+
+        public string InsertRateGroup(RateGroupModel RateGroup)
+        {
+            return masterdataManager.InsertRateGroup(RateGroup);
+        }
+        public string UpdateRateGroup(RateGroupModel RateGroup)
+        {
+            return masterdataManager.UpdateRateGroup(RateGroup);
+        }
+        public string DeleteRateGroup(int RateGroupId)
+        {
+            return masterdataManager.DeleteRateGroup(RateGroupId);
+        }
+        public List<RateGroupModel> GetRateGroupById(int RateGroupId)
+        {
+            return masterdataManager.GetRateGroupById(RateGroupId);
+        }
+        public List<RateGroupModel> GetAllRateGroup()
+        {
+            return masterdataManager.GetAllRateGroup();
+        }
+        //
+
+        //Operator Starts Now
+        public string InsertOperator(OperatorModel Operator)
+        {
+            return masterdataManager.InsertOperator(Operator);
+        }
+        public string UpdateOperator(OperatorModel Operator)
+        {
+            return masterdataManager.UpdateOperator(Operator);
+        }
+        public string DeleteOperator(int OperatorId)
+        {
+            return masterdataManager.DeleteOperator(OperatorId);
+        }
+        public List<OperatorModel> GetOperatorById(int OperatorId)
+        {
+            return masterdataManager.GetOperatorById(OperatorId);
+        }
+        public List<OperatorModel> GetAllOperator()
+        {
+            return masterdataManager.GetAllOperator();
+        }
+        //Operator Ends Now
+
         public List<ReligionModel> GetReligion()
         {
             return masterdataManager.GetReligion();
         }
+        public List<LeadAgentModel> GetLeadAgent(int la)
+        {
+            return masterdataManager.GetLeadAgent(la);
+        }
+        public string InsertUpdateLeadAgent(LeadAgentModel la)
+        {
+            return masterdataManager.InsertUpdateLeadAgent(la);
+        }
+        public string DeleteLeadAgent(int la)
+        {
+            return masterdataManager.DeleteLeadAgent(la);
+        }
 
+        public List<CompanyModel> GetCompany(int Id)
+        {
+            return masterdataManager.GetCompany(Id);
+        }
+        public string InsertUpdateCompany(CompanyModel cmp)
+        {
+            return masterdataManager.InsertUpdateCompany(cmp);
+        }
+        public string DeleteCompany(int Id)
+        {
+            return masterdataManager.DeleteCompany(Id);
+        }
         /// <summary>
         ///Returns  all departments from the hospital as Generic List. Step two in code execution flow
         /// </summary>
-        public List<DepartmentModel> GetDepartments()
+        public List<DepartmentModel> GetDepartments(int DeptId)
         {
-            return masterdataManager.GetDepartments();
+            return masterdataManager.GetDepartments(DeptId);
+        }
+        public string InsertUpdateDepartment(DepartmentModel Dept)
+        {
+            return masterdataManager.InsertUpdateDepartment(Dept);
+        }
+        public string DeleteDepartment(int DeptId)
+        {
+            return masterdataManager.DeleteDepartment(DeptId);
         }
 
     }

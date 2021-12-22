@@ -28,7 +28,8 @@ namespace LeHealth.Entity.DataModel
         public string PlacePO { get; set; }
         public string PIN { get; set; }
         public string City { get; set; }
-        public string State { get; set; }
+        public Int32 State { get; set; }
+        public string StateName { get; set; }
         public Int32 CountryId { get; set; }
         public string CountryName { get; set; }
         public string ResPhone { get; set; }
@@ -47,7 +48,7 @@ namespace LeHealth.Entity.DataModel
         public Int32 RetVal { get; set; }
         public string RetDesc { get; set; }
         //
-        public string Title { get; set; }
+        public Int32 Title { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

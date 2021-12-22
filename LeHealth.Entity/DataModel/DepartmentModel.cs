@@ -12,7 +12,9 @@ namespace LeHealth.Entity.DataModel
         public string Description { get; set; }
         public string TimeSlice { get; set; }
         public int Active { get; set; }
+        public int BranchId { get; set; }
         public string BlockReason { get; set; }
+        public int UserId { get; set; } 
 
 
     }

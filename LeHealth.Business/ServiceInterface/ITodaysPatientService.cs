@@ -10,9 +10,9 @@ namespace LeHealth.Service.ServiceInterface
         /// <summary>
         /// adding a new patient registration 
         /// </summary>
-       
+
         List<CountryModel> GetCountry(CountryModel countryDetail);
-        List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment); 
+        List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
@@ -24,15 +24,15 @@ namespace LeHealth.Service.ServiceInterface
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         List<StateModel> GetStateByCountryId(int countryId);
-        
+
         string DeleteAppointment(AppointmentModel appointment);
-        string CancelConsultation(ConsultationModel consultantion); 
-        string PostponeAppointment(Appointments appointments); 
-        string SetUrgentConsultation(ConsultationModel consultantion);  
-        
+        string CancelConsultation(ConsultationModel consultantion);
+        string PostponeAppointment(Appointments appointments);
+        string SetUrgentConsultation(ConsultationModel consultantion);
+
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
-        List<TokenModel> GetNewTokenNumber(ConsultationModel cm); 
-        List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi); 
+        List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
+        List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi);
         List<SponsorModel> GetSponsorListByPatientId(int patientId);
         List<RecentConsultationModel> GetRecentConsultationData();
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
@@ -46,8 +46,5 @@ namespace LeHealth.Service.ServiceInterface
         List<GetNumberModel> GetNumber(String nid);
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
-        List<LeadAgentModel> GetLeadAgent(LeadAgentModel la);
-        List<CompanyModel> GetCompany();
-        
     }
 }

@@ -61,7 +61,7 @@ namespace LeHealth.Service.Service
             using (var ms = new MemoryStream())
             {
                 var webRoot = _env.WebRootPath;
-                webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                 var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
                 string fileName = File.FileName;
                 var fileNameArray = fileName.Split('.');

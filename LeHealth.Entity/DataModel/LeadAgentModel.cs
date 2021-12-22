@@ -9,7 +9,7 @@ namespace LeHealth.Entity.DataModel
         public int LeadAgentId { get; set; }
         public String Name { get; set; }
         public String ContactNo { get; set; }
-        public String CommisionPercent { get; set; }
+        public float CommisionPercent { get; set; }
         public int Active { get; set; } 
     }
 }
