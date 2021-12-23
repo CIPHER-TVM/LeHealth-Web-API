@@ -65,6 +65,18 @@ namespace LeHealth.Core.Interface
         string DeleteDepartment(int DeptId);
         //DEPARTMENT MANAGEMENT ENDS
 
+        //Consent Management starts
+        List<ConsentPreviewModel> GetConsentPreviewConsent(int consentId); 
+        List<ConsentContentModel> GetConsent(int consentId); 
+        string InsertUpdateConsent(ConsentContentModel consent);
+        string DeleteConsent(int consentId);
+
+        //Consent Management ends
+
+        List<CountryModel> GetCountry(int countryDetails);
+        string InsertUpdateCountry(CountryModel countryDetails);
+        string DeleteCountry(int countryDetails);
+
         List<AppTypeModel> GetAppType();
         List<ReligionModel> GetReligion();
     }

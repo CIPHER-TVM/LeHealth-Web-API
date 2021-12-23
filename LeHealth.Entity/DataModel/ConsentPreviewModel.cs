@@ -8,5 +8,6 @@ namespace LeHealth.Entity.DataModel
     {
         public List<ConsentContentModel> ConsentContentValue { get; set; }
         public string PatientName { get; set; } 
+        public int PatientId { get; set; }  
     } 
 }

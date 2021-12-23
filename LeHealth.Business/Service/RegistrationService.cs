@@ -82,10 +82,7 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.ViewPatientFiles(patientId);
         }
-        public List<ConsentPreviewModel> GetConsentPreviewContent(int patientId) 
-        {
-            return registrationManager.GetConsentPreviewContent(patientId);
-        }
+        
 
 
         public List<PatientModel> GetRegisteredDataById(int patientId)

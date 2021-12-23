@@ -190,5 +190,38 @@ namespace LeHealth.Service.Service
             return masterdataManager.DeleteDepartment(DeptId);
         }
 
+
+        public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientId)
+        {
+            return masterdataManager.GetConsentPreviewConsent(patientId);
+        }
+          public List<ConsentContentModel> GetConsent(int patientId)
+        {
+            return masterdataManager.GetConsent(patientId);
+        }
+
+
+        public string InsertUpdateConsent(ConsentContentModel consent)
+        {
+            return masterdataManager.InsertUpdateConsent(consent);
+        }
+        public string DeleteConsent(int patientId)
+        {
+            return masterdataManager.DeleteConsent(patientId);
+        }
+
+        public List<CountryModel> GetCountry(int countryDetails)
+        {
+            return masterdataManager.GetCountry(countryDetails);
+        }
+        public string InsertUpdateCountry(CountryModel country)
+        {
+            return masterdataManager.InsertUpdateCountry(country);
+        }
+        public string DeleteCountry(int patientId)
+        {
+            return masterdataManager.DeleteCountry(patientId);
+        }
+
     }
 }

@@ -49,6 +49,7 @@ namespace LeHealth.Entity.DataModel
         public string RetDesc { get; set; }
         //
         public Int32 Title { get; set; }
+        public string TitleText { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

@@ -1063,57 +1063,5 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-        public List<ConsentPreviewModel> GetConsentPreviewContent(int patientid)
-        {
-            List<ConsentPreviewModel> consentpreviewList = new List<ConsentPreviewModel>();
-            List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
-            string patientname = "";
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-
-                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsent", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ContentId", 0);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsPatientList = new DataSet();
-                    adapter.Fill(dsPatientList);
-                    con.Close();
-
-                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
-                    {
-                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
-                        {
-                            ConsentContentModel obj4 = new ConsentContentModel();
-                            obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
-                            obj4.CTEnglish = dsPatientList.Tables[0].Rows[j]["CTEnglish"].ToString();
-                            obj4.CTArabic = dsPatientList.Tables[0].Rows[j]["CTArabic"].ToString();
-                            ccmlist.Add(obj4);
-                        }
-                    }
-                }
-                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsentDetails", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PatientId", patientid);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsPatientList = new DataSet();
-                    adapter.Fill(dsPatientList);
-                    con.Close();
-                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
-                    {
-                        patientname = dsPatientList.Tables[0].Rows[0]["PatientName"].ToString();
-                    }
-                }
-                ConsentPreviewModel cpm = new ConsentPreviewModel();
-                cpm.ConsentContentValue = ccmlist;
-                cpm.PatientName = patientname;
-                consentpreviewList.Add(cpm);
-                return consentpreviewList;
-            }
-        }
     }
 }

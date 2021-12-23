@@ -21,10 +21,7 @@ namespace LeHealth.Service.Service
             fileUploadService = _fileUploadService;
         }
 
-        public List<CountryModel> GetCountry(CountryModel countryDetails)
-        {
-            return todaysPatientManager.GetCountry(countryDetails);
-        }
+        
         public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel countryDetails)
         {
             return todaysPatientManager.GetAllAppointments(countryDetails);

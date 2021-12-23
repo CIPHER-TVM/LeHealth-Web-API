@@ -19,28 +19,7 @@ namespace LeHealth.Core.DataManager
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
-        public List<CountryModel> GetCountry(CountryModel countryDetails)
-        {
-            List<CountryModel> countryList = new List<CountryModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
 
-                using (SqlCommand cmd = new SqlCommand("stLH_GetCountry", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@CountryId", countryDetails.CountryId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dscontryList = new DataSet();
-                    adapter.Fill(dscontryList);
-                    con.Close();
-                    //converting datatable to list of countries
-                    if ((dscontryList != null) && (dscontryList.Tables.Count > 0) && (dscontryList.Tables[0] != null) && (dscontryList.Tables[0].Rows.Count > 0))
-                        countryList = dscontryList.Tables[0].ToListOfObject<CountryModel>();
-                    return countryList;
-                }
-            }
-        }
 
 
         public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment)
@@ -111,7 +90,7 @@ namespace LeHealth.Core.DataManager
                             obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
                             obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
                             obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
-                            obj.Title = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["Salutation"]);
+                            obj.TitleText = dsAppointmentsList.Tables[0].Rows[i]["Salutation"].ToString();
                             obj.FirstName = dsAppointmentsList.Tables[0].Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsAppointmentsList.Tables[0].Rows[i]["MiddleName"].ToString();
                             obj.LastName = dsAppointmentsList.Tables[0].Rows[i]["LastName"].ToString();

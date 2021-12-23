@@ -1011,42 +1011,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
         [HttpPost]
-        [Route("GetCountry")]
-        public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(CountryModel countryDetails)
-        {
-            List<CountryModel> countryList = new List<CountryModel>();
-            try
-            {
-                countryList = todaysPatientService.GetCountry(countryDetails);
-                var response = new ResponseDataModel<IEnumerable<CountryModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = countryList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CountryModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                // countryList.Clear();
-
-            }
-        }
-
-        [HttpPost]
         [Route("GetRegSchmAmtOfPatient")]
         public ResponseDataModel<IEnumerable<ConsultRateModel>> GetRegSchmAmtOfPatient(ConsultationModel cm)
         {

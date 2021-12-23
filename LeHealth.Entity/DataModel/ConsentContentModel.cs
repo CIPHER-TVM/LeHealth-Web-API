@@ -9,5 +9,9 @@ namespace LeHealth.Entity.DataModel
         public int ContentId { get; set; }
         public string CTEnglish { get; set; }
         public string CTArabic { get; set; } 
+        public int DisplayOrder { get; set; } 
+        public string CType { get; set; } 
+        public int CGroupId { get; set; }  
+        public int Active { get; set; }   
     }
 }

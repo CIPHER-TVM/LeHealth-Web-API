@@ -511,40 +511,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetConsentPreviewContent")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsentPreviewModel>> GetConsentPreviewContent(PatientModel patientDetails)
-        {
-            List<ConsentPreviewModel> patientList = new List<ConsentPreviewModel>();
-            try
-            {
-                patientList = registrationService.GetConsentPreviewContent(patientDetails.PatientId);
-                var response = new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = patientList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
+       
 
         [Route("SaveReRegistration")]
         [HttpPost]

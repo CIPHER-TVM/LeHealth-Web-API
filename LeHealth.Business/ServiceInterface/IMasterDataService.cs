@@ -15,6 +15,13 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateUserHospitals(HospitalRegModel hm);
         string DeleteUserHospital(int id);
 
+         List<ConsentPreviewModel> GetConsentPreviewConsent(int id);
+         List<ConsentContentModel> GetConsent(int id);
+        string InsertUpdateConsent(ConsentContentModel hm);
+        string DeleteConsent(int id);
+
+
+
         List<AppTypeModel> GetAppType();
         List<ReligionModel> GetReligion();
         //string SendAddPatientInformation(int patientId);
@@ -49,7 +56,11 @@ namespace LeHealth.Service.ServiceInterface
 
         List<CompanyModel> GetCompany(int Id);
         string DeleteCompany(int Id);
-        string InsertUpdateCompany(CompanyModel cmp); 
+        string InsertUpdateCompany(CompanyModel cmp);
+
+        List<CountryModel> GetCountry(int countryDetail);
+        string InsertUpdateCountry(CountryModel countryDetail);
+        string DeleteCountry(int countryDetail);
 
     }
 }

@@ -130,7 +130,264 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
         //Profession management ends
+
+        //Consent Management starts
+        [Route("GetConsentPreviewConsent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentPreviewModel>> GetConsentPreviewConsent(ConsentPreviewModel consentDetails)
+        {
+            List<ConsentPreviewModel> patientList = new List<ConsentPreviewModel>();
+            try
+            {
+                patientList = masterdataService.GetConsentPreviewConsent(consentDetails.PatientId);
+                var response = new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetConsent/{ConsentId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentContentModel>> GetConsent(int consentId)
+        {
+            List<ConsentContentModel> patientList = new List<ConsentContentModel>(); 
+            try
+            {
+                patientList = masterdataService.GetConsent(consentId);
+                var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        } 
+
+
+
+
+        [Route("InsertUpdateConsent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentContentModel>> InsertUpdateConsent(ConsentContentModel Consent)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateConsent(Consent);
+                var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+
+        [Route("DeleteConsent/{ConsentId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentPreviewModel>> DeleteConsent(int ConsentId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteConsent(ConsentId);
+                var response = new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        //Consent Management ends
+
+        [HttpPost]
+        [Route("GetCountry/{Id}")]
+        public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(int Id)
+        {
+            List<CountryModel> countryList = new List<CountryModel>();
+            try
+            {
+                countryList = masterdataService.GetCountry(Id);
+                var response = new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = countryList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // countryList.Clear();
+
+            }
+        }
+
+        [Route("InsertUpdateCountry")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<CountryModel>> InsertUpdateCountry(CountryModel Country)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateCountry(Country);
+                var response = new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+
+        [Route("DeleteCountry/{CountryId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<CountryModel>> DeleteCountry(int CountryId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteCountry(CountryId);
+                var response = new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CountryModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
         //Hospital Management Starts
         /// <summary>
         /// To get list of hospitals . A controller class. Step One in code execution flow

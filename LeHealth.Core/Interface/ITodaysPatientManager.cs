@@ -8,7 +8,7 @@ namespace LeHealth.Core.Interface
    public interface ITodaysPatientManager
     {
         
-        List<CountryModel> GetCountry(CountryModel countryDetails);
+        
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
         List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);

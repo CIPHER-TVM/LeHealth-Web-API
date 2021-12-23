@@ -110,6 +110,226 @@ namespace LeHealth.Core.DataManager
         }
 
         //ProfessionManagement Ends
+        //Consent Management Starts
+        public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientid)
+        {
+            List<ConsentPreviewModel> consentpreviewList = new List<ConsentPreviewModel>();
+            List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
+            string patientname = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsent", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ContentId", 0);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        {
+                            ConsentContentModel obj4 = new ConsentContentModel();
+                            obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
+                            obj4.CTEnglish = dsPatientList.Tables[0].Rows[j]["CTEnglish"].ToString();
+                            obj4.CTArabic = dsPatientList.Tables[0].Rows[j]["CTArabic"].ToString();
+                            ccmlist.Add(obj4);
+                        }
+                    }
+                }
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsentDetails", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", patientid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        patientname = dsPatientList.Tables[0].Rows[0]["PatientName"].ToString();
+                    }
+                }
+                ConsentPreviewModel cpm = new ConsentPreviewModel();
+                cpm.ConsentContentValue = ccmlist;
+                cpm.PatientName = patientname;
+                consentpreviewList.Add(cpm);
+                return consentpreviewList;
+            }
+        }
+
+        public List<ConsentContentModel> GetConsent(int consentid)
+        {
+            List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsent", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ContentId", consentid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        {
+                            ConsentContentModel obj4 = new ConsentContentModel();
+                            obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
+                            obj4.CTEnglish = dsPatientList.Tables[0].Rows[j]["CTEnglish"].ToString();
+                            obj4.CTArabic = dsPatientList.Tables[0].Rows[j]["CTArabic"].ToString();
+                            ccmlist.Add(obj4);
+                        }
+                    }
+                }
+                return ccmlist;
+            }
+        }
+        public string InsertUpdateConsent(ConsentContentModel zone)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePatConsent", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ContentId", zone.ContentId);
+                    cmd.Parameters.AddWithValue("@DisplayOrder", zone.DisplayOrder);
+                    cmd.Parameters.AddWithValue("@EnglishTxt", zone.CTEnglish);
+                    cmd.Parameters.AddWithValue("@ArabicTxt", zone.CTArabic);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        } 
+
+        public string DeleteConsent(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteConsent", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+        //Consent Management Ends
+
+        public List<CountryModel> GetCountry(int countryDetails)
+        {
+            List<CountryModel> countryList = new List<CountryModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetCountry", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CountryId", countryDetails);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dscontryList = new DataSet();
+                    adapter.Fill(dscontryList);
+                    con.Close();
+                    if ((dscontryList != null) && (dscontryList.Tables.Count > 0) && (dscontryList.Tables[0] != null) && (dscontryList.Tables[0].Rows.Count > 0))
+                        countryList = dscontryList.Tables[0].ToListOfObject<CountryModel>();
+                    return countryList;
+                }
+            }
+        }
+        public string InsertUpdateCountry(CountryModel zone)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCountry", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CountryId", zone.CountryId);
+                    cmd.Parameters.AddWithValue("@CountryName", zone.CountryName);
+                    cmd.Parameters.AddWithValue("@CountryCode", zone.CountryCode);
+                    cmd.Parameters.AddWithValue("@NGroupId", zone.NGroupId);
+                    cmd.Parameters.AddWithValue("@NationalityName", zone.NationalityName);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteCountry(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteCountry", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
 
         public List<AppTypeModel> GetAppType()
         {
