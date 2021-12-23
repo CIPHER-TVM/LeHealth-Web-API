@@ -25,6 +25,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             masterdataService = _masterdataService;
         }
         //Profession Management starts
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// profid=Primary key of LH_Profession Table, Returns all if profid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Professions as JSON
+        /// </returns>
         [Route("GetProfession/{profid}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ProfessionModel>> GetProfession(int profid)
@@ -56,10 +63,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // dispose can be managed here
             }
         }
-
+        /// <summary>
+        /// To Save or update profession . if ProfId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
         [Route("InsertUpdateProfession")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ProfessionModel>> InsertUpdateProfession(ProfessionModel Profession)
@@ -91,12 +102,16 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-
-
             }
         }
 
-
+        /// <summary>
+        /// Deleting Profession,ProfessionId Is Primary Key Of LH_Profession table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
         [Route("DeleteProfession/{ProfessionId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ProfessionModel>> DeleteProfession(int ProfessionId)
@@ -134,6 +149,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //Profession management ends
 
         //Consent Management starts
+
+        /// <summary>
+        /// To get list of all consents and some patient details to display in consent print form
+        /// PatientId=Primary key of LH_Patient Table
+        /// </summary>
+        /// <returns>
+        /// returns List of Consent content,Patient detail as JSON
+        /// </returns>
         [Route("GetConsentPreviewConsent")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentPreviewModel>> GetConsentPreviewConsent(ConsentPreviewModel consentDetails)
@@ -160,26 +183,31 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
         }
-
+        /// <summary>
+        /// To get list of all Consent content Or Consent content Detail of Input parameter. 
+        /// profid=Primary key of LH_PatConsent Table, Returns all if consentId=0
+        /// </summary>
+        /// <returns>
+        /// returns List of ConsentContent as JSON
+        /// </returns>
         [Route("GetConsent/{ConsentId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentContentModel>> GetConsent(int consentId)
         {
-            List<ConsentContentModel> patientList = new List<ConsentContentModel>(); 
+            List<ConsentContentModel> consentList = new List<ConsentContentModel>(); 
             try
             {
-                patientList = masterdataService.GetConsent(consentId);
+                consentList = masterdataService.GetConsent(consentId);
                 var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = patientList
+                    Response = consentList
                 };
                 return response;
             }
@@ -194,16 +222,19 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
-        } 
+        }
 
-
-
+        /// <summary>
+        /// To Save or update Consent Content . if ContentId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
 
         [Route("InsertUpdateConsent")]
         [HttpPost]
@@ -231,17 +262,20 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
-
             }
         }
 
-
+        /// <summary>
+        /// Deleting ConsentContent,ConsentId Is Primary Key Of LH_PatConsent table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
         [Route("DeleteConsent/{ConsentId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentPreviewModel>> DeleteConsent(int ConsentId)
@@ -278,7 +312,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 
         //Consent Management ends
-
+        //Country management starts
+        /// <summary>
+        /// To get list of all Country Or Country Detail of Input parameter. 
+        /// id=Primary key of LH_Country Table, Returns all if id=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Country as JSON
+        /// </returns>
         [HttpPost]
         [Route("GetCountry/{Id}")]
         public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(int Id)
@@ -310,10 +351,15 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-                // countryList.Clear();
-
             }
         }
+
+        /// <summary>
+        /// To Save or update country . if CountryId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
 
         [Route("InsertUpdateCountry")]
         [HttpPost]
@@ -346,12 +392,16 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-
-
             }
         }
 
-
+        /// <summary>
+        /// Deleting Country,CountryId Is Primary Key Of LH_Country table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
         [Route("DeleteCountry/{CountryId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<CountryModel>> DeleteCountry(int CountryId)
@@ -429,6 +479,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+
+        /// <summary>
+        /// To Save or update Hospital . if HospitalId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
         [Route("InsertUpdateUserHospital")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<HospitalModel>> InsertUpdateHospital([FromForm] HospitalRequestModel obj)
@@ -468,6 +525,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        /// <summary>
+        /// Deleting Hospital,HospitalId Is Primary Key Of LH_Hospital table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
 
         [Route("DeleteHospital/{HospitalId}")]
         [HttpPost]
@@ -507,40 +571,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //Hospital Management Ends
 
 
-        [Route("GetAppType")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<AppTypeModel>> GetAppType()
-        {
-            List<AppTypeModel> professionList = new List<AppTypeModel>();
-            try
-            {
-                professionList = masterdataService.GetAppType();
-                var response = new ResponseDataModel<IEnumerable<AppTypeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = professionList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AppTypeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
+        
+        //Department Management starts
         [Route("GetDepartments/{DeptId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments(int DeptId)
@@ -817,8 +849,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-
-
             }
         }
 
@@ -862,14 +892,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<RegSchemeModel>> GetRegSchemeById(int schemeId)
         {
-            List<RegSchemeModel> zoneList = new List<RegSchemeModel>();
+            List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
             try
             {
-                zoneList = masterdataService.GetRegSchemeById(schemeId);
+                regSchemeList = masterdataService.GetRegSchemeById(schemeId);
                 var response = new ResponseDataModel<IEnumerable<RegSchemeModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = zoneList
+                    Response = regSchemeList
                 };
                 return response;
             }
@@ -994,8 +1024,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-
-
             }
         }
 
@@ -1039,14 +1067,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroupById(int schemeId)
         {
-            List<RateGroupModel> zoneList = new List<RateGroupModel>();
+            List<RateGroupModel> rateGroupList = new List<RateGroupModel>();
             try
             {
-                zoneList = masterdataService.GetRateGroupById(schemeId);
+                rateGroupList = masterdataService.GetRateGroupById(schemeId);
                 var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = zoneList
+                    Response = rateGroupList
                 };
                 return response;
             }
@@ -1061,7 +1089,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -1566,5 +1593,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+
+        [Route("GetAppType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<AppTypeModel>> GetAppType()
+        {
+            List<AppTypeModel> appTypeList = new List<AppTypeModel>();
+            try
+            {
+                appTypeList = masterdataService.GetAppType();
+                var response = new ResponseDataModel<IEnumerable<AppTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = appTypeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AppTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }
