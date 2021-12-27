@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 namespace LeHealth.Core.Interface
 {
     public interface IHospitalsManager
-    {     
-        /// <summary>
-        /// To list of all hospital details
-        /// </summary>
-        
+    {   
         /// <summary>
         /// To list of  all appointments by today
         /// </summary>
@@ -24,10 +20,17 @@ namespace LeHealth.Core.Interface
         /// adding a new appointments details
         /// </summary>
         List<Appointments> InsertUpdateAppointment(Appointments appointments);
+        /// <summary>
+        /// update an appointments details
+        /// </summary>
         string UpdateAppointment(Appointments appointments);
-     
+        /// <summary>
+        /// get all consultation details
+        /// </summary>
         List<ConsultationModel> GetAllConsultation();
+        /// <summary>
+        /// search in consultation details
+        /// </summary>
         List<ConsultationModel> SearchConsultation(ConsultationModel consultation);
-
     }
 }

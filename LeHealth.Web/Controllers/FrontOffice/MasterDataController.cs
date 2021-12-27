@@ -148,6 +148,506 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         //Profession management ends
 
+
+        //Sponsor Management starts
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Sponsor as JSON
+        /// </returns>
+        [Route("GetSponsor/{sponsorid}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsor(int sponsorid)
+        {
+            List<SponsorMasterModel> professionList = new List<SponsorMasterModel>();
+            try
+            {
+                professionList = masterdataService.GetSponsor(sponsorid);
+                var response = new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = professionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        /// <summary>
+        /// To Save or update profession . if ProfId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+        [Route("InsertUpdateSponsor")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorMasterModel>> InsertUpdateSponsor(SponsorMasterModel Sponsor)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateSponsor(Sponsor);
+                var response = new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting Profession,ProfessionId Is Primary Key Of LH_Profession table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteSponsor/{SponsorId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ProfessionModel>> DeleteSponsor(int SponsorId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteSponsor(SponsorId);
+                var response = new ResponseDataModel<IEnumerable<ProfessionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ProfessionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //Sponsor management ends
+
+
+        //Sponsor Type Management starts
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Sponsor as JSON
+        /// </returns>
+        [Route("GetSponsorType/{sponsortypeid}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorTypeModel>> GetSponsorType(int sponsortypeid)
+        {
+            List<SponsorTypeModel> professionList = new List<SponsorTypeModel>();
+            try
+            {
+                professionList = masterdataService.GetSponsorType(sponsortypeid);
+                var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = professionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        /// <summary>
+        /// To Save or update profession . if ProfId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+        [Route("InsertUpdateSponsorType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorTypeModel>> InsertUpdateSponsorType(SponsorTypeModel Sponsor)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateSponsorType(Sponsor);
+                var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting SponsorType,SponsorTypeId Is Primary Key Of LH_Profession table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteSponsorType/{SponsorTypeId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorTypeModel>> DeleteSponsorType(int SponsorTypeId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteSponsorType(SponsorTypeId);
+                var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //Sponsor Type management ends
+
+        //Sponsor Form Management starts
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Sponsor as JSON
+        /// </returns>
+        [Route("GetSponsorForm/{sponsorformid}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorFormModel>> GetSponsorForm(int sponsorformid)
+        {
+            List<SponsorFormModel> sponsorFormList = new List<SponsorFormModel>();
+            try
+            {
+                sponsorFormList = masterdataService.GetSponsorForm(sponsorformid);
+                var response = new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = sponsorFormList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        /// <summary>
+        /// To Save or update profession . if ProfId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+        [Route("InsertUpdateSponsorForm")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorFormModel>> InsertUpdateSponsorForm(SponsorFormModel Sponsor)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateSponsorForm(Sponsor);
+                var response = new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting SponsorForm,SponsorFormId Is Primary Key Of LH_SponsorForm table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteSponsorForm/{SponsorFormId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorTypeModel>> DeleteSponsorForm(int SponsorFormId) 
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteSponsorType(SponsorFormId);
+                var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //Sponsor Form management ends
+
+        //City Management starts
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Sponsor as JSON
+        /// </returns>
+        [Route("GetCity/{id}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<CityModel>> GetCity(int id)
+        {
+            List<CityModel> cityList = new List<CityModel>();
+            try
+            {
+                cityList = masterdataService.GetCity(id);
+                var response = new ResponseDataModel<IEnumerable<CityModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cityList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CityModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        /// <summary>
+        /// To Save or update profession . if ProfId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+        [Route("InsertUpdateCity")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<CityModel>> InsertUpdateCity(CityModel City)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateCity(City);
+                var response = new ResponseDataModel<IEnumerable<CityModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CityModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting SponsorForm,SponsorFormId Is Primary Key Of LH_SponsorForm table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteCity/{CityId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponsorTypeModel>> DeleteCity(int CityId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteCity(CityId);
+                var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //City management ends
+
+
+
         //Consent Management starts
 
         /// <summary>
@@ -157,7 +657,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// returns List of Consent content,Patient detail as JSON
         /// </returns>
-        [Route("GetConsentPreviewConsent")]
+        [Route("GetConsentPreviewContent")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentPreviewModel>> GetConsentPreviewConsent(ConsentPreviewModel consentDetails)
         {
@@ -200,7 +700,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentContentModel>> GetConsent(int consentId)
         {
-            List<ConsentContentModel> consentList = new List<ConsentContentModel>(); 
+            List<ConsentContentModel> consentList = new List<ConsentContentModel>();
             try
             {
                 consentList = masterdataService.GetConsent(consentId);
@@ -295,6 +795,130 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        //Consent Management ends
+        //Sponsor Consent Management starts
+        /// <summary>
+        /// To get list of all Consent content Or Consent content Detail of Input parameter. 
+        /// profid=Primary key of LH_PatConsent Table, Returns all if consentId=0
+        /// </summary>
+        /// <returns>
+        /// returns List of ConsentContent as JSON
+        /// </returns>
+        [Route("GetSponsorConsent/{ConsentId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentContentModel>> GetSponsorConsent(int consentId)
+        {
+            List<ConsentContentModel> consentList = new List<ConsentContentModel>();
+            try
+            {
+                consentList = masterdataService.GetSponsorConsent(consentId);
+                var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// To Save or update Consent Content . if ContentId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+
+        [Route("InsertUpdateSponsorConsent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentContentModel>> InsertUpdateSponsorConsent(ConsentContentModel Consent)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateSponsorConsent(Consent);
+                var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting ConsentContent,ConsentId Is Primary Key Of LH_PatConsent table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteSponsorConsent/{ConsentId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentContentModel>> DeleteSponsorConsent(int ConsentId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteSponsorConsent(ConsentId);
+                var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentContentModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -437,6 +1061,377 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
 
+        //State Management Starts
+        /// <summary>
+        /// To get list of all State Or State Detail of Input parameter. 
+        /// id=Primary key of LH_State Table, Returns all if id=0
+        /// </summary>
+        /// <returns>
+        /// returns List of State as JSON
+        /// </returns>
+        [HttpPost]
+        [Route("GetState/{Id}")]
+        public ResponseDataModel<IEnumerable<StateModel>> GetState(int Id)
+        {
+            List<StateModel> stateList = new List<StateModel>();
+            try
+            {
+                stateList = masterdataService.GetState(Id);
+                var response = new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = stateList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// To Save or update country . if CountryId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+
+        [Route("InsertUpdateState")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<StateModel>> InsertUpdateState(StateModel State)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateState(State);
+                var response = new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting State,StateId Is Primary Key Of LH_State table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteState/{StateId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<StateModel>> DeleteState(int StateId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteCountry(StateId);
+                var response = new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //State Management Ends
+
+        //Salutation Management Starts
+        /// <summary>
+        /// To get list of all State Or State Detail of Input parameter. 
+        /// id=Primary key of LH_State Table, Returns all if id=0
+        /// </summary>
+        /// <returns>
+        /// returns List of State as JSON
+        /// </returns>
+        [HttpPost]
+        [Route("GetSalutation/{Id}")]
+        public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation(int Id)
+        {
+            List<SalutationModel> stateList = new List<SalutationModel>();
+            try
+            {
+                stateList = masterdataService.GetSalutation(Id);
+                var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = stateList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// To Save or update country . if CountryId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+
+        [Route("InsertUpdateSalutation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SalutationModel>> InsertUpdateSalutation(SalutationModel State)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateSalutation(State);
+                var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting State,StateId Is Primary Key Of LH_State table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteSalutation/{SalutationId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SalutationModel>> DeleteSalutation(int SalutationId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteCountry(SalutationId);
+                var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SalutationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //Salutation Management Ends
+
+        /// <summary>
+        /// To get list of all State Or State Detail of Input parameter. 
+        /// id=Primary key of LH_State Table, Returns all if id=0
+        /// </summary>
+        /// <returns>
+        /// returns List of State as JSON
+        /// </returns>
+        [HttpPost]
+        [Route("GetBodyPart/{Id}")]
+        public ResponseDataModel<IEnumerable<BodyPartModel>> GetBodyPart(int Id)
+        {
+            List<BodyPartModel> stateList = new List<BodyPartModel>();
+            try
+            {
+                stateList = masterdataService.GetBodyPart(Id);
+                var response = new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = stateList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// To Save or update country . if CountryId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+
+        [Route("InsertUpdateBodyPart")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<BodyPartModel>> InsertUpdateBodyPart(BodyPartModel State)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.InsertUpdateBodyPart(State);
+                var response = new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deleting State,StateId Is Primary Key Of LH_State table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
+        [Route("DeleteBodyPart/{SalutationId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<BodyPartModel>> DeleteBodyPart(int SalutationId)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.DeleteBodyPart(SalutationId);
+                var response = new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //BodyPart Management Ends
+
 
         //Hospital Management Starts
         /// <summary>
@@ -571,8 +1566,16 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //Hospital Management Ends
 
 
-        
+
         //Department Management starts
+        /// <summary>
+        /// To get list of all Departments Or Departments Detail of Input parameter. 
+        /// DeptId=Primary key of LH_Department Table, Returns all if DeptId=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Departments as JSON
+        /// </returns>
+
         [Route("GetDepartments/{DeptId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments(int DeptId)
@@ -607,14 +1610,20 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        /// <summary>
+        /// To Save or update department . if DeptId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+
         [Route("InsertUpdateDepartment")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DepartmentModel>> InsertUpdateDepartment( DepartmentModel obj)
+        public ResponseDataModel<IEnumerable<DepartmentModel>> InsertUpdateDepartment(DepartmentModel obj)
         {
             string message = "";
             try
             {
-             
                 message = masterdataService.InsertUpdateDepartment(obj);
                 var response = new ResponseDataModel<IEnumerable<DepartmentModel>>()
                 {
@@ -634,16 +1643,20 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
-
             }
         }
 
+        /// <summary>
+        /// Deleting Department,DeptId Is Primary Key Of LH_Department table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
         [Route("DeleteDepartment/{DeptId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> DeleteDepartment(int DeptId)
@@ -670,49 +1683,22 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
         }
+        //Department Management completed
 
-        [Route("GetReligion")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ReligionModel>> GetReligion()
-        {
-            List<ReligionModel> religionList = new List<ReligionModel>();
-            try
-            {
-                religionList = masterdataService.GetReligion();
-                var response = new ResponseDataModel<IEnumerable<ReligionModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = religionList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ReligionModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
 
-                };
-            }
-            finally
-            {
-            }
-        }
         //Zone Management Start
-
+        /// <summary>
+        /// To get list of all zone . 
+        /// </summary>
+        /// <returns>
+        /// returns List of zone as JSON
+        /// </returns>
         [Route("GetAllZones")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ZoneModel>> GetAllZones()
@@ -746,7 +1732,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// To get list of Zone Detail of Input parameter. 
+        /// profid=Primary key of LH_Zone Table, Returns all if zoneId=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Zone as JSON
+        /// </returns>
         [Route("GetZoneById/{zoneId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ZoneModel>> GetZoneById(int zoneId)
@@ -781,6 +1773,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        /// <summary>
+        /// To Save zone 
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
         [Route("InsertZone")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ZoneModel>> InsertZone(ZoneModel zone)
@@ -807,16 +1805,20 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
-
             }
         }
 
+        /// <summary>
+        /// Deleting zone,zoneId Is Primary Key Of LH_Zone table
+        /// Active Status To Zero soft delete
+        /// </summary>
+        /// <returns>
+        /// returns Success or reason of failure
+        /// </returns>
 
         [Route("DeleteZone/{zoneId}")]
         [HttpPost]
@@ -1055,7 +2057,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -1264,7 +2265,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -1478,13 +2478,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
-
             }
         }
 
@@ -1514,12 +2511,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
             }
         }
 
@@ -1549,13 +2544,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
-
             }
         }
 
@@ -1593,7 +2585,45 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("GetReligion")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ReligionModel>> GetReligion()
+        {
+            List<ReligionModel> religionList = new List<ReligionModel>();
+            try
+            {
+                religionList = masterdataService.GetReligion();
+                var response = new ResponseDataModel<IEnumerable<ReligionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = religionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ReligionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
+        /// <summary>
+        /// To get list of all Appointment type 
+        /// </summary>
+        /// <returns>
+        /// returns List of Appointment type as JSON
+        /// </returns>
         [Route("GetAppType")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<AppTypeModel>> GetAppType()
@@ -1620,6 +2650,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetVisaType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType()
+        {
+            List<VisaTypeModel> visaTypeList = new List<VisaTypeModel>();
+            try
+            {
+                visaTypeList = masterdataService.GetVisaType();
+                var response = new ResponseDataModel<IEnumerable<VisaTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = visaTypeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<VisaTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
                 };
             }
@@ -1627,5 +2690,113 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
+        [Route("GetStateByCountryId/{countryId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<StateModel>> GetStateByCountryId(int countryId)
+        {
+            List<StateModel> stateList = new List<StateModel>();
+            try
+            {
+                stateList = masterdataService.GetStateByCountryId(countryId);
+                var response = new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = stateList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<StateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+        [HttpPost]
+        [Route("GetActiveSymptoms")]
+        public ResponseDataModel<IEnumerable<SymptomModel>> GetActiveSymptoms()
+        {
+            List<SymptomModel> activeSymptomsList = new List<SymptomModel>();
+            try
+            {
+                activeSymptomsList = masterdataService.GetActiveSymptoms();
+                var response = new ResponseDataModel<IEnumerable<SymptomModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = activeSymptomsList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SymptomModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+
+        }
+
+        [Route("GetItemsByType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetItemsByType(ItemsByTypeModel ibtm)
+        {
+            List<ItemsByTypeModel> itemsList = new List<ItemsByTypeModel>();
+            try
+            {
+                itemsList = masterdataService.GetItemsByType(ibtm);
+                var response = new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemsList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+            }
+        }
+
+
     }
 }

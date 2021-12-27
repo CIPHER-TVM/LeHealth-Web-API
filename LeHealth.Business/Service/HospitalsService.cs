@@ -20,10 +20,7 @@ namespace LeHealth.Service
         public HospitalsService(IHospitalsManager _hospitalsManager)
         {
             hospitalsManager = _hospitalsManager;
-
         }
-        
-       
         /// <summary>
         /// Returns list of all appointments on present day as Generic List. Step two in code execution flow
         /// </summary>
@@ -42,9 +39,6 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetTabOrder(screenname);
         }
-
-
-
         /// <summary>
         ///adding an appointment detail.Step two in code execution flow
         /// </summary>
@@ -52,21 +46,26 @@ namespace LeHealth.Service
         {
             return hospitalsManager.InsertUpdateAppointment(appointments);
         }
+        /// <summary>
+        ///For Updating appointment data.Step two in code execution flow
+        /// </summary>
         public string UpdateAppointment(Appointments appointments)
         {
             return hospitalsManager.UpdateAppointment(appointments);
         }
-       
-        
+        /// <summary>
+        ///For returning all Consultation data.Step two in code execution flow
+        /// </summary>
         public List<ConsultationModel> GetAllConsultation()
         {
             return hospitalsManager.GetAllConsultation();
         }
+        /// <summary>
+        ///For Consultation searching.Step two in code execution flow
+        /// </summary>
         public List<ConsultationModel> SearchConsultation(ConsultationModel consultation)
         {
             return hospitalsManager.SearchConsultation(consultation);
         }
-
-
     }
 }

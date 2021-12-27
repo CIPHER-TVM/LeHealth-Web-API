@@ -50,7 +50,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public string InsertUpdateProfession(ProfessionModel zone)
         {
             string response = "";
@@ -90,7 +89,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string DeleteProfession(int profid)
         {
             string response = "";
@@ -110,6 +108,422 @@ namespace LeHealth.Core.DataManager
         }
 
         //ProfessionManagement Ends
+
+        //SponsorManagement Starts
+        public List<SponsorMasterModel> GetSponsor(int profid)
+        {
+            List<SponsorMasterModel> profList = new List<SponsorMasterModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSponsor", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SponsorId", profid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsProfession = new DataSet();
+                    adapter.Fill(dsProfession);
+                    con.Close();
+                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        {
+                            SponsorMasterModel obj = new SponsorMasterModel();
+                            obj.SponsorId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SponsorId"]);
+                            obj.SponsorName = dsProfession.Tables[0].Rows[i]["SponsorName"].ToString();
+                            obj.SponsorType = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SponsorType"]);
+                            obj.Address1 = dsProfession.Tables[0].Rows[i]["Address1"].ToString();
+                            obj.Address2 = dsProfession.Tables[0].Rows[i]["Address2"].ToString();
+                            obj.Street = dsProfession.Tables[0].Rows[i]["Street"].ToString();
+                            obj.PlacePO = dsProfession.Tables[0].Rows[i]["PlacePO"].ToString();
+                            obj.PIN = dsProfession.Tables[0].Rows[i]["PIN"].ToString();
+                            obj.City = dsProfession.Tables[0].Rows[i]["City"].ToString();
+                            obj.State = dsProfession.Tables[0].Rows[i]["State"].ToString();
+                            obj.CountryId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["CountryId"]);
+                            obj.Phone = dsProfession.Tables[0].Rows[i]["Phone"].ToString();
+                            obj.Mobile = dsProfession.Tables[0].Rows[i]["Mobile"].ToString();
+                            obj.Email = dsProfession.Tables[0].Rows[i]["Email"].ToString();
+                            obj.Fax = dsProfession.Tables[0].Rows[i]["Fax"].ToString();
+                            obj.ContactPerson = dsProfession.Tables[0].Rows[i]["ContactPerson"].ToString();
+                            obj.DedAmount = (float)Convert.ToDouble(dsProfession.Tables[0].Rows[i]["DedAmount"].ToString());
+                            obj.CoPayPcnt = (float)Convert.ToDouble(dsProfession.Tables[0].Rows[i]["CoPayPcnt"].ToString());
+                            obj.Remarks = dsProfession.Tables[0].Rows[i]["Remarks"].ToString();
+                            obj.SFormId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SFormId"]);
+                            obj.Active = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsProfession.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.SponsorLimit = (float)Convert.ToDouble(dsProfession.Tables[0].Rows[i]["SponsorLimit"].ToString());
+                            obj.DHANo = dsProfession.Tables[0].Rows[i]["DHANo"].ToString();
+                            obj.EnableSponsorLimit = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["EnableSponsorLimit"]);
+                            obj.EnableSponsorConsent = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["EnableSponsorConsent"]);
+                            obj.AuthorizationMode = dsProfession.Tables[0].Rows[i]["AuthorizationMode"].ToString();
+                            obj.URL = dsProfession.Tables[0].Rows[i]["URL"].ToString();
+                            obj.SortOrder = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SortOrder"]);
+                            obj.PartyId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["PartyId"]);
+                            obj.UnclaimedId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["UnclaimedId"]);
+                            profList.Add(obj);
+                        }
+                    }
+                    return profList;
+                }
+            }
+        }
+        public string InsertUpdateSponsor(SponsorMasterModel sponsor)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsor", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SponsorId", sponsor.SponsorId);
+                    cmd.Parameters.AddWithValue("@SponsorName", sponsor.SponsorName);
+                    cmd.Parameters.AddWithValue("@SponsorType", sponsor.SponsorType);
+                    cmd.Parameters.AddWithValue("@Address1", sponsor.Address1);
+                    cmd.Parameters.AddWithValue("@Address2", sponsor.Address2);
+                    cmd.Parameters.AddWithValue("@Street", sponsor.Street);
+                    cmd.Parameters.AddWithValue("@PlacePO", sponsor.PlacePO);
+                    cmd.Parameters.AddWithValue("@PIN", sponsor.PIN);
+                    cmd.Parameters.AddWithValue("@City", sponsor.City);
+                    cmd.Parameters.AddWithValue("@State", sponsor.State);
+                    cmd.Parameters.AddWithValue("@CountryId", sponsor.CountryId);
+                    cmd.Parameters.AddWithValue("@Phone", sponsor.Phone);
+                    cmd.Parameters.AddWithValue("@Mobile", sponsor.Mobile);
+                    cmd.Parameters.AddWithValue("@Email", sponsor.Email);
+                    cmd.Parameters.AddWithValue("@Fax", sponsor.Fax);
+                    cmd.Parameters.AddWithValue("@ContactPerson", sponsor.ContactPerson);
+                    cmd.Parameters.AddWithValue("@DedAmount", sponsor.DedAmount);
+                    cmd.Parameters.AddWithValue("@CoPayPcnt", sponsor.CoPayPcnt);
+                    cmd.Parameters.AddWithValue("@Remarks", sponsor.Remarks);
+                    cmd.Parameters.AddWithValue("@PartyId", sponsor.PartyId);
+                    cmd.Parameters.AddWithValue("@UnclaimedId", sponsor.UnclaimedId);
+                    cmd.Parameters.AddWithValue("@SFormId", sponsor.SFormId);
+                    cmd.Parameters.AddWithValue("@SponsorLimit", sponsor.SponsorLimit);
+                    cmd.Parameters.AddWithValue("@Active", 1);
+                    cmd.Parameters.AddWithValue("@UserId", sponsor.UserId);
+                    cmd.Parameters.AddWithValue("@DHANo", sponsor.DHANo);
+                    cmd.Parameters.AddWithValue("@EnableLimit", sponsor.EnableSponsorLimit);
+                    cmd.Parameters.AddWithValue("@EnableConsent", sponsor.EnableSponsorConsent);
+                    cmd.Parameters.AddWithValue("@AuthorizationMode", sponsor.AuthorizationMode);
+                    cmd.Parameters.AddWithValue("@URL", sponsor.URL);
+                    cmd.Parameters.AddWithValue("@SortOrder", sponsor.SortOrder);
+
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteSponsor(int sponsorid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_BlockSponsor", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", sponsorid);
+                    cmd.Parameters.AddWithValue("@BlockReason", sponsorid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+
+        //SponsorManagement Ends
+
+        //SponsorType Starts
+        public List<SponsorTypeModel> GetSponsorType(int typeid)
+        {
+            List<SponsorTypeModel> stypeList = new List<SponsorTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSponsorType", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@STypeId", typeid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsProfession = new DataSet();
+                    adapter.Fill(dsProfession);
+                    con.Close();
+                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        {
+                            SponsorTypeModel obj = new SponsorTypeModel();
+                            obj.STypeId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["STypeId"]);
+                            obj.STypeDesc = dsProfession.Tables[0].Rows[i]["STypeDesc"].ToString();
+                            stypeList.Add(obj);
+                        }
+                    }
+                    return stypeList;
+                }
+            }
+        }
+        public string InsertUpdateSponsorType(SponsorTypeModel stype)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorType", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@STypeId", stype.STypeId);
+                    cmd.Parameters.AddWithValue("@STypeDesc", stype.STypeDesc);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteSponsorType(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteSponsorType", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+
+        //SponsorType Ends
+
+        //SponsorForm Starts
+        public List<SponsorFormModel> GetSponsorForm(int formid)
+        {
+            List<SponsorFormModel> sformList = new List<SponsorFormModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSponsorForms", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SFormId", formid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsProfession = new DataSet();
+                    adapter.Fill(dsProfession);
+                    con.Close();
+                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        {
+                            SponsorFormModel obj = new SponsorFormModel();
+                            obj.SFormId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SFormId"]);
+                            obj.SFormName = dsProfession.Tables[0].Rows[i]["SFormName"].ToString();
+                            sformList.Add(obj);
+                        }
+                    }
+                    return sformList;
+                }
+            }
+        }
+        public string InsertUpdateSponsorForm(SponsorFormModel sform)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorForm", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SFormId", sform.SFormId);
+                    cmd.Parameters.AddWithValue("@SFormName", sform.SFormName);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteSponsorForm(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteSponsorForm", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+
+        //SponsorForm Ends
+
+        //City Starts
+        public List<CityModel> GetCity(int cityid)
+        {
+            List<CityModel> cityList = new List<CityModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetCity", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CityId", cityid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsProfession = new DataSet();
+                    adapter.Fill(dsProfession);
+                    con.Close();
+                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        {
+                            CityModel obj = new CityModel();
+                            obj.CityId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["CityId"]);
+                            obj.CityName = dsProfession.Tables[0].Rows[i]["CityName"].ToString();
+                            obj.StateId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["StateId"]);
+                            obj.CountryId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["CountryId"]);
+                            obj.CountryName = dsProfession.Tables[0].Rows[i]["CountryName"].ToString();
+                            cityList.Add(obj);
+                        }
+                    }
+                    return cityList;
+                }
+            }
+        }
+        public string InsertUpdateCity(CityModel city) 
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCity", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CityId", city.CityId);
+                    cmd.Parameters.AddWithValue("@CityName", city.CityName);
+                    cmd.Parameters.AddWithValue("@CountryId", city.CountryId);
+                    cmd.Parameters.AddWithValue("@StateId", city.StateId);
+                    cmd.Parameters.AddWithValue("@UserId", city.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteCity(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteSponsorForm", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+
+        //SponsorForm Ends
+
         //Consent Management Starts
         public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientid)
         {
@@ -162,7 +576,6 @@ namespace LeHealth.Core.DataManager
                 return consentpreviewList;
             }
         }
-
         public List<ConsentContentModel> GetConsent(int consentid)
         {
             List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
@@ -231,8 +644,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return response;
-        } 
-
+        }
         public string DeleteConsent(int profid)
         {
             string response = "";
@@ -251,6 +663,93 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //Consent Management Ends
+
+        public List<ConsentContentModel> GetSponsorConsent(int consentid)
+        {
+            List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSponsorConsent", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ContentId", consentid);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsPatientList = new DataSet();
+                    adapter.Fill(dsPatientList);
+                    con.Close();
+                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    {
+                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        {
+                            ConsentContentModel obj4 = new ConsentContentModel();
+                            obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
+                            obj4.CTEnglish = dsPatientList.Tables[0].Rows[j]["CTEnglish"].ToString();
+                            obj4.CTArabic = dsPatientList.Tables[0].Rows[j]["CTArabic"].ToString();
+                            ccmlist.Add(obj4);
+                        }
+                    }
+                }
+                return ccmlist;
+            }
+        }
+        public string InsertUpdateSponsorConsent(ConsentContentModel zone)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorConsent", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ContentId", zone.ContentId);
+                    cmd.Parameters.AddWithValue("@DisplayOrder", zone.DisplayOrder);
+                    cmd.Parameters.AddWithValue("@EnglishTxt", zone.CTEnglish);
+                    cmd.Parameters.AddWithValue("@ArabicTxt", zone.CTArabic);
+                    cmd.Parameters.AddWithValue("@SponsorId", zone.SponsorId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteSponsorConsent(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteConsent", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
 
         public List<CountryModel> GetCountry(int countryDetails)
         {
@@ -330,6 +829,244 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        //Country Management Ends
+        //State Management Starts
+        public List<StateModel> GetState(int stateId)
+        {
+            List<StateModel> countryList = new List<StateModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetState", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@StateId", stateId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                        countryList = dsStateList.Tables[0].ToListOfObject<StateModel>();
+                    return countryList;
+                }
+            }
+        }
+        public string InsertUpdateState(StateModel zone)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateState", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@StateId", zone.StateId);
+                    cmd.Parameters.AddWithValue("@StateName", zone.StateName);
+                    cmd.Parameters.AddWithValue("@CountryId", zone.CountryId);
+                    cmd.Parameters.AddWithValue("@UserId", zone.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteState(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteState", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+        //State Management Ends
+
+        //Salutation Management Starts
+        public List<SalutationModel> GetSalutation(int salutationDetails)
+        {
+            List<SalutationModel> countryList = new List<SalutationModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SalutationId", salutationDetails);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dscontryList = new DataSet();
+                    adapter.Fill(dscontryList);
+                    con.Close();
+                    if ((dscontryList != null) && (dscontryList.Tables.Count > 0) && (dscontryList.Tables[0] != null) && (dscontryList.Tables[0].Rows.Count > 0))
+                        countryList = dscontryList.Tables[0].ToListOfObject<SalutationModel>();
+                    return countryList;
+                }
+            }
+        }
+        public string InsertUpdateSalutation(SalutationModel salutation)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSalutation", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SalutationId", salutation.Id);
+                    cmd.Parameters.AddWithValue("@Salutation", salutation.Salutation);
+                    cmd.Parameters.AddWithValue("@UserId", salutation.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteSalutation(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteSalutation", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+        //Salutation Management Ends
+        //BodyPart Management Starts
+        public List<BodyPartModel> GetBodyPart(int salutationDetails)
+        {
+            List<BodyPartModel> countryList = new List<BodyPartModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetBodyPart", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BodyId", salutationDetails);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dscontryList = new DataSet();
+                    adapter.Fill(dscontryList);
+                    con.Close();
+                    if ((dscontryList != null) && (dscontryList.Tables.Count > 0) && (dscontryList.Tables[0] != null) && (dscontryList.Tables[0].Rows.Count > 0))
+                        countryList = dscontryList.Tables[0].ToListOfObject<BodyPartModel>();
+                    return countryList;
+                }
+            }
+        }
+        public string InsertUpdateBodyPart(BodyPartModel bodypart)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateBodyPart", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BodyId", bodypart.BodyId);
+                    cmd.Parameters.AddWithValue("@BodyDesc", bodypart.BodyDesc);
+                    cmd.Parameters.AddWithValue("@UserId", bodypart.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteBodyPart(int profid)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteBodyPart", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", profid);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "Success";
+                }
+            }
+            return response;
+        }
+        //BodyPart Management Ends
+
 
         public List<AppTypeModel> GetAppType()
         {
@@ -401,7 +1138,7 @@ namespace LeHealth.Core.DataManager
         }
         public List<ZoneModel> GetZoneById(int zoneId)
         {
-            List<ZoneModel> stateList = new List<ZoneModel>();
+            List<ZoneModel> zoneList = new List<ZoneModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -412,18 +1149,18 @@ namespace LeHealth.Core.DataManager
 
                     cmd.Parameters.AddWithValue("@zoneId", zoneId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
+                    DataSet dsZoneList = new DataSet();
+                    adapter.Fill(dsZoneList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<ZoneModel>();
-                    return stateList;
+                    if ((dsZoneList != null) && (dsZoneList.Tables.Count > 0) && (dsZoneList.Tables[0] != null) && (dsZoneList.Tables[0].Rows.Count > 0))
+                        zoneList = dsZoneList.Tables[0].ToListOfObject<ZoneModel>();
+                    return zoneList;
                 }
             }
         }
         public List<ZoneModel> GetAllZone()
         {
-            List<ZoneModel> stateList = new List<ZoneModel>();
+            List<ZoneModel> zoneList = new List<ZoneModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -432,12 +1169,12 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
+                    DataSet dsZoneList = new DataSet();
+                    adapter.Fill(dsZoneList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<ZoneModel>();
-                    return stateList;
+                    if ((dsZoneList != null) && (dsZoneList.Tables.Count > 0) && (dsZoneList.Tables[0] != null) && (dsZoneList.Tables[0].Rows.Count > 0))
+                        zoneList = dsZoneList.Tables[0].ToListOfObject<ZoneModel>();
+                    return zoneList;
                 }
             }
         }
@@ -641,7 +1378,7 @@ namespace LeHealth.Core.DataManager
         }
         public List<RegSchemeModel> GetRegSchemeById(int RegSchemeId)
         {
-            List<RegSchemeModel> stateList = new List<RegSchemeModel>();
+            List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -652,48 +1389,48 @@ namespace LeHealth.Core.DataManager
 
                     cmd.Parameters.AddWithValue("@ItemId", RegSchemeId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
+                    DataSet dsRegSchemeList = new DataSet();
+                    adapter.Fill(dsRegSchemeList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                    if ((dsRegSchemeList != null) && (dsRegSchemeList.Tables.Count > 0) && (dsRegSchemeList.Tables[0] != null) && (dsRegSchemeList.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
+                        for (int i = 0; i < dsRegSchemeList.Tables[0].Rows.Count; i++)
                         {
                             RegSchemeModel obj = new RegSchemeModel();
-                            obj.ItemId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ItemId"]);
-                            obj.ItemCode = dsStateList.Tables[0].Rows[i]["ItemCode"].ToString();
-                            obj.ItemName = dsStateList.Tables[0].Rows[i]["ItemName"].ToString();
-                            obj.GroupId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["GroupId"]);
-                            obj.ValidityDays = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ValidityDays"]);
-                            obj.ValidityVisits = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ValidityVisits"]);
-                            obj.AllowRateEdit = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowRateEdit"]);
-                            obj.AllowDisc = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowDisc"]);
-                            obj.AllowPP = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowPP"]);
-                            obj.IsVSign = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["IsVSign"]);
-                            obj.ResultOn = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ResultOn"]);
-                            obj.STypeId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["STypeId"]);
-                            obj.TotalTaxPcnt = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["TotalTaxPcnt"]);
-                            obj.AllowCommission = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowCommission"]);
-                            obj.CommPcnt = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["CommPcnt"]);
-                            obj.CommAmt = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["CommAmt"]);
-                            obj.MaterialCost = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["MaterialCost"]);
-                            obj.BaseCost = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["BaseCost"]);
-                            obj.HeadId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["HeadId"]);
-                            obj.SortOrder = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["SortOrder"]);
-                            obj.Active = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsStateList.Tables[0].Rows[i]["BlockReason"].ToString();
-                            obj.CPTCodeId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["CPTCodeId"]);
-                            obj.ExternalItem = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ExternalItem"]);
-                            stateList.Add(obj);
+                            obj.ItemId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ItemId"]);
+                            obj.ItemCode = dsRegSchemeList.Tables[0].Rows[i]["ItemCode"].ToString();
+                            obj.ItemName = dsRegSchemeList.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.GroupId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["GroupId"]);
+                            obj.ValidityDays = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ValidityDays"]);
+                            obj.ValidityVisits = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ValidityVisits"]);
+                            obj.AllowRateEdit = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowRateEdit"]);
+                            obj.AllowDisc = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowDisc"]);
+                            obj.AllowPP = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowPP"]);
+                            obj.IsVSign = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["IsVSign"]);
+                            obj.ResultOn = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ResultOn"]);
+                            obj.STypeId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["STypeId"]);
+                            obj.TotalTaxPcnt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["TotalTaxPcnt"]);
+                            obj.AllowCommission = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowCommission"]);
+                            obj.CommPcnt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CommPcnt"]);
+                            obj.CommAmt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CommAmt"]);
+                            obj.MaterialCost = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["MaterialCost"]);
+                            obj.BaseCost = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["BaseCost"]);
+                            obj.HeadId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["HeadId"]);
+                            obj.SortOrder = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["SortOrder"]);
+                            obj.Active = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsRegSchemeList.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.CPTCodeId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CPTCodeId"]);
+                            obj.ExternalItem = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ExternalItem"]);
+                            regSchemeList.Add(obj);
                         }
                     }
-                    return stateList;
+                    return regSchemeList;
                 }
             }
         }
         public List<RegSchemeModel> GetAllRegScheme()
         {
-            List<RegSchemeModel> stateList = new List<RegSchemeModel>();
+            List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -702,43 +1439,43 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
+                    DataSet dsRegSchemeList = new DataSet();
+                    adapter.Fill(dsRegSchemeList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                    //stateList = dsStateList.Tables[0].ToListOfObject<RegSchemeModel>();
+                    if ((dsRegSchemeList != null) && (dsRegSchemeList.Tables.Count > 0) && (dsRegSchemeList.Tables[0] != null) && (dsRegSchemeList.Tables[0].Rows.Count > 0))
+                    //stateList = dsRegSchemeList.Tables[0].ToListOfObject<RegSchemeModel>();
                     {
-                        for (int i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
+                        for (int i = 0; i < dsRegSchemeList.Tables[0].Rows.Count; i++)
                         {
                             RegSchemeModel obj = new RegSchemeModel();
-                            obj.ItemId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ItemId"]);
-                            obj.ItemCode = dsStateList.Tables[0].Rows[i]["ItemCode"].ToString();
-                            obj.ItemName = dsStateList.Tables[0].Rows[i]["ItemName"].ToString();
-                            obj.GroupId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["GroupId"]);
-                            obj.ValidityDays = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ValidityDays"]);
-                            obj.ValidityVisits = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ValidityVisits"]);
-                            obj.AllowRateEdit = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowRateEdit"]);
-                            obj.AllowDisc = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowDisc"]);
-                            obj.AllowPP = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowPP"]);
-                            obj.IsVSign = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["IsVSign"]);
-                            obj.ResultOn = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ResultOn"]);
-                            obj.STypeId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["STypeId"]);
-                            obj.TotalTaxPcnt = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["TotalTaxPcnt"]);
-                            obj.AllowCommission = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["AllowCommission"]);
-                            obj.CommPcnt = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["CommPcnt"]);
-                            obj.CommAmt = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["CommAmt"]);
-                            obj.MaterialCost = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["MaterialCost"]);
-                            obj.BaseCost = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["BaseCost"]);
-                            obj.HeadId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["HeadId"]);
-                            obj.SortOrder = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["SortOrder"]);
-                            obj.Active = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsStateList.Tables[0].Rows[i]["BlockReason"].ToString();
-                            obj.CPTCodeId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["CPTCodeId"]);
-                            obj.ExternalItem = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["ExternalItem"]);
-                            stateList.Add(obj);
+                            obj.ItemId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ItemId"]);
+                            obj.ItemCode = dsRegSchemeList.Tables[0].Rows[i]["ItemCode"].ToString();
+                            obj.ItemName = dsRegSchemeList.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.GroupId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["GroupId"]);
+                            obj.ValidityDays = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ValidityDays"]);
+                            obj.ValidityVisits = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ValidityVisits"]);
+                            obj.AllowRateEdit = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowRateEdit"]);
+                            obj.AllowDisc = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowDisc"]);
+                            obj.AllowPP = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowPP"]);
+                            obj.IsVSign = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["IsVSign"]);
+                            obj.ResultOn = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ResultOn"]);
+                            obj.STypeId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["STypeId"]);
+                            obj.TotalTaxPcnt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["TotalTaxPcnt"]);
+                            obj.AllowCommission = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowCommission"]);
+                            obj.CommPcnt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CommPcnt"]);
+                            obj.CommAmt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CommAmt"]);
+                            obj.MaterialCost = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["MaterialCost"]);
+                            obj.BaseCost = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["BaseCost"]);
+                            obj.HeadId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["HeadId"]);
+                            obj.SortOrder = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["SortOrder"]);
+                            obj.Active = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsRegSchemeList.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.CPTCodeId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CPTCodeId"]);
+                            obj.ExternalItem = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ExternalItem"]);
+                            regSchemeList.Add(obj);
                         }
                     }
-                    return stateList;
+                    return regSchemeList;
                 }
             }
         }
@@ -925,7 +1662,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-
         public string InsertUpdateUserHospital(HospitalRegModel hospital)
         {
             string response = "";
@@ -984,7 +1720,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string DeleteUserHospital(int Id)
         {
             string response = "";
@@ -1156,7 +1891,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public string InsertUpdateLeadAgent(LeadAgentModel Operator)
         {
             string response = "";
@@ -1214,7 +1948,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-
+        //Company Management Starts
         public List<CompanyModel> GetCompany(int Id)
         {
             List<CompanyModel> companyList = new List<CompanyModel>();
@@ -1246,8 +1980,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-        public string InsertUpdateCompany(CompanyModel Company)  
+        public string InsertUpdateCompany(CompanyModel Company)
         {
             string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1302,6 +2035,103 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        //Company Management Ends
 
+        public List<VisaTypeModel> GetVisaType()
+        {
+            List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetVisaType", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsVisaTypeList = new DataSet();
+                    adapter.Fill(dsVisaTypeList);
+                    con.Close();
+
+                    if ((dsVisaTypeList != null) && (dsVisaTypeList.Tables.Count > 0) && (dsVisaTypeList.Tables[0] != null) && (dsVisaTypeList.Tables[0].Rows.Count > 0))
+                        schemeList = dsVisaTypeList.Tables[0].ToListOfObject<VisaTypeModel>();
+                    return schemeList;
+                }
+            }
+        }
+        public List<StateModel> GetStateByCountryId(int countryId)
+        {
+            List<StateModel> stateList = new List<StateModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetEmirate", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@CountryId", countryId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                        stateList = dsStateList.Tables[0].ToListOfObject<StateModel>();
+                    return stateList;
+                }
+            }
+        }
+        public List<SymptomModel> GetActiveSymptoms()
+        {
+            List<SymptomModel> stateList = new List<SymptomModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetActiveSymptoms", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsStateList = new DataSet();
+                    adapter.Fill(dsStateList);
+                    con.Close();
+                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                        stateList = dsStateList.Tables[0].ToListOfObject<SymptomModel>();
+                    return stateList;
+                }
+            }
+        }
+        public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
+        {
+            List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetItemsByType", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            ItemsByTypeModel obj = new ItemsByTypeModel();
+                            obj.ItemId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ItemId"]);
+                            obj.ItemCode = dsNumber.Tables[0].Rows[i]["ItemCode"].ToString();
+                            obj.ItemName = dsNumber.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.GroupId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["GroupId"]);
+                            obj.GroupCode = dsNumber.Tables[0].Rows[i]["GroupCode"].ToString();
+                            itemList.Add(obj);
+                        }
+                    }
+                    return itemList;
+                }
+            }
+        }
     }
 }

@@ -19,9 +19,11 @@ namespace LeHealth.Core.DataManager
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
-
-
-
+        /// <summary>
+        /// Get Appointment list from database,Step three in code execution flow
+        /// </summary>
+        /// <param name="AppointmentId"></param>
+        /// <returns></returns>
         public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment)
         {
             List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
@@ -36,9 +38,7 @@ namespace LeHealth.Core.DataManager
                     DataSet dsAppointmentsList = new DataSet();
                     adapter.Fill(dsAppointmentsList);
                     con.Close();
-                    //converting datatable to list of Appointments
                     if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
-                    //appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<SearchAppointmentModel>();
                     {
                         for (int i = 0; i < dsAppointmentsList.Tables[0].Rows.Count; i++)
                         {
@@ -63,7 +63,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
+        /// <summary>
+        /// Get details of appointment by appointmentId from database,Step three in code execution flow
+        /// </summary>
+        /// <param name="deptId"></param>
+        /// <returns></returns>
         public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment)
         {
             List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
@@ -78,9 +82,7 @@ namespace LeHealth.Core.DataManager
                     DataSet dsAppointmentsList = new DataSet();
                     adapter.Fill(dsAppointmentsList);
                     con.Close();
-                    //converting datatable to list of Appointments
                     if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
-                    //appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<SearchAppointmentModel>();
                     {
                         for (int i = 0; i < dsAppointmentsList.Tables[0].Rows.Count; i++)
                         {
@@ -207,12 +209,10 @@ namespace LeHealth.Core.DataManager
                     return patientList;
                 }
             }
-
         }
         public List<PatientListModel> GetPatientByRegNo(string regNo)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByRegNo", con))
@@ -226,11 +226,9 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
                         patientList = dsPatientList.Tables[0].ToListOfObject<PatientListModel>();
-
                     return patientList;
                 }
             }
-
         }
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
@@ -316,34 +314,10 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-        public List<VisaTypeModel> GetVisaType()
-        {
-            List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetVisaType", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsVisaTypeList = new DataSet();
-                    adapter.Fill(dsVisaTypeList);
-                    con.Close();
-
-                    if ((dsVisaTypeList != null) && (dsVisaTypeList.Tables.Count > 0) && (dsVisaTypeList.Tables[0] != null) && (dsVisaTypeList.Tables[0].Rows.Count > 0))
-                        schemeList = dsVisaTypeList.Tables[0].ToListOfObject<VisaTypeModel>();
-                    return schemeList;
-                }
-            }
-
-        }
-
+        
         public List<GetNumberModel> GetNumber(string numId)
         {
             List<GetNumberModel> numberList = new List<GetNumberModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetNumber", con))
@@ -381,14 +355,12 @@ namespace LeHealth.Core.DataManager
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
         {
             List<GetAppNoModel> scheduleList = new List<GetAppNoModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetAppNumber", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.AddWithValue("@ConsultantId", gap.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", gap.AppDate);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -404,7 +376,6 @@ namespace LeHealth.Core.DataManager
         public List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap)
         {
             List<GetAppTimeModel> scheduleList = new List<GetAppTimeModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetAppTime", con))
@@ -478,7 +449,6 @@ namespace LeHealth.Core.DataManager
                             {
                                 Label lb = new Label();
                                 lb.SliceNo = dsScheduleList.Tables[0].Rows[j]["SliceNo"].ToString();
-                                //lb.TaskDate = dsScheduleList.Tables[0].Rows[j]["TaskDate"].ToString();
                                 lb.ConsultantName = dsScheduleList.Tables[0].Rows[j]["ConsultantName"].ToString();
                                 lb.AppId = dsScheduleList.Tables[0].Rows[j]["AppId"].ToString();
                                 lb.AppNo = dsScheduleList.Tables[0].Rows[j]["AppNo"].ToString();
@@ -496,7 +466,6 @@ namespace LeHealth.Core.DataManager
                 }
                 return scheduleList;
             }
-
         }
         public List<RecentConsultationModel> GetRecentConsultationData()
         {
@@ -520,28 +489,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<StateModel> GetStateByCountryId(int countryId)
-        {
-            List<StateModel> stateList = new List<StateModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetEmirate", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@CountryId", countryId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
-                    con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<StateModel>();
-                    return stateList;
-                }
-            }
-        }
+        
         public string DeleteAppointment(AppointmentModel appointment)
         {
             string response = "";
@@ -612,38 +560,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
-        {
-            List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetItemsByType", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
-                    adapter.Fill(dsNumber);
-                    con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
-                        {
-                            ItemsByTypeModel obj = new ItemsByTypeModel();
-                            obj.ItemId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ItemId"]);
-                            obj.ItemCode = dsNumber.Tables[0].Rows[i]["ItemCode"].ToString();
-                            obj.ItemName = dsNumber.Tables[0].Rows[i]["ItemName"].ToString();
-                            obj.GroupId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["GroupId"]);
-                            obj.GroupCode = dsNumber.Tables[0].Rows[i]["GroupCode"].ToString();
-                            itemList.Add(obj);
-                        }
-                    }
-                    return itemList;
-                }
-            }
-        }
+        
         public string CancelConsultation(ConsultationModel consultation)
         {
             string response = "";
@@ -655,7 +572,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultationId", consultation.ConsultationId);
                     cmd.Parameters.AddWithValue("@UserId", consultation.UserId);
                     cmd.Parameters.AddWithValue("@CancelReason", consultation.CancelReason);
-
                     SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -679,7 +595,6 @@ namespace LeHealth.Core.DataManager
                     {
                         response = retD;
                     }
-
                 }
             }
             return response;
@@ -726,7 +641,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string AppoinmentValidCheck(AppoinmentValidCheckModel appoinment)
         {
             string response = "";
@@ -753,7 +667,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string SetUrgentConsultation(ConsultationModel consultation)
         {
             string response = "";
@@ -791,28 +704,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return response;
-        }
-        //ZONE START
-
-        public List<SymptomModel> GetActiveSymptoms()
-        {
-            List<SymptomModel> stateList = new List<SymptomModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetActiveSymptoms", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
-                    con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<SymptomModel>();
-                    return stateList;
-                }
-            }
         }
         public List<ConsultRateModel> GetConsultRate(ConsultationModel cm)
         {
@@ -877,7 +768,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        //ZONE END
         /// <summary>
         /// Save consultation details to database,Step three in code execution flow
         /// </summary>
@@ -896,11 +786,13 @@ namespace LeHealth.Core.DataManager
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
+                        {
                             cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
-
+                        }
                         else
+                        {
                             cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
-
+                        }
                         cmd.Parameters.AddWithValue("@ConsultDate", Convert.ToDateTime(consultations.ConsultDate));
                         cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                         cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
@@ -935,15 +827,11 @@ namespace LeHealth.Core.DataManager
                             Direction = ParameterDirection.Output
                         };
                         cmd.Parameters.Add(retDesc);
-
-
                         con.Open();
                         var isUpdated = cmd.ExecuteNonQuery();
-                        //var seq = retSeqNumber.Value;
                         var ret = retValV.Value;
                         descrip = retDesc.Value.ToString();
                         con.Close();
-
                         if (int.Parse(ret.ToString()) == -1)
                         {
                             consultations.RetVal = -1;
@@ -965,7 +853,6 @@ namespace LeHealth.Core.DataManager
                     }
                     catch (Exception ex)
                     {
-
                         consultations.RetVal = -2;
                         consultations.RetDesc = descrip;
                         consultaionsList.Add(consultations);
@@ -1134,7 +1021,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
         {
             List<PatRegByPatientIdModel> patregdataList = new List<PatRegByPatientIdModel>();
@@ -1179,8 +1065,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
         public FrontOfficePBarModel GetFrontOfficeProgressBars(string todaydate)
         {
             FrontOfficePBarModel fopb = new FrontOfficePBarModel();
@@ -1211,7 +1095,6 @@ namespace LeHealth.Core.DataManager
                 int ConsStatUnknown = 0;
                 if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                 {
-                    //AppcountGetList = ds.Tables[0].ToListOfObject<PercentageCountGetModel>();
                     for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
                         PatientModel obj = new PatientModel();
@@ -1239,7 +1122,6 @@ namespace LeHealth.Core.DataManager
                         AppTotalCount = AppTotalCount + Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
                     }
                 }
-
                 SqlCommand consultantcountCMD = new SqlCommand("stLH_GetConsultationCount", con);
                 consultantcountCMD.CommandType = CommandType.StoredProcedure;
                 consultantcountCMD.Parameters.AddWithValue("@ConsultDate", todaydate);
@@ -1250,7 +1132,6 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if ((ds2 != null) && (ds2.Tables.Count > 0) && (ds2.Tables[0] != null) && (ds2.Tables[0].Rows.Count > 0))
                 {
-                    //ConscountGetList = ds2.Tables[0].ToListOfObject<PercentageCountGetModel>();
                     for (int i = 0; i < ds2.Tables[0].Rows.Count; i++)
                     {
                         PatientModel obj = new PatientModel();
@@ -1278,8 +1159,6 @@ namespace LeHealth.Core.DataManager
                         ConsTotalCount = ConsTotalCount + Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
                     }
                 }
-
-                //AppcountGetList.Find(c => c.StatusName == "A").StatusCount;
                 if (AppTotalCount != 0)
                 {
                     fopb.AppPercA = ((decimal)AppStatA / (decimal)AppTotalCount) * 100;
@@ -1302,11 +1181,9 @@ namespace LeHealth.Core.DataManager
                     fopb.ConsPercC = Math.Round(fopb.ConsPercC, 2);
                     fopb.ConsPercO = Math.Round(fopb.ConsPercO, 2);
                 }
-
             }
             return fopb;
         }
-
     }
 }
 //public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
@@ -1342,7 +1219,6 @@ namespace LeHealth.Core.DataManager
 //        }
 //    }
 //}
-
 //public DataTable ToDataTable<T>(List<T> items)
 //{
 //    DataTable dataTable = new DataTable(typeof(T).Name);
@@ -1356,15 +1232,12 @@ namespace LeHealth.Core.DataManager
 //        var values = new object[Props.Length];
 //        for (int i = 0; i < Props.Length; i++)
 //        {
-
 //            values[i] = Props[i].GetValue(item, null);
 //        }
 //        dataTable.Rows.Add(values);
 //    }
-
 //    return dataTable;
 //}
-
 //public string SendAddPatientInformation(int patientid)
 //{
 //    List<AllPatientModel> patientList = new List<AllPatientModel>();
@@ -1395,11 +1268,9 @@ namespace LeHealth.Core.DataManager
 //        }
 //    }
 //}
-
 //private string MalaffiStringBuilder(DataTable dt, string MessageType)
 //{
 //    string strValue = string.Empty;
-
 //    DataRow dr = dt.Rows[0];
 //    if (!this.MalaffiValidations(dr))
 //        return string.Empty;
@@ -1571,7 +1442,6 @@ namespace LeHealth.Core.DataManager
 //                DataTable dt = new DataTable();
 //                dt = ToDataTable(patientDetail.RegAddress);
 //                Insert_Patient_Address(dt, _connStr);
-
 //                patientDetail.RegIdentities[0].PatientId = patientId;
 //                patientDetail.RegIdentities[1].PatientId = patientId;
 //                patientDetail.RegIdentities[2].PatientId = patientId;
@@ -1695,13 +1565,10 @@ namespace LeHealth.Core.DataManager
 //        using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
 //        {
 //            s.DestinationTableName = "LH_PatIdentity";
-
 //            s.ColumnMappings.Add("IdentityType", "IdentityType");
 //            s.ColumnMappings.Add("IdentityNo", "IdentityNo");
 //            s.ColumnMappings.Add("PatientId", "PatientId");
-
 //            s.WriteToServer(csvData);
-
 //        }
 //    }
 //}
@@ -1738,10 +1605,8 @@ namespace LeHealth.Core.DataManager
 //        cmd.Parameters.AddWithValue("@CmpName", patient.CompanyName);
 //        cmd.Parameters.AddWithValue("@UserId", 0);//NIKTODO
 //        cmd.Parameters.AddWithValue("@SessionId", 0);
-
 //        cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
 //        cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
-
 //        return cmd;
 //    }
 //}

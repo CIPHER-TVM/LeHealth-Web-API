@@ -191,41 +191,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 
 
-        [Route("GetStateByCountryId/{countryId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<StateModel>> GetStateByCountryId(int countryId)
-        {
-            List<StateModel> stateList = new List<StateModel>();
-            try
-            {
-                stateList = todaysPatientService.GetStateByCountryId(countryId);
-                var response = new ResponseDataModel<IEnumerable<StateModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = stateList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<StateModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
+     
         [Route("GetNumber/{numid}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<GetNumberModel>> GetNumber(String numid)
@@ -463,42 +429,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         //Reg Scheme DDL
         //Registration Page Top Left
-        [Route("GetItemsByType")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetItemsByType(ItemsByTypeModel ibtm)
-        {
-            List<ItemsByTypeModel> itemsList = new List<ItemsByTypeModel>();
-            try
-            {
-                itemsList = todaysPatientService.GetItemsByType(ibtm);
-                var response = new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = itemsList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-            }
-        }
-
-        
+      
         
       
 
@@ -777,39 +708,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetVisaType")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType()
-        {
-            List<VisaTypeModel> visaTypeList = new List<VisaTypeModel>();
-            try
-            {
-                visaTypeList = todaysPatientService.GetVisaType();
-                var response = new ResponseDataModel<IEnumerable<VisaTypeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = visaTypeList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<VisaTypeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
+        
         /// <summary>
         /// Save new Appointment,Controller class . Step One in code execution flow
         /// </summary>
@@ -1386,42 +1285,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         }
 
-        [HttpPost]
-        [Route("GetActiveSymptoms")]
-        public ResponseDataModel<IEnumerable<SymptomModel>> GetActiveSymptoms()
-        {
-            List<SymptomModel> activeSymptomsList = new List<SymptomModel>();
-            try
-            {
-                activeSymptomsList = todaysPatientService.GetActiveSymptoms();
-                var response = new ResponseDataModel<IEnumerable<SymptomModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = activeSymptomsList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SymptomModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-                //  consultationList.Clear();
-
-            }
-
-        }
+       
 
         [HttpPost]
         [Route("GetConsultRate")]

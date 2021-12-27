@@ -17,7 +17,6 @@ namespace LeHealth.Service.Service
         public AccountService( IAccountManager _accountManager)
         {
             accountManager = _accountManager;
-
         }
         /// <summary>
         /// adding a new patient registration 

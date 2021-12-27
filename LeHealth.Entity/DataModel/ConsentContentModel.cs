@@ -13,5 +13,6 @@ namespace LeHealth.Entity.DataModel
         public string CType { get; set; } 
         public int CGroupId { get; set; }  
         public int Active { get; set; }   
+        public int SponsorId { get; set; }    
     }
 }

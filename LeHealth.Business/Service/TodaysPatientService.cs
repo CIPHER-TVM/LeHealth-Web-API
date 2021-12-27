@@ -20,41 +20,31 @@ namespace LeHealth.Service.Service
             todaysPatientManager = _todaysPatientManager;
             fileUploadService = _fileUploadService;
         }
-
-        
-        public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel countryDetails)
+        public List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment)
         {
-            return todaysPatientManager.GetAllAppointments(countryDetails);
+            return todaysPatientManager.GetAllAppointments(appointment);
         }
-         public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel countryDetails)
+        public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment)
         {
-            return todaysPatientManager.GetAppointmentById(countryDetails);
+            return todaysPatientManager.GetAppointmentById(appointment);
         }
 
-
-        public List<SearchAppointmentModel> SearchAppointment(AppointmentModel countryDetails)
+        public List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment)
         {
-            return todaysPatientManager.SearchAppointment(countryDetails);
+            return todaysPatientManager.SearchAppointment(appointment);
         }
-
-
-
-        public List<PatientListModel> SearchPatient(PatientSearchModel patientList)
+        public List<PatientListModel> SearchPatient(PatientSearchModel patientData)
         {
-            return todaysPatientManager.SearchPatient(patientList);
+            return todaysPatientManager.SearchPatient(patientData);
         }
         public List<PatientListModel> GetPatientByRegNo(string regNo)
         {
             return todaysPatientManager.GetPatientByRegNo(regNo);
         }
-
-
-        public FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList)
+        public FrontOfficePBarModel GetFrontOfficeProgressBars(string todaydate)
         {
-            return todaysPatientManager.GetFrontOfficeProgressBars(patientList);
+            return todaysPatientManager.GetFrontOfficeProgressBars(todaydate);
         }
-
-
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
             return todaysPatientManager.GetSavingSchemaMandatory(formname);
@@ -63,10 +53,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetSchemeByConsultant(consultantid);
         }
-        public List<VisaTypeModel> GetVisaType()
-        {
-            return todaysPatientManager.GetVisaType();
-        }
+        
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
         {
             return todaysPatientManager.GetAppNumber(gap);
@@ -75,21 +62,11 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAppTime(gap);
         }
-        //public string SendAddPatientInformation(int patientid)
-        //{
-        //    return todaysPatientManager.SendAddPatientInformation(patientid);
-        //}
-        public List<StateModel> GetStateByCountryId(int countryid)
-        {
-            return todaysPatientManager.GetStateByCountryId(countryid);
-        }
         
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi)
         {
             return todaysPatientManager.GetScheduleData(gsi);
         }
-        //
-        
         public string DeleteAppointment(AppointmentModel appointment)
         {
             return todaysPatientManager.DeleteAppointment(appointment);
@@ -102,16 +79,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.PostponeAppointment(appointments);
         }
-
-
         public string SetUrgentConsultation(ConsultationModel consultation)
         {
             return todaysPatientManager.SetUrgentConsultation(consultation);
         }
-
-        /// <summary>
-        /// adding a new consultation details.Step two in code execution flow
-        /// </summary>
         public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
         {
             return todaysPatientManager.InsertUpdateConsultation(consultations);
@@ -128,27 +99,19 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetRecentConsultationData();
         }
-        public List<SymptomModel> GetActiveSymptoms()
-        {
-            return todaysPatientManager.GetActiveSymptoms();
-        }
+       
         public List<ConsultRateModel> GetConsultRate(ConsultationModel cm)
         {
             return todaysPatientManager.GetConsultRate(cm);
         }
-        /// <summary>
-        /// Returns all consultants by dept id as Generic List. Step two in code execution flow
-        /// </summary>
         public List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm)
         {
             return todaysPatientManager.GetConsultant(cm);
         }
-         public string AppoinmentValidCheck(AppoinmentValidCheckModel cm)
+        public string AppoinmentValidCheck(AppoinmentValidCheckModel cm)
         {
             return todaysPatientManager.AppoinmentValidCheck(cm);
         }
-
-
         public List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm)
         {
             return todaysPatientManager.GetConsultationByPatientId(cm);
@@ -173,9 +136,6 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultantItemSchemeRate(cisr);
         }
-        public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
-        {
-            return todaysPatientManager.GetItemsByType(ibt);
-        }
+       
     }
 }

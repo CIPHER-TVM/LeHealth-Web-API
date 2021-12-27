@@ -35,11 +35,8 @@ namespace LeHealth.Service.Service
         }
         public string ValidateHL7(string nabidh)
         {
-
             return registrationManager.ValidateHL7(nabidh);
         }
-
-
         public List<GenderModel> GetGender()
         {
             return registrationManager.GetGender();
@@ -52,14 +49,10 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetSalutation();
         }
-
-
-
         public List<RateGroupModel> GetRateGroup(int rgroup)
         {
             return registrationManager.GetRateGroup(rgroup);
         }
-
         public List<AllPatientModel> GetAllPatient()
         {
             return registrationManager.GetAllPatient();
@@ -72,8 +65,6 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetCommunicationType();
         }
-
-
         public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
         {
             return registrationManager.SearchPatientInList(patientList);
@@ -82,34 +73,25 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.ViewPatientFiles(patientId);
         }
-        
-
-
         public List<PatientModel> GetRegisteredDataById(int patientId)
         {
             return registrationManager.GetRegisteredDataById(patientId);
         }
-
         public string SaveReRegistration(PatientModel patient)
         {
-
             return registrationManager.SaveReRegistration(patient);
         }
         public string BlockPatient(PatientModel patient)
         {
             return registrationManager.BlockPatient(patient);
         }
-
         public string DeletePatRegFiles(int Id)
         {
             return registrationManager.DeletePatRegFiles(Id);
         }
-
-
         public string UnblockPatient(PatientModel patient)
         {
             return registrationManager.UnblockPatient(patient);
         }
-
     }
 }

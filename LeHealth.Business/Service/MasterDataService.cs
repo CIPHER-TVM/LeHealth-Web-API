@@ -30,6 +30,57 @@ namespace LeHealth.Service.Service
             return masterdataManager.DeleteProfession(zone);
         }
 
+        public List<SponsorMasterModel> GetSponsor(int profid)
+        {
+            return masterdataManager.GetSponsor(profid);
+        }
+        public string InsertUpdateSponsor(SponsorMasterModel zone)
+        {
+            return masterdataManager.InsertUpdateSponsor(zone);
+        }
+        public string DeleteSponsor(int zone)
+        {
+            return masterdataManager.DeleteSponsor(zone);
+        }
+
+
+        public List<SponsorTypeModel> GetSponsorType(int id)
+        {
+            return masterdataManager.GetSponsorType(id);
+        }
+        public string InsertUpdateSponsorType(SponsorTypeModel stype)
+        {
+            return masterdataManager.InsertUpdateSponsorType(stype);
+        }
+        public string DeleteSponsorType(int Id)
+        {
+            return masterdataManager.DeleteSponsorType(Id);
+        }
+
+        public List<SponsorFormModel> GetSponsorForm(int id)
+        {
+            return masterdataManager.GetSponsorForm(id);
+        }
+        public string InsertUpdateSponsorForm(SponsorFormModel stype)
+        {
+            return masterdataManager.InsertUpdateSponsorForm(stype);
+        }
+        public string DeleteSponsorForm(int Id)
+        {
+            return masterdataManager.DeleteSponsorForm(Id);
+        }
+        public List<CityModel> GetCity(int id)
+        {
+            return masterdataManager.GetCity(id);
+        }
+        public string InsertUpdateCity(CityModel city)
+        {
+            return masterdataManager.InsertUpdateCity(city);
+        }
+        public string DeleteCity(int Id)
+        {
+            return masterdataManager.DeleteCity(Id);
+        }
 
         public List<AppTypeModel> GetAppType()
         {
@@ -174,6 +225,22 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteCompany(Id);
         }
+
+         public List<BodyPartModel> GetBodyPart(int Id)
+        {
+            return masterdataManager.GetBodyPart(Id);
+        }
+        public string InsertUpdateBodyPart(BodyPartModel cmp)
+        {
+            return masterdataManager.InsertUpdateBodyPart(cmp);
+        }
+        public string DeleteBodyPart(int Id)
+        {
+            return masterdataManager.DeleteBodyPart(Id);
+        }
+
+
+
         /// <summary>
         ///Returns  all departments from the hospital as Generic List. Step two in code execution flow
         /// </summary>
@@ -195,7 +262,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetConsentPreviewConsent(patientId);
         }
-          public List<ConsentContentModel> GetConsent(int patientId)
+        public List<ConsentContentModel> GetConsent(int patientId)
         {
             return masterdataManager.GetConsent(patientId);
         }
@@ -210,6 +277,20 @@ namespace LeHealth.Service.Service
             return masterdataManager.DeleteConsent(patientId);
         }
 
+        public List<ConsentContentModel> GetSponsorConsent(int patientId)
+        {
+            return masterdataManager.GetSponsorConsent(patientId);
+        }
+        public string InsertUpdateSponsorConsent(ConsentContentModel consent) 
+        {
+            return masterdataManager.InsertUpdateSponsorConsent(consent);
+        }
+        public string DeleteSponsorConsent(int patientId)
+        {
+            return masterdataManager.DeleteSponsorConsent(patientId);
+        }
+
+
         public List<CountryModel> GetCountry(int countryDetails)
         {
             return masterdataManager.GetCountry(countryDetails);
@@ -223,5 +304,45 @@ namespace LeHealth.Service.Service
             return masterdataManager.DeleteCountry(patientId);
         }
 
+        public List<StateModel> GetState(int stateDetails)
+        {
+            return masterdataManager.GetState(stateDetails);
+        }
+        public string InsertUpdateState(StateModel state)
+        {
+            return masterdataManager.InsertUpdateState(state);
+        }
+        public string DeleteState(int stateId)
+        {
+            return masterdataManager.DeleteState(stateId);
+        }
+        public List<SalutationModel> GetSalutation(int stateDetails)
+        {
+            return masterdataManager.GetSalutation(stateDetails);
+        }
+        public string InsertUpdateSalutation(SalutationModel state)
+        {
+            return masterdataManager.InsertUpdateSalutation(state);
+        }
+        public string DeleteSalutation(int stateId)
+        {
+            return masterdataManager.DeleteSalutation(stateId);
+        }
+        public List<VisaTypeModel> GetVisaType()
+        {
+            return masterdataManager.GetVisaType();
+        }
+        public List<StateModel> GetStateByCountryId(int countryid)
+        {
+            return masterdataManager.GetStateByCountryId(countryid);
+        }
+        public List<SymptomModel> GetActiveSymptoms()
+        {
+            return masterdataManager.GetActiveSymptoms();
+        }
+        public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
+        {
+            return masterdataManager.GetItemsByType(ibt);
+        }
     }
 }

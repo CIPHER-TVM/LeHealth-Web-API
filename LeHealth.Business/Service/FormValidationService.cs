@@ -13,17 +13,13 @@ namespace LeHealth.Service
     public class FormValidationService : IFormValidationService
     {
         private readonly IFormValidationManager formValidationManager;
-
         public FormValidationService(IFormValidationManager _formValidationManager)
         {
             formValidationManager = _formValidationManager;
         }
-
-
         public List<FormValidationModel> GetFormValidation(Int32 FormId, Int32 DepartmentId)
         {
             return formValidationManager.GetFormValidation(FormId, DepartmentId);
         }
-
     }
 }

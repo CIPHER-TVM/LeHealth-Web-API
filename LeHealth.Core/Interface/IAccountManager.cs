@@ -11,7 +11,5 @@ namespace LeHealth.Core.Interface
         /// To list of all hospital details
         /// </summary>
         List<LoginOutputModel> Login(CredentialModel credential);  
-
-
     }
 }
