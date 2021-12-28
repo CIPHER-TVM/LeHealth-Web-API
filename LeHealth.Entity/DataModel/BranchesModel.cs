@@ -44,5 +44,7 @@ namespace LeHealth.Entity.DataModel
         public string SR_ID { get; set; }
         public string MalaffiSystemcode { get; set; }
         public int UserId { get; set; }
+        public int Active { get; set; } 
+        public string BlockReason { get; set; }  
     }
 }

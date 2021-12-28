@@ -25,11 +25,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateProfession(zone);
         }
-        public string DeleteProfession(int zone)
-        {
-            return masterdataManager.DeleteProfession(zone);
-        }
-
         public List<SponsorMasterModel> GetSponsor(int profid)
         {
             return masterdataManager.GetSponsor(profid);
@@ -38,11 +33,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSponsor(zone);
         }
-        public string DeleteSponsor(int zone)
-        {
-            return masterdataManager.DeleteSponsor(zone);
-        }
-
 
         public List<SponsorTypeModel> GetSponsorType(int id)
         {
@@ -51,10 +41,6 @@ namespace LeHealth.Service.Service
         public string InsertUpdateSponsorType(SponsorTypeModel stype)
         {
             return masterdataManager.InsertUpdateSponsorType(stype);
-        }
-        public string DeleteSponsorType(int Id)
-        {
-            return masterdataManager.DeleteSponsorType(Id);
         }
 
         public List<SponsorFormModel> GetSponsorForm(int id)
@@ -65,10 +51,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSponsorForm(stype);
         }
-        public string DeleteSponsorForm(int Id)
-        {
-            return masterdataManager.DeleteSponsorForm(Id);
-        }
+
         public List<CityModel> GetCity(int id)
         {
             return masterdataManager.GetCity(id);
@@ -77,32 +60,19 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateCity(city);
         }
-        public string DeleteCity(int Id)
-        {
-            return masterdataManager.DeleteCity(Id);
-        }
-
         public List<AppTypeModel> GetAppType()
         {
             return masterdataManager.GetAppType();
         }
-        public string InsertZone(ZoneModel zone)
+        public string InsertUpdateZone(ZoneModel zone)
         {
-            return masterdataManager.InsertZone(zone);
-        }
-        public string DeleteZone(int zoneId)
-        {
-            return masterdataManager.DeleteZone(zoneId);
-        }
-        public List<ZoneModel> GetZoneById(int zoneId)
-        {
-            return masterdataManager.GetZoneById(zoneId);
-        }
-        public List<ZoneModel> GetAllZone()
-        {
-            return masterdataManager.GetAllZone();
+            return masterdataManager.InsertUpdateZone(zone);
         }
 
+        public List<ZoneModel> GetZone(int zoneId)
+        {
+            return masterdataManager.GetZone(zoneId);
+        }
         //
         /// <summary>
         /// To list of all hospital details .Step two in code execution flow
@@ -123,34 +93,22 @@ namespace LeHealth.Service.Service
             }
             return masterdataManager.InsertUpdateUserHospital(hm);
         }
-        public string DeleteUserHospital(int id)
+        public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
         {
-            return masterdataManager.DeleteUserHospital(id);
-        }
-
-
-        public string InsertRegScheme(RegSchemeModel RegScheme)
-        {
-            return masterdataManager.InsertRegScheme(RegScheme);
-        }
-        public string UpdateRegScheme(RegSchemeModel RegScheme)
-        {
-            return masterdataManager.UpdateRegScheme(RegScheme);
+            return masterdataManager.InsertUpdateRegScheme(RegScheme);
         }
         public string DeleteRegScheme(int RegSchemeId)
         {
             return masterdataManager.DeleteRegScheme(RegSchemeId);
         }
-        public List<RegSchemeModel> GetRegSchemeById(int RegSchemeId)
+        public List<RegSchemeModel> GetRegScheme(int RegSchemeId)
         {
-            return masterdataManager.GetRegSchemeById(RegSchemeId);
+            return masterdataManager.GetRegScheme(RegSchemeId);
         }
         public List<RegSchemeModel> GetAllRegScheme()
         {
             return masterdataManager.GetAllRegScheme();
         }
-        //
-
         public string InsertRateGroup(RateGroupModel RateGroup)
         {
             return masterdataManager.InsertRateGroup(RateGroup);
@@ -171,9 +129,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetAllRateGroup();
         }
-        //
-
-        //Operator Starts Now
         public string InsertOperator(OperatorModel Operator)
         {
             return masterdataManager.InsertOperator(Operator);
@@ -194,8 +149,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetAllOperator();
         }
-        //Operator Ends Now
-
         public List<ReligionModel> GetReligion()
         {
             return masterdataManager.GetReligion();
@@ -208,11 +161,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateLeadAgent(la);
         }
-        public string DeleteLeadAgent(int la)
-        {
-            return masterdataManager.DeleteLeadAgent(la);
-        }
-
         public List<CompanyModel> GetCompany(int Id)
         {
             return masterdataManager.GetCompany(Id);
@@ -225,8 +173,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteCompany(Id);
         }
-
-         public List<BodyPartModel> GetBodyPart(int Id)
+        public List<BodyPartModel> GetBodyPart(int Id)
         {
             return masterdataManager.GetBodyPart(Id);
         }
@@ -234,16 +181,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateBodyPart(cmp);
         }
-        public string DeleteBodyPart(int Id)
-        {
-            return masterdataManager.DeleteBodyPart(Id);
-        }
-
-
-
-        /// <summary>
-        ///Returns  all departments from the hospital as Generic List. Step two in code execution flow
-        /// </summary>
         public List<DepartmentModel> GetDepartments(int DeptId)
         {
             return masterdataManager.GetDepartments(DeptId);
@@ -252,12 +189,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateDepartment(Dept);
         }
-        public string DeleteDepartment(int DeptId)
-        {
-            return masterdataManager.DeleteDepartment(DeptId);
-        }
-
-
         public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientId)
         {
             return masterdataManager.GetConsentPreviewConsent(patientId);
@@ -266,31 +197,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetConsent(patientId);
         }
-
-
         public string InsertUpdateConsent(ConsentContentModel consent)
         {
             return masterdataManager.InsertUpdateConsent(consent);
         }
-        public string DeleteConsent(int patientId)
-        {
-            return masterdataManager.DeleteConsent(patientId);
-        }
-
-        public List<ConsentContentModel> GetSponsorConsent(int patientId)
-        {
-            return masterdataManager.GetSponsorConsent(patientId);
-        }
-        public string InsertUpdateSponsorConsent(ConsentContentModel consent) 
-        {
-            return masterdataManager.InsertUpdateSponsorConsent(consent);
-        }
-        public string DeleteSponsorConsent(int patientId)
-        {
-            return masterdataManager.DeleteSponsorConsent(patientId);
-        }
-
-
         public List<CountryModel> GetCountry(int countryDetails)
         {
             return masterdataManager.GetCountry(countryDetails);
@@ -299,11 +209,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateCountry(country);
         }
-        public string DeleteCountry(int patientId)
-        {
-            return masterdataManager.DeleteCountry(patientId);
-        }
-
         public List<StateModel> GetState(int stateDetails)
         {
             return masterdataManager.GetState(stateDetails);
@@ -312,10 +217,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateState(state);
         }
-        public string DeleteState(int stateId)
-        {
-            return masterdataManager.DeleteState(stateId);
-        }
         public List<SalutationModel> GetSalutation(int stateDetails)
         {
             return masterdataManager.GetSalutation(stateDetails);
@@ -323,10 +224,6 @@ namespace LeHealth.Service.Service
         public string InsertUpdateSalutation(SalutationModel state)
         {
             return masterdataManager.InsertUpdateSalutation(state);
-        }
-        public string DeleteSalutation(int stateId)
-        {
-            return masterdataManager.DeleteSalutation(stateId);
         }
         public List<VisaTypeModel> GetVisaType()
         {
@@ -343,6 +240,10 @@ namespace LeHealth.Service.Service
         public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
         {
             return masterdataManager.GetItemsByType(ibt);
+        }
+        public List<ConsentTypeModel> GetConsentType()
+        {
+            return masterdataManager.GetConsentType();
         }
     }
 }

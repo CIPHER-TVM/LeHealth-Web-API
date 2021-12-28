@@ -13,5 +13,6 @@ namespace LeHealth.Entity.DataModel
         public int ZoneCountry { get; set; }   
         public string ZoneCode { get; set; }   
         public string ZoneDescription { get; set; }    
+        public string BlockReason { get; set; }    
     }
 }

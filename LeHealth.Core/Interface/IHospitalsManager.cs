@@ -19,7 +19,7 @@ namespace LeHealth.Core.Interface
         /// <summary>
         /// adding a new appointments details
         /// </summary>
-        List<Appointments> InsertUpdateAppointment(Appointments appointments);
+        string InsertUpdateAppointment(Appointments appointments);
         /// <summary>
         /// update an appointments details
         /// </summary>

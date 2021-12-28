@@ -42,7 +42,7 @@ namespace LeHealth.Service
         /// <summary>
         ///adding an appointment detail.Step two in code execution flow
         /// </summary>
-        public List<Appointments> InsertUpdateAppointment(Appointments appointments)
+        public string InsertUpdateAppointment(Appointments appointments)
         {
             return hospitalsManager.InsertUpdateAppointment(appointments);
         }

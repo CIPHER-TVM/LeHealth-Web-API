@@ -52,7 +52,7 @@ namespace LeHealth.Core.DataManager
         }
 
 
-        
+
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
             List<Appointments> Appointmentlist = new List<Appointments>();
@@ -182,20 +182,22 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public List<Appointments> InsertUpdateAppointment(Appointments appointments)
+        public string InsertUpdateAppointment(Appointments appointments)
         {
-            List<Appointments> appointmentsList = new List<Appointments>();
+            string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (appointments == null || appointments.PatientId <= 0)
+                    {
                         cmd.Parameters.AddWithValue("@PatientId", DBNull.Value);
-
+                    }
                     else
+                    {
                         cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
-
+                    }
                     string DateString = appointments.AppDate;
                     IFormatProvider culture = new CultureInfo("en-US", true);
                     DateTime dateVal = DateTime.ParseExact(DateString, "yyyy-MM-dd", culture);
@@ -229,15 +231,32 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
                     cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
-                    cmd.Parameters.AddWithValue("@RetVal", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@RetDesc", DBNull.Value);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
                     con.Open();
                     var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
                     con.Close();
-
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
                 }
             }
-            return appointmentsList;
+            return response;
         }
 
         /// <summary>

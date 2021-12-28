@@ -10,5 +10,7 @@ namespace LeHealth.Entity.DataModel
         public String ProfName { get; set; }
         public int ProfGroup { get; set; } 
         public int UserId { get; set; } 
+        public int Active { get; set; } 
+        public string BlockReason { get; set; }  
     }
 }

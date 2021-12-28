@@ -13,7 +13,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultationModel> GetAllConsultation();
         List<ConsultationModel> SearchConsultation(ConsultationModel consultation);
         List<TabOrderModel> GetTabOrder(string formname);
-        List<Appointments> InsertUpdateAppointment(Appointments appointments);
+        string InsertUpdateAppointment(Appointments appointments);
         string UpdateAppointment(Appointments appointments);
     }
 }
