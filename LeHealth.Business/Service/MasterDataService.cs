@@ -97,49 +97,21 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateRegScheme(RegScheme);
         }
-        public string DeleteRegScheme(int RegSchemeId)
-        {
-            return masterdataManager.DeleteRegScheme(RegSchemeId);
-        }
         public List<RegSchemeModel> GetRegScheme(int RegSchemeId)
         {
             return masterdataManager.GetRegScheme(RegSchemeId);
         }
-        public List<RegSchemeModel> GetAllRegScheme()
+        public string InsertUpdateRateGroup(RateGroupModel RateGroup)
         {
-            return masterdataManager.GetAllRegScheme();
+            return masterdataManager.InsertUpdateRateGroup(RateGroup);
         }
-        public string InsertRateGroup(RateGroupModel RateGroup)
+        public List<RateGroupModel> GetRateGroup(int Id)
         {
-            return masterdataManager.InsertRateGroup(RateGroup);
+            return masterdataManager.GetRateGroup(Id);
         }
-        public string UpdateRateGroup(RateGroupModel RateGroup)
+        public string InsertUpdateOperator(OperatorModel Operator)
         {
-            return masterdataManager.UpdateRateGroup(RateGroup);
-        }
-        public string DeleteRateGroup(int RateGroupId)
-        {
-            return masterdataManager.DeleteRateGroup(RateGroupId);
-        }
-        public List<RateGroupModel> GetRateGroupById(int RateGroupId)
-        {
-            return masterdataManager.GetRateGroupById(RateGroupId);
-        }
-        public List<RateGroupModel> GetAllRateGroup()
-        {
-            return masterdataManager.GetAllRateGroup();
-        }
-        public string InsertOperator(OperatorModel Operator)
-        {
-            return masterdataManager.InsertOperator(Operator);
-        }
-        public string UpdateOperator(OperatorModel Operator)
-        {
-            return masterdataManager.UpdateOperator(Operator);
-        }
-        public string DeleteOperator(int OperatorId)
-        {
-            return masterdataManager.DeleteOperator(OperatorId);
+            return masterdataManager.InsertUpdateOperator(Operator);
         }
         public List<OperatorModel> GetOperatorById(int OperatorId)
         {
@@ -168,10 +140,6 @@ namespace LeHealth.Service.Service
         public string InsertUpdateCompany(CompanyModel cmp)
         {
             return masterdataManager.InsertUpdateCompany(cmp);
-        }
-        public string DeleteCompany(int Id)
-        {
-            return masterdataManager.DeleteCompany(Id);
         }
         public List<BodyPartModel> GetBodyPart(int Id)
         {

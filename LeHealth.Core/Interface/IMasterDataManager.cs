@@ -20,25 +20,18 @@ namespace LeHealth.Core.Interface
         //Zone Management ends
 
         //Rate Group management starts
-        string InsertRateGroup(RateGroupModel RateGroup);
-        string UpdateRateGroup(RateGroupModel RateGroup);
-        string DeleteRateGroup(int RateGroupId);
-        List<RateGroupModel> GetRateGroupById(int RateGroupId);
-        List<RateGroupModel> GetAllRateGroup();
+        string InsertUpdateRateGroup(RateGroupModel RateGroup);
+        List<RateGroupModel> GetRateGroup(int RateGroupId);
         //Rate Group management ends
         //Operator Management Starts
-        string InsertOperator(OperatorModel Operator);
-        string UpdateOperator(OperatorModel Operator);
-        string DeleteOperator(int OperatorId);
+        string InsertUpdateOperator(OperatorModel Operator);
         List<OperatorModel> GetOperatorById(int OperatorId);
         List<OperatorModel> GetAllOperator();
         //Operator Management Ends
 
         //Scheme management Starts
         string InsertUpdateRegScheme(RegSchemeModel RegScheme);
-        string DeleteRegScheme(int RegSchemeId);
         List<RegSchemeModel> GetRegScheme(int RegSchemeId);
-        List<RegSchemeModel> GetAllRegScheme();
         //Scheme management Ends
         //Hospital Managemnt Starts
         List<HospitalModel> GetUserHospitals(int id);
@@ -51,7 +44,6 @@ namespace LeHealth.Core.Interface
         //Company Management Starts
         List<CompanyModel> GetCompany(int Id);
         string InsertUpdateCompany(CompanyModel cmp);
-        string DeleteCompany(int Id);
         //Company Management Ends
 
 

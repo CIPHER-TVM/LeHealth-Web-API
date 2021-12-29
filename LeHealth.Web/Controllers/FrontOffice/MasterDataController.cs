@@ -1004,7 +1004,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// returns List of Departments as JSON
         /// </returns>
 
-        [Route("GetDepartments/{DeptId}")]
+        [Route("GetDepartment/{DeptId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments(int DeptId)
         {
@@ -1164,40 +1164,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 
         //RegSchemes CRUD STARTS
-        [Route("GetAllRegSchemes")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<RegSchemeModel>> GetAllRegSchemes()
-        {
-            List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
-            try
-            {
-                regSchemeList = masterdataService.GetAllRegScheme();
-                var response = new ResponseDataModel<IEnumerable<RegSchemeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = regSchemeList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RegSchemeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
+   
         [Route("GetRegScheme/{schemeId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<RegSchemeModel>> GetRegScheme(int schemeId)
@@ -1268,51 +1235,15 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-       
-        [Route("DeleteRegScheme/{regSchemeId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<RegSchemeModel>> DeleteRegScheme(int regSchemeId)
-        {
-            string message = "";
-            try
-            {
-                message = masterdataService.DeleteRegScheme(regSchemeId);
-                var response = new ResponseDataModel<IEnumerable<RegSchemeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RegSchemeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
-
         //CRUD RateGroup
-        [Route("GetAllRateGroups")]
+        [Route("GetRateGroup/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> GetAllRateGroups()
+        public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroup(int Id)
         {
             List<RateGroupModel> RateGroupList = new List<RateGroupModel>();
             try
             {
-                RateGroupList = masterdataService.GetAllRateGroup();
+                RateGroupList = masterdataService.GetRateGroup(Id);
                 var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1338,118 +1269,15 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetRateGroupById/{schemeId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroupById(int schemeId)
-        {
-            List<RateGroupModel> rateGroupList = new List<RateGroupModel>();
-            try
-            {
-                rateGroupList = masterdataService.GetRateGroupById(schemeId);
-                var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = rateGroupList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
 
-        [Route("InsertRateGroup")]
+        [Route("InsertUpdateRateGroup")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> InsertRateGroup(RateGroupModel zone)
+        public ResponseDataModel<IEnumerable<RateGroupModel>> InsertUpdateRateGroup(RateGroupModel zone)
         {
             string message = "";
             try
             {
-                message = masterdataService.InsertRateGroup(zone);
-                var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-        [Route("UpdateRateGroup")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> UpdateRateGroup(RateGroupModel zone)
-        {
-            string message = "";
-            try
-            {
-                message = masterdataService.UpdateRateGroup(zone);
-                var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-        [Route("DeleteRateGroup/{RateGroupId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> DeleteRateGroup(int RateGroupId)
-        {
-            string message = "";
-            try
-            {
-                message = masterdataService.DeleteRateGroup(RateGroupId);
+                message = masterdataService.InsertUpdateRateGroup(zone); 
                 var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1546,14 +1374,16 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("InsertOperator")]
+        
+
+        [Route("InsertUpdateOperator")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<OperatorModel>> InsertOperator(OperatorModel zone)
+        public ResponseDataModel<IEnumerable<OperatorModel>> InsertUpdateOperator(OperatorModel zone)
         {
             string message = "";
             try
             {
-                message = masterdataService.InsertOperator(zone);
+                message = masterdataService.InsertUpdateOperator(zone);
                 var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1572,78 +1402,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-        [Route("UpdateOperator")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<OperatorModel>> UpdateOperator(OperatorModel zone)
-        {
-            string message = "";
-            try
-            {
-                message = masterdataService.UpdateOperator(zone);
-                var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<OperatorModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-        [Route("DeleteOperator/{OperatorId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<OperatorModel>> DeleteOperator(int OperatorId)
-        {
-            string message = "";
-            try
-            {
-                message = masterdataService.DeleteOperator(OperatorId);
-                var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<OperatorModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
                 };
             }
             finally
@@ -1786,40 +1544,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-                };
-            }
-            finally
-            {
-            }
-        }
-
-        [Route("DeleteCompany/{Id}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<CompanyModel>> DeleteCompany(int Id)
-        {
-            string message = "";
-            try
-            {
-                message = masterdataService.DeleteCompany(Id);
-                var response = new ResponseDataModel<IEnumerable<CompanyModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CompanyModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
                 };
             }
             finally

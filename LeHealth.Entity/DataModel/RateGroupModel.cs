@@ -12,5 +12,7 @@ namespace LeHealth.Entity.DataModel
         public String EffectFrom { get; set; }
         public String EffectTo { get; set; } 
         public int Active { get; set; } 
+        public int UserId { get; set; } 
+        public string BlockReason { get; set; }  
     }
 }

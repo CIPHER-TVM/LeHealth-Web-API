@@ -9,5 +9,7 @@ namespace LeHealth.Entity.DataModel
         public int BodyId { get; set; } 
         public string BodyDesc { get; set; } 
         public int UserId { get; set; }  
+        public int Active { get; set; }  
+        public string BlockReason { get; set; }   
     }
 }

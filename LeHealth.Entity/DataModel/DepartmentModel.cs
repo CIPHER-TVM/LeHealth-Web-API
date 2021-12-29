@@ -10,7 +10,7 @@ namespace LeHealth.Entity.DataModel
         public string DeptName { get; set; }
         public string DeptCode { get; set; }
         public string Description { get; set; }
-        public string TimeSlice { get; set; }
+        public int TimeSlice { get; set; }
         public int Active { get; set; }
         public int BranchId { get; set; }
         public string BlockReason { get; set; }

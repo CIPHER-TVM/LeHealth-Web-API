@@ -10,6 +10,7 @@ namespace LeHealth.Entity.DataModel
         public string OperatorName { get; set; }
         public string OperatorCode { get; set; }
         public string OperatorDescription { get; set; }
-        public int IsActive { get; set; } 
+        public int Active { get; set; } 
+        public string BlockReason { get; set; }  
     }
 }
