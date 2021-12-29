@@ -25,8 +25,7 @@ namespace LeHealth.Core.Interface
         //Rate Group management ends
         //Operator Management Starts
         string InsertUpdateOperator(OperatorModel Operator);
-        List<OperatorModel> GetOperatorById(int OperatorId);
-        List<OperatorModel> GetAllOperator();
+        List<OperatorModel> GetOperator(int OperatorId);
         //Operator Management Ends
 
         //Scheme management Starts

@@ -1034,7 +1034,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Description", RateGroup.Description);
                     cmd.Parameters.AddWithValue("@EffectFrom", Convert.ToDateTime(RateGroup.EffectFrom));
                     cmd.Parameters.AddWithValue("@EffectTo", Convert.ToDateTime(RateGroup.EffectTo));
-                    cmd.Parameters.AddWithValue("@UserId", RateGroup.UserId); 
+                    cmd.Parameters.AddWithValue("@UserId", RateGroup.UserId);
                     cmd.Parameters.AddWithValue("@Active", RateGroup.Active);
                     cmd.Parameters.AddWithValue("@BlockReason", RateGroup.BlockReason);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -1090,7 +1090,7 @@ namespace LeHealth.Core.DataManager
                             obj.Description = dsStateList.Tables[0].Rows[i]["Description"].ToString();
                             obj.EffectFrom = dsStateList.Tables[0].Rows[i]["EffectFrom"].ToString();
                             obj.EffectTo = dsStateList.Tables[0].Rows[i]["EffectTo"].ToString();
-                            obj.Active =Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Active"]);
+                            obj.Active = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Active"]);
                             obj.BlockReason = dsStateList.Tables[0].Rows[i]["BlockReason"].ToString();
                             stateList.Add(obj);
                         }
@@ -1223,6 +1223,8 @@ namespace LeHealth.Core.DataManager
         }
 
         //Hospital Ends
+
+       
         //Operator Starts Now
         public string InsertUpdateOperator(OperatorModel Operator)
         {
@@ -1265,7 +1267,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<OperatorModel> GetOperatorById(int OperatorId)
+        public List<OperatorModel> GetOperator(int OperatorId)
         {
             List<OperatorModel> stateList = new List<OperatorModel>();
 
@@ -1289,38 +1291,11 @@ namespace LeHealth.Core.DataManager
                             obj.Id = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Id"]);
                             obj.OperatorName = dsStateList.Tables[0].Rows[i]["OperatorName"].ToString();
                             obj.OperatorCode = dsStateList.Tables[0].Rows[i]["OperatorCode"].ToString();
-                            obj.OperatorDescription = dsStateList.Tables[0].Rows[i]["OperatorDescription"].ToString();
+                            obj.Active = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["IsActive"]);
+                            obj.BlockReason = dsStateList.Tables[0].Rows[i]["BlockReason"].ToString();
                             stateList.Add(obj);
                         }
                     }
-                    return stateList;
-                }
-            }
-        }
-        public List<OperatorModel> GetAllOperator()
-        {
-            List<OperatorModel> stateList = new List<OperatorModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetAllOperator", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
-                    con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        for (int i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
-                        {
-                            OperatorModel obj = new OperatorModel();
-                            obj.Id = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Id"]);
-                            obj.OperatorName = dsStateList.Tables[0].Rows[i]["OperatorName"].ToString();
-                            obj.OperatorCode = dsStateList.Tables[0].Rows[i]["OperatorCode"].ToString();
-                            obj.OperatorDescription = dsStateList.Tables[0].Rows[i]["OperatorDescription"].ToString();
-                            stateList.Add(obj);
-                        }
                     return stateList;
                 }
             }
@@ -1360,7 +1335,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public string InsertUpdateLeadAgent(LeadAgentModel Operator)
+        public string InsertUpdateLeadAgent(LeadAgentModel LeadAgent)
         {
             string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1368,12 +1343,12 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLeadAgent", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@LeadAgentID", Operator.LeadAgentId);
-                    cmd.Parameters.AddWithValue("@Name", Operator.Name);
-                    cmd.Parameters.AddWithValue("@ContactNo", Operator.ContactNo);
-                    cmd.Parameters.AddWithValue("@CommisionPercent", Operator.CommisionPercent);
-                    cmd.Parameters.AddWithValue("@Active", Operator.Active);
-                    cmd.Parameters.AddWithValue("@BlockReason", Operator.BlockReason);
+                    cmd.Parameters.AddWithValue("@LeadAgentID", LeadAgent.LeadAgentId);
+                    cmd.Parameters.AddWithValue("@Name", LeadAgent.Name);
+                    cmd.Parameters.AddWithValue("@ContactNo", LeadAgent.ContactNo);
+                    cmd.Parameters.AddWithValue("@CommisionPercent", LeadAgent.CommisionPercent);
+                    cmd.Parameters.AddWithValue("@Active", LeadAgent.Active);
+                    cmd.Parameters.AddWithValue("@BlockReason", LeadAgent.BlockReason);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output

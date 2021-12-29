@@ -113,14 +113,11 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateOperator(Operator);
         }
-        public List<OperatorModel> GetOperatorById(int OperatorId)
+        public List<OperatorModel> GetOperator(int OperatorId)
         {
-            return masterdataManager.GetOperatorById(OperatorId);
+            return masterdataManager.GetOperator(OperatorId);
         }
-        public List<OperatorModel> GetAllOperator()
-        {
-            return masterdataManager.GetAllOperator();
-        }
+       
         public List<ReligionModel> GetReligion()
         {
             return masterdataManager.GetReligion();

@@ -1307,48 +1307,15 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
         //Operator CRUD
-        [Route("GetAllOperators")]
+       
+        [Route("GetOperator/{operatorId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<OperatorModel>> GetAllOperators()
-        {
-            List<OperatorModel> OperatorList = new List<OperatorModel>();
-            try
-            {
-                OperatorList = masterdataService.GetAllOperator();
-                var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = OperatorList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<OperatorModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
-        [Route("GetOperatorById/{operatorId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<OperatorModel>> GetOperatorById(int operatorId)
+        public ResponseDataModel<IEnumerable<OperatorModel>> GetOperator(int operatorId)
         {
             List<OperatorModel> zoneList = new List<OperatorModel>();
             try
             {
-                zoneList = masterdataService.GetOperatorById(operatorId);
+                zoneList = masterdataService.GetOperator(operatorId);
                 var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
                 {
                     Status = HttpStatusCode.OK,

@@ -151,7 +151,6 @@ namespace LeHealth.Core.DataManager
                     DataSet dsAppointments = new DataSet();
                     adapter.Fill(dsAppointments);
                     con.Close();
-                    //converting datatable to list of Appointments by Searching Patient details
                     if ((dsAppointments != null) && (dsAppointments.Tables.Count > 0) && (dsAppointments.Tables[0] != null) && (dsAppointments.Tables[0].Rows.Count > 0))
                     {
                         for (int i = 0; i < dsAppointments.Tables[0].Rows.Count; i++)

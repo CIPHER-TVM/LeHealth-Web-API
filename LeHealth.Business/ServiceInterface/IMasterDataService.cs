@@ -24,8 +24,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateRateGroup(RateGroupModel RateGroup);
         List<RateGroupModel> GetRateGroup(int Id);
         string InsertUpdateOperator(OperatorModel Operator);
-        List<OperatorModel> GetOperatorById(int OperatorId);
-        List<OperatorModel> GetAllOperator(); 
+        List<OperatorModel> GetOperator(int OperatorId);
         string InsertUpdateRegScheme(RegSchemeModel RegScheme);
         List<RegSchemeModel> GetRegScheme(int RegSchemeId);
         List<DepartmentModel> GetDepartments(int DeptId);
