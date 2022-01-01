@@ -47,6 +47,25 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
         List<CityModel> GetCity(int city);
         string InsertUpdateCity(CityModel city);
+
+        List<VitalSignModel> GetVitalSign(int vitalsign);
+        string InsertUpdateVitalSign(VitalSignModel vitalsign);
+        List<MovementModel> GetMovement(int movement);
+        string InsertUpdateMovement(MovementModel movement);
+
+        List<PackageModel> GetPackage(int package);
+        string InsertUpdatePackage(PackageModel package);
+
+        List<LocationModel> GetLocation(int location); 
+        string InsertUpdateLocation(LocationModel package);
+
+        List<ScientificNameModel> GetScientificName(int sname);
+        string InsertUpdateScientificName(ScientificNameModel sname);
+
+        List<TendernModel> GetTendern(int sname);
+        string InsertUpdateTendern(TendernModel sname); 
+
+        string InsertUpdateSymptom(SymptomModel symptom); 
         List<VisaTypeModel> GetVisaType();
         List<StateModel> GetStateByCountryId(int countryId);
         List<SymptomModel> GetActiveSymptoms();

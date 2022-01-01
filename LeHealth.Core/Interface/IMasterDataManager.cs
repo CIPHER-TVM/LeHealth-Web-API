@@ -72,7 +72,24 @@ namespace LeHealth.Core.Interface
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
         List<CityModel> GetCity(int city);
         string InsertUpdateCity(CityModel city);
+        string InsertUpdateSymptom(SymptomModel symptom);
 
+        List<VitalSignModel> GetVitalSign(int vitalsign);
+        string InsertUpdateVitalSign(VitalSignModel vitalsign);
+        List<MovementModel> GetMovement(int movement);
+        string InsertUpdateMovement(MovementModel movement);
+
+        List<PackageModel> GetPackage(int package);
+        string InsertUpdatePackage(PackageModel package);
+
+        List<LocationModel> GetLocation(int location);
+        string InsertUpdateLocation(LocationModel package);
+
+        List<ScientificNameModel> GetScientificName(int sname);
+        string InsertUpdateScientificName(ScientificNameModel sname);
+
+        List<TendernModel> GetTendern(int sname);
+        string InsertUpdateTendern(TendernModel sname);
         List<AppTypeModel> GetAppType();
         List<ReligionModel> GetReligion();
 
