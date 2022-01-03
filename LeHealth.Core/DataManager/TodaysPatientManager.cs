@@ -409,6 +409,7 @@ namespace LeHealth.Core.DataManager
                         cmda.CommandType = CommandType.StoredProcedure;
                         cmda.Parameters.Clear();
                         cmda.Parameters.AddWithValue("@AppDate", gsim.DateValue);
+                        //cmda.Parameters.AddWithValue("@BranchId", gsim.BranchId);
                         SqlDataAdapter adaptera = new SqlDataAdapter(cmda);
                         DataSet dsConsultantList = new DataSet();
                         adaptera.Fill(dsConsultantList);
