@@ -1827,18 +1827,18 @@ namespace LeHealth.Core.DataManager
                             obj.Supervisor = dsNumber.Tables[0].Rows[i]["Supervisor"].ToString();
                             obj.ContactNumber = dsNumber.Tables[0].Rows[i]["ContactNumber"].ToString();
                             obj.LTypeId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LTypeId"]);
-                            obj.ManageSPoints = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageSPoints"]);
-                            obj.ManageBilling = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageBilling"]);
-                            obj.ManageCash = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageCash"]);
-                            obj.ManageCredit = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageCredit"]);
-                            obj.ManageIPCredit = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageIPCredit"]);
-                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            obj.ManageSPoints = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageSPoints"]);
+                            obj.ManageBilling = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageBilling"]);
+                            obj.ManageCash = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageCash"]);
+                            obj.ManageCredit = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageCredit"]);
+                            obj.ManageIPCredit = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageIPCredit"]);
+                            obj.Active = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["Active"]);
                             obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
                             obj.RepHeadImg = dsNumber.Tables[0].Rows[i]["RepHeadImg"].ToString();
                             obj.HospitalId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["HospitalId"]);
                             obj.HospitalName = dsNumber.Tables[0].Rows[i]["HospitalName"].ToString();
                             //obj.PackAmount = (float)Convert.ToDouble(dsNumber.Tables[0].Rows[i]["PackAmount"].ToString());
-                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            obj.Active = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["Active"]);
                             obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
                             itemList.Add(obj);
                         }
