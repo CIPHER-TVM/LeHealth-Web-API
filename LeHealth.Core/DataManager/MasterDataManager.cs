@@ -1224,7 +1224,7 @@ namespace LeHealth.Core.DataManager
 
         //Hospital Ends
 
-       
+
         //Operator Starts Now
         public string InsertUpdateOperator(OperatorModel Operator)
         {
@@ -1524,7 +1524,528 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        //SponsorForm Ends
+        //City Ends
+        //Symptom Starts
+        public string InsertUpdateSymptom(SymptomModel Symptom)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSymptom", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SymptomId", Symptom.SymptomId);
+                    cmd.Parameters.AddWithValue("@SymptomDesc", Symptom.SymptomDesc);
+                    cmd.Parameters.AddWithValue("@UserId", Symptom.UserId);
+                    cmd.Parameters.AddWithValue("@Active", Symptom.Active);
+                    cmd.Parameters.AddWithValue("@BlockReason", Symptom.BlockReason);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public List<SymptomModel> GetActiveSymptoms()
+        {
+            List<SymptomModel> stateList = new List<SymptomModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetActiveSymptoms", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsSymptomList = new DataSet();
+                    adapter.Fill(dsSymptomList);
+                    con.Close();
+                    if ((dsSymptomList != null) && (dsSymptomList.Tables.Count > 0) && (dsSymptomList.Tables[0] != null) && (dsSymptomList.Tables[0].Rows.Count > 0))
+                        stateList = dsSymptomList.Tables[0].ToListOfObject<SymptomModel>();
+                    return stateList;
+                }
+            }
+        }
+        //Symptom Ends
+
+        //VitalSign Starts
+        public string InsertUpdateVitalSign(VitalSignModel vitalsign)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateVitalSign", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SignId", vitalsign.SignId);
+                    cmd.Parameters.AddWithValue("@SignName", vitalsign.SignName);
+                    cmd.Parameters.AddWithValue("@Mandatory", vitalsign.Mandatory);
+                    cmd.Parameters.AddWithValue("@SignCode", vitalsign.SignCode);
+                    cmd.Parameters.AddWithValue("@SignUnit", vitalsign.SignUnit);
+                    cmd.Parameters.AddWithValue("@MinValue", vitalsign.MinValue);
+                    cmd.Parameters.AddWithValue("@MaxValue", vitalsign.MaxValue);
+                    cmd.Parameters.AddWithValue("@SortOrder", vitalsign.SortOrder);
+                    cmd.Parameters.AddWithValue("@UserId", vitalsign.UserId);
+                    cmd.Parameters.AddWithValue("@Active", vitalsign.Active);
+                    cmd.Parameters.AddWithValue("@BlockReason", vitalsign.BlockReason);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public List<VitalSignModel> GetVitalSign(int Id)
+        {
+            List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetVitalSign", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SignId", Id);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsVitalSignList = new DataSet();
+                    adapter.Fill(dsVitalSignList);
+                    con.Close();
+                    if ((dsVitalSignList != null) && (dsVitalSignList.Tables.Count > 0) && (dsVitalSignList.Tables[0] != null) && (dsVitalSignList.Tables[0].Rows.Count > 0))
+                        vitalSignList = dsVitalSignList.Tables[0].ToListOfObject<VitalSignModel>();
+                    return vitalSignList;
+                }
+            }
+        }
+        //VitalSign Ends
+        //Movement Starts
+        public string InsertUpdateMovement(MovementModel movement)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMovement", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@MovementId", movement.MovementId);
+                    cmd.Parameters.AddWithValue("@MovementDesc", movement.MovementDesc);
+                    cmd.Parameters.AddWithValue("@Active", movement.Active);
+                    cmd.Parameters.AddWithValue("@BlockReason", movement.BlockReason);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public List<MovementModel> GetMovement(int Id)
+        {
+            List<MovementModel> vitalSignList = new List<MovementModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetMovementDetails", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@MovementId", Id);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsMovementList = new DataSet();
+                    adapter.Fill(dsMovementList);
+                    con.Close();
+                    if ((dsMovementList != null) && (dsMovementList.Tables.Count > 0) && (dsMovementList.Tables[0] != null) && (dsMovementList.Tables[0].Rows.Count > 0))
+                        vitalSignList = dsMovementList.Tables[0].ToListOfObject<MovementModel>();
+                    return vitalSignList;
+                }
+            }
+        }
+        //Movement Ends
+        //Package Starts
+        public List<PackageModel> GetPackage(int la)
+        {
+            List<PackageModel> itemList = new List<PackageModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetPackage", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PackId", la);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            PackageModel obj = new PackageModel();
+                            obj.PackId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["PackId"]);
+                            obj.PackDesc = dsNumber.Tables[0].Rows[i]["PackDesc"].ToString();
+                            obj.EffectFrom = dsNumber.Tables[0].Rows[i]["EffectFrom"].ToString();
+                            obj.EffectTo = dsNumber.Tables[0].Rows[i]["EffectTo"].ToString();
+                            obj.PackAmount = (float)Convert.ToDouble(dsNumber.Tables[0].Rows[i]["PackAmount"].ToString());
+                            obj.Remarks = dsNumber.Tables[0].Rows[i]["Remarks"].ToString();
+                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            itemList.Add(obj);
+                        }
+                    }
+                    return itemList;
+                }
+            }
+        }
+        public string InsertUpdatePackage(PackageModel Package)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePackage", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PackId", Package.PackId);
+                    cmd.Parameters.AddWithValue("@PackDesc", Package.PackDesc);
+                    cmd.Parameters.AddWithValue("@EffectFrom", Package.EffectFrom);
+                    cmd.Parameters.AddWithValue("@EffectTo", Package.EffectTo);
+                    cmd.Parameters.AddWithValue("@PackAmount", Package.PackAmount);
+                    cmd.Parameters.AddWithValue("@Remarks", Package.Remarks);
+                    cmd.Parameters.AddWithValue("@Active", Package.Active);
+                    cmd.Parameters.AddWithValue("@BlockReason", Package.BlockReason);
+                    cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        //Package Ends
+
+        //Location Starts
+        public List<LocationModel> GetLocation(int la)
+        {
+            List<LocationModel> itemList = new List<LocationModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetLocation", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@LocationId", la);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            LocationModel obj = new LocationModel();
+                            obj.LocationId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LocationId"]);
+                            obj.LocationName = dsNumber.Tables[0].Rows[i]["LocationName"].ToString();
+                            obj.Supervisor = dsNumber.Tables[0].Rows[i]["Supervisor"].ToString();
+                            obj.ContactNumber = dsNumber.Tables[0].Rows[i]["ContactNumber"].ToString();
+                            obj.LTypeId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LTypeId"]);
+                            obj.ManageSPoints = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageSPoints"]);
+                            obj.ManageBilling = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageBilling"]);
+                            obj.ManageCash = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageCash"]);
+                            obj.ManageCredit = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageCredit"]);
+                            obj.ManageIPCredit = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ManageIPCredit"]);
+                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.RepHeadImg = dsNumber.Tables[0].Rows[i]["RepHeadImg"].ToString();
+                            obj.HospitalId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["HospitalId"]);
+                            obj.HospitalName = dsNumber.Tables[0].Rows[i]["HospitalName"].ToString();
+                            //obj.PackAmount = (float)Convert.ToDouble(dsNumber.Tables[0].Rows[i]["PackAmount"].ToString());
+                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            itemList.Add(obj);
+                        }
+                    }
+                    return itemList;
+                }
+            }
+        }
+        public string InsertUpdateLocation(LocationModel Package)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLocation", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@LocationId", Package.LocationId);
+                    cmd.Parameters.AddWithValue("@LocationName", Package.LocationName);
+                    cmd.Parameters.AddWithValue("@Supervisor", Package.Supervisor);
+                    cmd.Parameters.AddWithValue("@ContactNumber", Package.ContactNumber);
+                    cmd.Parameters.AddWithValue("@LTypeId", Package.LTypeId);
+                    cmd.Parameters.AddWithValue("@ManageSPoints", Package.ManageSPoints);
+                    cmd.Parameters.AddWithValue("@ManageBilling", Package.ManageBilling);
+                    cmd.Parameters.AddWithValue("@ManageCash", Package.ManageCash);
+                    cmd.Parameters.AddWithValue("@ManageCredit", Package.ManageCredit);
+                    cmd.Parameters.AddWithValue("@ManageIPCredit", Package.ManageIPCredit);
+                    cmd.Parameters.AddWithValue("@Active", Package.Active);
+                    cmd.Parameters.AddWithValue("@RepHeadImg", Package.RepHeadImg);                    //
+                    //cmd.Parameters.AddWithValue("@BlockReason", Package.BlockReason);
+                    cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                    cmd.Parameters.AddWithValue("@HospitalId", Package.HospitalId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        //Location Ends
+        //Location Starts
+        public List<ScientificNameModel> GetScientificName(int la)
+        {
+            List<ScientificNameModel> itemList = new List<ScientificNameModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetScientificName", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ScientificId", la);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            ScientificNameModel obj = new ScientificNameModel();
+                            obj.ScientificId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ScientificId"]);
+                            obj.ScientificCode = dsNumber.Tables[0].Rows[i]["ScientificCode"].ToString();
+                            obj.ScientificName = dsNumber.Tables[0].Rows[i]["ScientificName"].ToString();
+                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            //obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            itemList.Add(obj);
+                        }
+                    }
+                    return itemList;
+                }
+            }
+        }
+        public string InsertUpdateScientificName(ScientificNameModel Package)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateScientifcName", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ScientificId", Package.ScientificId);
+                    cmd.Parameters.AddWithValue("@ScientificName", Package.ScientificName);
+                    cmd.Parameters.AddWithValue("@ScientificCode", Package.ScientificCode);
+                    cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        //ScientificName Ends
+        //Tendern Starts
+        public List<TendernModel> GetTendern(int la)
+        {
+            List<TendernModel> itemList = new List<TendernModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetTendern", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ScientificId", la);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            TendernModel obj = new TendernModel();
+                            //obj.ScientificId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ScientificId"]);
+                            //obj.ScientificCode = dsNumber.Tables[0].Rows[i]["ScientificCode"].ToString();
+                            //obj.ScientificName = dsNumber.Tables[0].Rows[i]["ScientificName"].ToString();
+                            //obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            //obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            itemList.Add(obj);
+                        }
+                    }
+                    return itemList;
+                }
+            }
+        }
+        public string InsertUpdateTendern(TendernModel Package)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTendern", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@ScientificId", Package.ScientificId);
+                    //cmd.Parameters.AddWithValue("@ScientificName", Package.ScientificName);
+                    //cmd.Parameters.AddWithValue("@ScientificCode", Package.ScientificCode);
+                    //cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        //Tendern Ends
+
+
         // GET MASTER ONLY NO CRUD
         public List<ReligionModel> GetReligion()
         {
@@ -1620,26 +2141,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<SymptomModel> GetActiveSymptoms()
-        {
-            List<SymptomModel> stateList = new List<SymptomModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetActiveSymptoms", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
-                    con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<SymptomModel>();
-                    return stateList;
-                }
-            }
-        }
         public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
         {
             List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();

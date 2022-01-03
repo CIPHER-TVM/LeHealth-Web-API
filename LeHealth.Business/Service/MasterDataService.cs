@@ -117,7 +117,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetOperator(OperatorId);
         }
-       
+
         public List<ReligionModel> GetReligion()
         {
             return masterdataManager.GetReligion();
@@ -190,6 +190,58 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSalutation(state);
         }
+
+        public List<VitalSignModel> GetVitalSign(int vitalsign)
+        {
+            return masterdataManager.GetVitalSign(vitalsign);
+        }
+        public string InsertUpdateVitalSign(VitalSignModel vitalsign)
+        {
+            return masterdataManager.InsertUpdateVitalSign(vitalsign);
+        }
+
+        public List<MovementModel> GetMovement(int movement)
+        {
+            return masterdataManager.GetMovement(movement);
+        }
+        public string InsertUpdateMovement(MovementModel movement)
+        {
+            return masterdataManager.InsertUpdateMovement(movement);
+        }
+        public List<PackageModel> GetPackage(int movement)
+        {
+            return masterdataManager.GetPackage(movement);
+        }
+        public string InsertUpdatePackage(PackageModel movement)
+        {
+            return masterdataManager.InsertUpdatePackage(movement);
+        }
+        public List<LocationModel> GetLocation(int movement)
+        {
+            return masterdataManager.GetLocation(movement);
+        }
+        public string InsertUpdateLocation(LocationModel movement)
+        {
+            return masterdataManager.InsertUpdateLocation(movement);
+        }
+        public List<ScientificNameModel> GetScientificName(int movement)
+        {
+            return masterdataManager.GetScientificName(movement);
+        }
+        public string InsertUpdateScientificName(ScientificNameModel movement)
+        {
+            return masterdataManager.InsertUpdateScientificName(movement);
+        }
+
+        public List<TendernModel> GetTendern(int movement)
+        {
+            return masterdataManager.GetTendern(movement);
+        }
+        public string InsertUpdateTendern(TendernModel movement)
+        {
+            return masterdataManager.InsertUpdateTendern(movement);
+        }
+
         public List<VisaTypeModel> GetVisaType()
         {
             return masterdataManager.GetVisaType();
@@ -209,6 +261,10 @@ namespace LeHealth.Service.Service
         public List<ConsentTypeModel> GetConsentType()
         {
             return masterdataManager.GetConsentType();
+        }
+        public string InsertUpdateSymptom(SymptomModel la)
+        {
+            return masterdataManager.InsertUpdateSymptom(la);
         }
     }
 }

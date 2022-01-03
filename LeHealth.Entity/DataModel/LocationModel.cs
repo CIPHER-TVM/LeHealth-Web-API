@@ -6,6 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class LocationModel
     {
+        public int LocationId { get; set; }
         public string LocationName { get; set; }
         public int LocationId { get; set; }
         public string Supervisor { get; set; }
