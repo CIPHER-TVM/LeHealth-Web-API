@@ -88,7 +88,10 @@ namespace LeHealth.Catalogue.API
             // adding the service dependencies injection
             services.AddScoped<IHospitalsService, HospitalsService>();
             services.AddScoped<IHospitalsManager, HospitalsManager>();
-
+            services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<ILocationManager, LocationManager>();
+             services.AddScoped<IUserPermissionService, UserPermissionService>();
+            services.AddScoped<IUserPermissionManager, UserPermissionManager>();
             services.AddScoped<ITodaysPatientService, TodaysPatientService>();
             services.AddScoped<ITodaysPatientManager, TodaysPatientManager>();
 
