@@ -30,5 +30,9 @@ namespace LeHealth.Service.Service
         {
             return userpermissionmanager.SaveUserGroup(obj);
         }
+        public string SaveUser(UserModel obj)
+        {
+            return userpermissionmanager.SaveUser(obj);
+        }
     }
 }
