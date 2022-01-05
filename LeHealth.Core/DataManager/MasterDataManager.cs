@@ -1978,11 +1978,11 @@ namespace LeHealth.Core.DataManager
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetTendern", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetTendernDetails", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ScientificId", la);
+                    cmd.Parameters.AddWithValue("@TendernId", la);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsNumber = new DataSet();
                     adapter.Fill(dsNumber);
@@ -1992,11 +1992,10 @@ namespace LeHealth.Core.DataManager
                         for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             TendernModel obj = new TendernModel();
-                            //obj.ScientificId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ScientificId"]);
-                            //obj.ScientificCode = dsNumber.Tables[0].Rows[i]["ScientificCode"].ToString();
-                            //obj.ScientificName = dsNumber.Tables[0].Rows[i]["ScientificName"].ToString();
-                            //obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
-                            //obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.TendernId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["TendernId"]);
+                            obj.TendernDesc = dsNumber.Tables[0].Rows[i]["TendernDesc"].ToString();
+                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
                             itemList.Add(obj);
                         }
                     }
@@ -2012,10 +2011,10 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTendern", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //cmd.Parameters.AddWithValue("@ScientificId", Package.ScientificId);
-                    //cmd.Parameters.AddWithValue("@ScientificName", Package.ScientificName);
-                    //cmd.Parameters.AddWithValue("@ScientificCode", Package.ScientificCode);
-                    //cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                    cmd.Parameters.AddWithValue("@TendernId", Package.TendernId);
+                    cmd.Parameters.AddWithValue("@TendernDesc", Package.TendernDesc);
+                    cmd.Parameters.AddWithValue("@Active", Package.Active);
+                    cmd.Parameters.AddWithValue("@BlockReason", Package.BlockReason);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
