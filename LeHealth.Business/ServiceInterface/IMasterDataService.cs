@@ -72,5 +72,7 @@ namespace LeHealth.Service.ServiceInterface
         List<SymptomModel> GetActiveSymptoms();
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
+        List<GetNumberModel> GetNumber(String nid);
+        string UpdateNumberTable(GetNumberModel sname);
     }
 }

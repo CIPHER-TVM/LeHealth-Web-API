@@ -34,7 +34,7 @@ namespace LeHealth.Core.Interface
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
         List<PatientModel> GetPatient(int pid);
-        List<GetNumberModel> GetNumber(string numid);
+        
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
         
         string CancelConsultation(ConsultationModel cons);

@@ -35,7 +35,7 @@ namespace LeHealth.Service.ServiceInterface
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
         List<PatientModel> GetPatient(int pid);
-        List<GetNumberModel> GetNumber(String nid);
+       
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
         
     }

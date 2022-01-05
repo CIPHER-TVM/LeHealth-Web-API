@@ -17,5 +17,6 @@ namespace LeHealth.Entity.DataModel
         public int Status { get; set; }
         public int MaxLength { get; set; }
         public String Preview { get; set; }
+        public int UserId { get; set; }
     }
 }

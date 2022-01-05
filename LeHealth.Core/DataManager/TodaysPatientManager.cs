@@ -313,44 +313,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-
-        public List<GetNumberModel> GetNumber(string numId)
-        {
-            List<GetNumberModel> numberList = new List<GetNumberModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetNumber", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@NumId", numId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
-                    adapter.Fill(dsNumber);
-                    con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
-                        {
-                            GetNumberModel obj = new GetNumberModel();
-                            obj.selectopt = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["selectopt"]);
-                            obj.NumId = dsNumber.Tables[0].Rows[i]["NumId"].ToString();
-                            obj.Description = dsNumber.Tables[0].Rows[i]["Description"].ToString();
-                            obj.Value = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Value"]);
-                            obj.Prefix = dsNumber.Tables[0].Rows[i]["Prefix"].ToString();
-                            obj.Suffix = dsNumber.Tables[0].Rows[i]["Suffix"].ToString();
-                            obj.Length = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Length"]);
-                            obj.State = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["State"]);
-                            obj.Status = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Status"]);
-                            obj.MaxLength = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["MaxLength"]);
-                            obj.Preview = dsNumber.Tables[0].Rows[i]["Preview"].ToString();
-                            numberList.Add(obj);
-                        }
-                    }
-                    return numberList;
-                }
-            }
-        }
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
         {
             List<GetAppNoModel> scheduleList = new List<GetAppNoModel>();

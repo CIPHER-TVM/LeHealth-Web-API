@@ -277,5 +277,13 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSymptom(la);
         }
+        public List<GetNumberModel> GetNumber(string numid)
+        {
+            return masterdataManager.GetNumber(numid);
+        }
+        public string UpdateNumberTable(GetNumberModel la)
+        {
+            return masterdataManager.UpdateNumberTable(la);
+        }
     }
 }

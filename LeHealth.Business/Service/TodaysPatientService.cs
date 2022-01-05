@@ -133,10 +133,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetPatient(pid);
         }
-        public List<GetNumberModel> GetNumber(string numid)
-        {
-            return todaysPatientManager.GetNumber(numid);
-        }
+     
         public List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr)
         {
             return todaysPatientManager.GetConsultantItemSchemeRate(cisr);

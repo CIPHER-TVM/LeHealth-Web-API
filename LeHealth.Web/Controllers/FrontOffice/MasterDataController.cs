@@ -2249,5 +2249,74 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
             }
         }
+
+        [Route("GetNumber/{numid}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<GetNumberModel>> GetNumber(String numid)
+        {
+            List<GetNumberModel> numberList = new List<GetNumberModel>();
+            try
+            {
+                numberList = masterdataService.GetNumber(numid);
+                var response = new ResponseDataModel<IEnumerable<GetNumberModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = numberList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<GetNumberModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+        [Route("UpdateNumberTable")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<GetNumberModel>> UpdateNumberTable(GetNumberModel la)
+        {
+            string message = "";
+            try
+            {
+                message = masterdataService.UpdateNumberTable(la);
+                var response = new ResponseDataModel<IEnumerable<GetNumberModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<GetNumberModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

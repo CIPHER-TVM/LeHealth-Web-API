@@ -99,5 +99,7 @@ namespace LeHealth.Core.Interface
         List<SymptomModel> GetActiveSymptoms();
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
+        List<GetNumberModel> GetNumber(string numid);
+        string UpdateNumberTable(GetNumberModel sname);
     }
 }

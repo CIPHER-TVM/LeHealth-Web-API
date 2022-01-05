@@ -230,41 +230,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 
      
-        [Route("GetNumber/{numid}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<GetNumberModel>> GetNumber(String numid)
-        {
-            List<GetNumberModel> numberList = new List<GetNumberModel>();
-            try
-            {
-                numberList = todaysPatientService.GetNumber(numid);
-                var response = new ResponseDataModel<IEnumerable<GetNumberModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = numberList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<GetNumberModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
+        
 
 
         [Route("GetConsultantItemSchemeRate")]
