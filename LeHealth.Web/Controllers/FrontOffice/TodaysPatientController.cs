@@ -81,6 +81,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+
+
         [Route("AppoinmentValidCheck")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> AppoinmentValidCheck(AppoinmentValidCheckModel ap)
@@ -117,7 +119,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetConsultationByPatientId")]
+        [Route("GetConsultationByPatientId")]//GetConsultationByPatientIdConsultationId
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationByPatientIdModel>> GetConsultationByPatientId(ConsultationModel cd)
         {
@@ -136,6 +138,42 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<ConsultationByPatientIdModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+        [Route("GetConsultationDataByPatientId/{patientId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientConsultationModel>> GetConsultationDataByPatientId(int patientId)  
+        {
+            List<PatientConsultationModel> consultantionList = new List<PatientConsultationModel>();
+            try
+            {
+                consultantionList = todaysPatientService.GetConsultationDataByPatientId(patientId);
+                var response = new ResponseDataModel<IEnumerable<PatientConsultationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientConsultationModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

@@ -14,6 +14,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateSponsor(SponsorMasterModel sponsor);
         List<HospitalModel> GetUserHospitals(int id);
         string InsertUpdateUserHospitals(HospitalRegModel hm);
+        string ConsentFormDataSave(ConsentFormRegModel hm);
         List<ConsentPreviewModel> GetConsentPreviewConsent(int id);
         List<ConsentContentModel> GetConsent(int id);
         string InsertUpdateConsent(ConsentContentModel hm);

@@ -382,11 +382,12 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
-                using (SqlCommand cmd = new SqlCommand("stLH_GetPatConsent", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsent", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ContentId", 0);
+                    cmd.Parameters.AddWithValue("@ConsentType", 1);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsPatientList = new DataSet();
                     adapter.Fill(dsPatientList);
@@ -435,6 +436,7 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ContentId", consentid);
+                    cmd.Parameters.AddWithValue("@ConsentType", 0);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsPatientList = new DataSet();
                     adapter.Fill(dsPatientList);
@@ -1223,7 +1225,45 @@ namespace LeHealth.Core.DataManager
         }
 
         //Hospital Ends
-
+        public string ConsentFormDataSave(ConsentFormRegModel consent)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertConsentForm", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsentId", consent.ConsentId);
+                    cmd.Parameters.AddWithValue("@PatientId", consent.PatientId);
+                    cmd.Parameters.AddWithValue("@BranchId", consent.BranchId);
+                    cmd.Parameters.AddWithValue("@Sign", consent.Sign);
+                    //SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //cmd.Parameters.Add(retValV);
+                    //SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    //var ret = retValV.Value;
+                    //var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    //if (descrip == "Saved Successfully")
+                    //{
+                    response = "Success";
+                    //}
+                    //else
+                    //{
+                    //    response = descrip;
+                    //}
+                }
+            }
+            return response;
+        }
 
         //Operator Starts Now
         public string InsertUpdateOperator(OperatorModel Operator)

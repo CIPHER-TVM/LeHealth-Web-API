@@ -53,7 +53,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetSchemeByConsultant(consultantid);
         }
-        
+
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
         {
             return todaysPatientManager.GetAppNumber(gap);
@@ -62,7 +62,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAppTime(gap);
         }
-        
+
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi)
         {
             return todaysPatientManager.GetScheduleData(gsi);
@@ -99,7 +99,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetRecentConsultationData();
         }
-       
+
         public List<ConsultRateModel> GetConsultRate(ConsultationModel cm)
         {
             return todaysPatientManager.GetConsultRate(cm);
@@ -116,6 +116,11 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultationByPatientId(cm);
         }
+        public List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId)
+        {
+            return todaysPatientManager.GetConsultationDataByPatientId(patientId);
+        }
+
         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
         {
             return todaysPatientManager.GetPatRegByPatientId(cm);
@@ -136,6 +141,6 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultantItemSchemeRate(cisr);
         }
-       
+
     }
 }

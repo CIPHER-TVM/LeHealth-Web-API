@@ -35,6 +35,7 @@ namespace LeHealth.Core.Interface
         //Hospital Managemnt Starts
         List<HospitalModel> GetUserHospitals(int id);
         string InsertUpdateUserHospital(HospitalRegModel hm);
+        string ConsentFormDataSave(ConsentFormRegModel hm);
         //Hospital Managemnt Ends
         //Lead Agent Management Starts
         List<LeadAgentModel> GetLeadAgent(int la);

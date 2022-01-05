@@ -1104,9 +1104,46 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        
+
 
         //Hospital Management Ends
+        [Route("ConsentFormDataSave")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentFormDataSaveModel>> ConsentFormDataSave([FromForm] ConsentFormSaveRequestModel obj)
+        {
+            string message = "";
+            try
+            {
+                ConsentFormRegModel hospitalDetail = JsonConvert.DeserializeObject<ConsentFormRegModel>(obj.ConsentJson);
+                hospitalDetail.SignFile = obj.Sign;
+                message = masterdataService.ConsentFormDataSave(hospitalDetail);
+                var response = new ResponseDataModel<IEnumerable<ConsentFormDataSaveModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentFormDataSaveModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
 
 
 

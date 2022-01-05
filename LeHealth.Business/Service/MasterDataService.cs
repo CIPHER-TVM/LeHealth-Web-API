@@ -93,6 +93,17 @@ namespace LeHealth.Service.Service
             }
             return masterdataManager.InsertUpdateUserHospital(hm);
         }
+         public string ConsentFormDataSave(ConsentFormRegModel hm)
+        {
+           
+            if (hm.SignFile != null)
+            {
+                hm.Sign = fileUploadService.SaveFile(hm.SignFile);
+            }
+            return masterdataManager.ConsentFormDataSave(hm);
+        }
+
+
         public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
         {
             return masterdataManager.InsertUpdateRegScheme(RegScheme);

@@ -189,15 +189,15 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", patientDetails.ConsultantId);
-                    cmd.Parameters.AddWithValue("@Name", patientDetails.Name);
-                    cmd.Parameters.AddWithValue("@RegNo", patientDetails.RegNo);
+                    cmd.Parameters.AddWithValue("@Name", patientDetails.Name.Trim());
+                    cmd.Parameters.AddWithValue("@RegNo", patientDetails.RegNo.Trim());
                     cmd.Parameters.AddWithValue("@Mobile", patientDetails.Mobile);
-                    cmd.Parameters.AddWithValue("@ResNo", patientDetails.ResNo);//?????
+                    cmd.Parameters.AddWithValue("@ResNo", patientDetails.ResNo);
                     cmd.Parameters.AddWithValue("@PIN", patientDetails.PIN);
                     cmd.Parameters.AddWithValue("@PolicyNo", patientDetails.PolicyNo);
                     cmd.Parameters.AddWithValue("@IdentityNo", patientDetails.IdentityNo);
-                    cmd.Parameters.AddWithValue("@Address", patientDetails.Address);
-                    cmd.Parameters.AddWithValue("@Mode", patientDetails.Mode);//????
+                    cmd.Parameters.AddWithValue("@Address", patientDetails.Address.Trim());
+                    cmd.Parameters.AddWithValue("@Mode", patientDetails.Mode);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsPatientList = new DataSet();
                     adapter.Fill(dsPatientList);
@@ -313,7 +313,7 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-        
+
         public List<GetNumberModel> GetNumber(string numId)
         {
             List<GetNumberModel> numberList = new List<GetNumberModel>();
@@ -490,7 +490,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        
+
         public string DeleteAppointment(AppointmentModel appointment)
         {
             string response = "";
@@ -561,7 +561,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        
+
         public string CancelConsultation(ConsultationModel consultation)
         {
             string response = "";
@@ -1013,13 +1013,65 @@ namespace LeHealth.Core.DataManager
                             {
                                 obj.IsConsultationExpired = true;
                             }
-
-
                             consultationList.Add(obj);
                         }
                     }
                     return consultationList;
                 }
+            }
+        }
+        public List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId)
+        {
+            PatientConsultationModel obj = new PatientConsultationModel();
+            List<PatientConsultationModel> consultationList = new List<PatientConsultationModel>();
+            List<RegSymptomsModel> SymptomsList = new List<RegSymptomsModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetConsultationDataByPatientId", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", patientId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj.RegNo = ds.Tables[0].Rows[0]["RegNo"].ToString();
+                        obj.PatientName = ds.Tables[0].Rows[0]["PatientName"].ToString();
+                        obj.ReasonForVisit = ds.Tables[0].Rows[0]["Symptoms"].ToString();
+                        obj.DepartmentId = Convert.ToInt32(ds.Tables[0].Rows[0]["DeptId"]);
+                        obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[0]["ConsultantId"]);
+                        obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[0]["ConsultationId"]);
+                    }
+                }
+                
+                if (obj.ConsultationId != 0)
+                {
+                    using (SqlCommand cmd = new SqlCommand("GetSymptomByConsultationId", con))
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ConsultationId", obj.ConsultationId);
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataSet ds = new DataSet();
+                        adapter.Fill(ds);
+                        con.Close();
+                        if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                RegSymptomsModel rsm = new RegSymptomsModel();
+                                rsm.SymptomId = Convert.ToInt32(ds.Tables[0].Rows[0]["SymptomId"]);
+                                SymptomsList.Add(rsm);
+                            }
+                        }
+                    }
+                }
+                obj.Symptoms = SymptomsList;
+                consultationList.Add(obj);
+                return consultationList;
             }
         }
         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
