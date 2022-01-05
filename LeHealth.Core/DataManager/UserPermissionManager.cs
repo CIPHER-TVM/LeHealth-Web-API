@@ -2,11 +2,14 @@
 using LeHealth.Core.Interface;
 using LeHealth.Entity.DataModel;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace LeHealth.Core.DataManager
 {
@@ -68,6 +71,8 @@ namespace LeHealth.Core.DataManager
             }
         }
 
+       
+
         public string SaveUserGroup(UserGroupModel obj)
         {
             string response = "";
@@ -81,6 +86,55 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@P_UserGroupId", obj.UserGroupId);
                         cmd.Parameters.AddWithValue("@P_UserGroup", obj.UserGroup);
                         cmd.Parameters.AddWithValue("@P_Active", obj.Active);
+                        cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+
+                        response = descrip;
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+        #endregion
+        #region User
+        public string SaveUser(UserModel obj)
+        {
+            string response = "";
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SaveUser", con))
+                {
+                    try
+                    {
+                        XElement xmlElements = new XElement("Branches", obj.BranchIds.Select(i => new XElement("branch", i)));
+                        System.Console.Write(xmlElements);
+                        System.Console.Read();
+                        var json = JsonConvert.SerializeObject(obj.BranchIds);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
+                        cmd.Parameters.AddWithValue("@P_UserName", obj.UserName);
+                        cmd.Parameters.AddWithValue("@P_UserPassword", obj.UserPassword);
+                        cmd.Parameters.AddWithValue("@P_Active", obj.Active);
+                        cmd.Parameters.AddWithValue("@P_Branches", json);
                         cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {

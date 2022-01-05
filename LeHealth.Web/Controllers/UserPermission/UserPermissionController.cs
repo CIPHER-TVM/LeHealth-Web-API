@@ -54,6 +54,37 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        [HttpPost]
+        [Route("SaveUser")]
+        public ResponseDataModel<string> SaveUser(UserModel obj)
+        {
+            try
+            {
+                string retval = permissionservice.SaveUser(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = retval,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserPermissionController", "SaveUserGroup()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
 
         [HttpPost]
         [Route("getUserGroups")]
