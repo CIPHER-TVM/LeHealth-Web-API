@@ -222,14 +222,14 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Name", patient.Name);
+                    cmd.Parameters.AddWithValue("@Name", patient.Name.Trim());
                     cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
-                    cmd.Parameters.AddWithValue("@RegNo", patient.RegNo);
-                    cmd.Parameters.AddWithValue("@Mobile", patient.Mobile);
-                    cmd.Parameters.AddWithValue("@RegFromDate", patient.RegDateFrom);
-                    cmd.Parameters.AddWithValue("@RegToDate", patient.RegDateTo);
-                    cmd.Parameters.AddWithValue("@Phone", patient.Phone);
-                    cmd.Parameters.AddWithValue("@Address", patient.Address);
+                    cmd.Parameters.AddWithValue("@RegNo", patient.RegNo.Trim());
+                    cmd.Parameters.AddWithValue("@Mobile", patient.Mobile.Trim());
+                    cmd.Parameters.AddWithValue("@RegFromDate", patient.RegDateFrom.Trim());
+                    cmd.Parameters.AddWithValue("@RegToDate", patient.RegDateTo.Trim());
+                    cmd.Parameters.AddWithValue("@Phone", patient.Phone.Trim());
+                    cmd.Parameters.AddWithValue("@Address", patient.Address.Trim());
                     cmd.Parameters.AddWithValue("@PIN", patient.PIN);
                     cmd.Parameters.AddWithValue("@PolicyNo", patient.PolicyNo);
                     cmd.Parameters.AddWithValue("@IdentityNo", patient.IdentityNo);
