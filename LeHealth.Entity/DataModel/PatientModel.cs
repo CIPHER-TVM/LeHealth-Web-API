@@ -85,6 +85,8 @@ namespace LeHealth.Entity.DataModel
         public string VisaType { get; set; } 
         public string ProfName { get; set; } 
         public string CmpName { get; set; }  
+        public int DepartmentId { get; set; }  
+        public int ConsultationId { get; set; }   
 
     }
 }

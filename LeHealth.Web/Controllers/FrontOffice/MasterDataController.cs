@@ -1940,14 +1940,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<TendernModel>> GetTendern(int Id)
         {
-            List<TendernModel> companyList = new List<TendernModel>();
+            List<TendernModel> tendernessList = new List<TendernModel>();
             try
             {
-                companyList = masterdataService.GetTendern(Id);
+                tendernessList = masterdataService.GetTendern(Id);
                 var response = new ResponseDataModel<IEnumerable<TendernModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = companyList
+                    Response = tendernessList 
                 };
                 return response;
             }

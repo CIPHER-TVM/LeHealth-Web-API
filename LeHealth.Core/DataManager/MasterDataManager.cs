@@ -2012,7 +2012,12 @@ namespace LeHealth.Core.DataManager
         }
         //ScientificName Ends
         //Tendern Starts
-        public List<TendernModel> GetTendern(int la)
+        /// <summary>
+        /// Get Details of pain sensitivity(Tenderness)
+        /// </summary>
+        /// <param name="tendernessid">Primary key of LH_PhyTendern Table</param>
+        /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
+        public List<TendernModel> GetTendern(int tendernessid)
         {
             List<TendernModel> itemList = new List<TendernModel>();
 
@@ -2022,7 +2027,7 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@TendernId", la);
+                    cmd.Parameters.AddWithValue("@TendernId", tendernessid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsNumber = new DataSet();
                     adapter.Fill(dsNumber);
