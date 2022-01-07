@@ -182,7 +182,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public string InsertUpdateAppointment(Appointments appointments)
+        public string InsertAppointment(Appointments appointments)
         {
             string response = "";
             using (SqlConnection con = new SqlConnection(_connStr))

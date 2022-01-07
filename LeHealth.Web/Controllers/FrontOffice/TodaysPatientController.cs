@@ -721,14 +721,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// Success or failure status
         /// </returns>
-        [Route("InsertUpdateAppointment")]
+        [Route("InsertAppointment")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<Appointments>> InsertUpdateAppointment(Appointments appointments)
+        public ResponseDataModel<IEnumerable<Appointments>> InsertAppointment(Appointments appointments)
         {
             string appointment = "";
             try
             {
-                appointment = hospitalsService.InsertUpdateAppointment(appointments);
+                appointment = hospitalsService.InsertAppointment(appointments);
                 var response = new ResponseDataModel<IEnumerable<Appointments>>()
                 {
                     Status = HttpStatusCode.OK,
