@@ -8,7 +8,7 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IHospitalsService
     {
-        List<Appointments> GetAppointments(AppointmentModel appointment);
+        
         List<ConsultationModel> GetConsultation(ConsultantModel consultant);
         List<ConsultationModel> GetAllConsultation();
         List<ConsultationModel> SearchConsultation(ConsultationModel consultation);

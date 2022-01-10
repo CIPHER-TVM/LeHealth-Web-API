@@ -108,6 +108,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultant(cm);
         }
+        public List<Appointments> GetAppointments(AppointmentModel appointment)
+        {
+            return todaysPatientManager.GetAppointments(appointment);
+        }
         public string AppoinmentValidCheck(AppoinmentValidCheckModel cm)
         {
             return todaysPatientManager.AppoinmentValidCheck(cm);

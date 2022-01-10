@@ -229,6 +229,45 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
+        public List<Appointments> GetAppointments(AppointmentModel appointment)
+        {
+            List<Appointments> Appointmentlist = new List<Appointments>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                string AppQuery = "[stLH_GetAppOfaDay]";
+                using (SqlCommand cmd = new SqlCommand(AppQuery, con))
+                {
+                    con.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+                    cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
+                    cmd.Parameters.AddWithValue("@DeptId", appointment.DeptId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        {
+                            Appointments obj = new Appointments();
+                            obj.AppId = Convert.ToInt32(ds.Tables[0].Rows[i]["AppId"]);
+                            obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
+                            obj.TimeNo = ds.Tables[0].Rows[i]["TimeNo"].ToString();
+                            obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
+                            obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                            obj.Gender = Convert.ToInt32(ds.Tables[0].Rows[i]["Gender"]);
+                            Appointmentlist.Add(obj);
+                        }
+                    }
+                    return Appointmentlist;
+                }
+            }
+        }
         public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
         {
             List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();

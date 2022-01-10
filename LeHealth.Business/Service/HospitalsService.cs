@@ -24,10 +24,7 @@ namespace LeHealth.Service
         /// <summary>
         /// Returns list of all appointments on present day as Generic List. Step two in code execution flow
         /// </summary>
-        public List<Appointments> GetAppointments(AppointmentModel appointment)
-        {
-            return hospitalsManager.GetAppointments(appointment);
-        }
+        
         /// <summary>
         /// Returns Consultation Details as Generic List. Step two in code execution flow
         /// </summary>

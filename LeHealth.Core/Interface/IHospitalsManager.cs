@@ -10,7 +10,7 @@ namespace LeHealth.Core.Interface
         /// <summary>
         /// To list of  all appointments by today
         /// </summary>
-        List<Appointments> GetAppointments(AppointmentModel appointment);
+        
         /// <summary>
         /// To list of  all Consultation by today
         /// </summary>

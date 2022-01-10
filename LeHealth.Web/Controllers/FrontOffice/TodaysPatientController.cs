@@ -327,7 +327,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<Appointments> appointmentList = new List<Appointments>();
             try
             {
-                appointmentList = hospitalsService.GetAppointments(appointment);
+                appointmentList = todaysPatientService.GetAppointments(appointment);
                 var response = new ResponseDataModel<IEnumerable<Appointments>>()
                 {
                     Status = HttpStatusCode.OK,
