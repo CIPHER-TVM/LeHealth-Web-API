@@ -813,10 +813,6 @@ namespace LeHealth.Core.DataManager
                                 if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
                                 {
                                     patientDetail.Consultation.PatientId = patientId;
-                                    //SqlCommand patientConsultationCmd = InsertConsultation(patientDetail.Consultation);
-                                    //patientConsultationCmd.Connection = con;
-                                    //var isUpdated = patientConsultationCmd.ExecuteNonQuery();
-
                                     SqlCommand patientRegConsultationSavecmd = new SqlCommand("stLH_InsertUpdateConsultation", con);
                                     patientRegConsultationSavecmd.CommandType = CommandType.StoredProcedure;
                                     patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);

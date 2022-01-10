@@ -910,6 +910,40 @@ namespace LeHealth.Core.DataManager
         }
 
         //
+        public List<DepartmentModel> GetDepartmentByHospital(int HospId)
+        {
+            List<DepartmentModel> departmentlist = new List<DepartmentModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetDepartment", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DeptId", HospId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        {
+                            DepartmentModel obj = new DepartmentModel();
+                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
+                            obj.DeptName = ds.Tables[0].Rows[i]["DeptName"].ToString();
+                            obj.DeptCode = ds.Tables[0].Rows[i]["DeptCode"].ToString();
+                            obj.Description = ds.Tables[0].Rows[i]["Description"].ToString();
+                            obj.BranchId = Convert.ToInt32(ds.Tables[0].Rows[i]["BranchId"]);
+                            obj.TimeSlice = Convert.ToInt32(ds.Tables[0].Rows[i]["TimeSlice"]);
+                            obj.Active = Convert.ToInt32(ds.Tables[0].Rows[i]["Active"]);
+                            obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
+                            departmentlist.Add(obj);
+                        }
+                    }
+                    return departmentlist;
+                }
+            }
+        }
         public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
         {
             string response = "";

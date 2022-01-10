@@ -138,14 +138,14 @@ namespace LeHealth.Core.DataManager
                     else
                         cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
 
-                    cmd.Parameters.AddWithValue("@Name", appointment.Name);
-                    cmd.Parameters.AddWithValue("@Address", appointment.Address);
-                    cmd.Parameters.AddWithValue("@Mobile", appointment.Mobile);
-                    cmd.Parameters.AddWithValue("@Phone", appointment.Phone);
-                    cmd.Parameters.AddWithValue("@PIN", appointment.PIN);
+                    cmd.Parameters.AddWithValue("@Name", appointment.Name.Trim());
+                    cmd.Parameters.AddWithValue("@Address", appointment.Address.Trim());
+                    cmd.Parameters.AddWithValue("@Mobile", appointment.Mobile.Trim());
+                    cmd.Parameters.AddWithValue("@Phone", appointment.Phone.Trim());
+                    cmd.Parameters.AddWithValue("@PIN", appointment.PIN.Trim());
                     cmd.Parameters.AddWithValue("@AppFromDate", appointment.AppFromDate);
                     cmd.Parameters.AddWithValue("@AppToDate", appointment.AppToDate);
-                    cmd.Parameters.AddWithValue("@RegNo", appointment.RegNo);
+                    cmd.Parameters.AddWithValue("@RegNo", appointment.RegNo.Trim());
                     cmd.Parameters.AddWithValue("@AppointmentType", appointment.AppType);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsAppointments = new DataSet();
