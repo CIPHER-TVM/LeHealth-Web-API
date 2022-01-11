@@ -35,6 +35,7 @@ namespace LeHealth.Entity.DataModel
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string PatientName { get; set; }
         public int Gender { get; set; }
         public string DOB { get; set; }
         public int MaritalStatus { get; set; }
@@ -87,7 +88,9 @@ namespace LeHealth.Entity.DataModel
         public string ProfName { get; set; } 
         public string CmpName { get; set; }  
         public int DepartmentId { get; set; }  
-        public int? ConsultationId { get; set; }   
+        public int? ConsultationId { get; set; }
+        public string DepartmentName { get; set; }
+        public string ConsultantName { get; set; }
 
     }
 }

@@ -335,6 +335,7 @@ namespace LeHealth.Core.DataManager
                     obj.FirstName = dsPatientData.Tables[0].Rows[0]["FirstName"].ToString();
                     obj.MiddleName = dsPatientData.Tables[0].Rows[0]["MiddleName"].ToString();
                     obj.LastName = dsPatientData.Tables[0].Rows[0]["LastName"].ToString();
+                    obj.PatientName = dsPatientData.Tables[0].Rows[0]["PatientName"].ToString();
                     obj.RegNo = dsPatientData.Tables[0].Rows[0]["RegNo"].ToString();
                     obj.DOB = dsPatientData.Tables[0].Rows[0]["DOB"].ToString().Substring(0, 10);
                     obj.AgeInMonth = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["AgeInMonth"]);
@@ -380,6 +381,8 @@ namespace LeHealth.Core.DataManager
                     obj.OtherReasons = dsPatientData.Tables[0].Rows[0]["Symptoms"].ToString();
                     obj.DepartmentId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["DeptId"]);
                     obj.ConsultantId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ConsultantId"]);
+                    obj.DepartmentName = dsPatientData.Tables[0].Rows[0]["DeptName"].ToString();
+                    obj.ConsultantName = dsPatientData.Tables[0].Rows[0]["ConsultantName"].ToString();
                     obj.ConsultationId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ConsultationId"]);
                 }
 
