@@ -332,6 +332,10 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultation", con))
                 {
+                    DateTime oldFrom = DateTime.Parse(consultation.FromDate.Trim());
+                    consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
+                    DateTime oldTo = DateTime.Parse(consultation.ToDate.Trim());
+                    consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
 

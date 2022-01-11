@@ -221,13 +221,17 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchPatients", con))
                 {
                     con.Open();
+                    DateTime oldFrom = DateTime.Parse(patient.RegDateFrom.Trim());
+                    patient.RegDateFrom = oldFrom.ToString("yyyy-MM-dd");
+                    DateTime oldTo = DateTime.Parse(patient.RegDateTo.Trim()); 
+                    patient.RegDateTo = oldTo.ToString("yyyy-MM-dd");
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Name", patient.Name.Trim());
                     cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
                     cmd.Parameters.AddWithValue("@RegNo", patient.RegNo.Trim());
                     cmd.Parameters.AddWithValue("@Mobile", patient.Mobile.Trim());
-                    cmd.Parameters.AddWithValue("@RegFromDate", patient.RegDateFrom.Trim());
-                    cmd.Parameters.AddWithValue("@RegToDate", patient.RegDateTo.Trim());
+                    cmd.Parameters.AddWithValue("@RegFromDate",patient.RegDateFrom );
+                    cmd.Parameters.AddWithValue("@RegToDate", patient.RegDateTo);
                     cmd.Parameters.AddWithValue("@Phone", patient.Phone.Trim());
                     cmd.Parameters.AddWithValue("@Address", patient.Address.Trim());
                     cmd.Parameters.AddWithValue("@PIN", patient.PIN);
