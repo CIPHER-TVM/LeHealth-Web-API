@@ -167,6 +167,7 @@ namespace LeHealth.Core.DataManager
                             obj.Mobile = dsAppointments.Tables[0].Rows[i]["ContactNumber"].ToString();
                             obj.CFirstName = dsAppointments.Tables[0].Rows[i]["ConsultantName"].ToString();
                             obj.AppStatus = dsAppointments.Tables[0].Rows[i]["Status"].ToString();
+                            obj.CancelReason = dsAppointments.Tables[0].Rows[i]["CancelReason"].ToString();
                             obj.ResPhone = dsAppointments.Tables[0].Rows[i]["TelePhone"].ToString();
                             obj.Address1 = dsAppointments.Tables[0].Rows[i]["Address"].ToString();
                             appList.Add(obj);

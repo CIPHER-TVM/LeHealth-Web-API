@@ -25,6 +25,8 @@ namespace LeHealth.Entity.DataModel
         public string EmirateID { get; set; }
         public string SponsorId { get; set; }
         public string TextForSearch { get; set; }
+        public int Active { get; set; }
+        public string BlockReason { get; set; } 
 
 
     }

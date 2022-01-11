@@ -373,7 +373,7 @@ namespace LeHealth.Core.DataManager
                     obj.SchemeName = "";
                     obj.CmpName = dsPatientData.Tables[0].Rows[0]["CmpName"].ToString();
                     obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
-                    obj.Remarks = dsPatientData.Tables[0].Rows[0]["Symptoms"].ToString();
+                    obj.OtherReasons = dsPatientData.Tables[0].Rows[0]["Symptoms"].ToString();
                     obj.DepartmentId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["DeptId"]);
                     obj.ConsultantId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ConsultantId"]);
                     obj.ConsultationId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ConsultationId"]);
@@ -449,24 +449,27 @@ namespace LeHealth.Core.DataManager
                         doclistobj.Add(obj4);
                     }
                 }
-
-                con.Open();
-                SqlCommand cmd5 = new SqlCommand("GetSymptomByConsultationId", con);
-                cmd5.CommandType = CommandType.StoredProcedure;
-                cmd5.Parameters.AddWithValue("@ConsultationId", obj.ConsultationId);
-                SqlDataAdapter adapter5 = new SqlDataAdapter(cmd5);
-                DataSet ds5 = new DataSet();
-                adapter5.Fill(ds5);
-                con.Close();
                 List<RegSymptomsModel> SymptomsList = new List<RegSymptomsModel>();
-                if ((ds5 != null) && (ds5.Tables.Count > 0) && (ds5.Tables[0] != null) && (ds5.Tables[0].Rows.Count > 0))
+                if (obj.ConsultationId != null)
                 {
-                    for (int i = 0; i < ds5.Tables[0].Rows.Count; i++)
+                    con.Open();
+                    SqlCommand cmd5 = new SqlCommand("GetSymptomByConsultationId", con);
+                    cmd5.CommandType = CommandType.StoredProcedure;
+                    cmd5.Parameters.AddWithValue("@ConsultationId", obj.ConsultationId);
+                    SqlDataAdapter adapter5 = new SqlDataAdapter(cmd5);
+                    DataSet ds5 = new DataSet();
+                    adapter5.Fill(ds5);
+                    con.Close();
+                    if ((ds5 != null) && (ds5.Tables.Count > 0) && (ds5.Tables[0] != null) && (ds5.Tables[0].Rows.Count > 0))
                     {
-                        RegSymptomsModel rsm = new RegSymptomsModel();
-                        rsm.SymptomId = Convert.ToInt32(ds5.Tables[0].Rows[0]["SymptomId"]);
-                        SymptomsList.Add(rsm);
+                        for (int i = 0; i < ds5.Tables[0].Rows.Count; i++)
+                        {
+                            RegSymptomsModel rsm = new RegSymptomsModel();
+                            rsm.SymptomId = Convert.ToInt32(ds5.Tables[0].Rows[0]["SymptomId"]);
+                            SymptomsList.Add(rsm);
+                        }
                     }
+
                 }
                 obj.RegIdentities = rim;
                 obj.RegAddress = ram;

@@ -365,6 +365,7 @@ namespace LeHealth.Core.DataManager
                             obj.PIN = ds.Tables[0].Rows[i]["PIN"].ToString();
                             obj.OtherReasonForVisit = ds.Tables[0].Rows[i]["Symptoms"].ToString();
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                            obj.CancelReason = ds.Tables[0].Rows[i]["CancelReason"].ToString();
                             obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
                             obj.Telephone = ds.Tables[0].Rows[i]["Telephone"].ToString();
                             obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();

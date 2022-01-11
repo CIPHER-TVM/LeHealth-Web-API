@@ -54,6 +54,7 @@ namespace LeHealth.Entity.DataModel
         public int RGroupId { get; set; }
         public string Mode { get; set; }
         public string Remarks { get; set; }
+        public string OtherReasons { get; set; }
         public int NationalityId { get; set; }
         public string NationalityName { get; set; }  
         public int ConsultantId { get; set; }

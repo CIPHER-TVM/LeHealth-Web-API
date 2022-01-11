@@ -2082,6 +2082,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Save/Update Details of pain sensitivity(Tenderness)
+        /// </summary>
+        /// <param name="TendernId">Primary key of LH_PhyTendern Table,Update Data if param is not zero</param>
+        /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
         public string InsertUpdateTendern(TendernModel Package)
         {
             string response = "";
@@ -2125,6 +2130,10 @@ namespace LeHealth.Core.DataManager
 
 
         // GET MASTER ONLY NO CRUD
+        /// <summary>
+        /// Get Details of Religion
+        /// </summary>
+        /// <returns>List of religion details</returns>
         public List<ReligionModel> GetReligion()
         {
             List<ReligionModel> religionList = new List<ReligionModel>();
@@ -2146,6 +2155,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get Details of Appointment Type
+        /// </summary>
+        /// <returns>List of Appointment types</returns>
         public List<AppTypeModel> GetAppType()
         {
             List<AppTypeModel> profList = new List<AppTypeModel>();
@@ -2175,6 +2188,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get Details of Visa Type
+        /// </summary>
+        /// <returns>List of Visa types</returns>
         public List<VisaTypeModel> GetVisaType()
         {
             List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
@@ -2219,7 +2236,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
         {
             List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();
@@ -2281,7 +2297,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<GetNumberModel> GetNumber(string numId)
         {
             List<GetNumberModel> numberList = new List<GetNumberModel>();
