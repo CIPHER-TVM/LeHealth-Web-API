@@ -33,7 +33,7 @@ namespace LeHealth.Catalogue.API.Controllers
 
         [Route("GetFormValidation/{FormId}/{DepartmentId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<FormValidationModel>> GetUserHospitals(Int32 FormId, Int32 DepartmentId)
+        public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormValidation(Int32 FormId, Int32 DepartmentId)
         {
             try
             {
@@ -63,5 +63,39 @@ namespace LeHealth.Catalogue.API.Controllers
             }
 
         }
+        [Route("InsertUpdateFormValidation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<FormValidationModel>> InsertUpdateFormValidation(FormValidationModel formvalidation)
+        {
+            string message = "";
+            try
+            {
+                message = formValidationService.InsertUpdateFormValidation(formvalidation);
+                var response = new ResponseDataModel<IEnumerable<FormValidationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FormValidationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }
