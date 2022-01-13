@@ -434,7 +434,7 @@ namespace LeHealth.Core.DataManager
                         SheduleGetDataModel sgdm = new SheduleGetDataModel();
                         List<Label> labelsList = new List<Label>();
                         sgdm.id = (int)gsim.Consultant[i];
-                        sgdm.drName = "";
+                        sgdm.drName = string.Empty;;
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -495,7 +495,7 @@ namespace LeHealth.Core.DataManager
 
         public string DeleteAppointment(AppointmentModel appointment)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_CancelAppointment", con))
@@ -566,7 +566,7 @@ namespace LeHealth.Core.DataManager
 
         public string CancelConsultation(ConsultationModel consultation)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionCancelConsultation", con))
@@ -604,7 +604,7 @@ namespace LeHealth.Core.DataManager
         }
         public string PostponeAppointment(Appointments app)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con))
@@ -646,7 +646,7 @@ namespace LeHealth.Core.DataManager
         }
         public string AppoinmentValidCheck(AppoinmentValidCheckModel appoinment)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_AppoinmentValidCheck", con))
@@ -672,7 +672,7 @@ namespace LeHealth.Core.DataManager
         }
         public string SetUrgentConsultation(ConsultationModel consultation)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionSetUrgentConsultation", con))
@@ -779,7 +779,7 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
         {
             List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
-            var descrip = "";
+            var descrip = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -1424,7 +1424,7 @@ namespace LeHealth.Core.DataManager
 //public string InsertPatientOriginal(PatientModel patientDetail)
 //{
 //    SqlTransaction transaction;
-//    string response = "";
+//    string response = string.Empty;;
 //    using (SqlConnection con = new SqlConnection(_connStr))
 //    {
 //        con.Open();

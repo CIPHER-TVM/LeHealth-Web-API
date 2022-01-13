@@ -147,7 +147,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertAppointment(Appointments appointments)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
@@ -229,7 +229,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string UpdateAppointment(Appointments appointments)
         {
-            string appointmentret = "";
+            string appointmentret = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 

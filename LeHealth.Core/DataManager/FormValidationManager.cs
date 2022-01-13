@@ -63,7 +63,7 @@ namespace LeHealth.Core.DataManager
         }
         public string InsertUpdateFormValidation(FormValidationModel Package)
         {
-            string response = "";
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateFormValidation", con))
