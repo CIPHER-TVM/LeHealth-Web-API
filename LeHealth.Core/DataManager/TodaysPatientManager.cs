@@ -112,6 +112,7 @@ namespace LeHealth.Core.DataManager
                             obj.StateName = dsAppointmentsList.Tables[0].Rows[i]["StateName"].ToString();
                             obj.ConsultantId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["ConsultantId"]);
                             obj.ConsultantName = dsAppointmentsList.Tables[0].Rows[i]["ConsultantName"].ToString();
+                            obj.DepartmentName = dsAppointmentsList.Tables[0].Rows[i]["DeptName"].ToString();
                             obj.Remarks = dsAppointmentsList.Tables[0].Rows[i]["Remarks"].ToString();
                             obj.AppStatus = dsAppointmentsList.Tables[0].Rows[i]["AppStatus"].ToString();
                             obj.ResPhone = dsAppointmentsList.Tables[0].Rows[i]["ResPhone"].ToString();
