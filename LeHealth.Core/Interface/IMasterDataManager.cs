@@ -92,6 +92,8 @@ namespace LeHealth.Core.Interface
         List<TendernModel> GetTendern(int sname);
         string InsertUpdateTendern(TendernModel sname);
         List<AppTypeModel> GetAppType();
+        List<FormValidationModel> GetFormFields(int Id);
+        List<FormValidationModel> GetFormMaster();
         List<ReligionModel> GetReligion();
 
         List<VisaTypeModel> GetVisaType();

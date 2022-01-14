@@ -2036,6 +2036,72 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("GetFormMaster")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormMaster()
+        {
+            List<FormValidationModel> cityList = new List<FormValidationModel>();
+            try
+            {
+                cityList = masterdataService.GetFormMaster();
+                var response = new ResponseDataModel<IEnumerable<FormValidationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cityList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FormValidationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetFormFields/{id}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormFields(int id)
+        {
+            List<FormValidationModel> cityList = new List<FormValidationModel>();
+            try
+            {
+                cityList = masterdataService.GetFormFields(id);
+                var response = new ResponseDataModel<IEnumerable<FormValidationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cityList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FormValidationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
         /// <summary>
         /// To get list of all Appointment type 
         /// </summary>

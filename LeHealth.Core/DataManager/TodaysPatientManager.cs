@@ -123,6 +123,12 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
+        /// <summary>
+        /// Filter and get appointment details
+        /// </summary>
+        /// <param name="appointment">appointment model with Patient's Name,address,Mobile Phone ,Pin,AppointmentFrom,Appointment To,Appointment type </param>
+        /// <returns>List of appointment details</returns>
         public List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment)
         {
             List<SearchAppointmentModel> appList = new List<SearchAppointmentModel>();
@@ -173,12 +179,15 @@ namespace LeHealth.Core.DataManager
                             appList.Add(obj);
                         }
                     }
-                    //if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
-                    //    appointmentlist = dsAppointmentsList.Tables[0].ToListOfObject<Appointments>();
                     return appList;
                 }
             }
         }
+        /// <summary>
+        /// Filter Patients and get patient details
+        /// </summary>
+        /// <param name="patientDetails">PatientSearchModel with ConsultantId,Patient's Name,RegNo,Mobile,ResNo,PIN,Policy Number,Identity number,Address, mode </param>
+        /// <returns>List of patient details</returns>
         public List<PatientListModel> SearchPatient(PatientSearchModel patientDetails)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
@@ -210,6 +219,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Filter by Registration number and get patient details
+        /// </summary>
+        /// <param name="regNo">Register number</param>
+        /// <returns>List of patient details</returns>
         public List<PatientListModel> GetPatientByRegNo(string regNo)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
@@ -230,7 +244,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
+        /// <summary>
+        ///  get appointment details, Filtered by parameters
+        /// </summary>
+        /// <param name="appointment">AppointmentModel with ConsultantId,AppDate,DeptId </param>
+        /// <returns>List of appointment details</returns>
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
             List<Appointments> Appointmentlist = new List<Appointments>();
@@ -269,30 +287,12 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
-        {
-            List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetSavingSchemaMandatory", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@FormName", formname);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsMandatoryList = new DataSet();
-                    adapter.Fill(dsMandatoryList);
-                    con.Close();
-
-                    if ((dsMandatoryList != null) && (dsMandatoryList.Tables.Count > 0) && (dsMandatoryList.Tables[0] != null) && (dsMandatoryList.Tables[0].Rows.Count > 0))
-                        mandatoryList = dsMandatoryList.Tables[0].ToListOfObject<MandatoryFieldsModel>();
-                    return mandatoryList;
-                }
-            }
-
-        }
+        /// <summary>
+        ///  get Scheme  details, Filtered by Consultant Id
+        /// </summary>
+        /// <param name="consultantid"> </param>
+        /// <returns>List of Scheme details</returns>
         public List<SchemeModel> GetSchemeByConsultant(int consultantid)
         {
             List<SchemeModel> schemeList = new List<SchemeModel>();
@@ -317,6 +317,12 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        /// <summary>
+        /// Get Details of patient
+        /// </summary>
+        /// <param name="patientId">Primary key of LH_Patient Table</param>
+        /// <returns>patient details</returns>
+
         public List<PatientModel> GetPatient(int patientId)
         {
             List<PatientModel> patientDataList = new List<PatientModel>();
@@ -353,6 +359,11 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        /// <summary>
+        /// Get Details of patient
+        /// </summary>
+        /// <param name="patientId">Primary key of LH_Patient Table</param>
+        /// <returns>patient details</returns>
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)
         {
             List<GetAppNoModel> scheduleList = new List<GetAppNoModel>();
@@ -374,6 +385,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get Details of patient
+        /// </summary>
+        /// <param name="patientId">Primary key of LH_Patient Table</param>
+        /// <returns>patient details</returns>
         public List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap)
         {
             List<GetAppTimeModel> scheduleList = new List<GetAppTimeModel>();
@@ -397,6 +413,11 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        /// <summary>
+        /// Get Details of patient
+        /// </summary>
+        /// <param name="patientId">Primary key of LH_Patient Table</param>
+        /// <returns>patient details</returns>
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsim)
         {
             List<SheduleGetDataModel> scheduleList = new List<SheduleGetDataModel>();
@@ -470,6 +491,10 @@ namespace LeHealth.Core.DataManager
                 return scheduleList;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<RecentConsultationModel> GetRecentConsultationData()
         {
             List<RecentConsultationModel> scheduleList = new List<RecentConsultationModel>();
@@ -492,7 +517,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
+        /// <summary>
+        /// Cancelling appointment
+        /// </summary>
+        /// <param name="appointment">AppId,Reason,UserId</param>
+        /// <returns>Success Or Error Details</returns>
         public string DeleteAppointment(AppointmentModel appointment)
         {
             string response = string.Empty;;
@@ -531,6 +560,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cisr"></param>
+        /// <returns></returns>
         public List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr)
         {
             List<GetConsultantItemSchemeRateModel> numberList = new List<GetConsultantItemSchemeRateModel>();
@@ -563,7 +597,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
+        /// <summary>
+        /// Cancel Consultation
+        /// </summary>
+        /// <param name="consultation">ConsultationId,CancelReason,UserId</param>
+        /// <returns>Success or Error details</returns>
         public string CancelConsultation(ConsultationModel consultation)
         {
             string response = string.Empty;;
@@ -602,6 +640,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// Postpone appointment
+        /// </summary>
+        /// <param name="app">ConsultantId,AppDate,AppNo,SliceNo,SliceTime,UserId</param>
+        /// <returns>Appointment valid or not</returns>
         public string PostponeAppointment(Appointments app)
         {
             string response = string.Empty;;
@@ -644,6 +687,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// appointment available checking
+        /// </summary>
+        /// <param name="app">ConsultantId,AppDate,TimeSliceFirst,TimeSliceFirst,RequiredSlots count</param>
+        /// <returns>Appointment valid or not</returns>
         public string AppoinmentValidCheck(AppoinmentValidCheckModel appoinment)
         {
             string response = string.Empty;;
@@ -670,6 +718,12 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        /// <summary>
+        /// Change Consultation status to urgent
+        /// </summary>
+        /// <param name="consultation">ConsultationId,UserId,LocationId</param>
+        /// <returns>Success or reason for failure</returns>
         public string SetUrgentConsultation(ConsultationModel consultation)
         {
             string response = string.Empty;;
@@ -708,6 +762,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// Get Rate 
+        /// </summary>
+        /// <param name="cm">ConsultantId,PatientId,ItemId</param>
+        /// <returns>Rate of </returns>
         public List<ConsultRateModel> GetConsultRate(ConsultationModel cm)
         {
             List<ConsultRateModel> stateList = new List<ConsultRateModel>();
@@ -741,6 +800,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cm"></param>
+        /// <returns></returns>
         public List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm)
         {
             List<ConsultRateModel> rateList = new List<ConsultRateModel>();
@@ -864,6 +928,11 @@ namespace LeHealth.Core.DataManager
             }
             return consultaionsList;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cm"></param>
+        /// <returns></returns>
         public List<TokenModel> GetNewTokenNumber(ConsultationModel cm)
         {
             List<TokenModel> tokenNo = new List<TokenModel>();
@@ -893,6 +962,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get List of sponsors of a patient
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns>List of sponsors details</returns>
         public List<SponsorModel> GetSponsorListByPatientId(int patientId)
         {
             List<SponsorModel> sponsorList = new List<SponsorModel>();
@@ -973,6 +1047,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get Consultation Filtered by PatientId,ConsultantId
+        /// </summary>
+        /// <param name="cm">PatientId,ConsultantId</param>
+        /// <returns>Get Consultation details</returns>
         public List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm)
         {
             List<ConsultationByPatientIdModel> consultationList = new List<ConsultationByPatientIdModel>();
@@ -1022,6 +1101,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get Consultation Filtered by PatientId
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns>Get Consultation List</returns>
         public List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId)
         {
             PatientConsultationModel obj = new PatientConsultationModel();
@@ -1076,6 +1160,11 @@ namespace LeHealth.Core.DataManager
                 return consultationList;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cm"></param>
+        /// <returns></returns>
         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
         {
             List<PatRegByPatientIdModel> patregdataList = new List<PatRegByPatientIdModel>();
@@ -1120,6 +1209,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        
         public FrontOfficePBarModel GetFrontOfficeProgressBars(string todaydate)
         {
             FrontOfficePBarModel fopb = new FrontOfficePBarModel();

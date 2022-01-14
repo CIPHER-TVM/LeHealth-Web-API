@@ -652,8 +652,12 @@ namespace LeHealth.Core.DataManager
                 }
                 con.Open();
                 transaction = con.BeginTransaction();
-                DateTime oldFrom = DateTime.Parse(patientDetail.RegNo.Trim());
-                patientDetail.RegNo = oldFrom.ToString("yyyy-MM-dd");
+                DateTime regDate = DateTime.Parse(patientDetail.RegDate.Trim());
+                patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
+
+                DateTime dobDate = DateTime.Parse(patientDetail.DOB.Trim());
+                patientDetail.DOB = dobDate.ToString("yyyy-MM-dd hh:mm tt");
+
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
@@ -663,7 +667,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@FirstName", patientDetail.FirstName);
                 cmd.Parameters.AddWithValue("@MiddleName", patientDetail.MiddleName);
                 cmd.Parameters.AddWithValue("@LastName", patientDetail.LastName);
-                cmd.Parameters.AddWithValue("@DOB", patientDetail.DOB);
+                cmd.Parameters.AddWithValue("@DOB",patientDetail.DOB);
                 cmd.Parameters.AddWithValue("@Gender", patientDetail.Gender);
                 cmd.Parameters.AddWithValue("@MaritalStatus", patientDetail.MaritalStatus);
                 cmd.Parameters.AddWithValue("@KinName", patientDetail.KinName);

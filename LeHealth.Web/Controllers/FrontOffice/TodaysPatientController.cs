@@ -630,41 +630,41 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetSavingSchemaMandatory")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<MandatoryFieldsModel>> GetSavingSchemaMandatory(FormNameModel formname)
-        {
-            List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
-            try
-            {
-                mandatoryList = todaysPatientService.GetSavingSchemaMandatory(formname.Formname);
-                var response = new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = mandatoryList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+        //[Route("GetSavingSchemaMandatory")]
+        //[HttpPost]
+        //public ResponseDataModel<IEnumerable<MandatoryFieldsModel>> GetSavingSchemaMandatory(FormNameModel formname)
+        //{
+        //    List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
+        //    try
+        //    {
+        //        mandatoryList = todaysPatientService.GetSavingSchemaMandatory(formname.Formname);
+        //        var response = new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Response = mandatoryList
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
 
-                };
-            }
-            finally
-            {
-                //  consultationList.Clear();
+        //        };
+        //    }
+        //    finally
+        //    {
+        //        //  consultationList.Clear();
 
-            }
-        }
+        //    }
+        //}
 
         [Route("GetSchemeByConsultant")]
         [HttpPost]
