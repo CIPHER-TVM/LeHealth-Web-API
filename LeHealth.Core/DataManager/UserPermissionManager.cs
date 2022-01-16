@@ -75,7 +75,7 @@ namespace LeHealth.Core.DataManager
 
         public string SaveUserGroup(UserGroupModel obj)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SaveUserGroup", con))
@@ -118,7 +118,7 @@ namespace LeHealth.Core.DataManager
         #region User
         public string SaveUser(UserModel obj)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SaveUser", con))

@@ -94,7 +94,7 @@ namespace LeHealth.Core.DataManager
 
         public string Save(LocationModel obj)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("[stLH_SaveLocation]", con))

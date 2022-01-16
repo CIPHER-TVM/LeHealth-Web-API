@@ -19,6 +19,8 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsentContentModel> GetConsent(int id);
         string InsertUpdateConsent(ConsentContentModel hm);
         List<AppTypeModel> GetAppType();
+        List<FormValidationModel> GetFormFields(int Id);
+        List<FormValidationModel> GetFormMaster();
         List<ReligionModel> GetReligion();
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(int zoneId);

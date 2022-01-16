@@ -61,7 +61,45 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
+        public string InsertUpdateFormValidation(FormValidationModel Package)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateFormValidation", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", 0);
+                    cmd.Parameters.AddWithValue("@FieldId", Package.FieldId);
+                    cmd.Parameters.AddWithValue("@DepartmentId", Package.DepartmentId);
+                    cmd.Parameters.AddWithValue("@IsMandatory", Package.IsMandatory);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
         ~FormValidationManager()
         {
             Dispose(false);

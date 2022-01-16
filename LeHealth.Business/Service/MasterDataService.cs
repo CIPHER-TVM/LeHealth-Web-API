@@ -64,6 +64,15 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetAppType();
         }
+        public List<FormValidationModel> GetFormMaster()
+        {
+            return masterdataManager.GetFormMaster();
+        }
+        public List<FormValidationModel> GetFormFields(int Id)
+        {
+            return masterdataManager.GetFormFields(Id);
+        }
+
         public string InsertUpdateZone(ZoneModel zone)
         {
             return masterdataManager.InsertUpdateZone(zone);

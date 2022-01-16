@@ -87,7 +87,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> AppoinmentValidCheck(AppoinmentValidCheckModel ap)
         {
-            string IsValid = "";
+            string IsValid = string.Empty;;
             try
             {
                 IsValid = todaysPatientService.AppoinmentValidCheck(ap); 
@@ -630,41 +630,41 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetSavingSchemaMandatory")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<MandatoryFieldsModel>> GetSavingSchemaMandatory(FormNameModel formname)
-        {
-            List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
-            try
-            {
-                mandatoryList = todaysPatientService.GetSavingSchemaMandatory(formname.Formname);
-                var response = new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = mandatoryList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+        //[Route("GetSavingSchemaMandatory")]
+        //[HttpPost]
+        //public ResponseDataModel<IEnumerable<MandatoryFieldsModel>> GetSavingSchemaMandatory(FormNameModel formname)
+        //{
+        //    List<MandatoryFieldsModel> mandatoryList = new List<MandatoryFieldsModel>();
+        //    try
+        //    {
+        //        mandatoryList = todaysPatientService.GetSavingSchemaMandatory(formname.Formname);
+        //        var response = new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Response = mandatoryList
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<IEnumerable<MandatoryFieldsModel>>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
 
-                };
-            }
-            finally
-            {
-                //  consultationList.Clear();
+        //        };
+        //    }
+        //    finally
+        //    {
+        //        //  consultationList.Clear();
 
-            }
-        }
+        //    }
+        //}
 
         [Route("GetSchemeByConsultant")]
         [HttpPost]
@@ -674,7 +674,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 schemeList = todaysPatientService.GetSchemeByConsultant(consultant.ConsultantId);
-                string msg = "";
+                string msg = string.Empty;;
                 if (schemeList.Count > 0)
                 {
                     msg = "Success";
@@ -725,7 +725,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertAppointment(Appointments appointments)
         {
-            string appointment = "";
+            string appointment = string.Empty;;
             try
             {
                 appointment = hospitalsService.InsertAppointment(appointments);
@@ -804,7 +804,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultationModel> consultationList = new List<ConsultationModel>();
             try
             {
-                string msg = "";
+                string msg = string.Empty;;
                 consultationList = todaysPatientService.InsertUpdateConsultation(consultations);
                 if (consultationList[0].RetVal > 0)
                 {
@@ -849,7 +849,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string msg = "";
+                string msg = string.Empty;;
                 msg = todaysPatientService.CancelConsultation(consultations);
 
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
@@ -884,7 +884,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string msg = "";
+                string msg = string.Empty;;
                 msg = todaysPatientService.PostponeAppointment(app);
 
                 var response = new ResponseDataModel<IEnumerable<string>>()
@@ -1370,7 +1370,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> SetUrgentConsultation(ConsultationModel consultations)
         {
-            string Message = "";
+            string Message = string.Empty;;
             try
             {
                 string queryresponse = todaysPatientService.SetUrgentConsultation(consultations);

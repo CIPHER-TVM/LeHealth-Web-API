@@ -20,6 +20,11 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
         }
         //ProfessionManagement Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profid"></param>
+        /// <returns></returns>
         public List<ProfessionModel> GetProfession(int profid)
         {
             List<ProfessionModel> profList = new List<ProfessionModel>();
@@ -52,9 +57,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profession"></param>
+        /// <returns></returns>
         public string InsertUpdateProfession(ProfessionModel profession)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateProfession", con))
@@ -97,6 +107,11 @@ namespace LeHealth.Core.DataManager
         //ProfessionManagement Ends
 
         //SponsorManagement Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sponsorid"></param>
+        /// <returns></returns>
         public List<SponsorMasterModel> GetSponsor(int sponsorid)
         {
             List<SponsorMasterModel> profList = new List<SponsorMasterModel>();
@@ -155,9 +170,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sponsor"></param>
+        /// <returns></returns>
         public string InsertUpdateSponsor(SponsorMasterModel sponsor)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsor", con))
@@ -227,6 +247,11 @@ namespace LeHealth.Core.DataManager
         //SponsorManagement Ends
 
         //SponsorType Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeid"></param>
+        /// <returns></returns>
         public List<SponsorTypeModel> GetSponsorType(int typeid)
         {
             List<SponsorTypeModel> stypeList = new List<SponsorTypeModel>();
@@ -258,9 +283,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stype"></param>
+        /// <returns></returns>
         public string InsertUpdateSponsorType(SponsorTypeModel stype)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorType", con))
@@ -301,6 +331,11 @@ namespace LeHealth.Core.DataManager
         //SponsorType Ends
 
         //SponsorForm Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="formid"></param>
+        /// <returns></returns>
         public List<SponsorFormModel> GetSponsorForm(int formid)
         {
             List<SponsorFormModel> sformList = new List<SponsorFormModel>();
@@ -332,9 +367,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sform"></param>
+        /// <returns></returns>
         public string InsertUpdateSponsorForm(SponsorFormModel sform)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorForm", con))
@@ -374,11 +414,16 @@ namespace LeHealth.Core.DataManager
         //SponsorForm Ends
 
         //Consent Management Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="patientid"></param>
+        /// <returns></returns>
         public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientid)
         {
             List<ConsentPreviewModel> consentpreviewList = new List<ConsentPreviewModel>();
             List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
-            string patientname = "";
+            string patientname = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -426,6 +471,11 @@ namespace LeHealth.Core.DataManager
                 return consentpreviewList;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="consentid"></param>
+        /// <returns></returns>
         public List<ConsentContentModel> GetConsent(int consentid)
         {
             List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
@@ -461,9 +511,14 @@ namespace LeHealth.Core.DataManager
                 return ccmlist;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="consent"></param>
+        /// <returns></returns>
         public string InsertUpdateConsent(ConsentContentModel consent)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsent", con))
@@ -504,7 +559,11 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //Consent Management Ends
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="countryDetails"></param>
+        /// <returns></returns>
         public List<CountryModel> GetCountry(int countryDetails)
         {
             List<CountryModel> countryList = new List<CountryModel>();
@@ -526,9 +585,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="country"></param>
+        /// <returns></returns>
         public string InsertUpdateCountry(CountryModel country)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCountry", con))
@@ -571,6 +635,11 @@ namespace LeHealth.Core.DataManager
         }
         //Country Management Ends
         //State Management Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stateId"></param>
+        /// <returns></returns>
         public List<StateModel> GetState(int stateId)
         {
             List<StateModel> countryList = new List<StateModel>();
@@ -592,9 +661,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
         public string InsertUpdateState(StateModel state)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateState", con))
@@ -636,6 +710,11 @@ namespace LeHealth.Core.DataManager
         //State Management Ends
 
         //Salutation Management Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="salutationDetails"></param>
+        /// <returns></returns>
         public List<SalutationModel> GetSalutation(int salutationDetails)
         {
             List<SalutationModel> countryList = new List<SalutationModel>();
@@ -657,9 +736,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="salutation"></param>
+        /// <returns></returns>
         public string InsertUpdateSalutation(SalutationModel salutation)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSalutation", con))
@@ -699,6 +783,11 @@ namespace LeHealth.Core.DataManager
         }
         //Salutation Management Ends
         //BodyPart Management Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="salutationDetails"></param>
+        /// <returns></returns>
         public List<BodyPartModel> GetBodyPart(int salutationDetails)
         {
             List<BodyPartModel> countryList = new List<BodyPartModel>();
@@ -720,9 +809,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bodypart"></param>
+        /// <returns></returns>
         public string InsertUpdateBodyPart(BodyPartModel bodypart)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateBodyPart", con))
@@ -761,9 +855,14 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //BodyPart Management Ends
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zone"></param>
+        /// <returns></returns>
         public string InsertUpdateZone(ZoneModel zone)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateZone", con))//InsertUpdateZone
@@ -804,6 +903,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zoneId"></param>
+        /// <returns></returns>
         public List<ZoneModel> GetZone(int zoneId)
         {
             List<ZoneModel> zoneList = new List<ZoneModel>();
@@ -864,9 +968,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="department"></param>
+        /// <returns></returns>
         public string InsertUpdateDepartment(DepartmentModel department)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDepartment", con))
@@ -909,7 +1018,11 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        //
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="HospId"></param>
+        /// <returns></returns>
         public List<DepartmentModel> GetDepartmentByHospital(int HospId)
         {
             List<DepartmentModel> departmentlist = new List<DepartmentModel>();
@@ -944,9 +1057,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="RegScheme"></param>
+        /// <returns></returns>
         public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRegScheme", con))
@@ -1003,6 +1121,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="RegSchemeId"></param>
+        /// <returns></returns>
         public List<RegSchemeModel> GetRegScheme(int RegSchemeId)
         {
             List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
@@ -1056,10 +1179,14 @@ namespace LeHealth.Core.DataManager
             }
         }
         //Rate group Starts
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="RateGroup"></param>
+        /// <returns></returns>
         public string InsertUpdateRateGroup(RateGroupModel RateGroup)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRateGroup", con))
@@ -1100,6 +1227,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="RateGroupId"></param>
+        /// <returns></returns>
         public List<RateGroupModel> GetRateGroup(int RateGroupId)
         {
             List<RateGroupModel> stateList = new List<RateGroupModel>();
@@ -1197,9 +1329,14 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hospital"></param>
+        /// <returns></returns>
         public string InsertUpdateUserHospital(HospitalRegModel hospital)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateHospital", con))
@@ -1259,9 +1396,14 @@ namespace LeHealth.Core.DataManager
         }
 
         //Hospital Ends
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="consent"></param>
+        /// <returns></returns>
         public string ConsentFormDataSave(ConsentFormRegModel consent)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertConsentForm", con))
@@ -1300,9 +1442,14 @@ namespace LeHealth.Core.DataManager
         }
 
         //Operator Starts Now
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Operator"></param>
+        /// <returns></returns>
         public string InsertUpdateOperator(OperatorModel Operator)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateOperator", con))
@@ -1341,6 +1488,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OperatorId"></param>
+        /// <returns></returns>
         public List<OperatorModel> GetOperator(int OperatorId)
         {
             List<OperatorModel> stateList = new List<OperatorModel>();
@@ -1375,7 +1527,11 @@ namespace LeHealth.Core.DataManager
             }
         }
         //Operator Ends Now
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="la"></param>
+        /// <returns></returns>
         public List<LeadAgentModel> GetLeadAgent(int la)
         {
             List<LeadAgentModel> itemList = new List<LeadAgentModel>();
@@ -1409,9 +1565,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LeadAgent"></param>
+        /// <returns></returns>
         public string InsertUpdateLeadAgent(LeadAgentModel LeadAgent)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLeadAgent", con))
@@ -1452,6 +1613,11 @@ namespace LeHealth.Core.DataManager
         }
 
         //Company Management Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public List<CompanyModel> GetCompany(int Id)
         {
             List<CompanyModel> companyList = new List<CompanyModel>();
@@ -1483,9 +1649,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Company"></param>
+        /// <returns></returns>
         public string InsertUpdateCompany(CompanyModel Company)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany", con))
@@ -1526,6 +1697,11 @@ namespace LeHealth.Core.DataManager
         //Company Management Ends
 
         //City Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cityid"></param>
+        /// <returns></returns>
         public List<CityModel> GetCity(int cityid)
         {
             List<CityModel> cityList = new List<CityModel>();
@@ -1558,9 +1734,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="city"></param>
+        /// <returns></returns>
         public string InsertUpdateCity(CityModel city)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCity", con))
@@ -1600,9 +1781,14 @@ namespace LeHealth.Core.DataManager
         }
         //City Ends
         //Symptom Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Symptom"></param>
+        /// <returns></returns>
         public string InsertUpdateSymptom(SymptomModel Symptom)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSymptom", con))
@@ -1640,6 +1826,10 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<SymptomModel> GetActiveSymptoms()
         {
             List<SymptomModel> stateList = new List<SymptomModel>();
@@ -1663,9 +1853,14 @@ namespace LeHealth.Core.DataManager
         //Symptom Ends
 
         //VitalSign Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vitalsign"></param>
+        /// <returns></returns>
         public string InsertUpdateVitalSign(VitalSignModel vitalsign)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateVitalSign", con))
@@ -1709,6 +1904,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public List<VitalSignModel> GetVitalSign(int Id)
         {
             List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
@@ -1732,9 +1932,14 @@ namespace LeHealth.Core.DataManager
         }
         //VitalSign Ends
         //Movement Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="movement"></param>
+        /// <returns></returns>
         public string InsertUpdateMovement(MovementModel movement)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMovement", con))
@@ -1771,6 +1976,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public List<MovementModel> GetMovement(int Id)
         {
             List<MovementModel> vitalSignList = new List<MovementModel>();
@@ -1794,6 +2004,11 @@ namespace LeHealth.Core.DataManager
         }
         //Movement Ends
         //Package Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="la"></param>
+        /// <returns></returns>
         public List<PackageModel> GetPackage(int la)
         {
             List<PackageModel> itemList = new List<PackageModel>();
@@ -1829,9 +2044,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Package"></param>
+        /// <returns></returns>
         public string InsertUpdatePackage(PackageModel Package)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePackage", con))
@@ -1876,6 +2096,11 @@ namespace LeHealth.Core.DataManager
         //Package Ends
 
         //Location Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="la"></param>
+        /// <returns></returns>
         public List<LocationModel> GetLocation(int la)
         {
             List<LocationModel> itemList = new List<LocationModel>();
@@ -1921,9 +2146,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Package"></param>
+        /// <returns></returns>
         public string InsertUpdateLocation(LocationModel Package)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLocation", con))
@@ -1973,6 +2203,11 @@ namespace LeHealth.Core.DataManager
         }
         //Location Ends
         //Location Starts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="la"></param>
+        /// <returns></returns>
         public List<ScientificNameModel> GetScientificName(int la)
         {
             List<ScientificNameModel> itemList = new List<ScientificNameModel>();
@@ -2005,9 +2240,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Package"></param>
+        /// <returns></returns>
         public string InsertUpdateScientificName(ScientificNameModel Package)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateScientifcName", con))
@@ -2089,7 +2329,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
         public string InsertUpdateTendern(TendernModel Package)
         {
-            string response = "";
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTendern", con))
@@ -2214,6 +2454,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="countryId"></param>
+        /// <returns></returns>
         public List<StateModel> GetStateByCountryId(int countryId)
         {
             List<StateModel> stateList = new List<StateModel>();
@@ -2236,6 +2481,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ibt"></param>
+        /// <returns></returns>
         public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
         {
             List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();
@@ -2268,6 +2518,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<ConsentTypeModel> GetConsentType()
         {
             List<ConsentTypeModel> consentTypeList = new List<ConsentTypeModel>();
@@ -2297,6 +2551,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="numId"></param>
+        /// <returns></returns>
         public List<GetNumberModel> GetNumber(string numId)
         {
             List<GetNumberModel> numberList = new List<GetNumberModel>();
@@ -2306,7 +2565,7 @@ namespace LeHealth.Core.DataManager
                 {
                     if (numId == "All")
                     {
-                        numId = "";
+                        numId = string.Empty;;
                     }
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -2338,22 +2597,95 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public string UpdateNumberTable(GetNumberModel Package)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+
+        public List<FormValidationModel> GetFormMaster()
         {
-            string response = "";
+            List<FormValidationModel> numberList = new List<FormValidationModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetFormMaster", con))
+                {
+                   
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            FormValidationModel obj = new FormValidationModel();
+                            obj.FormId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FormId"]);
+                            obj.FormName = dsNumber.Tables[0].Rows[i]["FormName"].ToString();
+                            numberList.Add(obj);
+                        }
+                    }
+                    return numberList;
+                }
+            }
+        }
+        /// <summary>
+        /// GET Form Fields list of data By Form Id
+        /// </summary>
+        /// <param name="FormId"></param>
+        /// <returns>Form Fields list</returns>
+        public List<FormValidationModel> GetFormFields(int FormId)
+        {
+            List<FormValidationModel> numberList = new List<FormValidationModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetFormFields", con))
+                {
+
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FormId", FormId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dsNumber = new DataSet();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    {
+                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        {
+                            FormValidationModel obj = new FormValidationModel();
+                            obj.FieldId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FieldId"]);
+                            obj.FormId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FormId"]);
+                            obj.FieldName = dsNumber.Tables[0].Rows[i]["FieldName"].ToString();
+                            numberList.Add(obj);
+                        }
+                    }
+                    return numberList;
+                }
+            }
+        }
+        /// <summary>
+        /// Update Data in Number configuration table 
+        /// </summary>
+        /// <param name="num">Data in LH_Numbers Table</param>
+        /// <returns>Success or reason for error</returns>
+        public string UpdateNumberTable(GetNumberModel num)
+        {
+            string response = string.Empty;;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionUpdateNumber", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@NumId", Package.NumId);
-                    cmd.Parameters.AddWithValue("@Prefix", Package.Prefix);
-                    cmd.Parameters.AddWithValue("@Suffix", Package.Suffix);
-                    cmd.Parameters.AddWithValue("@Length", Package.Length);
-                    cmd.Parameters.AddWithValue("@Status", Package.Status);
-                    cmd.Parameters.AddWithValue("@Value", Package.Value);
-                    cmd.Parameters.AddWithValue("@MaxLength", Package.MaxLength);
-                    cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                    cmd.Parameters.AddWithValue("@NumId", num.NumId);
+                    cmd.Parameters.AddWithValue("@Prefix", num.Prefix);
+                    cmd.Parameters.AddWithValue("@Suffix", num.Suffix);
+                    cmd.Parameters.AddWithValue("@Length", num.Length);
+                    cmd.Parameters.AddWithValue("@Status", num.Status);
+                    cmd.Parameters.AddWithValue("@Value", num.Value);
+                    cmd.Parameters.AddWithValue("@MaxLength", num.MaxLength);
+                    cmd.Parameters.AddWithValue("@UserId", num.UserId);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output

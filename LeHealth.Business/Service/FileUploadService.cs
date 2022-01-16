@@ -57,7 +57,7 @@ namespace LeHealth.Service.Service
         }
         public string SaveFile(IFormFile File)
         {
-            string returnFilePath = "";
+            string returnFilePath = string.Empty;;
             using (var ms = new MemoryStream())
             {
                 var webRoot = _env.WebRootPath;
