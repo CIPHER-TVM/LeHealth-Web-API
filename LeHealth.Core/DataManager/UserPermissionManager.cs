@@ -125,9 +125,7 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
-                        XElement xmlElements = new XElement("Branches", obj.BranchIds.Select(i => new XElement("branch", i)));
-                        System.Console.Write(xmlElements);
-                        System.Console.Read();
+                       
                         var json = JsonConvert.SerializeObject(obj.BranchIds);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
@@ -162,6 +160,64 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return response;
+        }
+
+        public List<UserModel> GetUsers()
+        {
+            List<UserModel> obj = new List<UserModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_getUsers", con))
+                {
+                    con.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                   // cmd.Parameters.AddWithValue("@P_Id", 0);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj = ds.Tables[0].ToListOfObject<UserModel>();
+                    }
+                    return obj;
+                }
+            }
+
+        }
+
+        public UserModel GetUser(int id)
+        {
+            UserModel obj = new UserModel();
+            obj.BranchIds = new List<string>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_getUserMaster", con))
+                {
+                    con.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_Id", id);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj = ds.Tables[0].ToObject<UserModel>();
+                    }
+                    if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
+                    {
+                        obj.BranchIds = new List<string>();
+                        foreach (DataRow dr in ds.Tables[1].Rows)
+                        {
+                            obj.BranchIds.Add(dr.ItemArray[0].ToString());
+                        }
+                    }
+                        return obj;
+                }
+            }
         }
         #endregion
     }

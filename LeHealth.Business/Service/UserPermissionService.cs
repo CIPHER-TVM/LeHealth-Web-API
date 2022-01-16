@@ -34,5 +34,15 @@ namespace LeHealth.Service.Service
         {
             return userpermissionmanager.SaveUser(obj);
         }
+
+        public List<UserModel> GetUsers()
+        {
+            return userpermissionmanager.GetUsers();
+        }
+
+        public UserModel GetUser(int id)
+        {
+            return userpermissionmanager.GetUser(id);
+        }
     }
 }

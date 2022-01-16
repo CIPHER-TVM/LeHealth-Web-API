@@ -11,5 +11,7 @@ namespace LeHealth.Service.ServiceInterface
         List<UserGroupModel> getUserGroups();
         UserGroupModel getUserGroup(int id);
         string SaveUser(UserModel obj);
+        List<UserModel> GetUsers();
+        UserModel GetUser(int id);
     }
 }
