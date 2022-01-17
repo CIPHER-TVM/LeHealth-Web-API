@@ -37,6 +37,6 @@ namespace LeHealth.Service.ServiceInterface
         List<PatientModel> GetPatient(int pid);
         List<Appointments> GetAppointments(AppointmentModel appointment);
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
-        
+        List<ConsultantModel> GetConsultants(DepartmentIdModel deptId);
     }
 }

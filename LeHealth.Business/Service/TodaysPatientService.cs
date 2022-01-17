@@ -108,6 +108,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultant(cm);
         }
+        public List<ConsultantModel> GetConsultants(DepartmentIdModel deptId)
+        {
+            return todaysPatientManager.GetConsultants(deptId);
+        }
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
             return todaysPatientManager.GetAppointments(appointment);

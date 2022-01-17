@@ -6,6 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class DepartmentIdModel
     {
-        public Int32?[] Departments { get; set; } 
+        public List<Int32?> Departments { get; set; }
+        public bool ShowExternal { get; set; }
     }
 }

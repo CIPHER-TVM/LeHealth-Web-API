@@ -54,37 +54,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
-        [HttpPost]
-        [Route("SaveUser")]
-        public ResponseDataModel<string> SaveUser(UserModel obj)
-        {
-            try
-            {
-                string retval = permissionservice.SaveUser(obj);
-                var response = new ResponseDataModel<string>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = retval,
-
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "UserPermissionController", "SaveUserGroup()");
-
-                return new ResponseDataModel<string>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-        }
+       
 
         [HttpPost]
         [Route("getUserGroups")]
@@ -152,6 +122,100 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+        [HttpPost]
+        [Route("SaveUser")]
+        public ResponseDataModel<string> SaveUser(UserModel obj)
+        {
+            try
+            {
+                string retval = permissionservice.SaveUser(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = retval,
 
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserPermissionController", "SaveUserGroup()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("GetUsers")]
+        public ResponseDataModel<IEnumerable<UserModel>> GetUsers()
+        {
+            try
+            {
+                List<UserModel> retval = permissionservice.GetUsers();
+                var response = new ResponseDataModel<IEnumerable<UserModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = retval,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserPermissionController", "SaveUserGroup()");
+
+                return new ResponseDataModel<IEnumerable<UserModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+        [HttpPost]
+        [Route("GetUser")]
+        public ResponseDataModel<UserModel> GetUser([FromBody] int Id)
+        {
+            try
+            {
+                UserModel retval = permissionservice.GetUser(Id);
+                var response = new ResponseDataModel<UserModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = retval,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserPermissionController", "SaveUserGroup()");
+
+                return new ResponseDataModel<UserModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+        
     }
 }
