@@ -854,8 +854,8 @@ namespace LeHealth.Core.DataManager
                             SqlCommand patientRegscmd = new SqlCommand("stLH_InsertPatRegs", con);
                             patientRegscmd.CommandType = CommandType.StoredProcedure;
                             patientRegscmd.Parameters.AddWithValue("@RegId", DBNull.Value);
-                            DateTime regDateTwo = DateTime.ParseExact(patientDetail.RegDate.Trim(), "dd-MM-yyyy", null);
-                            patientDetail.RegDate = regDateTwo.ToString("yyyy-MM-dd");
+                            DateTime regDateDetail = DateTime.ParseExact(patientDetail.RegDate.Trim(), "dd-MM-yyyy", null);
+                            patientDetail.RegDate = regDateDetail.ToString("yyyy-MM-dd");
                             patientRegscmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
                             patientRegscmd.Parameters.AddWithValue("@PatientId", patientId);
                             patientRegscmd.Parameters.AddWithValue("@RegAmount", 0);
