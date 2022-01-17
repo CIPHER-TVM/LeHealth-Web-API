@@ -863,7 +863,9 @@ namespace LeHealth.Core.DataManager
                         {
                             cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
                         }
-                        cmd.Parameters.AddWithValue("@ConsultDate", Convert.ToDateTime(consultations.ConsultDate));
+                        DateTime ConsultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
+                        //cmd.Parameters.AddWithValue("@ConsultDate", Convert.ToDateTime(consultations.ConsultDate));
+                        cmd.Parameters.AddWithValue("@ConsultDate", ConsultDate);
                         cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                         cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
                         cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
