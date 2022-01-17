@@ -276,15 +276,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             try
             {
-                for (int i = 0; i < deptId.Departments.Length; i++)
-                {
+                
                     ConsultantByDeptModel cm = new ConsultantByDeptModel();
-                    cm.DeptId = Convert.ToInt32(deptId.Departments[i]);
-                    cm.ShowExternal = false;
+               
                     List<ConsultantModel> templist = new List<ConsultantModel>();
-                    templist = todaysPatientService.GetConsultant(cm);
+                    templist = todaysPatientService.GetConsultants(deptId);
                     consultantList.AddRange(templist);
-                }
+               
 
                 var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
@@ -1289,9 +1287,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         }
 
-       
+        
 
-        [HttpPost]
+         [HttpPost]
         [Route("GetConsultRate")]
         public ResponseDataModel<IEnumerable<ConsultRateModel>> GetConsultRate(ConsultationModel cm)
         {
