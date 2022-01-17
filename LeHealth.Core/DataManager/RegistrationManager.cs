@@ -238,7 +238,7 @@ namespace LeHealth.Core.DataManager
                     patient.RegDateFrom = oldFrom.ToString("yyyy-MM-dd");
 
                     DateTime oldTo = DateTime.ParseExact(patient.RegDateTo.Trim(), "dd-MM-yyyy", null);
-                    patient.RegDateTo = oldFrom.ToString("yyyy-MM-dd");
+                    patient.RegDateTo = oldTo.ToString("yyyy-MM-dd");
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Name", patient.Name.Trim());
