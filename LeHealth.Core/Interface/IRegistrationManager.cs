@@ -9,11 +9,9 @@ namespace LeHealth.Core.Interface
     {
         string InsertPatient(PatientRegModel patientDetail);
         string ValidateHL7(string nabidh);
-        List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
         List<GenderModel> GetGender();
         List<KinRelationModel> GetKinRelation();
-        List<SalutationModel> GetSalutation();
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);

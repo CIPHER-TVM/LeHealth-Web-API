@@ -74,41 +74,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 
 
-        //NEW API STARTS
-        [Route("GetSalutation")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation()
-        {
-            List<SalutationModel> salutationList = new List<SalutationModel>();
-            try
-            {
-                salutationList = registrationService.GetSalutation();
-                var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = salutationList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SalutationModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
         [Route("GetGender")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<GenderModel>> GetGender()
@@ -176,42 +141,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
-        [Route("GetRateGroup")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroup(RateGroupModel rgroup)
-        {
-            List<RateGroupModel> rategroupList = new List<RateGroupModel>();
-            try
-            {
-                rategroupList = registrationService.GetRateGroup(rgroup.RGroupId);
-                var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = rategroupList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RateGroupModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
-
 
         [HttpPost]
         [Route("GetAllPatient")]

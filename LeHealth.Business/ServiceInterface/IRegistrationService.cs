@@ -10,9 +10,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertPatient(PatientRegModel patientDetail);
         string ValidateHL7(string nabidh); 
         List<GenderModel> GetGender();
-        List<SalutationModel> GetSalutation();
         List<KinRelationModel> GetKinRelation();
-        List<RateGroupModel> GetRateGroup(int rgroup);
         List<AllPatientModel> GetAllPatient();
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();

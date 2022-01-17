@@ -45,14 +45,7 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetKinRelation();
         }
-        public List<SalutationModel> GetSalutation()
-        {
-            return registrationManager.GetSalutation();
-        }
-        public List<RateGroupModel> GetRateGroup(int rgroup)
-        {
-            return registrationManager.GetRateGroup(rgroup);
-        }
+        
         public List<AllPatientModel> GetAllPatient()
         {
             return registrationManager.GetAllPatient();

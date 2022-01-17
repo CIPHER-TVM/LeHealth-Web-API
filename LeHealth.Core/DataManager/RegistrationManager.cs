@@ -50,34 +50,34 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<SalutationModel> GetSalutation()
-        {
-            List<SalutationModel> salutationList = new List<SalutationModel>();
+        //public List<SalutationModel> GetSalutation()
+        //{
+        //    List<SalutationModel> salutationList = new List<SalutationModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsSalutation = new DataSet();
-                    adapter.Fill(dsSalutation);
-                    con.Close();
-                    if ((dsSalutation != null) && (dsSalutation.Tables.Count > 0) && (dsSalutation.Tables[0] != null) && (dsSalutation.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < dsSalutation.Tables[0].Rows.Count; i++)
-                        {
-                            SalutationModel obj = new SalutationModel();
-                            obj.Id = Convert.ToInt32(dsSalutation.Tables[0].Rows[i]["Id"]);
-                            obj.Salutation = dsSalutation.Tables[0].Rows[i]["Salutation"].ToString();
-                            salutationList.Add(obj);
-                        }
-                    }
-                    return salutationList;
-                }
-            }
-        }
+        //    using (SqlConnection con = new SqlConnection(_connStr))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con))
+        //        {
+        //            con.Open();
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //            DataSet dsSalutation = new DataSet();
+        //            adapter.Fill(dsSalutation);
+        //            con.Close();
+        //            if ((dsSalutation != null) && (dsSalutation.Tables.Count > 0) && (dsSalutation.Tables[0] != null) && (dsSalutation.Tables[0].Rows.Count > 0))
+        //            {
+        //                for (int i = 0; i < dsSalutation.Tables[0].Rows.Count; i++)
+        //                {
+        //                    SalutationModel obj = new SalutationModel();
+        //                    obj.Id = Convert.ToInt32(dsSalutation.Tables[0].Rows[i]["Id"]);
+        //                    obj.Salutation = dsSalutation.Tables[0].Rows[i]["Salutation"].ToString();
+        //                    salutationList.Add(obj);
+        //                }
+        //            }
+        //            return salutationList;
+        //        }
+        //    }
+        //}
         public List<KinRelationModel> GetKinRelation()
         {
             List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
@@ -162,37 +162,41 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<RateGroupModel> GetRateGroup(int rgroup)
-        {
-            List<RateGroupModel> rateList = new List<RateGroupModel>();
+        //public List<RateGroupModel> GetRateGroup(int rgroup)
+        //{
+        //    List<RateGroupModel> rateList = new List<RateGroupModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetRateGroup", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@RGroupId", rgroup);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsRate = new DataSet();
-                    adapter.Fill(dsRate);
-                    con.Close();
-                    if ((dsRate != null) && (dsRate.Tables.Count > 0) && (dsRate.Tables[0] != null) && (dsRate.Tables[0].Rows.Count > 0))
-                    {
-                        for (int i = 0; i < dsRate.Tables[0].Rows.Count; i++)
-                        {
-                            RateGroupModel obj = new RateGroupModel();
-                            obj.RGroupId = Convert.ToInt32(dsRate.Tables[0].Rows[i]["RGroupId"]);
-                            obj.RGroupName = dsRate.Tables[0].Rows[i]["RGroupName"].ToString();
-                            obj.Description = dsRate.Tables[0].Rows[i]["Description"].ToString();
-                            obj.Active = Convert.ToInt32(dsRate.Tables[0].Rows[i]["Active"]);
-                            rateList.Add(obj);
-                        }
-                    }
-                    return rateList;
-                }
-            }
-        }
+        //    using (SqlConnection con = new SqlConnection(_connStr))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand("stLH_GetRateGroup", con))
+        //        {
+        //            con.Open();
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@RGroupId", rgroup);
+        //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //            DataSet dsRate = new DataSet();
+        //            adapter.Fill(dsRate);
+        //            con.Close();
+        //            if ((dsRate != null) && (dsRate.Tables.Count > 0) && (dsRate.Tables[0] != null) && (dsRate.Tables[0].Rows.Count > 0))
+        //            {
+        //                for (int i = 0; i < dsRate.Tables[0].Rows.Count; i++)
+        //                {
+        //                    RateGroupModel obj = new RateGroupModel();
+        //                    obj.RGroupId = Convert.ToInt32(dsRate.Tables[0].Rows[i]["RGroupId"]);
+        //                    obj.RGroupName = dsRate.Tables[0].Rows[i]["RGroupName"].ToString();
+        //                    obj.Description = dsRate.Tables[0].Rows[i]["Description"].ToString();
+        //                    obj.Active = Convert.ToInt32(dsRate.Tables[0].Rows[i]["Active"]);
+        //                    rateList.Add(obj);
+        //                }
+        //            }
+        //            return rateList;
+        //        }
+        //    }
+        //}
+        /// <summary>
+        /// Get All details of patient.Not using now. Instead of this API SearchPatientInList is calling
+        /// </summary>
+        /// <returns></returns>
         public List<AllPatientModel> GetAllPatient()
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
@@ -213,6 +217,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Searching Patient details with patient name,consultant id, mobile, Reg no identiy number ,Reg Date ,Pin,Policy No in Patient Main Page.
+        /// </summary>
+        /// <param name="patient"></param>
+        /// <returns></returns>
         public List<AllPatientModel> SearchPatientInList(PatientSearchModel patient)
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
@@ -272,6 +281,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Re Registration Data Save
+        /// </summary>
+        /// <param name="reregistration"></param>
+        /// <returns>Success Message or Error description</returns>
         public string SaveReRegistration(PatientModel reregistration)
         {
             string response = string.Empty;;
@@ -315,6 +329,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// Get Patient Profile,address,Identity, Consultation Data
+        /// </summary>
+        /// <param name="patid">Primary key of LH_Patient, PatientId </param>
+        /// <returns></returns>
         public List<PatientModel> GetRegisteredDataById(int patid)
         {
             PatientModel obj = new PatientModel();
@@ -486,6 +505,11 @@ namespace LeHealth.Core.DataManager
                 return patientData;
             }
         }
+        /// <summary>
+        /// Blocking a patient
+        /// </summary>
+        /// <param name="patient">PatientId is primary key of LH_Patient</param>
+        /// <returns>Success or Error details</returns>
         public string BlockPatient(PatientModel patient)
         {
             string response = string.Empty;;
@@ -533,7 +557,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public string DeletePatRegFiles(int Id)
         {
             string response = string.Empty;;
@@ -560,6 +588,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// Unblocking a patient
+        /// </summary>
+        /// <param name="patient">PatientId is primary key of LH_Patient</param>
+        /// <returns> success or error details</returns>
         public string UnblockPatient(PatientModel patient)
         {
             string response = string.Empty;;
@@ -607,6 +640,11 @@ namespace LeHealth.Core.DataManager
         }
 
         //INSERT UPDATE PATIENT
+        /// <summary>
+        /// Save Patient Details,Consultation details(if added)
+        /// </summary>
+        /// <param name="patientDetail"></param>
+        /// <returns>Error details or PatientId</returns>
         public string InsertPatient(PatientRegModel patientDetail)
         {
             SqlTransaction transaction;
@@ -652,10 +690,17 @@ namespace LeHealth.Core.DataManager
                 }
                 con.Open();
                 transaction = con.BeginTransaction();
-                DateTime regDate = DateTime.Parse(patientDetail.RegDate.Trim());
+                //DateTime regDate = DateTime.Parse(patientDetail.RegDate.Trim());
+                //patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
+                //DateTime dobDate = DateTime.Parse(patientDetail.DOB.Trim());
+                //patientDetail.DOB = dobDate.ToString("yyyy-MM-dd hh:mm tt");
+
+
+
+                DateTime regDate = DateTime.ParseExact(patientDetail.RegDate.Trim(), "dd/MM/yyyy", null);
                 patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
 
-                DateTime dobDate = DateTime.Parse(patientDetail.DOB.Trim());
+                DateTime dobDate = DateTime.ParseExact(patientDetail.DOB.Trim(), "dd/MM/yyyy", null);
                 patientDetail.DOB = dobDate.ToString("yyyy-MM-dd hh:mm tt");
 
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
@@ -1011,8 +1056,6 @@ namespace LeHealth.Core.DataManager
 
             return strValue;
         }
-
-
         public string ValidateHL7(string nabidh)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
