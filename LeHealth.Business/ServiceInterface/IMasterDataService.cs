@@ -31,6 +31,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateRegScheme(RegSchemeModel RegScheme);
         List<RegSchemeModel> GetRegScheme(int RegSchemeId);
         List<DepartmentModel> GetDepartments(int DeptId);
+        List<DepartmentModel> GetDepartmentByHospital(int HospId);
         string InsertUpdateDepartment(DepartmentModel Dept);
         List<LeadAgentModel> GetLeadAgent(int la);
         string InsertUpdateLeadAgent(LeadAgentModel la);

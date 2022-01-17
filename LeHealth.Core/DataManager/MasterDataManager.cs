@@ -1017,22 +1017,21 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         /// <summary>
-        /// 
+        /// Get Department Details By HospitalId
         /// </summary>
         /// <param name="HospId"></param>
-        /// <returns></returns>
+        /// <returns>List Of Departments</returns>
         public List<DepartmentModel> GetDepartmentByHospital(int HospId)
         {
             List<DepartmentModel> departmentlist = new List<DepartmentModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetDepartment", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetDepartmentByHospital", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DeptId", HospId);
+                    cmd.Parameters.AddWithValue("@HospitalId", HospId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
@@ -1045,11 +1044,6 @@ namespace LeHealth.Core.DataManager
                             obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
                             obj.DeptName = ds.Tables[0].Rows[i]["DeptName"].ToString();
                             obj.DeptCode = ds.Tables[0].Rows[i]["DeptCode"].ToString();
-                            obj.Description = ds.Tables[0].Rows[i]["Description"].ToString();
-                            obj.BranchId = Convert.ToInt32(ds.Tables[0].Rows[i]["BranchId"]);
-                            obj.TimeSlice = Convert.ToInt32(ds.Tables[0].Rows[i]["TimeSlice"]);
-                            obj.Active = Convert.ToInt32(ds.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
                             departmentlist.Add(obj);
                         }
                     }
@@ -1057,6 +1051,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2713,5 +2708,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        
     }
 }

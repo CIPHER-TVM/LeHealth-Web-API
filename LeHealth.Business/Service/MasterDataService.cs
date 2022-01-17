@@ -102,9 +102,9 @@ namespace LeHealth.Service.Service
             }
             return masterdataManager.InsertUpdateUserHospital(hm);
         }
-         public string ConsentFormDataSave(ConsentFormRegModel hm)
+        public string ConsentFormDataSave(ConsentFormRegModel hm)
         {
-           
+
             if (hm.SignFile != null)
             {
                 hm.Sign = fileUploadService.SaveFile(hm.SignFile);
@@ -173,6 +173,10 @@ namespace LeHealth.Service.Service
         public string InsertUpdateDepartment(DepartmentModel Dept)
         {
             return masterdataManager.InsertUpdateDepartment(Dept);
+        }
+        public List<DepartmentModel> GetDepartmentByHospital(int HospId)
+        {
+            return masterdataManager.GetDepartmentByHospital(HospId);
         }
         public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientId)
         {

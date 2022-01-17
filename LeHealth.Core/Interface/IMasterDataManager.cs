@@ -49,6 +49,7 @@ namespace LeHealth.Core.Interface
 
         //DEPARTMENT MANAGEMENT STARTS
         List<DepartmentModel> GetDepartments(int DeptId);
+        List<DepartmentModel> GetDepartmentByHospital(int HospId);
         string InsertUpdateDepartment(DepartmentModel Dept);
         //DEPARTMENT MANAGEMENT ENDS
 

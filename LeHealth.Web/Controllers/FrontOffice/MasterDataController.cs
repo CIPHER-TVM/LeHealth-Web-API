@@ -1230,7 +1230,47 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
         //Department Management completed
+        /// <summary>
+        /// To get list of all Departments Or Departments Detail of Input parameter. 
+        /// DeptId=Primary key of LH_Department Table, Returns all if DeptId=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Departments as JSON
+        /// </returns>
 
+        [Route("GetDepartmentByHospital/{HospId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartmentByHospital(int HospId)
+        {
+            List<DepartmentModel> departmentList = new List<DepartmentModel>();
+            try
+            {
+                departmentList = masterdataService.GetDepartmentByHospital(HospId);
+                var response = new ResponseDataModel<IEnumerable<DepartmentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = departmentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DepartmentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
         //Zone Management Start
         /// <summary>
