@@ -697,10 +697,10 @@ namespace LeHealth.Core.DataManager
 
 
 
-                DateTime regDate = DateTime.ParseExact(patientDetail.RegDate.Trim(), "dd/MM/yyyy", null);
+                DateTime regDate = DateTime.ParseExact(patientDetail.RegDate.Trim(), "dd-MM-yyyy", null);
                 patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
 
-                DateTime dobDate = DateTime.ParseExact(patientDetail.DOB.Trim(), "dd/MM/yyyy", null);
+                DateTime dobDate = DateTime.ParseExact(patientDetail.DOB.Trim(), "dd-MM-yyyy", null);
                 patientDetail.DOB = dobDate.ToString("yyyy-MM-dd hh:mm tt");
 
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);

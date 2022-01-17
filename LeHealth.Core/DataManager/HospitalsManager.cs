@@ -340,7 +340,7 @@ namespace LeHealth.Core.DataManager
                     DateTime oldFrom = DateTime.ParseExact(consultation.FromDate.Trim(), "dd-MM-yyyy", null);
                     consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
 
-                    DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd/MM/yyyy", null);
+                    DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd-MM-yyyy", null);
                     consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
 
 
