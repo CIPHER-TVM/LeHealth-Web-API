@@ -53,7 +53,7 @@ namespace LeHealth.Core.DataManager
 
 
 
-        
+
 
         /// <summary>
         /// Get consultantion's list from database, Step three in code execution flow
@@ -147,7 +147,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertAppointment(Appointments appointments)
         {
-            string response = string.Empty;;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
@@ -162,12 +162,16 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                     }
                     string DateString = appointments.AppDate;
-                    IFormatProvider culture = new CultureInfo("en-US", true);
-                    DateTime dateVal = DateTime.ParseExact(DateString, "yyyy-MM-dd", culture);
+                    //IFormatProvider culture = new CultureInfo("en-US", true);
+                    //DateTime dateVal = DateTime.ParseExact(DateString, "yyyy-MM-dd", culture);
+                    DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
+
+
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@AppDate", dateVal);
+                    cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
                     cmd.Parameters.AddWithValue("@AppNo", appointments.AppNo);
                     cmd.Parameters.AddWithValue("@SliceNo", appointments.SliceNo);
                     cmd.Parameters.AddWithValue("@SliceTime", appointments.SliceTime);
@@ -229,7 +233,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string UpdateAppointment(Appointments appointments)
         {
-            string appointmentret = string.Empty;;
+            string appointmentret = string.Empty; ;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
