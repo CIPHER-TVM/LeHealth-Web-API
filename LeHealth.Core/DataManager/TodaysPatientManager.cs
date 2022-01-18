@@ -1061,36 +1061,64 @@ namespace LeHealth.Core.DataManager
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                int listcount = deptId.Departments.Count;
-                string DepIds = "";
-                if(listcount>0)
-                DepIds = string.Join(",", deptId.Departments.ToArray());
-               
-               
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDepts", con))
+                for (int i = 0; i < deptId.Departments.Length; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DeptId", DepIds);
-                    cmd.Parameters.AddWithValue("@ShowExternal", deptId.ShowExternal);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        int DepartmentId = (int)deptId.Departments[i];
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@DeptId", DepartmentId);
+                        cmd.Parameters.AddWithValue("@ShowExternal", deptId.ShowExternal);
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataSet ds = new DataSet();
+                        adapter.Fill(ds);
+                        con.Close();
+
+                        if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                         {
-                            ConsultantModel obj = new ConsultantModel();
-                            obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultantId"]);
-                            obj.ConsultantName = ds.Tables[0].Rows[i]["ConsultantName"].ToString();
-                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
-                            obj.DeptName = ds.Tables[0].Rows[i]["DeptName"].ToString();
-                            consultantList.Add(obj);
+                            for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                            {
+                                ConsultantModel obj = new ConsultantModel();
+                                obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[j]["ConsultantId"]);
+                                obj.ConsultantName = ds.Tables[0].Rows[j]["ConsultantName"].ToString();
+                                obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[j]["DeptId"]);
+                                obj.DeptName = ds.Tables[0].Rows[j]["DeptName"].ToString();
+                                consultantList.Add(obj);
+                            }
                         }
                     }
-                    return consultantList;
                 }
+                return consultantList;
+                //int listcount = deptId.Departments.Count;
+                //string DepIds = "";
+                //if(listcount>0)
+                //DepIds = string.Join(",", deptId.Departments.ToArray());
+                //using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDepts", con))
+                //{
+                //    con.Open();
+                //    cmd.CommandType = CommandType.StoredProcedure;
+                //    cmd.Parameters.AddWithValue("@DeptId", DepIds);
+                //    cmd.Parameters.AddWithValue("@ShowExternal", deptId.ShowExternal);
+                //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                //    DataSet ds = new DataSet();
+                //    adapter.Fill(ds);
+                //    con.Close();
+                //    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                //    {
+                //        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                //        {
+                //            ConsultantModel obj = new ConsultantModel();
+                //            obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultantId"]);
+                //            obj.ConsultantName = ds.Tables[0].Rows[i]["ConsultantName"].ToString();
+                //            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
+                //            obj.DeptName = ds.Tables[0].Rows[i]["DeptName"].ToString();
+                //            consultantList.Add(obj);
+                //        }
+                //    }
+                //    return consultantList;
+                //}
             }
         }
         /// <summary>
