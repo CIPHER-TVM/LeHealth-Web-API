@@ -423,6 +423,8 @@ namespace LeHealth.Core.DataManager
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsim)
         {
             List<SheduleGetDataModel> scheduleList = new List<SheduleGetDataModel>();
+            DateTime scheduleDate = DateTime.ParseExact(gsim.DateValue.Trim(), "dd-MM-yyyy", null);
+            gsim.DateValue = scheduleDate.ToString("yyyy-MM-dd");
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
