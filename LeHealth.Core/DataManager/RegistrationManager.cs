@@ -885,6 +885,8 @@ namespace LeHealth.Core.DataManager
                                     SqlCommand patientRegConsultationSavecmd = new SqlCommand("stLH_InsertUpdateConsultation", con);
                                     patientRegConsultationSavecmd.CommandType = CommandType.StoredProcedure;
                                     patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
+                                    DateTime consultDate = DateTime.ParseExact(patientDetail.Consultation.ConsultDate.Trim(), "dd-MM-yyyy", null);
+                                    patientDetail.Consultation.ConsultDate = consultDate.ToString("yyyy-MM-dd");
                                     patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultDate", patientDetail.Consultation.ConsultDate);
                                     patientRegConsultationSavecmd.Parameters.AddWithValue("@AppId", patientDetail.Consultation.AppId);
                                     patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultantId", patientDetail.Consultation.ConsultantId);
