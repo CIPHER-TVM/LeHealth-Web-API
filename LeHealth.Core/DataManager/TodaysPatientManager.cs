@@ -659,10 +659,10 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd/MM/yyyy", null);
-                    app.AppDate = postponeDate.ToString("yyyy-MM-dd");
+                    //app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
-                    cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(app.AppDate));
+                    cmd.Parameters.AddWithValue("@AppDate", postponeDate);
                     cmd.Parameters.AddWithValue("@AppNo", app.AppNo);
                     cmd.Parameters.AddWithValue("@SliceNo", app.SliceNo);
                     cmd.Parameters.AddWithValue("@SliceTime", app.SliceTime);
@@ -708,9 +708,9 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     DateTime appDate = DateTime.ParseExact(appoinment.AppDate.Trim(), "dd/MM/yyyy", null);
-                    appoinment.AppDate = appDate.ToString("yyyy-MM-dd");
+                    //appoinment.AppDate = appDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@ConsultantId", appoinment.ConsultantId);
-                    cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(appoinment.AppDate));
+                    cmd.Parameters.AddWithValue("@AppDate", appDate);
                     cmd.Parameters.AddWithValue("@TimeSliceFirst", appoinment.TimeSliceFirst);
                     cmd.Parameters.AddWithValue("@RequiredSlots", appoinment.RequiredSlots);
                     SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
@@ -870,7 +870,6 @@ namespace LeHealth.Core.DataManager
                             cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
                         }
                         DateTime ConsultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
-                        //cmd.Parameters.AddWithValue("@ConsultDate", Convert.ToDateTime(consultations.ConsultDate));
                         cmd.Parameters.AddWithValue("@ConsultDate", ConsultDate);
                         cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                         cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
