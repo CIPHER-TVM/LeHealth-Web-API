@@ -659,10 +659,10 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd/MM/yyyy", null);
-                    //app.AppDate = postponeDate.ToString("yyyy-MM-dd");
+                    app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
-                    cmd.Parameters.AddWithValue("@AppDate", postponeDate);
+                    cmd.Parameters.AddWithValue("@AppDate", app.AppDate);
                     cmd.Parameters.AddWithValue("@AppNo", app.AppNo);
                     cmd.Parameters.AddWithValue("@SliceNo", app.SliceNo);
                     cmd.Parameters.AddWithValue("@SliceTime", app.SliceTime);
