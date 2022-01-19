@@ -2709,6 +2709,23 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        
+        public List<ConsultantModel> ConsultantSearchWithDept(GetScheduleInputModel drsearch)
+        {
+            List<ConsultantModel> numberList = new List<ConsultantModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultant", con))
+                {
+                    //con.Open();
+                    //cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@NumId", numId);
+                    //SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    //DataSet dsNumber = new DataSet();
+                    //adapter.Fill(dsNumber);
+                    //con.Close();                    
+                    return numberList;
+                }
+            }
+        }
     }
 }

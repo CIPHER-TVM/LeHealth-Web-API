@@ -708,7 +708,6 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     DateTime appDate = DateTime.ParseExact(appoinment.AppDate.Trim(), "dd/MM/yyyy", null);
-                    //appoinment.AppDate = appDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@ConsultantId", appoinment.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", appDate);
                     cmd.Parameters.AddWithValue("@TimeSliceFirst", appoinment.TimeSliceFirst);
@@ -1059,21 +1058,22 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public List<ConsultantModel> GetConsultants(DepartmentIdModel deptId)
+        public List<ConsultantModel> GetConsultants(DepartmentIdModel dept)
         {
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                for (int i = 0; i < deptId.Departments.Length; i++)
+                for (int i = 0; i < dept.Departments.Length; i++)
                 {
                     using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
                     {
-                        int DepartmentId = (int)deptId.Departments[i];
+                        int DepartmentId = (int)dept.Departments[i];
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
                         cmd.Parameters.AddWithValue("@DeptId", DepartmentId);
-                        cmd.Parameters.AddWithValue("@ShowExternal", deptId.ShowExternal);
+                        cmd.Parameters.AddWithValue("@ConsultantName", dept.ConsultantName);
+                        cmd.Parameters.AddWithValue("@ShowExternal", dept.ShowExternal);
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                         DataSet ds = new DataSet();
                         adapter.Fill(ds);
