@@ -658,6 +658,8 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd/MM/yyyy", null);
+                    app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(app.AppDate));
