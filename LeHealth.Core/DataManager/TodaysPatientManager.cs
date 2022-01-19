@@ -705,6 +705,8 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_AppoinmentValidCheck", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    DateTime appDate = DateTime.ParseExact(appoinment.AppDate.Trim(), "dd/MM/yyyy", null);
+                    appoinment.AppDate = appDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@ConsultantId", appoinment.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(appoinment.AppDate));
                     cmd.Parameters.AddWithValue("@TimeSliceFirst", appoinment.TimeSliceFirst);

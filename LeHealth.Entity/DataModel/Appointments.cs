@@ -51,5 +51,7 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int RetVal { get; set; }
         public string RetDesc { get; set; }
+        public int SlotCount { get; set; }
+        public int DeptId { get; set; }
     }
 }
