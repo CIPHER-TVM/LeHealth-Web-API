@@ -267,25 +267,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 PatientRegModel patientDetail = JsonConvert.DeserializeObject<PatientRegModel>(obj.PatientJson);
                 patientDetail.PatientDocs = obj.PatientDocs;
                 patientDetail.PatientPhoto = obj.PatientPhoto;
-                string registrationDetail = registrationService.InsertPatient(patientDetail);
+                List<PatientRegModel> registrationDetail = registrationService.InsertPatient(patientDetail);
                 ErrorResponse er = new ErrorResponse();
-                var isNumeric = int.TryParse(registrationDetail, out int n);
-                if (isNumeric == true)
-                {
-                    message = registrationDetail;
-                    er.Message = "success";
-                }
-                else
-                {
-                    message = "error";
-                    er.Message = registrationDetail;
-                }
-                er.Code = string.Empty;;
-
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
+                    Response = registrationDetail,
                     Status = HttpStatusCode.OK,
-                    Message = message,
+                    Message = registrationDetail[0].ErrorMessage,
                     ErrorMessage = er
                 };
                 return response;

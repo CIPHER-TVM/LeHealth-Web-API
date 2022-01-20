@@ -91,6 +91,6 @@ namespace LeHealth.Entity.DataModel
         public int? ConsultationId { get; set; }
         public string DepartmentName { get; set; }
         public string ConsultantName { get; set; }
-
+        public string ErrorMessage { get; set; }  
     }
 }

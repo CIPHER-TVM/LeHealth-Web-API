@@ -658,7 +658,7 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd/MM/yyyy", null);
+                    DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd-MM-yyyy", null);
                     //app.AppDate = postponeDate.ToString("yyyy-MM-dd hh:mm tt");
                     app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
@@ -1032,7 +1032,7 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDeptById", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
