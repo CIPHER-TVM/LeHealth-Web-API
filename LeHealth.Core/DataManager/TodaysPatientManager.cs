@@ -253,15 +253,16 @@ namespace LeHealth.Core.DataManager
         /// <returns>List of appointment details</returns>
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
+
             List<Appointments> Appointmentlist = new List<Appointments>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 string AppQuery = "[stLH_GetAppOfaDay]";
                 using (SqlCommand cmd = new SqlCommand(AppQuery, con))
                 {
                     con.Open();
-
+                    DateTime appDate = DateTime.ParseExact(appointment.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appointment.AppDate = appDate.ToString("yyyy-MM-dd");
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
