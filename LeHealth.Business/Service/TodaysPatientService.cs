@@ -87,6 +87,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.InsertUpdateConsultation(consultations);
         }
+        public List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations)
+        {
+            return todaysPatientManager.UpdateConsultationSymptoms(consultations); 
+        }
         public List<TokenModel> GetNewTokenNumber(ConsultationModel consultations)
         {
             return todaysPatientManager.GetNewTokenNumber(consultations);

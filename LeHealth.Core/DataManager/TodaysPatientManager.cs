@@ -910,7 +910,7 @@ namespace LeHealth.Core.DataManager
                         var isUpdated = cmd.ExecuteNonQuery();
                         var ret = retValV.Value;
                         descrip = retDesc.Value.ToString();
-                        
+
                         con.Close();
                         if (int.Parse(ret.ToString()) == -1)
                         {
@@ -929,6 +929,7 @@ namespace LeHealth.Core.DataManager
                             consultations.RetVal = int.Parse(ret.ToString());
                             consultations.RetDesc = "Success";
                             con.Open();
+
                             for (int b = 0; b < consultations.Symptoms.Count; b++)
                             {
                                 SqlCommand savesymptomCMD = new SqlCommand("stLH_SaveConsultationSymptoms", con);
@@ -951,6 +952,77 @@ namespace LeHealth.Core.DataManager
             }
             return consultaionsList;
         }
+
+        public List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations)
+        {
+            List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
+            var descrip = string.Empty; ;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultationSymptoms", con))
+                {
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                        cmd.Parameters.AddWithValue("@Symptoms", consultations.OtherReasonForVisit);
+
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        var ret = retValV.Value;
+                        descrip = retDesc.Value.ToString();
+
+                        con.Close();
+                        if (descrip == "Saved Successfully")
+                        {
+                            consultations.RetDesc = "Saved Successfully";
+                            con.Open();
+                            SqlCommand deletesymptomCMD = new SqlCommand("stLH_DeleteConsultationSymptoms", con);
+                            deletesymptomCMD.CommandType = CommandType.StoredProcedure;
+                            deletesymptomCMD.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                            var isDeleted = deletesymptomCMD.ExecuteNonQuery();
+                            for (int b = 0; b < consultations.Symptoms.Count; b++)
+                            {
+                                SqlCommand savesymptomCMD = new SqlCommand("stLH_SaveConsultationSymptoms", con);
+                                savesymptomCMD.CommandType = CommandType.StoredProcedure;
+                                savesymptomCMD.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                                savesymptomCMD.Parameters.AddWithValue("@SymptomId", consultations.Symptoms[b].SymptomId);
+                                var isInsertedSymptom1 = savesymptomCMD.ExecuteNonQuery();
+                            }
+                            con.Close();
+                            consultations.RetVal = -1;
+                            consultations.RetDesc = descrip;
+                            consultaionsList.Add(consultations);
+                        }
+                        else
+                        {
+                            consultations.RetVal = -2;
+                            consultations.RetDesc = descrip;
+                            consultaionsList.Add(consultations);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        consultations.RetVal = -2;
+                        consultations.RetDesc = descrip;
+                        consultaionsList.Add(consultations);
+                    }
+                }
+            }
+            return consultaionsList;
+        }
+
         /// <summary>
         /// 
         /// </summary>
