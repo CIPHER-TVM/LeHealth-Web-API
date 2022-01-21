@@ -876,7 +876,7 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                         cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
                         cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
-                        cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
+                        cmd.Parameters.AddWithValue("@Symptoms", consultations.OtherReasonForVisit);
                         cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
                         cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
                         cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);
@@ -910,6 +910,7 @@ namespace LeHealth.Core.DataManager
                         var isUpdated = cmd.ExecuteNonQuery();
                         var ret = retValV.Value;
                         descrip = retDesc.Value.ToString();
+                        
                         con.Close();
                         if (int.Parse(ret.ToString()) == -1)
                         {
@@ -927,6 +928,16 @@ namespace LeHealth.Core.DataManager
                         {
                             consultations.RetVal = int.Parse(ret.ToString());
                             consultations.RetDesc = "Success";
+                            con.Open();
+                            for (int b = 0; b < consultations.Symptoms.Count; b++)
+                            {
+                                SqlCommand savesymptomCMD = new SqlCommand("stLH_SaveConsultationSymptoms", con);
+                                savesymptomCMD.CommandType = CommandType.StoredProcedure;
+                                savesymptomCMD.Parameters.AddWithValue("@ConsultationId", int.Parse(ret.ToString()));
+                                savesymptomCMD.Parameters.AddWithValue("@SymptomId", consultations.Symptoms[b].SymptomId);
+                                var isInsertedSymptom1 = savesymptomCMD.ExecuteNonQuery();
+                            }
+                            con.Close();
                             consultaionsList.Add(consultations);
                         }
                     }

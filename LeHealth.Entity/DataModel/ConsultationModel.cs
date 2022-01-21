@@ -43,7 +43,7 @@ namespace LeHealth.Entity.DataModel
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string CancelReason { get; set; }
-        public string Symptoms { get; set; }
+        public List<RegSymptomsModel> Symptoms { get; set; }
         public ConsultationModel()
         {
 
