@@ -155,14 +155,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetConsultationDataByPatientId/{patientId}")]
+        [Route("GetConsultationDataById/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PatientConsultationModel>> GetConsultationDataByPatientId(int patientId)  
+        public ResponseDataModel<IEnumerable<PatientConsultationModel>> GetConsultationDataById(int Id)  
         {
             List<PatientConsultationModel> consultantionList = new List<PatientConsultationModel>();
             try
             {
-                consultantionList = todaysPatientService.GetConsultationDataByPatientId(patientId);
+                consultantionList = todaysPatientService.GetConsultationDataById(Id);
                 var response = new ResponseDataModel<IEnumerable<PatientConsultationModel>>()
                 {
                     Status = HttpStatusCode.OK,

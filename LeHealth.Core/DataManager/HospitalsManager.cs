@@ -356,8 +356,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Phone", "");
                     cmd.Parameters.AddWithValue("@Address", consultation.Address);
                     cmd.Parameters.AddWithValue("@PIN", consultation.PIN);
-
-
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);

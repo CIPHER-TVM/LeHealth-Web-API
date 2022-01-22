@@ -92,6 +92,7 @@ namespace LeHealth.Core.DataManager
                             obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
                             obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
                             obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
+                            obj.Title = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["Title"]);
                             obj.TitleText = dsAppointmentsList.Tables[0].Rows[i]["Salutation"].ToString();
                             obj.FirstName = dsAppointmentsList.Tables[0].Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsAppointmentsList.Tables[0].Rows[i]["MiddleName"].ToString();
@@ -1269,30 +1270,26 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="patientId"></param>
         /// <returns>Get Consultation List</returns>
-        public List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId)
+        public List<PatientConsultationModel> GetConsultationDataById(int Id)
         {
             PatientConsultationModel obj = new PatientConsultationModel();
             List<PatientConsultationModel> consultationList = new List<PatientConsultationModel>();
             List<RegSymptomsModel> SymptomsList = new List<RegSymptomsModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("GetConsultationDataByPatientId", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultationById", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PatientId", patientId);
+                    cmd.Parameters.AddWithValue("@ConsultantionId", Id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        obj.RegNo = ds.Tables[0].Rows[0]["RegNo"].ToString();
-                        obj.PatientName = ds.Tables[0].Rows[0]["PatientName"].ToString();
-                        obj.ReasonForVisit = ds.Tables[0].Rows[0]["Symptoms"].ToString();
-                        obj.DepartmentId = Convert.ToInt32(ds.Tables[0].Rows[0]["DeptId"]);
-                        obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[0]["ConsultantId"]);
                         obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[0]["ConsultationId"]);
+                        obj.ReasonForVisit = ds.Tables[0].Rows[0]["Symptoms"].ToString();
                     }
                 }
 
@@ -1312,7 +1309,8 @@ namespace LeHealth.Core.DataManager
                             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                             {
                                 RegSymptomsModel rsm = new RegSymptomsModel();
-                                rsm.SymptomId = Convert.ToInt32(ds.Tables[0].Rows[0]["SymptomId"]);
+                                rsm.SymptomId = Convert.ToInt32(ds.Tables[0].Rows[i]["SymptomId"]);
+                                rsm.NewsymDesc = ds.Tables[0].Rows[i]["SymptomDesc"].ToString();
                                 SymptomsList.Add(rsm);
                             }
                         }
