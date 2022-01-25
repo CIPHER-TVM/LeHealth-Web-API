@@ -2626,9 +2626,9 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// GET Form Fields list of data By Form Id
+        /// GET list of Input Fields In a Form Id
         /// </summary>
-        /// <param name="FormId"></param>
+        /// <param name="FormId">ID of form</param>
         /// <returns>Form Fields list</returns>
         public List<FormValidationModel> GetFormFields(int FormId)
         {

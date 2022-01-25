@@ -88,7 +88,7 @@ namespace LeHealth.Core.DataManager
                         {
                             SearchAppointmentModel obj = new SearchAppointmentModel();
                             obj.AppId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["AppId"]);
-                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString();
+                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString().Replace("/","-");
                             obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
                             obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
                             obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
@@ -1376,6 +1376,8 @@ namespace LeHealth.Core.DataManager
             FrontOfficePBarModel fopb = new FrontOfficePBarModel();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                DateTime appDate = DateTime.ParseExact(todaydate.Trim(), "dd-MM-yyyy", null);
+                todaydate = appDate.ToString("yyyy-MM-dd");
                 List<PercentageCountGetModel> AppcountGetList = new List<PercentageCountGetModel>();
                 List<PercentageCountGetModel> ConscountGetList = new List<PercentageCountGetModel>();
                 SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetAppointmentCount", con);
@@ -1465,28 +1467,38 @@ namespace LeHealth.Core.DataManager
                         ConsTotalCount = ConsTotalCount + Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
                     }
                 }
-                if (AppTotalCount != 0)
-                {
-                    fopb.AppPercA = ((decimal)AppStatA / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercC = ((decimal)AppStatC / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercF = ((decimal)AppStatF / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercW = ((decimal)AppStatW / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercA = Math.Round(fopb.AppPercA, 2);
-                    fopb.AppPercC = Math.Round(fopb.AppPercC, 2);
-                    fopb.AppPercF = Math.Round(fopb.AppPercF, 2);
-                    fopb.AppPercW = Math.Round(fopb.AppPercW, 2);
-                }
-                if (ConsTotalCount != 0)
-                {
-                    fopb.ConsPercW = ((decimal)ConsStatW / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercF = ((decimal)ConsStatF / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercC = ((decimal)ConsStatC / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercO = ((decimal)ConsStatO / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercW = Math.Round(fopb.ConsPercW, 2);
-                    fopb.ConsPercF = Math.Round(fopb.ConsPercF, 2);
-                    fopb.ConsPercC = Math.Round(fopb.ConsPercC, 2);
-                    fopb.ConsPercO = Math.Round(fopb.ConsPercO, 2);
-                }
+                fopb.AppPercA = (decimal)AppStatA;
+                fopb.AppPercC = (decimal)AppStatC;
+                fopb.AppPercF = (decimal)AppStatF;
+                fopb.AppPercW = (decimal)AppStatW;
+
+                fopb.ConsPercW = (decimal)ConsStatW;
+                fopb.ConsPercF = (decimal)ConsStatF;
+                fopb.ConsPercC = (decimal)ConsStatC;
+                fopb.ConsPercO = (decimal)ConsStatO;
+
+                //if (AppTotalCount != 0)
+                //{
+                //    fopb.AppPercA = ((decimal)AppStatA / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercC = ((decimal)AppStatC / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercF = ((decimal)AppStatF / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercW = ((decimal)AppStatW / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercA = Math.Round(fopb.AppPercA, 2);
+                //    fopb.AppPercC = Math.Round(fopb.AppPercC, 2);
+                //    fopb.AppPercF = Math.Round(fopb.AppPercF, 2);
+                //    fopb.AppPercW = Math.Round(fopb.AppPercW, 2);
+                //}
+                //if (ConsTotalCount != 0)
+                //{
+                //    fopb.ConsPercW = ((decimal)ConsStatW / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercF = ((decimal)ConsStatF / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercC = ((decimal)ConsStatC / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercO = ((decimal)ConsStatO / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercW = Math.Round(fopb.ConsPercW, 2);
+                //    fopb.ConsPercF = Math.Round(fopb.ConsPercF, 2);
+                //    fopb.ConsPercC = Math.Round(fopb.ConsPercC, 2);
+                //    fopb.ConsPercO = Math.Round(fopb.ConsPercO, 2);
+                //}
             }
             return fopb;
         }

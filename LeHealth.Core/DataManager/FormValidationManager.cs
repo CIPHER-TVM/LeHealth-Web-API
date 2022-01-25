@@ -40,7 +40,12 @@ namespace LeHealth.Core.DataManager
 
             disposed = true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FormId"></param>
+        /// <param name="DepartmentId"></param>
+        /// <returns></returns>
         public List<FormValidationModel> GetFormValidation(Int32 FormId, Int32 DepartmentId)
         {
             List<FormValidationModel> FormValidationList = new List<FormValidationModel>();
