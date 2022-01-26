@@ -492,7 +492,10 @@ namespace LeHealth.Core.DataManager
                                 labelsList.Add(lb);
                             }
                         }
+                        sgdm.drName = dsScheduleList.Tables[0].Rows[0]["ConsultantName"].ToString();
+                        sgdm.deptName = dsScheduleList.Tables[0].Rows[0]["DeptName"].ToString();
                         sgdm.labels = labelsList;
+                        sgdm.slotlength = labelsList.Count;
                         scheduleList.Add(sgdm);
                     }
                 }
