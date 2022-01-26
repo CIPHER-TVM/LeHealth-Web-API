@@ -2424,5 +2424,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
+        [Route("ConsultantSearchWithDept")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantModel>> ConsultantSearchWithDept(GetScheduleInputModel drsearch)
+        {
+            List<ConsultantModel> departmentList = new List<ConsultantModel>();
+            try
+            {
+                departmentList = masterdataService.ConsultantSearchWithDept(drsearch);
+                var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = departmentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }

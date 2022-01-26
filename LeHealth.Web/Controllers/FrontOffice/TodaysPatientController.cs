@@ -87,10 +87,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> AppoinmentValidCheck(AppoinmentValidCheckModel ap)
         {
-            string IsValid = string.Empty;;
+            string IsValid = string.Empty; 
             try
             {
-                IsValid = todaysPatientService.AppoinmentValidCheck(ap); 
+                IsValid = todaysPatientService.AppoinmentValidCheck(ap);
                 var response = new ResponseDataModel<IEnumerable<string>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -155,14 +155,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetConsultationDataByPatientId/{patientId}")]
+        [Route("GetConsultationDataById/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PatientConsultationModel>> GetConsultationDataByPatientId(int patientId)  
+        public ResponseDataModel<IEnumerable<PatientConsultationModel>> GetConsultationDataById(int Id)
         {
             List<PatientConsultationModel> consultantionList = new List<PatientConsultationModel>();
             try
             {
-                consultantionList = todaysPatientService.GetConsultationDataByPatientId(patientId);
+                consultantionList = todaysPatientService.GetConsultationDataById(Id);
                 var response = new ResponseDataModel<IEnumerable<PatientConsultationModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -229,8 +229,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 
 
-     
-        
+
+
 
 
         [Route("GetConsultantItemSchemeRate")]
@@ -276,13 +276,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             try
             {
-                
-                    ConsultantByDeptModel cm = new ConsultantByDeptModel();
-               
-                    List<ConsultantModel> templist = new List<ConsultantModel>();
-                    templist = todaysPatientService.GetConsultants(deptId);
-                    consultantList.AddRange(templist);
-               
+
+                ConsultantByDeptModel cm = new ConsultantByDeptModel();
+
+                List<ConsultantModel> templist = new List<ConsultantModel>();
+                templist = todaysPatientService.GetConsultants(deptId);
+                consultantList.AddRange(templist);
+
 
                 var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
@@ -396,7 +396,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetAppointmentById")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SearchAppointmentModel>> GetAppointmentById(AppointmentModel appointment) 
+        public ResponseDataModel<IEnumerable<SearchAppointmentModel>> GetAppointmentById(AppointmentModel appointment)
         {
             List<SearchAppointmentModel> appointmentSearch = new List<SearchAppointmentModel>();
             try
@@ -431,9 +431,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         //Reg Scheme DDL
         //Registration Page Top Left
-      
-        
-      
+
+
+
 
 
         [Route("DeleteAppointment")]
@@ -672,7 +672,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 schemeList = todaysPatientService.GetSchemeByConsultant(consultant.ConsultantId);
-                string msg = string.Empty;;
+                string msg = string.Empty; ;
                 if (schemeList.Count > 0)
                 {
                     msg = "Success";
@@ -710,7 +710,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        
+
         /// <summary>
         /// Save new Appointment,Controller class . Step One in code execution flow
         /// </summary>
@@ -723,7 +723,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertAppointment(Appointments appointments)
         {
-            string appointment = string.Empty;;
+            string appointment = string.Empty; ;
             try
             {
                 appointment = hospitalsService.InsertAppointment(appointments);
@@ -758,11 +758,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string appointmentret = hospitalsService.UpdateAppointment(appointments); 
+                string appointmentret = hospitalsService.UpdateAppointment(appointments);
                 var response = new ResponseDataModel<IEnumerable<Appointments>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Message=appointmentret,
+                    Message = appointmentret,
                     Response = null
                 };
                 return response;
@@ -802,9 +802,55 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultationModel> consultationList = new List<ConsultationModel>();
             try
             {
-                string msg = string.Empty;;
+                string msg = string.Empty; ;
                 consultationList = todaysPatientService.InsertUpdateConsultation(consultations);
                 if (consultationList[0].RetVal > 0)
+                {
+                    msg = "Success";
+                }
+                else
+                {
+                    msg = consultationList[0].RetDesc;
+                }
+                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK,
+                    Response = consultationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+        [Route("UpdateConsultationSymptoms")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationModel>> UpdateConsultationSymptoms(ConsultationModel consultations)
+        {
+            List<ConsultationModel> consultationList = new List<ConsultationModel>();
+            try
+            {
+                string msg = string.Empty; ;
+                consultationList = todaysPatientService.UpdateConsultationSymptoms(consultations);
+                if (consultationList[0].RetDesc == "Saved Successfully")
                 {
                     msg = "Success";
                 }
@@ -847,7 +893,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string msg = string.Empty;;
+                string msg = string.Empty; ;
                 msg = todaysPatientService.CancelConsultation(consultations);
 
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
@@ -882,7 +928,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string msg = string.Empty;;
+                string msg = string.Empty; ;
                 msg = todaysPatientService.PostponeAppointment(app);
 
                 var response = new ResponseDataModel<IEnumerable<string>>()
@@ -1287,9 +1333,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         }
 
-        
 
-         [HttpPost]
+
+        [HttpPost]
         [Route("GetConsultRate")]
         public ResponseDataModel<IEnumerable<ConsultRateModel>> GetConsultRate(ConsultationModel cm)
         {
@@ -1368,7 +1414,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> SetUrgentConsultation(ConsultationModel consultations)
         {
-            string Message = string.Empty;;
+            string Message = string.Empty; ;
             try
             {
                 string queryresponse = todaysPatientService.SetUrgentConsultation(consultations);

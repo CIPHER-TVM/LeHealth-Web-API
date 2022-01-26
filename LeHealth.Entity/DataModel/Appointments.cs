@@ -44,12 +44,12 @@ namespace LeHealth.Entity.DataModel
         public string CancelReason { get; set; }
         public int Gender { get; set; } 
         public int UserId { get; set; }
-
-        //public int appTypeId = 1;
         public int AppTypeId { get; set; }
         public int SessionId { get; set; }
         public int BranchId { get; set; }
         public int RetVal { get; set; }
         public string RetDesc { get; set; }
+        public int SlotCount { get; set; }
+        public int DeptId { get; set; }
     }
 }

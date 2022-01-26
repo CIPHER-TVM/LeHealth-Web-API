@@ -88,10 +88,11 @@ namespace LeHealth.Core.DataManager
                         {
                             SearchAppointmentModel obj = new SearchAppointmentModel();
                             obj.AppId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["AppId"]);
-                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString();
+                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString().Replace("/","-");
                             obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
                             obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
                             obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
+                            obj.Title = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["Title"]);
                             obj.TitleText = dsAppointmentsList.Tables[0].Rows[i]["Salutation"].ToString();
                             obj.FirstName = dsAppointmentsList.Tables[0].Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsAppointmentsList.Tables[0].Rows[i]["MiddleName"].ToString();
@@ -253,15 +254,16 @@ namespace LeHealth.Core.DataManager
         /// <returns>List of appointment details</returns>
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
+
             List<Appointments> Appointmentlist = new List<Appointments>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 string AppQuery = "[stLH_GetAppOfaDay]";
                 using (SqlCommand cmd = new SqlCommand(AppQuery, con))
                 {
                     con.Open();
-
+                    DateTime appDate = DateTime.ParseExact(appointment.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appointment.AppDate = appDate.ToString("yyyy-MM-dd");
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
@@ -277,6 +279,7 @@ namespace LeHealth.Core.DataManager
                         {
                             Appointments obj = new Appointments();
                             obj.AppId = Convert.ToInt32(ds.Tables[0].Rows[i]["AppId"]);
+                            obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"].ToString());
                             obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.TimeNo = ds.Tables[0].Rows[i]["TimeNo"].ToString();
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
@@ -658,9 +661,12 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd-MM-yyyy", null);
+                    //app.AppDate = postponeDate.ToString("yyyy-MM-dd hh:mm tt");
+                    app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
-                    cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(app.AppDate));
+                    cmd.Parameters.AddWithValue("@AppDate", app.AppDate);
                     cmd.Parameters.AddWithValue("@AppNo", app.AppNo);
                     cmd.Parameters.AddWithValue("@SliceNo", app.SliceNo);
                     cmd.Parameters.AddWithValue("@SliceTime", app.SliceTime);
@@ -705,8 +711,9 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_AppoinmentValidCheck", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    DateTime appDate = DateTime.ParseExact(appoinment.AppDate.Trim(), "dd/MM/yyyy", null);
                     cmd.Parameters.AddWithValue("@ConsultantId", appoinment.ConsultantId);
-                    cmd.Parameters.AddWithValue("@AppDate", Convert.ToDateTime(appoinment.AppDate));
+                    cmd.Parameters.AddWithValue("@AppDate", appDate);
                     cmd.Parameters.AddWithValue("@TimeSliceFirst", appoinment.TimeSliceFirst);
                     cmd.Parameters.AddWithValue("@RequiredSlots", appoinment.RequiredSlots);
                     SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
@@ -866,12 +873,11 @@ namespace LeHealth.Core.DataManager
                             cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
                         }
                         DateTime ConsultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
-                        //cmd.Parameters.AddWithValue("@ConsultDate", Convert.ToDateTime(consultations.ConsultDate));
                         cmd.Parameters.AddWithValue("@ConsultDate", ConsultDate);
                         cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                         cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
                         cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
-                        cmd.Parameters.AddWithValue("@Symptoms", consultations.Symptoms);
+                        cmd.Parameters.AddWithValue("@Symptoms", consultations.OtherReasonForVisit);
                         cmd.Parameters.AddWithValue("@ConsultFee", consultations.ConsultFee);
                         cmd.Parameters.AddWithValue("@ConsultType", consultations.ConsultType);
                         cmd.Parameters.AddWithValue("@EmerFee", consultations.EmerFee);
@@ -905,6 +911,7 @@ namespace LeHealth.Core.DataManager
                         var isUpdated = cmd.ExecuteNonQuery();
                         var ret = retValV.Value;
                         descrip = retDesc.Value.ToString();
+
                         con.Close();
                         if (int.Parse(ret.ToString()) == -1)
                         {
@@ -922,6 +929,17 @@ namespace LeHealth.Core.DataManager
                         {
                             consultations.RetVal = int.Parse(ret.ToString());
                             consultations.RetDesc = "Success";
+                            con.Open();
+
+                            for (int b = 0; b < consultations.Symptoms.Count; b++)
+                            {
+                                SqlCommand savesymptomCMD = new SqlCommand("stLH_SaveConsultationSymptoms", con);
+                                savesymptomCMD.CommandType = CommandType.StoredProcedure;
+                                savesymptomCMD.Parameters.AddWithValue("@ConsultationId", int.Parse(ret.ToString()));
+                                savesymptomCMD.Parameters.AddWithValue("@SymptomId", consultations.Symptoms[b].SymptomId);
+                                var isInsertedSymptom1 = savesymptomCMD.ExecuteNonQuery();
+                            }
+                            con.Close();
                             consultaionsList.Add(consultations);
                         }
                     }
@@ -935,6 +953,77 @@ namespace LeHealth.Core.DataManager
             }
             return consultaionsList;
         }
+
+        public List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations)
+        {
+            List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
+            var descrip = string.Empty; ;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultationSymptoms", con))
+                {
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                        cmd.Parameters.AddWithValue("@Symptoms", consultations.OtherReasonForVisit);
+
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        var ret = retValV.Value;
+                        descrip = retDesc.Value.ToString();
+
+                        con.Close();
+                        if (descrip == "Saved Successfully")
+                        {
+                            consultations.RetDesc = "Saved Successfully";
+                            con.Open();
+                            SqlCommand deletesymptomCMD = new SqlCommand("stLH_DeleteConsultationSymptoms", con);
+                            deletesymptomCMD.CommandType = CommandType.StoredProcedure;
+                            deletesymptomCMD.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                            var isDeleted = deletesymptomCMD.ExecuteNonQuery();
+                            for (int b = 0; b < consultations.Symptoms.Count; b++)
+                            {
+                                SqlCommand savesymptomCMD = new SqlCommand("stLH_SaveConsultationSymptoms", con);
+                                savesymptomCMD.CommandType = CommandType.StoredProcedure;
+                                savesymptomCMD.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                                savesymptomCMD.Parameters.AddWithValue("@SymptomId", consultations.Symptoms[b].SymptomId);
+                                var isInsertedSymptom1 = savesymptomCMD.ExecuteNonQuery();
+                            }
+                            con.Close();
+                            consultations.RetVal = -1;
+                            consultations.RetDesc = descrip;
+                            consultaionsList.Add(consultations);
+                        }
+                        else
+                        {
+                            consultations.RetVal = -2;
+                            consultations.RetDesc = descrip;
+                            consultaionsList.Add(consultations);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        consultations.RetVal = -2;
+                        consultations.RetDesc = descrip;
+                        consultaionsList.Add(consultations);
+                    }
+                }
+            }
+            return consultaionsList;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1029,7 +1118,7 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDeptById", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -1056,21 +1145,22 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public List<ConsultantModel> GetConsultants(DepartmentIdModel deptId)
+        public List<ConsultantModel> GetConsultants(DepartmentIdModel dept)
         {
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                for (int i = 0; i < deptId.Departments.Length; i++)
+                for (int i = 0; i < dept.Departments.Length; i++)
                 {
                     using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
                     {
-                        int DepartmentId = (int)deptId.Departments[i];
+                        int DepartmentId = (int)dept.Departments[i];
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
                         cmd.Parameters.AddWithValue("@DeptId", DepartmentId);
-                        cmd.Parameters.AddWithValue("@ShowExternal", deptId.ShowExternal);
+                        cmd.Parameters.AddWithValue("@ConsultantName", dept.ConsultantName);
+                        cmd.Parameters.AddWithValue("@ShowExternal", dept.ShowExternal);
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                         DataSet ds = new DataSet();
                         adapter.Fill(ds);
@@ -1180,30 +1270,26 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="patientId"></param>
         /// <returns>Get Consultation List</returns>
-        public List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId)
+        public List<PatientConsultationModel> GetConsultationDataById(int Id)
         {
             PatientConsultationModel obj = new PatientConsultationModel();
             List<PatientConsultationModel> consultationList = new List<PatientConsultationModel>();
             List<RegSymptomsModel> SymptomsList = new List<RegSymptomsModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("GetConsultationDataByPatientId", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultationById", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PatientId", patientId);
+                    cmd.Parameters.AddWithValue("@ConsultantionId", Id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        obj.RegNo = ds.Tables[0].Rows[0]["RegNo"].ToString();
-                        obj.PatientName = ds.Tables[0].Rows[0]["PatientName"].ToString();
-                        obj.ReasonForVisit = ds.Tables[0].Rows[0]["Symptoms"].ToString();
-                        obj.DepartmentId = Convert.ToInt32(ds.Tables[0].Rows[0]["DeptId"]);
-                        obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[0]["ConsultantId"]);
                         obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[0]["ConsultationId"]);
+                        obj.ReasonForVisit = ds.Tables[0].Rows[0]["Symptoms"].ToString();
                     }
                 }
 
@@ -1223,7 +1309,8 @@ namespace LeHealth.Core.DataManager
                             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                             {
                                 RegSymptomsModel rsm = new RegSymptomsModel();
-                                rsm.SymptomId = Convert.ToInt32(ds.Tables[0].Rows[0]["SymptomId"]);
+                                rsm.SymptomId = Convert.ToInt32(ds.Tables[0].Rows[i]["SymptomId"]);
+                                rsm.NewsymDesc = ds.Tables[0].Rows[i]["SymptomDesc"].ToString();
                                 SymptomsList.Add(rsm);
                             }
                         }
@@ -1289,6 +1376,8 @@ namespace LeHealth.Core.DataManager
             FrontOfficePBarModel fopb = new FrontOfficePBarModel();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                DateTime appDate = DateTime.ParseExact(todaydate.Trim(), "dd-MM-yyyy", null);
+                todaydate = appDate.ToString("yyyy-MM-dd");
                 List<PercentageCountGetModel> AppcountGetList = new List<PercentageCountGetModel>();
                 List<PercentageCountGetModel> ConscountGetList = new List<PercentageCountGetModel>();
                 SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetAppointmentCount", con);
@@ -1378,28 +1467,38 @@ namespace LeHealth.Core.DataManager
                         ConsTotalCount = ConsTotalCount + Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
                     }
                 }
-                if (AppTotalCount != 0)
-                {
-                    fopb.AppPercA = ((decimal)AppStatA / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercC = ((decimal)AppStatC / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercF = ((decimal)AppStatF / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercW = ((decimal)AppStatW / (decimal)AppTotalCount) * 100;
-                    fopb.AppPercA = Math.Round(fopb.AppPercA, 2);
-                    fopb.AppPercC = Math.Round(fopb.AppPercC, 2);
-                    fopb.AppPercF = Math.Round(fopb.AppPercF, 2);
-                    fopb.AppPercW = Math.Round(fopb.AppPercW, 2);
-                }
-                if (ConsTotalCount != 0)
-                {
-                    fopb.ConsPercW = ((decimal)ConsStatW / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercF = ((decimal)ConsStatF / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercC = ((decimal)ConsStatC / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercO = ((decimal)ConsStatO / (decimal)ConsTotalCount) * 100;
-                    fopb.ConsPercW = Math.Round(fopb.ConsPercW, 2);
-                    fopb.ConsPercF = Math.Round(fopb.ConsPercF, 2);
-                    fopb.ConsPercC = Math.Round(fopb.ConsPercC, 2);
-                    fopb.ConsPercO = Math.Round(fopb.ConsPercO, 2);
-                }
+                fopb.AppPercA = (decimal)AppStatA;
+                fopb.AppPercC = (decimal)AppStatC;
+                fopb.AppPercF = (decimal)AppStatF;
+                fopb.AppPercW = (decimal)AppStatW;
+
+                fopb.ConsPercW = (decimal)ConsStatW;
+                fopb.ConsPercF = (decimal)ConsStatF;
+                fopb.ConsPercC = (decimal)ConsStatC;
+                fopb.ConsPercO = (decimal)ConsStatO;
+
+                //if (AppTotalCount != 0)
+                //{
+                //    fopb.AppPercA = ((decimal)AppStatA / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercC = ((decimal)AppStatC / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercF = ((decimal)AppStatF / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercW = ((decimal)AppStatW / (decimal)AppTotalCount) * 100;
+                //    fopb.AppPercA = Math.Round(fopb.AppPercA, 2);
+                //    fopb.AppPercC = Math.Round(fopb.AppPercC, 2);
+                //    fopb.AppPercF = Math.Round(fopb.AppPercF, 2);
+                //    fopb.AppPercW = Math.Round(fopb.AppPercW, 2);
+                //}
+                //if (ConsTotalCount != 0)
+                //{
+                //    fopb.ConsPercW = ((decimal)ConsStatW / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercF = ((decimal)ConsStatF / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercC = ((decimal)ConsStatC / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercO = ((decimal)ConsStatO / (decimal)ConsTotalCount) * 100;
+                //    fopb.ConsPercW = Math.Round(fopb.ConsPercW, 2);
+                //    fopb.ConsPercF = Math.Round(fopb.ConsPercF, 2);
+                //    fopb.ConsPercC = Math.Round(fopb.ConsPercC, 2);
+                //    fopb.ConsPercO = Math.Round(fopb.ConsPercO, 2);
+                //}
             }
             return fopb;
         }

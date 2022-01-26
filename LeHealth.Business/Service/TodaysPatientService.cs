@@ -87,6 +87,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.InsertUpdateConsultation(consultations);
         }
+        public List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations)
+        {
+            return todaysPatientManager.UpdateConsultationSymptoms(consultations); 
+        }
         public List<TokenModel> GetNewTokenNumber(ConsultationModel consultations)
         {
             return todaysPatientManager.GetNewTokenNumber(consultations);
@@ -124,9 +128,9 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultationByPatientId(cm);
         }
-        public List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId)
+        public List<PatientConsultationModel> GetConsultationDataById(int patientId)
         {
-            return todaysPatientManager.GetConsultationDataByPatientId(patientId);
+            return todaysPatientManager.GetConsultationDataById(patientId);
         }
 
         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)

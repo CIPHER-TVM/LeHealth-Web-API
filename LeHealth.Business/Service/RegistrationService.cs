@@ -19,7 +19,7 @@ namespace LeHealth.Service.Service
         /// <summary>
         /// adding a new patient registration 
         /// </summary>
-        public string InsertPatient(PatientRegModel patientDetail)
+        public List<PatientRegModel> InsertPatient(PatientRegModel patientDetail)
         {
             if (patientDetail.PatientDocs != null)
                 patientDetail.RegDocLocation = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);

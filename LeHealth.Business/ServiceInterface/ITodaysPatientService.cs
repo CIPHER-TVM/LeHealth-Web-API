@@ -23,6 +23,7 @@ namespace LeHealth.Service.ServiceInterface
         string PostponeAppointment(Appointments appointments);
         string SetUrgentConsultation(ConsultationModel consultantion);
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
+        List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations);
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
         List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi);
         List<SponsorModel> GetSponsorListByPatientId(int patientId);
@@ -31,7 +32,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
         string AppoinmentValidCheck(AppoinmentValidCheckModel avcm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
-        List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId); 
+        List<PatientConsultationModel> GetConsultationDataById(int patientId); 
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
         List<PatientModel> GetPatient(int pid);

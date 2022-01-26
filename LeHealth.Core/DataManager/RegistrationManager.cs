@@ -245,7 +245,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
                     cmd.Parameters.AddWithValue("@RegNo", patient.RegNo.Trim());
                     cmd.Parameters.AddWithValue("@Mobile", patient.Mobile.Trim());
-                    cmd.Parameters.AddWithValue("@RegFromDate",patient.RegDateFrom );
+                    cmd.Parameters.AddWithValue("@RegFromDate", patient.RegDateFrom);
                     cmd.Parameters.AddWithValue("@RegToDate", patient.RegDateTo);
                     cmd.Parameters.AddWithValue("@Phone", patient.Phone.Trim());
                     cmd.Parameters.AddWithValue("@Address", patient.Address.Trim());
@@ -294,7 +294,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success Message or Error description</returns>
         public string SaveReRegistration(PatientModel reregistration)
         {
-            string response = string.Empty;;
+            string response = string.Empty; ;
             try
             {
                 using (SqlConnection con = new SqlConnection(_connStr))
@@ -400,7 +400,7 @@ namespace LeHealth.Core.DataManager
                     obj.VisaType = dsPatientData.Tables[0].Rows[0]["VisaType"].ToString();
                     obj.ProfName = dsPatientData.Tables[0].Rows[0]["ProfName"].ToString();
                     obj.NationalityName = dsPatientData.Tables[0].Rows[0]["NationalityName"].ToString();
-                    obj.SchemeName = string.Empty;;
+                    obj.SchemeName = string.Empty; ;
                     obj.CmpName = dsPatientData.Tables[0].Rows[0]["CmpName"].ToString();
                     obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
                     obj.OtherReasons = dsPatientData.Tables[0].Rows[0]["Symptoms"].ToString();
@@ -518,7 +518,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success or Error details</returns>
         public string BlockPatient(PatientModel patient)
         {
-            string response = string.Empty;;
+            string response = string.Empty; ;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_BlockPatient", con))
@@ -570,7 +570,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string DeletePatRegFiles(int Id)
         {
-            string response = string.Empty;;
+            string response = string.Empty; ;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_DeletePatRegFiles", con))
@@ -601,7 +601,7 @@ namespace LeHealth.Core.DataManager
         /// <returns> success or error details</returns>
         public string UnblockPatient(PatientModel patient)
         {
-            string response = string.Empty;;
+            string response = string.Empty; ;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_UnblockPatient", con))
@@ -651,10 +651,12 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="patientDetail"></param>
         /// <returns>Error details or PatientId</returns>
-        public string InsertPatient(PatientRegModel patientDetail)
+        public List<PatientRegModel> InsertPatient(PatientRegModel patientDetail)
         {
+            List<PatientRegModel> responselist = new List<PatientRegModel>();
+            PatientRegModel responseobj = new PatientRegModel();
             SqlTransaction transaction;
-            string response = string.Empty;;
+            //string response = string.Empty; ;
             int IsUpdate = 0;
             if (patientDetail.PatientId > 0)
             {
@@ -662,26 +664,6 @@ namespace LeHealth.Core.DataManager
             }
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                //con.Open();
-                //SqlCommand cmdmobilemailcheck = new SqlCommand("stLH_CheckPatientEmailExists", con);
-                //cmdmobilemailcheck.CommandType = CommandType.StoredProcedure;
-                //cmdmobilemailcheck.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
-                //cmdmobilemailcheck.Parameters.AddWithValue("@PatientEmail", patientDetail.Email);
-                //cmdmobilemailcheck.Parameters.AddWithValue("@PatientMobile", patientDetail.Mobile);
-                //SqlDataAdapter adapter = new SqlDataAdapter(cmdmobilemailcheck);
-                //DataSet dsMobileMailCheckData = new DataSet();
-                //adapter.Fill(dsMobileMailCheckData);
-                //con.Close();
-                //if ((dsMobileMailCheckData != null) && (dsMobileMailCheckData.Tables.Count > 0) && (dsMobileMailCheckData.Tables[0] != null) && (dsMobileMailCheckData.Tables[0].Rows.Count > 0))
-                //{
-                //    int CountDatas = Convert.ToInt32(dsMobileMailCheckData.Tables[0].Rows[0]["CountData"]);
-                //    string Messagedatas = dsMobileMailCheckData.Tables[0].Rows[0]["MessageData"].ToString();
-                //    if (Messagedatas != "NoDuplicate")
-                //    {
-                //        response = Messagedatas;
-                //        return response;
-                //    }
-                //}
                 if (IsUpdate == 0 && patientDetail.IsManualRegNo == 0)
                 {
                     for (int m = 0; m < 100; m++)
@@ -696,12 +678,6 @@ namespace LeHealth.Core.DataManager
                 }
                 con.Open();
                 transaction = con.BeginTransaction();
-                //DateTime regDate = DateTime.Parse(patientDetail.RegDate.Trim());
-                //patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
-                //DateTime dobDate = DateTime.Parse(patientDetail.DOB.Trim());
-                //patientDetail.DOB = dobDate.ToString("yyyy-MM-dd hh:mm tt");
-
-
 
                 DateTime regDate = DateTime.ParseExact(patientDetail.RegDate.Trim(), "dd-MM-yyyy", null);
                 patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
@@ -718,7 +694,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@FirstName", patientDetail.FirstName);
                 cmd.Parameters.AddWithValue("@MiddleName", patientDetail.MiddleName);
                 cmd.Parameters.AddWithValue("@LastName", patientDetail.LastName);
-                cmd.Parameters.AddWithValue("@DOB",patientDetail.DOB);
+                cmd.Parameters.AddWithValue("@DOB", patientDetail.DOB);
                 cmd.Parameters.AddWithValue("@Gender", patientDetail.Gender);
                 cmd.Parameters.AddWithValue("@MaritalStatus", patientDetail.MaritalStatus);
                 cmd.Parameters.AddWithValue("@KinName", patientDetail.KinName);
@@ -831,8 +807,6 @@ namespace LeHealth.Core.DataManager
 
                         //THREE TIMES END
 
-
-
                         //FileUploadStarts
                         if (patientDetail.RegDocLocation != null)
                         {
@@ -927,7 +901,10 @@ namespace LeHealth.Core.DataManager
                                     }
                                     //Symptom Save Ends
                                 }
-                                response = patientId.ToString();
+
+                                responseobj.PatientId = patientId;
+                                responseobj.RegNo = patientDetail.RegNo;
+                                responseobj.ErrorMessage = "success";
                                 ////Call API Block Starts
                                 //using (SqlCommand cmdy = new SqlCommand("stLH_GetNabidhRegisterPatient", con))
                                 //{
@@ -966,25 +943,30 @@ namespace LeHealth.Core.DataManager
                         }
                         else
                         {
-                            response = patientId.ToString();
-
+                            responseobj.ErrorMessage = "success";
+                            responseobj.PatientId = patientId;
+                            responseobj.RegNo = patientDetail.RegNo;
                         }
                         //IF INSERT ONLY ENDS
                     }
                     else
                     {
                         transaction.Rollback();
-                        response = descr;
+                        responseobj.PatientId = 0;
+                        responseobj.RegNo = "";
+                        responseobj.ErrorMessage = descr;
                     }
                 }
                 catch (Exception ex)
                 {
-                    //transaction.Rollback();
-                    response = ex.Message.ToString();
+                    responseobj.PatientId = 0;
+                    responseobj.RegNo = "";
+                    responseobj.ErrorMessage = ex.Message.ToString();
                 }
                 con.Close();
             }
-            return response;
+            responselist.Add(responseobj);
+            return responselist ;
         }
         private string CreateHeader(DataTable dt, string MessageType)
         {
@@ -1074,7 +1056,7 @@ namespace LeHealth.Core.DataManager
             {
                 streamWriter.Write(nabidh);
             }
-            var responsev = string.Empty;;
+            var responsev = string.Empty; ;
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
@@ -1152,3 +1134,23 @@ namespace LeHealth.Core.DataManager
         }
     }
 }
+//con.Open();
+//SqlCommand cmdmobilemailcheck = new SqlCommand("stLH_CheckPatientEmailExists", con);
+//cmdmobilemailcheck.CommandType = CommandType.StoredProcedure;
+//cmdmobilemailcheck.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
+//cmdmobilemailcheck.Parameters.AddWithValue("@PatientEmail", patientDetail.Email);
+//cmdmobilemailcheck.Parameters.AddWithValue("@PatientMobile", patientDetail.Mobile);
+//SqlDataAdapter adapter = new SqlDataAdapter(cmdmobilemailcheck);
+//DataSet dsMobileMailCheckData = new DataSet();
+//adapter.Fill(dsMobileMailCheckData);
+//con.Close();
+//if ((dsMobileMailCheckData != null) && (dsMobileMailCheckData.Tables.Count > 0) && (dsMobileMailCheckData.Tables[0] != null) && (dsMobileMailCheckData.Tables[0].Rows.Count > 0))
+//{
+//    int CountDatas = Convert.ToInt32(dsMobileMailCheckData.Tables[0].Rows[0]["CountData"]);
+//    string Messagedatas = dsMobileMailCheckData.Tables[0].Rows[0]["MessageData"].ToString();
+//    if (Messagedatas != "NoDuplicate")
+//    {
+//        response = Messagedatas;
+//        return response;
+//    }
+//}

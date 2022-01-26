@@ -22,6 +22,7 @@ namespace LeHealth.Core.Interface
         string DeleteAppointment(AppointmentModel appointment);
         List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi);
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel appointments);
+        List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel appointments);
         List<RecentConsultationModel> GetRecentConsultationData();
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
         List<SponsorModel> GetSponsorListByPatientId(int patientId);
@@ -30,7 +31,7 @@ namespace LeHealth.Core.Interface
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
         string AppoinmentValidCheck(AppoinmentValidCheckModel cm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
-        List<PatientConsultationModel> GetConsultationDataByPatientId(int patientId);
+        List<PatientConsultationModel> GetConsultationDataById(int patientId);
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
         List<PatientModel> GetPatient(int pid);

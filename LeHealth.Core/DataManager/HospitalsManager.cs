@@ -162,12 +162,8 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                     }
                     string DateString = appointments.AppDate;
-                    //IFormatProvider culture = new CultureInfo("en-US", true);
-                    //DateTime dateVal = DateTime.ParseExact(DateString, "yyyy-MM-dd", culture);
                     DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
                     appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
-
-
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
@@ -360,8 +356,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Phone", "");
                     cmd.Parameters.AddWithValue("@Address", consultation.Address);
                     cmd.Parameters.AddWithValue("@PIN", consultation.PIN);
-
-
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
