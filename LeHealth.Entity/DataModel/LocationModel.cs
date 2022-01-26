@@ -28,4 +28,5 @@ namespace LeHealth.Entity.DataModel
         public int LTypeId { get; set; }
         public string LTypeName { get; set; }
     }
+   
 }

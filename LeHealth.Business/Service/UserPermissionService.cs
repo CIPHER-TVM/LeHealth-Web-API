@@ -44,5 +44,25 @@ namespace LeHealth.Service.Service
         {
             return userpermissionmanager.GetUser(id);
         }
+
+        public List<HospitalModel> GetUserBranches(int id)
+        {
+            return userpermissionmanager.GetUserBranches(id);
+        }
+
+        public List<MapLocationModel> GetUserLocations(int userId)
+        {
+            List <MapLocationModel> obj= userpermissionmanager.GetUserLocations(userId);
+            obj.ForEach(a =>
+            {
+                a.LocationIds = new List<string>(a.Locationstring.Split(","));
+            });
+            return obj;
+        }
+
+        public string MapLocation(MapLocationModel obj)
+        {
+            return userpermissionmanager.MapLocation(obj);
+        }
     }
 }

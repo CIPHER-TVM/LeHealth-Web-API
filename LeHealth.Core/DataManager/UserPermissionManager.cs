@@ -127,12 +127,14 @@ namespace LeHealth.Core.DataManager
                     {
                        
                         var json = JsonConvert.SerializeObject(obj.BranchIds);
+                        var jsongroups = JsonConvert.SerializeObject(obj.GroupIds);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
                         cmd.Parameters.AddWithValue("@P_UserName", obj.UserName);
                         cmd.Parameters.AddWithValue("@P_UserPassword", obj.UserPassword);
                         cmd.Parameters.AddWithValue("@P_Active", obj.Active);
                         cmd.Parameters.AddWithValue("@P_Branches", json);
+                        cmd.Parameters.AddWithValue("@P_Groups", jsongroups);
                         cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
@@ -215,9 +217,108 @@ namespace LeHealth.Core.DataManager
                             obj.BranchIds.Add(dr.ItemArray[0].ToString());
                         }
                     }
-                        return obj;
+                    if ((ds != null) && (ds.Tables.Count > 2) && (ds.Tables[2] != null) && (ds.Tables[2].Rows.Count > 0))
+                    {
+                        obj.GroupIds = new List<string>();
+                        foreach (DataRow dr in ds.Tables[2].Rows)
+                        {
+                            obj.GroupIds.Add(dr.ItemArray[0].ToString());
+                        }
+                    }
+                    return obj;
                 }
             }
+        }
+
+        public List<HospitalModel> GetUserBranches(int id)
+        {
+            List<HospitalModel> obj = new List<HospitalModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetBranchesOnUser", con))
+                {
+                    con.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_UserId", id);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj = ds.Tables[0].ToListOfObject<HospitalModel>();
+                    }
+                   return obj;
+                }
+            }
+        }
+
+        public List<MapLocationModel> GetUserLocations(int userId)
+        {
+            List<MapLocationModel> obj = new List<MapLocationModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetLocationsOnUser", con))
+                {
+                    con.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_UserId", userId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj = ds.Tables[0].ToListOfObject<MapLocationModel>();
+                    }
+                    return obj;
+                }
+            }
+        }
+
+        public string MapLocation(MapLocationModel obj)
+        {
+            string response = string.Empty; ;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SaveUserLocation", con))
+                {
+                    try
+                    {
+
+                        var json = JsonConvert.SerializeObject(obj.LocationIds);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
+                      
+                        cmd.Parameters.AddWithValue("@P_Locations", json);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+
+                        response = descrip;
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
         }
         #endregion
     }
