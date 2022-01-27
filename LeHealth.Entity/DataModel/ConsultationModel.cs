@@ -40,6 +40,7 @@ namespace LeHealth.Entity.DataModel
         public string Mobile { get; set; }
         public string Telephone { get; set; }
         public string Address { get; set; }
+        public Int32 DeptId { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string CancelReason { get; set; }

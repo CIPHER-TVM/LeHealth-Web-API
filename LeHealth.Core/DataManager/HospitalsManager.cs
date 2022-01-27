@@ -86,13 +86,14 @@ namespace LeHealth.Core.DataManager
                             ConsultationModel obj = new ConsultationModel();
                             obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
                             obj.TokenNO = ds.Tables[0].Rows[i]["TokenNO"].ToString();
-                            obj.Sponsor = ds.Tables[0].Rows[i]["Sponsor"].ToString();
+                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
                             obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.TimeNo = (ds.Tables[0].Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["TimeNo"]);
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();// == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["RegNo"]);//int.Parse(ds.Tables[0].Rows[i]["RegNo"].ToString());
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
                             obj.Gender = ds.Tables[0].Rows[i]["Gender"].ToString();
                             obj.Sponsor = ds.Tables[0].Rows[i]["Sponsor"].ToString();
+                            obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
                             obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
                             obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
                             appointmentlist.Add(obj);

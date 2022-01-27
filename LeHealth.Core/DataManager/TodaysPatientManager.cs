@@ -97,6 +97,7 @@ namespace LeHealth.Core.DataManager
                             obj.FirstName = dsAppointmentsList.Tables[0].Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsAppointmentsList.Tables[0].Rows[i]["MiddleName"].ToString();
                             obj.LastName = dsAppointmentsList.Tables[0].Rows[i]["LastName"].ToString();
+                            obj.PatientName = dsAppointmentsList.Tables[0].Rows[i]["PatientName"].ToString() ;
                             obj.PatientRegNo = dsAppointmentsList.Tables[0].Rows[i]["PatientRegNo"].ToString();
                             obj.PIN = dsAppointmentsList.Tables[0].Rows[i]["PIN"].ToString();
                             obj.Email = dsAppointmentsList.Tables[0].Rows[i]["Email"].ToString();
