@@ -22,5 +22,6 @@ namespace LeHealth.Entity.DataModel
 		public string Reason { get; set; } 
 		public int UserId { get; set; } 
 		public int AppType { get; set; }
+		public int BranchId { get; set; }
 	}
 }

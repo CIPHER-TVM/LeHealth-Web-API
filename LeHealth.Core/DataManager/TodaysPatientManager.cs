@@ -269,6 +269,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
                     cmd.Parameters.AddWithValue("@DeptId", appointment.DeptId);
+                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();

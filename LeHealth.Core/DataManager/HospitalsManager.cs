@@ -71,10 +71,9 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Status", consultation.Status);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+                    cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
                     cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
-                    cmd.Parameters.AddWithValue("@BranchId", 0);
-
-
+                    cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
