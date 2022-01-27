@@ -8,6 +8,8 @@ namespace LeHealth.Entity.DataModel
     {
         public int id { get; set; }
         public string drName { get; set; }
+        public string deptName { get; set; }
+        public int slotlength { get; set; }
         public List<Label> labels { get; set; }
     }
 

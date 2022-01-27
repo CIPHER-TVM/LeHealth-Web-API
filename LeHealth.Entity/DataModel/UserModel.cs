@@ -13,5 +13,14 @@ namespace LeHealth.Entity.DataModel
         public string BlockReason { get; set; }
         public string Branches { get; set; }
         public List<string> BranchIds { get; set; }
+        public string Groups { get; set; }
+        public List<string> GroupIds { get; set; }
+    }
+    public class MapLocationModel
+    {
+        public int UserId { get; set; }
+        public int Branch { get; set; }
+        public List<string> LocationIds { get; set; }
+        public string Locationstring { get; set; }
     }
 }
