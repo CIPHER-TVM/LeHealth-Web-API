@@ -300,6 +300,48 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
         [HttpPost]
+        [Route("UploadPatientDocuments")]
+        public ResponseDataModel<IEnumerable<PatientModel>> UploadPatientDocuments([FromForm] PatientRequestModel obj)
+        {
+            string message = string.Empty; ;
+            try
+            {
+                PatientRegModel patientDetail = JsonConvert.DeserializeObject<PatientRegModel>(obj.PatientJson);
+                patientDetail.PatientDocs = obj.PatientDocs;
+                patientDetail.PatientPhoto = obj.PatientPhoto;
+                string registrationDetail = registrationService.UploadPatientDocuments(patientDetail);
+                ErrorResponse er = new ErrorResponse();
+                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Response = null,
+                    Status = HttpStatusCode.OK,
+                    Message = registrationDetail,
+                    ErrorMessage = er
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                // registrationDetail.Clear();
+
+            }
+        }
+
+        [HttpPost]
         [Route("ValidateHL7")]
         public string ValidateHL7()
         {

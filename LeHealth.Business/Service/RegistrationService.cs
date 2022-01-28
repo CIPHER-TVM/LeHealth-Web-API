@@ -33,6 +33,20 @@ namespace LeHealth.Service.Service
             }
             return registrationManager.InsertPatient(patientDetail);
         }
+        public string UploadPatientDocuments(PatientRegModel patientDetail)
+        {
+            if (patientDetail.PatientDocs != null)
+                patientDetail.RegDocLocation = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
+            if (patientDetail.PatientPhoto != null)
+            {
+                patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto);
+            }
+            else
+            {
+                patientDetail.PatientPhotoName = "";
+            }
+            return registrationManager.UploadPatientDocuments(patientDetail);
+        }
         public string ValidateHL7(string nabidh)
         {
             return registrationManager.ValidateHL7(nabidh);

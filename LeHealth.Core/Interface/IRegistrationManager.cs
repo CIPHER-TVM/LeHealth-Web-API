@@ -8,6 +8,7 @@ namespace LeHealth.Core.Interface
     public interface IRegistrationManager
     {
         List<PatientRegModel> InsertPatient(PatientRegModel patientDetail);
+        string UploadPatientDocuments(PatientRegModel patientDetail);
         string ValidateHL7(string nabidh);
         List<AllPatientModel> GetAllPatient();
         List<GenderModel> GetGender();
