@@ -362,6 +362,7 @@ namespace LeHealth.Core.DataManager
                     obj.LastName = dsPatientData.Tables[0].Rows[0]["LastName"].ToString();
                     obj.PatientName = dsPatientData.Tables[0].Rows[0]["PatientName"].ToString();
                     obj.RegNo = dsPatientData.Tables[0].Rows[0]["RegNo"].ToString();
+                    obj.RegDate = dsPatientData.Tables[0].Rows[0]["RegDate"].ToString();
                     obj.DOB = dsPatientData.Tables[0].Rows[0]["DOB"].ToString().Substring(0, 10);
                     obj.AgeInMonth = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["AgeInMonth"]);
                     obj.AgeInYear = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["AgeInYear"]);
@@ -400,7 +401,7 @@ namespace LeHealth.Core.DataManager
                     obj.VisaType = dsPatientData.Tables[0].Rows[0]["VisaType"].ToString();
                     obj.ProfName = dsPatientData.Tables[0].Rows[0]["ProfName"].ToString();
                     obj.NationalityName = dsPatientData.Tables[0].Rows[0]["NationalityName"].ToString();
-                    obj.SchemeName = string.Empty; ;
+                    obj.SchemeName = string.Empty;
                     obj.CmpName = dsPatientData.Tables[0].Rows[0]["CmpName"].ToString();
                     obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
                     obj.OtherReasons = dsPatientData.Tables[0].Rows[0]["Symptoms"].ToString();
