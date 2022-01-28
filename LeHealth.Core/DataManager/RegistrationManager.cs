@@ -362,7 +362,7 @@ namespace LeHealth.Core.DataManager
                     obj.LastName = dsPatientData.Tables[0].Rows[0]["LastName"].ToString();
                     obj.PatientName = dsPatientData.Tables[0].Rows[0]["PatientName"].ToString();
                     obj.RegNo = dsPatientData.Tables[0].Rows[0]["RegNo"].ToString();
-                    obj.RegDate = dsPatientData.Tables[0].Rows[0]["RegDate"].ToString();
+                    obj.RegDate = dsPatientData.Tables[0].Rows[0]["RegDate"].ToString().Replace("/","-");
                     obj.DOB = dsPatientData.Tables[0].Rows[0]["DOB"].ToString().Substring(0, 10);
                     obj.AgeInMonth = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["AgeInMonth"]);
                     obj.AgeInYear = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["AgeInYear"]);
@@ -1111,84 +1111,6 @@ namespace LeHealth.Core.DataManager
         }
     }
 }
-//private string CreateHeader(DataTable dt, string MessageType)
-//{
-//    string strValue = string.Empty;
-//    DataRow dr = dt.Rows[0];
-//    var strRegNo = Convert.ToString(dr["PV1CRegNo"]);
-//    //strRegNo.Replace("/-/g", "").Substring(strRegNo.Length - 8, 8);
-//    //strRegNo = Convert.ToString(dr["PV1CRegNo"]).Split('-')[1] + Convert.ToString(dr["PV1CRegNo"]).Split('-')[2];
-//    //if (!this.HeaderValidations(dr))
-//    //    return string.Empty;
-//    strValue = @"MSH|" + Convert.ToString(dr["MSHEncode"]) + "|" +
-//                Convert.ToString(dr["MSHNabSystemcode"]) + "|" +
-//                Convert.ToString(dr["MSHNabSystemcode"]) +
-//                "|NABIDH|DHA|" +
-//                Convert.ToString(dr["MSHDate"]) + "||" +
-//                MessageType + "|" +
-//                DateTime.Now.ToString("ddMMyyyyhhmmssffftt") + "|T|" +
-//                Convert.ToString(dr["MSHVersion"]) + "||||||" +
-//                Convert.ToString(dr["MSHCharSet"]) + "\r";
-//    if (!MessageType.Equals("OMP^O09") && !MessageType.Equals("ORU^R01") && !MessageType.Equals("RAS^O17") && !MessageType.Equals("PPR^PC1"))
-//        strValue += "EVN|" + MessageType.Substring(4, 3) + "|" +
-//                    Convert.ToString(dr["EVNRecDate"]) +
-//                    "||||" + Convert.ToString(dr["EVNRecDate"]) + "|" +
-//                    Convert.ToString(dr["EVNFacility"]) + "\r";
-//    strValue += "PID|" + Convert.ToString(dr["PIDSetId"]) + "||" +
-//             Convert.ToString(dr["PIDRegNo"]) + "^^^" + Convert.ToString(dr["MalaffiSystemcode"]) + "^MRN~" + Convert.ToString(dr["PIDRegNo"]) +
-//             Convert.ToString(dr["PIDIdenLst"])
-//             + "||" +
-//             Convert.ToString(dr["PIDPatLastName"]) + "^" + Convert.ToString(dr["PIDPatFirstName"]) + "^" +
-//             Convert.ToString(dr["PIDMiddleName"]) + "^^^^D^^^^^^^" + Convert.ToString(dr["PIDProfession"]) + //professionid is wrong
-//             "||" +
-//             Convert.ToString(dr["PIDDOB"]) + "|" + Convert.ToString(dr["PIDSex"]) +
-//             "|||" +
-//             //Convert.ToString(dr["PatAddress"]) + "^" + Convert.ToString(dr["PatCity"]) + '^' + Convert.ToString(dr["PatState"])+"^^"+
-//             Convert.ToString(dr["PatAddress"]) + "^^" + Convert.ToString(dr["PatState"]) + "^" + Convert.ToString(dr["PatState"]) + "^^" +
-//             Convert.ToString(dr["MalaffiNationalityCode"]) + "^H" + "||" +
-//             Convert.ToString(dr["PIDMobile"]) + "~^" + Convert.ToString(dr["PIDMail"]) + "|" + Convert.ToString(dr["PIDPhone"]) + "|" +
-//             Convert.ToString(dr["PIDLanguage"]) + "|" +
-//             //Convert.ToString(dr["PIDMobile"]) + "||" + Convert.ToString(dr["PIDLanguage"]) + "|" +
-//             Convert.ToString(dr["PIDMaritalStat"]) + "|" +
-//             Convert.ToString(dr["PIDReligionCode"]) + "^" + Convert.ToString(dr["PIDReligionName"]) + "^NAB003"
-//              //+ "||" + Convert.ToString(dr["PIDEmiratesId"]) + "|||||||||" +
-//              + "||" + Convert.ToString(dr["PIDEmiratesId"]) + "|||" +
-//              "UNK^Unknown^NAB005" +//Need to fetch real items, this is for test purpose only.This Ethnic Group is optional too
-//                                    //Convert.ToString(dr["PIDNabCountryCd"]) + "^" + Convert.ToString(dr["PIDNationalityName"]) + "^NAB005"+
-//             "||" + Convert.ToString(dr["PIDPatDeath"]) + "|" + "|||" +//Need to fetch real items, this is for test purpose only.
-//            Convert.ToString(dr["PIDNabCountryCd"]) + "^" + Convert.ToString(dr["PIDNationalityName"]) + "^NAB038"
-//             + "||" + Convert.ToString(dr["PIDPatDeath"]) + "|" + Convert.ToString(dr["PIDUnIden"])
-//             + "||" + Convert.ToString(dr["PIDDate"])
-//             //+ "|" + Convert.ToString(dr["MSHNabSystemcode"]) + "||||||\r";
-//             + "|" + Convert.ToString(dr["MSHNabSystemcode"]) + "|||||\r";
-//    if (!MessageType.Equals("ADT^A28"))
-//        strValue += "PV1|" +
-//                    Convert.ToString(dr["PV1SedId"]) + "|" +
-//                    Convert.ToString(dr["PVIPatClass"]) + "|" +
-//                    Convert.ToString(dr["PV1PointOfCare"]) + "^^^" + Convert.ToString(dr["PV1DHAFacilityId"] + "^^^^^" + Convert.ToString(dr["PV1HospitalName"]) +
-//                    "|" + Convert.ToString(dr["PV1AdmmisionType"]) +
-//                    "|||" + strRegNo + "^" + Convert.ToString(dr["PV1ConLastName"]) + "^" +
-//                    //Convert.ToString(dr["PV1CRegNo"])+ "^" + Convert.ToString(dr["PV1ConLastName"]) + "^" +
-//                    Convert.ToString(dr["PV1ConFirstName"]) + "^" +
-//                    Convert.ToString(dr["PV1ConMiddleName"]) + "^^" + "Dr.^^^SHERYAN"
-//                    + "|||" +
-//                    Convert.ToString(dr["PV1HospSpeciality"]) + "||||" +
-//                    Convert.ToString(dr["PV1AdmitSource"]) + "|||||" +
-//                    //This is just an id of visit
-//                    //Convert.ToString(dr["PV1VisitNo"]) + "^^^" + Convert.ToString(dr["DHAFacilityId"]) + "|||||||||||||||||||||||||" +
-//                    "1" + "|||||||||||||||||||||||||" +
-//                    Convert.ToString(dr["PV1AdmitDate"]) + "|" +
-//                    (MessageType == "ADT^A03" ? Convert.ToString(dr["PV1DischargeDate"]) : string.Empty)) +
-//                    "|||||||\r";
-//    if (!MessageType.Equals("PPR^PC1"))
-//    {
-//        if (dt.Columns.Contains("PV2VisitReason"))
-//            if (Convert.ToString(dt.Rows[0]["PV2VisitReason"]).Trim().Length > 0)
-//                strValue += "PV2||||||||||||" + Convert.ToString(dr["PV2VisitReason"]) + "\r";
-//    }
-
-//    return strValue;
-//}
 //con.Open();
 //SqlCommand cmdmobilemailcheck = new SqlCommand("stLH_CheckPatientEmailExists", con);
 //cmdmobilemailcheck.CommandType = CommandType.StoredProcedure;
