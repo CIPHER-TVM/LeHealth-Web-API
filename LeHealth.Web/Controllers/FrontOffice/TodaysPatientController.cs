@@ -473,6 +473,45 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
             }
         }
+        [Route("UpdateAppointmentStatus")]
+        [HttpPost]
+        public ResponseDataModel<AppointmentModel> UpdateAppointmentStatus(AppointmentModel appointment)
+        {
+
+            AppointmentModel responseData = new AppointmentModel();
+            try
+            {
+                string appResponse = todaysPatientService.UpdateAppointmentStatus(appointment);
+                var response = new ResponseDataModel<AppointmentModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = null,
+                    Message = appResponse
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<AppointmentModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+                //  consultationList.Clear();
+
+            }
+        }
+        
+        
         /// <summary>
         /// To get list of all consultations. Controller class . Step One in code execution flow
         /// </summary>

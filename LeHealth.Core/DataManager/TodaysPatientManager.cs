@@ -465,7 +465,7 @@ namespace LeHealth.Core.DataManager
                         SheduleGetDataModel sgdm = new SheduleGetDataModel();
                         List<Label> labelsList = new List<Label>();
                         sgdm.id = (int)gsim.Consultant[i];
-                        sgdm.drName = string.Empty; ;
+                        sgdm.drName = string.Empty;
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -545,6 +545,51 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@AppId", appointment.AppId);
                     cmd.Parameters.AddWithValue("@CancelReason", appointment.Reason);
+                    cmd.Parameters.AddWithValue("@UserId", appointment.UserId);
+                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retVal);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var retV = retVal.Value;
+                    var retD = retDesc.Value.ToString();
+                    con.Close();
+                    if (retD == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = retD;
+                    }
+                }
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
+        public string UpdateAppointmentStatus(AppointmentModel appointment)
+        {
+            string response = string.Empty; ;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UpdateAppointmentStatus", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AppId", appointment.AppId);
+                    cmd.Parameters.AddWithValue("@CancelReason", appointment.Reason);
+                    cmd.Parameters.AddWithValue("@NewStatus", appointment.NewStatus);
                     cmd.Parameters.AddWithValue("@UserId", appointment.UserId);
                     SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                     {

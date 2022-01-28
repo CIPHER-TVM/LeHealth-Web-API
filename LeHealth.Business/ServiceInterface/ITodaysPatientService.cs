@@ -19,6 +19,7 @@ namespace LeHealth.Service.ServiceInterface
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         
         string DeleteAppointment(AppointmentModel appointment);
+        string UpdateAppointmentStatus(AppointmentModel appointment);
         string CancelConsultation(ConsultationModel consultantion);
         string PostponeAppointment(Appointments appointments);
         string SetUrgentConsultation(ConsultationModel consultantion);
