@@ -42,7 +42,7 @@ namespace LeHealth.Entity.DataModel
         public string AppStatus { get; set; }
         public bool Reminder { get; set; }
         public string CancelReason { get; set; }
-        public int Gender { get; set; } 
+        public int Gender { get; set; }
         public int UserId { get; set; }
         public int AppTypeId { get; set; }
         public int SessionId { get; set; }
@@ -51,5 +51,11 @@ namespace LeHealth.Entity.DataModel
         public string RetDesc { get; set; }
         public int SlotCount { get; set; }
         public int DeptId { get; set; }
+        public List<Slice> SliceData  { get; set; }
+    }
+    public class Slice
+    {
+        public int SliceNo { get; set; }
+        public string SliceTime { get; set; }
     }
 }

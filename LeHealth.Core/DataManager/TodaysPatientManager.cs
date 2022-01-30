@@ -1133,7 +1133,7 @@ namespace LeHealth.Core.DataManager
                         for (int i = 0; i < dsSponsorList.Tables[0].Rows.Count; i++)
                         {
                             SponsorModel obj = new SponsorModel();
-                            obj.OpenDate = dsSponsorList.Tables[0].Rows[i]["OpenDate"].ToString().Substring(0, 10);
+                            obj.OpenDate = dsSponsorList.Tables[0].Rows[i]["OpenDate"].ToString().Substring(0, 10).Replace("/", "-");
                             obj.CreditRefNo = dsSponsorList.Tables[0].Rows[i]["CreditRefNo"].ToString();
                             obj.SponsorName = dsSponsorList.Tables[0].Rows[i]["Sponsor"].ToString();
                             obj.AgentName = dsSponsorList.Tables[0].Rows[i]["AgentName"].ToString();
@@ -1396,14 +1396,16 @@ namespace LeHealth.Core.DataManager
                         {
                             PatRegByPatientIdModel obj = new PatRegByPatientIdModel();
                             obj.RegId = Convert.ToInt32(ds.Tables[0].Rows[i]["RegId"]);
-                            obj.RegDate = ds.Tables[0].Rows[i]["RegDate"].ToString();
+                            obj.RegDate = ds.Tables[0].Rows[i]["RegDate"].ToString().Replace("/", "-");
                             obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
                             obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
                             obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
                             obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
                             string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
-                            DateTime todaydate = DateTime.Now.Date;
-                            DateTime validuptodttime = Convert.ToDateTime(validupto);
+
+                            string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
+                            DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
+                            DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
                             {
                                 obj.IsRegistrationExpired = false;

@@ -169,8 +169,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
                     cmd.Parameters.AddWithValue("@AppNo", appointments.AppNo);
-                    cmd.Parameters.AddWithValue("@SliceNo", appointments.SliceNo);
-                    cmd.Parameters.AddWithValue("@SliceTime", appointments.SliceTime);
+                    cmd.Parameters.AddWithValue("@SliceNo", 0);
+                    cmd.Parameters.AddWithValue("@SliceTime", "");
                     cmd.Parameters.AddWithValue("@Title", appointments.Title);
                     cmd.Parameters.AddWithValue("@FirstName", appointments.FirstName);
                     cmd.Parameters.AddWithValue("@MiddleName", appointments.MiddleName);
@@ -211,7 +211,23 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if (descrip == "Saved Successfully")
                     {
+                        con.Open();
+                        for (int b = 0; b < appointments.SliceData.Count; b++)
+                        {
+                            SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
+                            savesliceCMD.CommandType = CommandType.StoredProcedure;
+                            savesliceCMD.Parameters.AddWithValue("@SliceNo", appointments.SliceData[b].SliceNo);
+                            savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
+                            savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
+                            savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
+                            savesliceCMD.Parameters.AddWithValue("@BranchId", appointments.BranchId);
+                            savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
+                            savesliceCMD.Parameters.AddWithValue("@AppId", ret);
+                            savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
+                            var isInsertedSymptom1 = savesliceCMD.ExecuteNonQuery();
+                        }
                         response = "Success";
+                        con.Close();
                     }
                     else
                     {
