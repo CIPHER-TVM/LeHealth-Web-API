@@ -9,6 +9,6 @@ namespace LeHealth.Core.Interface
     public interface IFormValidationManager
     {
         List<FormValidationModel> GetFormValidation(Int32 FormId,Int32 DepartmentId);
-        String InsertUpdateFormValidation(FormValidationModel formvalidation);
+        string InsertUpdateFormValidation(FormValidationModel formvalidation);
     }
 }

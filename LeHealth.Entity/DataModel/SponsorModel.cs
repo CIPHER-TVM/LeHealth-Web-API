@@ -6,12 +6,12 @@ namespace LeHealth.Entity.DataModel
 {
     public class SponsorModel
     {
-        public String OpenDate { get; set; }
-        public String CreditRefNo  { get; set; }
-        public String SponsorName { get; set; }
-        public String AgentName { get; set; }
-        public String PolicyNo { get; set; }
-        public String ValidUpto { get; set; } 
+        public string OpenDate { get; set; }
+        public string CreditRefNo  { get; set; }
+        public string SponsorName { get; set; }
+        public string AgentName { get; set; }
+        public string PolicyNo { get; set; }
+        public string ValidUpto { get; set; } 
         public bool IsSponsorExpired { get; set; }
     }
 }

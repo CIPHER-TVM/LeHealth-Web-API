@@ -6,17 +6,17 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsultantModel
     {
-        public String ConsultantName { get; set; }
-        public String FirstName { get; set; }
-        public String MiddleName { get; set; }
-        public String LastName { get; set; }
+        public string ConsultantName { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
         public int DeptId { get; set; }
-        public String AppType { get; set; }
-        public String ConsultantDate { get; set; }
-        public String Status { get; set; }
-        public String ConsultantCode { get; set; }
+        public string AppType { get; set; }
+        public string ConsultantDate { get; set; }
+        public string Status { get; set; }
+        public string ConsultantCode { get; set; }
         public int ConsultantId { get; set; }
         public int BranchId { get; set; }
-        public String DeptName { get; set; }
+        public string DeptName { get; set; }
     }
 }

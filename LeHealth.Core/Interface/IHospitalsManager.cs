@@ -8,9 +8,9 @@ namespace LeHealth.Core.Interface
     public interface IHospitalsManager
     {
         List<ConsultationModel> GetConsultation(ConsultantModel consultation);
-        List<TabOrderModel> GetTabOrder(String screenname);
-        String InsertAppointment(Appointments appointments);
-        String UpdateAppointment(Appointments appointments);
+        List<TabOrderModel> GetTabOrder(string screenname);
+        string InsertAppointment(Appointments appointments);
+        string UpdateAppointment(Appointments appointments);
         List<ConsultationModel> GetAllConsultation();
         List<ConsultationModel> SearchConsultation(ConsultationModel consultation);
     }

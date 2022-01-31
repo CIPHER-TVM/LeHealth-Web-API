@@ -9,74 +9,74 @@ namespace LeHealth.Service.ServiceInterface
     public interface IMasterDataService
     {
         List<ProfessionModel> GetProfession(int profid);
-        String InsertUpdateProfession(ProfessionModel prof);
+        string InsertUpdateProfession(ProfessionModel prof);
         List<SponsorMasterModel> GetSponsor(int sponsorid);
-        String InsertUpdateSponsor(SponsorMasterModel sponsor);
+        string InsertUpdateSponsor(SponsorMasterModel sponsor);
         List<HospitalModel> GetUserHospitals(int id);
-        String InsertUpdateUserHospitals(HospitalRegModel hm);
-        String ConsentFormDataSave(ConsentFormRegModel hm);
+        string InsertUpdateUserHospitals(HospitalRegModel hm);
+        string ConsentFormDataSave(ConsentFormRegModel hm);
         List<ConsentPreviewModel> GetConsentPreviewConsent(int id);
         List<ConsentContentModel> GetConsent(int id);
-        String InsertUpdateConsent(ConsentContentModel hm);
+        string InsertUpdateConsent(ConsentContentModel hm);
         List<AppTypeModel> GetAppType();
         List<FormValidationModel> GetFormFields(int Id);
         List<FormValidationModel> GetFormMaster();
         List<ReligionModel> GetReligion();
-        String InsertUpdateZone(ZoneModel zone);
+        string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(int zoneId);
-        String InsertUpdateRateGroup(RateGroupModel RateGroup);
+        string InsertUpdateRateGroup(RateGroupModel RateGroup);
         List<RateGroupModel> GetRateGroup(int Id);
-        String InsertUpdateOperator(OperatorModel Operator);
+        string InsertUpdateOperator(OperatorModel Operator);
         List<OperatorModel> GetOperator(int OperatorId);
-        String InsertUpdateRegScheme(RegSchemeModel RegScheme);
+        string InsertUpdateRegScheme(RegSchemeModel RegScheme);
         List<RegSchemeModel> GetRegScheme(int RegSchemeId);
         List<DepartmentModel> GetDepartments(int DeptId);
         List<DepartmentModel> GetDepartmentByHospital(int HospId);
-        String InsertUpdateDepartment(DepartmentModel Dept);
+        string InsertUpdateDepartment(DepartmentModel Dept);
         List<LeadAgentModel> GetLeadAgent(int la);
-        String InsertUpdateLeadAgent(LeadAgentModel la);
+        string InsertUpdateLeadAgent(LeadAgentModel la);
         List<CompanyModel> GetCompany(int Id);
-        String InsertUpdateCompany(CompanyModel cmp);
+        string InsertUpdateCompany(CompanyModel cmp);
         List<CountryModel> GetCountry(int countryDetail);
-        String InsertUpdateCountry(CountryModel countryDetail);
+        string InsertUpdateCountry(CountryModel countryDetail);
         List<StateModel> GetState(int stateDetail);
-        String InsertUpdateState(StateModel stateDetail);
+        string InsertUpdateState(StateModel stateDetail);
         List<SalutationModel> GetSalutation(int stateDetail);
-        String InsertUpdateSalutation(SalutationModel stateDetail);
+        string InsertUpdateSalutation(SalutationModel stateDetail);
         List<BodyPartModel> GetBodyPart(int stateDetail);
-        String InsertUpdateBodyPart(BodyPartModel stateDetail);
+        string InsertUpdateBodyPart(BodyPartModel stateDetail);
         List<SponsorTypeModel> GetSponsorType(int sponsorType);
-        String InsertUpdateSponsorType(SponsorTypeModel sponsorType);
+        string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(int sponsorForm);
-        String InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
+        string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
         List<CityModel> GetCity(int city);
-        String InsertUpdateCity(CityModel city);
+        string InsertUpdateCity(CityModel city);
 
         List<VitalSignModel> GetVitalSign(int vitalsign);
-        String InsertUpdateVitalSign(VitalSignModel vitalsign);
+        string InsertUpdateVitalSign(VitalSignModel vitalsign);
         List<MovementModel> GetMovement(int movement);
-        String InsertUpdateMovement(MovementModel movement);
+        string InsertUpdateMovement(MovementModel movement);
 
         List<PackageModel> GetPackage(int package);
-        String InsertUpdatePackage(PackageModel package);
+        string InsertUpdatePackage(PackageModel package);
 
         List<LocationModel> GetLocation(int location); 
-        String InsertUpdateLocation(LocationModel package);
+        string InsertUpdateLocation(LocationModel package);
 
         List<ScientificNameModel> GetScientificName(int sname);
-        String InsertUpdateScientificName(ScientificNameModel sname);
+        string InsertUpdateScientificName(ScientificNameModel sname);
 
         List<TendernModel> GetTendern(int sname);
-        String InsertUpdateTendern(TendernModel sname); 
+        string InsertUpdateTendern(TendernModel sname); 
 
-        String InsertUpdateSymptom(SymptomModel symptom); 
+        string InsertUpdateSymptom(SymptomModel symptom); 
         List<VisaTypeModel> GetVisaType();
         List<StateModel> GetStateByCountryId(int countryId);
         List<SymptomModel> GetActiveSymptoms();
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
-        List<GetNumberModel> GetNumber(String nid);
+        List<GetNumberModel> GetNumber(string nid);
         List<ConsultantModel> ConsultantSearchWithDept(GetScheduleInputModel drsearch);
-        String UpdateNumberTable(GetNumberModel sname);
+        string UpdateNumberTable(GetNumberModel sname);
     }
 }

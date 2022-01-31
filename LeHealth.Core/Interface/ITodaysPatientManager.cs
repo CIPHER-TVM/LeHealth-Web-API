@@ -11,16 +11,16 @@ namespace LeHealth.Core.Interface
         List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
-        List<PatientListModel> GetPatientByRegNo(String regNo);
-        FrontOfficePBarModel GetFrontOfficeProgressBars(String patientList);
-        //List<MandatoryFieldsModel> GetSavingSchemaMandatory(String formname);
+        List<PatientListModel> GetPatientByRegNo(string regNo);
+        FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
+        //List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
         
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         
-        String DeleteAppointment(AppointmentModel appointment);
-        String UpdateAppointmentStatus(AppointmentModel appointment);
+        string DeleteAppointment(AppointmentModel appointment);
+        string UpdateAppointmentStatus(AppointmentModel appointment);
         List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi);
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel appointments);
         List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel appointments);
@@ -30,7 +30,7 @@ namespace LeHealth.Core.Interface
         
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
-        String AppoinmentValidCheck(AppoinmentValidCheckModel cm);
+        string AppoinmentValidCheck(AppoinmentValidCheckModel cm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
         List<PatientConsultationModel> GetConsultationDataById(int patientId);
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
@@ -39,9 +39,9 @@ namespace LeHealth.Core.Interface
         List<Appointments> GetAppointments(AppointmentModel appointment);
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
         
-        String CancelConsultation(ConsultationModel cons);
-        String PostponeAppointment(Appointments cons);
-        String SetUrgentConsultation(ConsultationModel cons);
+        string CancelConsultation(ConsultationModel cons);
+        string PostponeAppointment(Appointments cons);
+        string SetUrgentConsultation(ConsultationModel cons);
         List<ConsultantModel> GetConsultants(DepartmentIdModel deptId);
     }
 }

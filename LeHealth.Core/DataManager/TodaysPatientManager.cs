@@ -14,7 +14,7 @@ namespace LeHealth.Core.DataManager
 {
     public class TodaysPatientManager : ITodaysPatientManager
     {
-        private readonly String _connStr;
+        private readonly string _connStr;
         public TodaysPatientManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
@@ -248,7 +248,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="regNo">Register number</param>
         /// <returns>List of patient details</returns>
-        public List<PatientListModel> GetPatientByRegNo(String regNo)
+        public List<PatientListModel> GetPatientByRegNo(string regNo)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -279,7 +279,7 @@ namespace LeHealth.Core.DataManager
             List<Appointments> Appointmentlist = new List<Appointments>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                String AppQuery = "[stLH_GetAppOfaDay]";
+                string AppQuery = "[stLH_GetAppOfaDay]";
                 using (SqlCommand cmd = new SqlCommand(AppQuery, con))
                 {
                     con.Open();
@@ -485,7 +485,7 @@ namespace LeHealth.Core.DataManager
                         SheduleGetDataModel sgdm = new SheduleGetDataModel();
                         List<Label> labelsList = new List<Label>();
                         sgdm.id = (int)gsim.Consultant[i];
-                        sgdm.drName = String.Empty;
+                        sgdm.drName = string.Empty;
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -555,9 +555,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointment">AppId,Reason,UserId</param>
         /// <returns>Success Or Error Details</returns>
-        public String DeleteAppointment(AppointmentModel appointment)
+        public string DeleteAppointment(AppointmentModel appointment)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_CancelAppointment", con))
@@ -599,9 +599,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointment"></param>
         /// <returns></returns>
-        public String UpdateAppointmentStatus(AppointmentModel appointment)
+        public string UpdateAppointmentStatus(AppointmentModel appointment)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_UpdateAppointmentStatus", con))
@@ -680,9 +680,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultation">ConsultationId,CancelReason,UserId</param>
         /// <returns>Success or Error details</returns>
-        public String CancelConsultation(ConsultationModel consultation)
+        public string CancelConsultation(ConsultationModel consultation)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionCancelConsultation", con))
@@ -723,9 +723,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="app">ConsultantId,AppDate,AppNo,SliceNo,SliceTime,UserId</param>
         /// <returns>Appointment valid or not</returns>
-        public String PostponeAppointment(Appointments app)
+        public string PostponeAppointment(Appointments app)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con))
@@ -773,9 +773,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="app">ConsultantId,AppDate,TimeSliceFirst,TimeSliceFirst,RequiredSlots count</param>
         /// <returns>Appointment valid or not</returns>
-        public String AppoinmentValidCheck(AppoinmentValidCheckModel appoinment)
+        public string AppoinmentValidCheck(AppoinmentValidCheckModel appoinment)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_AppoinmentValidCheck", con))
@@ -806,9 +806,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultation">ConsultationId,UserId,LocationId</param>
         /// <returns>Success or reason for failure</returns>
-        public String SetUrgentConsultation(ConsultationModel consultation)
+        public string SetUrgentConsultation(ConsultationModel consultation)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionSetUrgentConsultation", con))
@@ -925,7 +925,7 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
         {
             List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
-            var descrip = String.Empty; ;
+            var descrip = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -1027,7 +1027,7 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations)
         {
             List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
-            var descrip = String.Empty; ;
+            var descrip = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultationSymptoms", con))
@@ -1158,7 +1158,7 @@ namespace LeHealth.Core.DataManager
                             obj.SponsorName = dsSponsorList.Tables[0].Rows[i]["Sponsor"].ToString();
                             obj.AgentName = dsSponsorList.Tables[0].Rows[i]["AgentName"].ToString();
                             obj.PolicyNo = dsSponsorList.Tables[0].Rows[i]["PolicyNumber"].ToString();
-                            String validupto = dsSponsorList.Tables[0].Rows[i]["ValidUpto"].ToString().Substring(0, 10);
+                            string validupto = dsSponsorList.Tables[0].Rows[i]["ValidUpto"].ToString().Substring(0, 10);
                             DateTime todaydate = DateTime.Now.Date;
                             DateTime validuptodttime = Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
@@ -1317,7 +1317,7 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultType = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultType"]);
                             obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
                             obj.ExpiryVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["ExpiryVisits"]);
-                            String validupto = obj.ExpiryDate;
+                            string validupto = obj.ExpiryDate;
                             DateTime todaydate = DateTime.Now.Date;
                             DateTime validuptodttime = Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
@@ -1426,9 +1426,9 @@ namespace LeHealth.Core.DataManager
                             obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
                             obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
                             obj.ConsultFee = ds.Tables[0].Rows[i]["ConsultFee"].ToString();
-                            String validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString().Replace("/","-");
-                            String consultationExpiry = ds.Tables[0].Rows[i]["ConsultationExpiryDate"].ToString().Replace("/", "-");
-                            String todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
+                            string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString().Replace("/","-");
+                            string consultationExpiry = ds.Tables[0].Rows[i]["ConsultationExpiryDate"].ToString().Replace("/", "-");
+                            string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
                             DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
                             DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
                             DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
@@ -1458,7 +1458,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public FrontOfficePBarModel GetFrontOfficeProgressBars(String todaydate)
+        public FrontOfficePBarModel GetFrontOfficeProgressBars(string todaydate)
         {
             FrontOfficePBarModel fopb = new FrontOfficePBarModel();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1493,7 +1493,7 @@ namespace LeHealth.Core.DataManager
                     for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
                         PatientModel obj = new PatientModel();
-                        String StatusName = ds.Tables[0].Rows[i]["StatusName"].ToString();
+                        string StatusName = ds.Tables[0].Rows[i]["StatusName"].ToString();
                         if (StatusName == "A")
                         {
                             AppStatA = Convert.ToInt32(ds.Tables[0].Rows[i]["StatusCount"]);
@@ -1530,7 +1530,7 @@ namespace LeHealth.Core.DataManager
                     for (int i = 0; i < ds2.Tables[0].Rows.Count; i++)
                     {
                         PatientModel obj = new PatientModel();
-                        String StatusName = ds2.Tables[0].Rows[i]["StatusName"].ToString();
+                        string StatusName = ds2.Tables[0].Rows[i]["StatusName"].ToString();
                         if (StatusName == "W")
                         {
                             ConsStatW = Convert.ToInt32(ds2.Tables[0].Rows[i]["StatusCount"]);
@@ -1643,7 +1643,7 @@ namespace LeHealth.Core.DataManager
 //    }
 //    return dataTable;
 //}
-//public String SendAddPatientInformation(int patientid)
+//public string SendAddPatientInformation(int patientid)
 //{
 //    List<AllPatientModel> patientList = new List<AllPatientModel>();
 //    using (SqlConnection con = new SqlConnection(_connStr))
@@ -1661,10 +1661,10 @@ namespace LeHealth.Core.DataManager
 //                != null) && (ds.Tables[0].Rows.Count > 0))
 //            {
 //                DataTable dt = ds.Tables[0];
-//                String strFile = DateTime.Now.ToString("yyyyMMddHHmmss");
-//                String strFileName = "Path.GetTempPath()" + @"\" + Convert.ToString(ds.Tables[0].Rows[0]["MalaffiSystemcode"]) + "_REGISTERPATIENT_" + strFile + ".HL7";
-//                String strValue = MalaffiStringBuilder(dt, "ADT^A28");
-//                if (strValue == String.Empty)
+//                string strFile = DateTime.Now.ToString("yyyyMMddHHmmss");
+//                string strFileName = "Path.GetTempPath()" + @"\" + Convert.ToString(ds.Tables[0].Rows[0]["MalaffiSystemcode"]) + "_REGISTERPATIENT_" + strFile + ".HL7";
+//                string strValue = MalaffiStringBuilder(dt, "ADT^A28");
+//                if (strValue == string.Empty)
 //                {
 //                    return "";
 //                }
@@ -1675,10 +1675,10 @@ namespace LeHealth.Core.DataManager
 //}
 
 ////Insert patient working
-//public String InsertPatientOriginal(PatientModel patientDetail)
+//public string InsertPatientOriginal(PatientModel patientDetail)
 //{
 //    SqlTransaction transaction;
-//    String response = String.Empty;;
+//    string response = string.Empty;
 //    using (SqlConnection con = new SqlConnection(_connStr))
 //    {
 //        con.Open();
@@ -1741,7 +1741,7 @@ namespace LeHealth.Core.DataManager
 //        {
 //            cmd.ExecuteNonQuery();
 //            int patientId = (int)patientIdParam.Value;
-//            String descr = retDesc.Value.ToString();
+//            string descr = retDesc.Value.ToString();
 //            if (patientId > 0)
 //            {
 //                patientDetail.PatientId = patientId;
@@ -1844,7 +1844,7 @@ namespace LeHealth.Core.DataManager
 //int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
 //var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
 
-//public static void Insert_Patient_Address(DataTable csvData, String con)
+//public static void Insert_Patient_Address(DataTable csvData, string con)
 //{
 //    using (SqlConnection dbConnection = new SqlConnection(con))
 //    {
@@ -1866,7 +1866,7 @@ namespace LeHealth.Core.DataManager
 //        }
 //    }
 //}
-//public static void Insert_Patient_Identity(DataTable csvData, String con)
+//public static void Insert_Patient_Identity(DataTable csvData, string con)
 //{
 //    using (SqlConnection dbConnection = new SqlConnection(con))
 //    {

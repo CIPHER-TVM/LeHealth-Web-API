@@ -7,6 +7,6 @@ namespace LeHealth.Entity.DataModel
     public class GetAppNumberIPModel
     {
         public int ConsultantId { get; set; }
-        public String AppDate { get; set; } 
+        public string AppDate { get; set; } 
     }
 }

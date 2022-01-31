@@ -7,7 +7,7 @@ namespace LeHealth.Entity.DataModel
     public class RegIdentitiesModel
     {
         public int IdentityType { get; set; }
-        public String IdentityNo { get; set; }
+        public string IdentityNo { get; set; }
         public int PatientId { get; set; }
     }
 }

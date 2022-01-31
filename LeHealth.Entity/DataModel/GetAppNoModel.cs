@@ -7,6 +7,6 @@ namespace LeHealth.Entity.DataModel
     public class GetAppNoModel
     {
         public int AppNo { get; set; }
-        public String PatientName { get; set; } 
+        public string PatientName { get; set; } 
     }
 }

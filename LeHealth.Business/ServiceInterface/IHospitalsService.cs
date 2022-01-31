@@ -12,8 +12,8 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultationModel> GetConsultation(ConsultantModel consultant);
         List<ConsultationModel> GetAllConsultation();
         List<ConsultationModel> SearchConsultation(ConsultationModel consultation);
-        List<TabOrderModel> GetTabOrder(String formname);
-        String InsertAppointment(Appointments appointments);
-        String UpdateAppointment(Appointments appointments);
+        List<TabOrderModel> GetTabOrder(string formname);
+        string InsertAppointment(Appointments appointments);
+        string UpdateAppointment(Appointments appointments);
     }
 }

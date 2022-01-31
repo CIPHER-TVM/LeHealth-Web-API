@@ -21,7 +21,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetProfession(profid);
         }
-        public String InsertUpdateProfession(ProfessionModel zone)
+        public string InsertUpdateProfession(ProfessionModel zone)
         {
             return masterdataManager.InsertUpdateProfession(zone);
         }
@@ -29,7 +29,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetSponsor(profid);
         }
-        public String InsertUpdateSponsor(SponsorMasterModel zone)
+        public string InsertUpdateSponsor(SponsorMasterModel zone)
         {
             return masterdataManager.InsertUpdateSponsor(zone);
         }
@@ -38,7 +38,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetSponsorType(id);
         }
-        public String InsertUpdateSponsorType(SponsorTypeModel stype)
+        public string InsertUpdateSponsorType(SponsorTypeModel stype)
         {
             return masterdataManager.InsertUpdateSponsorType(stype);
         }
@@ -47,7 +47,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetSponsorForm(id);
         }
-        public String InsertUpdateSponsorForm(SponsorFormModel stype)
+        public string InsertUpdateSponsorForm(SponsorFormModel stype)
         {
             return masterdataManager.InsertUpdateSponsorForm(stype);
         }
@@ -56,7 +56,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetCity(id);
         }
-        public String InsertUpdateCity(CityModel city)
+        public string InsertUpdateCity(CityModel city)
         {
             return masterdataManager.InsertUpdateCity(city);
         }
@@ -73,7 +73,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.GetFormFields(Id);
         }
 
-        public String InsertUpdateZone(ZoneModel zone)
+        public string InsertUpdateZone(ZoneModel zone)
         {
             return masterdataManager.InsertUpdateZone(zone);
         }
@@ -90,7 +90,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetUserHospitals(id);
         }
-        public String InsertUpdateUserHospitals(HospitalRegModel hm)
+        public string InsertUpdateUserHospitals(HospitalRegModel hm)
         {
             if (hm.LogoFile != null)
             {
@@ -102,7 +102,7 @@ namespace LeHealth.Service.Service
             }
             return masterdataManager.InsertUpdateUserHospital(hm);
         }
-        public String ConsentFormDataSave(ConsentFormRegModel hm)
+        public string ConsentFormDataSave(ConsentFormRegModel hm)
         {
 
             if (hm.SignFile != null)
@@ -113,7 +113,7 @@ namespace LeHealth.Service.Service
         }
 
 
-        public String InsertUpdateRegScheme(RegSchemeModel RegScheme)
+        public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
         {
             return masterdataManager.InsertUpdateRegScheme(RegScheme);
         }
@@ -121,7 +121,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetRegScheme(RegSchemeId);
         }
-        public String InsertUpdateRateGroup(RateGroupModel RateGroup)
+        public string InsertUpdateRateGroup(RateGroupModel RateGroup)
         {
             return masterdataManager.InsertUpdateRateGroup(RateGroup);
         }
@@ -129,7 +129,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetRateGroup(Id);
         }
-        public String InsertUpdateOperator(OperatorModel Operator)
+        public string InsertUpdateOperator(OperatorModel Operator)
         {
             return masterdataManager.InsertUpdateOperator(Operator);
         }
@@ -146,7 +146,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetLeadAgent(la);
         }
-        public String InsertUpdateLeadAgent(LeadAgentModel la)
+        public string InsertUpdateLeadAgent(LeadAgentModel la)
         {
             return masterdataManager.InsertUpdateLeadAgent(la);
         }
@@ -154,7 +154,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetCompany(Id);
         }
-        public String InsertUpdateCompany(CompanyModel cmp)
+        public string InsertUpdateCompany(CompanyModel cmp)
         {
             return masterdataManager.InsertUpdateCompany(cmp);
         }
@@ -162,7 +162,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetBodyPart(Id);
         }
-        public String InsertUpdateBodyPart(BodyPartModel cmp)
+        public string InsertUpdateBodyPart(BodyPartModel cmp)
         {
             return masterdataManager.InsertUpdateBodyPart(cmp);
         }
@@ -170,7 +170,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetDepartments(DeptId);
         }
-        public String InsertUpdateDepartment(DepartmentModel Dept)
+        public string InsertUpdateDepartment(DepartmentModel Dept)
         {
             return masterdataManager.InsertUpdateDepartment(Dept);
         }
@@ -186,7 +186,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetConsent(patientId);
         }
-        public String InsertUpdateConsent(ConsentContentModel consent)
+        public string InsertUpdateConsent(ConsentContentModel consent)
         {
             return masterdataManager.InsertUpdateConsent(consent);
         }
@@ -194,7 +194,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetCountry(countryDetails);
         }
-        public String InsertUpdateCountry(CountryModel country)
+        public string InsertUpdateCountry(CountryModel country)
         {
             return masterdataManager.InsertUpdateCountry(country);
         }
@@ -202,7 +202,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetState(stateDetails);
         }
-        public String InsertUpdateState(StateModel state)
+        public string InsertUpdateState(StateModel state)
         {
             return masterdataManager.InsertUpdateState(state);
         }
@@ -210,7 +210,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetSalutation(stateDetails);
         }
-        public String InsertUpdateSalutation(SalutationModel state)
+        public string InsertUpdateSalutation(SalutationModel state)
         {
             return masterdataManager.InsertUpdateSalutation(state);
         }
@@ -219,7 +219,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetVitalSign(vitalsign);
         }
-        public String InsertUpdateVitalSign(VitalSignModel vitalsign)
+        public string InsertUpdateVitalSign(VitalSignModel vitalsign)
         {
             return masterdataManager.InsertUpdateVitalSign(vitalsign);
         }
@@ -228,7 +228,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetMovement(movement);
         }
-        public String InsertUpdateMovement(MovementModel movement)
+        public string InsertUpdateMovement(MovementModel movement)
         {
             return masterdataManager.InsertUpdateMovement(movement);
         }
@@ -236,7 +236,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetPackage(movement);
         }
-        public String InsertUpdatePackage(PackageModel movement)
+        public string InsertUpdatePackage(PackageModel movement)
         {
             return masterdataManager.InsertUpdatePackage(movement);
         }
@@ -244,7 +244,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetLocation(movement);
         }
-        public String InsertUpdateLocation(LocationModel movement)
+        public string InsertUpdateLocation(LocationModel movement)
         {
             return masterdataManager.InsertUpdateLocation(movement);
         }
@@ -252,7 +252,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetScientificName(movement);
         }
-        public String InsertUpdateScientificName(ScientificNameModel movement)
+        public string InsertUpdateScientificName(ScientificNameModel movement)
         {
             return masterdataManager.InsertUpdateScientificName(movement);
         }
@@ -261,7 +261,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetTendern(movement);
         }
-        public String InsertUpdateTendern(TendernModel movement)
+        public string InsertUpdateTendern(TendernModel movement)
         {
             return masterdataManager.InsertUpdateTendern(movement);
         }
@@ -286,11 +286,11 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetConsentType();
         }
-        public String InsertUpdateSymptom(SymptomModel la)
+        public string InsertUpdateSymptom(SymptomModel la)
         {
             return masterdataManager.InsertUpdateSymptom(la);
         }
-        public List<GetNumberModel> GetNumber(String numid)
+        public List<GetNumberModel> GetNumber(string numid)
         {
             return masterdataManager.GetNumber(numid);
         }
@@ -298,7 +298,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.ConsultantSearchWithDept(numid);
         }
-        public String UpdateNumberTable(GetNumberModel la)
+        public string UpdateNumberTable(GetNumberModel la)
         {
             return masterdataManager.UpdateNumberTable(la);
         }

@@ -7,6 +7,6 @@ namespace LeHealth.Entity.DataModel
    public class GenderModel
     {
         public int Id { get; set; }
-        public String GenderName { get; set; } 
+        public string GenderName { get; set; } 
     }
 }

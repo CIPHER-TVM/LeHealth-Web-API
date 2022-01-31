@@ -6,7 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class CredentialModel
     {
-        public String Username { get; set; }
-        public String Password { get; set; } 
+        public string Username { get; set; }
+        public string Password { get; set; } 
     }
 }

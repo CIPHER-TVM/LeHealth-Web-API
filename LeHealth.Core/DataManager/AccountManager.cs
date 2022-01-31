@@ -19,12 +19,12 @@ namespace LeHealth.Core.DataManager
     {
         bool disposed = false;
 
-        private readonly String _connStr;
-        private readonly String _key;
+        private readonly string _connStr;
+        private readonly string _key;
         private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Initializing connection String
+        /// Initializing connection string
         /// </summary>
         /// <param name="_configuration"></param>
         public AccountManager(IConfiguration configuration)
@@ -65,7 +65,7 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
-                String AppQuery = "[stLH_Login]";
+                string AppQuery = "[stLH_Login]";
                 using (SqlCommand cmd = new SqlCommand(AppQuery, con))
                 {
                     con.Open();
@@ -98,7 +98,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public String GenerateToken()
+        public string GenerateToken()
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWT_Secret"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

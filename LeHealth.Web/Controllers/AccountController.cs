@@ -63,7 +63,7 @@ namespace LeHealth.Base.API.Controllers
         }
         [HttpPost]
         [Route("Getdata")]
-        public String Getdata()
+        public string Getdata()
         {
             return "success";
         }

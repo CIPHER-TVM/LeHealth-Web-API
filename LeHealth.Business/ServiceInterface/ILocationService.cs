@@ -7,7 +7,7 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface ILocationService
     {
-        String Save(LocationModel obj);
+        string Save(LocationModel obj);
         List<LocationModel> GetLocations(int hospitalId);
         LocationModel GetLocationById(int locationId);
         List<LocationType> GetLocationTypes();

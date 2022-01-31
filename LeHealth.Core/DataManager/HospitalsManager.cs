@@ -16,9 +16,9 @@ namespace LeHealth.Core.DataManager
     {
         bool disposed = false;
 
-        private readonly String _connStr;
+        private readonly string _connStr;
         /// <summary>
-        /// Initializing connection String
+        /// Initializing connection string
         /// </summary>
         /// <param name="_configuration"></param>
         public HospitalsManager(IConfiguration _configuration)
@@ -104,7 +104,7 @@ namespace LeHealth.Core.DataManager
         }
 
 
-        public List<TabOrderModel> GetTabOrder(String screenname)
+        public List<TabOrderModel> GetTabOrder(string screenname)
         {
             List<TabOrderModel> Consultationlist = new List<TabOrderModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -145,9 +145,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public String InsertAppointment(Appointments appointments)
+        public string InsertAppointment(Appointments appointments)
         {
-            String response = String.Empty;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
@@ -161,7 +161,7 @@ namespace LeHealth.Core.DataManager
                     {
                         cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                     }
-                    String DateString = appointments.AppDate;
+                    string DateString = appointments.AppDate;
                     DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
                     appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
@@ -179,6 +179,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
                     cmd.Parameters.AddWithValue("@Street", appointments.Street);
                     cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
+                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
                     cmd.Parameters.AddWithValue("@City", appointments.City);
                     cmd.Parameters.AddWithValue("@State", appointments.State);
@@ -243,9 +244,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public String UpdateAppointment(Appointments appointments)
+        public  string UpdateAppointment(Appointments appointments)
         {
-            String appointmentret = String.Empty; ;
+             string appointmentret =  string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 

@@ -7,9 +7,9 @@ namespace LeHealth.Entity.DataModel
     public class CompanyModel
     {
         public int CmpId { get; set; }
-        public String CmpName { get; set; }
+        public string CmpName { get; set; }
         public int Active { get; set; }
-        public String BlockReason { get; set; }
+        public string BlockReason { get; set; }
         public int UserId { get; set; } 
     }
 }

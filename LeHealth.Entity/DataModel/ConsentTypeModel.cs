@@ -7,7 +7,7 @@ namespace LeHealth.Entity.DataModel
    public class ConsentTypeModel
     {
         public int Id { get; set; }
-        public String ConsentType { get; set; }
-        public String ConsentTypeCode { get; set; } 
+        public string ConsentType { get; set; }
+        public string ConsentTypeCode { get; set; } 
     }
 }

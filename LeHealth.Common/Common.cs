@@ -26,7 +26,7 @@ namespace LeHealth.Common
                 dest.Write(bytes, 0, cnt);
             }
         }
-        public static byte[] Zip(String str)
+        public static byte[] Zip(string str)
         {
             var bytes = Encoding.UTF8.GetBytes(str);
 
@@ -42,7 +42,7 @@ namespace LeHealth.Common
                 return mso.ToArray();
             }
         }
-        public static String Unzip(byte[] bytes)
+        public static string Unzip(byte[] bytes)
         {
             using (var msi = new MemoryStream(bytes))
             using (var mso = new MemoryStream())
@@ -190,14 +190,14 @@ namespace LeHealth.Common
 
 
         }
-        public static String Trimspace(this String str)
+        public static string Trimspace(this string str)
         {
-            String retString = String.Empty;
+            string retString = string.Empty;
             try
             {
                 if (str != null)
                 {
-                    retString = String.Concat(str.Where(c => !char.IsWhiteSpace(c)));
+                    retString = string.Concat(str.Where(c => !char.IsWhiteSpace(c)));
                 }
 
                 return retString;
@@ -206,9 +206,9 @@ namespace LeHealth.Common
 
 
         }
-        public static String TrimObject(this String str)
+        public static string TrimObject(this string str)
         {
-            String retString = String.Empty;
+            string retString = string.Empty;
             try
             {
                 if (str != null)
@@ -238,9 +238,9 @@ namespace LeHealth.Common
 
 
         }
-        public static String ToRound(this decimal? decimalValue)
+        public static string ToRound(this decimal? decimalValue)
         {
-            String retdecimalValue = "000.000";
+            string retdecimalValue = "000.000";
             try
             {
                 if (decimalValue.HasValue)
@@ -252,9 +252,9 @@ namespace LeHealth.Common
             catch (Exception Ex) { return retdecimalValue; }
 
         }
-        public static String ToRound(this decimal? decimalValue, String format)
+        public static string ToRound(this decimal? decimalValue, string format)
         {
-            String retdecimalValue = format;
+            string retdecimalValue = format;
             try
             {
                 if (decimalValue.HasValue)
@@ -266,12 +266,12 @@ namespace LeHealth.Common
             catch (Exception Ex) { return retdecimalValue; }
 
         }
-        public static String ToDecimalRound(this decimal? decimalValue, int integerLength, int decimalLength)
+        public static string ToDecimalRound(this decimal? decimalValue, int integerLength, int decimalLength)
         {
             try
             {
-                String integerVal = "";
-                String decimalVal = "";
+                string integerVal = "";
+                string decimalVal = "";
                 if (decimalValue.HasValue)
                 {
                     var decimalArray = decimalValue.Value.ToString().Split('.');
@@ -300,11 +300,11 @@ namespace LeHealth.Common
             }
 
         }
-        public static String ToIntegerRoundFormat(this int? intVal, int integerLength)
+        public static string ToIntegerRoundFormat(this int? intVal, int integerLength)
         {
             try
             {
-                String integerVal = "";
+                string integerVal = "";
                 if (intVal.HasValue)
                 {
                     integerVal = intVal.ToString().PadLeft(integerLength, '0');
@@ -321,9 +321,9 @@ namespace LeHealth.Common
             }
 
         }
-        public static decimal ToDecimal(this String str)
+        public static decimal ToDecimal(this string str)
         {
-            String retString = "0.00";
+            string retString = "0.00";
             try
             {
                 if (str != null)
@@ -341,9 +341,9 @@ namespace LeHealth.Common
 
         }
 
-        public static long ToInt64(this String str)
+        public static long ToInt64(this string str)
         {
-            String retString = "0";
+            string retString = "0";
             try
             {
                 if (!String.IsNullOrEmpty(str))
@@ -357,9 +357,9 @@ namespace LeHealth.Common
 
 
         }
-        public static String Int64ToString(this Int64? intValue, int totalLength, char padChar)
+        public static string Int64ToString(this Int64? intValue, int totalLength, char padChar)
         {
-            String retString = "";
+            string retString = "";
             try
             {
                 if (intValue.HasValue)
@@ -376,9 +376,9 @@ namespace LeHealth.Common
 
 
         }
-        public static String Int32ToString(this Int32? intValue, int totalLength, char padChar)
+        public static string Int32ToString(this Int32? intValue, int totalLength, char padChar)
         {
-            String retString = "";
+            string retString = "";
             try
             {
                 if (intValue.HasValue)
@@ -395,9 +395,9 @@ namespace LeHealth.Common
 
 
         }
-        public static String DecimalToString(this decimal? decValue, int totalLength, char padChar)
+        public static string DecimalToString(this decimal? decValue, int totalLength, char padChar)
         {
-            String retString = "";
+            string retString = "";
             try
             {
                 if (decValue.HasValue)
@@ -414,12 +414,12 @@ namespace LeHealth.Common
 
 
         }
-        public static String DecimalToStringWithPadRight(this decimal decValue, int totalLength, char padChar)
+        public static string DecimalToStringWithPadRight(this decimal decValue, int totalLength, char padChar)
         {
             StringBuilder sb = new StringBuilder();
             try
             {
-                String decimalValue = decValue.ToString();
+                string decimalValue = decValue.ToString();
                 if (!decimalValue.Contains("."))
                     decimalValue = decimalValue + ".0";
                 decimalValue = decimalValue.ToString().PadRight(totalLength, padChar);
@@ -438,9 +438,9 @@ namespace LeHealth.Common
 
         }
 
-        public static String SubstringAndPadRight(this String val, int totalLength, char padChar)
+        public static string SubstringAndPadRight(this string val, int totalLength, char padChar)
         {
-            String retString = "";
+            string retString = "";
             try
             {
                 if (val.Length <= totalLength)
@@ -457,9 +457,9 @@ namespace LeHealth.Common
 
 
         }
-        public static String ReplaceSingleQuots(this String str)
+        public static string ReplaceSingleQuots(this string str)
         {
-            String retString = String.Empty;
+            string retString = string.Empty;
             try
             {
                 if (str != null)
@@ -474,7 +474,7 @@ namespace LeHealth.Common
 
 
         }
-        public static bool ValidCell(this String str)
+        public static bool ValidCell(this string str)
         {
             bool isValid = false;
             try
@@ -501,7 +501,7 @@ namespace LeHealth.Common
         }
 
 
-        public static String ToXML(this object obj)
+        public static string ToXML(this object obj)
         {
             var stringwriter = new System.IO.StringWriter();
             var serializer = new XmlSerializer(obj.GetType());
@@ -511,7 +511,7 @@ namespace LeHealth.Common
 
 
 
-        public static void LogEntry(String module, String function, String message)
+        public static void LogEntry(string module, string function, string message)
         {
             try
             {
@@ -524,9 +524,9 @@ namespace LeHealth.Common
             }
         }
 
-        public static String DecimalCheck(this decimal Number)
+        public static string DecimalCheck(this decimal Number)
         {
-            String retval = Number.ToString();
+            string retval = Number.ToString();
             decimal result = Number - Math.Truncate(Number);
             if (result == 0)
             {
@@ -535,11 +535,11 @@ namespace LeHealth.Common
 
             return retval;
         }
-        public static String Convert_ImageTo_Base64(String path)
+        public static string Convert_ImageTo_Base64(string path)
         {
             try
             {
-                String filename = path;
+                string filename = path;
                 FileStream f = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 int size = (int)f.Length;
                 byte[] MyData = new byte[f.Length + 1];

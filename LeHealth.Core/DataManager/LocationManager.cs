@@ -12,8 +12,8 @@ namespace LeHealth.Core.DataManager
 {
     public class LocationManager : ILocationManager
     {
-        private readonly String _connStr;
-        private readonly String _uploadpath;
+        private readonly string _connStr;
+        private readonly string _uploadpath;
         public LocationManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
@@ -92,9 +92,9 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public String Save(LocationModel obj)
+        public string Save(LocationModel obj)
         {
-            String response = String.Empty;;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("[stLH_SaveLocation]", con))

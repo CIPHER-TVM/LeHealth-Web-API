@@ -66,7 +66,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateProfession(ProfessionModel profession)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateProfession", con))
@@ -179,7 +179,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateSponsor(SponsorMasterModel sponsor)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsor", con))
@@ -292,7 +292,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateSponsorType(SponsorTypeModel stype)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorType", con))
@@ -376,7 +376,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateSponsorForm(SponsorFormModel sform)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorForm", con))
@@ -528,7 +528,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateConsent(ConsentContentModel consent)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsent", con))
@@ -602,7 +602,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateCountry(CountryModel country)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCountry", con))
@@ -678,7 +678,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateState(StateModel state)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateState", con))
@@ -753,7 +753,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateSalutation(SalutationModel salutation)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSalutation", con))
@@ -826,7 +826,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateBodyPart(BodyPartModel bodypart)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateBodyPart", con))
@@ -872,7 +872,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateZone(ZoneModel zone)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateZone", con))//InsertUpdateZone
@@ -985,7 +985,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateDepartment(DepartmentModel department)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDepartment", con))
@@ -1069,7 +1069,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRegScheme", con))
@@ -1191,7 +1191,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateRateGroup(RateGroupModel RateGroup)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRateGroup", con))
@@ -1341,7 +1341,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateUserHospital(HospitalRegModel hospital)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateHospital", con))
@@ -1408,7 +1408,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string ConsentFormDataSave(ConsentFormRegModel consent)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertConsentForm", con))
@@ -1454,7 +1454,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateOperator(OperatorModel Operator)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateOperator", con))
@@ -1577,7 +1577,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateLeadAgent(LeadAgentModel LeadAgent)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLeadAgent", con))
@@ -1661,7 +1661,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateCompany(CompanyModel Company)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany", con))
@@ -1746,7 +1746,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateCity(CityModel city)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCity", con))
@@ -1793,7 +1793,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateSymptom(SymptomModel Symptom)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSymptom", con))
@@ -1865,7 +1865,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateVitalSign(VitalSignModel vitalsign)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateVitalSign", con))
@@ -1944,7 +1944,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateMovement(MovementModel movement)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMovement", con))
@@ -2056,7 +2056,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdatePackage(PackageModel Package)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePackage", con))
@@ -2158,7 +2158,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateLocation(LocationModel Package)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLocation", con))
@@ -2252,7 +2252,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateScientificName(ScientificNameModel Package)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateScientifcName", con))
@@ -2334,7 +2334,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
         public string InsertUpdateTendern(TendernModel Package)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTendern", con))
@@ -2570,7 +2570,7 @@ namespace LeHealth.Core.DataManager
                 {
                     if (numId == "All")
                     {
-                        numId = string.Empty; ;
+                        numId = string.Empty;
                     }
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -2677,7 +2677,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success or reason for error</returns>
         public string UpdateNumberTable(GetNumberModel num)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionUpdateNumber", con))

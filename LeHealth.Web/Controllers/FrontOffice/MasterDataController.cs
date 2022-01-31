@@ -75,7 +75,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ProfessionModel>> InsertUpdateProfession(ProfessionModel Profession)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateProfession(Profession);
@@ -160,7 +160,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SponsorMasterModel>> InsertUpdateSponsor(SponsorMasterModel Sponsor)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateSponsor(Sponsor);
@@ -245,7 +245,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SponsorTypeModel>> InsertUpdateSponsorType(SponsorTypeModel Sponsor)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateSponsorType(Sponsor);
@@ -328,7 +328,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SponsorFormModel>> InsertUpdateSponsorForm(SponsorFormModel Sponsor)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateSponsorForm(Sponsor);
@@ -412,7 +412,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<CityModel>> InsertUpdateCity(CityModel City)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateCity(City);
@@ -494,7 +494,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<VitalSignModel>> InsertUpdateVitalSign(VitalSignModel vitalSign)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateVitalSign(vitalSign);
@@ -529,7 +529,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SymptomModel>> InsertUpdateSymptom(SymptomModel Symptom)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateSymptom(Symptom);
@@ -652,7 +652,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentContentModel>> InsertUpdateConsent(ConsentContentModel Consent)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateConsent(Consent);
@@ -736,7 +736,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<CountryModel>> InsertUpdateCountry(CountryModel Country)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateCountry(Country);
@@ -819,7 +819,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<StateModel>> InsertUpdateState(StateModel State)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateState(State);
@@ -902,7 +902,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SalutationModel>> InsertUpdateSalutation(SalutationModel State)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateSalutation(State);
@@ -986,7 +986,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<BodyPartModel>> InsertUpdateBodyPart(BodyPartModel State)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateBodyPart(State);
@@ -1069,7 +1069,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<HospitalModel>> InsertUpdateHospital([FromForm] HospitalRequestModel obj)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 HospitalRegModel hospitalDetail = JsonConvert.DeserializeObject<HospitalRegModel>(obj.HospitalJson);
@@ -1111,7 +1111,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentFormDataSaveModel>> ConsentFormDataSave([FromForm] ConsentFormSaveRequestModel obj)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 ConsentFormRegModel hospitalDetail = JsonConvert.DeserializeObject<ConsentFormRegModel>(obj.ConsentJson);
@@ -1201,7 +1201,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> InsertUpdateDepartment(DepartmentModel obj)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateDepartment(obj);
@@ -1324,7 +1324,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ZoneModel>> InsertUpdateZone(ZoneModel zone)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateZone(zone);
@@ -1395,7 +1395,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<RegSchemeModel>> InsertUpdateRegScheme(RegSchemeModel zone)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateRegScheme(zone);
@@ -1466,7 +1466,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<RateGroupModel>> InsertUpdateRateGroup(RateGroupModel zone)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateRateGroup(zone); 
@@ -1539,7 +1539,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<OperatorModel>> InsertUpdateOperator(OperatorModel zone)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateOperator(zone);
@@ -1611,7 +1611,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<LeadAgentModel>> InsertUpdateLeadAgent(LeadAgentModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateLeadAgent(la);
@@ -1681,7 +1681,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<CompanyModel>> InsertUpdateCompany(CompanyModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateCompany(la);
@@ -1747,7 +1747,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<MovementModel>> InsertUpdateMovement(MovementModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateMovement(la);
@@ -1813,7 +1813,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<PackageModel>> InsertUpdatePackage(PackageModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdatePackage(la);
@@ -1880,7 +1880,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<LocationModel>> InsertUpdateLocation(LocationModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateLocation(la);
@@ -1947,7 +1947,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ScientificNameModel>> InsertUpdateScientificName(ScientificNameModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateScientificName(la);
@@ -2013,7 +2013,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<TendernModel>> InsertUpdateTendern(TendernModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.InsertUpdateTendern(la);
@@ -2358,7 +2358,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetNumber/{numid}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<GetNumberModel>> GetNumber(String numid)
+        public ResponseDataModel<IEnumerable<GetNumberModel>> GetNumber(string numid)
         {
             List<GetNumberModel> numberList = new List<GetNumberModel>();
             try
@@ -2396,7 +2396,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<GetNumberModel>> UpdateNumberTable(GetNumberModel la)
         {
-            String message = String.Empty;;
+            string message = string.Empty;
             try
             {
                 message = masterdataService.UpdateNumberTable(la);

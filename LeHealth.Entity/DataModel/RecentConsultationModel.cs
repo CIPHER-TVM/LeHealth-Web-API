@@ -7,7 +7,7 @@ namespace LeHealth.Entity.DataModel
     public class RecentConsultationModel
     {
         public int PatientId { get; set; }
-        public String RegNo { get; set; }
-        public String PatientName { get; set; }
+        public string RegNo { get; set; }
+        public string PatientName { get; set; }
     }
 }

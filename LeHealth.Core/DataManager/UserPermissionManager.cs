@@ -15,8 +15,8 @@ namespace LeHealth.Core.DataManager
 {
     public class UserPermissionManager : IUserPermissionManager
     {
-        private readonly String _connStr;
-        private readonly String _uploadpath;
+        private readonly string _connStr;
+        private readonly string _uploadpath;
         public UserPermissionManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
@@ -73,9 +73,9 @@ namespace LeHealth.Core.DataManager
 
        
 
-        public String SaveUserGroup(UserGroupModel obj)
+        public string SaveUserGroup(UserGroupModel obj)
         {
-            String response = String.Empty;;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SaveUserGroup", con))
@@ -116,9 +116,9 @@ namespace LeHealth.Core.DataManager
         }
         #endregion
         #region User
-        public String SaveUser(UserModel obj)
+        public string SaveUser(UserModel obj)
         {
-            String response = String.Empty;;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SaveUser", con))
@@ -192,7 +192,7 @@ namespace LeHealth.Core.DataManager
         public UserModel GetUser(int id)
         {
             UserModel obj = new UserModel();
-            obj.BranchIds = new List<String>();
+            obj.BranchIds = new List<string>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_getUserMaster", con))
@@ -211,7 +211,7 @@ namespace LeHealth.Core.DataManager
                     }
                     if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
                     {
-                        obj.BranchIds = new List<String>();
+                        obj.BranchIds = new List<string>();
                         foreach (DataRow dr in ds.Tables[1].Rows)
                         {
                             obj.BranchIds.Add(dr.ItemArray[0].ToString());
@@ -219,7 +219,7 @@ namespace LeHealth.Core.DataManager
                     }
                     if ((ds != null) && (ds.Tables.Count > 2) && (ds.Tables[2] != null) && (ds.Tables[2].Rows.Count > 0))
                     {
-                        obj.GroupIds = new List<String>();
+                        obj.GroupIds = new List<string>();
                         foreach (DataRow dr in ds.Tables[2].Rows)
                         {
                             obj.GroupIds.Add(dr.ItemArray[0].ToString());
@@ -278,9 +278,9 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public String MapLocation(MapLocationModel obj)
+        public string MapLocation(MapLocationModel obj)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SaveUserLocation", con))

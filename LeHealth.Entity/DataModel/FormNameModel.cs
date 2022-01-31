@@ -6,6 +6,6 @@ namespace LeHealth.Entity.DataModel
 {
     public class FormNameModel
     {
-        public String Formname { get; set; } 
+        public string Formname { get; set; } 
     }
 }

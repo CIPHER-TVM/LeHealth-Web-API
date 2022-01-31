@@ -15,8 +15,8 @@ namespace LeHealth.Core.DataManager
 {
     public class RegistrationManager : IRegistrationManager
     {
-        private readonly String _connStr;
-        private readonly String _uploadpath;
+        private readonly string _connStr;
+        private readonly string _uploadpath;
         public RegistrationManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
@@ -292,9 +292,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="reregistration"></param>
         /// <returns>Success Message or Error description</returns>
-        public String SaveReRegistration(PatientModel reregistration)
+        public string SaveReRegistration(PatientModel reregistration)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             try
             {
                 using (SqlConnection con = new SqlConnection(_connStr))
@@ -401,7 +401,7 @@ namespace LeHealth.Core.DataManager
                     obj.VisaType = dsPatientData.Tables[0].Rows[0]["VisaType"].ToString();
                     obj.ProfName = dsPatientData.Tables[0].Rows[0]["ProfName"].ToString();
                     obj.NationalityName = dsPatientData.Tables[0].Rows[0]["NationalityName"].ToString();
-                    obj.SchemeName = String.Empty;
+                    obj.SchemeName = string.Empty;
                     obj.CmpName = dsPatientData.Tables[0].Rows[0]["CmpName"].ToString();
                     obj.KinContactNo = dsPatientData.Tables[0].Rows[0]["KinContactNo"].ToString();
                     obj.OtherReasons = dsPatientData.Tables[0].Rows[0]["Symptoms"].ToString();
@@ -517,9 +517,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="patient">PatientId is primary key of LH_Patient</param>
         /// <returns>Success or Error details</returns>
-        public String BlockPatient(PatientModel patient)
+        public string BlockPatient(PatientModel patient)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_BlockPatient", con))
@@ -569,9 +569,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public String DeletePatRegFiles(int Id)
+        public string DeletePatRegFiles(int Id)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_DeletePatRegFiles", con))
@@ -600,9 +600,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="patient">PatientId is primary key of LH_Patient</param>
         /// <returns> success or error details</returns>
-        public String UnblockPatient(PatientModel patient)
+        public string UnblockPatient(PatientModel patient)
         {
-            String response = String.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_UnblockPatient", con))
@@ -657,7 +657,7 @@ namespace LeHealth.Core.DataManager
             List<PatientRegModel> responselist = new List<PatientRegModel>();
             PatientRegModel responseobj = new PatientRegModel();
             SqlTransaction transaction;
-            //String response = String.Empty;
+            //string response = string.Empty;
             int IsUpdate = 0;
             if (patientDetail.PatientId > 0)
             {
@@ -669,7 +669,7 @@ namespace LeHealth.Core.DataManager
                 {
                     for (int m = 0; m < 100; m++)
                     {
-                        String rno = AutoregnoCreate();
+                        string rno = AutoregnoCreate();
                         if (rno != "duplicate")
                         {
                             patientDetail.RegNo = rno;
@@ -747,7 +747,7 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.ExecuteNonQuery();
                     int patientId = (int)patientIdParam.Value;
-                    String descr = retDesc.Value.ToString();
+                    string descr = retDesc.Value.ToString();
                     if (patientId > 0)//Inserted / Updated Successfully
                     {
                         transaction.Commit();
@@ -917,8 +917,8 @@ namespace LeHealth.Core.DataManager
                                 //    if ((dsNabidh != null) && (dsNabidh.Tables.Count > 0) && (dsNabidh.Tables[0] != null) && (dsNabidh.Tables[0].Rows.Count > 0))
                                 //    {
                                 //        DataTable dtemp = dsNabidh.Tables[0];
-                                //        String returnstr = CreateHeader(dtemp, "ADT^A28");
-                                //        String xcvb = String.Empty;;
+                                //        string returnstr = CreateHeader(dtemp, "ADT^A28");
+                                //        string xcvb = string.Empty;
                                 //        var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
                                 //        httpWebRequest.ContentType = "text/plain";
                                 //        httpWebRequest.Method = "POST";
@@ -926,13 +926,13 @@ namespace LeHealth.Core.DataManager
                                 //        {
                                 //            streamWriter.Write(returnstr);
                                 //        }
-                                //        var responsev = String.Empty;;
+                                //        var responsev = string.Empty;
                                 //        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                                 //        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                                 //        {
                                 //            responsev = streamReader.ReadToEnd();
                                 //        }
-                                //        String xcde = String.Empty;;
+                                //        string xcde = string.Empty;
                                 //    }
                                 //}
                                 ////Call API Block Ends
@@ -970,9 +970,9 @@ namespace LeHealth.Core.DataManager
             return responselist;
         }
 
-        public String UploadPatientDocuments(PatientRegModel patientDetail)
+        public string UploadPatientDocuments(PatientRegModel patientDetail)
         {
-            String response = String.Empty;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 con.Open();
@@ -1023,7 +1023,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        public String ValidateHL7(String nabidh)
+        public string ValidateHL7(string nabidh)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
             httpWebRequest.ContentType = "text/plain";
@@ -1033,7 +1033,7 @@ namespace LeHealth.Core.DataManager
             {
                 streamWriter.Write(nabidh);
             }
-            var responsev = String.Empty; ;
+            var responsev = string.Empty;
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
@@ -1041,7 +1041,7 @@ namespace LeHealth.Core.DataManager
             }
             return responsev;
         }
-        public String AutoregnoCreate()
+        public string AutoregnoCreate()
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -1086,7 +1086,7 @@ namespace LeHealth.Core.DataManager
 
                             var fileNameArray = obj4.FilePath.Split('.');
                             var extension = fileNameArray[(fileNameArray.Length - 1)];
-                            String extname = extension.ToString().ToLower();
+                            string extname = extension.ToString().ToLower();
                             if (extname == "png" || extname == "jpeg" || extname == "jpg" || extension == "gif")
                             {
                                 obj4.FileType = "image";
@@ -1124,7 +1124,7 @@ namespace LeHealth.Core.DataManager
 //if ((dsMobileMailCheckData != null) && (dsMobileMailCheckData.Tables.Count > 0) && (dsMobileMailCheckData.Tables[0] != null) && (dsMobileMailCheckData.Tables[0].Rows.Count > 0))
 //{
 //    int CountDatas = Convert.ToInt32(dsMobileMailCheckData.Tables[0].Rows[0]["CountData"]);
-//    String Messagedatas = dsMobileMailCheckData.Tables[0].Rows[0]["MessageData"].ToString();
+//    string Messagedatas = dsMobileMailCheckData.Tables[0].Rows[0]["MessageData"].ToString();
 //    if (Messagedatas != "NoDuplicate")
 //    {
 //        response = Messagedatas;

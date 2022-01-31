@@ -11,18 +11,18 @@ namespace LeHealth.Service.ServiceInterface
         List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
-        List<PatientListModel> GetPatientByRegNo(String Regno);
-        FrontOfficePBarModel GetFrontOfficeProgressBars(String patientList);
-       // List<MandatoryFieldsModel> GetSavingSchemaMandatory(String formname);
+        List<PatientListModel> GetPatientByRegNo(string Regno);
+        FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
+       // List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         
-        String DeleteAppointment(AppointmentModel appointment);
-        String UpdateAppointmentStatus(AppointmentModel appointment);
-        String CancelConsultation(ConsultationModel consultantion);
-        String PostponeAppointment(Appointments appointments);
-        String SetUrgentConsultation(ConsultationModel consultantion);
+        string DeleteAppointment(AppointmentModel appointment);
+        string UpdateAppointmentStatus(AppointmentModel appointment);
+        string CancelConsultation(ConsultationModel consultantion);
+        string PostponeAppointment(Appointments appointments);
+        string SetUrgentConsultation(ConsultationModel consultantion);
         List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations);
         List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations);
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
@@ -31,7 +31,7 @@ namespace LeHealth.Service.ServiceInterface
         List<RecentConsultationModel> GetRecentConsultationData();
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
-        String AppoinmentValidCheck(AppoinmentValidCheckModel avcm);
+        string AppoinmentValidCheck(AppoinmentValidCheckModel avcm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
         List<PatientConsultationModel> GetConsultationDataById(int patientId); 
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);

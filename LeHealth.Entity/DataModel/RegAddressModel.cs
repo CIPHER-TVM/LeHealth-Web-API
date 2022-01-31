@@ -8,15 +8,15 @@ namespace LeHealth.Entity.DataModel
     {
         public int PatientId { get; set; }
         public int AddType { get; set; }
-        public String Address1 { get; set; }
-        public String Address2 { get; set; }
-        public String Street { get; set; }
-        public String PlacePO { get; set; }
-        public String PIN { get; set; }
-        public String City { get; set; }
-        public String State { get; set; }
-        public String StateName { get; set; }
-        public String CountryName { get; set; } 
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Street { get; set; }
+        public string PlacePO { get; set; }
+        public string PIN { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string StateName { get; set; }
+        public string CountryName { get; set; } 
         public int CountryId { get; set; }
     }
 }

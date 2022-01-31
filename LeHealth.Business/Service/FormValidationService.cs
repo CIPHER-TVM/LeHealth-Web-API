@@ -21,7 +21,7 @@ namespace LeHealth.Service
         {
             return formValidationManager.GetFormValidation(FormId, DepartmentId);
         }
-        public String InsertUpdateFormValidation(FormValidationModel formvalidation)
+        public string InsertUpdateFormValidation(FormValidationModel formvalidation)
         {
             return formValidationManager.InsertUpdateFormValidation(formvalidation);
         }

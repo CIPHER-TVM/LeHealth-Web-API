@@ -7,7 +7,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsentFormSaveRequestModel
     {
-        public String ConsentJson { get; set; }
+        public string ConsentJson { get; set; }
         public IFormFile Sign { get; set; }
     }
     public class ConsentFormRegModel : ConsentFormDataSaveModel
@@ -19,6 +19,6 @@ namespace LeHealth.Entity.DataModel
         public Int32 ConsentId { get; set; }
         public Int32 PatientId { get; set; }
         public Int32 BranchId { get; set; }
-        public String Sign { get; set; } 
+        public string Sign { get; set; } 
     }
 }
