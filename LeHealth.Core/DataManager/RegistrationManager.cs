@@ -684,7 +684,7 @@ namespace LeHealth.Core.DataManager
                 patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
 
                 DateTime dobDate = DateTime.ParseExact(patientDetail.DOB.Trim(), "dd-MM-yyyy", null);
-                patientDetail.DOB = dobDate.ToString("yyyy-MM-dd hh:mm tt");
+                patientDetail.DOB = dobDate.ToString("yyyy-MM-dd");
 
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
