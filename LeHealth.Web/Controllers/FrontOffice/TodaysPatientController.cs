@@ -85,13 +85,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("AppoinmentValidCheck")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> AppoinmentValidCheck(AppoinmentValidCheckModel ap)
+        public ResponseDataModel<IEnumerable<String>> AppoinmentValidCheck(AppoinmentValidCheckModel ap)
         {
-            string IsValid = string.Empty; 
+            String IsValid = String.Empty; 
             try
             {
                 IsValid = todaysPatientService.AppoinmentValidCheck(ap);
-                var response = new ResponseDataModel<IEnumerable<string>>()
+                var response = new ResponseDataModel<IEnumerable<String>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = null,
@@ -102,7 +102,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<string>>()
+                return new ResponseDataModel<IEnumerable<String>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -444,7 +444,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             AppointmentModel responseData = new AppointmentModel();
             try
             {
-                string appResponse = todaysPatientService.DeleteAppointment(appointment);
+                String appResponse = todaysPatientService.DeleteAppointment(appointment);
                 var response = new ResponseDataModel<AppointmentModel>()
                 {
                     Status = HttpStatusCode.OK,
@@ -481,7 +481,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             AppointmentModel responseData = new AppointmentModel();
             try
             {
-                string appResponse = todaysPatientService.UpdateAppointmentStatus(appointment);
+                String appResponse = todaysPatientService.UpdateAppointmentStatus(appointment);
                 var response = new ResponseDataModel<AppointmentModel>()
                 {
                     Status = HttpStatusCode.OK,
@@ -711,7 +711,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 schemeList = todaysPatientService.GetSchemeByConsultant(consultant.ConsultantId);
-                string msg = string.Empty; ;
+                String msg = String.Empty; ;
                 if (schemeList.Count > 0)
                 {
                     msg = "Success";
@@ -762,7 +762,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> InsertAppointment(Appointments appointments)
         {
-            string appointment = string.Empty; ;
+            String appointment = String.Empty; ;
             try
             {
                 appointment = hospitalsService.InsertAppointment(appointments);
@@ -797,7 +797,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string appointmentret = hospitalsService.UpdateAppointment(appointments);
+                String appointmentret = hospitalsService.UpdateAppointment(appointments);
                 var response = new ResponseDataModel<IEnumerable<Appointments>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -841,7 +841,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultationModel> consultationList = new List<ConsultationModel>();
             try
             {
-                string msg = string.Empty; ;
+                String msg = String.Empty; ;
                 consultationList = todaysPatientService.InsertUpdateConsultation(consultations);
                 if (consultationList[0].RetVal > 0)
                 {
@@ -887,7 +887,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             List<ConsultationModel> consultationList = new List<ConsultationModel>();
             try
             {
-                string msg = string.Empty; ;
+                String msg = String.Empty; ;
                 consultationList = todaysPatientService.UpdateConsultationSymptoms(consultations);
                 if (consultationList[0].RetDesc == "Saved Successfully")
                 {
@@ -932,7 +932,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string msg = string.Empty; ;
+                String msg = String.Empty; ;
                 msg = todaysPatientService.CancelConsultation(consultations);
 
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
@@ -963,14 +963,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("PostponeAppointment")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> PostponeAppointment(Appointments app)
+        public ResponseDataModel<IEnumerable<String>> PostponeAppointment(Appointments app)
         {
             try
             {
-                string msg = string.Empty; ;
+                String msg = String.Empty; ;
                 msg = todaysPatientService.PostponeAppointment(app);
 
-                var response = new ResponseDataModel<IEnumerable<string>>()
+                var response = new ResponseDataModel<IEnumerable<String>>()
                 {
                     Message = msg,
                     Status = HttpStatusCode.OK
@@ -980,7 +980,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<string>>()
+                return new ResponseDataModel<IEnumerable<String>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1451,12 +1451,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("SetUrgentConsultation")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> SetUrgentConsultation(ConsultationModel consultations)
+        public ResponseDataModel<IEnumerable<String>> SetUrgentConsultation(ConsultationModel consultations)
         {
-            string Message = string.Empty; ;
+            String Message = String.Empty; ;
             try
             {
-                string queryresponse = todaysPatientService.SetUrgentConsultation(consultations);
+                String queryresponse = todaysPatientService.SetUrgentConsultation(consultations);
                 ErrorResponse er = new ErrorResponse();
                 if (queryresponse != "success")
                 {
@@ -1467,7 +1467,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 {
                     Message = "success";
                 }
-                var response = new ResponseDataModel<IEnumerable<string>>()
+                var response = new ResponseDataModel<IEnumerable<String>>()
                 {
 
                     Message = Message,
@@ -1479,7 +1479,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<string>>()
+                return new ResponseDataModel<IEnumerable<String>>()
                 {
                     Message = "error",
                     Status = HttpStatusCode.InternalServerError,
@@ -1502,12 +1502,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 //[HttpPost]
 //[Route("SendAddPatientInformation")]
-//public string SendAddPatientInformation()
+//public String SendAddPatientInformation()
 //{
 //    //List<AllPatientModel> patientList = new List<AllPatientModel>();
 //    try
 //    {
-//        string patientList = todaysPatientService.SendAddPatientInformation(5);
+//        String patientList = todaysPatientService.SendAddPatientInformation(5);
 //        return "";
 //    }
 //    catch (Exception ex)

@@ -9,40 +9,40 @@ namespace LeHealth.Entity.DataModel
     {
         public Int32 AppId { get; set; }
         public DateTime AppDate { get; set; }
-        public string AppNo { get; set; }
-        public string CFirstName { get; set; }
-        public string FirstName { get; set; }
-        public string PatientRegNo { get; set; }
-        public string Mobile { get; set; }
-        public string Sponsor { get; set; }
-        public string PatientName { get; set; }
+        public String AppNo { get; set; }
+        public String CFirstName { get; set; }
+        public String FirstName { get; set; }
+        public String PatientRegNo { get; set; }
+        public String Mobile { get; set; }
+        public String Sponsor { get; set; }
+        public String PatientName { get; set; }
         public Int32 AppType { get; set; }
-        public string TimeNo { get; set; }
-        public string RegNo { get; set; }
-        public string Status { get; set; }
+        public String TimeNo { get; set; }
+        public String RegNo { get; set; }
+        public String Status { get; set; }
         public int ConsultantId { get; set; }
         public int PatientId { get; set; }
         public DateTime EntryDate { get; set; }
         public Int32 SliceNo { get; set; }
-        public string SliceTime { get; set; }
-        public string Title { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string Street { get; set; }
-        public string PlacePO { get; set; }
-        public string PIN { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
+        public String SliceTime { get; set; }
+        public String Title { get; set; }
+        public String MiddleName { get; set; }
+        public String LastName { get; set; }
+        public String Address1 { get; set; }
+        public String Address2 { get; set; }
+        public String Street { get; set; }
+        public String PlacePO { get; set; }
+        public String PIN { get; set; }
+        public String City { get; set; }
+        public String State { get; set; }
         public Int32 CountryId { get; set; }
-        public string ResPhone { get; set; }
-        public string OffPhone { get; set; }
-        public string Email { get; set; }
-        public string Remarks { get; set; }
-        public string AppStatus { get; set; }
+        public String ResPhone { get; set; }
+        public String OffPhone { get; set; }
+        public String Email { get; set; }
+        public String Remarks { get; set; }
+        public String AppStatus { get; set; }
         public bool Reminder { get; set; }
-        public string CancelReason { get; set; }
+        public String CancelReason { get; set; }
         public Int32 UserId { get; set; }
 
         //public int appTypeId = 1;
@@ -50,7 +50,7 @@ namespace LeHealth.Entity.DataModel
         public Int32 SessionId { get; set; }
         public Int32 BranchId { get; set; }
         public Int32 RetVal { get; set; }
-        public string RetDesc { get; set; }
+        public String RetDesc { get; set; }
 
     }
 }

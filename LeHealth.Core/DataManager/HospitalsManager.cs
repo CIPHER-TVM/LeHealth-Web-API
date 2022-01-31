@@ -16,9 +16,9 @@ namespace LeHealth.Core.DataManager
     {
         bool disposed = false;
 
-        private readonly string _connStr;
+        private readonly String _connStr;
         /// <summary>
-        /// Initializing connection string
+        /// Initializing connection String
         /// </summary>
         /// <param name="_configuration"></param>
         public HospitalsManager(IConfiguration _configuration)
@@ -104,7 +104,7 @@ namespace LeHealth.Core.DataManager
         }
 
 
-        public List<TabOrderModel> GetTabOrder(string screenname)
+        public List<TabOrderModel> GetTabOrder(String screenname)
         {
             List<TabOrderModel> Consultationlist = new List<TabOrderModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -145,9 +145,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public string InsertAppointment(Appointments appointments)
+        public String InsertAppointment(Appointments appointments)
         {
-            string response = string.Empty;
+            String response = String.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
@@ -161,7 +161,7 @@ namespace LeHealth.Core.DataManager
                     {
                         cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                     }
-                    string DateString = appointments.AppDate;
+                    String DateString = appointments.AppDate;
                     DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
                     appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
@@ -243,9 +243,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public string UpdateAppointment(Appointments appointments)
+        public String UpdateAppointment(Appointments appointments)
         {
-            string appointmentret = string.Empty; ;
+            String appointmentret = String.Empty; ;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 

@@ -6,7 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class GetConsultant_API_ReturnResult
     {
-        public string Status { get; set; }
+        public String Status { get; set; }
         public int StatusCode { get; set; }
         public List<ConsultantModel> Result { get; set; }
     }

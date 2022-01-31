@@ -7,6 +7,6 @@ namespace LeHealth.Entity.DataModel
    public class KinRelationModel 
     {
         public int Id { get; set; }
-        public string KinRelation { get; set; } 
+        public String KinRelation { get; set; } 
     }
 }

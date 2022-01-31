@@ -16,7 +16,7 @@ namespace LeHealth.Core.DataManager
     {
         bool disposed = false;
 
-        private readonly string _connStr;
+        private readonly String _connStr;
         public FormValidationManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
@@ -66,9 +66,9 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public string InsertUpdateFormValidation(FormValidationModel Package)
+        public String InsertUpdateFormValidation(FormValidationModel Package)
         {
-            string response = string.Empty;
+            String response = String.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateFormValidation", con))

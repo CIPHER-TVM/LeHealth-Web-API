@@ -11,6 +11,6 @@ namespace LeHealth.Entity.DataModel
         public String ContactNo { get; set; }
         public float CommisionPercent { get; set; }
         public int Active { get; set; } 
-        public string BlockReason { get; set; }  
+        public String BlockReason { get; set; }  
     }
 }

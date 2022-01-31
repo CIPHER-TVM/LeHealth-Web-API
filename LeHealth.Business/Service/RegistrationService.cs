@@ -33,7 +33,7 @@ namespace LeHealth.Service.Service
             }
             return registrationManager.InsertPatient(patientDetail);
         }
-        public string UploadPatientDocuments(PatientRegModel patientDetail)
+        public String UploadPatientDocuments(PatientRegModel patientDetail)
         {
             if (patientDetail.PatientDocs != null)
                 patientDetail.RegDocLocation = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
@@ -47,7 +47,7 @@ namespace LeHealth.Service.Service
             }
             return registrationManager.UploadPatientDocuments(patientDetail);
         }
-        public string ValidateHL7(string nabidh)
+        public String ValidateHL7(String nabidh)
         {
             return registrationManager.ValidateHL7(nabidh);
         }
@@ -84,19 +84,19 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.GetRegisteredDataById(patientId);
         }
-        public string SaveReRegistration(PatientModel patient)
+        public String SaveReRegistration(PatientModel patient)
         {
             return registrationManager.SaveReRegistration(patient);
         }
-        public string BlockPatient(PatientModel patient)
+        public String BlockPatient(PatientModel patient)
         {
             return registrationManager.BlockPatient(patient);
         }
-        public string DeletePatRegFiles(int Id)
+        public String DeletePatRegFiles(int Id)
         {
             return registrationManager.DeletePatRegFiles(Id);
         }
-        public string UnblockPatient(PatientModel patient)
+        public String UnblockPatient(PatientModel patient)
         {
             return registrationManager.UnblockPatient(patient);
         }

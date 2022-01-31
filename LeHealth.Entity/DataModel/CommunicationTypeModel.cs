@@ -7,6 +7,6 @@ namespace LeHealth.Entity.DataModel
    public class CommunicationTypeModel
     {
         public int Id { get; set; }
-        public string CommunicationType { get; set; } 
+        public String CommunicationType { get; set; } 
     }
 }

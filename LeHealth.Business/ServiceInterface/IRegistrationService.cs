@@ -8,8 +8,8 @@ namespace LeHealth.Service.ServiceInterface
     public interface IRegistrationService
     {
         List<PatientRegModel> InsertPatient(PatientRegModel patientDetail);
-        string UploadPatientDocuments(PatientRegModel patientDetail);
-        string ValidateHL7(string nabidh); 
+        String UploadPatientDocuments(PatientRegModel patientDetail);
+        String ValidateHL7(String nabidh); 
         List<GenderModel> GetGender();
         List<KinRelationModel> GetKinRelation();
         List<AllPatientModel> GetAllPatient();
@@ -18,9 +18,9 @@ namespace LeHealth.Service.ServiceInterface
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patient);
         List<AllPatientModel> ViewPatientFiles(int patientId); 
         List<PatientModel> GetRegisteredDataById(int patientId); 
-        string SaveReRegistration(PatientModel patient);
-        string BlockPatient(PatientModel patient); 
-        string DeletePatRegFiles(int patient); 
-        string UnblockPatient(PatientModel patient); 
+        String SaveReRegistration(PatientModel patient);
+        String BlockPatient(PatientModel patient); 
+        String DeletePatRegFiles(int patient); 
+        String UnblockPatient(PatientModel patient); 
     } 
 }

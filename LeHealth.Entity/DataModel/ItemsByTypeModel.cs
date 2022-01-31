@@ -10,7 +10,7 @@ namespace LeHealth.Entity.DataModel
         public String ItemCode { get; set; }
         public String ItemName { get; set; }
         public int GroupId { get; set; }
-        public string GroupCode { get; set; }
+        public String GroupCode { get; set; }
         //public int ValidityDays { get; set; }
         //public int ValidityVisits { get; set; }
         //public int AllowRateEdit { get; set; }
@@ -31,7 +31,7 @@ namespace LeHealth.Entity.DataModel
         //public String BlockReason { get; set; }
         //public int CPTCodeId { get; set; }
         //public int ExternalItem { get; set; }
-        //public string GroupName { get; set; }
+        //public String GroupName { get; set; }
         
     }
 }

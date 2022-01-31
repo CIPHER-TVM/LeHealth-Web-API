@@ -8,7 +8,7 @@ namespace LeHealth.Entity.DataModel
     {
         //public List<Int32?> Departments { get; set; }
         public Int32?[] Departments { get; set; }
-        public string ConsultantName { get; set; }
+        public String ConsultantName { get; set; }
         public bool ShowExternal { get; set; }
     }
 }

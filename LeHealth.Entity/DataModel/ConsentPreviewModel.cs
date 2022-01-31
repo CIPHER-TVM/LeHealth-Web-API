@@ -7,8 +7,8 @@ namespace LeHealth.Entity.DataModel
     public class ConsentPreviewModel
     {
         public List<ConsentContentModel> ConsentContentValue { get; set; }
-        public string PatientName { get; set; } 
-        public string FileLoc { get; set; } 
+        public String PatientName { get; set; } 
+        public String FileLoc { get; set; } 
         public int PatientId { get; set; }  
     } 
 }

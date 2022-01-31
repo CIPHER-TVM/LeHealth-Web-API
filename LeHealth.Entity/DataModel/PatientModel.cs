@@ -7,7 +7,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class PatientRequestModel
     {
-        public string PatientJson { get; set; }
+        public String PatientJson { get; set; }
         public List<IFormFile> PatientDocs { get; set; }
         public IFormFile PatientPhoto { get; set; }
     }
@@ -24,73 +24,73 @@ namespace LeHealth.Entity.DataModel
         public List<RegIdentitiesModel> RegIdentities { get; set; }
         public List<RegSymptomsModel> Symptoms { get; set; }  
         public List<RegDocLocationModel> RegDocLocation { get; set; }
-        public List<string> PatientDocNames { get; set; }
-        public string PatientPhotoName { get; set; }
+        public List<String> PatientDocNames { get; set; }
+        public String PatientPhotoName { get; set; }
         public int PatientId { get; set; }
-        public string RegNo { get; set; }
+        public String RegNo { get; set; }
         public int IsManualRegNo { get; set; } 
-        public string RegDate { get; set; }
+        public String RegDate { get; set; }
         public int ItemId { get; set; }
         public int Salutation { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public string PatientName { get; set; }
+        public String FirstName { get; set; }
+        public String MiddleName { get; set; }
+        public String LastName { get; set; }
+        public String PatientName { get; set; }
         public int Gender { get; set; }
-        public string DOB { get; set; }
+        public String DOB { get; set; }
         public int MaritalStatus { get; set; }
-        public string KinName { get; set; }
+        public String KinName { get; set; }
         public int KinRelation { get; set; }
-        public string KinContactNo { get; set; }
-        public string Mobile { get; set; }
-        public string ResNo { get; set; }
-        public string OffNo { get; set; }
-        public string Email { get; set; }
-        public string FaxNo { get; set; }
+        public String KinContactNo { get; set; }
+        public String Mobile { get; set; }
+        public String ResNo { get; set; }
+        public String OffNo { get; set; }
+        public String Email { get; set; }
+        public String FaxNo { get; set; }
         public int Religion { get; set; }
         public int CmpId { get; set; }
         public int Status { get; set; } 
         public int PatState { get; set; }
         public int ProfId { get; set; }
         public int RGroupId { get; set; }
-        public string Mode { get; set; }
-        public string Remarks { get; set; }
-        public string OtherReasons { get; set; }
+        public String Mode { get; set; }
+        public String Remarks { get; set; }
+        public String OtherReasons { get; set; }
         public int NationalityId { get; set; }
-        public string NationalityName { get; set; }  
+        public String NationalityName { get; set; }  
         public int ConsultantId { get; set; }
         public int Active { get; set; }
         public int AppId { get; set; }
-        public string RefBy { get; set; }
+        public String RefBy { get; set; }
         public bool PrivilegeCard { get; set; }
         public int UserId { get; set; }
         public int LocationId { get; set; }
-        public string WorkEnvironMent { get; set; }
-        public string ProfessionalNoxious { get; set; }
-        public string ProfessionalExperience { get; set; }
+        public String WorkEnvironMent { get; set; }
+        public String ProfessionalNoxious { get; set; }
+        public String ProfessionalExperience { get; set; }
         public int VisaTypeId { get; set; }
         public int SessionId { get; set; }
         public int BranchId { get; set; }
-        public string RetRegNo { get; set; }
-        public string Hook { get; set; }
-        public string SchemeName { get; set; }
-        public string BlockReason { get; set; }
+        public String RetRegNo { get; set; }
+        public String Hook { get; set; }
+        public String SchemeName { get; set; }
+        public String BlockReason { get; set; }
         public int CommunicationType { get; set; }
         public int AgeInMonth { get; set; }
         public int AgeInYear { get; set; } 
         //
-        public string RGroupName { get; set; } 
-        public string ItemName { get; set; } 
-        public string CountryName { get; set; } 
-        public string MaritalStatusDescription { get; set; } 
-        public string GenderName { get; set; } 
-        public string VisaType { get; set; } 
-        public string ProfName { get; set; } 
-        public string CmpName { get; set; }  
+        public String RGroupName { get; set; } 
+        public String ItemName { get; set; } 
+        public String CountryName { get; set; } 
+        public String MaritalStatusDescription { get; set; } 
+        public String GenderName { get; set; } 
+        public String VisaType { get; set; } 
+        public String ProfName { get; set; } 
+        public String CmpName { get; set; }  
         public int DepartmentId { get; set; }  
         public int? ConsultationId { get; set; }
-        public string DepartmentName { get; set; }
-        public string ConsultantName { get; set; }
-        public string ErrorMessage { get; set; }  
+        public String DepartmentName { get; set; }
+        public String ConsultantName { get; set; }
+        public String ErrorMessage { get; set; }  
     }
 }

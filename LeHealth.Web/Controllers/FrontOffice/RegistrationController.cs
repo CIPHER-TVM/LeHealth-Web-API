@@ -44,7 +44,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //    List<PatientModel> patientList = new List<PatientModel>();
         //    try
         //    {
-        //       // string asdf = fileUploadService.SaveFile(fileob); 
+        //       // String asdf = fileUploadService.SaveFile(fileob); 
         //        var response = new ResponseDataModel<IEnumerable<PatientModel>>()
         //        {
         //            Status = HttpStatusCode.OK,
@@ -261,7 +261,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("InsertPatientRegistration")]
         public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromForm] PatientRequestModel obj)
         {
-            string message = string.Empty;;
+            String message = String.Empty;;
             try
             {
                 PatientRegModel patientDetail = JsonConvert.DeserializeObject<PatientRegModel>(obj.PatientJson);
@@ -303,13 +303,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("UploadPatientDocuments")]
         public ResponseDataModel<IEnumerable<PatientModel>> UploadPatientDocuments([FromForm] PatientRequestModel obj)
         {
-            string message = string.Empty; ;
+            String message = String.Empty; ;
             try
             {
                 PatientRegModel patientDetail = JsonConvert.DeserializeObject<PatientRegModel>(obj.PatientJson);
                 patientDetail.PatientDocs = obj.PatientDocs;
                 patientDetail.PatientPhoto = obj.PatientPhoto;
-                string registrationDetail = registrationService.UploadPatientDocuments(patientDetail);
+                String registrationDetail = registrationService.UploadPatientDocuments(patientDetail);
                 ErrorResponse er = new ErrorResponse();
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
@@ -343,14 +343,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [HttpPost]
         [Route("ValidateHL7")]
-        public string ValidateHL7()
+        public String ValidateHL7()
         {
-            string body = string.Empty;;
+            String body = String.Empty;;
             using (var reader = new StreamReader(Request.Body))
             {
                 body = reader.ReadToEndAsync().Result;//.ReadToEnd().ToString(); 
             }
-            string registrationDetail = registrationService.ValidateHL7(body);
+            String registrationDetail = registrationService.ValidateHL7(body);
             return registrationDetail;
         }
 
@@ -476,10 +476,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatientModel>> SaveReRegistration(PatientModel patientDetail)
         {
-            string msg = string.Empty;;
+            String msg = String.Empty;;
             try
             {
-                string registrationDetail = registrationService.SaveReRegistration(patientDetail);
+                String registrationDetail = registrationService.SaveReRegistration(patientDetail);
                 if (registrationDetail == "Saved Successfully")
                 {
                     msg = "success";
@@ -521,7 +521,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string msg = string.Empty;;
+                String msg = String.Empty;;
                 msg = registrationService.BlockPatient(patient);
 
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
@@ -552,14 +552,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("DeletePatRegFiles")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> DeletePatRegFiles(RegDocLocationModel rlm)
+        public ResponseDataModel<IEnumerable<String>> DeletePatRegFiles(RegDocLocationModel rlm)
         {
             try
             {
-                string msg = string.Empty;;
+                String msg = String.Empty;;
                 msg = registrationService.DeletePatRegFiles(rlm.Id);
 
-                var response = new ResponseDataModel<IEnumerable<string>>()
+                var response = new ResponseDataModel<IEnumerable<String>>()
                 {
                     Message = msg,
                     Status = HttpStatusCode.OK
@@ -569,7 +569,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<string>>()
+                return new ResponseDataModel<IEnumerable<String>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -593,7 +593,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                string msg = string.Empty;;
+                String msg = String.Empty;;
                 msg = registrationService.UnblockPatient(patient);
 
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()

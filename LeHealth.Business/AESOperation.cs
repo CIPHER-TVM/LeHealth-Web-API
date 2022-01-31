@@ -8,8 +8,8 @@ namespace LeHealth.Service
 {
     public static class AESOperation
     {
-        static string key = "b14ca5898a4e4133bbce2ea2315a1916";
-        public static string Encrypt(this string plainText)
+        static String key = "b14ca5898a4e4133bbce2ea2315a1916";
+        public static String Encrypt(this String plainText)
         {
             byte[] iv = new byte[16];
             byte[] array;
@@ -38,7 +38,7 @@ namespace LeHealth.Service
             return Convert.ToBase64String(array);
         }
 
-        public static string Decrypt(this string cipherText)
+        public static String Decrypt(this String cipherText)
         {
             byte[] iv = new byte[16];
             byte[] buffer = Convert.FromBase64String(cipherText);

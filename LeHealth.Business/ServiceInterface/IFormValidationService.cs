@@ -6,6 +6,6 @@ namespace LeHealth.Service.ServiceInterface
     public interface IFormValidationService
     {
         List<FormValidationModel> GetFormValidation(Int32 FormId, Int32 DepartmentId);
-        string InsertUpdateFormValidation(FormValidationModel formvalidation);
+        String InsertUpdateFormValidation(FormValidationModel formvalidation);
     }
 }

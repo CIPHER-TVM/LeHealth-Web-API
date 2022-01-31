@@ -19,7 +19,7 @@ namespace LeHealth.Service.Service
     {
         private readonly IConfiguration _configuration;
         private IHostingEnvironment _env;
-        private readonly string _uploadpath;
+        private readonly String _uploadpath;
         public FileUploadService(IHospitalsManager _hospitalsManager, IHostingEnvironment env, IConfiguration configuration)
         {
             _env = env;
@@ -37,12 +37,12 @@ namespace LeHealth.Service.Service
                 Files.ForEach(a =>
                 {
                     RegDocLocationModel rlm = new RegDocLocationModel();
-                    string fileName = a.FileName;
+                    String fileName = a.FileName;
                     var fileNameArray = fileName.Split('.');
                     var extension = fileNameArray[(fileNameArray.Length - 1)];
                     Guid Uniquefilename = Guid.NewGuid();
                     var actualFileName = Uniquefilename + "." + extension;
-                    string fullpathtest = "uploads/documents/" + actualFileName;
+                    String fullpathtest = "uploads/documents/" + actualFileName;
                     using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
                     {
                         a.CopyTo(stream);
@@ -55,19 +55,19 @@ namespace LeHealth.Service.Service
             }
             return retvals;
         }
-        public string SaveFile(IFormFile File)
+        public String SaveFile(IFormFile File)
         {
-            string returnFilePath = string.Empty;;
+            String returnFilePath = String.Empty;;
             using (var ms = new MemoryStream())
             {
                 var webRoot = _env.WebRootPath;
                 webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                 var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
-                string fileName = File.FileName;
+                String fileName = File.FileName;
                 var fileNameArray = fileName.Split('.');
                 var extension = fileNameArray[(fileNameArray.Length - 1)];
                 Guid Uniquefilename = Guid.NewGuid();
-                string actualFileName = Uniquefilename + "." + extension;
+                String actualFileName = Uniquefilename + "." + extension;
                 returnFilePath = "uploads/documents/" + actualFileName;
                 using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
                 {

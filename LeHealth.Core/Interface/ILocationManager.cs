@@ -7,7 +7,7 @@ namespace LeHealth.Core.Interface
 {
     public interface ILocationManager
     {
-        string Save(LocationModel obj);
+        String Save(LocationModel obj);
         List<LocationModel> GetLocations(int hospitalId);
         LocationModel GetLocationById(int locationId);
         List<LocationType> GetLocationTypes();

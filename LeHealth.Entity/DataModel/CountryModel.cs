@@ -6,13 +6,13 @@ namespace LeHealth.Entity.DataModel
 {
     public class CountryModel
     {
-        public string CountryName { get; set; }
-        public string NationalityName { get; set; }
+        public String CountryName { get; set; }
+        public String NationalityName { get; set; }
         public int CountryId { get; set; }
-        public string CountryCode { get; set; }
+        public String CountryCode { get; set; }
         public int NGroupId { get; set; }
         public int Active { get; set; }
-        public string BlockReason { get; set; } 
+        public String BlockReason { get; set; } 
         public int UserId { get; set; } 
 
     }
