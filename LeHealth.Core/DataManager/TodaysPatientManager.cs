@@ -113,6 +113,7 @@ namespace LeHealth.Core.DataManager
                         obj.StateName = dsAppointmentsList.Tables[0].Rows[0]["StateName"].ToString();
                         obj.ConsultantId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["ConsultantId"]);
                         obj.ConsultantName = dsAppointmentsList.Tables[0].Rows[0]["ConsultantName"].ToString();
+                        obj.BranchId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["BranchId"]);
                         obj.DeptId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["DeptId"]);
                         obj.DepartmentName = dsAppointmentsList.Tables[0].Rows[0]["DeptName"].ToString();
                         obj.Remarks = dsAppointmentsList.Tables[0].Rows[0]["Remarks"].ToString();
@@ -124,9 +125,9 @@ namespace LeHealth.Core.DataManager
                             con.Open();
                             cmdslot.CommandType = CommandType.StoredProcedure;
                             cmdslot.Parameters.AddWithValue("@AppId", obj.AppId);
-                            SqlDataAdapter adapterslot = new SqlDataAdapter(cmd);
+                            SqlDataAdapter adapterslot = new SqlDataAdapter(cmdslot);
                             DataSet ds = new DataSet();
-                            adapter.Fill(ds);
+                            adapterslot.Fill(ds);
                             con.Close();
                             if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                             {
