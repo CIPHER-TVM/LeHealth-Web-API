@@ -88,7 +88,7 @@ namespace LeHealth.Core.DataManager
                         {
                             SearchAppointmentModel obj = new SearchAppointmentModel();
                             obj.AppId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["AppId"]);
-                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString().Replace("/","-");
+                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString().Replace("/", "-");
                             obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
                             obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
                             obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
@@ -97,7 +97,7 @@ namespace LeHealth.Core.DataManager
                             obj.FirstName = dsAppointmentsList.Tables[0].Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsAppointmentsList.Tables[0].Rows[i]["MiddleName"].ToString();
                             obj.LastName = dsAppointmentsList.Tables[0].Rows[i]["LastName"].ToString();
-                            obj.PatientName = dsAppointmentsList.Tables[0].Rows[i]["PatientName"].ToString() ;
+                            obj.PatientName = dsAppointmentsList.Tables[0].Rows[i]["PatientName"].ToString();
                             obj.PatientRegNo = dsAppointmentsList.Tables[0].Rows[i]["PatientRegNo"].ToString();
                             obj.PIN = dsAppointmentsList.Tables[0].Rows[i]["PIN"].ToString();
                             obj.Email = dsAppointmentsList.Tables[0].Rows[i]["Email"].ToString();
@@ -1401,11 +1401,17 @@ namespace LeHealth.Core.DataManager
                             obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
                             obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
                             obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
+                            obj.ExpiryVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["ExpiryVisits"]);
+                            obj.VisitsMade = Convert.ToInt32(ds.Tables[0].Rows[i]["VisitsMade"]);
+                            obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
+                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
+                            obj.ConsultFee = ds.Tables[0].Rows[i]["ConsultFee"].ToString();
                             string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
-
+                            string consultationExpiry = ds.Tables[0].Rows[i]["ConsultationExpiryDate"].ToString();
                             string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
                             DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
                             DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
+                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
                             {
                                 obj.IsRegistrationExpired = false;
@@ -1413,6 +1419,15 @@ namespace LeHealth.Core.DataManager
                             else
                             {
                                 obj.IsRegistrationExpired = true;
+                            }
+
+                            if (todaydate < validuptodttimeConsultation)
+                            {
+                                obj.IsConsultationExpired = false;
+                            }
+                            else
+                            {
+                                obj.IsConsultationExpired = true;
                             }
                             obj.ExpiryDate = validupto;
                             patregdataList.Add(obj);
