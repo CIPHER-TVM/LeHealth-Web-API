@@ -452,8 +452,7 @@ namespace LeHealth.Core.DataManager
             gsim.DateValue = scheduleDate.ToString("yyyy-MM-dd");
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
-                if (gsim.Consultant.Length == 0)
+                if (gsim.Consultant.Length == 0 && gsim.Departments.Length == 0)
                 {
                     using (SqlCommand cmda = new SqlCommand("stLH_GetConsultantTaskListByDate", con))
                     {
@@ -475,6 +474,41 @@ namespace LeHealth.Core.DataManager
                                 doctorList.Add(consultantId);
                             }
                             gsim.Consultant = doctorList.ToArray();
+                        }
+                    }
+                }
+                else if (gsim.Consultant.Length == 0)
+                {
+                    for (int i = 0; i < gsim.Departments.Length; i++)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
+                        {
+                            int DepartmentId = (int)gsim.Departments[i];
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.AddWithValue("@DeptId", DepartmentId);
+                            cmd.Parameters.AddWithValue("@ConsultantName", gsim.ConsultantName);
+                            cmd.Parameters.AddWithValue("@ShowExternal", true);
+                            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                            DataSet ds = new DataSet();
+                            adapter.Fill(ds);
+                            con.Close();
+
+                            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                            {
+                                List<int?> doctorList = new List<int?>();
+                                for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                                {
+                                    ConsultantModel obj = new ConsultantModel();
+                                    obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[j]["ConsultantId"]);
+                                    obj.ConsultantName = ds.Tables[0].Rows[j]["ConsultantName"].ToString();
+                                    obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[j]["DeptId"]);
+                                    obj.DeptName = ds.Tables[0].Rows[j]["DeptName"].ToString();
+                                    doctorList.Add(obj.ConsultantId);
+                                }
+                                gsim.Consultant = doctorList.ToArray();
+                            }
                         }
                     }
                 }
@@ -1424,14 +1458,14 @@ namespace LeHealth.Core.DataManager
                             obj.ExpiryVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["ExpiryVisits"]);
                             obj.VisitsMade = Convert.ToInt32(ds.Tables[0].Rows[i]["VisitsMade"]);
                             obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
-                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
+                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString().Replace("/", "-");
                             obj.ConsultFee = ds.Tables[0].Rows[i]["ConsultFee"].ToString();
-                            string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString().Replace("/","-");
+                            string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString().Replace("/", "-");
                             string consultationExpiry = ds.Tables[0].Rows[i]["ConsultationExpiryDate"].ToString().Replace("/", "-");
-                            string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
-                            DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
-                            DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
-                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
+                            string todaydateStr = DateTime.Now.ToString("dd/MM/yyyy");
+                            DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd/MM/yyyy", null);
+                            DateTime validuptodttime = DateTime.ParseExact(validupto, "dd/MM/yyyy", null);//Convert.ToDateTime(validupto);
+                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd/MM/yyyy", null);//Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
                             {
                                 obj.IsRegistrationExpired = false;
