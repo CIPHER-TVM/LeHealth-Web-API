@@ -1462,10 +1462,10 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultFee = ds.Tables[0].Rows[i]["ConsultFee"].ToString();
                             string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString().Replace("/", "-");
                             string consultationExpiry = ds.Tables[0].Rows[i]["ConsultationExpiryDate"].ToString().Replace("/", "-");
-                            string todaydateStr = DateTime.Now.ToString("dd/MM/yyyy");
-                            DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd/MM/yyyy", null);
-                            DateTime validuptodttime = DateTime.ParseExact(validupto, "dd/MM/yyyy", null);//Convert.ToDateTime(validupto);
-                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd/MM/yyyy", null);//Convert.ToDateTime(validupto);
+                            string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
+                            DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
+                            DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
+                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
                             {
                                 obj.IsRegistrationExpired = false;
