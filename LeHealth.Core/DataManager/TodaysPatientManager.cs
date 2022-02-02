@@ -452,89 +452,65 @@ namespace LeHealth.Core.DataManager
             gsim.DateValue = scheduleDate.ToString("yyyy-MM-dd");
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                if (gsim.Consultant.Length == 0 && gsim.Departments.Length == 0)
-                {
-                    using (SqlCommand cmda = new SqlCommand("stLH_GetConsultantTaskListByDate", con))
-                    {
-                        List<int?> doctorList = new List<int?>();
-                        con.Open();
-                        cmda.CommandType = CommandType.StoredProcedure;
-                        cmda.Parameters.Clear();
-                        cmda.Parameters.AddWithValue("@AppDate", gsim.DateValue);
-                        cmda.Parameters.AddWithValue("@BranchId", gsim.BranchId);
-                        SqlDataAdapter adaptera = new SqlDataAdapter(cmda);
-                        DataSet dsConsultantList = new DataSet();
-                        adaptera.Fill(dsConsultantList);
-                        con.Close();
-                        if ((dsConsultantList != null) && (dsConsultantList.Tables.Count > 0) && (dsConsultantList.Tables[0] != null) && (dsConsultantList.Tables[0].Rows.Count > 0))
-                        {
-                            for (int m = 0; m < dsConsultantList.Tables[0].Rows.Count; m++)
-                            {
-                                int consultantId = Convert.ToInt32(dsConsultantList.Tables[0].Rows[m]["ConsultantId"]);
-                                doctorList.Add(consultantId);
-                            }
-                            gsim.Consultant = doctorList.ToArray();
-                        }
-                    }
-                }
-                else if (gsim.Consultant.Length == 0)
-                {
-                    for (int i = 0; i < gsim.Departments.Length; i++)
-                    {
-                        using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
-                        {
-                            int DepartmentId = (int)gsim.Departments[i];
-                            con.Open();
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Clear();
-                            cmd.Parameters.AddWithValue("@DeptId", DepartmentId);
-                            cmd.Parameters.AddWithValue("@ConsultantName", gsim.ConsultantName);
-                            cmd.Parameters.AddWithValue("@ShowExternal", true);
-                            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                            DataSet ds = new DataSet();
-                            adapter.Fill(ds);
-                            con.Close();
+               
 
-                            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-                            {
-                                List<int?> doctorList = new List<int?>();
-                                for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
-                                {
-                                    ConsultantModel obj = new ConsultantModel();
-                                    obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[j]["ConsultantId"]);
-                                    obj.ConsultantName = ds.Tables[0].Rows[j]["ConsultantName"].ToString();
-                                    obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[j]["DeptId"]);
-                                    obj.DeptName = ds.Tables[0].Rows[j]["DeptName"].ToString();
-                                    doctorList.Add(obj.ConsultantId);
-                                }
-                                gsim.Consultant = doctorList.ToArray();
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < gsim.Consultant.Length; i++)
-                {
-                    using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleByDateConsultant", con))
+                    using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleByDateConsultants", con))
                     {
-                        SheduleGetDataModel sgdm = new SheduleGetDataModel();
-                        List<Label> labelsList = new List<Label>();
-                        sgdm.id = (int)gsim.Consultant[i];
-                        sgdm.drName = string.Empty;
-                        con.Open();
+                        int listdepcount = gsim.Departments.Count;
+                    int listconsultantcount = gsim.Consultant.Count;
+                    string DepIds = "";
+                    string consultantIds = "";
+                    if (listdepcount > 0)
+                            DepIds = string.Join(",", gsim.Departments.ToArray());
+
+                    if(listconsultantcount>0)
+                        consultantIds = string.Join(",", gsim.Consultant.ToArray());
+
+
+
+                  int consultantId=0;
+                    int depId = 0;
+                    int branchId = 0;
+
+                    con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
-                        cmd.Parameters.AddWithValue("@ConsultantId", gsim.Consultant[i]);
+                        cmd.Parameters.AddWithValue("@ConsultantId",consultantIds);
                         cmd.Parameters.AddWithValue("@AppDate", gsim.DateValue);
                         cmd.Parameters.AddWithValue("@BranchId", gsim.BranchId);
-                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        cmd.Parameters.AddWithValue("@DepartmentId", DepIds);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                         DataSet dsScheduleList = new DataSet();
                         adapter.Fill(dsScheduleList);
                         con.Close();
-
-                        if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
+                    List<Label> labelsList = new List<Label>();
+                    SheduleGetDataModel sgdm = new SheduleGetDataModel();
+                    if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
                         {
                             for (int j = 0; j < dsScheduleList.Tables[0].Rows.Count; j++)
                             {
+                            int curConsultant = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["ConsultantId"].ToString());
+                            int curBranch = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["BranchId"].ToString());
+                            int curDep = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["DeptId"].ToString());
+                            if (consultantId!= curConsultant  || depId!=curDep)
+                            {
+                                
+                                if (consultantId!=0)
+                                {
+
+                                    sgdm.labels = labelsList;
+                                    sgdm.slotlength = labelsList.Count;
+                                    scheduleList.Add(sgdm);
+                                }
+                                consultantId = curConsultant;
+                                branchId = curBranch;
+                                depId = curDep;
+                                labelsList = new List<Label>();
+                                sgdm = new SheduleGetDataModel();
+                                sgdm.drName = dsScheduleList.Tables[0].Rows[j]["ConsultantName"].ToString();
+                                sgdm.deptName = dsScheduleList.Tables[0].Rows[j]["DeptName"].ToString();
+                                sgdm.id = consultantId;
+                            }
                                 Label lb = new Label();
                                 lb.SliceNo = dsScheduleList.Tables[0].Rows[j]["SliceNo"].ToString();
                                 lb.ConsultantName = dsScheduleList.Tables[0].Rows[j]["ConsultantName"].ToString();
@@ -548,13 +524,15 @@ namespace LeHealth.Core.DataManager
                                 labelsList.Add(lb);
                             }
                         }
-                        sgdm.drName = dsScheduleList.Tables[0].Rows[0]["ConsultantName"].ToString();
-                        sgdm.deptName = dsScheduleList.Tables[0].Rows[0]["DeptName"].ToString();
+                      if(labelsList.Count>0)
+                    {
                         sgdm.labels = labelsList;
-                        sgdm.slotlength = labelsList.Count;
                         scheduleList.Add(sgdm);
                     }
-                }
+
+                    }
+               
+              
                 return scheduleList;
             }
         }
