@@ -24,7 +24,7 @@ namespace LeHealth.Entity.DataModel
         public List<RegIdentitiesModel> RegIdentities { get; set; }
         public List<RegSymptomsModel> Symptoms { get; set; }  
         public List<RegDocLocationModel> RegDocLocation { get; set; }
-        public List<string> PatientDocNames { get; set; }
+        public List<String> PatientDocNames { get; set; }
         public string PatientPhotoName { get; set; }
         public int PatientId { get; set; }
         public string RegNo { get; set; }

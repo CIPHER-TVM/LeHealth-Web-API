@@ -32,21 +32,21 @@ namespace LeHealth.Service
         {
             return hospitalsManager.GetConsultation(consultation);
         }
-        public List<TabOrderModel> GetTabOrder(string screenname)
+        public List<TabOrderModel> GetTabOrder( string screenname)
         {
             return hospitalsManager.GetTabOrder(screenname);
         }
         /// <summary>
         ///adding an appointment detail.Step two in code execution flow
         /// </summary>
-        public string InsertAppointment(Appointments appointments)
+        public  string InsertAppointment(Appointments appointments)
         {
             return hospitalsManager.InsertAppointment(appointments);
         }
         /// <summary>
         ///For Updating appointment data.Step two in code execution flow
         /// </summary>
-        public string UpdateAppointment(Appointments appointments)
+        public  string UpdateAppointment(Appointments appointments)
         {
             return hospitalsManager.UpdateAppointment(appointments);
         }

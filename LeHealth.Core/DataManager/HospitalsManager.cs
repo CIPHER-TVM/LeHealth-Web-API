@@ -179,6 +179,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
                     cmd.Parameters.AddWithValue("@Street", appointments.Street);
                     cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
+                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
                     cmd.Parameters.AddWithValue("@City", appointments.City);
                     cmd.Parameters.AddWithValue("@State", appointments.State);
@@ -243,9 +244,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public string UpdateAppointment(Appointments appointments)
+        public  string UpdateAppointment(Appointments appointments)
         {
-            string appointmentret = string.Empty; ;
+             string appointmentret =  string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 

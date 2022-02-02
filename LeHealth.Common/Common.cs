@@ -346,7 +346,7 @@ namespace LeHealth.Common
             string retString = "0";
             try
             {
-                if (!string.IsNullOrEmpty(str))
+                if (!String.IsNullOrEmpty(str))
                 {
                     retString = str.Trim();
                 }

@@ -70,7 +70,9 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment)
         {
+            SearchAppointmentModel obj = new SearchAppointmentModel();
             List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
+            List<Slice> slicelist = new List<Slice>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetAppointmentById", con))
@@ -84,44 +86,62 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsAppointmentsList != null) && (dsAppointmentsList.Tables.Count > 0) && (dsAppointmentsList.Tables[0] != null) && (dsAppointmentsList.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsAppointmentsList.Tables[0].Rows.Count; i++)
-                        {
-                            SearchAppointmentModel obj = new SearchAppointmentModel();
-                            obj.AppId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["AppId"]);
-                            obj.AppDate = dsAppointmentsList.Tables[0].Rows[i]["AppDate"].ToString().Replace("/","-");
-                            obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
-                            obj.AppNo = dsAppointmentsList.Tables[0].Rows[i]["AppNo"].ToString();
-                            obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
-                            obj.Title = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["Title"]);
-                            obj.TitleText = dsAppointmentsList.Tables[0].Rows[i]["Salutation"].ToString();
-                            obj.FirstName = dsAppointmentsList.Tables[0].Rows[i]["FirstName"].ToString();
-                            obj.MiddleName = dsAppointmentsList.Tables[0].Rows[i]["MiddleName"].ToString();
-                            obj.LastName = dsAppointmentsList.Tables[0].Rows[i]["LastName"].ToString();
-                            obj.PatientName = dsAppointmentsList.Tables[0].Rows[i]["PatientName"].ToString() ;
-                            obj.PatientRegNo = dsAppointmentsList.Tables[0].Rows[i]["PatientRegNo"].ToString();
-                            obj.PIN = dsAppointmentsList.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.Email = dsAppointmentsList.Tables[0].Rows[i]["Email"].ToString();
-                            obj.Mobile = dsAppointmentsList.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.OffPhone = dsAppointmentsList.Tables[0].Rows[i]["OffPhone"].ToString();
-                            obj.SliceTime = dsAppointmentsList.Tables[0].Rows[i]["SliceTime"].ToString();
-                            obj.SliceNo = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["SliceNo"]);
-                            obj.Address1 = dsAppointmentsList.Tables[0].Rows[i]["Address1"].ToString();
-                            obj.Address2 = dsAppointmentsList.Tables[0].Rows[i]["Address2"].ToString();
-                            obj.Street = dsAppointmentsList.Tables[0].Rows[i]["Street"].ToString();
-                            obj.PlacePO = dsAppointmentsList.Tables[0].Rows[i]["PlacePO"].ToString();
-                            obj.City = dsAppointmentsList.Tables[0].Rows[i]["City"].ToString();
-                            obj.CountryName = dsAppointmentsList.Tables[0].Rows[i]["CountryName"].ToString();
-                            obj.StateName = dsAppointmentsList.Tables[0].Rows[i]["StateName"].ToString();
-                            obj.ConsultantId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["ConsultantId"]);
-                            obj.ConsultantName = dsAppointmentsList.Tables[0].Rows[i]["ConsultantName"].ToString();
-                            obj.DeptId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[i]["DeptId"]);
-                            obj.DepartmentName = dsAppointmentsList.Tables[0].Rows[i]["DeptName"].ToString();
-                            obj.Remarks = dsAppointmentsList.Tables[0].Rows[i]["Remarks"].ToString();
-                            obj.AppStatus = dsAppointmentsList.Tables[0].Rows[i]["AppStatus"].ToString();
-                            obj.ResPhone = dsAppointmentsList.Tables[0].Rows[i]["ResPhone"].ToString();
+                        obj.AppId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppId"]);
+                        obj.AppDate = dsAppointmentsList.Tables[0].Rows[0]["AppDate"].ToString().Replace("/", "-");
+                        obj.AppType = (dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["AppTypeId"]);
+                        obj.AppNo = dsAppointmentsList.Tables[0].Rows[0]["AppNo"].ToString();
+                        obj.PatientId = (dsAppointmentsList.Tables[0].Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["PatientId"]);
+                        obj.Title = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["Title"]);
+                        obj.TitleText = dsAppointmentsList.Tables[0].Rows[0]["Salutation"].ToString();
+                        obj.FirstName = dsAppointmentsList.Tables[0].Rows[0]["FirstName"].ToString();
+                        obj.MiddleName = dsAppointmentsList.Tables[0].Rows[0]["MiddleName"].ToString();
+                        obj.LastName = dsAppointmentsList.Tables[0].Rows[0]["LastName"].ToString();
+                        obj.PatientName = dsAppointmentsList.Tables[0].Rows[0]["PatientName"].ToString();
+                        obj.PatientRegNo = dsAppointmentsList.Tables[0].Rows[0]["PatientRegNo"].ToString();
+                        obj.PIN = dsAppointmentsList.Tables[0].Rows[0]["PIN"].ToString();
+                        obj.Email = dsAppointmentsList.Tables[0].Rows[0]["Email"].ToString();
+                        obj.Mobile = dsAppointmentsList.Tables[0].Rows[0]["Mobile"].ToString();
+                        obj.OffPhone = dsAppointmentsList.Tables[0].Rows[0]["OffPhone"].ToString();
+                        obj.SliceTime = dsAppointmentsList.Tables[0].Rows[0]["SliceTime"].ToString();
+                        obj.SliceNo = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["SliceNo"]);
+                        obj.Address1 = dsAppointmentsList.Tables[0].Rows[0]["Address1"].ToString();
+                        obj.Address2 = dsAppointmentsList.Tables[0].Rows[0]["Address2"].ToString();
+                        obj.Street = dsAppointmentsList.Tables[0].Rows[0]["Street"].ToString();
+                        obj.PlacePO = dsAppointmentsList.Tables[0].Rows[0]["PlacePO"].ToString();
+                        obj.City = dsAppointmentsList.Tables[0].Rows[0]["City"].ToString();
+                        obj.CountryName = dsAppointmentsList.Tables[0].Rows[0]["CountryName"].ToString();
+                        obj.StateName = dsAppointmentsList.Tables[0].Rows[0]["StateName"].ToString();
+                        obj.ConsultantId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["ConsultantId"]);
+                        obj.ConsultantName = dsAppointmentsList.Tables[0].Rows[0]["ConsultantName"].ToString();
+                        obj.BranchId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["BranchId"]);
+                        obj.DeptId = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["DeptId"]);
+                        obj.DepartmentName = dsAppointmentsList.Tables[0].Rows[0]["DeptName"].ToString();
+                        obj.Remarks = dsAppointmentsList.Tables[0].Rows[0]["Remarks"].ToString();
+                        obj.AppStatus = dsAppointmentsList.Tables[0].Rows[0]["AppStatus"].ToString();
+                        obj.ResPhone = dsAppointmentsList.Tables[0].Rows[0]["ResPhone"].ToString();
 
-                            appointmentlist.Add(obj);
+                        using (SqlCommand cmdslot = new SqlCommand("GetSliceDataByAppId", con))
+                        {
+                            con.Open();
+                            cmdslot.CommandType = CommandType.StoredProcedure;
+                            cmdslot.Parameters.AddWithValue("@AppId", obj.AppId);
+                            SqlDataAdapter adapterslot = new SqlDataAdapter(cmdslot);
+                            DataSet ds = new DataSet();
+                            adapterslot.Fill(ds);
+                            con.Close();
+                            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                            {
+                                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                                {
+                                    Slice rsm = new Slice();
+                                    rsm.SliceNo = Convert.ToInt32(ds.Tables[0].Rows[i]["SliceNo"]);
+                                    rsm.SliceTime = ds.Tables[0].Rows[i]["SliceTime"].ToString();
+                                    slicelist.Add(rsm);
+                                }
+                            }
                         }
+                        obj.SliceData = slicelist;
+                        appointmentlist.Add(obj);
                     }
                     return appointmentlist;
                 }
@@ -432,8 +452,7 @@ namespace LeHealth.Core.DataManager
             gsim.DateValue = scheduleDate.ToString("yyyy-MM-dd");
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
-                if (gsim.Consultant.Length == 0)
+                if (gsim.Consultant.Length == 0 && gsim.Departments.Length == 0)
                 {
                     using (SqlCommand cmda = new SqlCommand("stLH_GetConsultantTaskListByDate", con))
                     {
@@ -455,6 +474,41 @@ namespace LeHealth.Core.DataManager
                                 doctorList.Add(consultantId);
                             }
                             gsim.Consultant = doctorList.ToArray();
+                        }
+                    }
+                }
+                else if (gsim.Consultant.Length == 0)
+                {
+                    for (int i = 0; i < gsim.Departments.Length; i++)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
+                        {
+                            int DepartmentId = (int)gsim.Departments[i];
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.AddWithValue("@DeptId", DepartmentId);
+                            cmd.Parameters.AddWithValue("@ConsultantName", gsim.ConsultantName);
+                            cmd.Parameters.AddWithValue("@ShowExternal", true);
+                            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                            DataSet ds = new DataSet();
+                            adapter.Fill(ds);
+                            con.Close();
+
+                            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                            {
+                                List<int?> doctorList = new List<int?>();
+                                for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                                {
+                                    ConsultantModel obj = new ConsultantModel();
+                                    obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[j]["ConsultantId"]);
+                                    obj.ConsultantName = ds.Tables[0].Rows[j]["ConsultantName"].ToString();
+                                    obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[j]["DeptId"]);
+                                    obj.DeptName = ds.Tables[0].Rows[j]["DeptName"].ToString();
+                                    doctorList.Add(obj.ConsultantId);
+                                }
+                                gsim.Consultant = doctorList.ToArray();
+                            }
                         }
                     }
                 }
@@ -537,7 +591,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success Or Error Details</returns>
         public string DeleteAppointment(AppointmentModel appointment)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_CancelAppointment", con))
@@ -581,7 +635,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string UpdateAppointmentStatus(AppointmentModel appointment)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_UpdateAppointmentStatus", con))
@@ -662,7 +716,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success or Error details</returns>
         public string CancelConsultation(ConsultationModel consultation)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionCancelConsultation", con))
@@ -705,7 +759,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Appointment valid or not</returns>
         public string PostponeAppointment(Appointments app)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con))
@@ -755,7 +809,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Appointment valid or not</returns>
         public string AppoinmentValidCheck(AppoinmentValidCheckModel appoinment)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_AppoinmentValidCheck", con))
@@ -788,7 +842,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success or reason for failure</returns>
         public string SetUrgentConsultation(ConsultationModel consultation)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_ActionSetUrgentConsultation", con))
@@ -905,7 +959,7 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> InsertUpdateConsultation(ConsultationModel consultations)
         {
             List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
-            var descrip = string.Empty; ;
+            var descrip = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -1007,7 +1061,7 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel consultations)
         {
             List<ConsultationModel> consultaionsList = new List<ConsultationModel>();
-            var descrip = string.Empty; ;
+            var descrip = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultationSymptoms", con))
@@ -1406,11 +1460,17 @@ namespace LeHealth.Core.DataManager
                             obj.ItemId = Convert.ToInt32(ds.Tables[0].Rows[i]["ItemId"]);
                             obj.RegAmount = Convert.ToInt32(ds.Tables[0].Rows[i]["RegAmount"]);
                             obj.ItemName = ds.Tables[0].Rows[i]["ItemName"].ToString();
-                            string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString();
-
+                            obj.ExpiryVisits = Convert.ToInt32(ds.Tables[0].Rows[i]["ExpiryVisits"]);
+                            obj.VisitsMade = Convert.ToInt32(ds.Tables[0].Rows[i]["VisitsMade"]);
+                            obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
+                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString().Replace("/", "-");
+                            obj.ConsultFee = ds.Tables[0].Rows[i]["ConsultFee"].ToString();
+                            string validupto = ds.Tables[0].Rows[i]["ExpiryDate"].ToString().Replace("/", "-");
+                            string consultationExpiry = ds.Tables[0].Rows[i]["ConsultationExpiryDate"].ToString().Replace("/", "-");
                             string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
                             DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
                             DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
+                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
                             if (todaydate < validuptodttime)
                             {
                                 obj.IsRegistrationExpired = false;
@@ -1418,6 +1478,15 @@ namespace LeHealth.Core.DataManager
                             else
                             {
                                 obj.IsRegistrationExpired = true;
+                            }
+
+                            if (todaydate < validuptodttimeConsultation)
+                            {
+                                obj.IsConsultationExpired = false;
+                            }
+                            else
+                            {
+                                obj.IsConsultationExpired = true;
                             }
                             obj.ExpiryDate = validupto;
                             patregdataList.Add(obj);
@@ -1648,7 +1717,7 @@ namespace LeHealth.Core.DataManager
 //public string InsertPatientOriginal(PatientModel patientDetail)
 //{
 //    SqlTransaction transaction;
-//    string response = string.Empty;;
+//    string response = string.Empty;
 //    using (SqlConnection con = new SqlConnection(_connStr))
 //    {
 //        con.Open();

@@ -294,7 +294,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success Message or Error description</returns>
         public string SaveReRegistration(PatientModel reregistration)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             try
             {
                 using (SqlConnection con = new SqlConnection(_connStr))
@@ -519,7 +519,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Success or Error details</returns>
         public string BlockPatient(PatientModel patient)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_BlockPatient", con))
@@ -571,7 +571,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string DeletePatRegFiles(int Id)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_DeletePatRegFiles", con))
@@ -602,7 +602,7 @@ namespace LeHealth.Core.DataManager
         /// <returns> success or error details</returns>
         public string UnblockPatient(PatientModel patient)
         {
-            string response = string.Empty; ;
+            string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_UnblockPatient", con))
@@ -684,7 +684,7 @@ namespace LeHealth.Core.DataManager
                 patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
 
                 DateTime dobDate = DateTime.ParseExact(patientDetail.DOB.Trim(), "dd-MM-yyyy", null);
-                patientDetail.DOB = dobDate.ToString("yyyy-MM-dd hh:mm tt");
+                patientDetail.DOB = dobDate.ToString("yyyy-MM-dd");
 
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -918,7 +918,7 @@ namespace LeHealth.Core.DataManager
                                 //    {
                                 //        DataTable dtemp = dsNabidh.Tables[0];
                                 //        string returnstr = CreateHeader(dtemp, "ADT^A28");
-                                //        string xcvb = string.Empty;;
+                                //        string xcvb = string.Empty;
                                 //        var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
                                 //        httpWebRequest.ContentType = "text/plain";
                                 //        httpWebRequest.Method = "POST";
@@ -926,13 +926,13 @@ namespace LeHealth.Core.DataManager
                                 //        {
                                 //            streamWriter.Write(returnstr);
                                 //        }
-                                //        var responsev = string.Empty;;
+                                //        var responsev = string.Empty;
                                 //        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                                 //        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                                 //        {
                                 //            responsev = streamReader.ReadToEnd();
                                 //        }
-                                //        string xcde = string.Empty;;
+                                //        string xcde = string.Empty;
                                 //    }
                                 //}
                                 ////Call API Block Ends
@@ -1033,7 +1033,7 @@ namespace LeHealth.Core.DataManager
             {
                 streamWriter.Write(nabidh);
             }
-            var responsev = string.Empty; ;
+            var responsev = string.Empty;
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {

@@ -7,12 +7,18 @@ namespace LeHealth.Entity.DataModel
     public class PatRegByPatientIdModel
     {
         public int RegId { get; set; }
-        public String RegDate { get; set; }
+        public string RegDate { get; set; }
         public int PatientId { get; set; }
         public int ItemId { get; set; }
         public int RegAmount { get; set; }
-        public String ExpiryDate { get; set; }
-        public String ItemName { get; set; }
+        public string ExpiryDate { get; set; }
+        public string ItemName { get; set; }
+        public int ExpiryVisits { get; set; }
+        public int VisitsMade { get; set; }
+        public int Emergency { get; set; }
+        public string ConsultDate { get; set; }
+        public string ConsultFee { get; set; }
         public bool IsRegistrationExpired { get; set; } 
+        public bool IsConsultationExpired { get; set; }  
     }
 }

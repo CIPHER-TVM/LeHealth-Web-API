@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LeHealth.Entity.DataModel
 {
@@ -57,7 +58,7 @@ namespace LeHealth.Entity.DataModel
         public int DeptId { get; set; } 
         public string DepartmentName { get; set; }
         public Int32 SliceNo { get; set; }
-
+        public List<Slice> SliceData { get; set; }
 
     }
 }

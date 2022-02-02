@@ -67,7 +67,7 @@ namespace LeHealth.Catalogue.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<FormValidationModel>> InsertUpdateFormValidation(FormValidationModel formvalidation)
         {
-            string message = string.Empty;;
+            string message = string.Empty;
             try
             {
                 message = formValidationService.InsertUpdateFormValidation(formvalidation);
