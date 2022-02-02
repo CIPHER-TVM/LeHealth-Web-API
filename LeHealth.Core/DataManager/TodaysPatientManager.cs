@@ -483,9 +483,8 @@ namespace LeHealth.Core.DataManager
                         DataSet dsScheduleList = new DataSet();
                         adapter.Fill(dsScheduleList);
                         con.Close();
-                    List<Label> labelsList = new List<Label>();
-                    SheduleGetDataModel sgdm = new SheduleGetDataModel();
-                    if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
+
+                        if ((dsScheduleList != null) && (dsScheduleList.Tables.Count > 0) && (dsScheduleList.Tables[0] != null) && (dsScheduleList.Tables[0].Rows.Count > 0))
                         {
                             for (int j = 0; j < dsScheduleList.Tables[0].Rows.Count; j++)
                             {
