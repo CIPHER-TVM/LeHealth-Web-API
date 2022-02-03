@@ -45,10 +45,6 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetFrontOfficeProgressBars(todaydate);
         }
-        //public List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname)
-        //{
-        //    return todaysPatientManager.GetSavingSchemaMandatory(formname);
-        //}
         public List<SchemeModel> GetSchemeByConsultant(int consultantid)
         {
             return todaysPatientManager.GetSchemeByConsultant(consultantid);

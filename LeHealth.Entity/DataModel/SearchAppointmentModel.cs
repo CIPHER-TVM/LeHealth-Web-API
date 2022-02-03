@@ -20,9 +20,6 @@ namespace LeHealth.Entity.DataModel
         public int ConsultantId { get; set; }
         public int PatientId { get; set; }
         public DateTime EntryDate { get; set; }
-        
-        
-       
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Street { get; set; }
@@ -41,14 +38,11 @@ namespace LeHealth.Entity.DataModel
         public bool Reminder { get; set; }
         public string CancelReason { get; set; }
         public Int32 UserId { get; set; }
-
-        //public int appTypeId = 1;
         public Int32 AppTypeId { get; set; }
         public Int32 SessionId { get; set; }
         public Int32 BranchId { get; set; }
         public Int32 RetVal { get; set; }
         public string RetDesc { get; set; }
-        //
         public Int32 Title { get; set; }
         public string TitleText { get; set; }
         public string FirstName { get; set; }
@@ -59,6 +53,5 @@ namespace LeHealth.Entity.DataModel
         public string DepartmentName { get; set; }
         public Int32 SliceNo { get; set; }
         public List<Slice> SliceData { get; set; }
-
     }
 }
