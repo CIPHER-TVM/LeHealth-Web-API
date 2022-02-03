@@ -744,7 +744,6 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd-MM-yyyy", null);
-                    //app.AppDate = postponeDate.ToString("yyyy-MM-dd hh:mm tt");
                     app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
@@ -1232,42 +1231,6 @@ namespace LeHealth.Core.DataManager
             List<ConsultantModel> consultantList = new List<ConsultantModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                //for (int i = 0; i < dept.Departments.Length; i++)
-                //{
-                //    using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDept", con))
-                //    {
-                //        int DepartmentId = (int)dept.Departments[i];
-                //        con.Open();
-                //        cmd.CommandType = CommandType.StoredProcedure;
-                //        cmd.Parameters.Clear();
-                //        cmd.Parameters.AddWithValue("@DeptId", DepartmentId);
-                //        cmd.Parameters.AddWithValue("@ConsultantName", dept.ConsultantName);
-                //        cmd.Parameters.AddWithValue("@ShowExternal", dept.ShowExternal);
-                //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                //        DataSet ds = new DataSet();
-                //        adapter.Fill(ds);
-                //        con.Close();
-
-                //        if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-                //        {
-                //            for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
-                //            {
-                //                ConsultantModel obj = new ConsultantModel();
-                //                obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[j]["ConsultantId"]);
-                //                obj.ConsultantName = ds.Tables[0].Rows[j]["ConsultantName"].ToString();
-                //                obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[j]["DeptId"]);
-                //                obj.DeptName = ds.Tables[0].Rows[j]["DeptName"].ToString();
-                //                consultantList.Add(obj);
-                //            }
-                //        }
-                //    }
-                //}
-                //return consultantList;
-
-
-
-
-
                 int listcount = dept.Departments.Count;
                 string DepIds = "";
                 if (listcount > 0)
@@ -1581,28 +1544,6 @@ namespace LeHealth.Core.DataManager
                 fopb.ConsPercC = (decimal)ConsStatC;
                 fopb.ConsPercO = (decimal)ConsStatO;
 
-                //if (AppTotalCount != 0)
-                //{
-                //    fopb.AppPercA = ((decimal)AppStatA / (decimal)AppTotalCount) * 100;
-                //    fopb.AppPercC = ((decimal)AppStatC / (decimal)AppTotalCount) * 100;
-                //    fopb.AppPercF = ((decimal)AppStatF / (decimal)AppTotalCount) * 100;
-                //    fopb.AppPercW = ((decimal)AppStatW / (decimal)AppTotalCount) * 100;
-                //    fopb.AppPercA = Math.Round(fopb.AppPercA, 2);
-                //    fopb.AppPercC = Math.Round(fopb.AppPercC, 2);
-                //    fopb.AppPercF = Math.Round(fopb.AppPercF, 2);
-                //    fopb.AppPercW = Math.Round(fopb.AppPercW, 2);
-                //}
-                //if (ConsTotalCount != 0)
-                //{
-                //    fopb.ConsPercW = ((decimal)ConsStatW / (decimal)ConsTotalCount) * 100;
-                //    fopb.ConsPercF = ((decimal)ConsStatF / (decimal)ConsTotalCount) * 100;
-                //    fopb.ConsPercC = ((decimal)ConsStatC / (decimal)ConsTotalCount) * 100;
-                //    fopb.ConsPercO = ((decimal)ConsStatO / (decimal)ConsTotalCount) * 100;
-                //    fopb.ConsPercW = Math.Round(fopb.ConsPercW, 2);
-                //    fopb.ConsPercF = Math.Round(fopb.ConsPercF, 2);
-                //    fopb.ConsPercC = Math.Round(fopb.ConsPercC, 2);
-                //    fopb.ConsPercO = Math.Round(fopb.ConsPercO, 2);
-                //}
             }
             return fopb;
         }

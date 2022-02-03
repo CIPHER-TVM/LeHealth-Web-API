@@ -168,9 +168,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                    cmd.Parameters.AddWithValue("@AppNo", appointments.AppNo);
-                    cmd.Parameters.AddWithValue("@SliceNo", 0);
-                    cmd.Parameters.AddWithValue("@SliceTime", "");
                     cmd.Parameters.AddWithValue("@Title", appointments.Title);
                     cmd.Parameters.AddWithValue("@FirstName", appointments.FirstName);
                     cmd.Parameters.AddWithValue("@MiddleName", appointments.MiddleName);
@@ -217,6 +214,7 @@ namespace LeHealth.Core.DataManager
                         {
                             SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
                             savesliceCMD.CommandType = CommandType.StoredProcedure;
+                            savesliceCMD.Parameters.AddWithValue("@AppNo", appointments.AppNo);
                             savesliceCMD.Parameters.AddWithValue("@SliceNo", appointments.SliceData[b].SliceNo);
                             savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                             savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);

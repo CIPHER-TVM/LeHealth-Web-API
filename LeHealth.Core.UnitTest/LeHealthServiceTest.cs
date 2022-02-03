@@ -11,24 +11,7 @@ namespace LeHealth.Core.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-
-           
-
-            
         }
-        //[TestMethod]
-        //public void TestMethod2()
-        //{
-        //    List<Auto> Auto = new List<Auto>()
-        //    {
-        //        new Auto{Marca = "Chevrolet", Modelo = "Sport", Ano = 2019, Color= "Azul", Cilindros=6, Peronsas= 4 },
-        //        new Auto{Marca = "Chevrolet", Modelo = "Sport", Ano = 2018, Color= "Azul", Cilindros=6, Peronsas= 4 },
-        //        new Auto{Marca = "Chevrolet", Modelo = "Sport", Ano = 2017, Color= "Azul", Cilindros=6, Peronsas= 4 }
-        //    };
-
-        //    Helper.GenerateExcel(Helper.ConvertToDataTable(Auto));
-        //}
-
     }
     public class Auto
     {

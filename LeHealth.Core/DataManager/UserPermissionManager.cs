@@ -174,7 +174,6 @@ namespace LeHealth.Core.DataManager
                     con.Open();
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                   // cmd.Parameters.AddWithValue("@P_Id", 0);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);

@@ -50,34 +50,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        //public List<SalutationModel> GetSalutation()
-        //{
-        //    List<SalutationModel> salutationList = new List<SalutationModel>();
-
-        //    using (SqlConnection con = new SqlConnection(_connStr))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con))
-        //        {
-        //            con.Open();
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //            DataSet dsSalutation = new DataSet();
-        //            adapter.Fill(dsSalutation);
-        //            con.Close();
-        //            if ((dsSalutation != null) && (dsSalutation.Tables.Count > 0) && (dsSalutation.Tables[0] != null) && (dsSalutation.Tables[0].Rows.Count > 0))
-        //            {
-        //                for (int i = 0; i < dsSalutation.Tables[0].Rows.Count; i++)
-        //                {
-        //                    SalutationModel obj = new SalutationModel();
-        //                    obj.Id = Convert.ToInt32(dsSalutation.Tables[0].Rows[i]["Id"]);
-        //                    obj.Salutation = dsSalutation.Tables[0].Rows[i]["Salutation"].ToString();
-        //                    salutationList.Add(obj);
-        //                }
-        //            }
-        //            return salutationList;
-        //        }
-        //    }
-        //}
         public List<KinRelationModel> GetKinRelation()
         {
             List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
@@ -162,37 +134,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        //public List<RateGroupModel> GetRateGroup(int rgroup)
-        //{
-        //    List<RateGroupModel> rateList = new List<RateGroupModel>();
-
-        //    using (SqlConnection con = new SqlConnection(_connStr))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand("stLH_GetRateGroup", con))
-        //        {
-        //            con.Open();
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            cmd.Parameters.AddWithValue("@RGroupId", rgroup);
-        //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //            DataSet dsRate = new DataSet();
-        //            adapter.Fill(dsRate);
-        //            con.Close();
-        //            if ((dsRate != null) && (dsRate.Tables.Count > 0) && (dsRate.Tables[0] != null) && (dsRate.Tables[0].Rows.Count > 0))
-        //            {
-        //                for (int i = 0; i < dsRate.Tables[0].Rows.Count; i++)
-        //                {
-        //                    RateGroupModel obj = new RateGroupModel();
-        //                    obj.RGroupId = Convert.ToInt32(dsRate.Tables[0].Rows[i]["RGroupId"]);
-        //                    obj.RGroupName = dsRate.Tables[0].Rows[i]["RGroupName"].ToString();
-        //                    obj.Description = dsRate.Tables[0].Rows[i]["Description"].ToString();
-        //                    obj.Active = Convert.ToInt32(dsRate.Tables[0].Rows[i]["Active"]);
-        //                    rateList.Add(obj);
-        //                }
-        //            }
-        //            return rateList;
-        //        }
-        //    }
-        //}
+        
         /// <summary>
         /// Get All details of patient.Not using now. Instead of this API SearchPatientInList is calling
         /// </summary>

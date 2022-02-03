@@ -13,7 +13,6 @@ namespace LeHealth.Service.ServiceInterface
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<PatientListModel> GetPatientByRegNo(string Regno);
         FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
-       // List<MandatoryFieldsModel> GetSavingSchemaMandatory(string formname);
         List<SchemeModel> GetSchemeByConsultant(int consultantid);
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);

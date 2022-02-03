@@ -7,17 +7,13 @@ using System.Text;
 
 namespace LeHealth.Service.Service
 {
-   public class LocationService:ILocationService
+    public class LocationService : ILocationService
     {
         private readonly ILocationManager locationmanager;
-      //  private readonly IFileUploadService fileUploadService;
 
-        public LocationService(ILocationManager _locationmanager
-          //  , IFileUploadService _fileUploadService
-            )
+        public LocationService(ILocationManager _locationmanager)
         {
             locationmanager = _locationmanager;
-           // fileUploadService=_fileUploadService
         }
 
         public LocationModel GetLocationById(int locationId)

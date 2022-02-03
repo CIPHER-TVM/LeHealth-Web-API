@@ -65,8 +65,7 @@ namespace LeHealth.Catalogue.API.Controllers
             }
             finally
             {
-                //  consultationList.Clear();
-                // dispose can be managed here
+                
             }
         }
 

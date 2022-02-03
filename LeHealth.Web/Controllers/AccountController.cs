@@ -57,8 +57,6 @@ namespace LeHealth.Base.API.Controllers
             }
             finally
             {
-                // appointmentList.Clear();
-                // dispose can be managed here
             }
         }
         [HttpPost]
