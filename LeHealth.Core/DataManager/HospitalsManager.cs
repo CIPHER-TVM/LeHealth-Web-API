@@ -203,13 +203,13 @@ namespace LeHealth.Core.DataManager
                     };
                     cmd.Parameters.Add(retDesc);
                     con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
+                    var isSaved = cmd.ExecuteNonQuery();
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
-                    con.Close();
+
                     if (descrip == "Saved Successfully")
                     {
-                        con.Open();
+
                         for (int b = 0; b < appointments.SliceData.Count; b++)
                         {
                             SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
@@ -223,15 +223,28 @@ namespace LeHealth.Core.DataManager
                             savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                             savesliceCMD.Parameters.AddWithValue("@AppId", ret);
                             savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
-                            var isInsertedSymptom1 = savesliceCMD.ExecuteNonQuery();
+                            SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retValueV);
+                            SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retDescrV);
+                            var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
+                            var retSlice = retValueV.Value;
+                            var descripSlice = retDescrV.Value.ToString(); 
                         }
                         response = "Success";
-                        con.Close();
+
                     }
                     else
                     {
                         response = descrip;
                     }
+                    con.Close();
                 }
             }
             return response;
@@ -242,9 +255,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public  string UpdateAppointment(Appointments appointments)
+        public string UpdateAppointment(Appointments appointments)
         {
-             string appointmentret =  string.Empty;
+            string appointmentret = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 

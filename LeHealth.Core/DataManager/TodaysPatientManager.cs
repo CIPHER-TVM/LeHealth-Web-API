@@ -177,6 +177,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AppToDate", appointment.AppToDate);
                     cmd.Parameters.AddWithValue("@RegNo", appointment.RegNo.Trim());
                     cmd.Parameters.AddWithValue("@AppointmentType", appointment.AppType);
+                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsAppointments = new DataSet();
                     adapter.Fill(dsAppointments);
@@ -748,9 +749,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", app.AppDate);
-                    cmd.Parameters.AddWithValue("@AppNo", app.AppNo);
-                    cmd.Parameters.AddWithValue("@SliceNo", app.SliceNo);
-                    cmd.Parameters.AddWithValue("@SliceTime", app.SliceTime);
                     cmd.Parameters.AddWithValue("@UserId", app.UserId);
                     SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -766,15 +764,47 @@ namespace LeHealth.Core.DataManager
                     var isUpdated = cmd.ExecuteNonQuery();
                     var retV = retVal.Value;
                     var retD = retDesc.Value.ToString();
-                    con.Close();
+
                     if (retD.ToString() == "Appointment Postponed")
                     {
                         response = "success";
+                        SqlCommand deletesymptomCMD = new SqlCommand("stLH_DeleteSliceTimes", con);
+                        deletesymptomCMD.CommandType = CommandType.StoredProcedure;
+                        deletesymptomCMD.Parameters.AddWithValue("@AppId", app.AppId);
+                        var isDeleted = deletesymptomCMD.ExecuteNonQuery();
+                        for (int b = 0; b < app.SliceData.Count; b++)
+                        {
+                            SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
+                            savesliceCMD.CommandType = CommandType.StoredProcedure;
+                            savesliceCMD.Parameters.AddWithValue("@AppNo", app.AppNo);
+                            savesliceCMD.Parameters.AddWithValue("@SliceNo", app.SliceData[b].SliceNo);
+                            savesliceCMD.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
+                            savesliceCMD.Parameters.AddWithValue("@SliceTime", app.SliceData[b].SliceTime);
+                            savesliceCMD.Parameters.AddWithValue("@AppDate", app.AppDate);
+                            savesliceCMD.Parameters.AddWithValue("@BranchId", app.BranchId);
+                            savesliceCMD.Parameters.AddWithValue("@PatientId", app.PatientId);
+                            savesliceCMD.Parameters.AddWithValue("@AppId", app.AppId);
+                            savesliceCMD.Parameters.AddWithValue("@AppType", app.AppType);
+                            SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retValueV);
+                            SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retDescrV);
+                            var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
+                            var retSlice = retValueV.Value;
+                            var descripSlice = retDescrV.Value.ToString();
+                        }
                     }
                     else
                     {
                         response = retD;
                     }
+                    con.Close();
                 }
             }
             return response;
