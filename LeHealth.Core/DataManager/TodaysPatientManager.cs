@@ -102,8 +102,6 @@ namespace LeHealth.Core.DataManager
                         obj.Email = dsAppointmentsList.Tables[0].Rows[0]["Email"].ToString();
                         obj.Mobile = dsAppointmentsList.Tables[0].Rows[0]["Mobile"].ToString();
                         obj.OffPhone = dsAppointmentsList.Tables[0].Rows[0]["OffPhone"].ToString();
-                        obj.SliceTime = dsAppointmentsList.Tables[0].Rows[0]["SliceTime"].ToString();
-                        obj.SliceNo = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["SliceNo"]);
                         obj.Address1 = dsAppointmentsList.Tables[0].Rows[0]["Address1"].ToString();
                         obj.Address2 = dsAppointmentsList.Tables[0].Rows[0]["Address2"].ToString();
                         obj.Street = dsAppointmentsList.Tables[0].Rows[0]["Street"].ToString();
@@ -747,6 +745,7 @@ namespace LeHealth.Core.DataManager
                     DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd-MM-yyyy", null);
                     app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
+                    cmd.Parameters.AddWithValue("@BranchId", app.BranchId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", app.AppDate);
                     cmd.Parameters.AddWithValue("@UserId", app.UserId);
@@ -781,7 +780,6 @@ namespace LeHealth.Core.DataManager
                             savesliceCMD.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
                             savesliceCMD.Parameters.AddWithValue("@SliceTime", app.SliceData[b].SliceTime);
                             savesliceCMD.Parameters.AddWithValue("@AppDate", app.AppDate);
-                            savesliceCMD.Parameters.AddWithValue("@BranchId", app.BranchId);
                             savesliceCMD.Parameters.AddWithValue("@PatientId", app.PatientId);
                             savesliceCMD.Parameters.AddWithValue("@AppId", app.AppId);
                             savesliceCMD.Parameters.AddWithValue("@AppType", app.AppType);
