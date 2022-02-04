@@ -152,6 +152,7 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
                 {
+                    
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (appointments == null || appointments.PatientId <= 0)
                     {
@@ -164,8 +165,10 @@ namespace LeHealth.Core.DataManager
                     string DateString = appointments.AppDate;
                     DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
                     appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
+                    cmd.Parameters.Clear();
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
+                    cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
                     cmd.Parameters.AddWithValue("@Title", appointments.Title);
@@ -176,10 +179,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
                     cmd.Parameters.AddWithValue("@Street", appointments.Street);
                     cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
-                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
                     cmd.Parameters.AddWithValue("@City", appointments.City);
-                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     cmd.Parameters.AddWithValue("@State", appointments.State);
                     cmd.Parameters.AddWithValue("@CountryId", appointments.CountryId);
                     cmd.Parameters.AddWithValue("@Mobile", appointments.Mobile);
@@ -193,6 +194,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
                     cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
+                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output

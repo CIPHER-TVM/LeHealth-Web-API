@@ -19,6 +19,7 @@ namespace LeHealth.Entity.DataModel
         public string ConsultantName { get; set; } 
         public string AppId { get; set; }
         public string AppNo { get; set; }
+        public string AppDate { get; set; }
         public string SliceTime { get; set; }
         public string PatientId { get; set; }
         public string RegNo { get; set; }

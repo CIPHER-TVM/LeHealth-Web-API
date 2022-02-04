@@ -199,6 +199,7 @@ namespace LeHealth.Core.DataManager
                             obj.CancelReason = dsAppointments.Tables[0].Rows[i]["CancelReason"].ToString();
                             obj.ResPhone = dsAppointments.Tables[0].Rows[i]["TelePhone"].ToString();
                             obj.Address1 = dsAppointments.Tables[0].Rows[i]["Address"].ToString();
+                            obj.BranchId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["BranchId"]);
                             appList.Add(obj);
                         }
                     }
@@ -506,6 +507,7 @@ namespace LeHealth.Core.DataManager
                             lb.ConsultantName = dsScheduleList.Tables[0].Rows[j]["ConsultantName"].ToString();
                             lb.AppId = dsScheduleList.Tables[0].Rows[j]["AppId"].ToString();
                             lb.AppNo = dsScheduleList.Tables[0].Rows[j]["AppNo"].ToString();
+                            lb.AppDate = gsim.DateValue;
                             lb.SliceTime = dsScheduleList.Tables[0].Rows[j]["SliceTime"].ToString();
                             lb.PatientId = dsScheduleList.Tables[0].Rows[j]["PatientId"].ToString();
                             lb.RegNo = dsScheduleList.Tables[0].Rows[j]["RegNo"].ToString();
