@@ -461,12 +461,8 @@ namespace LeHealth.Core.DataManager
                     string consultantIds = "";
                     if (listdepcount > 0)
                         DepIds = string.Join(",", gsim.Departments.ToArray());
-
                     if (listconsultantcount > 0)
                         consultantIds = string.Join(",", gsim.Consultant.ToArray());
-
-
-
                     int consultantId = 0;
                     int depId = 0;
                     int branchId = 0;
@@ -493,10 +489,8 @@ namespace LeHealth.Core.DataManager
                             int curDep = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["DeptId"].ToString());
                             if (consultantId != curConsultant || depId != curDep)
                             {
-
                                 if (consultantId != 0)
                                 {
-
                                     sgdm.labels = labelsList;
                                     sgdm.slotlength = labelsList.Count;
                                     scheduleList.Add(sgdm);
@@ -517,7 +511,9 @@ namespace LeHealth.Core.DataManager
                             lb.AppNo = dsScheduleList.Tables[0].Rows[j]["AppNo"].ToString();
                             lb.SliceTime = dsScheduleList.Tables[0].Rows[j]["SliceTime"].ToString();
                             lb.PatientId = dsScheduleList.Tables[0].Rows[j]["PatientId"].ToString();
+                            lb.RegNo = dsScheduleList.Tables[0].Rows[j]["RegNo"].ToString();
                             lb.PatientName = dsScheduleList.Tables[0].Rows[j]["PatientName"].ToString();
+                            lb.MobileNumber = dsScheduleList.Tables[0].Rows[j]["MobileNo"].ToString();
                             lb.DeptName = dsScheduleList.Tables[0].Rows[j]["DeptName"].ToString();
                             lb.DeptId = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["DeptId"]);
                             labelsList.Add(lb);
