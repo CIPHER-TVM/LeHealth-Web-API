@@ -451,8 +451,6 @@ namespace LeHealth.Core.DataManager
             gsim.DateValue = scheduleDate.ToString("yyyy-MM-dd");
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
-
                 using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleByDateConsultants", con))
                 {
                     int listdepcount = gsim.Departments.Count;
@@ -466,7 +464,6 @@ namespace LeHealth.Core.DataManager
                     int consultantId = 0;
                     int depId = 0;
                     int branchId = 0;
-
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Clear();

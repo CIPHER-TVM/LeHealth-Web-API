@@ -179,6 +179,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
                     cmd.Parameters.AddWithValue("@City", appointments.City);
+                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     cmd.Parameters.AddWithValue("@State", appointments.State);
                     cmd.Parameters.AddWithValue("@CountryId", appointments.CountryId);
                     cmd.Parameters.AddWithValue("@Mobile", appointments.Mobile);
@@ -219,7 +220,6 @@ namespace LeHealth.Core.DataManager
                             savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                             savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
                             savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                            savesliceCMD.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                             savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                             savesliceCMD.Parameters.AddWithValue("@AppId", ret);
                             savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
