@@ -300,7 +300,7 @@ namespace LeHealth.Core.DataManager
                     var isUpdated = cmd.ExecuteNonQuery();
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
-                    con.Close();
+                    
                     if (descrip == "Saved Successfully")
                     {
                         appointmentret = ret.ToString();
@@ -308,6 +308,9 @@ namespace LeHealth.Core.DataManager
                         deletesymptomCMD.CommandType = CommandType.StoredProcedure;
                         deletesymptomCMD.Parameters.AddWithValue("@AppId", appointments.AppId);
                         var isDeleted = deletesymptomCMD.ExecuteNonQuery();
+                        string DateString = appointments.AppDate;
+                        DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                        appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
                         for (int b = 0; b < appointments.SliceData.Count; b++)
                         {
                             SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
@@ -339,6 +342,7 @@ namespace LeHealth.Core.DataManager
                     {
                         appointmentret = descrip;
                     }
+                    con.Close();
                 }
             }
             return appointmentret;
