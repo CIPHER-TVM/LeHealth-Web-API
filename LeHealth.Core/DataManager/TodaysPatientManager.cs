@@ -519,6 +519,8 @@ namespace LeHealth.Core.DataManager
                             lb.SliceTime = dsScheduleList.Tables[0].Rows[j]["SliceTime"].ToString();
                             lb.PatientId = dsScheduleList.Tables[0].Rows[j]["PatientId"].ToString();
                             lb.PatientName = dsScheduleList.Tables[0].Rows[j]["PatientName"].ToString();
+                            lb.RegNo = dsScheduleList.Tables[0].Rows[j]["RegNo"].ToString();
+                            lb.MobileNo = dsScheduleList.Tables[0].Rows[j]["MobileNo"].ToString();
                             lb.DeptName = dsScheduleList.Tables[0].Rows[j]["DeptName"].ToString();
                             lb.DeptId = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["DeptId"]);
                             labelsList.Add(lb);

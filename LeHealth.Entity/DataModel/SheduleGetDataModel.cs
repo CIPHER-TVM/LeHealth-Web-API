@@ -22,6 +22,8 @@ namespace LeHealth.Entity.DataModel
         public string SliceTime { get; set; }
         public string PatientId { get; set; }
         public string PatientName { get; set; }
+        public string RegNo { get; set; }
+        public string MobileNo { get; set; }
         public int DeptId { get; set; }
         public string DeptName { get; set; } 
     }
