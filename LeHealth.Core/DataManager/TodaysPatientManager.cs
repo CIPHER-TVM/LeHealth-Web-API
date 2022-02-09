@@ -102,8 +102,7 @@ namespace LeHealth.Core.DataManager
                         obj.Email = dsAppointmentsList.Tables[0].Rows[0]["Email"].ToString();
                         obj.Mobile = dsAppointmentsList.Tables[0].Rows[0]["Mobile"].ToString();
                         obj.OffPhone = dsAppointmentsList.Tables[0].Rows[0]["OffPhone"].ToString();
-                        obj.Address1 = dsAppointmentsList.Tables[0].Rows[0]["Address1"].ToString();
-                        obj.Address2 = dsAppointmentsList.Tables[0].Rows[0]["Address2"].ToString();
+                        obj.Address1 = dsAppointmentsList.Tables[0].Rows[0]["Address1"].ToString() + "," + dsAppointmentsList.Tables[0].Rows[0]["Address2"].ToString();
                         obj.Street = dsAppointmentsList.Tables[0].Rows[0]["Street"].ToString();
                         obj.PlacePO = dsAppointmentsList.Tables[0].Rows[0]["PlacePO"].ToString();
                         obj.City = dsAppointmentsList.Tables[0].Rows[0]["City"].ToString();
@@ -117,6 +116,7 @@ namespace LeHealth.Core.DataManager
                         obj.Remarks = dsAppointmentsList.Tables[0].Rows[0]["Remarks"].ToString();
                         obj.AppStatus = dsAppointmentsList.Tables[0].Rows[0]["AppStatus"].ToString();
                         obj.ResPhone = dsAppointmentsList.Tables[0].Rows[0]["ResPhone"].ToString();
+                        obj.RegNo = dsAppointmentsList.Tables[0].Rows[0]["RegNo"].ToString();
 
                         using (SqlCommand cmdslot = new SqlCommand("GetSliceDataByAppId", con))
                         {
@@ -307,6 +307,10 @@ namespace LeHealth.Core.DataManager
                             obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
                             obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
                             obj.Gender = Convert.ToInt32(ds.Tables[0].Rows[i]["Gender"]);
+                            obj.AppDate = ds.Tables[0].Rows[i]["AppDate"].ToString();
+                            obj.Email = ds.Tables[0].Rows[i]["Email"].ToString();
+                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
+                            obj.Address1 = ds.Tables[0].Rows[i]["Address1"].ToString();
                             Appointmentlist.Add(obj);
                         }
                     }

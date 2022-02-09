@@ -349,6 +349,7 @@ namespace LeHealth.Core.DataManager
                     obj.OtherReasons = dsPatientData.Tables[0].Rows[0]["Symptoms"].ToString();
                     obj.DepartmentId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["DeptId"]);
                     obj.ConsultantId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ConsultantId"]);
+                    obj.PatientId = patid;
                     obj.DepartmentName = dsPatientData.Tables[0].Rows[0]["DeptName"].ToString();
                     obj.ConsultantName = dsPatientData.Tables[0].Rows[0]["ConsultantName"].ToString();
                     obj.ConsultationId = Convert.ToInt32(dsPatientData.Tables[0].Rows[0]["ConsultationId"]);
