@@ -152,6 +152,7 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
                 {
+                    
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (appointments == null || appointments.PatientId <= 0)
                     {
@@ -164,8 +165,10 @@ namespace LeHealth.Core.DataManager
                     string DateString = appointments.AppDate;
                     DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
                     appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
+                    cmd.Parameters.Clear();
                     cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
                     cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
+                    cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
                     cmd.Parameters.AddWithValue("@Title", appointments.Title);
@@ -176,7 +179,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
                     cmd.Parameters.AddWithValue("@Street", appointments.Street);
                     cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
-                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
                     cmd.Parameters.AddWithValue("@City", appointments.City);
                     cmd.Parameters.AddWithValue("@State", appointments.State);
@@ -192,6 +194,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
                     cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
+                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -203,13 +206,13 @@ namespace LeHealth.Core.DataManager
                     };
                     cmd.Parameters.Add(retDesc);
                     con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
+                    var isSaved = cmd.ExecuteNonQuery();
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
-                    con.Close();
+
                     if (descrip == "Saved Successfully")
                     {
-                        con.Open();
+
                         for (int b = 0; b < appointments.SliceData.Count; b++)
                         {
                             SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
@@ -219,19 +222,31 @@ namespace LeHealth.Core.DataManager
                             savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
                             savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
                             savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                            savesliceCMD.Parameters.AddWithValue("@BranchId", appointments.BranchId);
                             savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
                             savesliceCMD.Parameters.AddWithValue("@AppId", ret);
                             savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
-                            var isInsertedSymptom1 = savesliceCMD.ExecuteNonQuery();
+                            SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retValueV);
+                            SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retDescrV);
+                            var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
+                            var retSlice = retValueV.Value;
+                            var descripSlice = retDescrV.Value.ToString(); 
                         }
                         response = "Success";
-                        con.Close();
+
                     }
                     else
                     {
                         response = descrip;
                     }
+                    con.Close();
                 }
             }
             return response;
@@ -242,9 +257,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
-        public  string UpdateAppointment(Appointments appointments)
+        public string UpdateAppointment(Appointments appointments)
         {
-             string appointmentret =  string.Empty;
+            string appointmentret = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
@@ -285,15 +300,49 @@ namespace LeHealth.Core.DataManager
                     var isUpdated = cmd.ExecuteNonQuery();
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
-                    con.Close();
+                    
                     if (descrip == "Saved Successfully")
                     {
                         appointmentret = ret.ToString();
+                        SqlCommand deletesymptomCMD = new SqlCommand("stLH_DeleteSliceTimes", con);
+                        deletesymptomCMD.CommandType = CommandType.StoredProcedure;
+                        deletesymptomCMD.Parameters.AddWithValue("@AppId", appointments.AppId);
+                        var isDeleted = deletesymptomCMD.ExecuteNonQuery();
+                        string DateString = appointments.AppDate;
+                        DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                        appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
+                        for (int b = 0; b < appointments.SliceData.Count; b++)
+                        {
+                            SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
+                            savesliceCMD.CommandType = CommandType.StoredProcedure;
+                            savesliceCMD.Parameters.AddWithValue("@AppNo", appointments.AppNo);
+                            savesliceCMD.Parameters.AddWithValue("@SliceNo", appointments.SliceData[b].SliceNo);
+                            savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
+                            savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
+                            savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
+                            savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
+                            savesliceCMD.Parameters.AddWithValue("@AppId", appointments.AppId);
+                            savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
+                            SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retValueV);
+                            SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retDescrV);
+                            var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
+                            var retSlice = retValueV.Value;
+                            var descripSlice = retDescrV.Value.ToString();
+                        }
                     }
                     else
                     {
                         appointmentret = descrip;
                     }
+                    con.Close();
                 }
             }
             return appointmentret;

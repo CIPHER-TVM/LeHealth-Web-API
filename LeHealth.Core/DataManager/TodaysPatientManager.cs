@@ -102,8 +102,6 @@ namespace LeHealth.Core.DataManager
                         obj.Email = dsAppointmentsList.Tables[0].Rows[0]["Email"].ToString();
                         obj.Mobile = dsAppointmentsList.Tables[0].Rows[0]["Mobile"].ToString();
                         obj.OffPhone = dsAppointmentsList.Tables[0].Rows[0]["OffPhone"].ToString();
-                        obj.SliceTime = dsAppointmentsList.Tables[0].Rows[0]["SliceTime"].ToString();
-                        obj.SliceNo = Convert.ToInt32(dsAppointmentsList.Tables[0].Rows[0]["SliceNo"]);
                         obj.Address1 = dsAppointmentsList.Tables[0].Rows[0]["Address1"].ToString();
                         obj.Address2 = dsAppointmentsList.Tables[0].Rows[0]["Address2"].ToString();
                         obj.Street = dsAppointmentsList.Tables[0].Rows[0]["Street"].ToString();
@@ -177,6 +175,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AppToDate", appointment.AppToDate);
                     cmd.Parameters.AddWithValue("@RegNo", appointment.RegNo.Trim());
                     cmd.Parameters.AddWithValue("@AppointmentType", appointment.AppType);
+                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dsAppointments = new DataSet();
                     adapter.Fill(dsAppointments);
@@ -200,6 +199,7 @@ namespace LeHealth.Core.DataManager
                             obj.CancelReason = dsAppointments.Tables[0].Rows[i]["CancelReason"].ToString();
                             obj.ResPhone = dsAppointments.Tables[0].Rows[i]["TelePhone"].ToString();
                             obj.Address1 = dsAppointments.Tables[0].Rows[i]["Address"].ToString();
+                            obj.BranchId = Convert.ToInt32(dsAppointments.Tables[0].Rows[i]["BranchId"]);
                             appList.Add(obj);
                         }
                     }
@@ -452,8 +452,6 @@ namespace LeHealth.Core.DataManager
             gsim.DateValue = scheduleDate.ToString("yyyy-MM-dd");
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
-
                 using (SqlCommand cmd = new SqlCommand("stLH_GetScheduleByDateConsultants", con))
                 {
                     int listdepcount = gsim.Departments.Count;
@@ -462,16 +460,11 @@ namespace LeHealth.Core.DataManager
                     string consultantIds = "";
                     if (listdepcount > 0)
                         DepIds = string.Join(",", gsim.Departments.ToArray());
-
                     if (listconsultantcount > 0)
                         consultantIds = string.Join(",", gsim.Consultant.ToArray());
-
-
-
                     int consultantId = 0;
                     int depId = 0;
                     int branchId = 0;
-
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Clear();
@@ -494,10 +487,8 @@ namespace LeHealth.Core.DataManager
                             int curDep = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["DeptId"].ToString());
                             if (consultantId != curConsultant || depId != curDep)
                             {
-
                                 if (consultantId != 0)
                                 {
-
                                     sgdm.labels = labelsList;
                                     sgdm.slotlength = labelsList.Count;
                                     scheduleList.Add(sgdm);
@@ -516,11 +507,12 @@ namespace LeHealth.Core.DataManager
                             lb.ConsultantName = dsScheduleList.Tables[0].Rows[j]["ConsultantName"].ToString();
                             lb.AppId = dsScheduleList.Tables[0].Rows[j]["AppId"].ToString();
                             lb.AppNo = dsScheduleList.Tables[0].Rows[j]["AppNo"].ToString();
+                            lb.AppDate = gsim.DateValue;
                             lb.SliceTime = dsScheduleList.Tables[0].Rows[j]["SliceTime"].ToString();
                             lb.PatientId = dsScheduleList.Tables[0].Rows[j]["PatientId"].ToString();
-                            lb.PatientName = dsScheduleList.Tables[0].Rows[j]["PatientName"].ToString();
                             lb.RegNo = dsScheduleList.Tables[0].Rows[j]["RegNo"].ToString();
-                            lb.MobileNo = dsScheduleList.Tables[0].Rows[j]["MobileNo"].ToString();
+                            lb.PatientName = dsScheduleList.Tables[0].Rows[j]["PatientName"].ToString();
+                            lb.MobileNumber = dsScheduleList.Tables[0].Rows[j]["MobileNo"].ToString();
                             lb.DeptName = dsScheduleList.Tables[0].Rows[j]["DeptName"].ToString();
                             lb.DeptId = Convert.ToInt32(dsScheduleList.Tables[0].Rows[j]["DeptId"]);
                             labelsList.Add(lb);
@@ -748,11 +740,9 @@ namespace LeHealth.Core.DataManager
                     DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd-MM-yyyy", null);
                     app.AppDate = postponeDate.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@AppId", app.AppId);
+                    cmd.Parameters.AddWithValue("@BranchId", app.BranchId);
                     cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", app.AppDate);
-                    cmd.Parameters.AddWithValue("@AppNo", app.AppNo);
-                    cmd.Parameters.AddWithValue("@SliceNo", app.SliceNo);
-                    cmd.Parameters.AddWithValue("@SliceTime", app.SliceTime);
                     cmd.Parameters.AddWithValue("@UserId", app.UserId);
                     SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -768,15 +758,46 @@ namespace LeHealth.Core.DataManager
                     var isUpdated = cmd.ExecuteNonQuery();
                     var retV = retVal.Value;
                     var retD = retDesc.Value.ToString();
-                    con.Close();
+
                     if (retD.ToString() == "Appointment Postponed")
                     {
                         response = "success";
+                        SqlCommand deletesymptomCMD = new SqlCommand("stLH_DeleteSliceTimes", con);
+                        deletesymptomCMD.CommandType = CommandType.StoredProcedure;
+                        deletesymptomCMD.Parameters.AddWithValue("@AppId", app.AppId);
+                        var isDeleted = deletesymptomCMD.ExecuteNonQuery();
+                        for (int b = 0; b < app.SliceData.Count; b++)
+                        {
+                            SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
+                            savesliceCMD.CommandType = CommandType.StoredProcedure;
+                            savesliceCMD.Parameters.AddWithValue("@AppNo", app.AppNo);
+                            savesliceCMD.Parameters.AddWithValue("@SliceNo", app.SliceData[b].SliceNo);
+                            savesliceCMD.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
+                            savesliceCMD.Parameters.AddWithValue("@SliceTime", app.SliceData[b].SliceTime);
+                            savesliceCMD.Parameters.AddWithValue("@AppDate", app.AppDate);
+                            savesliceCMD.Parameters.AddWithValue("@PatientId", app.PatientId);
+                            savesliceCMD.Parameters.AddWithValue("@AppId", app.AppId);
+                            savesliceCMD.Parameters.AddWithValue("@AppType", app.AppType);
+                            SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retValueV);
+                            SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            savesliceCMD.Parameters.Add(retDescrV);
+                            var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
+                            var retSlice = retValueV.Value;
+                            var descripSlice = retDescrV.Value.ToString();
+                        }
                     }
                     else
                     {
                         response = retD;
                     }
+                    con.Close();
                 }
             }
             return response;

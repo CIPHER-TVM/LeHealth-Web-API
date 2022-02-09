@@ -19,11 +19,12 @@ namespace LeHealth.Entity.DataModel
         public string ConsultantName { get; set; } 
         public string AppId { get; set; }
         public string AppNo { get; set; }
+        public string AppDate { get; set; }
         public string SliceTime { get; set; }
         public string PatientId { get; set; }
-        public string PatientName { get; set; }
         public string RegNo { get; set; }
-        public string MobileNo { get; set; }
+        public string PatientName { get; set; }
+        public string MobileNumber { get; set; }
         public int DeptId { get; set; }
         public string DeptName { get; set; } 
     }
