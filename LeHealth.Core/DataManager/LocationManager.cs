@@ -20,7 +20,7 @@ namespace LeHealth.Core.DataManager
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
-        public LocationModel GetLocationById(int locationId)
+        public LocationModel GetLocationById(Int32 locationId)
         {
             LocationModel obj = new LocationModel();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -44,7 +44,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public List<LocationModel> GetLocations(int hospitalId)
+        public List<LocationModel> GetLocations(Int32 hospitalId)
         {
             List<LocationModel> obj = new List<LocationModel>();
             using (SqlConnection con = new SqlConnection(_connStr))

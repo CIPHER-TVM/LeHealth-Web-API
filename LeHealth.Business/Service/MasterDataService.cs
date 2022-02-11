@@ -17,7 +17,7 @@ namespace LeHealth.Service.Service
             fileUploadService = _fileUploadService;
         }
 
-        public List<ProfessionModel> GetProfession(int profid)
+        public List<ProfessionModel> GetProfession(Int32 profid)
         {
             return masterdataManager.GetProfession(profid);
         }
@@ -25,7 +25,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateProfession(zone);
         }
-        public List<SponsorMasterModel> GetSponsor(int profid)
+        public List<SponsorMasterModel> GetSponsor(Int32 profid)
         {
             return masterdataManager.GetSponsor(profid);
         }
@@ -34,7 +34,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateSponsor(zone);
         }
 
-        public List<SponsorTypeModel> GetSponsorType(int id)
+        public List<SponsorTypeModel> GetSponsorType(Int32 id)
         {
             return masterdataManager.GetSponsorType(id);
         }
@@ -43,7 +43,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateSponsorType(stype);
         }
 
-        public List<SponsorFormModel> GetSponsorForm(int id)
+        public List<SponsorFormModel> GetSponsorForm(Int32 id)
         {
             return masterdataManager.GetSponsorForm(id);
         }
@@ -52,7 +52,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateSponsorForm(stype);
         }
 
-        public List<CityModel> GetCity(int id)
+        public List<CityModel> GetCity(Int32 id)
         {
             return masterdataManager.GetCity(id);
         }
@@ -68,7 +68,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetFormMaster();
         }
-        public List<FormValidationModel> GetFormFields(int Id)
+        public List<FormValidationModel> GetFormFields(Int32 Id)
         {
             return masterdataManager.GetFormFields(Id);
         }
@@ -78,7 +78,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateZone(zone);
         }
 
-        public List<ZoneModel> GetZone(int zoneId)
+        public List<ZoneModel> GetZone(Int32 zoneId)
         {
             return masterdataManager.GetZone(zoneId);
         }
@@ -86,7 +86,7 @@ namespace LeHealth.Service.Service
         /// <summary>
         /// To list of all hospital details .Step two in code execution flow
         /// </summary>
-        public List<HospitalModel> GetUserHospitals(int id)
+        public List<HospitalModel> GetUserHospitals(Int32 id)
         {
             return masterdataManager.GetUserHospitals(id);
         }
@@ -117,7 +117,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateRegScheme(RegScheme);
         }
-        public List<RegSchemeModel> GetRegScheme(int RegSchemeId)
+        public List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId)
         {
             return masterdataManager.GetRegScheme(RegSchemeId);
         }
@@ -125,7 +125,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateRateGroup(RateGroup);
         }
-        public List<RateGroupModel> GetRateGroup(int Id)
+        public List<RateGroupModel> GetRateGroup(Int32 Id)
         {
             return masterdataManager.GetRateGroup(Id);
         }
@@ -133,7 +133,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateOperator(Operator);
         }
-        public List<OperatorModel> GetOperator(int OperatorId)
+        public List<OperatorModel> GetOperator(Int32 OperatorId)
         {
             return masterdataManager.GetOperator(OperatorId);
         }
@@ -142,7 +142,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetReligion();
         }
-        public List<LeadAgentModel> GetLeadAgent(int la)
+        public List<LeadAgentModel> GetLeadAgent(Int32 la)
         {
             return masterdataManager.GetLeadAgent(la);
         }
@@ -150,7 +150,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateLeadAgent(la);
         }
-        public List<CompanyModel> GetCompany(int Id)
+        public List<CompanyModel> GetCompany(Int32 Id)
         {
             return masterdataManager.GetCompany(Id);
         }
@@ -158,7 +158,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateCompany(cmp);
         }
-        public List<BodyPartModel> GetBodyPart(int Id)
+        public List<BodyPartModel> GetBodyPart(Int32 Id)
         {
             return masterdataManager.GetBodyPart(Id);
         }
@@ -166,7 +166,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateBodyPart(cmp);
         }
-        public List<DepartmentModel> GetDepartments(int DeptId)
+        public List<DepartmentModel> GetDepartments(Int32 DeptId)
         {
             return masterdataManager.GetDepartments(DeptId);
         }
@@ -174,15 +174,15 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateDepartment(Dept);
         }
-        public List<DepartmentModel> GetDepartmentByHospital(int HospId)
+        public List<DepartmentModel> GetDepartmentByHospital(Int32 HospId)
         {
             return masterdataManager.GetDepartmentByHospital(HospId);
         }
-        public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientId)
+        public List<ConsentPreviewModel> GetConsentPreviewConsent(Int32 patientId)
         {
             return masterdataManager.GetConsentPreviewConsent(patientId);
         }
-        public List<ConsentContentModel> GetConsent(int patientId)
+        public List<ConsentContentModel> GetConsent(Int32 patientId)
         {
             return masterdataManager.GetConsent(patientId);
         }
@@ -190,7 +190,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateConsent(consent);
         }
-        public List<CountryModel> GetCountry(int countryDetails)
+        public List<CountryModel> GetCountry(Int32 countryDetails)
         {
             return masterdataManager.GetCountry(countryDetails);
         }
@@ -198,7 +198,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateCountry(country);
         }
-        public List<StateModel> GetState(int stateDetails)
+        public List<StateModel> GetState(Int32 stateDetails)
         {
             return masterdataManager.GetState(stateDetails);
         }
@@ -206,7 +206,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateState(state);
         }
-        public List<SalutationModel> GetSalutation(int stateDetails)
+        public List<SalutationModel> GetSalutation(Int32 stateDetails)
         {
             return masterdataManager.GetSalutation(stateDetails);
         }
@@ -215,7 +215,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateSalutation(state);
         }
 
-        public List<VitalSignModel> GetVitalSign(int vitalsign)
+        public List<VitalSignModel> GetVitalSign(Int32 vitalsign)
         {
             return masterdataManager.GetVitalSign(vitalsign);
         }
@@ -224,7 +224,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateVitalSign(vitalsign);
         }
 
-        public List<MovementModel> GetMovement(int movement)
+        public List<MovementModel> GetMovement(Int32 movement)
         {
             return masterdataManager.GetMovement(movement);
         }
@@ -232,7 +232,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateMovement(movement);
         }
-        public List<PackageModel> GetPackage(int movement)
+        public List<PackageModel> GetPackage(Int32 movement)
         {
             return masterdataManager.GetPackage(movement);
         }
@@ -240,7 +240,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdatePackage(movement);
         }
-        public List<LocationModel> GetLocation(int movement)
+        public List<LocationModel> GetLocation(Int32 movement)
         {
             return masterdataManager.GetLocation(movement);
         }
@@ -248,7 +248,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateLocation(movement);
         }
-        public List<ScientificNameModel> GetScientificName(int movement)
+        public List<ScientificNameModel> GetScientificName(Int32 movement)
         {
             return masterdataManager.GetScientificName(movement);
         }
@@ -257,7 +257,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateScientificName(movement);
         }
 
-        public List<TendernModel> GetTendern(int movement)
+        public List<TendernModel> GetTendern(Int32 movement)
         {
             return masterdataManager.GetTendern(movement);
         }
@@ -270,7 +270,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetVisaType();
         }
-        public List<StateModel> GetStateByCountryId(int countryid)
+        public List<StateModel> GetStateByCountryId(Int32 countryid)
         {
             return masterdataManager.GetStateByCountryId(countryid);
         }

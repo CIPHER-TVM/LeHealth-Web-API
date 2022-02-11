@@ -15,7 +15,7 @@ namespace LeHealth.Service.Service
             userpermissionmanager = _userpermissionmanager;
         }
 
-        public UserGroupModel getUserGroup(int id)
+        public UserGroupModel getUserGroup(Int32 id)
         {
 
             return userpermissionmanager.getUserGroup(id);
@@ -40,17 +40,17 @@ namespace LeHealth.Service.Service
             return userpermissionmanager.GetUsers();
         }
 
-        public UserModel GetUser(int id)
+        public UserModel GetUser(Int32 id)
         {
             return userpermissionmanager.GetUser(id);
         }
 
-        public List<HospitalModel> GetUserBranches(int id)
+        public List<HospitalModel> GetUserBranches(Int32 id)
         {
             return userpermissionmanager.GetUserBranches(id);
         }
 
-        public List<MapLocationModel> GetUserLocations(int userId)
+        public List<MapLocationModel> GetUserLocations(Int32 userId)
         {
             List <MapLocationModel> obj= userpermissionmanager.GetUserLocations(userId);
             obj.ForEach(a =>

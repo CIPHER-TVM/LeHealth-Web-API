@@ -38,7 +38,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsGender != null) && (dsGender.Tables.Count > 0) && (dsGender.Tables[0] != null) && (dsGender.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsGender.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsGender.Tables[0].Rows.Count; i++)
                         {
                             GenderModel obj = new GenderModel();
                             obj.Id = Convert.ToInt32(dsGender.Tables[0].Rows[i]["Id"]);
@@ -66,7 +66,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsKinRelation != null) && (dsKinRelation.Tables.Count > 0) && (dsKinRelation.Tables[0] != null) && (dsKinRelation.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsKinRelation.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsKinRelation.Tables[0].Rows.Count; i++)
                         {
                             KinRelationModel obj = new KinRelationModel();
                             obj.Id = Convert.ToInt32(dsKinRelation.Tables[0].Rows[i]["Id"]);
@@ -94,7 +94,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsmaritalStatus != null) && (dsmaritalStatus.Tables.Count > 0) && (dsmaritalStatus.Tables[0] != null) && (dsmaritalStatus.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsmaritalStatus.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsmaritalStatus.Tables[0].Rows.Count; i++)
                         {
                             MaritalStatusModel obj = new MaritalStatusModel();
                             obj.Id = Convert.ToInt32(dsmaritalStatus.Tables[0].Rows[i]["Id"]);
@@ -122,7 +122,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dscommunicationType != null) && (dscommunicationType.Tables.Count > 0) && (dscommunicationType.Tables[0] != null) && (dscommunicationType.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dscommunicationType.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dscommunicationType.Tables[0].Rows.Count; i++)
                         {
                             CommunicationTypeModel obj = new CommunicationTypeModel();
                             obj.Id = Convert.ToInt32(dscommunicationType.Tables[0].Rows[i]["Id"]);
@@ -201,7 +201,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsPatientList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsPatientList.Tables[0].Rows.Count; i++)
                         {
                             AllPatientModel obj = new AllPatientModel();
                             obj.PatientId = Convert.ToInt32(dsPatientList.Tables[0].Rows[i]["PatientId"]);
@@ -282,7 +282,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="patid">Primary key of LH_Patient, PatientId </param>
         /// <returns></returns>
-        public List<PatientModel> GetRegisteredDataById(int patid)
+        public List<PatientModel> GetRegisteredDataById(Int32 patid)
         {
             PatientModel obj = new PatientModel();
             List<PatientModel> patientData = new List<PatientModel>();
@@ -366,7 +366,7 @@ namespace LeHealth.Core.DataManager
                 List<RegIdentitiesModel> rim = new List<RegIdentitiesModel>();
                 if ((dsIdentity != null) && (dsIdentity.Tables.Count > 0) && (dsIdentity.Tables[0] != null) && (dsIdentity.Tables[0].Rows.Count > 0))
                 {
-                    for (int i = 0; i < dsIdentity.Tables[0].Rows.Count; i++)
+                    for (Int32 i = 0; i < dsIdentity.Tables[0].Rows.Count; i++)
                     {
                         RegIdentitiesModel objIdentity = new RegIdentitiesModel();
                         objIdentity.IdentityType = Convert.ToInt32(dsIdentity.Tables[0].Rows[i]["IdentityType"]);
@@ -387,7 +387,7 @@ namespace LeHealth.Core.DataManager
                 List<RegAddressModel> ram = new List<RegAddressModel>();
                 if ((dsRate3 != null) && (dsRate3.Tables.Count > 0) && (dsRate3.Tables[0] != null) && (dsRate3.Tables[0].Rows.Count > 0))
                 {
-                    for (int i = 0; i < dsRate3.Tables[0].Rows.Count; i++)
+                    for (Int32 i = 0; i < dsRate3.Tables[0].Rows.Count; i++)
                     {
                         RegAddressModel obj3 = new RegAddressModel();
                         obj3.PatientId = Convert.ToInt32(dsRate3.Tables[0].Rows[i]["PatientId"]);
@@ -416,7 +416,7 @@ namespace LeHealth.Core.DataManager
                 List<RegDocLocationModel> doclistobj = new List<RegDocLocationModel>();
                 if ((ds4 != null) && (ds4.Tables.Count > 0) && (ds4.Tables[0] != null) && (ds4.Tables[0].Rows.Count > 0))
                 {
-                    for (int i = 0; i < ds4.Tables[0].Rows.Count; i++)
+                    for (Int32 i = 0; i < ds4.Tables[0].Rows.Count; i++)
                     {
                         RegDocLocationModel obj4 = new RegDocLocationModel();
                         obj4.Id = Convert.ToInt32(ds4.Tables[0].Rows[i]["Id"]);
@@ -438,7 +438,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds5 != null) && (ds5.Tables.Count > 0) && (ds5.Tables[0] != null) && (ds5.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds5.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds5.Tables[0].Rows.Count; i++)
                         {
                             RegSymptomsModel rsm = new RegSymptomsModel();
                             rsm.SymptomId = Convert.ToInt32(ds5.Tables[0].Rows[0]["SymptomId"]);
@@ -512,7 +512,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public string DeletePatRegFiles(int Id)
+        public string DeletePatRegFiles(Int32 Id)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -610,7 +610,7 @@ namespace LeHealth.Core.DataManager
             {
                 if (IsUpdate == 0 && patientDetail.IsManualRegNo == 0)
                 {
-                    for (int m = 0; m < 100; m++)
+                    for (Int32 m = 0; m < 100; m++)
                     {
                         string rno = AutoregnoCreate();
                         if (rno != "duplicate")
@@ -694,7 +694,7 @@ namespace LeHealth.Core.DataManager
                     if (patientId > 0)//Inserted / Updated Successfully
                     {
                         transaction.Commit();
-                        for (int i = 0; i < patientDetail.RegIdentities.Count; i++)
+                        for (Int32 i = 0; i < patientDetail.RegIdentities.Count; i++)
                         {
                             SqlCommand savepatidentity1CMD = new SqlCommand("stLH_InsertPatIdentity", con);
                             savepatidentity1CMD.CommandType = CommandType.StoredProcedure;
@@ -720,7 +720,7 @@ namespace LeHealth.Core.DataManager
 
                         //THREE TIMES START
 
-                        for (int i = 0; i < patientDetail.RegAddress.Count; i++)
+                        for (Int32 i = 0; i < patientDetail.RegAddress.Count; i++)
                         {
                             SqlCommand savepataddress1CMD = new SqlCommand("stLH_InsertPatAddress", con);
                             savepataddress1CMD.CommandType = CommandType.StoredProcedure;
@@ -754,7 +754,7 @@ namespace LeHealth.Core.DataManager
                         //FileUploadStarts
                         if (patientDetail.RegDocLocation != null)
                         {
-                            for (int k = 0; k < patientDetail.RegDocLocation.Count; k++)
+                            for (Int32 k = 0; k < patientDetail.RegDocLocation.Count; k++)
                             {
                                 SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
                                 savepatdocCMD.CommandType = CommandType.StoredProcedure;
@@ -835,7 +835,7 @@ namespace LeHealth.Core.DataManager
                                     var patadrReturnDesc1V = patConsReturnDesc1.Value.ToString();
 
                                     //Symptom Save Starts
-                                    for (int b = 0; b < patientDetail.Symptoms.Count; b++)
+                                    for (Int32 b = 0; b < patientDetail.Symptoms.Count; b++)
                                     {
                                         SqlCommand savesymptomCMD = new SqlCommand("stLH_SaveConsultationSymptoms", con);
                                         savesymptomCMD.CommandType = CommandType.StoredProcedure;
@@ -945,7 +945,7 @@ namespace LeHealth.Core.DataManager
 
                     if (patientDetail.RegDocLocation != null)
                     {
-                        for (int k = 0; k < patientDetail.RegDocLocation.Count; k++)
+                        for (Int32 k = 0; k < patientDetail.RegDocLocation.Count; k++)
                         {
                             SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
                             savepatdocCMD.CommandType = CommandType.StoredProcedure;
@@ -1003,7 +1003,7 @@ namespace LeHealth.Core.DataManager
                 return newregno;
             }
         }
-        public List<AllPatientModel> ViewPatientFiles(int patientid)
+        public List<AllPatientModel> ViewPatientFiles(Int32 patientid)
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1020,7 +1020,7 @@ namespace LeHealth.Core.DataManager
                     List<RegDocLocationModel> fileList = new List<RegDocLocationModel>();
                     if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
                     {
-                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        for (Int32 j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
                         {
                             RegDocLocationModel obj4 = new RegDocLocationModel();
                             obj4.Id = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["Id"]);

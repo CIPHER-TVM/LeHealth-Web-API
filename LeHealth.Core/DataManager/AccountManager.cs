@@ -80,7 +80,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             LoginOutputModel obj = new LoginOutputModel();
                             obj.UserId = ds.Tables[0].Rows[i]["UserId"].ToString();

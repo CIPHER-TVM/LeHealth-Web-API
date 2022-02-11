@@ -21,7 +21,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         // GET api/<weatherforecastController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(Int32 id)
         {
             return "value";
         }
@@ -34,13 +34,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         // PUT api/<weatherforecastController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(Int32 id, [FromBody] string value)
         {
         }
 
         // DELETE api/<weatherforecastController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(Int32 id)
         {
         }
     }

@@ -157,7 +157,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetConsultationDataById/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PatientConsultationModel>> GetConsultationDataById(int Id)
+        public ResponseDataModel<IEnumerable<PatientConsultationModel>> GetConsultationDataById(Int32 Id)
         {
             List<PatientConsultationModel> consultantionList = new List<PatientConsultationModel>();
             try
@@ -998,7 +998,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [HttpPost]
         [Route("GetSponsorListByPatientId/{patientId}")]
-        public ResponseDataModel<IEnumerable<SponsorModel>> GetSponsorListByPatientId(int patientId)
+        public ResponseDataModel<IEnumerable<SponsorModel>> GetSponsorListByPatientId(Int32 patientId)
         {
             List<SponsorModel> sponsorList = new List<SponsorModel>();
             try

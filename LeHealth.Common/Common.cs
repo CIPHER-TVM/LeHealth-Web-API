@@ -143,7 +143,7 @@ namespace LeHealth.Common
             {
                 if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                 {
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
                         LASTINSERTID = Convert.ToInt32(ds.Tables[0].Rows[i][0].ToString().Trim());
 
@@ -408,7 +408,7 @@ namespace LeHealth.Common
                     decimalValue = decimalValue + ".0";
                 decimalValue = decimalValue.ToString().PadRight(totalLength, padChar);
                 char[] arr = decimalValue.ToCharArray();
-                for (int i = 0; i < totalLength; i++)
+                for (Int32 i = 0; i < totalLength; i++)
                 {
                     sb.Append(arr[i]);
                 }

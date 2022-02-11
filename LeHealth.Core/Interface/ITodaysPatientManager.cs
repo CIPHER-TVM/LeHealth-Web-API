@@ -13,7 +13,7 @@ namespace LeHealth.Core.Interface
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<PatientListModel> GetPatientByRegNo(string regNo);
         FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
-        List<SchemeModel> GetSchemeByConsultant(int consultantid);
+        List<SchemeModel> GetSchemeByConsultant(Int32 consultantid);
         
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
@@ -25,16 +25,16 @@ namespace LeHealth.Core.Interface
         List<ConsultationModel> UpdateConsultationSymptoms(ConsultationModel appointments);
         List<RecentConsultationModel> GetRecentConsultationData();
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
-        List<SponsorModel> GetSponsorListByPatientId(int patientId);
+        List<SponsorModel> GetSponsorListByPatientId(Int32 patientId);
         
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
         string AppoinmentValidCheck(AppoinmentValidCheckModel cm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
-        List<PatientConsultationModel> GetConsultationDataById(int patientId);
+        List<PatientConsultationModel> GetConsultationDataById(Int32 patientId);
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
-        List<PatientModel> GetPatient(int pid);
+        List<PatientModel> GetPatient(Int32 pid);
         List<Appointments> GetAppointments(AppointmentModel appointment);
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
         

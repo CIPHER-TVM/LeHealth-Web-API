@@ -34,7 +34,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetProfession/{profid}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ProfessionModel>> GetProfession(int profid)
+        public ResponseDataModel<IEnumerable<ProfessionModel>> GetProfession(Int32 profid)
         {
             List<ProfessionModel> professionList = new List<ProfessionModel>();
             try
@@ -119,7 +119,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetSponsor/{sponsorid}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsor(int sponsorid)
+        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsor(Int32 sponsorid)
         {
             List<SponsorMasterModel> professionList = new List<SponsorMasterModel>();
             try
@@ -204,7 +204,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetSponsorType/{sponsortypeid}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SponsorTypeModel>> GetSponsorType(int sponsortypeid)
+        public ResponseDataModel<IEnumerable<SponsorTypeModel>> GetSponsorType(Int32 sponsortypeid)
         {
             List<SponsorTypeModel> professionList = new List<SponsorTypeModel>();
             try
@@ -287,7 +287,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetSponsorForm/{sponsorformid}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SponsorFormModel>> GetSponsorForm(int sponsorformid)
+        public ResponseDataModel<IEnumerable<SponsorFormModel>> GetSponsorForm(Int32 sponsorformid)
         {
             List<SponsorFormModel> sponsorFormList = new List<SponsorFormModel>();
             try
@@ -371,7 +371,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetCity/{id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<CityModel>> GetCity(int id)
+        public ResponseDataModel<IEnumerable<CityModel>> GetCity(Int32 id)
         {
             List<CityModel> cityList = new List<CityModel>();
             try
@@ -453,7 +453,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetVitalSign/{id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<VitalSignModel>> GetVitalSign(int id) 
+        public ResponseDataModel<IEnumerable<VitalSignModel>> GetVitalSign(Int32 id) 
         {
             List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
             try
@@ -610,7 +610,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetConsent/{ConsentId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsentContentModel>> GetConsent(int consentId)
+        public ResponseDataModel<IEnumerable<ConsentContentModel>> GetConsent(Int32 consentId)
         {
             List<ConsentContentModel> consentList = new List<ConsentContentModel>();
             try
@@ -693,7 +693,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [HttpPost]
         [Route("GetCountry/{Id}")]
-        public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(int Id)
+        public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(Int32 Id)
         {
             List<CountryModel> countryList = new List<CountryModel>();
             try
@@ -776,7 +776,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [HttpPost]
         [Route("GetState/{Id}")]
-        public ResponseDataModel<IEnumerable<StateModel>> GetState(int Id)
+        public ResponseDataModel<IEnumerable<StateModel>> GetState(Int32 Id)
         {
             List<StateModel> stateList = new List<StateModel>();
             try
@@ -859,7 +859,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [HttpPost]
         [Route("GetSalutation/{Id}")]
-        public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation(int Id)
+        public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation(Int32 Id)
         {
             List<SalutationModel> stateList = new List<SalutationModel>();
             try
@@ -943,7 +943,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [HttpPost]
         [Route("GetBodyPart/{Id}")]
-        public ResponseDataModel<IEnumerable<BodyPartModel>> GetBodyPart(int Id)
+        public ResponseDataModel<IEnumerable<BodyPartModel>> GetBodyPart(Int32 Id)
         {
             List<BodyPartModel> stateList = new List<BodyPartModel>();
             try
@@ -1028,7 +1028,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetUserHospitals/{id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<HospitalModel>> GetUserHospitals(int id)
+        public ResponseDataModel<IEnumerable<HospitalModel>> GetUserHospitals(Int32 id)
         {
             try
             {
@@ -1158,7 +1158,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetDepartment/{DeptId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments(int DeptId)
+        public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments(Int32 DeptId)
         {
             List<DepartmentModel> departmentList = new List<DepartmentModel>();
             try
@@ -1240,7 +1240,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetDepartmentByHospital/{HospId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartmentByHospital(int HospId)
+        public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartmentByHospital(Int32 HospId)
         {
             List<DepartmentModel> departmentList = new List<DepartmentModel>();
             try
@@ -1282,7 +1282,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetZone/{zoneId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> GetZone(int zoneId)
+        public ResponseDataModel<IEnumerable<ZoneModel>> GetZone(Int32 zoneId)
         {
             List<ZoneModel> zoneList = new List<ZoneModel>();
             try
@@ -1359,7 +1359,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
    
         [Route("GetRegScheme/{schemeId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<RegSchemeModel>> GetRegScheme(int schemeId)
+        public ResponseDataModel<IEnumerable<RegSchemeModel>> GetRegScheme(Int32 schemeId)
         {
             List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
             try
@@ -1430,7 +1430,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //CRUD RateGroup
         [Route("GetRateGroup/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroup(int Id)
+        public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroup(Int32 Id)
         {
             List<RateGroupModel> RateGroupList = new List<RateGroupModel>();
             try
@@ -1502,7 +1502,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
        
         [Route("GetOperator/{operatorId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<OperatorModel>> GetOperator(int operatorId)
+        public ResponseDataModel<IEnumerable<OperatorModel>> GetOperator(Int32 operatorId)
         {
             List<OperatorModel> zoneList = new List<OperatorModel>();
             try
@@ -1574,7 +1574,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //Get Referenced by Doctor DDL Data
         [Route("GetLeadAgent/{la}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<LeadAgentModel>> GetLeadAgent(int la)
+        public ResponseDataModel<IEnumerable<LeadAgentModel>> GetLeadAgent(Int32 la)
         {
             List<LeadAgentModel> leadAgentList = new List<LeadAgentModel>();
             try
@@ -1646,7 +1646,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
       
         [Route("GetCompany/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<CompanyModel>> GetCompany(int Id)
+        public ResponseDataModel<IEnumerable<CompanyModel>> GetCompany(Int32 Id)
         {
             List<CompanyModel> companyList = new List<CompanyModel>();
             try
@@ -1712,7 +1712,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetMovement/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<MovementModel>> GetMovement(int Id)
+        public ResponseDataModel<IEnumerable<MovementModel>> GetMovement(Int32 Id)
         {
             List<MovementModel> companyList = new List<MovementModel>();
             try
@@ -1778,7 +1778,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetPackage/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PackageModel>> GetPackage(int Id)
+        public ResponseDataModel<IEnumerable<PackageModel>> GetPackage(Int32 Id)
         {
             List<PackageModel> companyList = new List<PackageModel>();
             try
@@ -1845,7 +1845,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetLocation/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<LocationModel>> GetLocation(int Id)
+        public ResponseDataModel<IEnumerable<LocationModel>> GetLocation(Int32 Id)
         {
             List<LocationModel> companyList = new List<LocationModel>();
             try
@@ -1912,7 +1912,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetScientificName/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ScientificNameModel>> GetScientificName(int Id)
+        public ResponseDataModel<IEnumerable<ScientificNameModel>> GetScientificName(Int32 Id)
         {
             List<ScientificNameModel> companyList = new List<ScientificNameModel>();
             try
@@ -1978,7 +1978,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetTendern/{Id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<TendernModel>> GetTendern(int Id)
+        public ResponseDataModel<IEnumerable<TendernModel>> GetTendern(Int32 Id)
         {
             List<TendernModel> tendernessList = new List<TendernModel>();
             try
@@ -2111,7 +2111,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetFormFields/{id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormFields(int id)
+        public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormFields(Int32 id)
         {
             List<FormValidationModel> cityList = new List<FormValidationModel>();
             try
@@ -2217,7 +2217,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetStateByCountryId/{countryId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<StateModel>> GetStateByCountryId(int countryId)
+        public ResponseDataModel<IEnumerable<StateModel>> GetStateByCountryId(Int32 countryId)
         {
             List<StateModel> stateList = new List<StateModel>();
             try
@@ -2246,8 +2246,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
             finally
             {
-
-
             }
         }
 

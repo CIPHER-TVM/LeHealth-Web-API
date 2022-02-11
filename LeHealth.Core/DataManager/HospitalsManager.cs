@@ -80,7 +80,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             ConsultationModel obj = new ConsultationModel();
                             obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
@@ -95,6 +95,8 @@ namespace LeHealth.Core.DataManager
                             obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
                             obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
                             obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
+                            obj.Email = ds.Tables[0].Rows[i]["Email"].ToString();
+                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
                             appointmentlist.Add(obj);
                         }
                     }
@@ -123,7 +125,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             TabOrderModel obj = new TabOrderModel();
                             obj.ScreenName = ds.Tables[0].Rows[i]["ScreenName"].ToString();
@@ -213,7 +215,7 @@ namespace LeHealth.Core.DataManager
                     if (descrip == "Saved Successfully")
                     {
 
-                        for (int b = 0; b < appointments.SliceData.Count; b++)
+                        for (Int32 b = 0; b < appointments.SliceData.Count; b++)
                         {
                             SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
                             savesliceCMD.CommandType = CommandType.StoredProcedure;
@@ -311,7 +313,7 @@ namespace LeHealth.Core.DataManager
                         string DateString = appointments.AppDate;
                         DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
                         appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
-                        for (int b = 0; b < appointments.SliceData.Count; b++)
+                        for (Int32 b = 0; b < appointments.SliceData.Count; b++)
                         {
                             SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
                             savesliceCMD.CommandType = CommandType.StoredProcedure;
@@ -364,7 +366,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             ConsultationModel obj = new ConsultationModel();
                             obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
@@ -426,7 +428,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             ConsultationModel obj = new ConsultationModel();
                             obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
