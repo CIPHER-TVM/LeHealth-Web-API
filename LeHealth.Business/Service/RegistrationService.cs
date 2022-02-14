@@ -76,11 +76,11 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.SearchPatientInList(patientList);
         }
-        public List<AllPatientModel> ViewPatientFiles(int patientId)
+        public List<AllPatientModel> ViewPatientFiles(Int32 patientId)
         {
             return registrationManager.ViewPatientFiles(patientId);
         }
-        public List<PatientModel> GetRegisteredDataById(int patientId)
+        public List<PatientModel> GetRegisteredDataById(Int32 patientId)
         {
             return registrationManager.GetRegisteredDataById(patientId);
         }
@@ -92,7 +92,7 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.BlockPatient(patient);
         }
-        public string DeletePatRegFiles(int Id)
+        public string DeletePatRegFiles(Int32 Id)
         {
             return registrationManager.DeletePatRegFiles(Id);
         }

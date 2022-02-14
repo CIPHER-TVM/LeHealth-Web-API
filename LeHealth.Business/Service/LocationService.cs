@@ -16,12 +16,12 @@ namespace LeHealth.Service.Service
             locationmanager = _locationmanager;
         }
 
-        public LocationModel GetLocationById(int locationId)
+        public LocationModel GetLocationById(Int32 locationId)
         {
             return locationmanager.GetLocationById(locationId);
         }
 
-        public List<LocationModel> GetLocations(int hospitalId)
+        public List<LocationModel> GetLocations(Int32 hospitalId)
         {
             return locationmanager.GetLocations(hospitalId);
         }

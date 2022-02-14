@@ -8,8 +8,8 @@ namespace LeHealth.Service.ServiceInterface
     public interface ILocationService
     {
         string Save(LocationModel obj);
-        List<LocationModel> GetLocations(int hospitalId);
-        LocationModel GetLocationById(int locationId);
+        List<LocationModel> GetLocations(Int32 hospitalId);
+        LocationModel GetLocationById(Int32 locationId);
         List<LocationType> GetLocationTypes();
     }
 }

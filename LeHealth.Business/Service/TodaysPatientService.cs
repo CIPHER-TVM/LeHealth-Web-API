@@ -45,7 +45,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetFrontOfficeProgressBars(todaydate);
         }
-        public List<SchemeModel> GetSchemeByConsultant(int consultantid)
+        public List<SchemeModel> GetSchemeByConsultant(Int32 consultantid)
         {
             return todaysPatientManager.GetSchemeByConsultant(consultantid);
         }
@@ -96,7 +96,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetNewTokenNumber(consultations);
         }
-        public List<SponsorModel> GetSponsorListByPatientId(int patientId)
+        public List<SponsorModel> GetSponsorListByPatientId(Int32 patientId)
         {
             return todaysPatientManager.GetSponsorListByPatientId(patientId);
         }
@@ -129,7 +129,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultationByPatientId(cm);
         }
-        public List<PatientConsultationModel> GetConsultationDataById(int patientId)
+        public List<PatientConsultationModel> GetConsultationDataById(Int32 patientId)
         {
             return todaysPatientManager.GetConsultationDataById(patientId);
         }
@@ -142,7 +142,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetRegSchmAmtOfPatient(cm);
         }
-        public List<PatientModel> GetPatient(int pid)
+        public List<PatientModel> GetPatient(Int32 pid)
         {
             return todaysPatientManager.GetPatient(pid);
         }

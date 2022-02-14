@@ -23,7 +23,7 @@ namespace LeHealth.Core.DataManager
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
         #region UserGroups
-        public UserGroupModel getUserGroup(int id)
+        public UserGroupModel getUserGroup(Int32 id)
         {
             UserGroupModel obj = new UserGroupModel();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -212,7 +212,7 @@ namespace LeHealth.Core.DataManager
 
         }
 
-        public UserModel GetUser(int id)
+        public UserModel GetUser(Int32 id)
         {
             UserModel obj = new UserModel();
             obj.BranchIds = new List<string>();
@@ -253,7 +253,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public List<HospitalModel> GetUserBranches(int id)
+        public List<HospitalModel> GetUserBranches(Int32 id)
         {
             List<HospitalModel> obj = new List<HospitalModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -277,7 +277,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        public List<MapLocationModel> GetUserLocations(int userId)
+        public List<MapLocationModel> GetUserLocations(Int32 userId)
         {
             List<MapLocationModel> obj = new List<MapLocationModel>();
             using (SqlConnection con = new SqlConnection(_connStr))

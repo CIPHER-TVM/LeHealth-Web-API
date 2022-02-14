@@ -27,7 +27,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="profid"></param>
         /// <returns></returns>
-        public List<ProfessionModel> GetProfession(int profid)
+        public List<ProfessionModel> GetProfession(Int32 profid)
         {
             List<ProfessionModel> profList = new List<ProfessionModel>();
 
@@ -44,7 +44,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
                         {
                             ProfessionModel obj = new ProfessionModel();
                             obj.ProfId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["ProfId"]);
@@ -114,7 +114,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="sponsorid"></param>
         /// <returns></returns>
-        public List<SponsorMasterModel> GetSponsor(int sponsorid)
+        public List<SponsorMasterModel> GetSponsor(Int32 sponsorid)
         {
             List<SponsorMasterModel> profList = new List<SponsorMasterModel>();
 
@@ -131,7 +131,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
                         {
                             SponsorMasterModel obj = new SponsorMasterModel();
                             obj.SponsorId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SponsorId"]);
@@ -254,7 +254,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="typeid"></param>
         /// <returns></returns>
-        public List<SponsorTypeModel> GetSponsorType(int typeid)
+        public List<SponsorTypeModel> GetSponsorType(Int32 typeid)
         {
             List<SponsorTypeModel> stypeList = new List<SponsorTypeModel>();
 
@@ -271,7 +271,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
                         {
                             SponsorTypeModel obj = new SponsorTypeModel();
                             obj.STypeId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["STypeId"]);
@@ -338,7 +338,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="formid"></param>
         /// <returns></returns>
-        public List<SponsorFormModel> GetSponsorForm(int formid)
+        public List<SponsorFormModel> GetSponsorForm(Int32 formid)
         {
             List<SponsorFormModel> sformList = new List<SponsorFormModel>();
 
@@ -355,7 +355,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
                         {
                             SponsorFormModel obj = new SponsorFormModel();
                             obj.SFormId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SFormId"]);
@@ -421,7 +421,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="patientid"></param>
         /// <returns></returns>
-        public List<ConsentPreviewModel> GetConsentPreviewConsent(int patientid)
+        public List<ConsentPreviewModel> GetConsentPreviewConsent(Int32 patientid)
         {
             List<ConsentPreviewModel> consentpreviewList = new List<ConsentPreviewModel>();
             List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
@@ -443,7 +443,7 @@ namespace LeHealth.Core.DataManager
 
                     if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
                     {
-                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        for (Int32 j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
                         {
                             ConsentContentModel obj4 = new ConsentContentModel();
                             obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
@@ -486,7 +486,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consentid"></param>
         /// <returns></returns>
-        public List<ConsentContentModel> GetConsent(int consentid)
+        public List<ConsentContentModel> GetConsent(Int32 consentid)
         {
             List<ConsentContentModel> ccmlist = new List<ConsentContentModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -504,7 +504,7 @@ namespace LeHealth.Core.DataManager
 
                     if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
                     {
-                        for (int j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        for (Int32 j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
                         {
                             ConsentContentModel obj4 = new ConsentContentModel();
                             obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
@@ -574,7 +574,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="countryDetails"></param>
         /// <returns></returns>
-        public List<CountryModel> GetCountry(int countryDetails)
+        public List<CountryModel> GetCountry(Int32 countryDetails)
         {
             List<CountryModel> countryList = new List<CountryModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -650,7 +650,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="stateId"></param>
         /// <returns></returns>
-        public List<StateModel> GetState(int stateId)
+        public List<StateModel> GetState(Int32 stateId)
         {
             List<StateModel> countryList = new List<StateModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -725,7 +725,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="salutationDetails"></param>
         /// <returns></returns>
-        public List<SalutationModel> GetSalutation(int salutationDetails)
+        public List<SalutationModel> GetSalutation(Int32 salutationDetails)
         {
             List<SalutationModel> countryList = new List<SalutationModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -798,7 +798,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="salutationDetails"></param>
         /// <returns></returns>
-        public List<BodyPartModel> GetBodyPart(int salutationDetails)
+        public List<BodyPartModel> GetBodyPart(Int32 salutationDetails)
         {
             List<BodyPartModel> countryList = new List<BodyPartModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -918,7 +918,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="zoneId"></param>
         /// <returns></returns>
-        public List<ZoneModel> GetZone(int zoneId)
+        public List<ZoneModel> GetZone(Int32 zoneId)
         {
             List<ZoneModel> zoneList = new List<ZoneModel>();
 
@@ -944,7 +944,7 @@ namespace LeHealth.Core.DataManager
         /// Get department list from database,Step three in code execution flow
         /// </summary>
         /// <returns></returns>
-        public List<DepartmentModel> GetDepartments(int DeptId)
+        public List<DepartmentModel> GetDepartments(Int32 DeptId)
         {
             List<DepartmentModel> departmentlist = new List<DepartmentModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -960,7 +960,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             DepartmentModel obj = new DepartmentModel();
                             obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
@@ -1032,7 +1032,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="HospId"></param>
         /// <returns>List Of Departments</returns>
-        public List<DepartmentModel> GetDepartmentByHospital(int HospId)
+        public List<DepartmentModel> GetDepartmentByHospital(Int32 HospId)
         {
             List<DepartmentModel> departmentlist = new List<DepartmentModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1048,7 +1048,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             DepartmentModel obj = new DepartmentModel();
                             obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
@@ -1131,7 +1131,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="RegSchemeId"></param>
         /// <returns></returns>
-        public List<RegSchemeModel> GetRegScheme(int RegSchemeId)
+        public List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId)
         {
             List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
 
@@ -1149,7 +1149,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsRegSchemeList != null) && (dsRegSchemeList.Tables.Count > 0) && (dsRegSchemeList.Tables[0] != null) && (dsRegSchemeList.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsRegSchemeList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsRegSchemeList.Tables[0].Rows.Count; i++)
                         {
                             RegSchemeModel obj = new RegSchemeModel();
                             obj.ItemId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ItemId"]);
@@ -1237,7 +1237,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="RateGroupId"></param>
         /// <returns></returns>
-        public List<RateGroupModel> GetRateGroup(int RateGroupId)
+        public List<RateGroupModel> GetRateGroup(Int32 RateGroupId)
         {
             List<RateGroupModel> stateList = new List<RateGroupModel>();
 
@@ -1255,7 +1255,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
                         {
                             RateGroupModel obj = new RateGroupModel();
                             obj.RGroupId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["RGroupId"]);
@@ -1279,7 +1279,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <returns></returns>
 
-        public List<HospitalModel> GetUserHospitals(int id)
+        public List<HospitalModel> GetUserHospitals(Int32 id)
         {
             List<HospitalModel> hospitalList = new List<HospitalModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1296,7 +1296,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsHospitalList != null) && (dsHospitalList.Tables.Count > 0) && (dsHospitalList.Tables[0] != null) && (dsHospitalList.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsHospitalList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsHospitalList.Tables[0].Rows.Count; i++)
                         {
                             HospitalModel obj = new HospitalModel();
                             obj.HospitalId = Convert.ToInt32(dsHospitalList.Tables[0].Rows[i]["HospitalId"]);
@@ -1498,7 +1498,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="OperatorId"></param>
         /// <returns></returns>
-        public List<OperatorModel> GetOperator(int OperatorId)
+        public List<OperatorModel> GetOperator(Int32 OperatorId)
         {
             List<OperatorModel> stateList = new List<OperatorModel>();
 
@@ -1516,7 +1516,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
                         {
                             OperatorModel obj = new OperatorModel();
                             obj.Id = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Id"]);
@@ -1537,7 +1537,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="la"></param>
         /// <returns></returns>
-        public List<LeadAgentModel> GetLeadAgent(int la)
+        public List<LeadAgentModel> GetLeadAgent(Int32 la)
         {
             List<LeadAgentModel> itemList = new List<LeadAgentModel>();
 
@@ -1554,7 +1554,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             LeadAgentModel obj = new LeadAgentModel();
                             obj.LeadAgentId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LeadAgentId"]);
@@ -1623,7 +1623,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<CompanyModel> GetCompany(int Id)
+        public List<CompanyModel> GetCompany(Int32 Id)
         {
             List<CompanyModel> companyList = new List<CompanyModel>();
 
@@ -1640,7 +1640,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
                         {
                             CompanyModel obj = new CompanyModel();
                             obj.CmpId = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["CmpId"]);
@@ -1707,7 +1707,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="cityid"></param>
         /// <returns></returns>
-        public List<CityModel> GetCity(int cityid)
+        public List<CityModel> GetCity(Int32 cityid)
         {
             List<CityModel> cityList = new List<CityModel>();
 
@@ -1724,7 +1724,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
                         {
                             CityModel obj = new CityModel();
                             obj.CityId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["CityId"]);
@@ -1914,7 +1914,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<VitalSignModel> GetVitalSign(int Id)
+        public List<VitalSignModel> GetVitalSign(Int32 Id)
         {
             List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
 
@@ -1986,7 +1986,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<MovementModel> GetMovement(int Id)
+        public List<MovementModel> GetMovement(Int32 Id)
         {
             List<MovementModel> vitalSignList = new List<MovementModel>();
 
@@ -2014,7 +2014,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="la"></param>
         /// <returns></returns>
-        public List<PackageModel> GetPackage(int la)
+        public List<PackageModel> GetPackage(Int32 la)
         {
             List<PackageModel> itemList = new List<PackageModel>();
 
@@ -2031,7 +2031,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             PackageModel obj = new PackageModel();
                             obj.PackId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["PackId"]);
@@ -2106,7 +2106,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="la"></param>
         /// <returns></returns>
-        public List<LocationModel> GetLocation(int la)
+        public List<LocationModel> GetLocation(Int32 la)
         {
             List<LocationModel> itemList = new List<LocationModel>();
 
@@ -2123,7 +2123,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             LocationModel obj = new LocationModel();
                             obj.LocationId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LocationId"]);
@@ -2213,7 +2213,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="la"></param>
         /// <returns></returns>
-        public List<ScientificNameModel> GetScientificName(int la)
+        public List<ScientificNameModel> GetScientificName(Int32 la)
         {
             List<ScientificNameModel> itemList = new List<ScientificNameModel>();
 
@@ -2230,7 +2230,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             ScientificNameModel obj = new ScientificNameModel();
                             obj.ScientificId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ScientificId"]);
@@ -2296,7 +2296,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="tendernessid">Primary key of LH_PhyTendern Table</param>
         /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
-        public List<TendernModel> GetTendern(int tendernessid)
+        public List<TendernModel> GetTendern(Int32 tendernessid)
         {
             List<TendernModel> itemList = new List<TendernModel>();
 
@@ -2313,7 +2313,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             TendernModel obj = new TendernModel();
                             obj.TendernId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["TendernId"]);
@@ -2420,7 +2420,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
                         {
                             AppTypeModel obj = new AppTypeModel();
                             obj.AppTypeId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["AppTypeId"]);
@@ -2464,7 +2464,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="countryId"></param>
         /// <returns></returns>
-        public List<StateModel> GetStateByCountryId(int countryId)
+        public List<StateModel> GetStateByCountryId(Int32 countryId)
         {
             List<StateModel> stateList = new List<StateModel>();
 
@@ -2508,7 +2508,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             ItemsByTypeModel obj = new ItemsByTypeModel();
                             obj.ItemId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ItemId"]);
@@ -2543,7 +2543,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             ConsentTypeModel obj = new ConsentTypeModel();
                             obj.Id = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Id"]);
@@ -2581,7 +2581,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             GetNumberModel obj = new GetNumberModel();
                             obj.selectopt = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["selectopt"]);
@@ -2623,7 +2623,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             FormValidationModel obj = new FormValidationModel();
                             obj.FormId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FormId"]);
@@ -2640,7 +2640,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="FormId">ID of form</param>
         /// <returns>Form Fields list</returns>
-        public List<FormValidationModel> GetFormFields(int FormId)
+        public List<FormValidationModel> GetFormFields(Int32 FormId)
         {
             List<FormValidationModel> numberList = new List<FormValidationModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -2657,7 +2657,7 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
                     {
-                        for (int i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
                         {
                             FormValidationModel obj = new FormValidationModel();
                             obj.FieldId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FieldId"]);

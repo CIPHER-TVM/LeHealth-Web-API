@@ -8,70 +8,70 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IMasterDataService
     {
-        List<ProfessionModel> GetProfession(int profid);
+        List<ProfessionModel> GetProfession(Int32 profid);
         string InsertUpdateProfession(ProfessionModel prof);
-        List<SponsorMasterModel> GetSponsor(int sponsorid);
+        List<SponsorMasterModel> GetSponsor(Int32 sponsorid);
         string InsertUpdateSponsor(SponsorMasterModel sponsor);
-        List<HospitalModel> GetUserHospitals(int id);
+        List<HospitalModel> GetUserHospitals(Int32 id);
         string InsertUpdateUserHospitals(HospitalRegModel hm);
         string ConsentFormDataSave(ConsentFormRegModel hm);
-        List<ConsentPreviewModel> GetConsentPreviewConsent(int id);
-        List<ConsentContentModel> GetConsent(int id);
+        List<ConsentPreviewModel> GetConsentPreviewConsent(Int32 id);
+        List<ConsentContentModel> GetConsent(Int32 id);
         string InsertUpdateConsent(ConsentContentModel hm);
         List<AppTypeModel> GetAppType();
-        List<FormValidationModel> GetFormFields(int Id);
+        List<FormValidationModel> GetFormFields(Int32 Id);
         List<FormValidationModel> GetFormMaster();
         List<ReligionModel> GetReligion();
         string InsertUpdateZone(ZoneModel zone);
-        List<ZoneModel> GetZone(int zoneId);
+        List<ZoneModel> GetZone(Int32 zoneId);
         string InsertUpdateRateGroup(RateGroupModel RateGroup);
-        List<RateGroupModel> GetRateGroup(int Id);
+        List<RateGroupModel> GetRateGroup(Int32 Id);
         string InsertUpdateOperator(OperatorModel Operator);
-        List<OperatorModel> GetOperator(int OperatorId);
+        List<OperatorModel> GetOperator(Int32 OperatorId);
         string InsertUpdateRegScheme(RegSchemeModel RegScheme);
-        List<RegSchemeModel> GetRegScheme(int RegSchemeId);
-        List<DepartmentModel> GetDepartments(int DeptId);
-        List<DepartmentModel> GetDepartmentByHospital(int HospId);
+        List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId);
+        List<DepartmentModel> GetDepartments(Int32 DeptId);
+        List<DepartmentModel> GetDepartmentByHospital(Int32 HospId);
         string InsertUpdateDepartment(DepartmentModel Dept);
-        List<LeadAgentModel> GetLeadAgent(int la);
+        List<LeadAgentModel> GetLeadAgent(Int32 la);
         string InsertUpdateLeadAgent(LeadAgentModel la);
-        List<CompanyModel> GetCompany(int Id);
+        List<CompanyModel> GetCompany(Int32 Id);
         string InsertUpdateCompany(CompanyModel cmp);
-        List<CountryModel> GetCountry(int countryDetail);
+        List<CountryModel> GetCountry(Int32 countryDetail);
         string InsertUpdateCountry(CountryModel countryDetail);
-        List<StateModel> GetState(int stateDetail);
+        List<StateModel> GetState(Int32 stateDetail);
         string InsertUpdateState(StateModel stateDetail);
-        List<SalutationModel> GetSalutation(int stateDetail);
+        List<SalutationModel> GetSalutation(Int32 stateDetail);
         string InsertUpdateSalutation(SalutationModel stateDetail);
-        List<BodyPartModel> GetBodyPart(int stateDetail);
+        List<BodyPartModel> GetBodyPart(Int32 stateDetail);
         string InsertUpdateBodyPart(BodyPartModel stateDetail);
-        List<SponsorTypeModel> GetSponsorType(int sponsorType);
+        List<SponsorTypeModel> GetSponsorType(Int32 sponsorType);
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
-        List<SponsorFormModel> GetSponsorForm(int sponsorForm);
+        List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
-        List<CityModel> GetCity(int city);
+        List<CityModel> GetCity(Int32 city);
         string InsertUpdateCity(CityModel city);
 
-        List<VitalSignModel> GetVitalSign(int vitalsign);
+        List<VitalSignModel> GetVitalSign(Int32 vitalsign);
         string InsertUpdateVitalSign(VitalSignModel vitalsign);
-        List<MovementModel> GetMovement(int movement);
+        List<MovementModel> GetMovement(Int32 movement);
         string InsertUpdateMovement(MovementModel movement);
 
-        List<PackageModel> GetPackage(int package);
+        List<PackageModel> GetPackage(Int32 package);
         string InsertUpdatePackage(PackageModel package);
 
-        List<LocationModel> GetLocation(int location); 
+        List<LocationModel> GetLocation(Int32 location); 
         string InsertUpdateLocation(LocationModel package);
 
-        List<ScientificNameModel> GetScientificName(int sname);
+        List<ScientificNameModel> GetScientificName(Int32 sname);
         string InsertUpdateScientificName(ScientificNameModel sname);
 
-        List<TendernModel> GetTendern(int sname);
+        List<TendernModel> GetTendern(Int32 sname);
         string InsertUpdateTendern(TendernModel sname); 
 
         string InsertUpdateSymptom(SymptomModel symptom); 
         List<VisaTypeModel> GetVisaType();
-        List<StateModel> GetStateByCountryId(int countryId);
+        List<StateModel> GetStateByCountryId(Int32 countryId);
         List<SymptomModel> GetActiveSymptoms();
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
