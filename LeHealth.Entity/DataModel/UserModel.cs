@@ -23,4 +23,17 @@ namespace LeHealth.Entity.DataModel
         public List<string> LocationIds { get; set; }
         public string Locationstring { get; set; }
     }
+    public class MapUserGroupModel
+    {
+        public int UserId { get; set; }
+        public int Branch { get; set; }
+        public int GroupId { get; set; }
+        public string Groupstring { get; set; }
+        public List<groupmap> Groups { get; set; }
+    }
+    public class groupmap
+    {
+        public int BranchId { get; set; }
+        public int GroupId { get; set; }
+    }
 }

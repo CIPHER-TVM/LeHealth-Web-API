@@ -57,7 +57,40 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
-       
+
+        [HttpPost]
+        [Route("getUserGroupsonBranch/{BranchId}")]
+        public ResponseDataModel<IEnumerable<UserGroupModel>> getUserGroupsonBranch(int BranchId)
+        {
+            List<UserGroupModel> groups = new List<UserGroupModel>();
+            try
+            {
+                groups = permissionservice.getUserGroupsonBranch(BranchId);
+                var response = new ResponseDataModel<IEnumerable<UserGroupModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = groups
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<UserGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
         [HttpPost]
         [Route("getUserGroups")]
@@ -250,6 +283,37 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+
+        [Route("MapUserGroup")]
+        public ResponseDataModel<string> MapUserGroup(MapUserGroupModel obj)
+        {
+            try
+            {
+                string retval = permissionservice.MapUserGroup(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = retval,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserPermissionController", "SaveUserGroup()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
         [Route("GetUserBranches")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<HospitalModel>> GetUserBranches([FromBody] int UserId)
@@ -281,9 +345,73 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        [Route("getUserGrouponUser")]
+        [HttpPost]
+        public ResponseDataModel<MapUserGroupModel> getUserGrouponUser([FromBody] int UserId)
+        {
+            try
+            {
+                MapUserGroupModel locations = permissionservice.getUserGrouponUser(UserId);
+                var response = new ResponseDataModel<MapUserGroupModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = locations,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserpermissionController", "GetUserLocations()");
+
+                return new ResponseDataModel<MapUserGroupModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
         [Route("GetUserLocations")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<MapLocationModel>> GetUserLocations([FromBody] int UserId)
+        {
+            try
+            {
+                List<MapLocationModel> locations = permissionservice.GetUserLocations(UserId);
+                var response = new ResponseDataModel<IEnumerable<MapLocationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = locations,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserpermissionController", "GetUserLocations()");
+
+                return new ResponseDataModel<IEnumerable<MapLocationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+        [Route("GetUserMappedGroups")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<MapLocationModel>> GetUserMappedGroups([FromBody] int UserId)
         {
             try
             {
