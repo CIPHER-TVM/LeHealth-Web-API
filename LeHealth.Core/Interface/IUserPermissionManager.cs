@@ -16,5 +16,8 @@ namespace LeHealth.Core.Interface
         List<HospitalModel> GetUserBranches(Int32 id);
         List<MapLocationModel> GetUserLocations(Int32 userId);
         string MapLocation(MapLocationModel obj);
+        string MapUserGroup(MapUserGroupModel obj);
+        List<UserGroupModel> getUserGroupsonBranch(int branchId);
+      MapUserGroupModel getUserGrouponUser(int userId);
     }
 }

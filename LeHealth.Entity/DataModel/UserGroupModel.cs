@@ -8,6 +8,7 @@ namespace LeHealth.Entity.DataModel
     {
         public int UserGroupId { get; set; }
         public string UserGroup { get; set; }
+        public int branchId { get; set; }
         public bool Active { get; set; }
         public string BlockReason { get; set; }
     }

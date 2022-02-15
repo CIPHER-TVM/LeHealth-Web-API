@@ -513,7 +513,7 @@ namespace LeHealth.Core.DataManager
                                 sgdm.id = consultantId;
                             }
                             Label lb = new Label();
-                            lb.SliceNo = dtScheduleList.Rows[j]["SliceNo"].ToString();
+                            lb.SliceNo = Convert.ToInt32(dtScheduleList.Rows[j]["SliceNo"]);
                             lb.ConsultantName = dtScheduleList.Rows[j]["ConsultantName"].ToString();
                             lb.AppId = dtScheduleList.Rows[j]["AppId"].ToString();
                             lb.AppNo = dtScheduleList.Rows[j]["AppNo"].ToString();

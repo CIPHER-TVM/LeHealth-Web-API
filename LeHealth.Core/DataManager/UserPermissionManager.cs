@@ -46,6 +46,29 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public List<UserGroupModel> getUserGroupsonBranch(int branchId)
+        {
+            List<UserGroupModel> obj = new List<UserGroupModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_getUserGroupsMasteronBranch", con))
+                {
+                    con.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_branchId", branchId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj = ds.Tables[0].ToListOfObject<UserGroupModel>();
+                    }
+                    return obj;
+                }
+            }
+        }
 
         public List<UserGroupModel> getUserGroups()
         {
@@ -84,6 +107,7 @@ namespace LeHealth.Core.DataManager
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserGroupId", obj.UserGroupId);
+                        cmd.Parameters.AddWithValue("@P_branchId", obj.branchId);
                         cmd.Parameters.AddWithValue("@P_UserGroup", obj.UserGroup);
                         cmd.Parameters.AddWithValue("@P_Active", obj.Active);
                         cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
@@ -277,6 +301,31 @@ namespace LeHealth.Core.DataManager
             }
         }
 
+
+        public MapUserGroupModel getUserGrouponUser(int userId)
+        {
+            MapUserGroupModel obj = new MapUserGroupModel();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("getUserGrouponUser", con))
+                {
+                    con.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_UserId", userId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj.Groups = ds.Tables[0].ToListOfObject<groupmap>();
+                    }
+                    return obj;
+                }
+            }
+        }
+
         public string MapLocation(MapLocationModel obj)
         {
             string response = string.Empty;
@@ -292,6 +341,48 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
                       
                         cmd.Parameters.AddWithValue("@P_Locations", json);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+
+                        response = descrip;
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+
+        public string MapUserGroup(MapUserGroupModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SaveUserGroups", con))
+                {
+                    try
+                    {
+
+                        var json = JsonConvert.SerializeObject(obj.Groups);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
+                        cmd.Parameters.AddWithValue("@P_Groups", json);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
