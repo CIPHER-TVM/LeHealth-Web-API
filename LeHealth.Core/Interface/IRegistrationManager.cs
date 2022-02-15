@@ -11,10 +11,7 @@ namespace LeHealth.Core.Interface
         string UploadPatientDocuments(PatientRegModel patientDetail);
         string ValidateHL7(string nabidh);
         List<AllPatientModel> GetAllPatient();
-        List<GenderModel> GetGender();
-        List<KinRelationModel> GetKinRelation();
-        List<MaritalStatusModel> GetMaritalStatus();
-        List<CommunicationTypeModel> GetCommunicationType();
+      
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);
         List<AllPatientModel> ViewPatientFiles(Int32 patientId);
         List<PatientModel> GetRegisteredDataById(Int32 patientId);

@@ -78,5 +78,10 @@ namespace LeHealth.Service.ServiceInterface
         List<GetNumberModel> GetNumber(string nid);
         List<ConsultantModel> ConsultantSearchWithDept(GetScheduleInputModel drsearch);
         string UpdateNumberTable(GetNumberModel sname);
+        List<GenderModel> GetGender();
+        List<KinRelationModel> GetKinRelation();
+
+        List<MaritalStatusModel> GetMaritalStatus();
+        List<CommunicationTypeModel> GetCommunicationType();
     }
 }

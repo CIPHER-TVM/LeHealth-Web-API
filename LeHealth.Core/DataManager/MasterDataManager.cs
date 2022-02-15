@@ -39,19 +39,19 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ProfId", profid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsProfession = new DataSet();
-                    adapter.Fill(dsProfession);
+                    DataTable dtProfession = new DataTable();
+                    adapter.Fill(dtProfession);
                     con.Close();
-                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
                         {
                             ProfessionModel obj = new ProfessionModel();
-                            obj.ProfId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["ProfId"]);
-                            obj.ProfName = dsProfession.Tables[0].Rows[i]["ProfName"].ToString();
-                            obj.ProfGroup = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["ProfGroup"]);
-                            obj.Active = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["IsActive"]);
-                            obj.BlockReason = dsProfession.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.ProfId = Convert.ToInt32(dtProfession.Rows[i]["ProfId"]);
+                            obj.ProfName = dtProfession.Rows[i]["ProfName"].ToString();
+                            obj.ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"]);
+                            obj.Active = Convert.ToInt32(dtProfession.Rows[i]["IsActive"]);
+                            obj.BlockReason = dtProfession.Rows[i]["BlockReason"].ToString();
                             profList.Add(obj);
                         }
                     }
@@ -106,7 +106,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        //ProfessionManagement Ends
+        //ProfessionManagement Endt
 
         //SponsorManagement Starts
         /// <summary>
@@ -126,45 +126,45 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@SponsorId", sponsorid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsProfession = new DataSet();
-                    adapter.Fill(dsProfession);
+                    DataTable dtProfession = new DataTable();
+                    adapter.Fill(dtProfession);
                     con.Close();
-                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
                         {
                             SponsorMasterModel obj = new SponsorMasterModel();
-                            obj.SponsorId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SponsorId"]);
-                            obj.SponsorName = dsProfession.Tables[0].Rows[i]["SponsorName"].ToString();
-                            obj.SponsorType = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SponsorType"]);
-                            obj.Address1 = dsProfession.Tables[0].Rows[i]["Address1"].ToString();
-                            obj.Address2 = dsProfession.Tables[0].Rows[i]["Address2"].ToString();
-                            obj.Street = dsProfession.Tables[0].Rows[i]["Street"].ToString();
-                            obj.PlacePO = dsProfession.Tables[0].Rows[i]["PlacePO"].ToString();
-                            obj.PIN = dsProfession.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.City = dsProfession.Tables[0].Rows[i]["City"].ToString();
-                            obj.State = dsProfession.Tables[0].Rows[i]["State"].ToString();
-                            obj.CountryId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["CountryId"]);
-                            obj.Phone = dsProfession.Tables[0].Rows[i]["Phone"].ToString();
-                            obj.Mobile = dsProfession.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.Email = dsProfession.Tables[0].Rows[i]["Email"].ToString();
-                            obj.Fax = dsProfession.Tables[0].Rows[i]["Fax"].ToString();
-                            obj.ContactPerson = dsProfession.Tables[0].Rows[i]["ContactPerson"].ToString();
-                            obj.DedAmount = (float)Convert.ToDouble(dsProfession.Tables[0].Rows[i]["DedAmount"].ToString());
-                            obj.CoPayPcnt = (float)Convert.ToDouble(dsProfession.Tables[0].Rows[i]["CoPayPcnt"].ToString());
-                            obj.Remarks = dsProfession.Tables[0].Rows[i]["Remarks"].ToString();
-                            obj.SFormId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SFormId"]);
-                            obj.Active = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsProfession.Tables[0].Rows[i]["BlockReason"].ToString();
-                            obj.SponsorLimit = (float)Convert.ToDouble(dsProfession.Tables[0].Rows[i]["SponsorLimit"].ToString());
-                            obj.DHANo = dsProfession.Tables[0].Rows[i]["DHANo"].ToString();
-                            obj.EnableSponsorLimit = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["EnableSponsorLimit"]);
-                            obj.EnableSponsorConsent = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["EnableSponsorConsent"]);
-                            obj.AuthorizationMode = dsProfession.Tables[0].Rows[i]["AuthorizationMode"].ToString();
-                            obj.URL = dsProfession.Tables[0].Rows[i]["URL"].ToString();
-                            obj.SortOrder = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SortOrder"]);
-                            obj.PartyId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["PartyId"]);
-                            obj.UnclaimedId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["UnclaimedId"]);
+                            obj.SponsorId = Convert.ToInt32(dtProfession.Rows[i]["SponsorId"]);
+                            obj.SponsorName = dtProfession.Rows[i]["SponsorName"].ToString();
+                            obj.SponsorType = Convert.ToInt32(dtProfession.Rows[i]["SponsorType"]);
+                            obj.Address1 = dtProfession.Rows[i]["Address1"].ToString();
+                            obj.Address2 = dtProfession.Rows[i]["Address2"].ToString();
+                            obj.Street = dtProfession.Rows[i]["Street"].ToString();
+                            obj.PlacePO = dtProfession.Rows[i]["PlacePO"].ToString();
+                            obj.PIN = dtProfession.Rows[i]["PIN"].ToString();
+                            obj.City = dtProfession.Rows[i]["City"].ToString();
+                            obj.State = dtProfession.Rows[i]["State"].ToString();
+                            obj.CountryId = Convert.ToInt32(dtProfession.Rows[i]["CountryId"]);
+                            obj.Phone = dtProfession.Rows[i]["Phone"].ToString();
+                            obj.Mobile = dtProfession.Rows[i]["Mobile"].ToString();
+                            obj.Email = dtProfession.Rows[i]["Email"].ToString();
+                            obj.Fax = dtProfession.Rows[i]["Fax"].ToString();
+                            obj.ContactPerson = dtProfession.Rows[i]["ContactPerson"].ToString();
+                            obj.DedAmount = (float)Convert.ToDouble(dtProfession.Rows[i]["DedAmount"].ToString());
+                            obj.CoPayPcnt = (float)Convert.ToDouble(dtProfession.Rows[i]["CoPayPcnt"].ToString());
+                            obj.Remarks = dtProfession.Rows[i]["Remarks"].ToString();
+                            obj.SFormId = Convert.ToInt32(dtProfession.Rows[i]["SFormId"]);
+                            obj.Active = Convert.ToInt32(dtProfession.Rows[i]["Active"]);
+                            obj.BlockReason = dtProfession.Rows[i]["BlockReason"].ToString();
+                            obj.SponsorLimit = (float)Convert.ToDouble(dtProfession.Rows[i]["SponsorLimit"].ToString());
+                            obj.DHANo = dtProfession.Rows[i]["DHANo"].ToString();
+                            obj.EnableSponsorLimit = Convert.ToInt32(dtProfession.Rows[i]["EnableSponsorLimit"]);
+                            obj.EnableSponsorConsent = Convert.ToInt32(dtProfession.Rows[i]["EnableSponsorConsent"]);
+                            obj.AuthorizationMode = dtProfession.Rows[i]["AuthorizationMode"].ToString();
+                            obj.URL = dtProfession.Rows[i]["URL"].ToString();
+                            obj.SortOrder = Convert.ToInt32(dtProfession.Rows[i]["SortOrder"]);
+                            obj.PartyId = Convert.ToInt32(dtProfession.Rows[i]["PartyId"]);
+                            obj.UnclaimedId = Convert.ToInt32(dtProfession.Rows[i]["UnclaimedId"]);
                             profList.Add(obj);
                         }
                     }
@@ -246,7 +246,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        //SponsorManagement Ends
+        //SponsorManagement Endt
 
         //SponsorType Starts
         /// <summary>
@@ -266,18 +266,18 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@STypeId", typeid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsProfession = new DataSet();
-                    adapter.Fill(dsProfession);
+                    DataTable dtProfession = new DataTable();
+                    adapter.Fill(dtProfession);
                     con.Close();
-                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
                         {
                             SponsorTypeModel obj = new SponsorTypeModel();
-                            obj.STypeId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["STypeId"]);
-                            obj.STypeDesc = dsProfession.Tables[0].Rows[i]["STypeDesc"].ToString();
-                            obj.Active = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsProfession.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.STypeId = Convert.ToInt32(dtProfession.Rows[i]["STypeId"]);
+                            obj.STypeDesc = dtProfession.Rows[i]["STypeDesc"].ToString();
+                            obj.Active = Convert.ToInt32(dtProfession.Rows[i]["Active"]);
+                            obj.BlockReason = dtProfession.Rows[i]["BlockReason"].ToString();
                             stypeList.Add(obj);
                         }
                     }
@@ -350,18 +350,18 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@SFormId", formid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsProfession = new DataSet();
+                    DataTable dsProfession = new DataTable();
                     adapter.Fill(dsProfession);
                     con.Close();
-                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    if ((dsProfession != null) && (dsProfession.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Rows.Count; i++)
                         {
                             SponsorFormModel obj = new SponsorFormModel();
-                            obj.SFormId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["SFormId"]);
-                            obj.SFormName = dsProfession.Tables[0].Rows[i]["SFormName"].ToString();
-                            obj.Active = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsProfession.Tables[0].Rows[i]["SFormName"].ToString();
+                            obj.SFormId = Convert.ToInt32(dsProfession.Rows[i]["SFormId"]);
+                            obj.SFormName = dsProfession.Rows[i]["SFormName"].ToString();
+                            obj.Active = Convert.ToInt32(dsProfession.Rows[i]["Active"]);
+                            obj.BlockReason = dsProfession.Rows[i]["SFormName"].ToString();
                             sformList.Add(obj);
                         }
                     }
@@ -437,18 +437,18 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ContentId", 0);
                     cmd.Parameters.AddWithValue("@ConsentType", 1);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsPatientList = new DataSet();
+                    DataTable dsPatientList = new DataTable();
                     adapter.Fill(dsPatientList);
                     con.Close();
 
-                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    if ((dsPatientList != null) && (dsPatientList.Rows.Count > 0))
                     {
-                        for (Int32 j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        for (Int32 j = 0; j < dsPatientList.Rows.Count; j++)
                         {
                             ConsentContentModel obj4 = new ConsentContentModel();
-                            obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
-                            obj4.CTEnglish = dsPatientList.Tables[0].Rows[j]["CTEnglish"].ToString();
-                            obj4.CTArabic = dsPatientList.Tables[0].Rows[j]["CTArabic"].ToString();
+                            obj4.ContentId = Convert.ToInt32(dsPatientList.Rows[j]["ContentId"]);
+                            obj4.CTEnglish = dsPatientList.Rows[j]["CTEnglish"].ToString();
+                            obj4.CTArabic = dsPatientList.Rows[j]["CTArabic"].ToString();
                             ccmlist.Add(obj4);
                         }
                     }
@@ -459,15 +459,15 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PatientId", patientid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsPatientList = new DataSet();
+                    DataTable dsPatientList = new DataTable();
                     adapter.Fill(dsPatientList);
                     con.Close();
-                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    if ((dsPatientList != null) && (dsPatientList.Rows.Count > 0))
                     {
-                        patientname = dsPatientList.Tables[0].Rows[0]["PatientName"].ToString();
-                        if (dsPatientList.Tables[0].Rows[0]["SignLocation"].ToString() != "")
+                        patientname = dsPatientList.Rows[0]["PatientName"].ToString();
+                        if (dsPatientList.Rows[0]["SignLocation"].ToString() != "")
                         {
-                            fileloc = _uploadpath + dsPatientList.Tables[0].Rows[0]["SignLocation"].ToString();
+                            fileloc = _uploadpath + dsPatientList.Rows[0]["SignLocation"].ToString();
                         }
 
 
@@ -498,22 +498,22 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ContentId", consentid);
                     cmd.Parameters.AddWithValue("@ConsentType", 0);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsPatientList = new DataSet();
+                    DataTable dsPatientList = new DataTable();
                     adapter.Fill(dsPatientList);
                     con.Close();
 
-                    if ((dsPatientList != null) && (dsPatientList.Tables.Count > 0) && (dsPatientList.Tables[0] != null) && (dsPatientList.Tables[0].Rows.Count > 0))
+                    if ((dsPatientList != null) && (dsPatientList.Rows.Count > 0))
                     {
-                        for (Int32 j = 0; j < dsPatientList.Tables[0].Rows.Count; j++)
+                        for (Int32 j = 0; j < dsPatientList.Rows.Count; j++)
                         {
                             ConsentContentModel obj4 = new ConsentContentModel();
-                            obj4.ContentId = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["ContentId"]);
-                            obj4.CTEnglish = dsPatientList.Tables[0].Rows[j]["CTEnglish"].ToString();
-                            obj4.CTArabic = dsPatientList.Tables[0].Rows[j]["CTArabic"].ToString();
-                            obj4.DisplayOrder = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["DisplayOrder"]);
-                            obj4.CType = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["CType"]);
-                            obj4.Active = Convert.ToInt32(dsPatientList.Tables[0].Rows[j]["Active"]);
-                            obj4.BlockReason = dsPatientList.Tables[0].Rows[j]["BlockReason"].ToString();
+                            obj4.ContentId = Convert.ToInt32(dsPatientList.Rows[j]["ContentId"]);
+                            obj4.CTEnglish = dsPatientList.Rows[j]["CTEnglish"].ToString();
+                            obj4.CTArabic = dsPatientList.Rows[j]["CTArabic"].ToString();
+                            obj4.DisplayOrder = Convert.ToInt32(dsPatientList.Rows[j]["DisplayOrder"]);
+                            obj4.CType = Convert.ToInt32(dsPatientList.Rows[j]["CType"]);
+                            obj4.Active = Convert.ToInt32(dsPatientList.Rows[j]["Active"]);
+                            obj4.BlockReason = dsPatientList.Rows[j]["BlockReason"].ToString();
                             ccmlist.Add(obj4);
                         }
                     }
@@ -586,11 +586,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CountryId", countryDetails);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dscontryList = new DataSet();
+                    DataTable dscontryList = new DataTable();
                     adapter.Fill(dscontryList);
                     con.Close();
-                    if ((dscontryList != null) && (dscontryList.Tables.Count > 0) && (dscontryList.Tables[0] != null) && (dscontryList.Tables[0].Rows.Count > 0))
-                        countryList = dscontryList.Tables[0].ToListOfObject<CountryModel>();
+                    if ((dscontryList != null) && (dscontryList.Rows.Count > 0))
+                        countryList = dscontryList.ToListOfObject<CountryModel>();
                     return countryList;
                 }
             }
@@ -662,11 +662,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@StateId", stateId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
+                    DataTable dtStateList = new DataTable();
+                    adapter.Fill(dtStateList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        countryList = dsStateList.Tables[0].ToListOfObject<StateModel>();
+                    if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
+                        countryList = dtStateList.ToListOfObject<StateModel>();
                     return countryList;
                 }
             }
@@ -737,11 +737,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@SalutationId", salutationDetails);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dssalutationList = new DataSet();
-                    adapter.Fill(dssalutationList);
+                    DataTable dtsalutationList = new DataTable();
+                    adapter.Fill(dtsalutationList);
                     con.Close();
-                    if ((dssalutationList != null) && (dssalutationList.Tables.Count > 0) && (dssalutationList.Tables[0] != null) && (dssalutationList.Tables[0].Rows.Count > 0))
-                        countryList = dssalutationList.Tables[0].ToListOfObject<SalutationModel>();
+                    if ((dtsalutationList != null) && (dtsalutationList.Rows.Count > 0))
+                        countryList = dtsalutationList.ToListOfObject<SalutationModel>();
                     return countryList;
                 }
             }
@@ -810,11 +810,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BodyId", salutationDetails);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dscontryList = new DataSet();
-                    adapter.Fill(dscontryList);
+                    DataTable dtbodypartList = new DataTable();
+                    adapter.Fill(dtbodypartList);
                     con.Close();
-                    if ((dscontryList != null) && (dscontryList.Tables.Count > 0) && (dscontryList.Tables[0] != null) && (dscontryList.Tables[0].Rows.Count > 0))
-                        countryList = dscontryList.Tables[0].ToListOfObject<BodyPartModel>();
+                    if ((dtbodypartList != null) && (dtbodypartList.Rows.Count > 0))
+                        countryList = dtbodypartList.ToListOfObject<BodyPartModel>();
                     return countryList;
                 }
             }
@@ -930,11 +930,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@zoneId", zoneId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsZoneList = new DataSet();
-                    adapter.Fill(dsZoneList);
+                    DataTable dtZoneList = new DataTable();
+                    adapter.Fill(dtZoneList);
                     con.Close();
-                    if ((dsZoneList != null) && (dsZoneList.Tables.Count > 0) && (dsZoneList.Tables[0] != null) && (dsZoneList.Tables[0].Rows.Count > 0))
-                        zoneList = dsZoneList.Tables[0].ToListOfObject<ZoneModel>();
+                    if ((dtZoneList != null) && (dtZoneList.Rows.Count > 0))
+                        zoneList = dtZoneList.ToListOfObject<ZoneModel>();
                     return zoneList;
                 }
             }
@@ -955,22 +955,22 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@DeptId", DeptId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((dt != null) && (dt.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dt.Rows.Count; i++)
                         {
                             DepartmentModel obj = new DepartmentModel();
-                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
-                            obj.DeptName = ds.Tables[0].Rows[i]["DeptName"].ToString();
-                            obj.DeptCode = ds.Tables[0].Rows[i]["DeptCode"].ToString();
-                            obj.Description = ds.Tables[0].Rows[i]["Description"].ToString();
-                            obj.BranchId = Convert.ToInt32(ds.Tables[0].Rows[i]["BranchId"]);
-                            obj.TimeSlice = Convert.ToInt32(ds.Tables[0].Rows[i]["TimeSlice"]);
-                            obj.Active = Convert.ToInt32(ds.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]);
+                            obj.DeptName = dt.Rows[i]["DeptName"].ToString();
+                            obj.DeptCode = dt.Rows[i]["DeptCode"].ToString();
+                            obj.Description = dt.Rows[i]["Description"].ToString();
+                            obj.BranchId = Convert.ToInt32(dt.Rows[i]["BranchId"]);
+                            obj.TimeSlice = Convert.ToInt32(dt.Rows[i]["TimeSlice"]);
+                            obj.Active = Convert.ToInt32(dt.Rows[i]["Active"]);
+                            obj.BlockReason = dt.Rows[i]["BlockReason"].ToString();
                             departmentlist.Add(obj);
                         }
                     }
@@ -1043,17 +1043,17 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@HospitalId", HospId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((dt != null) && (dt.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dt.Rows.Count; i++)
                         {
                             DepartmentModel obj = new DepartmentModel();
-                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
-                            obj.DeptName = ds.Tables[0].Rows[i]["DeptName"].ToString();
-                            obj.DeptCode = ds.Tables[0].Rows[i]["DeptCode"].ToString();
+                            obj.DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]);
+                            obj.DeptName = dt.Rows[i]["DeptName"].ToString();
+                            obj.DeptCode = dt.Rows[i]["DeptCode"].ToString();
                             departmentlist.Add(obj);
                         }
                     }
@@ -1144,38 +1144,38 @@ namespace LeHealth.Core.DataManager
 
                     cmd.Parameters.AddWithValue("@ItemId", RegSchemeId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsRegSchemeList = new DataSet();
-                    adapter.Fill(dsRegSchemeList);
+                    DataTable dtRegSchemeList = new DataTable();
+                    adapter.Fill(dtRegSchemeList);
                     con.Close();
-                    if ((dsRegSchemeList != null) && (dsRegSchemeList.Tables.Count > 0) && (dsRegSchemeList.Tables[0] != null) && (dsRegSchemeList.Tables[0].Rows.Count > 0))
+                    if ((dtRegSchemeList != null) && (dtRegSchemeList.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsRegSchemeList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtRegSchemeList.Rows.Count; i++)
                         {
                             RegSchemeModel obj = new RegSchemeModel();
-                            obj.ItemId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ItemId"]);
-                            obj.ItemCode = dsRegSchemeList.Tables[0].Rows[i]["ItemCode"].ToString();
-                            obj.ItemName = dsRegSchemeList.Tables[0].Rows[i]["ItemName"].ToString();
-                            obj.GroupId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["GroupId"]);
-                            obj.ValidityDays = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ValidityDays"]);
-                            obj.ValidityVisits = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ValidityVisits"]);
-                            obj.AllowRateEdit = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowRateEdit"]);
-                            obj.AllowDisc = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowDisc"]);
-                            obj.AllowPP = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowPP"]);
-                            obj.IsVSign = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["IsVSign"]);
-                            obj.ResultOn = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ResultOn"]);
-                            obj.STypeId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["STypeId"]);
-                            obj.TotalTaxPcnt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["TotalTaxPcnt"]);
-                            obj.AllowCommission = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["AllowCommission"]);
-                            obj.CommPcnt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CommPcnt"]);
-                            obj.CommAmt = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CommAmt"]);
-                            obj.MaterialCost = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["MaterialCost"]);
-                            obj.BaseCost = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["BaseCost"]);
-                            obj.HeadId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["HeadId"]);
-                            obj.SortOrder = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["SortOrder"]);
-                            obj.Active = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsRegSchemeList.Tables[0].Rows[i]["BlockReason"].ToString();
-                            obj.CPTCodeId = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["CPTCodeId"]);
-                            obj.ExternalItem = Convert.ToInt32(dsRegSchemeList.Tables[0].Rows[i]["ExternalItem"]);
+                            obj.ItemId = Convert.ToInt32(dtRegSchemeList.Rows[i]["ItemId"]);
+                            obj.ItemCode = dtRegSchemeList.Rows[i]["ItemCode"].ToString();
+                            obj.ItemName = dtRegSchemeList.Rows[i]["ItemName"].ToString();
+                            obj.GroupId = Convert.ToInt32(dtRegSchemeList.Rows[i]["GroupId"]);
+                            obj.ValidityDays = Convert.ToInt32(dtRegSchemeList.Rows[i]["ValidityDays"]);
+                            obj.ValidityVisits = Convert.ToInt32(dtRegSchemeList.Rows[i]["ValidityVisits"]);
+                            obj.AllowRateEdit = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowRateEdit"]);
+                            obj.AllowDisc = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowDisc"]);
+                            obj.AllowPP = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowPP"]);
+                            obj.IsVSign = Convert.ToInt32(dtRegSchemeList.Rows[i]["IsVSign"]);
+                            obj.ResultOn = Convert.ToInt32(dtRegSchemeList.Rows[i]["ResultOn"]);
+                            obj.STypeId = Convert.ToInt32(dtRegSchemeList.Rows[i]["STypeId"]);
+                            obj.TotalTaxPcnt = Convert.ToInt32(dtRegSchemeList.Rows[i]["TotalTaxPcnt"]);
+                            obj.AllowCommission = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowCommission"]);
+                            obj.CommPcnt = Convert.ToInt32(dtRegSchemeList.Rows[i]["CommPcnt"]);
+                            obj.CommAmt = Convert.ToInt32(dtRegSchemeList.Rows[i]["CommAmt"]);
+                            obj.MaterialCost = Convert.ToInt32(dtRegSchemeList.Rows[i]["MaterialCost"]);
+                            obj.BaseCost = Convert.ToInt32(dtRegSchemeList.Rows[i]["BaseCost"]);
+                            obj.HeadId = Convert.ToInt32(dtRegSchemeList.Rows[i]["HeadId"]);
+                            obj.SortOrder = Convert.ToInt32(dtRegSchemeList.Rows[i]["SortOrder"]);
+                            obj.Active = Convert.ToInt32(dtRegSchemeList.Rows[i]["Active"]);
+                            obj.BlockReason = dtRegSchemeList.Rows[i]["BlockReason"].ToString();
+                            obj.CPTCodeId = Convert.ToInt32(dtRegSchemeList.Rows[i]["CPTCodeId"]);
+                            obj.ExternalItem = Convert.ToInt32(dtRegSchemeList.Rows[i]["ExternalItem"]);
                             regSchemeList.Add(obj);
                         }
                     }
@@ -1250,21 +1250,21 @@ namespace LeHealth.Core.DataManager
 
                     cmd.Parameters.AddWithValue("@RGroupId", RateGroupId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
+                    DataTable dtStateList = new DataTable();
+                    adapter.Fill(dtStateList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                    if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtStateList.Rows.Count; i++)
                         {
                             RateGroupModel obj = new RateGroupModel();
-                            obj.RGroupId = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["RGroupId"]);
-                            obj.RGroupName = dsStateList.Tables[0].Rows[i]["RGroupName"].ToString();
-                            obj.Description = dsStateList.Tables[0].Rows[i]["Description"].ToString();
-                            obj.EffectFrom = dsStateList.Tables[0].Rows[i]["EffectFrom"].ToString();
-                            obj.EffectTo = dsStateList.Tables[0].Rows[i]["EffectTo"].ToString();
-                            obj.Active = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsStateList.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.RGroupId = Convert.ToInt32(dtStateList.Rows[i]["RGroupId"]);
+                            obj.RGroupName = dtStateList.Rows[i]["RGroupName"].ToString();
+                            obj.Description = dtStateList.Rows[i]["Description"].ToString();
+                            obj.EffectFrom = dtStateList.Rows[i]["EffectFrom"].ToString();
+                            obj.EffectTo = dtStateList.Rows[i]["EffectTo"].ToString();
+                            obj.Active = Convert.ToInt32(dtStateList.Rows[i]["Active"]);
+                            obj.BlockReason = dtStateList.Rows[i]["BlockReason"].ToString();
                             stateList.Add(obj);
                         }
                     }
@@ -1291,40 +1291,40 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@HospitalId", id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsHospitalList = new DataSet();
+                    DataTable dsHospitalList = new DataTable();
                     adapter.Fill(dsHospitalList);
                     con.Close();
-                    if ((dsHospitalList != null) && (dsHospitalList.Tables.Count > 0) && (dsHospitalList.Tables[0] != null) && (dsHospitalList.Tables[0].Rows.Count > 0))
+                    if ((dsHospitalList != null) && (dsHospitalList.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsHospitalList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsHospitalList.Rows.Count; i++)
                         {
                             HospitalModel obj = new HospitalModel();
-                            obj.HospitalId = Convert.ToInt32(dsHospitalList.Tables[0].Rows[i]["HospitalId"]);
-                            obj.HospitalName = dsHospitalList.Tables[0].Rows[i]["HospitalName"].ToString();
-                            obj.HospitalCode = dsHospitalList.Tables[0].Rows[i]["HospitalCode"].ToString();
-                            obj.Caption = dsHospitalList.Tables[0].Rows[i]["Caption"].ToString();
-                            obj.Address1 = dsHospitalList.Tables[0].Rows[i]["Address1"].ToString();
-                            obj.Address2 = dsHospitalList.Tables[0].Rows[i]["Address2"].ToString();
-                            obj.Street = dsHospitalList.Tables[0].Rows[i]["Street"].ToString();
-                            obj.PlacePO = dsHospitalList.Tables[0].Rows[i]["PlacePO"].ToString();
-                            obj.PIN = dsHospitalList.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.City = dsHospitalList.Tables[0].Rows[i]["City"].ToString();
-                            obj.State = Convert.ToInt32(dsHospitalList.Tables[0].Rows[i]["State"]);
-                            obj.Country = Convert.ToInt32(dsHospitalList.Tables[0].Rows[i]["Country"]);
-                            obj.Phone = dsHospitalList.Tables[0].Rows[i]["Phone"].ToString();
-                            obj.Fax = dsHospitalList.Tables[0].Rows[i]["Fax"].ToString();
-                            obj.Email = dsHospitalList.Tables[0].Rows[i]["Email"].ToString();
-                            obj.URL = dsHospitalList.Tables[0].Rows[i]["URL"].ToString();
-                            obj.Logo = dsHospitalList.Tables[0].Rows[i]["Logo"].ToString();
-                            obj.ReportLogo = dsHospitalList.Tables[0].Rows[i]["ReportLogo"].ToString();
-                            obj.ClinicId = dsHospitalList.Tables[0].Rows[i]["ClinicId"].ToString();
-                            obj.DHAFacilityId = dsHospitalList.Tables[0].Rows[i]["DHAFacilityId"].ToString();
-                            obj.DHAUserName = dsHospitalList.Tables[0].Rows[i]["DHAFacilityId"].ToString();
-                            obj.DHAPassword = dsHospitalList.Tables[0].Rows[i]["DHAFacilityId"].ToString();
-                            obj.SR_ID = dsHospitalList.Tables[0].Rows[i]["SR_ID"].ToString();
-                            obj.MalaffiSystemcode = dsHospitalList.Tables[0].Rows[i]["MalaffiSystemcode"].ToString();
-                            obj.Active = Convert.ToInt32(dsHospitalList.Tables[0].Rows[i]["IsActive"]);
-                            obj.BlockReason = dsHospitalList.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.HospitalId = Convert.ToInt32(dsHospitalList.Rows[i]["HospitalId"]);
+                            obj.HospitalName = dsHospitalList.Rows[i]["HospitalName"].ToString();
+                            obj.HospitalCode = dsHospitalList.Rows[i]["HospitalCode"].ToString();
+                            obj.Caption = dsHospitalList.Rows[i]["Caption"].ToString();
+                            obj.Address1 = dsHospitalList.Rows[i]["Address1"].ToString();
+                            obj.Address2 = dsHospitalList.Rows[i]["Address2"].ToString();
+                            obj.Street = dsHospitalList.Rows[i]["Street"].ToString();
+                            obj.PlacePO = dsHospitalList.Rows[i]["PlacePO"].ToString();
+                            obj.PIN = dsHospitalList.Rows[i]["PIN"].ToString();
+                            obj.City = dsHospitalList.Rows[i]["City"].ToString();
+                            obj.State = Convert.ToInt32(dsHospitalList.Rows[i]["State"]);
+                            obj.Country = Convert.ToInt32(dsHospitalList.Rows[i]["Country"]);
+                            obj.Phone = dsHospitalList.Rows[i]["Phone"].ToString();
+                            obj.Fax = dsHospitalList.Rows[i]["Fax"].ToString();
+                            obj.Email = dsHospitalList.Rows[i]["Email"].ToString();
+                            obj.URL = dsHospitalList.Rows[i]["URL"].ToString();
+                            obj.Logo = dsHospitalList.Rows[i]["Logo"].ToString();
+                            obj.ReportLogo = dsHospitalList.Rows[i]["ReportLogo"].ToString();
+                            obj.ClinicId = dsHospitalList.Rows[i]["ClinicId"].ToString();
+                            obj.DHAFacilityId = dsHospitalList.Rows[i]["DHAFacilityId"].ToString();
+                            obj.DHAUserName = dsHospitalList.Rows[i]["DHAFacilityId"].ToString();
+                            obj.DHAPassword = dsHospitalList.Rows[i]["DHAFacilityId"].ToString();
+                            obj.SR_ID = dsHospitalList.Rows[i]["SR_ID"].ToString();
+                            obj.MalaffiSystemcode = dsHospitalList.Rows[i]["MalaffiSystemcode"].ToString();
+                            obj.Active = Convert.ToInt32(dsHospitalList.Rows[i]["IsActive"]);
+                            obj.BlockReason = dsHospitalList.Rows[i]["BlockReason"].ToString();
                             hospitalList.Add(obj);
                         }
                     }
@@ -1511,19 +1511,19 @@ namespace LeHealth.Core.DataManager
 
                     cmd.Parameters.AddWithValue("@Id", OperatorId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
+                    DataTable dsStateList = new DataTable();
                     adapter.Fill(dsStateList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
+                    if ((dsStateList != null) && (dsStateList.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsStateList.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsStateList.Rows.Count; i++)
                         {
                             OperatorModel obj = new OperatorModel();
-                            obj.Id = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["Id"]);
-                            obj.OperatorName = dsStateList.Tables[0].Rows[i]["OperatorName"].ToString();
-                            obj.OperatorCode = dsStateList.Tables[0].Rows[i]["OperatorCode"].ToString();
-                            obj.Active = Convert.ToInt32(dsStateList.Tables[0].Rows[i]["IsActive"]);
-                            obj.BlockReason = dsStateList.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.Id = Convert.ToInt32(dsStateList.Rows[i]["Id"]);
+                            obj.OperatorName = dsStateList.Rows[i]["OperatorName"].ToString();
+                            obj.OperatorCode = dsStateList.Rows[i]["OperatorCode"].ToString();
+                            obj.Active = Convert.ToInt32(dsStateList.Rows[i]["IsActive"]);
+                            obj.BlockReason = dsStateList.Rows[i]["BlockReason"].ToString();
                             stateList.Add(obj);
                         }
                     }
@@ -1549,20 +1549,20 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@LeadAgentId", la);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
+                    DataTable dsNumber = new DataTable();
                     adapter.Fill(dsNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                         {
                             LeadAgentModel obj = new LeadAgentModel();
-                            obj.LeadAgentId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LeadAgentId"]);
-                            obj.Name = dsNumber.Tables[0].Rows[i]["Name"].ToString();
-                            obj.ContactNo = dsNumber.Tables[0].Rows[i]["ContactNo"].ToString();
-                            obj.CommisionPercent = (float)Convert.ToDouble(dsNumber.Tables[0].Rows[i]["CommisionPercent"].ToString());
-                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.LeadAgentId = Convert.ToInt32(dsNumber.Rows[i]["LeadAgentId"]);
+                            obj.Name = dsNumber.Rows[i]["Name"].ToString();
+                            obj.ContactNo = dsNumber.Rows[i]["ContactNo"].ToString();
+                            obj.CommisionPercent = (float)Convert.ToDouble(dsNumber.Rows[i]["CommisionPercent"].ToString());
+                            obj.Active = Convert.ToInt32(dsNumber.Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Rows[i]["BlockReason"].ToString();
                             itemList.Add(obj);
                         }
                     }
@@ -1635,18 +1635,18 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CmpId", Id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsCompany = new DataSet();
+                    DataTable dsCompany = new DataTable();
                     adapter.Fill(dsCompany);
                     con.Close();
-                    if ((dsCompany != null) && (dsCompany.Tables.Count > 0) && (dsCompany.Tables[0] != null) && (dsCompany.Tables[0].Rows.Count > 0))
+                    if ((dsCompany != null) && (dsCompany.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsCompany.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsCompany.Rows.Count; i++)
                         {
                             CompanyModel obj = new CompanyModel();
-                            obj.CmpId = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["CmpId"]);
-                            obj.CmpName = dsCompany.Tables[0].Rows[i]["CmpName"].ToString();
-                            obj.Active = Convert.ToInt32(dsCompany.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsCompany.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.CmpId = Convert.ToInt32(dsCompany.Rows[i]["CmpId"]);
+                            obj.CmpName = dsCompany.Rows[i]["CmpName"].ToString();
+                            obj.Active = Convert.ToInt32(dsCompany.Rows[i]["Active"]);
+                            obj.BlockReason = dsCompany.Rows[i]["BlockReason"].ToString();
                             companyList.Add(obj);
                         }
                     }
@@ -1719,19 +1719,19 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CityId", cityid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsProfession = new DataSet();
+                    DataTable dsProfession = new DataTable();
                     adapter.Fill(dsProfession);
                     con.Close();
-                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    if ((dsProfession != null) && (dsProfession.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Rows.Count; i++)
                         {
                             CityModel obj = new CityModel();
-                            obj.CityId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["CityId"]);
-                            obj.CityName = dsProfession.Tables[0].Rows[i]["CityName"].ToString();
-                            obj.StateId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["StateId"]);
-                            obj.CountryId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["CountryId"]);
-                            obj.CountryName = dsProfession.Tables[0].Rows[i]["CountryName"].ToString();
+                            obj.CityId = Convert.ToInt32(dsProfession.Rows[i]["CityId"]);
+                            obj.CityName = dsProfession.Rows[i]["CityName"].ToString();
+                            obj.StateId = Convert.ToInt32(dsProfession.Rows[i]["StateId"]);
+                            obj.CountryId = Convert.ToInt32(dsProfession.Rows[i]["CountryId"]);
+                            obj.CountryName = dsProfession.Rows[i]["CountryName"].ToString();
                             cityList.Add(obj);
                         }
                     }
@@ -1846,11 +1846,11 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsSymptomList = new DataSet();
+                    DataTable dsSymptomList = new DataTable();
                     adapter.Fill(dsSymptomList);
                     con.Close();
-                    if ((dsSymptomList != null) && (dsSymptomList.Tables.Count > 0) && (dsSymptomList.Tables[0] != null) && (dsSymptomList.Tables[0].Rows.Count > 0))
-                        stateList = dsSymptomList.Tables[0].ToListOfObject<SymptomModel>();
+                    if ((dsSymptomList != null) && (dsSymptomList.Rows.Count > 0))
+                        stateList = dsSymptomList.ToListOfObject<SymptomModel>();
                     return stateList;
                 }
             }
@@ -1926,11 +1926,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@SignId", Id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsVitalSignList = new DataSet();
+                    DataTable dsVitalSignList = new DataTable();
                     adapter.Fill(dsVitalSignList);
                     con.Close();
-                    if ((dsVitalSignList != null) && (dsVitalSignList.Tables.Count > 0) && (dsVitalSignList.Tables[0] != null) && (dsVitalSignList.Tables[0].Rows.Count > 0))
-                        vitalSignList = dsVitalSignList.Tables[0].ToListOfObject<VitalSignModel>();
+                    if ((dsVitalSignList != null) && (dsVitalSignList.Rows.Count > 0))
+                        vitalSignList = dsVitalSignList.ToListOfObject<VitalSignModel>();
                     return vitalSignList;
                 }
             }
@@ -1998,11 +1998,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@MovementId", Id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsMovementList = new DataSet();
+                    DataTable dsMovementList = new DataTable();
                     adapter.Fill(dsMovementList);
                     con.Close();
-                    if ((dsMovementList != null) && (dsMovementList.Tables.Count > 0) && (dsMovementList.Tables[0] != null) && (dsMovementList.Tables[0].Rows.Count > 0))
-                        vitalSignList = dsMovementList.Tables[0].ToListOfObject<MovementModel>();
+                    if ((dsMovementList != null) && (dsMovementList.Rows.Count > 0))
+                        vitalSignList = dsMovementList.ToListOfObject<MovementModel>();
                     return vitalSignList;
                 }
             }
@@ -2026,22 +2026,22 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PackId", la);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
+                    DataTable dsNumber = new DataTable();
                     adapter.Fill(dsNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                         {
                             PackageModel obj = new PackageModel();
-                            obj.PackId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["PackId"]);
-                            obj.PackDesc = dsNumber.Tables[0].Rows[i]["PackDesc"].ToString();
-                            obj.EffectFrom = dsNumber.Tables[0].Rows[i]["EffectFrom"].ToString();
-                            obj.EffectTo = dsNumber.Tables[0].Rows[i]["EffectTo"].ToString();
-                            obj.PackAmount = (float)Convert.ToDouble(dsNumber.Tables[0].Rows[i]["PackAmount"].ToString());
-                            obj.Remarks = dsNumber.Tables[0].Rows[i]["Remarks"].ToString();
-                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]);
+                            obj.PackDesc = dsNumber.Rows[i]["PackDesc"].ToString();
+                            obj.EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString();
+                            obj.EffectTo = dsNumber.Rows[i]["EffectTo"].ToString();
+                            obj.PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString());
+                            obj.Remarks = dsNumber.Rows[i]["Remarks"].ToString();
+                            obj.Active = Convert.ToInt32(dsNumber.Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Rows[i]["BlockReason"].ToString();
                             itemList.Add(obj);
                         }
                     }
@@ -2118,32 +2118,32 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@LocationId", la);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
+                    DataTable dsNumber = new DataTable();
                     adapter.Fill(dsNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                         {
                             LocationModel obj = new LocationModel();
-                            obj.LocationId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LocationId"]);
-                            obj.LocationName = dsNumber.Tables[0].Rows[i]["LocationName"].ToString();
-                            obj.Supervisor = dsNumber.Tables[0].Rows[i]["Supervisor"].ToString();
-                            obj.ContactNumber = dsNumber.Tables[0].Rows[i]["ContactNumber"].ToString();
-                            obj.LTypeId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["LTypeId"]);
-                            obj.ManageSPoints = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageSPoints"]);
-                            obj.ManageBilling = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageBilling"]);
-                            obj.ManageCash = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageCash"]);
-                            obj.ManageCredit = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageCredit"]);
-                            obj.ManageIPCredit = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["ManageIPCredit"]);
-                            obj.Active = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
-                            obj.RepHeadImg = dsNumber.Tables[0].Rows[i]["RepHeadImg"].ToString();
-                            obj.HospitalId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["HospitalId"]);
-                            obj.HospitalName = dsNumber.Tables[0].Rows[i]["HospitalName"].ToString();
-                            //obj.PackAmount = (float)Convert.ToDouble(dsNumber.Tables[0].Rows[i]["PackAmount"].ToString());
-                            obj.Active = Convert.ToBoolean(dsNumber.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.LocationId = Convert.ToInt32(dsNumber.Rows[i]["LocationId"]);
+                            obj.LocationName = dsNumber.Rows[i]["LocationName"].ToString();
+                            obj.Supervisor = dsNumber.Rows[i]["Supervisor"].ToString();
+                            obj.ContactNumber = dsNumber.Rows[i]["ContactNumber"].ToString();
+                            obj.LTypeId = Convert.ToInt32(dsNumber.Rows[i]["LTypeId"]);
+                            obj.ManageSPoints = Convert.ToBoolean(dsNumber.Rows[i]["ManageSPoints"]);
+                            obj.ManageBilling = Convert.ToBoolean(dsNumber.Rows[i]["ManageBilling"]);
+                            obj.ManageCash = Convert.ToBoolean(dsNumber.Rows[i]["ManageCash"]);
+                            obj.ManageCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageCredit"]);
+                            obj.ManageIPCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageIPCredit"]);
+                            obj.Active = Convert.ToBoolean(dsNumber.Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Rows[i]["BlockReason"].ToString();
+                            obj.RepHeadImg = dsNumber.Rows[i]["RepHeadImg"].ToString();
+                            obj.HospitalId = Convert.ToInt32(dsNumber.Rows[i]["HospitalId"]);
+                            obj.HospitalName = dsNumber.Rows[i]["HospitalName"].ToString();
+                            //obj.PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString());
+                            obj.Active = Convert.ToBoolean(dsNumber.Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Rows[i]["BlockReason"].ToString();
                             itemList.Add(obj);
                         }
                     }
@@ -2225,19 +2225,19 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ScientificId", la);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
+                    DataTable dsNumber = new DataTable();
                     adapter.Fill(dsNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                         {
                             ScientificNameModel obj = new ScientificNameModel();
-                            obj.ScientificId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ScientificId"]);
-                            obj.ScientificCode = dsNumber.Tables[0].Rows[i]["ScientificCode"].ToString();
-                            obj.ScientificName = dsNumber.Tables[0].Rows[i]["ScientificName"].ToString();
-                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
-                            //obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.ScientificId = Convert.ToInt32(dsNumber.Rows[i]["ScientificId"]);
+                            obj.ScientificCode = dsNumber.Rows[i]["ScientificCode"].ToString();
+                            obj.ScientificName = dsNumber.Rows[i]["ScientificName"].ToString();
+                            obj.Active = Convert.ToInt32(dsNumber.Rows[i]["Active"]);
+                            //obj.BlockReason = dsNumber.Rows[i]["BlockReason"].ToString();
                             itemList.Add(obj);
                         }
                     }
@@ -2308,18 +2308,18 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@TendernId", tendernessid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
+                    DataTable dsNumber = new DataTable();
                     adapter.Fill(dsNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                         {
                             TendernModel obj = new TendernModel();
-                            obj.TendernId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["TendernId"]);
-                            obj.TendernDesc = dsNumber.Tables[0].Rows[i]["TendernDesc"].ToString();
-                            obj.Active = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Active"]);
-                            obj.BlockReason = dsNumber.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.TendernId = Convert.ToInt32(dsNumber.Rows[i]["TendernId"]);
+                            obj.TendernDesc = dsNumber.Rows[i]["TendernDesc"].ToString();
+                            obj.Active = Convert.ToInt32(dsNumber.Rows[i]["Active"]);
+                            obj.BlockReason = dsNumber.Rows[i]["BlockReason"].ToString();
                             itemList.Add(obj);
                         }
                     }
@@ -2391,11 +2391,11 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsReligionList = new DataSet();
+                    DataTable dsReligionList = new DataTable();
                     adapter.Fill(dsReligionList);
                     con.Close();
-                    if ((dsReligionList != null) && (dsReligionList.Tables.Count > 0) && (dsReligionList.Tables[0] != null) && (dsReligionList.Tables[0].Rows.Count > 0))
-                        religionList = dsReligionList.Tables[0].ToListOfObject<ReligionModel>();
+                    if ((dsReligionList != null) && (dsReligionList.Rows.Count > 0))
+                        religionList = dsReligionList.ToListOfObject<ReligionModel>();
                     return religionList;
                 }
             }
@@ -2415,17 +2415,17 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsProfession = new DataSet();
+                    DataTable dsProfession = new DataTable();
                     adapter.Fill(dsProfession);
                     con.Close();
-                    if ((dsProfession != null) && (dsProfession.Tables.Count > 0) && (dsProfession.Tables[0] != null) && (dsProfession.Tables[0].Rows.Count > 0))
+                    if ((dsProfession != null) && (dsProfession.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsProfession.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dsProfession.Rows.Count; i++)
                         {
                             AppTypeModel obj = new AppTypeModel();
-                            obj.AppTypeId = Convert.ToInt32(dsProfession.Tables[0].Rows[i]["AppTypeId"]);
-                            obj.AppCode = dsProfession.Tables[0].Rows[i]["AppCode"].ToString();
-                            obj.AppDesc = dsProfession.Tables[0].Rows[i]["AppDesc"].ToString();
+                            obj.AppTypeId = Convert.ToInt32(dsProfession.Rows[i]["AppTypeId"]);
+                            obj.AppCode = dsProfession.Rows[i]["AppCode"].ToString();
+                            obj.AppDesc = dsProfession.Rows[i]["AppDesc"].ToString();
                             profList.Add(obj);
                         }
                     }
@@ -2449,12 +2449,12 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsVisaTypeList = new DataSet();
-                    adapter.Fill(dsVisaTypeList);
+                    DataTable dtVisaTypeList = new DataTable();
+                    adapter.Fill(dtVisaTypeList);
                     con.Close();
 
-                    if ((dsVisaTypeList != null) && (dsVisaTypeList.Tables.Count > 0) && (dsVisaTypeList.Tables[0] != null) && (dsVisaTypeList.Tables[0].Rows.Count > 0))
-                        schemeList = dsVisaTypeList.Tables[0].ToListOfObject<VisaTypeModel>();
+                    if ((dtVisaTypeList != null) && (dtVisaTypeList.Rows.Count > 0))
+                        schemeList = dtVisaTypeList.ToListOfObject<VisaTypeModel>();
                     return schemeList;
                 }
             }
@@ -2477,11 +2477,11 @@ namespace LeHealth.Core.DataManager
 
                     cmd.Parameters.AddWithValue("@CountryId", countryId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsStateList = new DataSet();
-                    adapter.Fill(dsStateList);
+                    DataTable dtStateList = new DataTable();
+                    adapter.Fill(dtStateList);
                     con.Close();
-                    if ((dsStateList != null) && (dsStateList.Tables.Count > 0) && (dsStateList.Tables[0] != null) && (dsStateList.Tables[0].Rows.Count > 0))
-                        stateList = dsStateList.Tables[0].ToListOfObject<StateModel>();
+                    if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
+                        stateList = dtStateList.ToListOfObject<StateModel>();
                     return stateList;
                 }
             }
@@ -2503,19 +2503,19 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
-                    adapter.Fill(dsNumber);
+                    DataTable dtNumber = new DataTable();
+                    adapter.Fill(dtNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                         {
                             ItemsByTypeModel obj = new ItemsByTypeModel();
-                            obj.ItemId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["ItemId"]);
-                            obj.ItemCode = dsNumber.Tables[0].Rows[i]["ItemCode"].ToString();
-                            obj.ItemName = dsNumber.Tables[0].Rows[i]["ItemName"].ToString();
-                            obj.GroupId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["GroupId"]);
-                            obj.GroupCode = dsNumber.Tables[0].Rows[i]["GroupCode"].ToString();
+                            obj.ItemId = Convert.ToInt32(dtNumber.Rows[i]["ItemId"]);
+                            obj.ItemCode = dtNumber.Rows[i]["ItemCode"].ToString();
+                            obj.ItemName = dtNumber.Rows[i]["ItemName"].ToString();
+                            obj.GroupId = Convert.ToInt32(dtNumber.Rows[i]["GroupId"]);
+                            obj.GroupCode = dtNumber.Rows[i]["GroupCode"].ToString();
                             itemList.Add(obj);
                         }
                     }
@@ -2538,17 +2538,17 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
-                    adapter.Fill(dsNumber);
+                    DataTable dtNumber = new DataTable();
+                    adapter.Fill(dtNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                         {
                             ConsentTypeModel obj = new ConsentTypeModel();
-                            obj.Id = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Id"]);
-                            obj.ConsentType = dsNumber.Tables[0].Rows[i]["ConsentType"].ToString();
-                            obj.ConsentTypeCode = dsNumber.Tables[0].Rows[i]["ConsentTypeCode"].ToString();
+                            obj.Id = Convert.ToInt32(dtNumber.Rows[i]["Id"]);
+                            obj.ConsentType = dtNumber.Rows[i]["ConsentType"].ToString();
+                            obj.ConsentTypeCode = dtNumber.Rows[i]["ConsentTypeCode"].ToString();
                             consentTypeList.Add(obj);
                         }
                     }
@@ -2576,25 +2576,25 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@NumId", numId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
-                    adapter.Fill(dsNumber);
+                    DataTable dtNumber = new DataTable();
+                    adapter.Fill(dtNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                         {
                             GetNumberModel obj = new GetNumberModel();
-                            obj.selectopt = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["selectopt"]);
-                            obj.NumId = dsNumber.Tables[0].Rows[i]["NumId"].ToString();
-                            obj.Description = dsNumber.Tables[0].Rows[i]["Description"].ToString();
-                            obj.Value = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Value"]);
-                            obj.Prefix = dsNumber.Tables[0].Rows[i]["Prefix"].ToString();
-                            obj.Suffix = dsNumber.Tables[0].Rows[i]["Suffix"].ToString();
-                            obj.Length = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Length"]);
-                            obj.State = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["State"]);
-                            obj.Status = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["Status"]);
-                            obj.MaxLength = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["MaxLength"]);
-                            obj.Preview = dsNumber.Tables[0].Rows[i]["Preview"].ToString();
+                            obj.selectopt = Convert.ToInt32(dtNumber.Rows[i]["selectopt"]);
+                            obj.NumId = dtNumber.Rows[i]["NumId"].ToString();
+                            obj.Description = dtNumber.Rows[i]["Description"].ToString();
+                            obj.Value = Convert.ToInt32(dtNumber.Rows[i]["Value"]);
+                            obj.Prefix = dtNumber.Rows[i]["Prefix"].ToString();
+                            obj.Suffix = dtNumber.Rows[i]["Suffix"].ToString();
+                            obj.Length = Convert.ToInt32(dtNumber.Rows[i]["Length"]);
+                            obj.State = Convert.ToInt32(dtNumber.Rows[i]["State"]);
+                            obj.Status = Convert.ToInt32(dtNumber.Rows[i]["Status"]);
+                            obj.MaxLength = Convert.ToInt32(dtNumber.Rows[i]["MaxLength"]);
+                            obj.Preview = dtNumber.Rows[i]["Preview"].ToString();
                             numberList.Add(obj);
                         }
                     }
@@ -2618,16 +2618,16 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
-                    adapter.Fill(dsNumber);
+                    DataTable dtNumber = new DataTable();
+                    adapter.Fill(dtNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                         {
                             FormValidationModel obj = new FormValidationModel();
-                            obj.FormId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FormId"]);
-                            obj.FormName = dsNumber.Tables[0].Rows[i]["FormName"].ToString();
+                            obj.FormId = Convert.ToInt32(dtNumber.Rows[i]["FormId"]);
+                            obj.FormName = dtNumber.Rows[i]["FormName"].ToString();
                             numberList.Add(obj);
                         }
                     }
@@ -2636,10 +2636,10 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// GET list of Input Fields In a Form Id
+        /// GET list of Input Fieldt In a Form Id
         /// </summary>
         /// <param name="FormId">ID of form</param>
-        /// <returns>Form Fields list</returns>
+        /// <returns>Form Fieldt list</returns>
         public List<FormValidationModel> GetFormFields(Int32 FormId)
         {
             List<FormValidationModel> numberList = new List<FormValidationModel>();
@@ -2652,17 +2652,17 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@FormId", FormId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet dsNumber = new DataSet();
-                    adapter.Fill(dsNumber);
+                    DataTable dtNumber = new DataTable();
+                    adapter.Fill(dtNumber);
                     con.Close();
-                    if ((dsNumber != null) && (dsNumber.Tables.Count > 0) && (dsNumber.Tables[0] != null) && (dsNumber.Tables[0].Rows.Count > 0))
+                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dsNumber.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                         {
                             FormValidationModel obj = new FormValidationModel();
-                            obj.FieldId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FieldId"]);
-                            obj.FormId = Convert.ToInt32(dsNumber.Tables[0].Rows[i]["FormId"]);
-                            obj.FieldName = dsNumber.Tables[0].Rows[i]["FieldName"].ToString();
+                            obj.FieldId = Convert.ToInt32(dtNumber.Rows[i]["FieldId"]);
+                            obj.FormId = Convert.ToInt32(dtNumber.Rows[i]["FormId"]);
+                            obj.FieldName = dtNumber.Rows[i]["FieldName"].ToString();
                             numberList.Add(obj);
                         }
                     }
@@ -2730,12 +2730,125 @@ namespace LeHealth.Core.DataManager
                     //cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@NumId", numId);
                     //SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    //DataSet dsNumber = new DataSet();
-                    //adapter.Fill(dsNumber);
+                    //DataTable dtNumber = new DataTable();
+                    //adapter.Fill(dtNumber);
                     //con.Close();                    
                     return numberList;
                 }
             }
         }
+        public List<GenderModel> GetGender()
+        {
+            List<GenderModel> genderList = new List<GenderModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetGender", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsGender = new DataTable();
+                    adapter.Fill(dsGender);
+                    con.Close();
+                    if ((dsGender != null) && (dsGender.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsGender.Rows.Count; i++)
+                        {
+                            GenderModel obj = new GenderModel();
+                            obj.Id = Convert.ToInt32(dsGender.Rows[i]["Id"]);
+                            obj.GenderName = dsGender.Rows[i]["GenderName"].ToString();
+                            genderList.Add(obj);
+                        }
+                    }
+                    return genderList;
+                }
+            }
+        }
+        public List<KinRelationModel> GetKinRelation()
+        {
+            List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetKinRelation", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsKinRelation = new DataTable();
+                    adapter.Fill(dsKinRelation);
+                    con.Close();
+                    if ((dsKinRelation != null) && (dsKinRelation.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsKinRelation.Rows.Count; i++)
+                        {
+                            KinRelationModel obj = new KinRelationModel();
+                            obj.Id = Convert.ToInt32(dsKinRelation.Rows[i]["Id"]);
+                            obj.KinRelation = dsKinRelation.Rows[i]["KinRelation"].ToString();
+                            kinRelationList.Add(obj);
+                        }
+                    }
+                    return kinRelationList;
+                }
+            }
+        }
+        public List<MaritalStatusModel> GetMaritalStatus()
+        {
+            List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetMaritalStatus", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsmaritalStatus = new DataTable();
+                    adapter.Fill(dsmaritalStatus);
+                    con.Close();
+                    if ((dsmaritalStatus != null) && (dsmaritalStatus.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsmaritalStatus.Rows.Count; i++)
+                        {
+                            MaritalStatusModel obj = new MaritalStatusModel();
+                            obj.Id = Convert.ToInt32(dsmaritalStatus.Rows[i]["Id"]);
+                            obj.MaritalStatusDescription = dsmaritalStatus.Rows[i]["MaritalStatusDescription"].ToString();
+                            maritalStatusList.Add(obj);
+                        }
+                    }
+                    return maritalStatusList;
+                }
+            }
+        }
+        public List<CommunicationTypeModel> GetCommunicationType()
+        {
+            List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetCommunicationType", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dscommunicationType = new DataTable();
+                    adapter.Fill(dscommunicationType);
+                    con.Close();
+                    if ((dscommunicationType != null) && (dscommunicationType.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dscommunicationType.Rows.Count; i++)
+                        {
+                            CommunicationTypeModel obj = new CommunicationTypeModel();
+                            obj.Id = Convert.ToInt32(dscommunicationType.Rows[i]["Id"]);
+                            obj.CommunicationType = dscommunicationType.Rows[i]["CommunicationType"].ToString();
+                            communicationTypeList.Add(obj);
+                        }
+                    }
+                    return communicationTypeList;
+                }
+            }
+        }
+
     }
 }

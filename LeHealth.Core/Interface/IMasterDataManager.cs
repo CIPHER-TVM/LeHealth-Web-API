@@ -105,5 +105,10 @@ namespace LeHealth.Core.Interface
         List<GetNumberModel> GetNumber(string numid);
         List<ConsultantModel> ConsultantSearchWithDept(GetScheduleInputModel drsearch);
         string UpdateNumberTable(GetNumberModel sname);
+
+        List<GenderModel> GetGender();
+        List<KinRelationModel> GetKinRelation();
+        List<MaritalStatusModel> GetMaritalStatus();
+        List<CommunicationTypeModel> GetCommunicationType();
     }
 }

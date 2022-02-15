@@ -51,26 +51,9 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.ValidateHL7(nabidh);
         }
-        public List<GenderModel> GetGender()
-        {
-            return registrationManager.GetGender();
-        }
-        public List<KinRelationModel> GetKinRelation()
-        {
-            return registrationManager.GetKinRelation();
-        }
-        
         public List<AllPatientModel> GetAllPatient()
         {
             return registrationManager.GetAllPatient();
-        }
-        public List<MaritalStatusModel> GetMaritalStatus()
-        {
-            return registrationManager.GetMaritalStatus();
-        }
-        public List<CommunicationTypeModel> GetCommunicationType()
-        {
-            return registrationManager.GetCommunicationType();
         }
         public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
         {

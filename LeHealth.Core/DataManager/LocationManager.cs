@@ -32,12 +32,12 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@LocationId", locationId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ( (dt != null) && (dt.Rows.Count > 0))
                     {
-                        obj = ds.Tables[0].ToObject<LocationModel>();
+                        obj = dt.ToObject<LocationModel>();
                     }
                     return obj;
                 }
@@ -52,16 +52,16 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_GetLocations", con))
                 {
                     con.Open();
-                   
+
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@P_HospitalId",hospitalId);
+                    cmd.Parameters.AddWithValue("@P_HospitalId", hospitalId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((dt != null) && (dt.Rows.Count > 0))
                     {
-                        obj = ds.Tables[0].ToListOfObject<LocationModel>();
+                        obj = dt.ToListOfObject<LocationModel>();
                     }
                     return obj;
                 }
@@ -80,12 +80,12 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@LTypeId", 0);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((dt != null) && (dt.Rows.Count > 0))
                     {
-                        obj = ds.Tables[0].ToListOfObject<LocationType>();
+                        obj = dt.ToListOfObject<LocationType>();
                     }
                     return obj;
                 }
@@ -132,8 +132,8 @@ namespace LeHealth.Core.DataManager
                         con.Close();
                         var ret = retValV.Value;
                         var descrip = retDesc.Value.ToString();
-                       
-                            response = descrip;
+
+                        response = descrip;
                     }
                     catch (Exception ex)
                     {

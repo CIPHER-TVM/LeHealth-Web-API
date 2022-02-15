@@ -75,21 +75,21 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Password", credential.Password);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ( (dt != null) && (dt.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < dt.Rows.Count; i++)
                         {
                             LoginOutputModel obj = new LoginOutputModel();
-                            obj.UserId = ds.Tables[0].Rows[i]["UserId"].ToString();
-                            obj.Username = ds.Tables[0].Rows[i]["UserName"].ToString();
-                            obj.Usersname = ds.Tables[0].Rows[i]["UsersName"].ToString();
-                            obj.Usertype = ds.Tables[0].Rows[i]["UserType"].ToString();
-                            obj.UserState = ds.Tables[0].Rows[i]["State"].ToString();
-                            obj.UserActive = ds.Tables[0].Rows[i]["Active"].ToString();
-                            obj.BlockReason = ds.Tables[0].Rows[i]["BlockReason"].ToString();
+                            obj.UserId = dt.Rows[i]["UserId"].ToString();
+                            obj.Username = dt.Rows[i]["UserName"].ToString();
+                            obj.Usersname = dt.Rows[i]["UsersName"].ToString();
+                            obj.Usertype = dt.Rows[i]["UserType"].ToString();
+                            obj.UserState = dt.Rows[i]["State"].ToString();
+                            obj.UserActive = dt.Rows[i]["Active"].ToString();
+                            obj.BlockReason = dt.Rows[i]["BlockReason"].ToString();
                             userDetails.Add(obj);
                         }
                     }
