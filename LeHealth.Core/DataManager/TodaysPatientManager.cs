@@ -198,6 +198,7 @@ namespace LeHealth.Core.DataManager
                             obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);//Convert.ToInt32(dtAppointments.Rows[i]["AppType"]);
                             obj.AppNo = dtAppointments.Rows[i]["AppNo"].ToString();
                             obj.RegNo = dtAppointments.Rows[i]["RegNo"].ToString();
+                            obj.SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString();
                             obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);//Convert.ToInt32(dtAppointments.Rows[i]["PatientId"]);
                             obj.PatientName = dtAppointments.Rows[i]["PatientName"].ToString();
                             obj.PIN = dtAppointments.Rows[i]["PIN"].ToString();
