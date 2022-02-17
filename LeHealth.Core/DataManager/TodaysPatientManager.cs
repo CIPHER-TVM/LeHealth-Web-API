@@ -195,11 +195,11 @@ namespace LeHealth.Core.DataManager
                             SearchAppointmentModel obj = new SearchAppointmentModel();
                             obj.AppId = Convert.ToInt32(dtAppointments.Rows[i]["AppId"]);
                             obj.AppDate = dtAppointments.Rows[i]["AppDate"].ToString();
-                            obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);//Convert.ToInt32(dtAppointments.Rows[i]["AppType"]);
+                            obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);
                             obj.AppNo = dtAppointments.Rows[i]["AppNo"].ToString();
                             obj.RegNo = dtAppointments.Rows[i]["RegNo"].ToString();
                             obj.SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString();
-                            obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);//Convert.ToInt32(dtAppointments.Rows[i]["PatientId"]);
+                            obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);
                             obj.PatientName = dtAppointments.Rows[i]["PatientName"].ToString();
                             obj.PIN = dtAppointments.Rows[i]["PIN"].ToString();
                             obj.Mobile = dtAppointments.Rows[i]["ContactNumber"].ToString();
@@ -1405,8 +1405,8 @@ namespace LeHealth.Core.DataManager
                             string consultationExpiry = dt.Rows[i]["ConsultationExpiryDate"].ToString().Replace("/", "-");
                             string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
                             DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
-                            DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
-                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);//Convert.ToDateTime(validupto);
+                            DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);
+                            DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);
                             if (todaydate < validuptodttime)
                             {
                                 obj.IsRegistrationExpired = false;
