@@ -284,7 +284,6 @@ namespace LeHealth.Core.DataManager
         /// <returns>List of appointment details</returns>
         public List<Appointments> GetAppointments(AppointmentModel appointment)
         {
-
             List<Appointments> Appointmentlist = new List<Appointments>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -342,19 +341,16 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.AddWithValue("@ConsultantId", consultantid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dtSchemeList = new DataTable();
                     adapter.Fill(dtSchemeList);
                     con.Close();
-
                     if ((dtSchemeList != null) && (dtSchemeList.Rows.Count > 0))
                         schemeList = dtSchemeList.ToListOfObject<SchemeModel>();
                     return schemeList;
                 }
             }
-
         }
         /// <summary>
         /// Get Details of patient
@@ -364,7 +360,6 @@ namespace LeHealth.Core.DataManager
         public List<PatientModel> GetPatient(Int32 patientId)
         {
             List<PatientModel> patientDataList = new List<PatientModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetPatient", con))
@@ -376,7 +371,6 @@ namespace LeHealth.Core.DataManager
                     DataTable dtPatientList = new DataTable();
                     adapter.Fill(dtPatientList);
                     con.Close();
-
                     if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
                     {
                         for (Int32 i = 0; i < dtPatientList.Rows.Count; i++)
@@ -437,7 +431,6 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.AddWithValue("@ConsultantId", gap.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", gap.AppDate);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -534,10 +527,7 @@ namespace LeHealth.Core.DataManager
                         sgdm.labels = labelsList;
                         scheduleList.Add(sgdm);
                     }
-
                 }
-
-
                 return scheduleList;
             }
         }
@@ -758,9 +748,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@UserId", app.UserId);
                     cmd.Parameters.AddWithValue("@BranchId", app.BranchId);
                     cmd.Parameters.AddWithValue("@AppType", app.AppType);
-
                     string sliceString= JsonConvert.SerializeObject(app.SliceData);
-
                     cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
                     SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -776,7 +764,6 @@ namespace LeHealth.Core.DataManager
                     var isUpdated = cmd.ExecuteNonQuery();
                     var retV = retVal.Value;
                     var retD = retDesc.Value.ToString();
-
                     if (retD.ToString() == "Appointment Postponed")
                     {
                         response = "success";
