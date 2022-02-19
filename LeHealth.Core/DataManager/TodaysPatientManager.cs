@@ -1445,6 +1445,7 @@ namespace LeHealth.Core.DataManager
                 int AppStatA = 0;
                 int AppStatC = 0;
                 int AppStatF = 0;
+                int AppStatCF = 0;
                 int AppStatW = 0;
                 int AppStatUnknown = 0;
 
@@ -1471,6 +1472,10 @@ namespace LeHealth.Core.DataManager
                         else if (StatusName == "F")
                         {
                             AppStatF = Convert.ToInt32(dt.Rows[i]["StatusCount"]);
+                        }
+                        else if (StatusName == "CF")
+                        {
+                            AppStatCF = Convert.ToInt32(dt.Rows[i]["StatusCount"]);
                         }
                         else if (StatusName == "W")
                         {
@@ -1523,6 +1528,7 @@ namespace LeHealth.Core.DataManager
                 fopb.AppPercA = (decimal)AppStatA;
                 fopb.AppPercC = (decimal)AppStatC;
                 fopb.AppPercF = (decimal)AppStatF;
+                fopb.AppStatCF = (decimal)AppStatCF;
                 fopb.AppPercW = (decimal)AppStatW;
 
                 fopb.ConsPercW = (decimal)ConsStatW;

@@ -589,9 +589,6 @@ namespace LeHealth.Core.DataManager
                         savepatidentity1CMD.Parameters.AddWithValue("@PatientId", patientId);
                         string identityString = JsonConvert.SerializeObject(patientDetail.RegIdentities);
                         savepatidentity1CMD.Parameters.AddWithValue("@IdentityJSON", identityString);
-                        //savepatidentity1CMD.Parameters.AddWithValue("@IdentityType", patientDetail.RegIdentities[i].IdentityType);
-                        //savepatidentity1CMD.Parameters.AddWithValue("@IdentityNo", patientDetail.RegIdentities[i].IdentityNo);
-                        //ToRemove
                         SqlParameter patidReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
@@ -605,27 +602,14 @@ namespace LeHealth.Core.DataManager
                         var isInserted = savepatidentity1CMD.ExecuteNonQuery();
                         int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
                         var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
-
                         //SEVEN TIMES END
 
-
                         //THREE TIMES START
-
-
                         SqlCommand savepataddress1CMD = new SqlCommand("stLH_InsertPatAddress", con);
                         savepataddress1CMD.CommandType = CommandType.StoredProcedure;
                         savepataddress1CMD.Parameters.AddWithValue("@PatientId", patientId);
                         string addressString = JsonConvert.SerializeObject(patientDetail.RegAddress);
                         savepataddress1CMD.Parameters.AddWithValue("@AddressJSON", addressString);
-                        //savepataddress1CMD.Parameters.AddWithValue("@AddType", patientDetail.RegAddress[i].AddType);
-                        //savepataddress1CMD.Parameters.AddWithValue("@Street", patientDetail.RegAddress[i].Street);
-                        //savepataddress1CMD.Parameters.AddWithValue("@PlacePO", patientDetail.RegAddress[i].PlacePO);
-                        //savepataddress1CMD.Parameters.AddWithValue("@City", patientDetail.RegAddress[i].City);
-                        //savepataddress1CMD.Parameters.AddWithValue("@PIN", patientDetail.RegAddress[i].PIN);
-                        //savepataddress1CMD.Parameters.AddWithValue("@CountryId", patientDetail.RegAddress[i].CountryId);
-                        //savepataddress1CMD.Parameters.AddWithValue("@Address1", patientDetail.RegAddress[i].Address1);
-                        //savepataddress1CMD.Parameters.AddWithValue("@Address2", patientDetail.RegAddress[i].Address2);
-                        //savepataddress1CMD.Parameters.AddWithValue("@State", patientDetail.RegAddress[i].State);
                         SqlParameter patadrReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
@@ -737,7 +721,7 @@ namespace LeHealth.Core.DataManager
                                     var isInsertedCons = patientRegConsultationSavecmd.ExecuteNonQuery();
                                     int savedConsultationId = Convert.ToInt32(patConsReturn1.Value);
                                     var savedConsultationDesc1V = patConsReturnDesc1.Value.ToString();
-                                } 
+                                }
                                 responseobj.PatientId = patientId;
                                 responseobj.RegNo = patientDetail.RegNo;
                                 responseobj.ErrorMessage = "success";
@@ -810,15 +794,25 @@ namespace LeHealth.Core.DataManager
 
                     if (patientDetail.RegDocLocation != null)
                     {
-                        for (Int32 k = 0; k < patientDetail.RegDocLocation.Count; k++)
+                        SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
+                        savepatdocCMD.CommandType = CommandType.StoredProcedure;
+                        savepatdocCMD.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
+                        string filelocString = JsonConvert.SerializeObject(patientDetail.RegDocLocation);
+                        savepatdocCMD.Parameters.AddWithValue("@RegFileJson", filelocString);
+                        SqlParameter patfileReturn1 = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
-                            SqlCommand savepatdocCMD = new SqlCommand("stLH_InsertPatRegFiles", con);
-                            savepatdocCMD.CommandType = CommandType.StoredProcedure;
-                            savepatdocCMD.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
-                            savepatdocCMD.Parameters.AddWithValue("@OriginalFilename", patientDetail.RegDocLocation[k].FileOriginalName);
-                            savepatdocCMD.Parameters.AddWithValue("@FilePath", patientDetail.RegDocLocation[k].FilePath);
-                            var isInserted = savepatdocCMD.ExecuteNonQuery();
-                        }
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter patfileReturnDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        savepatdocCMD.Parameters.Add(patfileReturn1);
+                        savepatdocCMD.Parameters.Add(patfileReturnDesc1);
+                        var isdocInserted = savepatdocCMD.ExecuteNonQuery();
+                        int patfileReturn1V = Convert.ToInt32(patfileReturn1.Value);
+                        string patfileReturn2V = patfileReturnDesc1.Value.ToString();
+
                     }
                     response = "success";
                 }
