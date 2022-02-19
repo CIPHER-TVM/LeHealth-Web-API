@@ -217,34 +217,7 @@ namespace LeHealth.Core.DataManager
 
                     if (descrip == "Saved Successfully")
                     {
-                        //for (Int32 b = 0; b < appointments.SliceData.Count; b++)
-                        //{
-                        //SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
-                        //savesliceCMD.CommandType = CommandType.StoredProcedure;
-                        //savesliceCMD.Parameters.AddWithValue("@AppNo", appointments.AppNo);
-                        //savesliceCMD.Parameters.AddWithValue("@SliceNo", appointments.SliceData[b].SliceNo);
-                        //savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
-                        //savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
-                        //savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                        //savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
-                        //savesliceCMD.Parameters.AddWithValue("@AppId", ret);
-                        //savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
-                        //SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        //{
-                        //    Direction = ParameterDirection.Output
-                        //};
-                        //savesliceCMD.Parameters.Add(retValueV);
-                        //SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        //{
-                        //    Direction = ParameterDirection.Output
-                        //};
-                        //savesliceCMD.Parameters.Add(retDescrV);
-                        //var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
-                        //var retSlice = retValueV.Value;
-                        //var descripSlice = retDescrV.Value.ToString(); 
-                        //}
                         response = "Success";
-
                     }
                     else
                     {
@@ -313,38 +286,6 @@ namespace LeHealth.Core.DataManager
                     if (descrip == "Saved Successfully")
                     {
                         appointmentret = ret.ToString();
-                        //SqlCommand deletesymptomCMD = new SqlCommand("stLH_DeleteSliceTimes", con);
-                        //deletesymptomCMD.CommandType = CommandType.StoredProcedure;
-                        //deletesymptomCMD.Parameters.AddWithValue("@AppId", appointments.AppId);
-                        //var isDeleted = deletesymptomCMD.ExecuteNonQuery();
-                        //DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
-                        //appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
-                        //for (Int32 b = 0; b < appointments.SliceData.Count; b++)
-                        //{
-                        //    SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
-                        //    savesliceCMD.CommandType = CommandType.StoredProcedure;
-                        //    savesliceCMD.Parameters.AddWithValue("@AppNo", appointments.AppNo);
-                        //    savesliceCMD.Parameters.AddWithValue("@SliceNo", appointments.SliceData[b].SliceNo);
-                        //    savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
-                        //    savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
-                        //    savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                        //    savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
-                        //    savesliceCMD.Parameters.AddWithValue("@AppId", appointments.AppId);
-                        //    savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
-                        //    SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        //    {
-                        //        Direction = ParameterDirection.Output
-                        //    };
-                        //    savesliceCMD.Parameters.Add(retValueV);
-                        //    SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        //    {
-                        //        Direction = ParameterDirection.Output
-                        //    };
-                        //    savesliceCMD.Parameters.Add(retDescrV);
-                        //    var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
-                        //    var retSlice = retValueV.Value;
-                        //    var descripSlice = retDescrV.Value.ToString();
-                        //}
                     }
                     else
                     {
