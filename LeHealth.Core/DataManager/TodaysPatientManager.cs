@@ -942,16 +942,18 @@ namespace LeHealth.Core.DataManager
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
-                        {
-                            cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
-                        }
-                        else
-                        {
+                        //if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
+                        //{
+                        //    cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
+                        //}
+                        //else
+                        //{
                             cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
-                        }
-                        DateTime ConsultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
-                        cmd.Parameters.AddWithValue("@ConsultDate", ConsultDate);
+                        //}
+                        //DateTime ConsultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
+                        DateTime consultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
+                        consultations.ConsultDate = consultDate.ToString("yyyy-MM-dd");
+                        cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
                         cmd.Parameters.AddWithValue("@AppId", DBNull.Value);
                         cmd.Parameters.AddWithValue("@ConsultantId", consultations.ConsultantId);
                         cmd.Parameters.AddWithValue("@PatientId", consultations.PatientId);
@@ -1203,6 +1205,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
         /// <summary>
         /// To Get consultants Based on Department Id
         /// </summary>

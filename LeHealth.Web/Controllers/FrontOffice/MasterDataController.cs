@@ -1405,6 +1405,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("GetConsultantByHospital")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultantByHospital(ConsultantModel cmodel)
+        {
+            List<ConsultantModel> consultantList = new List<ConsultantModel>();
+            try
+            {
+                consultantList = masterdataService.GetConsultantByHospital(cmodel);
+                var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         //Zone Management Start
         /// <summary>
         /// To get list of Zone Detail of Input parameter. 

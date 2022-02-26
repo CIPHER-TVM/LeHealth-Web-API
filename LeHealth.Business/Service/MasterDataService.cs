@@ -173,6 +173,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetDepartmentByHospital(HospId);
         }
+        public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)
+        {
+            return masterdataManager.GetConsultantByHospital(cmodel);
+        }
         public List<ConsentPreviewModel> GetConsentPreviewConsent(Int32 patientId)
         {
             return masterdataManager.GetConsentPreviewConsent(patientId);

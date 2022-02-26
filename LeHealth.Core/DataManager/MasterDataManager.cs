@@ -1061,6 +1061,36 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)
+        {
+            List<ConsultantModel> departmentlist = new List<ConsultantModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantByHospital", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    
+                    cmd.Parameters.AddWithValue("@HospitalId", cmodel.BranchId);
+                    cmd.Parameters.AddWithValue("@IsExternal", cmodel.IsExternal);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    con.Close();
+                    if ((dt != null) && (dt.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dt.Rows.Count; i++)
+                        {
+                            ConsultantModel obj = new ConsultantModel();
+                            obj.ConsultantId = Convert.ToInt32(dt.Rows[i]["ConsultantId"]);
+                            obj.ConsultantName = dt.Rows[i]["ConsultantName"].ToString();
+                            departmentlist.Add(obj);
+                        }
+                    }
+                    return departmentlist;
+                }
+            }
+        }
 
         /// <summary>
         /// 

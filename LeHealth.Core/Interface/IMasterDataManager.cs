@@ -50,7 +50,8 @@ namespace LeHealth.Core.Interface
         //DEPARTMENT MANAGEMENT STARTS
         List<DepartmentModel> GetDepartments(Int32 DeptId);
         List<DepartmentModel> GetDepartmentByHospital(Int32 HospId);
-        string InsertUpdateDepartment(DepartmentModel Dept);
+        List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel);
+        string InsertUpdateDepartment(DepartmentModel Dept); 
         //DEPARTMENT MANAGEMENT ENDS
 
         //Consent Management starts
