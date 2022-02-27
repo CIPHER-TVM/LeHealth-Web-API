@@ -107,7 +107,8 @@ namespace LeHealth.Catalogue.API
 
             services.AddScoped<IMasterDataService, MasterDataService>();
             services.AddScoped<IMasterDataManager, MasterDataManager>();
-
+            services.AddScoped<IMenuSubmenuManager, MenuSubmenuManager>();
+            services.AddScoped<IMenuSubmenuService, MenuSubmenuService>();
             //
             services.AddScoped<IFileUploadService, FileUploadService>();
 
