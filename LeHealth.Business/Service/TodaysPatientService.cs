@@ -58,7 +58,6 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAppTime(gap);
         }
-
         public List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi)
         {
             return todaysPatientManager.GetScheduleData(gsi);

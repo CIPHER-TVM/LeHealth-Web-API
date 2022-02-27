@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using LeHealth.Common;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace LeHealth.Core.DataManager
 {
@@ -75,28 +76,28 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
                     cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
+                    DataTable ds = new DataTable();
                     adapter.Fill(ds);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((ds != null) && (ds.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Rows.Count; i++)
                         {
                             ConsultationModel obj = new ConsultationModel();
-                            obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
-                            obj.TokenNO = ds.Tables[0].Rows[i]["TokenNO"].ToString();
-                            obj.DeptId = Convert.ToInt32(ds.Tables[0].Rows[i]["DeptId"]);
-                            obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.TimeNo = (ds.Tables[0].Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Tables[0].Rows[i]["TimeNo"]);
-                            obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
-                            obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
-                            obj.Gender = ds.Tables[0].Rows[i]["Gender"].ToString();
-                            obj.Sponsor = ds.Tables[0].Rows[i]["Sponsor"].ToString();
-                            obj.Emergency = Convert.ToInt32(ds.Tables[0].Rows[i]["Emergency"]);
-                            obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
-                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
-                            obj.Email = ds.Tables[0].Rows[i]["Email"].ToString();
-                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
+                            obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
+                            obj.TokenNO = ds.Rows[i]["TokenNO"].ToString();
+                            obj.DeptId = Convert.ToInt32(ds.Rows[i]["DeptId"]);
+                            obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                            obj.TimeNo = (ds.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Rows[i]["TimeNo"]);
+                            obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                            obj.Status = ds.Rows[i]["Status"].ToString();
+                            obj.Gender = ds.Rows[i]["Gender"].ToString();
+                            obj.Sponsor = ds.Rows[i]["Sponsor"].ToString();
+                            obj.Emergency = Convert.ToInt32(ds.Rows[i]["Emergency"]);
+                            obj.Address = ds.Rows[i]["Address"].ToString();
+                            obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
+                            obj.Email = ds.Rows[i]["Email"].ToString();
+                            obj.Mobile = ds.Rows[i]["Mobile"].ToString();
                             appointmentlist.Add(obj);
                         }
                     }
@@ -120,17 +121,17 @@ namespace LeHealth.Core.DataManager
 
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
+                    DataTable ds = new DataTable();
                     adapter.Fill(ds);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((ds != null) && (ds.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Rows.Count; i++)
                         {
                             TabOrderModel obj = new TabOrderModel();
-                            obj.ScreenName = ds.Tables[0].Rows[i]["ScreenName"].ToString();
-                            obj.ObjectName = ds.Tables[0].Rows[i]["ObjectName"].ToString();
-                            obj.ObjectOrder = Convert.ToInt32(ds.Tables[0].Rows[i]["ObjectOrder"]);
+                            obj.ScreenName = ds.Rows[i]["ScreenName"].ToString();
+                            obj.ObjectName = ds.Rows[i]["ObjectName"].ToString();
+                            obj.ObjectOrder = Convert.ToInt32(ds.Rows[i]["ObjectOrder"]);
                             Consultationlist.Add(obj);
                         }
                     }
@@ -154,7 +155,7 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
                 {
-                    
+
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (appointments == null || appointments.PatientId <= 0)
                     {
@@ -197,6 +198,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
                     cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
                     cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
+                    string sliceString = JsonConvert.SerializeObject(appointments.SliceData);
+                    cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -214,35 +217,7 @@ namespace LeHealth.Core.DataManager
 
                     if (descrip == "Saved Successfully")
                     {
-
-                        for (Int32 b = 0; b < appointments.SliceData.Count; b++)
-                        {
-                            SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
-                            savesliceCMD.CommandType = CommandType.StoredProcedure;
-                            savesliceCMD.Parameters.AddWithValue("@AppNo", appointments.AppNo);
-                            savesliceCMD.Parameters.AddWithValue("@SliceNo", appointments.SliceData[b].SliceNo);
-                            savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
-                            savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
-                            savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                            savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
-                            savesliceCMD.Parameters.AddWithValue("@AppId", ret);
-                            savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
-                            SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            savesliceCMD.Parameters.Add(retValueV);
-                            SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            savesliceCMD.Parameters.Add(retDescrV);
-                            var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
-                            var retSlice = retValueV.Value;
-                            var descripSlice = retDescrV.Value.ToString(); 
-                        }
                         response = "Success";
-
                     }
                     else
                     {
@@ -288,6 +263,11 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
                     cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
                     cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
+                    DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
+                    cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
+                    string sliceString = JsonConvert.SerializeObject(appointments.SliceData);
+                    cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -302,43 +282,10 @@ namespace LeHealth.Core.DataManager
                     var isUpdated = cmd.ExecuteNonQuery();
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
-                    
+
                     if (descrip == "Saved Successfully")
                     {
                         appointmentret = ret.ToString();
-                        SqlCommand deletesymptomCMD = new SqlCommand("stLH_DeleteSliceTimes", con);
-                        deletesymptomCMD.CommandType = CommandType.StoredProcedure;
-                        deletesymptomCMD.Parameters.AddWithValue("@AppId", appointments.AppId);
-                        var isDeleted = deletesymptomCMD.ExecuteNonQuery();
-                        string DateString = appointments.AppDate;
-                        DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
-                        appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
-                        for (Int32 b = 0; b < appointments.SliceData.Count; b++)
-                        {
-                            SqlCommand savesliceCMD = new SqlCommand("stLH_SaveAppointmentSlice", con);
-                            savesliceCMD.CommandType = CommandType.StoredProcedure;
-                            savesliceCMD.Parameters.AddWithValue("@AppNo", appointments.AppNo);
-                            savesliceCMD.Parameters.AddWithValue("@SliceNo", appointments.SliceData[b].SliceNo);
-                            savesliceCMD.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
-                            savesliceCMD.Parameters.AddWithValue("@SliceTime", appointments.SliceData[b].SliceTime);
-                            savesliceCMD.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                            savesliceCMD.Parameters.AddWithValue("@PatientId", appointments.PatientId);
-                            savesliceCMD.Parameters.AddWithValue("@AppId", appointments.AppId);
-                            savesliceCMD.Parameters.AddWithValue("@AppType", appointments.AppType);
-                            SqlParameter retValueV = new SqlParameter("@RetVal", SqlDbType.Int)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            savesliceCMD.Parameters.Add(retValueV);
-                            SqlParameter retDescrV = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            savesliceCMD.Parameters.Add(retDescrV);
-                            var isInsertedSliceData = savesliceCMD.ExecuteNonQuery();
-                            var retSlice = retValueV.Value;
-                            var descripSlice = retDescrV.Value.ToString();
-                        }
                     }
                     else
                     {
@@ -349,6 +296,10 @@ namespace LeHealth.Core.DataManager
             }
             return appointmentret;
         }
+        /// <summary>
+        /// Get list of all consultations
+        /// </summary>
+        /// <returns></returns>
         public List<ConsultationModel> GetAllConsultation()
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
@@ -361,28 +312,28 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultationId", 0);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
+                    DataTable ds = new DataTable();
                     adapter.Fill(ds);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((ds != null) && (ds.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Rows.Count; i++)
                         {
                             ConsultationModel obj = new ConsultationModel();
-                            obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
-                            obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString().Substring(0, 10);
-                            obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.ConsultantId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultantId"]);
-                            obj.Consultant = ds.Tables[0].Rows[i]["Consultant"].ToString();
-                            obj.ConsultType2 = ds.Tables[0].Rows[i]["ConsultType"].ToString();
-                            obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
-                            obj.PIN = ds.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.OtherReasonForVisit = ds.Tables[0].Rows[i]["Symptoms"].ToString();
-                            obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
-                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
-                            obj.Sponsor = ds.Tables[0].Rows[i]["ConsultationSponsors"].ToString();
+                            obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
+                            obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
+                            obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString().Substring(0, 10);
+                            obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                            obj.ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]);
+                            obj.Consultant = ds.Rows[i]["Consultant"].ToString();
+                            obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
+                            obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                            obj.PIN = ds.Rows[i]["PIN"].ToString();
+                            obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
+                            obj.Status = ds.Rows[i]["Status"].ToString();
+                            obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                            obj.Address = ds.Rows[i]["Address"].ToString();
+                            obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
                             Consultationlist.Add(obj);
                         }
                     }
@@ -390,7 +341,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
+        /// <summary>
+        /// Search data in consultation table
+        /// </summary>
+        /// <param name="consultation"></param>
+        /// <returns></returns>
         public List<ConsultationModel> SearchConsultation(ConsultationModel consultation)
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
@@ -398,11 +353,6 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultation", con))
                 {
-                    //DateTime oldFrom = DateTime.Parse(consultation.FromDate.Trim());
-                    //consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
-                    //DateTime oldTo = DateTime.Parse(consultation.ToDate.Trim());
-                    //consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
-
                     DateTime oldFrom = DateTime.ParseExact(consultation.FromDate.Trim(), "dd-MM-yyyy", null);
                     consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
 
@@ -423,29 +373,29 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Address", consultation.Address);
                     cmd.Parameters.AddWithValue("@PIN", consultation.PIN);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
+                    DataTable ds = new DataTable();
                     adapter.Fill(ds);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((ds != null) && (ds.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        for (Int32 i = 0; i < ds.Rows.Count; i++)
                         {
                             ConsultationModel obj = new ConsultationModel();
-                            obj.PatientId = Convert.ToInt32(ds.Tables[0].Rows[i]["PatientId"]);
-                            obj.ConsultationId = Convert.ToInt32(ds.Tables[0].Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Tables[0].Rows[i]["ConsultDate"].ToString();
-                            obj.PatientName = ds.Tables[0].Rows[i]["PatientName"].ToString();
-                            obj.Consultant = ds.Tables[0].Rows[i]["Consultant"].ToString();
-                            obj.ConsultType2 = ds.Tables[0].Rows[i]["ConsultType"].ToString();
-                            obj.RegNo = ds.Tables[0].Rows[i]["RegNo"].ToString();
-                            obj.PIN = ds.Tables[0].Rows[i]["PIN"].ToString();
-                            obj.OtherReasonForVisit = ds.Tables[0].Rows[i]["Symptoms"].ToString();
-                            obj.Status = ds.Tables[0].Rows[i]["Status"].ToString();
-                            obj.CancelReason = ds.Tables[0].Rows[i]["CancelReason"].ToString();
-                            obj.Mobile = ds.Tables[0].Rows[i]["Mobile"].ToString();
-                            obj.Telephone = ds.Tables[0].Rows[i]["Telephone"].ToString();
-                            obj.Address = ds.Tables[0].Rows[i]["Address"].ToString();
-                            obj.Sponsor = ds.Tables[0].Rows[i]["ConsultationSponsors"].ToString();
+                            obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
+                            obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
+                            obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
+                            obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                            obj.Consultant = ds.Rows[i]["Consultant"].ToString();
+                            obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
+                            obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                            obj.PIN = ds.Rows[i]["PIN"].ToString();
+                            obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
+                            obj.Status = ds.Rows[i]["Status"].ToString();
+                            obj.CancelReason = ds.Rows[i]["CancelReason"].ToString();
+                            obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                            obj.Telephone = ds.Rows[i]["Telephone"].ToString();
+                            obj.Address = ds.Rows[i]["Address"].ToString();
+                            obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
                             Consultationlist.Add(obj);
                         }
                     }

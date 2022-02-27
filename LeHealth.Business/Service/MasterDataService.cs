@@ -16,7 +16,6 @@ namespace LeHealth.Service.Service
             masterdataManager = _masterdataManager;
             fileUploadService = _fileUploadService;
         }
-
         public List<ProfessionModel> GetProfession(Int32 profid)
         {
             return masterdataManager.GetProfession(profid);
@@ -33,7 +32,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSponsor(zone);
         }
-
         public List<SponsorTypeModel> GetSponsorType(Int32 id)
         {
             return masterdataManager.GetSponsorType(id);
@@ -111,8 +109,6 @@ namespace LeHealth.Service.Service
             }
             return masterdataManager.ConsentFormDataSave(hm);
         }
-
-
         public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
         {
             return masterdataManager.InsertUpdateRegScheme(RegScheme);
@@ -137,7 +133,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetOperator(OperatorId);
         }
-
         public List<ReligionModel> GetReligion()
         {
             return masterdataManager.GetReligion();
@@ -178,6 +173,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetDepartmentByHospital(HospId);
         }
+        public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)
+        {
+            return masterdataManager.GetConsultantByHospital(cmodel);
+        }
         public List<ConsentPreviewModel> GetConsentPreviewConsent(Int32 patientId)
         {
             return masterdataManager.GetConsentPreviewConsent(patientId);
@@ -214,7 +213,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSalutation(state);
         }
-
         public List<VitalSignModel> GetVitalSign(Int32 vitalsign)
         {
             return masterdataManager.GetVitalSign(vitalsign);
@@ -223,7 +221,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateVitalSign(vitalsign);
         }
-
         public List<MovementModel> GetMovement(Int32 movement)
         {
             return masterdataManager.GetMovement(movement);
@@ -256,7 +253,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateScientificName(movement);
         }
-
         public List<TendernModel> GetTendern(Int32 movement)
         {
             return masterdataManager.GetTendern(movement);
@@ -265,7 +261,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateTendern(movement);
         }
-
         public List<VisaTypeModel> GetVisaType()
         {
             return masterdataManager.GetVisaType();
@@ -301,6 +296,22 @@ namespace LeHealth.Service.Service
         public string UpdateNumberTable(GetNumberModel la)
         {
             return masterdataManager.UpdateNumberTable(la);
+        }
+        public List<GenderModel> GetGender()
+        {
+            return masterdataManager.GetGender();
+        }
+        public List<KinRelationModel> GetKinRelation()
+        {
+            return masterdataManager.GetKinRelation();
+        }
+        public List<MaritalStatusModel> GetMaritalStatus()
+        {
+            return masterdataManager.GetMaritalStatus();
+        }
+        public List<CommunicationTypeModel> GetCommunicationType()
+        {
+            return masterdataManager.GetCommunicationType();
         }
     }
 }

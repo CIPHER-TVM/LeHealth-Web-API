@@ -14,10 +14,8 @@ namespace LeHealth.Core.Interface
         List<PatientListModel> GetPatientByRegNo(string regNo);
         FrontOfficePBarModel GetFrontOfficeProgressBars(string patientList);
         List<SchemeModel> GetSchemeByConsultant(Int32 consultantid);
-        
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
-        
         string DeleteAppointment(AppointmentModel appointment);
         string UpdateAppointmentStatus(AppointmentModel appointment);
         List<SheduleGetDataModel> GetScheduleData(GetScheduleInputModel gsi);
@@ -26,7 +24,6 @@ namespace LeHealth.Core.Interface
         List<RecentConsultationModel> GetRecentConsultationData();
         List<TokenModel> GetNewTokenNumber(ConsultationModel cm);
         List<SponsorModel> GetSponsorListByPatientId(Int32 patientId);
-        
         List<ConsultRateModel> GetConsultRate(ConsultationModel cm);
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
         string AppoinmentValidCheck(AppoinmentValidCheckModel cm);
@@ -37,7 +34,6 @@ namespace LeHealth.Core.Interface
         List<PatientModel> GetPatient(Int32 pid);
         List<Appointments> GetAppointments(AppointmentModel appointment);
         List<GetConsultantItemSchemeRateModel> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr);
-        
         string CancelConsultation(ConsultationModel cons);
         string PostponeAppointment(Appointments cons);
         string SetUrgentConsultation(ConsultationModel cons);

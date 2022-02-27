@@ -80,7 +80,7 @@ namespace LeHealth.Core.DataManager
                     con.Open();
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                   cmd.Parameters.AddWithValue("@P_Id", 0);
+                    cmd.Parameters.AddWithValue("@P_Id", 0);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
@@ -94,7 +94,7 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-       
+
 
         public string SaveUserGroup(UserGroupModel obj)
         {
@@ -149,7 +149,7 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
-                       
+
                         var json = JsonConvert.SerializeObject(obj.BranchIds);
                         var jsongroups = JsonConvert.SerializeObject(obj.GroupIds);
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -272,7 +272,7 @@ namespace LeHealth.Core.DataManager
                     {
                         obj = ds.Tables[0].ToListOfObject<HospitalModel>();
                     }
-                   return obj;
+                    return obj;
                 }
             }
         }
@@ -339,7 +339,7 @@ namespace LeHealth.Core.DataManager
                         var json = JsonConvert.SerializeObject(obj.LocationIds);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
-                      
+
                         cmd.Parameters.AddWithValue("@P_Locations", json);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {

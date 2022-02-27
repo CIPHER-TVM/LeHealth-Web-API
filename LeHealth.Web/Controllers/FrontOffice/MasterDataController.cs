@@ -24,6 +24,142 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             logger = _logger;
             masterdataService = _masterdataService;
         }
+        [Route("GetGender")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<GenderModel>> GetGender()
+        {
+            List<GenderModel> genderList = new List<GenderModel>();
+            try
+            {
+                genderList = masterdataService.GetGender();
+                var response = new ResponseDataModel<IEnumerable<GenderModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = genderList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<GenderModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetKinRelation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<KinRelationModel>> GetKinRelation()
+        {
+            List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
+            try
+            {
+                kinRelationList = masterdataService.GetKinRelation();
+                var response = new ResponseDataModel<IEnumerable<KinRelationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = kinRelationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<KinRelationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [HttpPost]
+        [Route("GetMaritalStatus")]
+        public ResponseDataModel<IEnumerable<MaritalStatusModel>> GetMaritalStatus()
+        {
+            List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
+            try
+            {
+                maritalStatusList = masterdataService.GetMaritalStatus();
+                var response = new ResponseDataModel<IEnumerable<MaritalStatusModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = maritalStatusList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<MaritalStatusModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [HttpPost]
+        [Route("GetCommunicationType")]
+        public ResponseDataModel<IEnumerable<CommunicationTypeModel>> GetCommunicationType()
+        {
+            List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
+            try
+            {
+                communicationTypeList = masterdataService.GetCommunicationType();
+                var response = new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = communicationTypeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         //Profession Management starts
         /// <summary>
         /// To get list of all Professions Or Profession Detail of Input parameter. 
@@ -441,9 +577,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        //City management ends
 
-        //Vital Sign Management starts
         /// <summary>
         /// To get list of all Professions Or Profession Detail of Input parameter. 
         /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
@@ -551,7 +685,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -1257,6 +1390,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<DepartmentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetConsultantByHospital")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultantByHospital(ConsultantModel cmodel)
+        {
+            List<ConsultantModel> consultantList = new List<ConsultantModel>();
+            try
+            {
+                consultantList = masterdataService.GetConsultantByHospital(cmodel);
+                var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
