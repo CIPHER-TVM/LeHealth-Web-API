@@ -312,6 +312,8 @@ namespace LeHealth.Service.Service
         public List<CommunicationTypeModel> GetCommunicationType()
         {
             return masterdataManager.GetCommunicationType();
-        }
+        } 
+       
+
     }
 }

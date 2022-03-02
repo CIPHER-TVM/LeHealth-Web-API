@@ -84,5 +84,6 @@ namespace LeHealth.Service.ServiceInterface
 
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
+
     }
 }

@@ -159,7 +159,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+       
+     
+      
         //Profession Management starts
         /// <summary>
         /// To get list of all Professions Or Profession Detail of Input parameter. 

@@ -1070,7 +1070,7 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    
+
                     cmd.Parameters.AddWithValue("@HospitalId", cmodel.BranchId);
                     cmd.Parameters.AddWithValue("@IsExternal", cmodel.IsExternal);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -2879,6 +2879,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
+        
     }
 }
