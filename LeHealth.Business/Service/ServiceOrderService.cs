@@ -26,6 +26,19 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.GetAvailableService(asm);
         }
+        public List<AvailableServiceModel> GetLastConsultation(AvailableServiceModel asm)
+        {
+            return serviceorderManager.GetLastConsultation(asm);
+        } 
+        public List<ProfileModel> GetProfile(ProfileModel pm)
+        {
+            return serviceorderManager.GetProfile(pm);
+        } 
+        public List<ItemsByTypeModel> GetProfileItem(ProfileModel pm)
+        {
+            return serviceorderManager.GetProfileItem(pm);
+        }
+
         public string InsertService(AvailableServiceModel asm)
         {
             return serviceorderManager.InsertService(asm);

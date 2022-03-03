@@ -20,8 +20,7 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int SessionId { get; set; }
         public int BranchId { get; set; }
-
-
+        public String ConsultDate { get; set; }
         public int ItemId { get; set; }
         public String ItemCode { get; set; }
         public String ItemName { get; set; }

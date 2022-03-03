@@ -86,6 +86,73 @@ namespace LeHealth.Core.DataManager
             }
         }
 
+        public List<ProfileModel> GetProfile(ProfileModel pm)
+        {
+            List<ProfileModel> communicationTypeList = new List<ProfileModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetProfile", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ProfileId", pm.ProfileId);
+                    cmd.Parameters.AddWithValue("@Active", pm.Active);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsItemGroup = new DataTable();
+                    adapter.Fill(dsItemGroup);
+                    con.Close();
+                    if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
+                        {
+                            ProfileModel obj = new ProfileModel();
+                            obj.ProfileId = Convert.ToInt32(dsItemGroup.Rows[i]["ProfileId"]);
+                            obj.ProfileDesc = dsItemGroup.Rows[i]["ProfileDesc"].ToString();
+                            obj.Remarks = dsItemGroup.Rows[i]["Remarks"].ToString();
+                            obj.Active = Convert.ToInt32(dsItemGroup.Rows[i]["Active"]);
+                            obj.BlockReason = dsItemGroup.Rows[i]["BlockReason"].ToString();
+                            communicationTypeList.Add(obj);
+                        }
+                    }
+                    return communicationTypeList;
+                }
+            }
+        }
+
+        public List<ItemsByTypeModel> GetProfileItem(ProfileModel pm)
+        {
+            List<ItemsByTypeModel> communicationTypeList = new List<ItemsByTypeModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetProfileItem", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ProfileId", pm.ProfileId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsItemGroup = new DataTable();
+                    adapter.Fill(dsItemGroup);
+                    con.Close();
+                    if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
+                        {
+                            ItemsByTypeModel obj = new ItemsByTypeModel();
+                            obj.ItemId = Convert.ToInt32(dsItemGroup.Rows[i]["ItemId"]);
+                            obj.ItemCode = dsItemGroup.Rows[i]["ItemCode"].ToString();
+                            obj.ItemName = dsItemGroup.Rows[i]["ItemName"].ToString();
+                            communicationTypeList.Add(obj);
+                        }
+                    }
+                    return communicationTypeList;
+                }
+            }
+        }
+
+
+
         public List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -112,7 +179,7 @@ namespace LeHealth.Core.DataManager
                             obj.ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]);
                             obj.ItemCode = dsavailableService.Rows[i]["ItemCode"].ToString();
                             obj.ItemName = dsavailableService.Rows[i]["ItemName"].ToString();
-                            obj.GroupId =Convert.ToInt32( dsavailableService.Rows[i]["GroupId"]);
+                            obj.GroupId = Convert.ToInt32(dsavailableService.Rows[i]["GroupId"]);
                             obj.ValidityDays = Convert.ToInt32(dsavailableService.Rows[i]["ValidityDays"]);
                             obj.ValidityVisits = Convert.ToInt32(dsavailableService.Rows[i]["ValidityVisits"]);
                             obj.AllowRateEdit = Convert.ToInt32(dsavailableService.Rows[i]["AllowRateEdit"]);
@@ -153,7 +220,38 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-       
+        public List<AvailableServiceModel> GetLastConsultation(AvailableServiceModel cm)
+        {
+            List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetLastConsultation", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+                    cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsavailableService = new DataTable();
+                    adapter.Fill(dsavailableService);
+                    con.Close();
+                    if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
+                        {
+                            AvailableServiceModel obj = new AvailableServiceModel();
+                            obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
+                            obj.ConsultDate = dsavailableService.Rows[i]["ConsultDate"].ToString();
+                            obj.ConsultantId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultantId"]);
+                            availableServiceList.Add(obj);
+                        }
+                    }
+                    return availableServiceList;
+                }
+            }
+        }
 
         /// <summary>
         /// Update Data in Number configuration table 
@@ -168,7 +266,7 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertServiceOrder", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@OrderId", asm.OrderId);
+                    cmd.Parameters.AddWithValue("@OrderId", 0);
                     cmd.Parameters.AddWithValue("@OrderNo", asm.OrderNo);
                     cmd.Parameters.AddWithValue("@OrderDate", asm.OrderDate);
                     cmd.Parameters.AddWithValue("@PatientId", asm.PatientId);

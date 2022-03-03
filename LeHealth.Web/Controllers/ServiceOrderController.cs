@@ -157,5 +157,113 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("GetProfile")]
+        public ResponseDataModel<IEnumerable<ProfileModel>> GetProfile(ProfileModel pm)
+        {
+            List<ProfileModel> profileList = new List<ProfileModel>();
+            try
+            {
+                profileList = serviceorderService.GetProfile(pm);
+                var response = new ResponseDataModel<IEnumerable<ProfileModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = profileList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ProfileModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [HttpPost]
+        [Route("GetProfileItem")]
+        public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetProfileItem(ProfileModel pm)
+        {
+            List<ItemsByTypeModel> profileItemList = new List<ItemsByTypeModel>();
+            try
+            {
+                profileItemList = serviceorderService.GetProfileItem(pm);
+                var response = new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = profileItemList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+
+        
+
+        [HttpPost]
+        [Route("GetLastConsultation")]
+        public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetLastConsultation(AvailableServiceModel asm)
+        {
+            List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
+            try
+            {
+                itemGroupList = serviceorderService.GetLastConsultation(asm);
+                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemGroupList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }

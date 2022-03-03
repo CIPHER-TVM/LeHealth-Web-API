@@ -10,6 +10,9 @@ namespace LeHealth.Core.Interface
         List<GroupModel> GetItemsGroup(int groupId); 
         List<ItemsByTypeModel> GetPackageItem(int packId);
         List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm);
+        List<AvailableServiceModel> GetLastConsultation(AvailableServiceModel asm);
+        List<ProfileModel> GetProfile(ProfileModel pm);
+        List<ItemsByTypeModel> GetProfileItem(ProfileModel pm);
         String InsertService(AvailableServiceModel asm);
 
     }
