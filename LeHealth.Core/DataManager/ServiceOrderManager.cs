@@ -98,6 +98,7 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@GroupId", asm.GroupId);
                     cmd.Parameters.AddWithValue("@PatientId", asm.PatientId);
+                    cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dsavailableService = new DataTable();
@@ -151,6 +152,8 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
+       
 
         /// <summary>
         /// Update Data in Number configuration table 
