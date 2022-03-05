@@ -14,6 +14,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ProfileModel> GetProfile(ProfileModel pm);
         List<ItemsByTypeModel> GetProfileItem(ProfileModel pm);
         String InsertService(AvailableServiceModel asm);
+        String CancelServiceOrder(AvailableServiceModel asm);
 
     }
 }

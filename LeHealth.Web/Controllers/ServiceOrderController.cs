@@ -123,6 +123,40 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
+        [Route("CancelServiceOrder")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<AvailableServiceModel>> CancelServiceOrder(AvailableServiceModel asm)
+        {
+            string message = string.Empty;
+            try
+            {
+                message = serviceorderService.CancelServiceOrder(asm);
+                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         [HttpPost]
         [Route("GetAvailableService")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetAvailableService(AvailableServiceModel asm)
@@ -229,7 +263,7 @@ namespace LeHealth.Base.API.Controllers
 
 
 
-        
+
 
         [HttpPost]
         [Route("GetLastConsultation")]

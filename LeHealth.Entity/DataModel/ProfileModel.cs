@@ -11,5 +11,6 @@ namespace LeHealth.Entity.DataModel
         public String Remarks { get; set; }
         public int Active { get; set; }
         public String BlockReason { get; set; } 
-    }
+        public List<int> ProfileIds { get; set; } 
+    } 
 }

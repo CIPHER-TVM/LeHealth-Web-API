@@ -11,7 +11,7 @@ namespace LeHealth.Entity.DataModel
         public String ServiceName { get; set; }
         public int OrderId { get; set; }
         public String OrderNo { get; set; }
-        public DateTime OrderDate { get; set; }
+        public String OrderDate { get; set; }
         public int PatientId { get; set; }
         public int ConsultantId { get; set; }
         public int ConsultationId { get; set; }
@@ -52,5 +52,17 @@ namespace LeHealth.Entity.DataModel
         public String Category { get; set; }
         public int GroupType { get; set; }
         public String ItemStatus { get; set; }
+        public int Status { get; set; }
+        public String PayStatus { get; set; }
+        public int LocationId { get; set; }
+        public int SerialNo { get; set; } 
+        public int OrderDetId { get; set; }  
+        public String CancelReason { get; set; }  
+        public List<ItemDataModel> ItemObj { get; set; }
+    }
+    public class ItemDataModel
+    {
+        public int GroupId { get; set; }
+        public int ItemId { get; set; } 
     }
 }

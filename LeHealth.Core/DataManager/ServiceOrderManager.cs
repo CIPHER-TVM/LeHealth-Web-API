@@ -1,6 +1,7 @@
 ﻿using LeHealth.Core.Interface;
 using LeHealth.Entity.DataModel;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -128,9 +129,13 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetProfileItem", con))
                 {
+                    int listcount = pm.ProfileIds.Count;
+                    string ProfIds = "";
+                    if (listcount > 0)
+                        ProfIds = string.Join(",", pm.ProfileIds.ToArray());
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ProfileId", pm.ProfileId);
+                    cmd.Parameters.AddWithValue("@ProfileId", ProfIds);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dsItemGroup = new DataTable();
                     adapter.Fill(dsItemGroup);
@@ -265,6 +270,11 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertServiceOrder", con))
                 {
+                    //NEW START
+                    string serviceString = JsonConvert.SerializeObject(asm.ItemObj);
+                    DateTime orderDate = DateTime.ParseExact(asm.OrderDate.Trim(), "dd-MM-yyyy", null);
+                    asm.OrderDate = orderDate.ToString("yyyy-MM-dd");
+                    //NEW END
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@OrderId", 0);
                     cmd.Parameters.AddWithValue("@OrderNo", asm.OrderNo);
@@ -274,9 +284,56 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultationId", asm.ConsultationId);
                     cmd.Parameters.AddWithValue("@PackId", asm.PackId);
                     cmd.Parameters.AddWithValue("@PackNo", asm.PackNo);
+                    //NEW START
+                    cmd.Parameters.AddWithValue("@SerialNo", asm.SerialNo);
+                    cmd.Parameters.AddWithValue("@LocationId", asm.LocationId);
+                    cmd.Parameters.AddWithValue("@Status", asm.Status);
+                    cmd.Parameters.AddWithValue("@PayStatus", asm.PayStatus);
+                    cmd.Parameters.AddWithValue("@ItemJSON", serviceString);
+                    //NEW END
                     cmd.Parameters.AddWithValue("@UserId", asm.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", asm.SessionId);
                     cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+
+        public string CancelServiceOrder(AvailableServiceModel asm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_CancelServiceOrder", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@OrderDetId", asm.OrderDetId);
+                    cmd.Parameters.AddWithValue("@CancelReason", asm.CancelReason);
+                    cmd.Parameters.AddWithValue("@UserId", asm.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", asm.SessionId);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
