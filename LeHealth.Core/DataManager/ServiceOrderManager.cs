@@ -361,6 +361,43 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<ServiceGroupModel> GetServicesGroups()
+        {
 
+            try
+            {
+                List<ServiceGroupModel> serviceModels = new List<ServiceGroupModel>();
+                using (SqlConnection con = new SqlConnection(_connStr))
+                {
+                    using (SqlCommand cmd = new SqlCommand("stLH_GetServiceGroups", con))
+                    {
+
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataTable dscommunicationType = new DataTable();
+                        adapter.Fill(dscommunicationType);
+                        con.Close();
+                        if ((dscommunicationType != null) && (dscommunicationType.Rows.Count > 0))
+                        {
+                            for (Int32 i = 0; i < dscommunicationType.Rows.Count; i++)
+                            {
+                                ServiceGroupModel obj = new ServiceGroupModel();
+                                obj.GroupId = Convert.ToInt32(dscommunicationType.Rows[i]["groupId"]);
+                                obj.Label = dscommunicationType.Rows[i]["label"].ToString();
+                                obj.Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dscommunicationType.Rows[i]["children"].ToString());
+                                serviceModels.Add(obj);
+                            }
+                        }
+                        return serviceModels;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
+
+        }
     }
 }

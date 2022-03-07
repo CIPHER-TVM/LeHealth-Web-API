@@ -298,6 +298,39 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [HttpPost]
+        [Route("GetServicesGroups")]
+        public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups()
+        {
+            List<ServiceGroupModel> serviceGroups = new List<ServiceGroupModel>();
+            try
+            {
+                serviceGroups = serviceorderService.GetServicesGroups();
 
+                var response = new ResponseDataModel<IEnumerable<ServiceGroupModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = serviceGroups
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ServiceGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

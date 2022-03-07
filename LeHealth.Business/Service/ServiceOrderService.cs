@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LeHealth.Service.Service
 {
-    public class ServiceOrderService: IServiceOrderService
+    public class ServiceOrderService : IServiceOrderService
     {
         private readonly IServiceOrderManager serviceorderManager;
         public ServiceOrderService(IServiceOrderManager _serviceorderManager)
@@ -29,11 +29,11 @@ namespace LeHealth.Service.Service
         public List<AvailableServiceModel> GetLastConsultation(AvailableServiceModel asm)
         {
             return serviceorderManager.GetLastConsultation(asm);
-        } 
+        }
         public List<ProfileModel> GetProfile(ProfileModel pm)
         {
             return serviceorderManager.GetProfile(pm);
-        } 
+        }
         public List<ItemsByTypeModel> GetProfileItem(ProfileModel pm)
         {
             return serviceorderManager.GetProfileItem(pm);
@@ -43,9 +43,13 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.InsertService(asm);
         }
-         public string CancelServiceOrder(AvailableServiceModel asm)
+        public string CancelServiceOrder(AvailableServiceModel asm)
         {
             return serviceorderManager.CancelServiceOrder(asm);
+        }
+        public List<ServiceGroupModel> GetServicesGroups()
+        {
+            return serviceorderManager.GetServicesGroups();
         }
 
     }
