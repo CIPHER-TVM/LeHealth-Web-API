@@ -58,6 +58,14 @@ namespace LeHealth.Entity.DataModel
         public int SerialNo { get; set; } 
         public int OrderDetId { get; set; }  
         public String CancelReason { get; set; }  
+        public String OrderFromDate { get; set; }  
+        public String OrderToDate { get; set; }   
+        public String ConsultantName { get; set; }   
+        public String FirstName { get; set; }   
+        public String MiddleName { get; set; }   
+        public String LastName { get; set; }   
+        public String RegNo { get; set; }   
+        public Int32 Selected { get; set; }    
         public List<ItemDataModel> ItemObj { get; set; }
     }
     public class ItemDataModel

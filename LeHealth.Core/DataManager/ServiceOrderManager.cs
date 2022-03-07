@@ -53,7 +53,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<ItemsByTypeModel> GetPackageItem(int packId)
         {
             List<ItemsByTypeModel> communicationTypeList = new List<ItemsByTypeModel>();
@@ -86,7 +85,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<ProfileModel> GetProfile(ProfileModel pm)
         {
             List<ProfileModel> communicationTypeList = new List<ProfileModel>();
@@ -120,7 +118,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<ItemsByTypeModel> GetProfileItem(ProfileModel pm)
         {
             List<ItemsByTypeModel> communicationTypeList = new List<ItemsByTypeModel>();
@@ -155,9 +152,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
-
         public List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -224,7 +218,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<AvailableServiceModel> GetLastConsultation(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -250,6 +243,66 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
                             obj.ConsultDate = dsavailableService.Rows[i]["ConsultDate"].ToString();
                             obj.ConsultantId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultantId"]);
+                            availableServiceList.Add(obj);
+                        }
+                    }
+                    return availableServiceList;
+                }
+            }
+        }
+        public List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel cm)
+        {
+            List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetServiceOrderByDate", con))
+                {
+                    con.Open();
+                    if (cm.OrderFromDate.Trim() != "" && cm.OrderToDate.Trim() != "")
+                    {
+                        DateTime orderFromDate = DateTime.ParseExact(cm.OrderFromDate.Trim(), "dd-MM-yyyy", null);
+                        cm.OrderDate = orderFromDate.ToString("yyyy-MM-dd");
+                        DateTime orderToDate = DateTime.ParseExact(cm.OrderToDate.Trim(), "dd-MM-yyyy", null);
+                        cm.OrderToDate = orderToDate.ToString("yyyy-MM-dd");
+                    }
+
+
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@OrderFromDate", cm.OrderFromDate);
+                    cmd.Parameters.AddWithValue("@OrderToDate", cm.OrderToDate);
+                    cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+                    cmd.Parameters.AddWithValue("@OrderNo", cm.OrderNo);
+                    cmd.Parameters.AddWithValue("@PayStatus",Convert.ToInt32(cm.PayStatus));
+                    cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsavailableService = new DataTable();
+                    adapter.Fill(dsavailableService);
+                    con.Close();
+                    if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
+                        {
+                            AvailableServiceModel obj = new AvailableServiceModel();
+                            obj.OrderId = Convert.ToInt32(dsavailableService.Rows[i]["OrderId"]);
+                            obj.OrderDetId = Convert.ToInt32(dsavailableService.Rows[i]["OrderDetId"]);
+                            obj.OrderDate = dsavailableService.Rows[i]["OrderDate"].ToString();
+                            obj.OrderNo = dsavailableService.Rows[i]["OrderNo"].ToString();
+                            obj.ConsultantName = dsavailableService.Rows[i]["ConsultantName"].ToString();
+                            obj.ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]);
+                            obj.ItemName = dsavailableService.Rows[i]["ItemName"].ToString();
+                            obj.FirstName = dsavailableService.Rows[i]["FirstName"].ToString();
+                            obj.MiddleName = dsavailableService.Rows[i]["MiddleName"].ToString();
+                            obj.LastName = dsavailableService.Rows[i]["LastName"].ToString();
+                            obj.RegNo = dsavailableService.Rows[i]["RegNo"].ToString();
+                            obj.PatientId = Convert.ToInt32(dsavailableService.Rows[i]["PatientId"]);
+                            obj.Selected = Convert.ToInt32(dsavailableService.Rows[i]["Selected"]);
+                            obj.Status = Convert.ToInt32(dsavailableService.Rows[i]["Status"]);
+                            obj.PayStatus = dsavailableService.Rows[i]["PayStatus"].ToString();
+                            obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
                             availableServiceList.Add(obj);
                         }
                     }
@@ -321,7 +374,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string CancelServiceOrder(AvailableServiceModel asm)
         {
             string response = string.Empty;

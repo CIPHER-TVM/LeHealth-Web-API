@@ -259,12 +259,6 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-
-
-
-
-
-
         [HttpPost]
         [Route("GetLastConsultation")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetLastConsultation(AvailableServiceModel asm)
@@ -298,6 +292,40 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [HttpPost]
+        [Route("GetServicesOrderByDate")]
+        public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderByDate(AvailableServiceModel asm)
+        {
+            List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
+            try
+            {
+                itemGroupList = serviceorderService.GetServicesOrderByDate(asm);
+                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemGroupList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        
         [HttpPost]
         [Route("GetServicesGroups")]
         public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups()
