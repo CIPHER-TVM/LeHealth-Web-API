@@ -91,6 +91,7 @@ namespace LeHealth.Core.DataManager
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+
                 using (SqlCommand cmd = new SqlCommand("stLH_GetProfile", con))
                 {
                     con.Open();
@@ -158,11 +159,15 @@ namespace LeHealth.Core.DataManager
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                int listcount = asm.GroupIdList.Count;
+                string GroupIds = "";
+                if (listcount > 0)
+                    GroupIds = string.Join(",", asm.GroupIdList.ToArray());
                 using (SqlCommand cmd = new SqlCommand("stLH_GetServiceItemsOfGroup", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@GroupId", asm.GroupId);
+                    cmd.Parameters.AddWithValue("@GroupId", GroupIds);
                     cmd.Parameters.AddWithValue("@PatientId", asm.PatientId);
                     cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
 
@@ -275,7 +280,9 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@OrderToDate", cm.OrderToDate);
                     cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
                     cmd.Parameters.AddWithValue("@OrderNo", cm.OrderNo);
-                    cmd.Parameters.AddWithValue("@PayStatus",Convert.ToInt32(cm.PayStatus));
+                    cmd.Parameters.AddWithValue("@PayStatus", Convert.ToInt32(cm.PayStatus));
+                    cmd.Parameters.AddWithValue("@RegNo", cm.RegNo);
+                    cmd.Parameters.AddWithValue("@ServiceItemName", cm.ItemName);
                     cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
