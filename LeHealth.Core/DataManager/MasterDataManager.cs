@@ -1364,6 +1364,60 @@ namespace LeHealth.Core.DataManager
             }
 
         }
+        public List<HospitalModel> GetUserSpecificHospitals(int userId)
+        {
+            List<HospitalModel> hospitalList = new List<HospitalModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("stLH_GetUserSpecificHospitals", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_UserId", userId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsHospitalList = new DataTable();
+                    adapter.Fill(dsHospitalList);
+                    con.Close();
+                    if ((dsHospitalList != null) && (dsHospitalList.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsHospitalList.Rows.Count; i++)
+                        {
+                            HospitalModel obj = new HospitalModel();
+                            obj.HospitalId = Convert.ToInt32(dsHospitalList.Rows[i]["HospitalId"]);
+                            obj.HospitalName = dsHospitalList.Rows[i]["HospitalName"].ToString();
+                            obj.HospitalCode = dsHospitalList.Rows[i]["HospitalCode"].ToString();
+                            obj.Caption = dsHospitalList.Rows[i]["Caption"].ToString();
+                            obj.Address1 = dsHospitalList.Rows[i]["Address1"].ToString();
+                            obj.Address2 = dsHospitalList.Rows[i]["Address2"].ToString();
+                            obj.Street = dsHospitalList.Rows[i]["Street"].ToString();
+                            obj.PlacePO = dsHospitalList.Rows[i]["PlacePO"].ToString();
+                            obj.PIN = dsHospitalList.Rows[i]["PIN"].ToString();
+                            obj.City = dsHospitalList.Rows[i]["City"].ToString();
+                            obj.State = Convert.ToInt32(dsHospitalList.Rows[i]["State"]);
+                            obj.Country = Convert.ToInt32(dsHospitalList.Rows[i]["Country"]);
+                            obj.Phone = dsHospitalList.Rows[i]["Phone"].ToString();
+                            obj.Fax = dsHospitalList.Rows[i]["Fax"].ToString();
+                            obj.Email = dsHospitalList.Rows[i]["Email"].ToString();
+                            obj.URL = dsHospitalList.Rows[i]["URL"].ToString();
+                            obj.Logo = dsHospitalList.Rows[i]["Logo"].ToString();
+                            obj.ReportLogo = dsHospitalList.Rows[i]["ReportLogo"].ToString();
+                            obj.ClinicId = dsHospitalList.Rows[i]["ClinicId"].ToString();
+                            obj.DHAFacilityId = dsHospitalList.Rows[i]["DHAFacilityId"].ToString();
+                            obj.DHAUserName = dsHospitalList.Rows[i]["DHAFacilityId"].ToString();
+                            obj.DHAPassword = dsHospitalList.Rows[i]["DHAFacilityId"].ToString();
+                            obj.SR_ID = dsHospitalList.Rows[i]["SR_ID"].ToString();
+                            obj.MalaffiSystemcode = dsHospitalList.Rows[i]["MalaffiSystemcode"].ToString();
+                            obj.Active = Convert.ToInt32(dsHospitalList.Rows[i]["IsActive"]);
+                            obj.BlockReason = dsHospitalList.Rows[i]["BlockReason"].ToString();
+                            hospitalList.Add(obj);
+                        }
+                    }
+                    return hospitalList;
+
+                }
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

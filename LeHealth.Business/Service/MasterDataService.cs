@@ -312,8 +312,13 @@ namespace LeHealth.Service.Service
         public List<CommunicationTypeModel> GetCommunicationType()
         {
             return masterdataManager.GetCommunicationType();
-        } 
-       
+        }
+        public List<HospitalModel> GetUserSpecificHospitals(int UserId)
+        {
+            return masterdataManager.GetUserSpecificHospitals(UserId);
+        }
+
+
 
     }
 }

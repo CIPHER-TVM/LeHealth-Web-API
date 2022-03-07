@@ -1192,6 +1192,37 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 };
             }
         }
+        [Route("GetUserSpecificHospitals/{UserId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<HospitalModel>> GetUserSpecificHospitals(Int32 UserId)
+        {
+            try
+            {
+                List< HospitalModel> hospitals = masterdataService.GetUserSpecificHospitals(UserId);
+                var response = new ResponseDataModel<IEnumerable<HospitalModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = hospitals,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "HospitalsController", "GetUserHospitals()");
+
+                return new ResponseDataModel<IEnumerable<HospitalModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
 
 
         /// <summary>

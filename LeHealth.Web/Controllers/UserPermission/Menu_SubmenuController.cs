@@ -89,6 +89,75 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+
+        [HttpPost]
+        [Route("GetMenuMap/{GroupId}")]
+        public ResponseDataModel<List<int>> GetMenuMap(int GroupId)
+        {
+            List<int> menu = new List<int>();
+            try
+            {
+                menu = menuSubmenuService.GetMenuMap(GroupId);
+                var response = new ResponseDataModel<List<int>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = menu
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<List<int>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [HttpPost]
+        [Route("GetLeftmenu/{user}/{BranchesId}")]
+        public ResponseDataModel<List<Leftmenumodel>> GetLeftmenu(int user,int BranchesId)
+        {
+            List<Leftmenumodel> menu = new List<Leftmenumodel>();
+            try
+            {
+               menu = menuSubmenuService.GetLeftmenu(user, BranchesId);
+                var response = new ResponseDataModel<List<Leftmenumodel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = menu
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<List<Leftmenumodel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
         [Route("GetMenuItems")]
         public ResponseDataModel<IEnumerable<MenuModel>> GetMenuItems()
         {
@@ -220,5 +289,37 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             }
         }
         #endregion
+        [HttpPost]
+        [Route("SaveMenumap")]
+        public ResponseDataModel<string> SaveMenumap(MenuMap obj)
+        {
+            try
+            {
+                string retval = menuSubmenuService.SaveMenumap(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = retval,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "menuController", "SaveMenumap()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
     }
 }
