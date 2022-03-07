@@ -300,7 +300,7 @@ namespace LeHealth.Core.DataManager
                             obj.RegNo = dsavailableService.Rows[i]["RegNo"].ToString();
                             obj.PatientId = Convert.ToInt32(dsavailableService.Rows[i]["PatientId"]);
                             obj.Selected = Convert.ToInt32(dsavailableService.Rows[i]["Selected"]);
-                            obj.Status = Convert.ToInt32(dsavailableService.Rows[i]["Status"]);
+                            obj.ItemStatus = dsavailableService.Rows[i]["Status"].ToString();
                             obj.PayStatus = dsavailableService.Rows[i]["PayStatus"].ToString();
                             obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
                             availableServiceList.Add(obj);
