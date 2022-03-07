@@ -111,6 +111,6 @@ namespace LeHealth.Core.Interface
         List<KinRelationModel> GetKinRelation();
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
-       
+        List<HospitalModel> GetUserSpecificHospitals(int userId);
     }
 }

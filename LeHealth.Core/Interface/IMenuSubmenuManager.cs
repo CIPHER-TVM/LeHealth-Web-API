@@ -13,5 +13,8 @@ namespace LeHealth.Core.Interface
         SubmenuModel GetSubmenuMenuItem(int subMenuId);
         List<SubmenuModel> GetSubMenuItems();
         string SaveSubMenuItems(SubmenuModel obj);
+        string SaveMenumap(MenuMap obj);
+        List<int> GetMenuMap(int groupId);
+        List<Leftmenumodel> GetLeftmenu(int user, int branchesId);
     }
 }

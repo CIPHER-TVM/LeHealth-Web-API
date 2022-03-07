@@ -37,6 +37,18 @@ namespace LeHealth.Service.Service
         {
             return menuSubmenuManager.SaveSubMenuItems(obj);
         }
+        public string SaveMenumap(MenuMap obj)
+        {
+            return menuSubmenuManager.SaveMenumap(obj);
+        }
+        public List<Leftmenumodel> GetLeftmenu(int user, int branchesId)
+        {
+            return menuSubmenuManager.GetLeftmenu(user, branchesId);
+        }
+        public List<int> GetMenuMap(int groupId)
+        {
+            return menuSubmenuManager.GetMenuMap(groupId);
+        }
         public List<SubmenuModel> GetSubMenuItems()
         {
             return menuSubmenuManager.GetSubMenuItems();

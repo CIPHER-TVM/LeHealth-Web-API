@@ -231,6 +231,8 @@ namespace LeHealth.Core.DataManager
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
                         obj = ds.Tables[0].ToObject<UserModel>();
+                        obj.GroupIds = new List<string>();
+                        obj.BranchIds = new List<string>();
                     }
                     if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
                     {

@@ -34,9 +34,11 @@ namespace LeHealth.Core.DataManager
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
                     con.Close();
+                    
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
                         obj = ds.Tables[0].ToObject<MenuModel>();
+                        obj.submenuIds = new List<int>();
                     }
                     if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
                     {
@@ -108,7 +110,6 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_GetSubmenuMenuItem", con))
                 {
                     con.Open();
-
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@subMenuId", subMenuId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -172,7 +173,110 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<Leftmenumodel> GetLeftmenu(int user, int branchesId)
+        {
+            List<Leftmenumodel> obj = new List<Leftmenumodel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetLeftMenu", con))
+                {
+                    try
+                    {
+                      
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@P_UserId",user);
+                        cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
+                        
 
+                        SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retjson);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        string ret = retjson.Value.ToString();
+                        obj = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
+                       
+                    }
+                    catch (Exception ex)
+                    {
+                       //obj = ex.Message;
+                    }
+                    return obj;
+                }
+            }
+        }
+       public List<int> GetMenuMap(int groupId)
+        {
+            List<int> response = new List<int>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetMenuMap", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_groupId", groupId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                       for(int i=0;i<ds.Tables[0].Rows.Count;i++)
+                        {
+                            response.Add(Convert.ToInt32(ds.Tables[0].Rows[i]["MenuId"].ToString()));
+                        }
+                        
+                    }
+
+                    return response;
+                }
+            }
+
+            return response;
+        }
+       public string SaveMenumap(MenuMap obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SaveMenumap", con))
+                {
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        var jsonmenuIds = JsonConvert.SerializeObject(obj.menuIds);
+                        cmd.Parameters.AddWithValue("@P_groupId", obj.groupId);
+                        cmd.Parameters.AddWithValue("@P_Json", jsonmenuIds);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+
+                        response = descrip;
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
         public string SaveSubMenuItems(SubmenuModel obj)
         {
             string response = string.Empty;
