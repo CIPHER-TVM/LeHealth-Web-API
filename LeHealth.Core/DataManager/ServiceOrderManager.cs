@@ -255,6 +255,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
         public List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -271,10 +272,6 @@ namespace LeHealth.Core.DataManager
                         DateTime orderToDate = DateTime.ParseExact(cm.OrderToDate.Trim(), "dd-MM-yyyy", null);
                         cm.OrderToDate = orderToDate.ToString("yyyy-MM-dd");
                     }
-
-
-
-
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@OrderFromDate", cm.OrderFromDate);
                     cmd.Parameters.AddWithValue("@OrderToDate", cm.OrderToDate);
@@ -282,7 +279,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@OrderNo", cm.OrderNo);
                     cmd.Parameters.AddWithValue("@PayStatus", Convert.ToInt32(cm.PayStatus));
                     cmd.Parameters.AddWithValue("@RegNo", cm.RegNo);
-                    cmd.Parameters.AddWithValue("@ServiceItemName", cm.ItemName);
+                    cmd.Parameters.AddWithValue("@PatientName", cm.PatientName);
                     cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -309,6 +306,56 @@ namespace LeHealth.Core.DataManager
                             obj.Selected = Convert.ToInt32(dsavailableService.Rows[i]["Selected"]);
                             obj.ItemStatus = dsavailableService.Rows[i]["Status"].ToString();
                             obj.PayStatus = dsavailableService.Rows[i]["PayStatus"].ToString();
+                            obj.Mobile = dsavailableService.Rows[i]["Mobile"].ToString();
+                            obj.ResNo = dsavailableService.Rows[i]["ResNo"].ToString();
+                            obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
+                            availableServiceList.Add(obj);
+                        }
+                    }
+                    return availableServiceList;
+                }
+            }
+        }
+
+        public List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel cm)
+        {
+            List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetServiceOrderLoad", con))
+                {
+                    con.Open();
+                    
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsavailableService = new DataTable();
+                    adapter.Fill(dsavailableService);
+                    con.Close();
+                    if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
+                        {
+                            AvailableServiceModel obj = new AvailableServiceModel();
+                            obj.OrderId = Convert.ToInt32(dsavailableService.Rows[i]["OrderId"]);
+                            obj.OrderDetId = Convert.ToInt32(dsavailableService.Rows[i]["OrderDetId"]);
+                            obj.OrderDate = dsavailableService.Rows[i]["OrderDate"].ToString();
+                            obj.OrderNo = dsavailableService.Rows[i]["OrderNo"].ToString();
+                            obj.ConsultantName = dsavailableService.Rows[i]["ConsultantName"].ToString();
+                            obj.ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]);
+                            obj.ItemName = dsavailableService.Rows[i]["ItemName"].ToString();
+                            obj.FirstName = dsavailableService.Rows[i]["FirstName"].ToString();
+                            obj.MiddleName = dsavailableService.Rows[i]["MiddleName"].ToString();
+                            obj.LastName = dsavailableService.Rows[i]["LastName"].ToString();
+                            obj.RegNo = dsavailableService.Rows[i]["RegNo"].ToString();
+                            obj.PatientId = Convert.ToInt32(dsavailableService.Rows[i]["PatientId"]);
+                            obj.Selected = Convert.ToInt32(dsavailableService.Rows[i]["Selected"]);
+                            obj.ItemStatus = dsavailableService.Rows[i]["Status"].ToString();
+                            obj.PayStatus = dsavailableService.Rows[i]["PayStatus"].ToString();
+                            obj.Mobile = dsavailableService.Rows[i]["Mobile"].ToString();
+                            obj.ResNo = dsavailableService.Rows[i]["ResNo"].ToString();
                             obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
                             availableServiceList.Add(obj);
                         }

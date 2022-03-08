@@ -53,8 +53,9 @@ namespace LeHealth.Entity.DataModel
         public String Category { get; set; }
         public int GroupType { get; set; }
         public String ItemStatus { get; set; }
-        public int Status { get; set; }
+        public String Status { get; set; }
         public String PayStatus { get; set; }
+        public String PatientName { get; set; } 
         public int LocationId { get; set; }
         public int SerialNo { get; set; } 
         public int OrderDetId { get; set; }  
@@ -66,6 +67,8 @@ namespace LeHealth.Entity.DataModel
         public String MiddleName { get; set; }   
         public String LastName { get; set; }   
         public String RegNo { get; set; }   
+        public String Mobile { get; set; }   
+        public String ResNo { get; set; }    
         public Int32 Selected { get; set; }    
         public List<ItemDataModel> ItemObj { get; set; }
     }

@@ -17,6 +17,7 @@ namespace LeHealth.Service.ServiceInterface
         String CancelServiceOrder(AvailableServiceModel asm);
         List<ServiceGroupModel> GetServicesGroups();
         List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel asm); 
+        List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel asm); 
 
 
     }
