@@ -268,7 +268,7 @@ namespace LeHealth.Core.DataManager
                     if (cm.OrderFromDate.Trim() != "" && cm.OrderToDate.Trim() != "")
                     {
                         DateTime orderFromDate = DateTime.ParseExact(cm.OrderFromDate.Trim(), "dd-MM-yyyy", null);
-                        cm.OrderDate = orderFromDate.ToString("yyyy-MM-dd");
+                        cm.OrderFromDate = orderFromDate.ToString("yyyy-MM-dd");
                         DateTime orderToDate = DateTime.ParseExact(cm.OrderToDate.Trim(), "dd-MM-yyyy", null);
                         cm.OrderToDate = orderToDate.ToString("yyyy-MM-dd");
                     }
@@ -309,6 +309,7 @@ namespace LeHealth.Core.DataManager
                             obj.Mobile = dsavailableService.Rows[i]["Mobile"].ToString();
                             obj.ResNo = dsavailableService.Rows[i]["ResNo"].ToString();
                             obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
+                            obj.PendingOrderCount = Convert.ToInt32(dsavailableService.Rows[i]["PendingOrderCount"]);
                             availableServiceList.Add(obj);
                         }
                     }

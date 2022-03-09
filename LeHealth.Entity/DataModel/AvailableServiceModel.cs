@@ -9,7 +9,7 @@ namespace LeHealth.Entity.DataModel
         public int GroupId { get; set; }
         public List<int> GroupIdList { get; set; }
         public int Id { get; set; }
-        public String ServiceName { get; set; }
+        public int PendingOrderCount { get; set; } 
         public int OrderId { get; set; }
         public String OrderNo { get; set; }
         public String OrderDate { get; set; }
