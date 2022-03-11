@@ -116,6 +116,10 @@ namespace LeHealth.Catalogue.API
             //
             services.AddScoped<IFileUploadService, FileUploadService>();
 
+
+            services.AddScoped<IConsultantService, ConsultantService>();
+            services.AddScoped<IConsultantManager, ConsultantManager>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
