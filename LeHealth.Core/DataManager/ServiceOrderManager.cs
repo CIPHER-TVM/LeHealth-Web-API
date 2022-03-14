@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 
 namespace LeHealth.Core.DataManager
@@ -286,6 +287,8 @@ namespace LeHealth.Core.DataManager
                     DataTable dsavailableService = new DataTable();
                     adapter.Fill(dsavailableService);
                     con.Close();
+                    int numberOfRecords = dsavailableService.AsEnumerable().Where(x => x["PayStatus"].ToString() == "Pending").ToList().Count;
+
                     if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
                     {
                         for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
@@ -309,7 +312,7 @@ namespace LeHealth.Core.DataManager
                             obj.Mobile = dsavailableService.Rows[i]["Mobile"].ToString();
                             obj.ResNo = dsavailableService.Rows[i]["ResNo"].ToString();
                             obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
-                            obj.PendingOrderCount = Convert.ToInt32(dsavailableService.Rows[i]["PendingOrderCount"]);
+                            obj.PendingOrderCount = numberOfRecords;//Convert.ToInt32(dsavailableService.Rows[i]["PendingOrderCount"]);
                             availableServiceList.Add(obj);
                         }
                     }
@@ -327,7 +330,7 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_GetServiceOrderLoad", con))
                 {
                     con.Open();
-                    
+
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
 
@@ -379,7 +382,30 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertServiceOrder", con))
                 {
                     //NEW START
-                    string serviceString = JsonConvert.SerializeObject(asm.ItemObj);
+
+                    List<ItemDataModel> servicepackageList = new List<ItemDataModel>();
+                    List<ItemDataModel> serviceprofileList = new List<ItemDataModel>();
+                    List<ItemDataModel> serviceitemList = new List<ItemDataModel>();
+                    for (int i = 0; i < asm.ItemObj.Count; i++)
+                    {
+                        if (asm.ItemObj[i].ItemType == "package")
+                        {
+                            servicepackageList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+                        }
+                        else if (asm.ItemObj[i].ItemType == "profile")
+                        {
+                            serviceprofileList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+
+                        }
+                        else if (asm.ItemObj[i].ItemType == "service")
+                        {
+                            serviceitemList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+                        }
+                        else { }
+                    }
+                    string servicepackageString = JsonConvert.SerializeObject(servicepackageList);
+                    string serviceprofileString = JsonConvert.SerializeObject(serviceprofileList);
+                    string serviceitemString = JsonConvert.SerializeObject(serviceitemList);
                     DateTime orderDate = DateTime.ParseExact(asm.OrderDate.Trim(), "dd-MM-yyyy", null);
                     asm.OrderDate = orderDate.ToString("yyyy-MM-dd");
                     //NEW END
@@ -397,7 +423,9 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@LocationId", asm.LocationId);
                     cmd.Parameters.AddWithValue("@Status", asm.Status);
                     cmd.Parameters.AddWithValue("@PayStatus", asm.PayStatus);
-                    cmd.Parameters.AddWithValue("@ItemJSON", serviceString);
+                    cmd.Parameters.AddWithValue("@PackageJSON", servicepackageString);
+                    cmd.Parameters.AddWithValue("@ProfileJSON", serviceprofileString);
+                    cmd.Parameters.AddWithValue("@ItemJSON", serviceitemString);
                     //NEW END
                     cmd.Parameters.AddWithValue("@UserId", asm.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", asm.SessionId);
