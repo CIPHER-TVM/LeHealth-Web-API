@@ -317,6 +317,11 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetUserSpecificHospitals(UserId);
         }
+        public List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch)
+        {
+
+            return masterdataManager.GetUserSpecificHospitalLocations(userId, branch);
+        }
 
 
 

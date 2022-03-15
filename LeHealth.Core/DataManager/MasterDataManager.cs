@@ -1418,6 +1418,46 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch)
+        {
+            List<LocationModel> locationList = new List<LocationModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using (SqlCommand cmd = new SqlCommand("GetUserSpecificHospitalLocations", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_UserId", userId);
+                    cmd.Parameters.AddWithValue("@P_BranchId", branch);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dslocationlistList = new DataTable();
+                    adapter.Fill(dslocationlistList);
+                    con.Close();
+                    if ((dslocationlistList != null) && (dslocationlistList.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dslocationlistList.Rows.Count; i++)
+                        {
+                            LocationModel obj = new LocationModel();
+                            obj.LocationId = Convert.ToInt32(dslocationlistList.Rows[i]["LocationId"].ToString());
+                            obj.LocationName = dslocationlistList.Rows[i]["LocationName"].ToString();
+                            obj.LTypeId = Convert.ToInt32(dslocationlistList.Rows[i]["LTypeId"].ToString());
+                            obj.ManageBilling = Convert.ToBoolean(dslocationlistList.Rows[i]["ManageBilling"].ToString());
+                            obj.ManageCash = Convert.ToBoolean(dslocationlistList.Rows[i]["ManageCash"].ToString());
+                            obj.ManageCredit = Convert.ToBoolean(dslocationlistList.Rows[i]["ManageCredit"].ToString());
+                            obj.ManageIPCredit = Convert.ToBoolean(dslocationlistList.Rows[i]["ManageIPCredit"].ToString());
+                            obj.ManageSPoints = Convert.ToBoolean(dslocationlistList.Rows[i]["ManageSPoints"].ToString());
+                            obj.Supervisor = dslocationlistList.Rows[i]["Supervisor"].ToString();
+                            obj.RepHeadImg = dslocationlistList.Rows[i]["RepHeadImg"].ToString();
+
+                            locationList.Add(obj);
+                        }
+                    }
+                    return locationList;
+
+                }
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
