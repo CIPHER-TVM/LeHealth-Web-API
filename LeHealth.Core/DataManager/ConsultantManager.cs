@@ -199,8 +199,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AppType", consultant.AppType);
                     cmd.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
                     cmd.Parameters.AddWithValue("@Active", consultant.Active);
-                   // cmd.Parameters.AddWithValue("@BlockReason", consultant.BlockReason);
-                  //  cmd.Parameters.AddWithValue("@ItemId", consultant.ItemId);
                     cmd.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
                     cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
                     cmd.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
@@ -241,10 +239,10 @@ namespace LeHealth.Core.DataManager
 
 
         /// <summary>
-        /// Get Patient details using ConsultantId
+        /// Get Consultant details using ConsultantType
         /// </summary>
-        /// <param name="consultantId"> </param>
-        /// <returns>List of Patient details</returns>
+        /// <param name="consultantType  =2 for all consultants"> </param>
+        /// <returns>List of Consultant details</returns>
         public List<ConsultantMasterModel> GetAllConsultants(int consultantType)
         {
             List<ConsultantMasterModel> patientList = new List<ConsultantMasterModel>();

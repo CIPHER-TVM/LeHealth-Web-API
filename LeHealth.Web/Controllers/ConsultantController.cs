@@ -147,7 +147,7 @@ namespace LeHealth.Base.API.Controllers
 
 
         /// <summary>
-        /// To Save or update Consent Content . if ContentId=0 saves data ,else update data
+        /// To Save or update Consultant .
         /// </summary>
         /// <returns>
         /// returns success or reason of failure
