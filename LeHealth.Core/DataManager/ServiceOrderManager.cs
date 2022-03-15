@@ -383,28 +383,22 @@ namespace LeHealth.Core.DataManager
                 {
                     //NEW START
 
-                    List<ItemDataModel> servicepackageList = new List<ItemDataModel>();
-                    List<ItemDataModel> serviceprofileList = new List<ItemDataModel>();
+                    //List<ItemDataModel> servicepackageList = new List<ItemDataModel>();
+                    //List<ItemDataModel> serviceprofileList = new List<ItemDataModel>();
                     List<ItemDataModel> serviceitemList = new List<ItemDataModel>();
                     for (int i = 0; i < asm.ItemObj.Count; i++)
                     {
-                        if (asm.ItemObj[i].ItemType == "package")
-                        {
-                            servicepackageList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
-                        }
-                        else if (asm.ItemObj[i].ItemType == "profile")
-                        {
-                            serviceprofileList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+                        //if (asm.ItemObj[i].ItemType == "package")
+                        //{
+                        //    servicepackageList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+                        //}
+                        //else if (asm.ItemObj[i].ItemType == "profile")
+                        //{
+                        //    serviceprofileList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+                        //}
 
-                        }
-                        else if (asm.ItemObj[i].ItemType == "service")
-                        {
-                            serviceitemList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
-                        }
-                        else { }
+                        serviceitemList.Add(new ItemDataModel { ItemId = asm.ItemObj[i].ItemId, PackId = asm.ItemObj[i].PackId });
                     }
-                    string servicepackageString = JsonConvert.SerializeObject(servicepackageList);
-                    string serviceprofileString = JsonConvert.SerializeObject(serviceprofileList);
                     string serviceitemString = JsonConvert.SerializeObject(serviceitemList);
                     DateTime orderDate = DateTime.ParseExact(asm.OrderDate.Trim(), "dd-MM-yyyy", null);
                     asm.OrderDate = orderDate.ToString("yyyy-MM-dd");
@@ -423,8 +417,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@LocationId", asm.LocationId);
                     cmd.Parameters.AddWithValue("@Status", asm.Status);
                     cmd.Parameters.AddWithValue("@PayStatus", asm.PayStatus);
-                    cmd.Parameters.AddWithValue("@PackageJSON", servicepackageString);
-                    cmd.Parameters.AddWithValue("@ProfileJSON", serviceprofileString);
                     cmd.Parameters.AddWithValue("@ItemJSON", serviceitemString);
                     //NEW END
                     cmd.Parameters.AddWithValue("@UserId", asm.UserId);
