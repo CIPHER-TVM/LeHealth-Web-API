@@ -19,7 +19,7 @@ namespace LeHealth.Entity.DataModel
         public string Status { get; set; }
         public int ConsultantId { get; set; }
         public int PatientId { get; set; }
-        public DateTime EntryDate { get; set; }
+        public string EntryDate { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Street { get; set; }

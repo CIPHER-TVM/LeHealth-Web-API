@@ -11,5 +11,7 @@ namespace LeHealth.Core.Interface
         List<ConsultationModel> SearchConsultationById(int consultantId);
         List<SearchAppointmentModel> SearchAppointmentByConsultantId(int consultantId);
         List<PatientListModel> SearchPatientByConsultantId(int consultantId);
+        string InsertUpdateConsultant(ConsultantMasterModel consultant);
+        List<ConsultantMasterModel> GetAllConsultants(int consultantType);
     }
 }

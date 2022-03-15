@@ -35,5 +35,14 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.SearchPatientByConsultantId(consultantId);
         }
+        public string InsertUpdateConsultant(ConsultantMasterModel consultant)
+        {
+            return consultantManager.InsertUpdateConsultant(consultant);
+        }
+        // List<PatientListModel> GetConsultant();
+        public List<ConsultantMasterModel> GetAllConsultants(int consultantType)
+        {
+            return consultantManager.GetAllConsultants(consultantType);
+        }
     }
 }

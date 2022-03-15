@@ -144,5 +144,82 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
+
+
+        /// <summary>
+        /// To Save or update Consent Content . if ContentId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+
+        [Route("InsertUpdateConsultant")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> InsertUpdateConsultant(ConsultantMasterModel consultant)
+        {
+            string message = string.Empty;
+            try
+            {
+                message = consultantService.InsertUpdateConsultant(consultant);
+                var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetAllConsultants/{consultantType}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetAllConsultants(int consultantType)
+        {
+            List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
+            try
+            {
+                consultantList = consultantService.GetAllConsultants(consultantType);
+                var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
     }
 }
