@@ -295,7 +295,8 @@ namespace LeHealth.Core.DataManager
                         {
                             AvailableServiceModel obj = new AvailableServiceModel();
                             obj.OrderId = Convert.ToInt32(dsavailableService.Rows[i]["OrderId"]);
-                            obj.OrderDetId = Convert.ToInt32(dsavailableService.Rows[i]["OrderDetId"]);
+                            obj.SubId = Convert.ToInt32(dsavailableService.Rows[i]["SubId"]);
+                            obj.SubType = dsavailableService.Rows[i]["SubType"].ToString();
                             obj.OrderDate = dsavailableService.Rows[i]["OrderDate"].ToString();
                             obj.OrderNo = dsavailableService.Rows[i]["OrderNo"].ToString();
                             obj.ConsultantName = dsavailableService.Rows[i]["ConsultantName"].ToString();
@@ -344,7 +345,8 @@ namespace LeHealth.Core.DataManager
                         {
                             AvailableServiceModel obj = new AvailableServiceModel();
                             obj.OrderId = Convert.ToInt32(dsavailableService.Rows[i]["OrderId"]);
-                            obj.OrderDetId = Convert.ToInt32(dsavailableService.Rows[i]["OrderDetId"]);
+                            obj.SubId = Convert.ToInt32(dsavailableService.Rows[i]["SubId"]);
+                            obj.SubType = dsavailableService.Rows[i]["SubType"].ToString();
                             obj.OrderDate = dsavailableService.Rows[i]["OrderDate"].ToString();
                             obj.OrderNo = dsavailableService.Rows[i]["OrderNo"].ToString();
                             obj.ConsultantName = dsavailableService.Rows[i]["ConsultantName"].ToString();
@@ -383,23 +385,25 @@ namespace LeHealth.Core.DataManager
                 {
                     //NEW START
 
-                    //List<ItemDataModel> servicepackageList = new List<ItemDataModel>();
-                    //List<ItemDataModel> serviceprofileList = new List<ItemDataModel>();
+                    List<ItemDataModel> servicepackageList = new List<ItemDataModel>();
                     List<ItemDataModel> serviceitemList = new List<ItemDataModel>();
                     for (int i = 0; i < asm.ItemObj.Count; i++)
                     {
-                        //if (asm.ItemObj[i].ItemType == "package")
-                        //{
-                        //    servicepackageList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
-                        //}
-                        //else if (asm.ItemObj[i].ItemType == "profile")
-                        //{
-                        //    serviceprofileList.Add(new ItemDataModel { GroupId = asm.ItemObj[i].GroupId, ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
-                        //}
+                        if (asm.ItemObj[i].ItemType == "package")
+                        {
+                            servicepackageList.Add(new ItemDataModel { ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+                        }
+                        else if (asm.ItemObj[i].ItemType == "profile" || asm.ItemObj[i].ItemType == "service")
+                        {
+                            serviceitemList.Add(new ItemDataModel { ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
+                        }
+                        else
+                        {
 
-                        serviceitemList.Add(new ItemDataModel { ItemId = asm.ItemObj[i].ItemId, PackId = asm.ItemObj[i].PackId });
+                        }
                     }
                     string serviceitemString = JsonConvert.SerializeObject(serviceitemList);
+                    string servicepackageString = JsonConvert.SerializeObject(servicepackageList);
                     DateTime orderDate = DateTime.ParseExact(asm.OrderDate.Trim(), "dd-MM-yyyy", null);
                     asm.OrderDate = orderDate.ToString("yyyy-MM-dd");
                     //NEW END
@@ -418,6 +422,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Status", asm.Status);
                     cmd.Parameters.AddWithValue("@PayStatus", asm.PayStatus);
                     cmd.Parameters.AddWithValue("@ItemJSON", serviceitemString);
+                    cmd.Parameters.AddWithValue("@PackageJSON", servicepackageString);
                     //NEW END
                     cmd.Parameters.AddWithValue("@UserId", asm.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", asm.SessionId);

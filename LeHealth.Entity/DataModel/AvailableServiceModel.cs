@@ -11,6 +11,8 @@ namespace LeHealth.Entity.DataModel
         public int Id { get; set; }
         public int PendingOrderCount { get; set; } 
         public int OrderId { get; set; }
+        public int SubId { get; set; }
+        public String SubType { get; set; }
         public String OrderNo { get; set; }
         public String OrderDate { get; set; }
         public int PatientId { get; set; }
@@ -74,8 +76,8 @@ namespace LeHealth.Entity.DataModel
     }
     public class ItemDataModel
     {
-        public int PackId { get; set; }
         public int ItemId { get; set; } 
+        public String ItemType { get; set; } 
         
     }
 }
