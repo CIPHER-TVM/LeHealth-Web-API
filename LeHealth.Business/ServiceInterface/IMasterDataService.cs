@@ -85,5 +85,6 @@ namespace LeHealth.Service.ServiceInterface
         List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
         List<HospitalModel> GetUserSpecificHospitals(int UserId);
+        List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);
     }
 }
