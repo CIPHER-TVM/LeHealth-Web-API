@@ -229,9 +229,9 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateMovement(movement);
         }
-        public List<PackageModel> GetPackage(Int32 movement)
+        public List<PackageModel> GetPackage(PackageModel pm)
         {
-            return masterdataManager.GetPackage(movement);
+            return masterdataManager.GetPackage(pm);
         }
         public string InsertUpdatePackage(PackageModel movement)
         {

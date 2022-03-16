@@ -2007,14 +2007,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetPackage/{Id}")]
+        [Route("GetPackage")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PackageModel>> GetPackage(Int32 Id)
+        public ResponseDataModel<IEnumerable<PackageModel>> GetPackage(PackageModel pm)
         {
             List<PackageModel> companyList = new List<PackageModel>();
             try
             {
-                companyList = masterdataService.GetPackage(Id);
+                companyList = masterdataService.GetPackage(pm);
                 var response = new ResponseDataModel<IEnumerable<PackageModel>>()
                 {
                     Status = HttpStatusCode.OK,

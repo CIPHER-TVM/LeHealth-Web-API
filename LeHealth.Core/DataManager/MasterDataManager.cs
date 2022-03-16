@@ -2138,7 +2138,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="la"></param>
         /// <returns></returns>
-        public List<PackageModel> GetPackage(Int32 la)
+        public List<PackageModel> GetPackage(PackageModel pm)
         {
             List<PackageModel> itemList = new List<PackageModel>();
 
@@ -2148,7 +2148,8 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PackId", la);
+                    cmd.Parameters.AddWithValue("@PackId", pm.PackId);
+                    cmd.Parameters.AddWithValue("@BranchId", pm.BranchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dsNumber = new DataTable();
                     adapter.Fill(dsNumber);

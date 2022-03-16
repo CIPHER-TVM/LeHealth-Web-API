@@ -82,7 +82,7 @@ namespace LeHealth.Core.Interface
         List<MovementModel> GetMovement(Int32 movement);
         string InsertUpdateMovement(MovementModel movement);
 
-        List<PackageModel> GetPackage(Int32 package);
+        List<PackageModel> GetPackage(PackageModel pm);
         string InsertUpdatePackage(PackageModel package);
 
         List<LocationModel> GetLocation(Int32 location);
