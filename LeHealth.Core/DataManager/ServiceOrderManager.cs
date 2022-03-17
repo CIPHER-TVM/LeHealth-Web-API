@@ -462,7 +462,8 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_CancelServiceOrder", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@OrderDetId", asm.OrderDetId);
+                    cmd.Parameters.AddWithValue("@Id", asm.Id);
+                    cmd.Parameters.AddWithValue("@SubType", asm.SubType);
                     cmd.Parameters.AddWithValue("@CancelReason", asm.CancelReason);
                     cmd.Parameters.AddWithValue("@UserId", asm.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", asm.SessionId);
