@@ -13,5 +13,13 @@ namespace LeHealth.Core.Interface
         List<PatientListModel> SearchPatientByConsultantId(int consultantId);
         string InsertUpdateConsultant(ConsultantMasterModel consultant);
         List<ConsultantMasterModel> GetAllConsultants(int consultantType);
+        string InsertConsultantService(ConsultantServiceModel consultant);
+        string DeleteConsultantService(int serviceId);
+        List<ConsultantServiceModel> GetConsultantServices(int consultantId);
+
+        string InsertConsultantDrugs(ConsultantDrugModel consultantDrug);
+        List<ConsultantDrugModel> GetConsultantDrugs(int consultantId);
+        string DeleteConsultantDrug(int drugId);
+        string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug);
     }
 }

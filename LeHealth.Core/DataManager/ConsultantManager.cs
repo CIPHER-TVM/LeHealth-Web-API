@@ -266,5 +266,238 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public string InsertConsultantService(ConsultantServiceModel consultant)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertConsultantServices", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
+                    cmd.Parameters.AddWithValue("@ItemId", consultant.ItemId);
+                    cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteConsultantService(int serviceId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantServiceItem", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ItemId", serviceId);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        response = "success";
+
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+
+        public List<ConsultantServiceModel> GetConsultantServices(int consultantId)
+        {
+            List<ConsultantServiceModel> consultantServices = new List<ConsultantServiceModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantServices", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtServicesList = new DataTable();
+                    adapter.Fill(dtServicesList);
+                    con.Close();
+                    if ((dtServicesList != null) && (dtServicesList.Rows.Count > 0))
+                        consultantServices = dtServicesList.ToListOfObject<ConsultantServiceModel>();
+
+                    return consultantServices;
+                }
+            }
+        }
+        public string InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
+                    cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
+                    cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
+                    cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
+                    cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
+                    cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
+                    cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
+                    cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
+                    cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
+
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+
+        public List<ConsultantDrugModel> GetConsultantDrugs(int consultantId)
+        {
+            List<ConsultantDrugModel> consultantServices = new List<ConsultantDrugModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugList", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtConsultantDrugList = new DataTable();
+                    adapter.Fill(dtConsultantDrugList);
+                    con.Close();
+                    if ((dtConsultantDrugList != null) && (dtConsultantDrugList.Rows.Count > 0))
+                        consultantServices = dtConsultantDrugList.ToListOfObject<ConsultantDrugModel>();
+
+                    return consultantServices;
+                }
+            }
+        }
+        public string DeleteConsultantDrug(int drugId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantDrug", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DrugId", drugId);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        response = "success";
+
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+        public string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultantDrugs", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
+                    cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
+                    cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
+                    cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
+                    cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
+                    cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
+                    cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
+                    cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
+                    cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
+
+
+                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retVal);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var retV = retVal.Value;
+                    var retD = retDesc.Value.ToString();
+                    con.Close();
+                    if (retD == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = retD;
+                    }
+                }
+            }
+            return response;
+        }
     }
 }

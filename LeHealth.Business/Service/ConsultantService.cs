@@ -43,5 +43,34 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetAllConsultants(consultantType);
         }
+
+        public string InsertConsultantService(ConsultantServiceModel consultant)
+        {
+            return consultantManager.InsertConsultantService(consultant);
+        }
+        public string DeleteConsultantService(int serviceId)
+        {
+            return consultantManager.DeleteConsultantService(serviceId);
+        }
+        public List<ConsultantServiceModel> GetConsultantServices(int consultantId)
+        {
+            return consultantManager.GetConsultantServices(consultantId);
+        }
+        public string InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
+        {
+            return consultantManager.InsertConsultantDrugs(consultantDrug);
+        }
+        public List<ConsultantDrugModel> GetConsultantDrugs(int consultantId)
+        {
+            return consultantManager.GetConsultantDrugs(consultantId);
+        }
+        public string DeleteConsultantDrug(int drugId)
+        {
+            return consultantManager.DeleteConsultantDrug(drugId);
+        }
+        public string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
+        {
+            return consultantManager.UpdateConsultantDrugs(consultantDrug);
+        }
     }
 }
