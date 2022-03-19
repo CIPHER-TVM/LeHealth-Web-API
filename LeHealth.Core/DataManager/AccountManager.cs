@@ -78,7 +78,7 @@ namespace LeHealth.Core.DataManager
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
                     con.Close();
-                    if ( (dt != null) && (dt.Rows.Count > 0))
+                    if ((dt != null) && (dt.Rows.Count > 0))
                     {
                         for (Int32 i = 0; i < dt.Rows.Count; i++)
                         {
@@ -90,6 +90,7 @@ namespace LeHealth.Core.DataManager
                             obj.UserState = dt.Rows[i]["State"].ToString();
                             obj.UserActive = dt.Rows[i]["Active"].ToString();
                             obj.BlockReason = dt.Rows[i]["BlockReason"].ToString();
+                            obj.Id = Convert.ToInt32(dt.Rows[i]["ConsultantId"].ToString());
                             userDetails.Add(obj);
                         }
                     }
