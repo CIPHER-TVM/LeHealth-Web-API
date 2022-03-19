@@ -31,7 +31,7 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.SearchAppointmentByConsultantId(appointment);
         }
-        public List<PatientListModel> SearchPatientByConsultantId(PatientSearchModel patient)
+        public List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient)
         {
             return consultantManager.SearchPatientByConsultantId(patient);
         }
@@ -76,6 +76,31 @@ namespace LeHealth.Service.Service
         public string InsertConsultantDiseases(DiseaseModel disease)
         {
             return consultantManager.InsertConsultantDiseases(disease);
+        }
+      
+        public List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId)
+        {
+            return consultantManager.GetDiseaseSymptoms(diseaseId);
+        }
+        public List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId)
+        {
+            return consultantManager.GetDiseaseVitalSigns(diseaseId);
+        }
+        public List<DiseaseICDModel> GetDiseaseICD(int diseaseId)
+        {
+            return consultantManager.GetDiseaseICD(diseaseId);
+        }
+        public string DeleteDiseaseICD(int diseaseId)
+        {
+            return consultantManager.DeleteDiseaseICD(diseaseId);
+        }
+        public string DeleteDiseaseSymptom(int diseaseId)
+        {
+            return consultantManager.DeleteDiseaseSymptom(diseaseId);
+        }
+        public string DeleteDiseaseSign(int diseaseId)
+        {
+            return consultantManager.DeleteDiseaseSign(diseaseId);
         }
     }
 }
