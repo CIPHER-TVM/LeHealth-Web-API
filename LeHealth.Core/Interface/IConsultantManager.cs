@@ -8,9 +8,9 @@ namespace LeHealth.Core.Interface
 {
     public interface IConsultantManager
     {
-        List<ConsultationModel> SearchConsultationById(int consultantId);
-        List<SearchAppointmentModel> SearchAppointmentByConsultantId(int consultantId);
-        List<PatientListModel> SearchPatientByConsultantId(int consultantId);
+        List<ConsultationModel> SearchConsultationById(ConsultationModel consultation);
+        List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment);
+        List<PatientListModel> SearchPatientByConsultantId(PatientSearchModel patient);
         string InsertUpdateConsultant(ConsultantMasterModel consultant);
         List<ConsultantMasterModel> GetAllConsultants(int consultantType);
         string InsertConsultantService(ConsultantServiceModel consultant);
@@ -21,5 +21,7 @@ namespace LeHealth.Core.Interface
         List<ConsultantDrugModel> GetConsultantDrugs(int consultantId);
         string DeleteConsultantDrug(int drugId);
         string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug);
+       
+        string InsertConsultantDiseases(DiseaseModel disease);
     }
 }
