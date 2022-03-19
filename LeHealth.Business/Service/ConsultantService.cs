@@ -23,17 +23,17 @@ namespace LeHealth.Service.Service
         /// <summary>
         ///Getting Consultation details using ConsultantId, Step two in code execution flow
         /// </summary>
-        public List<ConsultationModel> SearchConsultationById(int consultantId)
+        public List<ConsultationModel> SearchConsultationById(ConsultationModel consultation)
         {
-            return consultantManager.SearchConsultationById(consultantId);
+            return consultantManager.SearchConsultationById(consultation);
         }
-        public List<SearchAppointmentModel> SearchAppointmentByConsultantId(int consultantId)
+        public List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment)
         {
-            return consultantManager.SearchAppointmentByConsultantId(consultantId);
+            return consultantManager.SearchAppointmentByConsultantId(appointment);
         }
-        public List<PatientListModel> SearchPatientByConsultantId(int consultantId)
+        public List<PatientListModel> SearchPatientByConsultantId(PatientSearchModel patient)
         {
-            return consultantManager.SearchPatientByConsultantId(consultantId);
+            return consultantManager.SearchPatientByConsultantId(patient);
         }
         public string InsertUpdateConsultant(ConsultantMasterModel consultant)
         {
@@ -71,6 +71,11 @@ namespace LeHealth.Service.Service
         public string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
         {
             return consultantManager.UpdateConsultantDrugs(consultantDrug);
+        }
+        
+        public string InsertConsultantDiseases(DiseaseModel disease)
+        {
+            return consultantManager.InsertConsultantDiseases(disease);
         }
     }
 }

@@ -35,14 +35,14 @@ namespace LeHealth.Base.API.Controllers
 
         }
 
-        [Route("SearchConsultationById/{consultantId}")]
+        [Route("SearchConsultationById")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultationModel>> SearchConsultation(int consultantId)
+        public ResponseDataModel<IEnumerable<ConsultationModel>> SearchConsultation(ConsultationModel consultation)
         {
             List<ConsultationModel> consultationList = new List<ConsultationModel>();
             try
             {
-                consultationList = consultantService.SearchConsultationById(consultantId);
+                consultationList = consultantService.SearchConsultationById(consultation);
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -70,16 +70,14 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
-
-
         [HttpPost]
-        [Route("SearchAppointmentByConsultantId/{consultantId}")]
-        public ResponseDataModel<IEnumerable<SearchAppointmentModel>> SearchAppointmentByConsultantId(int consultantId)
+        [Route("SearchAppointmentByConsultantId")]
+        public ResponseDataModel<IEnumerable<SearchAppointmentModel>> SearchAppointmentByConsultantId(SearchAppointmentModel appointment)
         {
             List<SearchAppointmentModel> appointmentList = new List<SearchAppointmentModel>();
             try
             {
-                appointmentList = consultantService.SearchAppointmentByConsultantId(consultantId);
+                appointmentList = consultantService.SearchAppointmentByConsultantId(appointment);
                 var response = new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -108,15 +106,14 @@ namespace LeHealth.Base.API.Controllers
             }
 
         }
-
-        [Route("SearchPatientByConsultantId/{consultantId}")]
+        [Route("SearchPatientByConsultantId")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PatientListModel>> SearchPatientByConsultantId(int consultantId)
+        public ResponseDataModel<IEnumerable<PatientListModel>> SearchPatientByConsultantId(PatientSearchModel patient)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
             try
             {
-                patientList = consultantService.SearchPatientByConsultantId(consultantId);
+                patientList = consultantService.SearchPatientByConsultantId(patient);
                 var response = new ResponseDataModel<IEnumerable<PatientListModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -460,5 +457,42 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+
+
+        [Route("InsertConsultantDiseases")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DiseaseModel>> InsertConsultantDiseases(DiseaseModel disease)
+        {
+            string message = string.Empty;
+            try
+            {
+                message = consultantService.InsertConsultantDiseases(disease);
+                var response = new ResponseDataModel<IEnumerable<DiseaseModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DiseaseModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
     }
 }

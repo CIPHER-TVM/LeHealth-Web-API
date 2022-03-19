@@ -27,7 +27,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultationId"></param>
         /// <returns>List of consultation details</returns>
-        public List<ConsultationModel> SearchConsultationById(int consultantId)
+        public List<ConsultationModel> SearchConsultationById(ConsultationModel consultation)
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -36,8 +36,9 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
-                  
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+                    cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
+
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable ds = new DataTable();
                     adapter.Fill(ds);
@@ -76,7 +77,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultantId"> </param>
         /// <returns>List of appointment details</returns>
-        public List<SearchAppointmentModel> SearchAppointmentByConsultantId(int consultantId)
+        public List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment)
         {
             List<SearchAppointmentModel> appList = new List<SearchAppointmentModel>();
 
@@ -86,10 +87,11 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    if (consultantId == 0 || consultantId == null)
+                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
+                    if (appointment.ConsultantId == 0 || appointment.ConsultantId == null)
                         cmd.Parameters.AddWithValue("@ConsultantId", 0);
                     else
-                        cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+                        cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
 
                  
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -134,7 +136,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultantId"> </param>
         /// <returns>List of Patient details</returns>
-        public List<PatientListModel> SearchPatientByConsultantId(int consultantId)
+        public List<PatientListModel> SearchPatientByConsultantId(PatientSearchModel patient)
         {
             List<PatientListModel> patientList = new List<PatientListModel>();
 
@@ -144,8 +146,9 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
-                   
+                    cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
+                    cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
+
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dtPatientList = new DataTable();
                     adapter.Fill(dtPatientList);
@@ -497,6 +500,154 @@ namespace LeHealth.Core.DataManager
                     }
                 }
             }
+            return response;
+        }
+        public string InsertConsultantDiseases(DiseaseModel disease)
+        {
+            List<DiseaseModel> responselist = new List<DiseaseModel>();
+            DiseaseModel responseobj = new DiseaseModel();
+            SqlTransaction transaction;
+            string response = string.Empty;
+            string Description = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                
+                con.Open();
+                transaction = con.BeginTransaction();
+                
+                SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDisease", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
+                cmd.Parameters.AddWithValue("@DiseaseDesc", disease.DiseaseDesc);
+                cmd.Parameters.AddWithValue("@ConsultantId", disease.ConsultantId);
+
+                SqlParameter diseaseIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(diseaseIdParam);
+
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                cmd.Transaction = transaction;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int diseaseId = (int)diseaseIdParam.Value;
+
+                    //........................
+                    var descrip = retDesc.Value.ToString();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                    //........................
+
+
+                    if (diseaseId > 0)//Inserted / Updated Successfully
+                    {
+                        transaction.Commit();
+                        //====================InsertDiseaseICD===========================
+
+                        SqlCommand cmdICD = new SqlCommand("stLH_InsertDiseaseICD", con);
+                        cmdICD.CommandType = CommandType.StoredProcedure;
+
+                        cmdICD.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                        cmdICD.Parameters.AddWithValue("@LabelId", disease.LabelId);
+
+                        SqlParameter icdRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter icdRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmdICD.Parameters.Add(icdRetVal);
+                        cmdICD.Parameters.Add(icdRetDesc);
+                        cmdICD.ExecuteNonQuery();
+
+                        //........................
+
+                        //........................
+
+                        //====================InsertDiseaseSymptom===========================
+
+                        SqlCommand cmdSymptom = new SqlCommand("stLH_InsertDiseaseSymptom", con);
+                        cmdSymptom.CommandType = CommandType.StoredProcedure;
+
+                        cmdSymptom.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                        string symptomsString = JsonConvert.SerializeObject(disease.Symptoms);
+                        cmdSymptom.Parameters.AddWithValue("@SymptomJSON", symptomsString);
+
+                        SqlParameter symRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter symRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmdSymptom.Parameters.Add(symRetVal);
+                        cmdSymptom.Parameters.Add(symRetDesc);
+                        cmdSymptom.ExecuteNonQuery();
+
+
+                        //====================InsertDiseaseSign===========================
+
+                        SqlCommand cmdSign = new SqlCommand("stLH_InsertDiseaseSign", con);
+                        cmdSign.CommandType = CommandType.StoredProcedure;
+
+                        cmdSign.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                        string signsString = JsonConvert.SerializeObject(disease.Signs);
+                        cmdSign.Parameters.AddWithValue("@SignJSON", signsString);
+
+                        SqlParameter signRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter signRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmdSign.Parameters.Add(signRetVal);
+                        cmdSign.Parameters.Add(signRetDesc);
+                        cmdSign.ExecuteNonQuery();
+
+                        var descript = signRetDesc.Value.ToString();
+                        con.Close();
+                        if (descript == "Saved Successfully")
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descript;
+                        }
+
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        responseobj.DiseaseId = 0;
+                      
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseobj.DiseaseId = 0;
+                  
+                }
+                con.Close();
+            }
+            responselist.Add(responseobj);
             return response;
         }
     }
