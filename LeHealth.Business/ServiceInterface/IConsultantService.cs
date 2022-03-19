@@ -9,7 +9,7 @@ namespace LeHealth.Service.ServiceInterface
     {
         List<ConsultationModel> SearchConsultationById(ConsultationModel consultation);
         List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment);
-        List<PatientListModel> SearchPatientByConsultantId(PatientSearchModel patient);
+        List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient);
         string InsertUpdateConsultant(ConsultantMasterModel consultant);
         List<ConsultantMasterModel> GetAllConsultants(int consultantType);
       
@@ -23,7 +23,12 @@ namespace LeHealth.Service.ServiceInterface
 
         string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug);
         string InsertConsultantDiseases(DiseaseModel disease);
+        List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId);
+        List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId);
+        List<DiseaseICDModel> GetDiseaseICD(int diseaseId);
 
-       
+        string DeleteDiseaseICD(int diseaseId);
+        string DeleteDiseaseSymptom(int diseaseId);
+        string DeleteDiseaseSign(int diseaseId);
     }
 }

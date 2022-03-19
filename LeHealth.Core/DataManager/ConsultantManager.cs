@@ -136,9 +136,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultantId"> </param>
         /// <returns>List of Patient details</returns>
-        public List<PatientListModel> SearchPatientByConsultantId(PatientSearchModel patient)
+        public List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient)
         {
-            List<PatientListModel> patientList = new List<PatientListModel>();
+            List<ConsultantPatientModel> patientList = new List<ConsultantPatientModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -154,15 +154,14 @@ namespace LeHealth.Core.DataManager
                     adapter.Fill(dtPatientList);
                     con.Close();
                     if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
-                        patientList = dtPatientList.ToListOfObject<PatientListModel>();
+                        patientList = dtPatientList.ToListOfObject<ConsultantPatientModel>();
 
                     return patientList;
                 }
             }
         }
 
-        /// <summary>
-        /// 
+        /// <summary>L
         /// </summary>
         /// <param name="Consultant"></param>
         /// <returns></returns>
@@ -648,6 +647,214 @@ namespace LeHealth.Core.DataManager
                 con.Close();
             }
             responselist.Add(responseobj);
+            return response;
+        }
+
+        public List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId)
+        {
+            List<DiseaseSymptomModel> diseaseSymptoms = new List<DiseaseSymptomModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSymptom", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtList = new DataTable();
+                    adapter.Fill(dtList);
+                    con.Close();
+                    if ((dtList != null) && (dtList.Rows.Count > 0))
+                        diseaseSymptoms = dtList.ToListOfObject<DiseaseSymptomModel>();
+
+                    return diseaseSymptoms;
+                }
+            }
+        }
+        public List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId)
+        {
+            List<DiseaseSignModel> diseaseSigns = new List<DiseaseSignModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSign", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtList = new DataTable();
+                    adapter.Fill(dtList);
+                    con.Close();
+                    if ((dtList != null) && (dtList.Rows.Count > 0))
+                        diseaseSigns = dtList.ToListOfObject<DiseaseSignModel>();
+
+                    return diseaseSigns;
+                }
+            }
+        }
+        public List<DiseaseICDModel> GetDiseaseICD(int diseaseId)
+        {
+            List<DiseaseICDModel> diseaseSigns = new List<DiseaseICDModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetDiseaseICD", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtList = new DataTable();
+                    adapter.Fill(dtList);
+                    con.Close();
+                    if ((dtList != null) && (dtList.Rows.Count > 0))
+                        diseaseSigns = dtList.ToListOfObject<DiseaseICDModel>();
+
+                    return diseaseSigns;
+                }
+            }
+        }
+        public string DeleteDiseaseICD(int diseaseId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseICD", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        con.Close();
+                        if (descrip == "Deleted Successfully")
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
+
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteDiseaseSymptom(int diseaseId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseSymptom", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        con.Close();
+                        if (descrip == "Deleted Successfully")
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+        public string DeleteDiseaseSign(int diseaseId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseSign", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        con.Close();
+                        if (descrip == "Deleted Successfully")
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
             return response;
         }
     }
