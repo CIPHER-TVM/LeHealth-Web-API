@@ -33,13 +33,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
         [HttpPost]
-        [Route("GetAllPatient")]
-        public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient()
+        [Route("GetAllPatient/{BranchId}")]
+        public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient(int BranchId)
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
             try
             {
-                patientList = registrationService.GetAllPatient();
+                patientList = registrationService.GetAllPatient(BranchId);
                 var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
                 {
                     Status = HttpStatusCode.OK,

@@ -25,5 +25,6 @@ namespace LeHealth.Entity.DataModel
         public string SponsorId { get; set; }
         public string Pin { get; set; }
         public int Active { get; set; }
+        public int ConsultantId { get; set; }
     }
 }

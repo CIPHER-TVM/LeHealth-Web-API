@@ -51,9 +51,9 @@ namespace LeHealth.Service.Service
         {
             return registrationManager.ValidateHL7(nabidh);
         }
-        public List<AllPatientModel> GetAllPatient()
+        public List<AllPatientModel> GetAllPatient(int BranchId)
         {
-            return registrationManager.GetAllPatient();
+            return registrationManager.GetAllPatient(BranchId);
         }
         public List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList)
         {

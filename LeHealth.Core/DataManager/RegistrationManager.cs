@@ -29,7 +29,7 @@ namespace LeHealth.Core.DataManager
         /// Get All details of patient.Not using now. Instead of this API SearchPatientInList is calling
         /// </summary>
         /// <returns></returns>
-        public List<AllPatientModel> GetAllPatient()
+        public List<AllPatientModel> GetAllPatient(int BranchId)
         {
             List<AllPatientModel> patientList = new List<AllPatientModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -39,6 +39,7 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PatientId", 0);
+                    cmd.Parameters.AddWithValue("@BranchId", BranchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dsPatientList = new DataTable();
                     adapter.Fill(dsPatientList);
