@@ -70,8 +70,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
         /// <summary>
         /// Get appointment details using ConsultantId
         /// </summary>
@@ -130,7 +128,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         /// <summary>
         /// Get Patient details using ConsultantId
         /// </summary>
@@ -160,7 +157,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         /// <summary>L
         /// </summary>
         /// <param name="Consultant"></param>
@@ -238,8 +234,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
-
         /// <summary>
         /// Get Consultant details using ConsultantType
         /// </summary>
@@ -334,7 +328,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public List<ConsultantServiceModel> GetConsultantServices(int consultantId)
         {
             List<ConsultantServiceModel> consultantServices = new List<ConsultantServiceModel>();
@@ -405,7 +398,52 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultantDrugs", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
+                    cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
+                    cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
+                    cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
+                    cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
+                    cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
+                    cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
+                    cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
+                    cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
 
+
+                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retVal);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var retV = retVal.Value;
+                    var retD = retDesc.Value.ToString();
+                    con.Close();
+                    if (retD == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = retD;
+                    }
+                }
+            }
+            return response;
+        }
         public List<ConsultantDrugModel> GetConsultantDrugs(int consultantId)
         {
             List<ConsultantDrugModel> consultantServices = new List<ConsultantDrugModel>();
@@ -450,52 +488,6 @@ namespace LeHealth.Core.DataManager
                     catch (Exception ex)
                     {
                         response = ex.Message;
-                    }
-                }
-            }
-            return response;
-        }
-        public string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultantDrugs", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
-                    cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
-                    cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
-                    cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
-                    cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
-                    cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
-                    cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
-                    cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
-                    cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
-
-
-                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retVal);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var retV = retVal.Value;
-                    var retD = retDesc.Value.ToString();
-                    con.Close();
-                    if (retD == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = retD;
                     }
                 }
             }
@@ -649,7 +641,6 @@ namespace LeHealth.Core.DataManager
             responselist.Add(responseobj);
             return response;
         }
-
         public List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId)
         {
             List<DiseaseSymptomModel> diseaseSymptoms = new List<DiseaseSymptomModel>();
@@ -848,6 +839,97 @@ namespace LeHealth.Core.DataManager
                             response = descrip;
                         }
 
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+        public string BlockDisease(DiseaseModel disease)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_BlockDisease", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
+                        cmd.Parameters.AddWithValue("@BlockReason", disease.BlockReason);
+                      
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        if (Convert.ToInt32(ret) == disease.DiseaseId)
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
+        public string UnblockDisease(DiseaseModel disease)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_UnblockDisease", con))
+                {
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        if (Convert.ToInt32(ret) == disease.DiseaseId)
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
                     }
                     catch (Exception ex)
                     {
