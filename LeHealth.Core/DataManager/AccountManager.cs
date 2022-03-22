@@ -73,7 +73,6 @@ namespace LeHealth.Core.DataManager
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Username", credential.Username);
                     cmd.Parameters.AddWithValue("@Password", credential.Password);
-
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
