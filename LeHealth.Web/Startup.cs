@@ -83,7 +83,7 @@ namespace LeHealth.Catalogue.API
             // services.AddAutoMapper(typeof(AutoMapping));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
+            //services.AddSwaggerGen();
 
             // adding the service dependencies injection
             services.AddScoped<IHospitalsService, HospitalsService>();

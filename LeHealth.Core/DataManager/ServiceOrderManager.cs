@@ -299,6 +299,7 @@ namespace LeHealth.Core.DataManager
                             obj.SubType = dsavailableService.Rows[i]["SubType"].ToString();
                             obj.OrderDate = dsavailableService.Rows[i]["OrderDate"].ToString();
                             obj.OrderNo = dsavailableService.Rows[i]["OrderNo"].ToString();
+                            obj.ConsultantId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultantId"]);
                             obj.ConsultantName = dsavailableService.Rows[i]["ConsultantName"].ToString();
                             obj.ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]);
                             obj.ItemName = dsavailableService.Rows[i]["ItemName"].ToString();
