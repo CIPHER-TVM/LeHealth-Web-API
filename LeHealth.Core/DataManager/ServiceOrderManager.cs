@@ -282,6 +282,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@RegNo", cm.RegNo);
                     cmd.Parameters.AddWithValue("@PatientName", cm.PatientName);
                     cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+                    cmd.Parameters.AddWithValue("@IsExternal", cm.IsExternalConsultant);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dsavailableService = new DataTable();
