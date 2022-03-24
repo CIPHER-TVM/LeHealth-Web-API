@@ -72,6 +72,7 @@ namespace LeHealth.Entity.DataModel
         public String Mobile { get; set; }   
         public String ResNo { get; set; }    
         public Int32 Selected { get; set; }    
+        public Int32 IsExternalConsultant { get; set; }    
         public List<ItemDataModel> ItemObj { get; set; }
     }
     public class ItemDataModel

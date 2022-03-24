@@ -313,7 +313,9 @@ namespace LeHealth.Core.DataManager
                             obj.Mobile = dsavailableService.Rows[i]["Mobile"].ToString();
                             obj.ResNo = dsavailableService.Rows[i]["ResNo"].ToString();
                             obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
-                            obj.PendingOrderCount = numberOfRecords;//Convert.ToInt32(dsavailableService.Rows[i]["PendingOrderCount"]);
+                            obj.BranchId = Convert.ToInt32(dsavailableService.Rows[i]["BranchId"]);
+                            obj.IsExternalConsultant = Convert.ToInt32(dsavailableService.Rows[i]["ExternalConsultant"]);
+                            obj.PendingOrderCount = numberOfRecords;
                             availableServiceList.Add(obj);
                         }
                     }
