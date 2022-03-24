@@ -283,7 +283,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
-
+        [HttpPost]
         [Route("MapUserGroup")]
         public ResponseDataModel<string> MapUserGroup(MapUserGroupModel obj)
         {

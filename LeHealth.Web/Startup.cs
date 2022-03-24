@@ -120,6 +120,8 @@ namespace LeHealth.Catalogue.API
             services.AddScoped<IConsultantService, ConsultantService>();
             services.AddScoped<IConsultantManager, ConsultantManager>();
 
+            services.AddSwaggerGen();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -150,6 +152,12 @@ namespace LeHealth.Catalogue.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
             });
         }
     }

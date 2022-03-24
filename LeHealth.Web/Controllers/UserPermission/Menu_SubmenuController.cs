@@ -159,6 +159,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             }
         }
         [Route("GetMenuItems")]
+        [HttpPost]
         public ResponseDataModel<IEnumerable<MenuModel>> GetMenuItems()
         {
            List< MenuModel> Menus = new List<MenuModel>();
@@ -256,6 +257,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+        [HttpPost]
         [Route("GetSubMenuItems")]
         public ResponseDataModel<IEnumerable<SubmenuModel>> GetSubMenuItems()
         {
