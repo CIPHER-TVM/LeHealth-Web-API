@@ -90,7 +90,7 @@ namespace LeHealth.Catalogue.API
             services.AddScoped<IHospitalsManager, HospitalsManager>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<ILocationManager, LocationManager>();
-             services.AddScoped<IUserPermissionService, UserPermissionService>();
+            services.AddScoped<IUserPermissionService, UserPermissionService>();
             services.AddScoped<IUserPermissionManager, UserPermissionManager>();
             services.AddScoped<ITodaysPatientService, TodaysPatientService>();
             services.AddScoped<ITodaysPatientManager, TodaysPatientManager>();
@@ -120,7 +120,7 @@ namespace LeHealth.Catalogue.API
             services.AddScoped<IConsultantService, ConsultantService>();
             services.AddScoped<IConsultantManager, ConsultantManager>();
 
-            services.AddSwaggerGen();
+            //services.AddSwaggerGen();
 
         }
 
@@ -154,11 +154,11 @@ namespace LeHealth.Catalogue.API
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
+            //});
         }
     }
 }
