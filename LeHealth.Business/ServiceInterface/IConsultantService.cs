@@ -28,5 +28,7 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteDiseaseSign(int diseaseId);
         string BlockDisease(DiseaseModel disease);
         string UnblockDisease(DiseaseModel disease);
+        List<Appointments> GetMyAppointments(AppointmentModel appointment);
+        List<ConsultationModel> GetMyConsultations(ConsultantModel consultant);
     }
 }
