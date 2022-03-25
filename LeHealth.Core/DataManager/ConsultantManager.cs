@@ -950,6 +950,8 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     appointment.DeptId = 0;
+                    DateTime appDate = DateTime.ParseExact(appointment.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appointment.AppDate = appDate.ToString("yyyy-MM-dd");
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
                     cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
@@ -993,6 +995,8 @@ namespace LeHealth.Core.DataManager
                    
                     con.Open();
                     consultation.DeptId = 0;
+                    DateTime appDate = DateTime.ParseExact(consultation.ConsultantDate.Trim(), "dd-MM-yyyy", null);
+                    consultation.ConsultantDate = appDate.ToString("yyyy-MM-dd");
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Status", consultation.Status);
                     cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
