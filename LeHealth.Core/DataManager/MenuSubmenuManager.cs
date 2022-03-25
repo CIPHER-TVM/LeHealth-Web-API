@@ -186,8 +186,6 @@ namespace LeHealth.Core.DataManager
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId",user);
                         cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
-                        
-
                         SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
                         {
                             Direction = ParameterDirection.Output

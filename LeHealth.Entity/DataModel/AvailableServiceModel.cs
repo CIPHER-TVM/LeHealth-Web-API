@@ -77,8 +77,9 @@ namespace LeHealth.Entity.DataModel
     }
     public class ItemDataModel
     {
-        public int ItemId { get; set; } 
-        public String ItemType { get; set; } 
+        public Int32 ItemId { get; set; } 
+        public Int32 ItemType { get; set; } 
+        public Int32 itemTypeId { get; set; } 
         
     }
 }
