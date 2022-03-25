@@ -89,6 +89,8 @@ namespace LeHealth.Core.DataManager
                             obj.UserState = dt.Rows[i]["State"].ToString();
                             obj.UserActive = dt.Rows[i]["Active"].ToString();
                             obj.BlockReason = dt.Rows[i]["BlockReason"].ToString();
+                            obj.DeptId = dt.Rows[i]["DeptId"].ToString();
+                            obj.DeptName = dt.Rows[i]["DeptName"].ToString();
                             obj.Id = Convert.ToInt32(dt.Rows[i]["ConsultantId"].ToString());
                             userDetails.Add(obj);
                         }

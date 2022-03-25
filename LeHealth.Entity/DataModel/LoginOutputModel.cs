@@ -14,6 +14,8 @@ namespace LeHealth.Entity.DataModel
         public string UserActive { get; set; }
         public string BlockReason { get; set; }
         public string Token { get; set; }
+        public string DeptId { get; set; }
+        public string DeptName { get; set; }
         public int Id { get; set; }
     }
 }
