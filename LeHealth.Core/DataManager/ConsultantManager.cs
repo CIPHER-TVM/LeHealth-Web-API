@@ -939,5 +939,101 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        public List<Appointments> GetMyAppointments(AppointmentModel appointment)
+        {
+            List<Appointments> appointmentList = new List<Appointments>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                string AppQuery = "[stLH_GetAppOfaDay]";
+                using (SqlCommand cmd = new SqlCommand(AppQuery, con))
+                {
+                    con.Open();
+                    appointment.DeptId = 0;
+                    DateTime appDate = DateTime.ParseExact(appointment.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appointment.AppDate = appDate.ToString("yyyy-MM-dd");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+                    cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
+                    cmd.Parameters.AddWithValue("@DeptId", appointment.DeptId);
+                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtAppointmentList = new DataTable();
+                    adapter.Fill(dtAppointmentList);
+                    con.Close();
+                    if ((dtAppointmentList != null) && (dtAppointmentList.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dtAppointmentList.Rows.Count; i++)
+                        {
+                            Appointments obj = new Appointments();
+                            obj.AppId = Convert.ToInt32(dtAppointmentList.Rows[i]["AppId"]);
+                            obj.PatientId = Convert.ToInt32(dtAppointmentList.Rows[i]["PatientId"].ToString());
+                            obj.PatientName = dtAppointmentList.Rows[i]["PatientName"].ToString();
+                            obj.TimeNo = dtAppointmentList.Rows[i]["TimeNo"].ToString();
+                            obj.RegNo = dtAppointmentList.Rows[i]["RegNo"].ToString();
+                            obj.Status = dtAppointmentList.Rows[i]["Status"].ToString();
+                            obj.Gender = Convert.ToInt32(dtAppointmentList.Rows[i]["Gender"]);
+                            obj.AppDate = dtAppointmentList.Rows[i]["AppDate"].ToString();
+                            obj.Email = dtAppointmentList.Rows[i]["Email"].ToString();
+                            obj.Mobile = dtAppointmentList.Rows[i]["Mobile"].ToString();
+                            obj.Address1 = dtAppointmentList.Rows[i]["Address1"].ToString();
+                            appointmentList.Add(obj);
+                        }
+                    }
+                    return appointmentList;
+                }
+            }
+        }
+        public List<ConsultationModel> GetMyConsultations(ConsultantModel consultation)
+        {
+            List<ConsultationModel> consultationsList = new List<ConsultationModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con))
+                {
+                   
+                    con.Open();
+                    consultation.DeptId = 0;
+                    DateTime appDate = DateTime.ParseExact(consultation.ConsultantDate.Trim(), "dd-MM-yyyy", null);
+                    consultation.ConsultantDate = appDate.ToString("yyyy-MM-dd");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Status", consultation.Status);
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+                    cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
+                    cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
+                    cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtConsultationsList = new DataTable();
+                    adapter.Fill(dtConsultationsList);
+                    con.Close();
+                    if ((dtConsultationsList != null) && (dtConsultationsList.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dtConsultationsList.Rows.Count; i++)
+                        {
+                            ConsultationModel obj = new ConsultationModel();
+                            obj.ConsultationId = Convert.ToInt32(dtConsultationsList.Rows[i]["ConsultationId"]);
+                            obj.TokenNO = dtConsultationsList.Rows[i]["TokenNO"].ToString();
+                            obj.DeptId = Convert.ToInt32(dtConsultationsList.Rows[i]["DeptId"]);
+                            obj.PatientName = dtConsultationsList.Rows[i]["PatientName"].ToString();
+                            obj.TimeNo = (dtConsultationsList.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(dtConsultationsList.Rows[i]["TimeNo"]);
+                            obj.RegNo = dtConsultationsList.Rows[i]["RegNo"].ToString();
+                            obj.Status = dtConsultationsList.Rows[i]["Status"].ToString();
+                            obj.Gender = dtConsultationsList.Rows[i]["Gender"].ToString();
+                            obj.Sponsor = dtConsultationsList.Rows[i]["Sponsor"].ToString();
+                            obj.Emergency = Convert.ToInt32(dtConsultationsList.Rows[i]["Emergency"]);
+                            obj.Address = dtConsultationsList.Rows[i]["Address"].ToString();
+                            obj.ConsultDate = dtConsultationsList.Rows[i]["ConsultDate"].ToString();
+                            obj.Email = dtConsultationsList.Rows[i]["Email"].ToString();
+                            obj.Mobile = dtConsultationsList.Rows[i]["Mobile"].ToString();
+                            consultationsList.Add(obj);
+                        }
+                    }
+
+                    return consultationsList;
+                }
+            }
+        }
+
     }
 }

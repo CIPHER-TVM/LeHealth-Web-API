@@ -759,5 +759,75 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("GetMyAppointments")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<Appointments>> GetMyAppointments(AppointmentModel appointment)
+        {
+            List<Appointments> appointmentsList = new List<Appointments>();
+            try
+            {
+                appointmentsList = consultantService.GetMyAppointments(appointment);
+                var response = new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = appointmentsList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<Appointments>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+        [Route("GetMyConsultations")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultationModel>> GetMyConsultations(ConsultantModel consultant)
+        {
+            List<ConsultationModel> consultationList = new List<ConsultationModel>();
+            try
+            {
+                consultationList = consultantService.GetMyConsultations(consultant);
+                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
     }
 }

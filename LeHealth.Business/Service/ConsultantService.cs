@@ -107,6 +107,13 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.UnblockDisease(disease);
         }
-
+        public List<Appointments> GetMyAppointments(AppointmentModel appointment)
+        {
+            return consultantManager.GetMyAppointments(appointment);
+        }
+        public List<ConsultationModel> GetMyConsultations(ConsultantModel consultant)
+        {
+            return consultantManager.GetMyConsultations(consultant);
+        }
     }
 }
