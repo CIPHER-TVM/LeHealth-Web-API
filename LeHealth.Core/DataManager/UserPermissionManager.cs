@@ -41,6 +41,15 @@ namespace LeHealth.Core.DataManager
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
                         obj = ds.Tables[0].ToObject<UserGroupModel>();
+                        obj.submenuIds = new List<int>();
+                    }
+                    if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
+                    {
+                       
+                        foreach (DataRow dr in ds.Tables[1].Rows)
+                        {
+                            obj.submenuIds.Add(Convert.ToInt32(dr.ItemArray[0].ToString()));
+                        }
                     }
                     return obj;
                 }
@@ -105,12 +114,14 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
+                        var jsonsubmenuIds = JsonConvert.SerializeObject(obj.submenuIds);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserGroupId", obj.UserGroupId);
                         cmd.Parameters.AddWithValue("@P_branchId", obj.branchId);
                         cmd.Parameters.AddWithValue("@P_UserGroup", obj.UserGroup);
                         cmd.Parameters.AddWithValue("@P_Active", obj.Active);
                         cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
+                        cmd.Parameters.AddWithValue("@P_Submenu", jsonsubmenuIds);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
