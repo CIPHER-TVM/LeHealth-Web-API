@@ -19,6 +19,7 @@ namespace LeHealth.Core.Interface
         List<ServiceGroupModel> GetServicesGroups();
         List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel asm);
         List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel asm);
+        List<AvailableServiceModel> GetServicesOrderDetailById(int sid);
 
     }
 }

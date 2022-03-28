@@ -63,6 +63,10 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.GetServicesOrderLoad(asm);
         }
+        public List<AvailableServiceModel> GetServicesOrderDetailById(int sid)
+        {
+            return serviceorderManager.GetServicesOrderDetailById(sid);
+        }
 
     }
 }
