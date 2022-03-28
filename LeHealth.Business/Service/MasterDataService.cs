@@ -24,6 +24,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateProfession(zone);
         }
+        public string InsertUpdateMenuGroupMap(MenuGroupModel mgm)
+        {
+            return masterdataManager.InsertUpdateMenuGroupMap(mgm);
+        }
         public List<SponsorMasterModel> GetSponsor(Int32 profid)
         {
             return masterdataManager.GetSponsor(profid);

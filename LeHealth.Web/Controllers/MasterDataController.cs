@@ -243,8 +243,41 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-       
+
         //Profession management ends
+        [Route("InsertUpdateMenuGroupMap")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<MenuGroupModel>> InsertUpdateMenuGroupMap(MenuGroupModel mgm)
+        {
+            string message = string.Empty;
+            try
+            {
+                message = masterdataService.InsertUpdateMenuGroupMap(mgm);
+                var response = new ResponseDataModel<IEnumerable<MenuGroupModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<MenuGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
 
         //Sponsor Management starts

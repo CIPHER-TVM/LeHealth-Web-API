@@ -43,6 +43,10 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.InsertService(asm);
         }
+        public string InsertServiceNew(ServiceInsertInputModel siim)
+        {
+            return serviceorderManager.InsertServiceNew(siim);
+        }
         public string CancelServiceOrder(AvailableServiceModel asm)
         {
             return serviceorderManager.CancelServiceOrder(asm);

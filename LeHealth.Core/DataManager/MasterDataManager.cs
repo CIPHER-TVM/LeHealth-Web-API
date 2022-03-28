@@ -108,6 +108,47 @@ namespace LeHealth.Core.DataManager
 
         //ProfessionManagement Endt
 
+        public string InsertUpdateMenuGroupMap(MenuGroupModel mgm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMenuGroup", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    int listcount = mgm.MenuIds.Count;
+                    string MenuIds = "";
+                    if (listcount > 0)
+                        MenuIds = string.Join(",", mgm.MenuIds.ToArray());
+                    cmd.Parameters.AddWithValue("@GroupId", mgm.GroupId);
+                    cmd.Parameters.AddWithValue("@MenuIds", MenuIds);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
         //SponsorManagement Starts
         /// <summary>
         /// 

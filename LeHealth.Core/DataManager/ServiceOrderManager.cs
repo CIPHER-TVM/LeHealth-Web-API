@@ -256,7 +256,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -455,6 +454,78 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string InsertServiceNew(ServiceInsertInputModel asm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertServiceOrder", con))
+                {
+                    //NEW START
+                    for (int i = 0; i <= asm.ItemObj.Count; i++)
+                    {
+                        String itemdata = asm.ItemObj[i].itemId.ToString();
+                        var isNumeric = int.TryParse(itemdata, out int n);
+                        if (isNumeric == true)
+                        {
+                            String ddd = "";
+                        }
+                        else
+                        {
+                            
+                            String fff = "";
+                        }
+                        String mnb = "";
+                    }
+                    
+                    string serviceitemString = JsonConvert.SerializeObject(asm.ItemObj);
+                    DateTime orderDate = DateTime.ParseExact(asm.OrderDate.Trim(), "dd-MM-yyyy", null);
+                    asm.OrderDate = orderDate.ToString("yyyy-MM-dd");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@OrderId", 0);
+                    cmd.Parameters.AddWithValue("@OrderNo", asm.OrderNo);
+                    cmd.Parameters.AddWithValue("@OrderDate", asm.OrderDate);
+                    cmd.Parameters.AddWithValue("@PatientId", asm.PatientId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", asm.ConsultantId);
+                    cmd.Parameters.AddWithValue("@ConsultationId", asm.ConsultationId);
+                    cmd.Parameters.AddWithValue("@PackId", asm.PackId);
+                    cmd.Parameters.AddWithValue("@PackNo", asm.PackNo);
+                    cmd.Parameters.AddWithValue("@SerialNo", asm.SerialNo);
+                    cmd.Parameters.AddWithValue("@LocationId", asm.LocationId);
+                    cmd.Parameters.AddWithValue("@Status", asm.Status);
+                    cmd.Parameters.AddWithValue("@PayStatus", asm.PayStatus);
+                    cmd.Parameters.AddWithValue("@ItemJSON", serviceitemString);
+                    cmd.Parameters.AddWithValue("@UserId", asm.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", asm.SessionId);
+                    cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    //var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+
         public string CancelServiceOrder(AvailableServiceModel asm)
         {
             string response = string.Empty;

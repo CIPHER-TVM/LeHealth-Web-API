@@ -122,6 +122,39 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("InsertServiceNew")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<AvailableServiceModel>> InsertServiceNew(ServiceInsertInputModel siim)
+        {
+            string message = string.Empty;
+            try
+            {
+                message = serviceorderService.InsertServiceNew(siim);
+                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
         [Route("CancelServiceOrder")]
         [HttpPost]

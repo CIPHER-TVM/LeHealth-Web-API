@@ -11,6 +11,7 @@ namespace LeHealth.Core.Interface
 
         List<ProfessionModel> GetProfession(Int32 profid);
         string InsertUpdateProfession(ProfessionModel prof);
+        string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
         List<SponsorMasterModel> GetSponsor(Int32 sponsorid);
         string InsertUpdateSponsor(SponsorMasterModel sponsor);
 
