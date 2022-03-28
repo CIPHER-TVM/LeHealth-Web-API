@@ -182,7 +182,6 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
-                      
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId",user);
                         cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
