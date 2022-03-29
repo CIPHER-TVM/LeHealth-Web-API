@@ -34,4 +34,9 @@ namespace LeHealth.Entity.DataModel
     {
         public List<SubmenuModel> SubMenus { get; set; }
     }
+    public class Lefmenugroupmodel
+    {
+       public List<Leftmenumodel> leftmenu { get; set; }
+       public List<int> subMenuIds { get; set; }
+    }
 }

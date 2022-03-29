@@ -158,6 +158,42 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+
+
+        [HttpPost]
+        [Route("GetMenuongroups/{user}/{BranchesId}/{GroupIds}")]
+        public ResponseDataModel<Lefmenugroupmodel> GetMenuongroups(int user, int BranchesId,string GroupIds)
+        {
+            Lefmenugroupmodel menu = new Lefmenugroupmodel();
+            try
+            {
+                menu = menuSubmenuService.GetMenuongroups(user, BranchesId, GroupIds);
+                var response = new ResponseDataModel<Lefmenugroupmodel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = menu
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<List<Leftmenumodel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         [Route("GetMenuItems")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<MenuModel>> GetMenuItems()

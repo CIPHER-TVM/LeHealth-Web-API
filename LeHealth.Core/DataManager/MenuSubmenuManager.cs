@@ -183,7 +183,7 @@ namespace LeHealth.Core.DataManager
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@P_UserId",user);
+                        cmd.Parameters.AddWithValue("@P_UserId", user);
                         cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
                         SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
                         {
@@ -195,6 +195,44 @@ namespace LeHealth.Core.DataManager
                         con.Close();
                         string ret = retjson.Value.ToString();
                         obj = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //obj = ex.Message;
+                    }
+                    return obj;
+                }
+            }
+        }
+        public Lefmenugroupmodel GetMenuongroups(int user, int branchesId, string groupIds)
+        {
+            Lefmenugroupmodel obj = new Lefmenugroupmodel();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetMenuongroups", con))
+                {
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@P_UserId",user);
+                        cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
+                        cmd.Parameters.AddWithValue("@P_GroupIds", groupIds);
+                        SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter subjson = new SqlParameter("@SubJSON", SqlDbType.NVarChar, -1)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retjson);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        string ret = retjson.Value.ToString();
+                        string sub = subjson.Value.ToString();
+                        obj.subMenuIds = JsonConvert.DeserializeObject<List<int>>(sub);
                        
                     }
                     catch (Exception ex)

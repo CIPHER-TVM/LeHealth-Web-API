@@ -45,6 +45,10 @@ namespace LeHealth.Service.Service
         {
             return menuSubmenuManager.GetLeftmenu(user, branchesId);
         }
+        public Lefmenugroupmodel GetMenuongroups(int user, int branchesId, string groupIds)
+        {
+            return menuSubmenuManager.GetMenuongroups(user, branchesId, groupIds);
+        }
         public List<int> GetMenuMap(int groupId)
         {
             return menuSubmenuManager.GetMenuMap(groupId);

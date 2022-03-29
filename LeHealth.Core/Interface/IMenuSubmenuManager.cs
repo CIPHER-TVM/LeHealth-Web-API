@@ -16,5 +16,6 @@ namespace LeHealth.Core.Interface
         string SaveMenumap(MenuMap obj);
         List<int> GetMenuMap(int groupId);
         List<Leftmenumodel> GetLeftmenu(int user, int branchesId);
+        Lefmenugroupmodel GetMenuongroups(int user, int branchesId, string groupIds);
     }
 }
