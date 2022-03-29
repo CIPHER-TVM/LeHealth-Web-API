@@ -19,5 +19,6 @@ namespace LeHealth.Service.ServiceInterface
         string MapUserGroup(MapUserGroupModel obj);
         List<UserGroupModel> getUserGroupsonBranch(int branchId);
         MapUserGroupModel getUserGrouponUser(int userId);
+        string SaveUsermenu(UserMenuModel obj);
     }
 }

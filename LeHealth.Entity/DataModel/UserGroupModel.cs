@@ -13,4 +13,10 @@ namespace LeHealth.Entity.DataModel
         public string BlockReason { get; set; }
         public List<int> submenuIds { get; set; }
     }
+    public class UserMenuModel
+    {
+        public int userId { get; set; }
+        public int branchId { get; set; }
+        public List<int> submenuIds { get; set; }
+    }
 }

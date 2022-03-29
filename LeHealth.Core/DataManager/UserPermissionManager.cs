@@ -423,6 +423,49 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        public string SaveUsermenu(UserMenuModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_SaveUserMenus", con))
+                {
+                    try
+                    {
+
+                        var json = JsonConvert.SerializeObject(obj.submenuIds);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@P_UserId", obj.userId);
+                        cmd.Parameters.AddWithValue("@P_BranchId", obj.branchId);
+                        cmd.Parameters.AddWithValue("@P_SubmenuIds", json);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+
+                        response = descrip;
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
         #endregion
     }
 }

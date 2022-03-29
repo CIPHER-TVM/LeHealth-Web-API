@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 
 namespace LeHealth.Core.DataManager
@@ -233,7 +234,12 @@ namespace LeHealth.Core.DataManager
                         con.Close();
                         string ret = retjson.Value.ToString();
                         string sub = subjson.Value.ToString();
-                        obj.subMenuIds = JsonConvert.DeserializeObject<List<int>>(sub);
+                        if(sub!="")
+                        {
+                            obj.subMenuIds = sub.Split(',').Select(Int32.Parse).ToList();
+                        }
+
+                     
                         obj.leftmenu = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
 
                     }
