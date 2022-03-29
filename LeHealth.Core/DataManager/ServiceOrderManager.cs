@@ -147,6 +147,7 @@ namespace LeHealth.Core.DataManager
                             obj.ItemId = Convert.ToInt32(dsItemGroup.Rows[i]["ItemId"]);
                             obj.ItemCode = dsItemGroup.Rows[i]["ItemCode"].ToString();
                             obj.ItemName = dsItemGroup.Rows[i]["ItemName"].ToString();
+                            obj.Rate = Convert.ToInt32(dsItemGroup.Rows[i]["Rate"]);
                             communicationTypeList.Add(obj);
                         }
                     }
