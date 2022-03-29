@@ -17,7 +17,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
     public class Menu_SubmenuController : ControllerBase
     {
         private readonly ILogger<Menu_SubmenuController> logger;
-        private readonly IMenuSubmenuService  menuSubmenuService;
+        private readonly IMenuSubmenuService menuSubmenuService;
         public Menu_SubmenuController(ILogger<Menu_SubmenuController> _logger, IMenuSubmenuService _menuSubmenuService)
         {
             logger = _logger;
@@ -127,12 +127,12 @@ namespace LeHealth.Base.API.Controllers.UserPermission
 
         [HttpPost]
         [Route("GetLeftmenu/{user}/{BranchesId}")]
-        public ResponseDataModel<List<Leftmenumodel>> GetLeftmenu(int user,int BranchesId)
+        public ResponseDataModel<List<Leftmenumodel>> GetLeftmenu(int user, int BranchesId)
         {
             List<Leftmenumodel> menu = new List<Leftmenumodel>();
             try
             {
-               menu = menuSubmenuService.GetLeftmenu(user, BranchesId);
+                menu = menuSubmenuService.GetLeftmenu(user, BranchesId);
                 var response = new ResponseDataModel<List<Leftmenumodel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -162,7 +162,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
 
         [HttpPost]
         [Route("GetMenuongroups/{user}/{BranchesId}/{GroupIds}")]
-        public ResponseDataModel<Lefmenugroupmodel> GetMenuongroups(int user, int BranchesId,string GroupIds)
+        public ResponseDataModel<Lefmenugroupmodel> GetMenuongroups(int user, int BranchesId, string GroupIds)
         {
             Lefmenugroupmodel menu = new Lefmenugroupmodel();
             try
@@ -178,7 +178,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<List<Leftmenumodel>>()
+                return new ResponseDataModel<Lefmenugroupmodel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -198,7 +198,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [HttpPost]
         public ResponseDataModel<IEnumerable<MenuModel>> GetMenuItems()
         {
-           List< MenuModel> Menus = new List<MenuModel>();
+            List<MenuModel> Menus = new List<MenuModel>();
             try
             {
                 Menus = menuSubmenuService.GetMenuItems();
