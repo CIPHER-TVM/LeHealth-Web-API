@@ -391,7 +391,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-         [HttpPost]
+        [HttpPost]
         [Route("GetServicesOrderDetailById/{sid}")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderDetailById(int sid)
         {

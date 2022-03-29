@@ -289,7 +289,7 @@ namespace LeHealth.Core.DataManager
                     DataTable dsavailableService = new DataTable();
                     adapter.Fill(dsavailableService);
                     con.Close();
-                    int numberOfRecords = dsavailableService.AsEnumerable().Where(x => x["PayStatus"].ToString() == "Pending").ToList().Count;
+                    int numberOfRecords = 0;//dsavailableService.AsEnumerable().Where(x => x["PayStatus"].ToString() == "Pending").ToList().Count;
 
                     if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
                     {
