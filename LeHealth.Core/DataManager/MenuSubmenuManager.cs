@@ -227,13 +227,15 @@ namespace LeHealth.Core.DataManager
                             Direction = ParameterDirection.Output
                         };
                         cmd.Parameters.Add(retjson);
+                        cmd.Parameters.Add(subjson);
                         con.Open();
                         var isUpdated = cmd.ExecuteNonQuery();
                         con.Close();
                         string ret = retjson.Value.ToString();
                         string sub = subjson.Value.ToString();
                         obj.subMenuIds = JsonConvert.DeserializeObject<List<int>>(sub);
-                       
+                        obj.leftmenu = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
+
                     }
                     catch (Exception ex)
                     {
