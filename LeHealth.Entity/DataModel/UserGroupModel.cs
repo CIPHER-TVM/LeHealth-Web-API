@@ -18,5 +18,6 @@ namespace LeHealth.Entity.DataModel
         public int userId { get; set; }
         public int branchId { get; set; }
         public List<int> submenuIds { get; set; }
+        public List<int> groupIds { get; set; }
     }
 }

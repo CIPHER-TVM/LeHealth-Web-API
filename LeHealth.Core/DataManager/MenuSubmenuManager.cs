@@ -234,13 +234,16 @@ namespace LeHealth.Core.DataManager
                         con.Close();
                         string ret = retjson.Value.ToString();
                         string sub = subjson.Value.ToString();
-                        if(sub!="")
+                        if(sub!=null)
                         {
-                            obj.subMenuIds = sub.Split(',').Select(Int32.Parse).ToList();
+                            obj.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
                         }
 
-                     
-                        obj.leftmenu = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
+                     if(ret!=null)
+                        {
+                            obj.leftmenu = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
+                        }
+                      
 
                     }
                     catch (Exception ex)

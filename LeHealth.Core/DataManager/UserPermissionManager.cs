@@ -435,10 +435,13 @@ namespace LeHealth.Core.DataManager
                     {
 
                         var json = JsonConvert.SerializeObject(obj.submenuIds);
+                        var groupjson = JsonConvert.SerializeObject(obj.groupIds);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId", obj.userId);
                         cmd.Parameters.AddWithValue("@P_BranchId", obj.branchId);
                         cmd.Parameters.AddWithValue("@P_SubmenuIds", json);
+                        cmd.Parameters.AddWithValue("@P_Groups", groupjson);
+                        
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output

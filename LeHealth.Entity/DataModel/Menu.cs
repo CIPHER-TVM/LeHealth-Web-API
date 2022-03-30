@@ -13,6 +13,7 @@ namespace LeHealth.Entity.DataModel
         public int? SubMenuFlag { get; set; }
         public string MenuAlias { get; set; }
         public List<int> submenuIds { get; set; }
+        public int groupId { get; set; }
     }
     public class SubmenuModel
     {
@@ -37,6 +38,11 @@ namespace LeHealth.Entity.DataModel
     public class Lefmenugroupmodel
     {
        public List<Leftmenumodel> leftmenu { get; set; }
-       public List<int> subMenuIds { get; set; }
+       public List<Submenumapmodel> subMenuIds { get; set; }
+    }
+    public class Submenumapmodel
+    {
+        public int submenuId { get; set; }
+        public int groupId { get; set; }
     }
 }
