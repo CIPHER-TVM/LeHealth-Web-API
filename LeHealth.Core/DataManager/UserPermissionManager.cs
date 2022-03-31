@@ -127,7 +127,6 @@ namespace LeHealth.Core.DataManager
                             Direction = ParameterDirection.Output
                         };
                         cmd.Parameters.Add(retValV);
-
                         SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                         {
                             Direction = ParameterDirection.Output
