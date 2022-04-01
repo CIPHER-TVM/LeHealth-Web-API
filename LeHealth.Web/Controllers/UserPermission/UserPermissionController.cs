@@ -97,7 +97,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             try
             {
                 groups = permissionservice.getUserGroupsonBranch(BranchId, UserId);
-                var response = new ResponseDataModel<IEnumerable<UserGroupModel>>()
+                var response = new ResponseDataModel<UserPermissionGroups>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = groups
@@ -107,7 +107,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<UserGroupModel>>()
+                return new ResponseDataModel<UserPermissionGroups>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
