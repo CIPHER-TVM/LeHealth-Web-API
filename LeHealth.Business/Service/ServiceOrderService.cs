@@ -59,7 +59,7 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.GetServicesOrderByDate(asm);
         }
-         public List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel asm)
+        public List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel asm)
         {
             return serviceorderManager.GetServicesOrderLoad(asm);
         }
