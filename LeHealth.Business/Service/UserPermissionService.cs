@@ -25,9 +25,9 @@ namespace LeHealth.Service.Service
         {
             return userpermissionmanager.getUserGroups();
         }
-        public List<UserGroupModel> getUserGroupsonBranch(int branchId)
+        public UserPermissionGroups getUserGroupsonBranch(int branchId,int userId)
         {
-            return userpermissionmanager.getUserGroupsonBranch(branchId);
+            return userpermissionmanager.getUserGroupsonBranch(branchId, userId);
         }
 
         public string SaveUserGroup(UserGroupModel obj)

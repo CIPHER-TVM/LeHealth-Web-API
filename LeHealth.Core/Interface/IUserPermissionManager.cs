@@ -17,7 +17,7 @@ namespace LeHealth.Core.Interface
         List<MapLocationModel> GetUserLocations(Int32 userId);
         string MapLocation(MapLocationModel obj);
         string MapUserGroup(MapUserGroupModel obj);
-        List<UserGroupModel> getUserGroupsonBranch(int branchId);
+        UserPermissionGroups getUserGroupsonBranch(int branchId, int userId);
       MapUserGroupModel getUserGrouponUser(int userId);
         string SaveUsermenu(UserMenuModel obj);
     }

@@ -55,9 +55,9 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<UserGroupModel> getUserGroupsonBranch(int branchId)
+        public UserPermissionGroups getUserGroupsonBranch(int branchId)
         {
-            List<UserGroupModel> obj = new List<UserGroupModel>();
+            UserPermissionGroups obj = new UserPermissionGroups();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_getUserGroupsMasteronBranch", con))
@@ -72,7 +72,15 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                        obj = ds.Tables[0].ToListOfObject<UserGroupModel>();
+                        obj.userGroups = ds.Tables[0].ToListOfObject<UserGroupModel>();
+                    }
+                    if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
+                    {
+                        obj.groupIds = new List<int>();
+                        foreach(DataRow dr in ds.Tables[1].Rows)
+                        {
+                            obj.groupIds.Add(Convert.ToInt32(dr.ItemArray[0].ToString()));
+                        }
                     }
                     return obj;
                 }
