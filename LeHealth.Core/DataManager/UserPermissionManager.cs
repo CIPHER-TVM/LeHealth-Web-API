@@ -55,7 +55,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public UserPermissionGroups getUserGroupsonBranch(int branchId)
+        public UserPermissionGroups getUserGroupsonBranch(int branchId,int userid)
         {
             UserPermissionGroups obj = new UserPermissionGroups();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -66,6 +66,7 @@ namespace LeHealth.Core.DataManager
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@P_branchId", branchId);
+                    cmd.Parameters.AddWithValue("@P_userId", userid);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
