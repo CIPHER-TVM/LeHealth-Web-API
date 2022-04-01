@@ -77,10 +77,10 @@ namespace LeHealth.Core.DataManager
                     }
                     if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
                     {
-                        obj.groupIds = new List<int>();
+                        obj.groupIds = new List<string>();
                         foreach(DataRow dr in ds.Tables[1].Rows)
                         {
-                            obj.groupIds.Add(Convert.ToInt32(dr.ItemArray[0].ToString()));
+                            obj.groupIds.Add(dr.ItemArray[0].ToString());
                         }
                     }
                     return obj;

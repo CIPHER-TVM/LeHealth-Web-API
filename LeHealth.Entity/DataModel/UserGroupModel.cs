@@ -16,7 +16,7 @@ namespace LeHealth.Entity.DataModel
     public class UserPermissionGroups
     {
         public List<UserGroupModel> userGroups { get; set; }
-        public List<int> groupIds { get; set; }
+        public List<string> groupIds { get; set; }
     }
     public class UserMenuModel
     {
