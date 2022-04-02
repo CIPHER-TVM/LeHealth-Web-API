@@ -6,6 +6,10 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsultationModel
     {
+        public string ChangeStatus { get; set; }
+        public string CreditTime { get; set; }
+        public string PolicyNo { get; set; }
+        public int PolicyPeriod { get; set; }
         public bool EnableConsultation { get; set; }
         public string TokenNO { get; set; }
         public string PatientName { get; set; }

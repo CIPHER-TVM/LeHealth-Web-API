@@ -1026,6 +1026,11 @@ namespace LeHealth.Core.DataManager
                             obj.ConsultDate = dtConsultationsList.Rows[i]["ConsultDate"].ToString();
                             obj.Email = dtConsultationsList.Rows[i]["Email"].ToString();
                             obj.Mobile = dtConsultationsList.Rows[i]["Mobile"].ToString();
+                            obj.ChangeStatus = "";
+                            obj.CreditTime = "";
+                            obj.PolicyNo = dtConsultationsList.Rows[i]["PolicyNo"].ToString();
+                            obj.PolicyPeriod = 0;
+                            obj.OtherReasonForVisit = dtConsultationsList.Rows[i]["Symptoms"].ToString();
                             consultationsList.Add(obj);
                         }
                     }
