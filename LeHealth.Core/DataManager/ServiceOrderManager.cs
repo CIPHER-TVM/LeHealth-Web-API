@@ -326,7 +326,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -350,20 +349,15 @@ namespace LeHealth.Core.DataManager
                         {
                             AvailableServiceModel obj = new AvailableServiceModel();
                             obj.OrderId = Convert.ToInt32(dsavailableService.Rows[i]["OrderId"]);
-                            //obj.SubId = Convert.ToInt32(dsavailableService.Rows[i]["SubId"]);
-                            //obj.SubType = dsavailableService.Rows[i]["SubType"].ToString();
                             obj.OrderDate = dsavailableService.Rows[i]["OrderDate"].ToString();
                             obj.OrderNo = dsavailableService.Rows[i]["OrderNo"].ToString();
                             obj.ConsultantName = dsavailableService.Rows[i]["ConsultantName"].ToString();
-                            //obj.ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]);
-                            //obj.ItemName = dsavailableService.Rows[i]["ItemName"].ToString();
                             obj.FirstName = dsavailableService.Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsavailableService.Rows[i]["MiddleName"].ToString();
                             obj.LastName = dsavailableService.Rows[i]["LastName"].ToString();
                             obj.RegNo = dsavailableService.Rows[i]["RegNo"].ToString();
                             obj.PatientId = Convert.ToInt32(dsavailableService.Rows[i]["PatientId"]);
                             obj.Selected = Convert.ToInt32(dsavailableService.Rows[i]["Selected"]);
-                            //obj.ItemStatus = dsavailableService.Rows[i]["Status"].ToString();
                             obj.IsCancelled = Convert.ToInt32(dsavailableService.Rows[i]["IsCancelled"]);
                             obj.Mobile = dsavailableService.Rows[i]["Mobile"].ToString();
                             obj.ResNo = dsavailableService.Rows[i]["ResNo"].ToString();
@@ -412,9 +406,9 @@ namespace LeHealth.Core.DataManager
         }
 
         /// <summary>
-        /// Update Data in Number configuration table 
+        /// Insert service data, Not using now 
         /// </summary>
-        /// <param name="num">Data in LH_Numbers Table</param>
+        /// <param name="asm">Data in LH_Service, LH_ServiceDet Table</param>
         /// <returns>Success or reason for error</returns>
         public string InsertService(AvailableServiceModel asm)
         {
@@ -490,6 +484,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// Insert service data
+        /// </summary>
+        /// <param name="asm">Data in LH_Service, LH_ServiceDet Table</param>
+        /// <returns>Success or reason for error</returns>
         public string InsertServiceNew(ServiceInsertInputModel asm)
         {
             string response = string.Empty;
@@ -499,7 +498,6 @@ namespace LeHealth.Core.DataManager
                 {
                     List<PackageItemsModel> allItemListObj = new List<PackageItemsModel>();
                     List<int> packageListObj = new List<int>();
-                    //NEW START
                     for (int i = 0; i < asm.ItemObj.Count; i++)
                     {
                         if (asm.ItemObj[i].itemType == 2)
@@ -570,7 +568,11 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
+        /// <summary>
+        /// Cancelling Service order
+        /// </summary>
+        /// <param name="asm">Change status Data LH_ServiceDet Table</param>
+        /// <returns>Success or reason for error</returns>
         public string CancelServiceOrder(AvailableServiceModel asm)
         {
             string response = string.Empty;
