@@ -19,6 +19,11 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
 
         }
+        /// <summary>
+        /// Get all items data in a group if groupId =0 else returns details of a specific Group
+        /// </summary>
+        /// <param name="groupid">Data in LH_ItemGroup Table</param>
+        /// <returns>Profile list</returns>
         public List<GroupModel> GetItemsGroup(int groupId)
         {
             List<GroupModel> communicationTypeList = new List<GroupModel>();
@@ -54,6 +59,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get service items in a package
+        /// </summary>
+        /// <param name="pm">Data in LH_PackageItem Table</param>
+        /// <returns>Package Item list</returns>
         public List<ItemsByTypeModel> GetPackageItem(int packId)
         {
             List<ItemsByTypeModel> communicationTypeList = new List<ItemsByTypeModel>();
@@ -86,9 +96,14 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get all profile data or specific profiles data if pm.ProfileId equals zero
+        /// </summary>
+        /// <param name="pm">Data in LH_Profile Table</param>
+        /// <returns>Profile list</returns>
         public List<ProfileModel> GetProfile(ProfileModel pm)
         {
-            List<ProfileModel> communicationTypeList = new List<ProfileModel>();
+            List<ProfileModel> profileList = new List<ProfileModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -113,16 +128,21 @@ namespace LeHealth.Core.DataManager
                             obj.Remarks = dsItemGroup.Rows[i]["Remarks"].ToString();
                             obj.Active = Convert.ToInt32(dsItemGroup.Rows[i]["Active"]);
                             obj.BlockReason = dsItemGroup.Rows[i]["BlockReason"].ToString();
-                            communicationTypeList.Add(obj);
+                            profileList.Add(obj);
                         }
                     }
-                    return communicationTypeList;
+                    return profileList;
                 }
             }
         }
+        /// <summary>
+        /// Get all items in a profile 
+        /// </summary>
+        /// <param name="pm">Data in LH_ProfileItem Table</param>
+        /// <returns>Items in profile list</returns>
         public List<ItemsByTypeModel> GetProfileItem(ProfileModel pm)
         {
-            List<ItemsByTypeModel> communicationTypeList = new List<ItemsByTypeModel>();
+            List<ItemsByTypeModel> profileItemList = new List<ItemsByTypeModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -148,13 +168,18 @@ namespace LeHealth.Core.DataManager
                             obj.ItemCode = dsItemGroup.Rows[i]["ItemCode"].ToString();
                             obj.ItemName = dsItemGroup.Rows[i]["ItemName"].ToString();
                             obj.Rate = Convert.ToInt32(dsItemGroup.Rows[i]["Rate"]);
-                            communicationTypeList.Add(obj);
+                            profileItemList.Add(obj);
                         }
                     }
-                    return communicationTypeList;
+                    return profileItemList;
                 }
             }
         }
+        /// <summary>
+        /// Get services data in a branch 
+        /// </summary>
+        /// <param name="pm">Data in LH_Service Table</param>
+        /// <returns>service items list</returns>
         public List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -225,6 +250,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get last consultation data of a patient with specific consultant
+        /// </summary>
+        /// <param name="asm">Data in LH_Consultation Table</param>
+        /// <returns>Latest consultation data</returns>
         public List<AvailableServiceModel> GetLastConsultation(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -257,6 +287,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Search service data
+        /// </summary>
+        /// <param name="asm">Search Data in LH_Service Table</param>
+        /// <returns>Service list</returns>
         public List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -297,22 +332,16 @@ namespace LeHealth.Core.DataManager
                         {
                             AvailableServiceModel obj = new AvailableServiceModel();
                             obj.OrderId = Convert.ToInt32(dsavailableService.Rows[i]["OrderId"]);
-                            //obj.SubId = Convert.ToInt32(dsavailableService.Rows[i]["SubId"]);
-                            //obj.SubType = dsavailableService.Rows[i]["SubType"].ToString();
                             obj.OrderDate = dsavailableService.Rows[i]["OrderDate"].ToString();
                             obj.OrderNo = dsavailableService.Rows[i]["OrderNo"].ToString();
                             obj.ConsultantId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultantId"]);
                             obj.ConsultantName = dsavailableService.Rows[i]["ConsultantName"].ToString();
-                            //obj.ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]);
-                            //obj.ItemName = dsavailableService.Rows[i]["ItemName"].ToString();
                             obj.FirstName = dsavailableService.Rows[i]["FirstName"].ToString();
                             obj.MiddleName = dsavailableService.Rows[i]["MiddleName"].ToString();
                             obj.LastName = dsavailableService.Rows[i]["LastName"].ToString();
                             obj.RegNo = dsavailableService.Rows[i]["RegNo"].ToString();
                             obj.PatientId = Convert.ToInt32(dsavailableService.Rows[i]["PatientId"]);
                             obj.Selected = Convert.ToInt32(dsavailableService.Rows[i]["Selected"]);
-                            //obj.ItemStatus = dsavailableService.Rows[i]["Status"].ToString();
-                            //obj.PayStatus = dsavailableService.Rows[i]["PayStatus"].ToString();
                             obj.Mobile = dsavailableService.Rows[i]["Mobile"].ToString();
                             obj.ResNo = dsavailableService.Rows[i]["ResNo"].ToString();
                             obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
@@ -326,6 +355,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get service data on page load.
+        /// </summary>
+        /// <param name="asm">Data in LH_Service Table</param>
+        /// <returns>List of service data as per filter conditions </returns>
         public List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -335,10 +369,17 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_GetServiceOrderLoad", con))
                 {
                     con.Open();
-
+                    if (cm.OrderFromDate.Trim() != "" && cm.OrderToDate.Trim() != "")
+                    {
+                        DateTime orderFromDate = DateTime.ParseExact(cm.OrderFromDate.Trim(), "dd-MM-yyyy", null);
+                        cm.OrderFromDate = orderFromDate.ToString("yyyy-MM-dd");
+                        DateTime orderToDate = DateTime.ParseExact(cm.OrderToDate.Trim(), "dd-MM-yyyy", null);
+                        cm.OrderToDate = orderToDate.ToString("yyyy-MM-dd");
+                    }
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
-
+                    cmd.Parameters.AddWithValue("@OrderFromDate", cm.OrderFromDate);
+                    cmd.Parameters.AddWithValue("@OrderToDate", cm.OrderToDate);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dsavailableService = new DataTable();
                     adapter.Fill(dsavailableService);
@@ -369,6 +410,11 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get service order's itemdetails 
+        /// </summary>
+        /// <param name="cm">Data in  LH_ServiceDet Table</param>
+        /// <returns>Item Data list</returns>
         public List<AvailableServiceModel> GetServicesOrderDetailById(int sid)
         {
             List<AvailableServiceModel> ServiceorderItemList = new List<AvailableServiceModel>();
@@ -613,9 +659,13 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        /// <summary>
+        /// Get service group list
+        /// </summary>
+        /// <param name="asm">Data in LH_ServiceGroup Table</param>
+        /// <returns>Service group list</returns>
         public List<ServiceGroupModel> GetServicesGroups()
         {
-
             try
             {
                 List<ServiceGroupModel> serviceModels = new List<ServiceGroupModel>();

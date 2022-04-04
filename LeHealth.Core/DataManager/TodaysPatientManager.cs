@@ -266,7 +266,7 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@RegNo", regNo);
+                    cmd.Parameters.AddWithValue("@RegNo", regNo.Trim());
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dtPatientList = new DataTable();
                     adapter.Fill(dtPatientList);
@@ -748,7 +748,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@UserId", app.UserId);
                     cmd.Parameters.AddWithValue("@BranchId", app.BranchId);
                     cmd.Parameters.AddWithValue("@AppType", app.AppType);
-                    string sliceString= JsonConvert.SerializeObject(app.SliceData);
+                    string sliceString = JsonConvert.SerializeObject(app.SliceData);
                     cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
                     SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -948,7 +948,7 @@ namespace LeHealth.Core.DataManager
                         //}
                         //else
                         //{
-                            cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
+                        cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
                         //}
                         //DateTime ConsultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
                         DateTime consultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
@@ -969,8 +969,8 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@InitiateCall", consultations.InitiateCall);
                         cmd.Parameters.AddWithValue("@UserId", consultations.UserId);
                         cmd.Parameters.AddWithValue("@SessionId", consultations.SessionId);
-                        cmd.Parameters.AddWithValue("@BranchId", consultations.BranchId); 
-                        string symptomString= JsonConvert.SerializeObject(consultations.Symptoms);
+                        cmd.Parameters.AddWithValue("@BranchId", consultations.BranchId);
+                        string symptomString = JsonConvert.SerializeObject(consultations.Symptoms);
                         cmd.Parameters.AddWithValue("@SymptomJson", symptomString);
                         SqlParameter retSeqNumber = new SqlParameter("@RetSeqNo", SqlDbType.Int)
                         {
