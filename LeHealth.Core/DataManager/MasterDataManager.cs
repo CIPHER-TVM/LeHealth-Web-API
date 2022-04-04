@@ -23,10 +23,11 @@ namespace LeHealth.Core.DataManager
         }
         //ProfessionManagement Starts
         /// <summary>
-        /// 
+        /// Get proffession list. if profid is zero then returns all professions. if profid is not zero then 
+        /// returns specific profession details
         /// </summary>
         /// <param name="profid"></param>
-        /// <returns></returns>
+        /// <returns>Profession details list</returns>
         public List<ProfessionModel> GetProfession(Int32 profid)
         {
             List<ProfessionModel> profList = new List<ProfessionModel>();
@@ -60,10 +61,11 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// 
+        /// Save and updating profession data. if profession.ProfId is zero then saving the proffession details,
+        /// else updates specific proffession
         /// </summary>
         /// <param name="profession"></param>
-        /// <returns></returns>
+        /// <returns>success or reason to failure</returns>
         public string InsertUpdateProfession(ProfessionModel profession)
         {
             string response = string.Empty;
@@ -107,7 +109,11 @@ namespace LeHealth.Core.DataManager
         }
 
         //ProfessionManagement Endt
-
+        /// <summary>
+        /// Save and update MenuGroupMap. 
+        /// </summary>
+        /// <param name="mgm"></param>
+        /// <returns>Success or reason to failure</returns>
         public string InsertUpdateMenuGroupMap(MenuGroupModel mgm)
         {
             string response = string.Empty;
@@ -149,9 +155,10 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
         //SponsorManagement Starts
         /// <summary>
-        /// 
+        /// Get sponsor list. if sponsorid is zero then returns all sponsor details. else returns specific sponsor id details
         /// </summary>
         /// <param name="sponsorid"></param>
         /// <returns></returns>
@@ -214,10 +221,10 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// 
+        /// insert update sponsor details if SponsorId is zero then inserting the data else updating the data of id
         /// </summary>
         /// <param name="sponsor"></param>
-        /// <returns></returns>
+        /// <returns>success or reason to failure</returns>
         public string InsertUpdateSponsor(SponsorMasterModel sponsor)
         {
             string response = string.Empty;
@@ -2903,6 +2910,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get all gender data
+        /// </summary>
+        /// <returns>Gender data list</returns>
         public List<GenderModel> GetGender()
         {
             List<GenderModel> genderList = new List<GenderModel>();
@@ -2931,6 +2942,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get all kin relation data
+        /// </summary>
+        /// <returns>Kin relation list</returns>
         public List<KinRelationModel> GetKinRelation()
         {
             List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
@@ -2959,6 +2974,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get all Marital status Data
+        /// </summary>
+        /// <returns>Marital status list</returns>
         public List<MaritalStatusModel> GetMaritalStatus()
         {
             List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
@@ -2987,6 +3006,10 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        /// <summary>
+        /// Get All communication type list
+        /// </summary>
+        /// <returns>List of communication types</returns>
         public List<CommunicationTypeModel> GetCommunicationType()
         {
             List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();

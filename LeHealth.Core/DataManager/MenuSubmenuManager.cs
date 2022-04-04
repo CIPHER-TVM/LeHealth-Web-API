@@ -18,7 +18,7 @@ namespace LeHealth.Core.DataManager
         public MenuSubmenuManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
-           
+
         }
         public MenuModel GetMenuItem(int menuId)
         {
@@ -35,7 +35,7 @@ namespace LeHealth.Core.DataManager
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
                     con.Close();
-                    
+
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
                         obj = ds.Tables[0].ToObject<MenuModel>();
@@ -121,8 +121,8 @@ namespace LeHealth.Core.DataManager
                     {
                         obj = ds.Tables[0].ToObject<SubmenuModel>();
                     }
-                  
-                        return obj;
+
+                    return obj;
                 }
             }
 
@@ -137,7 +137,6 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
-                       
                         var jsonSubmenu = JsonConvert.SerializeObject(obj.submenuIds);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_Mid", obj.Mid);
@@ -146,7 +145,7 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@P_Link", obj.Link);
                         cmd.Parameters.AddWithValue("@P_MenuIcon", obj.MenuIcon);
                         cmd.Parameters.AddWithValue("@P_SubMenuFlag", obj.SubMenuFlag);
-                        cmd.Parameters.AddWithValue("@P_SubMenuIds",jsonSubmenu);
+                        cmd.Parameters.AddWithValue("@P_SubMenuIds", jsonSubmenu);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
@@ -216,7 +215,7 @@ namespace LeHealth.Core.DataManager
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@P_UserId",user);
+                        cmd.Parameters.AddWithValue("@P_UserId", user);
                         cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
                         cmd.Parameters.AddWithValue("@P_GroupIds", groupIds);
                         SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
@@ -234,27 +233,24 @@ namespace LeHealth.Core.DataManager
                         con.Close();
                         string ret = retjson.Value.ToString();
                         string sub = subjson.Value.ToString();
-                        if(sub!=null)
+                        if (sub != null)
                         {
                             obj.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
                         }
-
-                     if(ret!=null)
+                        if (ret != null)
                         {
                             obj.leftmenu = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
                         }
-                      
-
                     }
                     catch (Exception ex)
                     {
-                       //obj = ex.Message;
+                        //obj = ex.Message;
                     }
                     return obj;
                 }
             }
         }
-       public List<int> GetMenuMap(int groupId)
+        public List<int> GetMenuMap(int groupId)
         {
             List<int> response = new List<int>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -270,20 +266,17 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
                     {
-                       for(int i=0;i<ds.Tables[0].Rows.Count;i++)
+                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
                             response.Add(Convert.ToInt32(ds.Tables[0].Rows[i]["MenuId"].ToString()));
                         }
-                        
                     }
 
                     return response;
                 }
             }
-
-            return response;
         }
-       public string SaveMenumap(MenuMap obj)
+        public string SaveMenumap(MenuMap obj)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))

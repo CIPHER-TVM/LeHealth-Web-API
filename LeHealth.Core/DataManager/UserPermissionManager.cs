@@ -45,7 +45,7 @@ namespace LeHealth.Core.DataManager
                     }
                     if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
                     {
-                       
+
                         foreach (DataRow dr in ds.Tables[1].Rows)
                         {
                             obj.submenuIds.Add(Convert.ToInt32(dr.ItemArray[0].ToString()));
@@ -55,7 +55,7 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public UserPermissionGroups getUserGroupsonBranch(int branchId,int userid)
+        public UserPermissionGroups getUserGroupsonBranch(int branchId, int userid)
         {
             UserPermissionGroups obj = new UserPermissionGroups();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -78,7 +78,7 @@ namespace LeHealth.Core.DataManager
                     if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
                     {
                         obj.groupIds = new List<string>();
-                        foreach(DataRow dr in ds.Tables[1].Rows)
+                        foreach (DataRow dr in ds.Tables[1].Rows)
                         {
                             obj.groupIds.Add(dr.ItemArray[0].ToString());
                         }
@@ -360,7 +360,6 @@ namespace LeHealth.Core.DataManager
                         var json = JsonConvert.SerializeObject(obj.LocationIds);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
-
                         cmd.Parameters.AddWithValue("@P_Locations", json);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
@@ -378,7 +377,6 @@ namespace LeHealth.Core.DataManager
                         con.Close();
                         var ret = retValV.Value;
                         var descrip = retDesc.Value.ToString();
-
                         response = descrip;
                     }
                     catch (Exception ex)
@@ -399,7 +397,6 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
-
                         var json = JsonConvert.SerializeObject(obj.Groups);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
@@ -449,7 +446,7 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@P_BranchId", obj.branchId);
                         cmd.Parameters.AddWithValue("@P_SubmenuIds", json);
                         cmd.Parameters.AddWithValue("@P_Groups", groupjson);
-                        
+
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output

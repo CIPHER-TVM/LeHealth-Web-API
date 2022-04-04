@@ -675,17 +675,17 @@ namespace LeHealth.Core.DataManager
                     {
 
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                        DataTable dscommunicationType = new DataTable();
-                        adapter.Fill(dscommunicationType);
+                        DataTable dsserviceGroup = new DataTable();
+                        adapter.Fill(dsserviceGroup);
                         con.Close();
-                        if ((dscommunicationType != null) && (dscommunicationType.Rows.Count > 0))
+                        if ((dsserviceGroup != null) && (dsserviceGroup.Rows.Count > 0))
                         {
-                            for (Int32 i = 0; i < dscommunicationType.Rows.Count; i++)
+                            for (Int32 i = 0; i < dsserviceGroup.Rows.Count; i++)
                             {
                                 ServiceGroupModel obj = new ServiceGroupModel();
-                                obj.GroupId = Convert.ToInt32(dscommunicationType.Rows[i]["groupId"]);
-                                obj.Label = dscommunicationType.Rows[i]["label"].ToString();
-                                obj.Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dscommunicationType.Rows[i]["children"].ToString());
+                                obj.GroupId = Convert.ToInt32(dsserviceGroup.Rows[i]["groupId"]);
+                                obj.Label = dsserviceGroup.Rows[i]["label"].ToString();
+                                obj.Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dsserviceGroup.Rows[i]["children"].ToString());
                                 serviceModels.Add(obj);
                             }
                         }
