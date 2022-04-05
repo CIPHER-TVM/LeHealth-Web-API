@@ -313,7 +313,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@OrderToDate", cm.OrderToDate);
                     cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
                     cmd.Parameters.AddWithValue("@OrderNo", cm.OrderNo);
-                    //cmd.Parameters.AddWithValue("@PayStatus", Convert.ToInt32(cm.PayStatus));
                     cmd.Parameters.AddWithValue("@RegNo", cm.RegNo);
                     cmd.Parameters.AddWithValue("@PatientName", cm.PatientName);
                     cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
@@ -604,7 +603,8 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if (descrip == "Saved Successfully")
                     {
-                        response = "Success";
+                        response = ret.ToString();
+                        // response = "Success";
                     }
                     else
                     {

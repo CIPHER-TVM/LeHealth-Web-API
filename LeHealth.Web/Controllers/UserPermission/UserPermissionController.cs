@@ -24,8 +24,6 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             permissionservice = _permissionservice;
         }
 
-        
-
         [HttpPost]
         [Route("SaveUserGroup")]
         public ResponseDataModel<string> SaveUserGroup(UserGroupModel obj)
@@ -91,7 +89,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
 
         [HttpPost]
         [Route("getUserGroupsonBranch/{BranchId}/{UserId}")]
-        public ResponseDataModel<UserPermissionGroups> getUserGroupsonBranch(int BranchId,int UserId)
+        public ResponseDataModel<UserPermissionGroups> getUserGroupsonBranch(int BranchId, int UserId)
         {
             UserPermissionGroups groups = new UserPermissionGroups();
             try
@@ -408,6 +406,37 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             }
         }
 
+        [Route("GetUserGroupBranches/{UserId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<UserGroupBranchModel>> GetUserGroupBranches(int UserId)
+        {
+            try
+            {
+                List<UserGroupBranchModel> locations = permissionservice.GetUserGroupBranches(UserId);
+                var response = new ResponseDataModel<IEnumerable<UserGroupBranchModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = locations,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserpermissionController", "GetUserLocations()");
+
+                return new ResponseDataModel<IEnumerable<UserGroupBranchModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
         [Route("GetUserLocations")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<MapLocationModel>> GetUserLocations([FromBody] int UserId)

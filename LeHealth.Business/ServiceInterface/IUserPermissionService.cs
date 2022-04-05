@@ -19,6 +19,7 @@ namespace LeHealth.Service.ServiceInterface
         string MapUserGroup(MapUserGroupModel obj);
         UserPermissionGroups getUserGroupsonBranch(int branchId, int userId);
         MapUserGroupModel getUserGrouponUser(int userId);
+        List<UserGroupBranchModel> GetUserGroupBranches(int userId);
         string SaveUsermenu(UserMenuModel obj);
     }
 }

@@ -168,7 +168,6 @@ namespace LeHealth.Core.DataManager
                 {
                     try
                     {
-
                         var json = JsonConvert.SerializeObject(obj.BranchIds);
                         var jsongroups = JsonConvert.SerializeObject(obj.GroupIds);
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -297,7 +296,29 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public List<UserGroupBranchModel> GetUserGroupBranches(Int32 id)
+        {
+            List<UserGroupBranchModel> obj = new List<UserGroupBranchModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetUserGroupBranches", con))
+                {
+                    con.Open();
 
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@GroupId", id);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    {
+                        obj = ds.Tables[0].ToListOfObject<UserGroupBranchModel>();
+                    }
+                    return obj;
+                }
+            }
+        }
         public List<MapLocationModel> GetUserLocations(Int32 userId)
         {
             List<MapLocationModel> obj = new List<MapLocationModel>();

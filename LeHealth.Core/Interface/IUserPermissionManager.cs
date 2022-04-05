@@ -14,11 +14,12 @@ namespace LeHealth.Core.Interface
         List<UserModel> GetUsers();
         UserModel GetUser(Int32 id);
         List<HospitalModel> GetUserBranches(Int32 id);
+        List<UserGroupBranchModel> GetUserGroupBranches(Int32 id);
         List<MapLocationModel> GetUserLocations(Int32 userId);
         string MapLocation(MapLocationModel obj);
         string MapUserGroup(MapUserGroupModel obj);
         UserPermissionGroups getUserGroupsonBranch(int branchId, int userId);
-      MapUserGroupModel getUserGrouponUser(int userId);
+        MapUserGroupModel getUserGrouponUser(int userId);
         string SaveUsermenu(UserMenuModel obj);
     }
 }

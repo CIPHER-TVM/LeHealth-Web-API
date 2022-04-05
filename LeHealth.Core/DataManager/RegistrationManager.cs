@@ -513,13 +513,10 @@ namespace LeHealth.Core.DataManager
                 }
                 con.Open();
                 transaction = con.BeginTransaction();
-
                 DateTime regDate = DateTime.ParseExact(patientDetail.RegDate.Trim(), "dd-MM-yyyy", null);
                 patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
-
                 DateTime dobDate = DateTime.ParseExact(patientDetail.DOB.Trim(), "dd-MM-yyyy", null);
                 patientDetail.DOB = dobDate.ToString("yyyy-MM-dd");
-
                 SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
@@ -546,7 +543,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Status", patientDetail.Status);//All Existing Rows Are 0 No details known
                 cmd.Parameters.AddWithValue("@PatState", 0);//The Table column is not using Anywhere
                 cmd.Parameters.AddWithValue("@RGroupId", patientDetail.RGroupId);
-                cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);//R,N Two Modes Und. Details Ariyilla
+                cmd.Parameters.AddWithValue("@Mode", patientDetail.Mode);//R,N Two Modes exists. Details Dont know
                 cmd.Parameters.AddWithValue("@Remarks", patientDetail.Remarks);
                 cmd.Parameters.AddWithValue("@NationalityId", patientDetail.NationalityId);
                 cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
@@ -570,7 +567,6 @@ namespace LeHealth.Core.DataManager
                     Direction = ParameterDirection.Output
                 };
                 cmd.Parameters.Add(patientIdParam);
-
                 SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                 {
                     Direction = ParameterDirection.Output
@@ -603,9 +599,6 @@ namespace LeHealth.Core.DataManager
                         var isInserted = savepatidentity1CMD.ExecuteNonQuery();
                         int patidReturn1V = Convert.ToInt32(patidReturn1.Value);
                         var patidReturnDesc1V = patidReturnDesc1.Value.ToString();
-                        //SEVEN TIMES END
-
-                        //THREE TIMES START
                         SqlCommand savepataddress1CMD = new SqlCommand("stLH_InsertPatAddress", con);
                         savepataddress1CMD.CommandType = CommandType.StoredProcedure;
                         savepataddress1CMD.Parameters.AddWithValue("@PatientId", patientId);
@@ -624,10 +617,6 @@ namespace LeHealth.Core.DataManager
                         var isInsertedAdr = savepataddress1CMD.ExecuteNonQuery();
                         int patadrReturn1V = Convert.ToInt32(patadrReturn1.Value);
                         var patadrReturnDesc1V = patadrReturnDesc1.Value.ToString();
-
-
-                        //THREE TIMES END
-
                         //FileUploadStarts
                         if (patientDetail.RegDocLocation != null)
                         {
@@ -831,7 +820,6 @@ namespace LeHealth.Core.DataManager
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
             httpWebRequest.ContentType = "text/plain";
             httpWebRequest.Method = "POST";
-
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
                 streamWriter.Write(nabidh);

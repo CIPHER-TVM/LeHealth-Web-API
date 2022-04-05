@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LeHealth.Service.Service
 {
-    public class UserPermissionService:IUserPermissionService
+    public class UserPermissionService : IUserPermissionService
     {
         private readonly IUserPermissionManager userpermissionmanager;
         public UserPermissionService(IUserPermissionManager _userpermissionmanager)
@@ -25,7 +25,7 @@ namespace LeHealth.Service.Service
         {
             return userpermissionmanager.getUserGroups();
         }
-        public UserPermissionGroups getUserGroupsonBranch(int branchId,int userId)
+        public UserPermissionGroups getUserGroupsonBranch(int branchId, int userId)
         {
             return userpermissionmanager.getUserGroupsonBranch(branchId, userId);
         }
@@ -53,10 +53,14 @@ namespace LeHealth.Service.Service
         {
             return userpermissionmanager.GetUserBranches(id);
         }
+        public List<UserGroupBranchModel> GetUserGroupBranches(Int32 id)
+        {
+            return userpermissionmanager.GetUserGroupBranches(id);
+        }
 
         public List<MapLocationModel> GetUserLocations(Int32 userId)
         {
-            List <MapLocationModel> obj= userpermissionmanager.GetUserLocations(userId);
+            List<MapLocationModel> obj = userpermissionmanager.GetUserLocations(userId);
             obj.ForEach(a =>
             {
                 a.LocationIds = new List<string>(a.Locationstring.Split(","));
@@ -76,7 +80,7 @@ namespace LeHealth.Service.Service
         public MapUserGroupModel getUserGrouponUser(int userId)
         {
             MapUserGroupModel obj = userpermissionmanager.getUserGrouponUser(userId);
-          
+
             return obj;
         }
 
