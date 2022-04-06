@@ -683,7 +683,7 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// Cancel Consultation
+        /// Cancel Consultation 
         /// </summary>
         /// <param name="consultation">ConsultationId,CancelReason,UserId</param>
         /// <returns>Success or Error details</returns>
@@ -871,18 +871,18 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
                     cmd.Parameters.AddWithValue("@ItemId", cm.ItemId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtStateList = new DataTable();
-                    adapter.Fill(dtStateList);
+                    DataTable dtRateList = new DataTable();
+                    adapter.Fill(dtRateList);
                     con.Close();
-                    if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
+                    if ((dtRateList != null) && (dtRateList.Rows.Count > 0))
                     {
-                        for (Int32 i = 0; i < dtStateList.Rows.Count; i++)
+                        for (Int32 i = 0; i < dtRateList.Rows.Count; i++)
                         {
                             ConsultRateModel obj = new ConsultRateModel();
-                            obj.ItemId = Convert.ToInt32(dtStateList.Rows[i]["ItemId"]);
-                            obj.ItemName = dtStateList.Rows[i]["ItemName"].ToString();
-                            obj.Rate = Convert.ToInt32(dtStateList.Rows[i]["Rate"]);
-                            obj.EmergencyFees = Convert.ToInt32(dtStateList.Rows[i]["EmergencyFees"]);
+                            obj.ItemId = Convert.ToInt32(dtRateList.Rows[i]["ItemId"]);
+                            obj.ItemName = dtRateList.Rows[i]["ItemName"].ToString();
+                            obj.Rate = Convert.ToInt32(dtRateList.Rows[i]["Rate"]);
+                            obj.EmergencyFees = Convert.ToInt32(dtRateList.Rows[i]["EmergencyFees"]);
                             stateList.Add(obj);
                         }
                     }

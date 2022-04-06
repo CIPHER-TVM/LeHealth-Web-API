@@ -464,7 +464,6 @@ namespace LeHealth.Core.DataManager
                 {
                     //NEW START
                     string serviceitemString = JsonConvert.SerializeObject(asm.ItemObj);
-                    //string servicepackageString = JsonConvert.SerializeObject(servicepackageList);
                     DateTime orderDate = DateTime.ParseExact(asm.OrderDate.Trim(), "dd-MM-yyyy", null);
                     asm.OrderDate = orderDate.ToString("yyyy-MM-dd");
                     //NEW END
@@ -477,14 +476,11 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ConsultationId", asm.ConsultationId);
                     cmd.Parameters.AddWithValue("@PackId", asm.PackId);
                     cmd.Parameters.AddWithValue("@PackNo", asm.PackNo);
-                    //NEW START
                     cmd.Parameters.AddWithValue("@SerialNo", asm.SerialNo);
                     cmd.Parameters.AddWithValue("@LocationId", asm.LocationId);
                     cmd.Parameters.AddWithValue("@Status", asm.Status);
                     cmd.Parameters.AddWithValue("@PayStatus", asm.PayStatus);
                     cmd.Parameters.AddWithValue("@ItemJSON", serviceitemString);
-                    //cmd.Parameters.AddWithValue("@PackageJSON", servicepackageString);
-                    //NEW END
                     cmd.Parameters.AddWithValue("@UserId", asm.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", asm.SessionId);
                     cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
