@@ -297,16 +297,20 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_GetUserGroupBranches", con))
                 {
                     con.Open();
-
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@GroupId", id);
+                    cmd.Parameters.AddWithValue("@UserId", id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
+                    DataTable dsProfession = new DataTable();
+                    adapter.Fill(dsProfession);
                     con.Close();
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                    if ((dsProfession != null) && (dsProfession.Rows.Count > 0))
                     {
-                        obj = ds.Tables[0].ToListOfObject<UserGroupBranchModel>();
+                        //obj = ds.Tables[0].ToListOfObject<UserGroupBranchModel>();
+                        for (Int32 i = 0; i < dsProfession.Rows.Count; i++)
+                        {
+                            var branchobj = JsonConvert.DeserializeObject<UserGroupBranchModel>(dsProfession.Rows[i]["ValueDatas"].ToString());
+                            obj.Add(branchobj);
+                        }
                     }
                     return obj;
                 }
