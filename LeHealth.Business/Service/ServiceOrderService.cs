@@ -43,7 +43,7 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.InsertService(asm);
         }
-        public string InsertServiceNew(ServiceInsertInputModel siim)
+        public ServiceInsertResponse InsertServiceNew(ServiceInsertInputModel siim)
         {
             return serviceorderManager.InsertServiceNew(siim);
         }

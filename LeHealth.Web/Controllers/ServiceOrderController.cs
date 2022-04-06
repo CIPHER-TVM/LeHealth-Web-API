@@ -124,23 +124,23 @@ namespace LeHealth.Base.API.Controllers
         }
         [Route("InsertServiceNew")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<AvailableServiceModel>> InsertServiceNew(ServiceInsertInputModel siim)
+        public ResponseDataModel<ServiceInsertResponse> InsertServiceNew(ServiceInsertInputModel siim)
         {
-            string message = string.Empty;
+            ServiceInsertResponse groups = new ServiceInsertResponse();
             try
             {
-                message = serviceorderService.InsertServiceNew(siim);
-                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                groups = serviceorderService.InsertServiceNew(siim);
+                var response = new ResponseDataModel<ServiceInsertResponse>()
                 {
                     Status = HttpStatusCode.OK,
-                    Message = message
+                    Response = groups
                 };
                 return response;
             }
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                return new ResponseDataModel<ServiceInsertResponse>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -154,6 +154,35 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
             }
+            //
+            //string message = string.Empty;
+            //try
+            //{
+            //    message = serviceorderService.InsertServiceNew(siim);
+            //    var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+            //    {
+            //        Status = HttpStatusCode.OK,
+            //        Message = message
+            //    };
+            //    return response;
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
 
         [Route("CancelServiceOrder")]

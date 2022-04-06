@@ -534,9 +534,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="asm">Data in LH_Service, LH_ServiceDet Table</param>
         /// <returns>Success or reason for error</returns>
-        public string InsertServiceNew(ServiceInsertInputModel asm)
+        public ServiceInsertResponse InsertServiceNew(ServiceInsertInputModel asm)
         {
-            string response = string.Empty;
+            ServiceInsertResponse response = new ServiceInsertResponse();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertServiceOrder", con))
@@ -591,6 +591,11 @@ namespace LeHealth.Core.DataManager
                         Direction = ParameterDirection.Output
                     };
                     cmd.Parameters.Add(retValV);
+                    SqlParameter retOrderNo = new SqlParameter("@RetOrderNo", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retOrderNo);
                     SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                     {
                         Direction = ParameterDirection.Output
@@ -599,16 +604,20 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     var isUpdated = cmd.ExecuteNonQuery();
                     var ret = retValV.Value;
+                    var orderNo = retOrderNo.Value.ToString();
                     var descrip = retDesc.Value.ToString();
                     con.Close();
                     if (descrip == "Saved Successfully")
                     {
-                        response = ret.ToString();
-                        // response = "Success";
+                        response.orderNo = orderNo;
+                        response.serviceOrderId = Convert.ToInt32(ret);
+                        response.responseMessage = "Success";
                     }
                     else
                     {
-                        response = descrip;
+                        response.orderNo = "";
+                        response.serviceOrderId = 0;
+                        response.responseMessage = descrip;
                     }
                 }
             }
