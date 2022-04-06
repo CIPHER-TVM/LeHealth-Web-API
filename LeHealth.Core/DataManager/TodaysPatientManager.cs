@@ -942,15 +942,8 @@ namespace LeHealth.Core.DataManager
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        //if (consultations.ConsultationId == null || consultations.ConsultationId == 0)
-                        //{
-                        //    cmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
-                        //}
-                        //else
-                        //{
+
                         cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
-                        //}
-                        //DateTime ConsultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
                         DateTime consultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
                         consultations.ConsultDate = consultDate.ToString("yyyy-MM-dd");
                         cmd.Parameters.AddWithValue("@ConsultDate", consultations.ConsultDate);
