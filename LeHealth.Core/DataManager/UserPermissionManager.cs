@@ -87,7 +87,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<UserGroupModel> getUserGroups()
         {
             List<UserGroupModel> obj = new List<UserGroupModel>();
@@ -111,9 +110,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
-
         public string SaveUserGroup(UserGroupModel obj)
         {
             string response = string.Empty;
@@ -205,7 +201,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public List<UserModel> GetUsers()
         {
             List<UserModel> obj = new List<UserModel>();
@@ -229,7 +224,6 @@ namespace LeHealth.Core.DataManager
             }
 
         }
-
         public UserModel GetUser(Int32 id)
         {
             UserModel obj = new UserModel();
@@ -272,7 +266,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public List<HospitalModel> GetUserBranches(Int32 id)
         {
             List<HospitalModel> obj = new List<HospitalModel>();
@@ -342,8 +335,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
-
         public MapUserGroupModel getUserGrouponUser(int userId)
         {
             MapUserGroupModel obj = new MapUserGroupModel();
@@ -367,7 +358,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
         public string MapLocation(MapLocationModel obj)
         {
             string response = string.Empty;
@@ -408,7 +398,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string MapUserGroup(MapUserGroupModel obj)
         {
             string response = string.Empty;
@@ -449,7 +438,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string SaveUsermenu(UserMenuModel obj)
         {
             string response = string.Empty;

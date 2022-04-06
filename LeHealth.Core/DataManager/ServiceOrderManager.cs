@@ -463,20 +463,6 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertServiceOrder", con))
                 {
                     //NEW START
-
-                    //List<ItemDataModel> servicepackageList = new List<ItemDataModel>();
-                    //List<ItemDataModel> serviceitemList = new List<ItemDataModel>();
-                    //for (int i = 0; i < asm.ItemObj.Count; i++)
-                    //{
-                    //if (asm.ItemObj[i].ItemType == "package")
-                    //{
-                    //    servicepackageList.Add(new ItemDataModel { ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
-                    //}
-                    //if (asm.ItemObj[i].ItemType == "profile" || asm.ItemObj[i].ItemType == "service")
-                    //{
-                    //serviceitemList.Add(new ItemDataModel { ItemId = asm.ItemObj[i].ItemId, ItemType = asm.ItemObj[i].ItemType });
-                    //}
-                    //}
                     string serviceitemString = JsonConvert.SerializeObject(asm.ItemObj);
                     //string servicepackageString = JsonConvert.SerializeObject(servicepackageList);
                     DateTime orderDate = DateTime.ParseExact(asm.OrderDate.Trim(), "dd-MM-yyyy", null);
