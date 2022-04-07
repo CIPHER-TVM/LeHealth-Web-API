@@ -936,13 +936,11 @@ namespace LeHealth.Core.DataManager
             var descrip = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultation", con))
                 {
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
                         cmd.Parameters.AddWithValue("@ConsultationId", consultations.ConsultationId);
                         DateTime consultDate = DateTime.ParseExact(consultations.ConsultDate.Trim(), "dd-MM-yyyy", null);
                         consultations.ConsultDate = consultDate.ToString("yyyy-MM-dd");

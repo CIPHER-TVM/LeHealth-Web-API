@@ -233,7 +233,6 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_getUserMaster", con))
                 {
                     con.Open();
-
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@P_Id", id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -305,7 +304,6 @@ namespace LeHealth.Core.DataManager
                     con.Close();
                     if ((dsProfession != null) && (dsProfession.Rows.Count > 0))
                     {
-                        //obj = ds.Tables[0].ToListOfObject<UserGroupBranchModel>();
                         for (Int32 i = 0; i < dsProfession.Rows.Count; i++)
                         {
                             var branchobj = JsonConvert.DeserializeObject<UserGroupBranchModel>(dsProfession.Rows[i]["ValueDatas"].ToString());

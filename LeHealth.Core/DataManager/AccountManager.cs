@@ -62,42 +62,36 @@ namespace LeHealth.Core.DataManager
         public List<LoginOutputModel> Login(CredentialModel credential)
         {
             List<LoginOutputModel> userDetails = new List<LoginOutputModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            string AppQuery = "[stLH_Login]";
+            using SqlCommand cmd = new SqlCommand(AppQuery, con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Username", credential.Username);
+            cmd.Parameters.AddWithValue("@Password", credential.Password);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
             {
-
-                string AppQuery = "[stLH_Login]";
-                using (SqlCommand cmd = new SqlCommand(AppQuery, con))
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
                 {
-                    con.Open();
-
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Username", credential.Username);
-                    cmd.Parameters.AddWithValue("@Password", credential.Password);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    con.Close();
-                    if ((dt != null) && (dt.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dt.Rows.Count; i++)
-                        {
-                            LoginOutputModel obj = new LoginOutputModel();
-                            obj.UserId = dt.Rows[i]["UserId"].ToString();
-                            obj.Username = dt.Rows[i]["UserName"].ToString();
-                            obj.Usersname = dt.Rows[i]["UsersName"].ToString();
-                            obj.Usertype = dt.Rows[i]["UserType"].ToString();
-                            obj.UserState = dt.Rows[i]["State"].ToString();
-                            obj.UserActive = dt.Rows[i]["Active"].ToString();
-                            obj.BlockReason = dt.Rows[i]["BlockReason"].ToString();
-                            obj.DeptId = dt.Rows[i]["DeptId"].ToString();
-                            obj.DeptName = dt.Rows[i]["DeptName"].ToString();
-                            obj.Id = Convert.ToInt32(dt.Rows[i]["ConsultantId"].ToString());
-                            userDetails.Add(obj);
-                        }
-                    }
-                    return userDetails;
+                    LoginOutputModel obj = new LoginOutputModel();
+                    obj.UserId = dt.Rows[i]["UserId"].ToString();
+                    obj.Username = dt.Rows[i]["UserName"].ToString();
+                    obj.Usersname = dt.Rows[i]["UsersName"].ToString();
+                    obj.Usertype = dt.Rows[i]["UserType"].ToString();
+                    obj.UserState = dt.Rows[i]["State"].ToString();
+                    obj.UserActive = dt.Rows[i]["Active"].ToString();
+                    obj.BlockReason = dt.Rows[i]["BlockReason"].ToString();
+                    obj.DeptId = dt.Rows[i]["DeptId"].ToString();
+                    obj.DeptName = dt.Rows[i]["DeptName"].ToString();
+                    obj.Id = Convert.ToInt32(dt.Rows[i]["ConsultantId"].ToString());
+                    userDetails.Add(obj);
                 }
             }
+            return userDetails;
         }
 
         public string GenerateToken()

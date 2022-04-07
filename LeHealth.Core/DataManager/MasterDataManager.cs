@@ -31,34 +31,29 @@ namespace LeHealth.Core.DataManager
         public List<ProfessionModel> GetProfession(Int32 profid)
         {
             List<ProfessionModel> profList = new List<ProfessionModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetProfession", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ProfId", profid);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtProfession = new DataTable();
+            adapter.Fill(dtProfession);
+            con.Close();
+            if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetProfession", con))
+                for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ProfId", profid);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtProfession = new DataTable();
-                    adapter.Fill(dtProfession);
-                    con.Close();
-                    if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
-                        {
-                            ProfessionModel obj = new ProfessionModel();
-                            obj.ProfId = Convert.ToInt32(dtProfession.Rows[i]["ProfId"]);
-                            obj.ProfName = dtProfession.Rows[i]["ProfName"].ToString();
-                            obj.ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"]);
-                            obj.Active = Convert.ToInt32(dtProfession.Rows[i]["IsActive"]);
-                            obj.BlockReason = dtProfession.Rows[i]["BlockReason"].ToString();
-                            profList.Add(obj);
-                        }
-                    }
-                    return profList;
+                    ProfessionModel obj = new ProfessionModel();
+                    obj.ProfId = Convert.ToInt32(dtProfession.Rows[i]["ProfId"]);
+                    obj.ProfName = dtProfession.Rows[i]["ProfName"].ToString();
+                    obj.ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"]);
+                    obj.Active = Convert.ToInt32(dtProfession.Rows[i]["IsActive"]);
+                    obj.BlockReason = dtProfession.Rows[i]["BlockReason"].ToString();
+                    profList.Add(obj);
                 }
             }
+            return profList;
         }
         /// <summary>
         /// Save and updating profession data. if profession.ProfId is zero then saving the proffession details,
