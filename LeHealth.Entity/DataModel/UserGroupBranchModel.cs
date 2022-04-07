@@ -13,7 +13,7 @@ namespace LeHealth.Entity.DataModel
     public class UserGroupBranchModel
     {
         public int BranchId { get; set; }
-        public String BranchName { get; set; }
+        public string BranchName { get; set; }
         public List<Child> Groups { get; set; }
     }
     //public class UserGroupBranchModel
