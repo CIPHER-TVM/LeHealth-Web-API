@@ -491,7 +491,6 @@ namespace LeHealth.Core.DataManager
             List<PatientRegModel> responselist = new List<PatientRegModel>();
             PatientRegModel responseobj = new PatientRegModel();
             SqlTransaction transaction;
-            //string response = string.Empty;
             int IsUpdate = 0;
             if (patientDetail.PatientId > 0)
             {
@@ -501,15 +500,15 @@ namespace LeHealth.Core.DataManager
             {
                 if (IsUpdate == 0 && patientDetail.IsManualRegNo == 0)
                 {
-                    for (Int32 m = 0; m < 100; m++)
-                    {
-                        string rno = AutoregnoCreate();
-                        if (rno != "duplicate")
-                        {
-                            patientDetail.RegNo = rno;
-                            break;
-                        }
-                    }
+                    //for (Int32 m = 0; m < 1000; m++)
+                    //{
+                    string rno = AutoregnoCreate();
+                    //if (rno != "duplicate")
+                    //{
+                    patientDetail.RegNo = rno;
+                    //break;
+                    //}
+                    //}
                 }
                 con.Open();
                 transaction = con.BeginTransaction();
