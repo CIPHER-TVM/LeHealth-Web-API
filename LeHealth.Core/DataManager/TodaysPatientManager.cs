@@ -460,8 +460,8 @@ namespace LeHealth.Core.DataManager
                 {
                     int listdepcount = gsim.Departments.Count;
                     int listconsultantcount = gsim.Consultant.Count;
-                    string DepIds = "";
-                    string consultantIds = "";
+                    string DepIds = String.Empty;
+                    string consultantIds = String.Empty;
                     if (listdepcount > 0)
                         DepIds = string.Join(",", gsim.Departments.ToArray());
                     if (listconsultantcount > 0)
@@ -538,12 +538,10 @@ namespace LeHealth.Core.DataManager
         public List<RecentConsultationModel> GetRecentConsultationData()
         {
             List<RecentConsultationModel> scheduleList = new List<RecentConsultationModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetRecentConsultantations", con))
                 {
-
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
@@ -891,7 +889,7 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// 
+        /// For Scheme amount of 
         /// </summary>
         /// <param name="cm"></param>
         /// <returns></returns>
@@ -1208,7 +1206,7 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 int listcount = dept.Departments.Count;
-                string DepIds = "";
+                string DepIds = string.Empty;
                 if (listcount > 0)
                     DepIds = string.Join(",", dept.Departments.ToArray());
                 using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDepts", con))

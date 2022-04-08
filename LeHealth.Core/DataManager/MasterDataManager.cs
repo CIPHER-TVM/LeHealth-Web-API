@@ -844,75 +844,68 @@ namespace LeHealth.Core.DataManager
         public List<BodyPartModel> GetBodyPart(Int32 salutationDetails)
         {
             List<BodyPartModel> countryList = new List<BodyPartModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-
-                using (SqlCommand cmd = new SqlCommand("stLH_GetBodyPart", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@BodyId", salutationDetails);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtbodypartList = new DataTable();
-                    adapter.Fill(dtbodypartList);
-                    con.Close();
-                    if ((dtbodypartList != null) && (dtbodypartList.Rows.Count > 0))
-                        countryList = dtbodypartList.ToListOfObject<BodyPartModel>();
-                    return countryList;
-                }
-            }
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetBodyPart", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BodyId", salutationDetails);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtbodypartList = new DataTable();
+            adapter.Fill(dtbodypartList);
+            con.Close();
+            if ((dtbodypartList != null) && (dtbodypartList.Rows.Count > 0))
+                countryList = dtbodypartList.ToListOfObject<BodyPartModel>();
+            return countryList;
         }
         /// <summary>
-        /// 
+        /// Save and updating Bodypart master data,Saves when BodyId is zero. Updates when Body Id Not equal to zero
         /// </summary>
         /// <param name="bodypart"></param>
-        /// <returns></returns>
+        /// <returns>success or error statement</returns>
         public string InsertUpdateBodyPart(BodyPartModel bodypart)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateBodyPart", con))
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateBodyPart", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@BodyId", bodypart.BodyId);
+                cmd.Parameters.AddWithValue("@BodyDesc", bodypart.BodyDesc);
+                cmd.Parameters.AddWithValue("@UserId", bodypart.UserId);
+                cmd.Parameters.AddWithValue("@Active", bodypart.Active);
+                cmd.Parameters.AddWithValue("@BlockReason", bodypart.BlockReason);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@BodyId", bodypart.BodyId);
-                    cmd.Parameters.AddWithValue("@BodyDesc", bodypart.BodyDesc);
-                    cmd.Parameters.AddWithValue("@UserId", bodypart.UserId);
-                    cmd.Parameters.AddWithValue("@Active", bodypart.Active);
-                    cmd.Parameters.AddWithValue("@BlockReason", bodypart.BlockReason);
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    con.Close();
-                    if (descrip == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
                 }
             }
             return response;
         }
         //BodyPart Management Ends
         /// <summary>
-        /// 
+        /// Save and updating Zone master data,Saves when Id is zero. Updates when Id Not equal to zero
         /// </summary>
         /// <param name="zone"></param>
-        /// <returns></returns>
+        /// <returns>success or reason for error</returns>
         public string InsertUpdateZone(ZoneModel zone)
         {
             string response = string.Empty;
@@ -957,30 +950,26 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         /// <summary>
-        /// 
+        /// if zoneId is zero then returns all zones , else returns specific zone
         /// </summary>
         /// <param name="zoneId"></param>
-        /// <returns></returns>
+        /// <returns>Zone list</returns>
         public List<ZoneModel> GetZone(Int32 zoneId)
         {
             List<ZoneModel> zoneList = new List<ZoneModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_ZoneById", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@zoneId", zoneId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtZoneList = new DataTable();
-                    adapter.Fill(dtZoneList);
-                    con.Close();
-                    if ((dtZoneList != null) && (dtZoneList.Rows.Count > 0))
-                        zoneList = dtZoneList.ToListOfObject<ZoneModel>();
-                    return zoneList;
-                }
-            }
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_ZoneById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@zoneId", zoneId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtZoneList = new DataTable();
+            adapter.Fill(dtZoneList);
+            con.Close();
+            if ((dtZoneList != null) && (dtZoneList.Rows.Count > 0))
+                zoneList = dtZoneList.ToListOfObject<ZoneModel>();
+            return zoneList;
         }
 
         /// <summary>
@@ -1022,10 +1011,10 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// 
+        /// Save and updating Department master data,Saves when DeptId is zero. Updates when DeptId Not equal to zero
         /// </summary>
         /// <param name="department"></param>
-        /// <returns></returns>
+        /// <returns>success or reason for failure</returns>
         public string InsertUpdateDepartment(DepartmentModel department)
         {
             string response = string.Empty;
@@ -1136,7 +1125,7 @@ namespace LeHealth.Core.DataManager
         }
 
         /// <summary>
-        /// 
+        /// Save Registration scheme if itemId is zero else update the Scheme with Id
         /// </summary>
         /// <param name="RegScheme"></param>
         /// <returns></returns>
@@ -1200,7 +1189,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         /// <summary>
-        /// 
+        /// Save Re
         /// </summary>
         /// <param name="RegSchemeId"></param>
         /// <returns></returns>
@@ -1214,7 +1203,6 @@ namespace LeHealth.Core.DataManager
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.AddWithValue("@ItemId", RegSchemeId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dtRegSchemeList = new DataTable();
@@ -1306,14 +1294,13 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         /// <summary>
-        /// 
+        /// Get Rate group data. if rategroup is zero then lists all rategroups, else returns specific rategroup
         /// </summary>
         /// <param name="RateGroupId"></param>
-        /// <returns></returns>
+        /// <returns>Rategroup list</returns>
         public List<RateGroupModel> GetRateGroup(Int32 RateGroupId)
         {
             List<RateGroupModel> stateList = new List<RateGroupModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_GetRateGroup", con))
@@ -1661,10 +1648,10 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         /// <summary>
-        /// 
+        /// for getting Operator data. if operator id is zero then returns all operators. else returns specific operator data
         /// </summary>
         /// <param name="OperatorId"></param>
-        /// <returns></returns>
+        /// <returns>operator list</returns>
         public List<OperatorModel> GetOperator(Int32 OperatorId)
         {
             List<OperatorModel> stateList = new List<OperatorModel>();
@@ -1786,7 +1773,7 @@ namespace LeHealth.Core.DataManager
 
         //Company Management Starts
         /// <summary>
-        /// 
+        /// Get details of companies. if Id is zero then returns all company data. else returns Data of specific company
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -1822,10 +1809,10 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// 
+        /// Save Comapny data if cmpid is zero. else updating specific company
         /// </summary>
         /// <param name="Company"></param>
-        /// <returns></returns>
+        /// <returns>success or reason to failure</returns>
         public string InsertUpdateCompany(CompanyModel Company)
         {
             string response = string.Empty;
@@ -1870,10 +1857,10 @@ namespace LeHealth.Core.DataManager
 
         //City Starts
         /// <summary>
-        /// 
+        /// Get city details. returns all city data if cityid is zero else returns specific city data
         /// </summary>
         /// <param name="cityid"></param>
-        /// <returns></returns>
+        /// <returns>city data list</returns>
         public List<CityModel> GetCity(Int32 cityid)
         {
             List<CityModel> cityList = new List<CityModel>();
@@ -1907,7 +1894,7 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// 
+        /// Save city data if cityid is zero. else updating specific city
         /// </summary>
         /// <param name="city"></param>
         /// <returns></returns>

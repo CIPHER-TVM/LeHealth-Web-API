@@ -31,7 +31,6 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_getUserGroupsMaster", con))
                 {
                     con.Open();
-
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@P_Id", id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -179,7 +178,6 @@ namespace LeHealth.Core.DataManager
                             Direction = ParameterDirection.Output
                         };
                         cmd.Parameters.Add(retValV);
-
                         SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                         {
                             Direction = ParameterDirection.Output
@@ -190,7 +188,6 @@ namespace LeHealth.Core.DataManager
                         con.Close();
                         var ret = retValV.Value;
                         var descrip = retDesc.Value.ToString();
-
                         response = descrip;
                     }
                     catch (Exception ex)

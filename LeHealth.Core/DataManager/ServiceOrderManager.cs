@@ -149,7 +149,7 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_GetProfileItem", con))
                 {
                     int listcount = pm.ProfileIds.Count;
-                    string ProfIds = "";
+                    string ProfIds = string.Empty;
                     if (listcount > 0)
                         ProfIds = string.Join(",", pm.ProfileIds.ToArray());
                     con.Open();
@@ -187,7 +187,7 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 int listcount = asm.GroupIdList.Count;
-                string GroupIds = "";
+                string GroupIds = string.Empty;
                 if (listcount > 0)
                     GroupIds = string.Join(",", asm.GroupIdList.ToArray());
                 using (SqlCommand cmd = new SqlCommand("stLH_GetServiceItemsOfGroup", con))
