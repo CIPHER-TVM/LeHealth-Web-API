@@ -115,5 +115,17 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetMyConsultations(consultant);
         }
+        public string InsertUpdateSchedule(ScheduleModel schedule)
+        {
+            return consultantManager.InsertUpdateSchedule(schedule);
+        }
+        public List<ScheduleModel> GetSchedules(int consultantId)
+        {
+            return consultantManager.GetSchedules(consultantId);
+        }
+        public string DeleteSchedule(int scheduleId)
+        {
+            return consultantManager.DeleteSchedule(scheduleId);
+        }
     }
 }

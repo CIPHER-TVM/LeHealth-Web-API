@@ -1039,6 +1039,116 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+        public string InsertUpdateSchedule(ScheduleModel schedule)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSchedule", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    cmd.Parameters.AddWithValue("@ScheduleId", schedule.ScheduleId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", schedule.ConsultantId);
+                    cmd.Parameters.AddWithValue("@StartTime", schedule.StartTime);
+                    cmd.Parameters.AddWithValue("@EndTime", schedule.EndTime);
+                    cmd.Parameters.AddWithValue("@Title", schedule.Title);
+
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
+        public List<ScheduleModel> GetSchedules(int consultantId)
+        {
+            List<ScheduleModel> schedules = new List<ScheduleModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetSchedules", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtschedulesList = new DataTable();
+                    adapter.Fill(dtschedulesList);
+                    con.Close();
+                    if ((dtschedulesList != null) && (dtschedulesList.Rows.Count > 0))
+                        schedules = dtschedulesList.ToListOfObject<ScheduleModel>();
+
+                    return schedules;
+                }
+            }
+        }
+        public string DeleteSchedule(int scheduleId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_DeleteSchedule", con))
+                {
+                    try
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ScheduleId", scheduleId);
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+                        con.Close();
+                        if (descrip == "Deleted Successfully")
+                        {
+                            response = "Success";
+                        }
+                        else
+                        {
+                            response = descrip;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        response = ex.Message;
+                    }
+                }
+            }
+            return response;
+        }
     }
 }

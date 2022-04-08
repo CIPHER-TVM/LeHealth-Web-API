@@ -30,5 +30,8 @@ namespace LeHealth.Service.ServiceInterface
         string UnblockDisease(DiseaseModel disease);
         List<Appointments> GetMyAppointments(AppointmentModel appointment);
         List<ConsultationModel> GetMyConsultations(ConsultantModel consultant);
+        string InsertUpdateSchedule(ScheduleModel schedule);
+        List<ScheduleModel> GetSchedules(int consultantId);
+        string DeleteSchedule(int scheduleId);
     }
 }
