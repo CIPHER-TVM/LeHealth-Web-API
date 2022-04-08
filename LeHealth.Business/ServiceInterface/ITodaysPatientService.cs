@@ -8,7 +8,7 @@ namespace LeHealth.Service.ServiceInterface
     public interface ITodaysPatientService
     {
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
-        List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
+        SearchAppointmentModel GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<PatientListModel> GetPatientByRegNo(string Regno);
@@ -31,7 +31,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
         string AppoinmentValidCheck(AppoinmentValidCheckModel avcm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
-        List<PatientConsultationModel> GetConsultationDataById(Int32 patientId); 
+        PatientConsultationModel GetConsultationDataById(Int32 patientId); 
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
         List<PatientModel> GetPatient(Int32 pid);

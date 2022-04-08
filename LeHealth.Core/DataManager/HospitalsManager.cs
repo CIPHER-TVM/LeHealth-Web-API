@@ -153,78 +153,74 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con))
+                using SqlCommand cmd = new SqlCommand("stLH_InsertAppointment", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (appointments == null || appointments.PatientId <= 0)
                 {
-
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    if (appointments == null || appointments.PatientId <= 0)
-                    {
-                        cmd.Parameters.AddWithValue("@PatientId", DBNull.Value);
-                    }
-                    else
-                    {
-                        cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
-                    }
-                    string DateString = appointments.AppDate;
-                    DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
-                    appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
-                    cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
-                    cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
-                    cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                    cmd.Parameters.AddWithValue("@Title", appointments.Title);
-                    cmd.Parameters.AddWithValue("@FirstName", appointments.FirstName);
-                    cmd.Parameters.AddWithValue("@MiddleName", appointments.MiddleName);
-                    cmd.Parameters.AddWithValue("@LastName", appointments.LastName);
-                    cmd.Parameters.AddWithValue("@Address1", appointments.Address1);
-                    cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
-                    cmd.Parameters.AddWithValue("@Street", appointments.Street);
-                    cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
-                    cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
-                    cmd.Parameters.AddWithValue("@City", appointments.City);
-                    cmd.Parameters.AddWithValue("@State", appointments.State);
-                    cmd.Parameters.AddWithValue("@CountryId", appointments.CountryId);
-                    cmd.Parameters.AddWithValue("@Mobile", appointments.Mobile);
-                    cmd.Parameters.AddWithValue("@ResPhone", appointments.ResPhone);
-                    cmd.Parameters.AddWithValue("@OffPhone", appointments.OffPhone);
-                    cmd.Parameters.AddWithValue("@Email", appointments.Email);
-                    cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
-                    cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
-                    cmd.Parameters.AddWithValue("@AppStatus", appointments.AppStatus);
-                    cmd.Parameters.AddWithValue("@CancelReason", appointments.CancelReason);
-                    cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
-                    cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
-                    cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
-                    cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
-                    string sliceString = JsonConvert.SerializeObject(appointments.SliceData);
-                    cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isSaved = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-
-                    if (descrip == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
-                    con.Close();
+                    cmd.Parameters.AddWithValue("@PatientId", DBNull.Value);
                 }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
+                }
+                string DateString = appointments.AppDate;
+                DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
+                string sliceString = JsonConvert.SerializeObject(appointments.SliceData);
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
+                cmd.Parameters.AddWithValue("@ConsultantId", appointments.ConsultantId);
+                cmd.Parameters.AddWithValue("@PatientId", appointments.PatientId);
+                cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
+                cmd.Parameters.AddWithValue("@Title", appointments.Title);
+                cmd.Parameters.AddWithValue("@FirstName", appointments.FirstName);
+                cmd.Parameters.AddWithValue("@MiddleName", appointments.MiddleName);
+                cmd.Parameters.AddWithValue("@LastName", appointments.LastName);
+                cmd.Parameters.AddWithValue("@Address1", appointments.Address1);
+                cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
+                cmd.Parameters.AddWithValue("@Street", appointments.Street);
+                cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
+                cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
+                cmd.Parameters.AddWithValue("@City", appointments.City);
+                cmd.Parameters.AddWithValue("@State", appointments.State);
+                cmd.Parameters.AddWithValue("@CountryId", appointments.CountryId);
+                cmd.Parameters.AddWithValue("@Mobile", appointments.Mobile);
+                cmd.Parameters.AddWithValue("@ResPhone", appointments.ResPhone);
+                cmd.Parameters.AddWithValue("@OffPhone", appointments.OffPhone);
+                cmd.Parameters.AddWithValue("@Email", appointments.Email);
+                cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
+                cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
+                cmd.Parameters.AddWithValue("@AppStatus", appointments.AppStatus);
+                cmd.Parameters.AddWithValue("@CancelReason", appointments.CancelReason);
+                cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
+                cmd.Parameters.AddWithValue("@AppTypeId", appointments.AppType);
+                cmd.Parameters.AddWithValue("@SessionId", appointments.SessionId);
+                cmd.Parameters.AddWithValue("@BranchId", appointments.BranchId);
+                cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isSaved = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+                con.Close();
             }
             return response;
         }
@@ -240,59 +236,57 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
-                using (SqlCommand cmd = new SqlCommand("stLH_UpdateAppointment", con))
+                using SqlCommand cmd = new SqlCommand("stLH_UpdateAppointment", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
+                cmd.Parameters.AddWithValue("@Title", appointments.Title);
+                cmd.Parameters.AddWithValue("@FirstName", appointments.FirstName);
+                cmd.Parameters.AddWithValue("@MiddleName", appointments.MiddleName);
+                cmd.Parameters.AddWithValue("@LastName", appointments.LastName);
+                cmd.Parameters.AddWithValue("@Address1", appointments.Address1);
+                cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
+                cmd.Parameters.AddWithValue("@Street", appointments.Street);
+                cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
+                cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
+                cmd.Parameters.AddWithValue("@City", appointments.City);
+                cmd.Parameters.AddWithValue("@State", appointments.State);
+                cmd.Parameters.AddWithValue("@CountryId", appointments.CountryId);
+                cmd.Parameters.AddWithValue("@Mobile", appointments.Mobile);
+                cmd.Parameters.AddWithValue("@ResPhone", appointments.ResPhone);
+                cmd.Parameters.AddWithValue("@OffPhone", appointments.OffPhone);
+                cmd.Parameters.AddWithValue("@Email", appointments.Email);
+                cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
+                cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
+                cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
+                DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
+                cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
+                string sliceString = JsonConvert.SerializeObject(appointments.SliceData);
+                cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@AppId", appointments.AppId);
-                    cmd.Parameters.AddWithValue("@Title", appointments.Title);
-                    cmd.Parameters.AddWithValue("@FirstName", appointments.FirstName);
-                    cmd.Parameters.AddWithValue("@MiddleName", appointments.MiddleName);
-                    cmd.Parameters.AddWithValue("@LastName", appointments.LastName);
-                    cmd.Parameters.AddWithValue("@Address1", appointments.Address1);
-                    cmd.Parameters.AddWithValue("@Address2", appointments.Address2);
-                    cmd.Parameters.AddWithValue("@Street", appointments.Street);
-                    cmd.Parameters.AddWithValue("@PlacePo", appointments.PlacePO);
-                    cmd.Parameters.AddWithValue("@PIN", appointments.PIN);
-                    cmd.Parameters.AddWithValue("@City", appointments.City);
-                    cmd.Parameters.AddWithValue("@State", appointments.State);
-                    cmd.Parameters.AddWithValue("@CountryId", appointments.CountryId);
-                    cmd.Parameters.AddWithValue("@Mobile", appointments.Mobile);
-                    cmd.Parameters.AddWithValue("@ResPhone", appointments.ResPhone);
-                    cmd.Parameters.AddWithValue("@OffPhone", appointments.OffPhone);
-                    cmd.Parameters.AddWithValue("@Email", appointments.Email);
-                    cmd.Parameters.AddWithValue("@Remarks", appointments.Remarks);
-                    cmd.Parameters.AddWithValue("@Reminder", appointments.Reminder);
-                    cmd.Parameters.AddWithValue("@UserId", appointments.UserId);
-                    DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
-                    appointments.AppDate = dateValue.ToString("yyyy-MM-dd");
-                    cmd.Parameters.AddWithValue("@AppDate", appointments.AppDate);
-                    string sliceString = JsonConvert.SerializeObject(appointments.SliceData);
-                    cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
 
-                    if (descrip == "Saved Successfully")
-                    {
-                        appointmentret = ret.ToString();
-                    }
-                    else
-                    {
-                        appointmentret = descrip;
-                    }
-                    con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    appointmentret = ret.ToString();
                 }
+                else
+                {
+                    appointmentret = descrip;
+                }
+                con.Close();
             }
             return appointmentret;
         }
@@ -310,7 +304,6 @@ namespace LeHealth.Core.DataManager
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultationId", 0);
-
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable ds = new DataTable();
                     adapter.Fill(ds);
@@ -358,11 +351,8 @@ namespace LeHealth.Core.DataManager
 
                     DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd-MM-yyyy", null);
                     consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
-
-
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.AddWithValue("@Name", consultation.PatientName);
                     cmd.Parameters.AddWithValue("@RegNo", consultation.RegNo);
                     cmd.Parameters.AddWithValue("@Mobile", consultation.Mobile);
@@ -403,6 +393,5 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-
     }
 }

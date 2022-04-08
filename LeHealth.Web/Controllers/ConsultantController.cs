@@ -67,16 +67,15 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
         }
         [HttpPost]
         [Route("SearchAppointmentByConsultantId")]
         public ResponseDataModel<IEnumerable<SearchAppointmentModel>> SearchAppointmentByConsultantId(SearchAppointmentModel appointment)
         {
-            List<SearchAppointmentModel> appointmentList = new List<SearchAppointmentModel>();
             try
             {
+                List<SearchAppointmentModel> appointmentList = new List<SearchAppointmentModel>();
                 appointmentList = consultantService.SearchAppointmentByConsultantId(appointment);
                 var response = new ResponseDataModel<IEnumerable<SearchAppointmentModel>>()
                 {
@@ -102,7 +101,6 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
 
         }
@@ -110,9 +108,10 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantPatientModel>> SearchPatientByConsultantId(PatientSearchModel patient)
         {
-            List<ConsultantPatientModel> patientList = new List<ConsultantPatientModel>();
+
             try
             {
+                List<ConsultantPatientModel> patientList = new List<ConsultantPatientModel>();
                 patientList = consultantService.SearchPatientByConsultantId(patient);
                 var response = new ResponseDataModel<IEnumerable<ConsultantPatientModel>>()
                 {
@@ -138,10 +137,8 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
         }
-
 
         /// <summary>
         /// To Save or update Consultant .
@@ -154,9 +151,10 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantMasterModel>> InsertUpdateConsultant(ConsultantMasterModel consultant)
         {
-            string message = string.Empty;
+
             try
             {
+                string message = string.Empty;
                 message = consultantService.InsertUpdateConsultant(consultant);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
                 {
@@ -186,9 +184,10 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetAllConsultants(int consultantType)
         {
-            List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
+
             try
             {
+                List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
                 consultantList = consultantService.GetAllConsultants(consultantType);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
                 {
@@ -214,16 +213,16 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
         }
         [Route("InsertConsultantService")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantServiceModel>> InsertConsultantService(ConsultantServiceModel consultant)
         {
-            string message = string.Empty;
+
             try
             {
+                string message = string.Empty;
                 message = consultantService.InsertConsultantService(consultant);
                 var response = new ResponseDataModel<IEnumerable<ConsultantServiceModel>>()
                 {
@@ -251,14 +250,13 @@ namespace LeHealth.Base.API.Controllers
         }
         [Route("DeleteConsultantService/{serviceId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> DeleteConsultantService(int serviceId)
+        public ResponseDataModel<string> DeleteConsultantService(int serviceId)
         {
             try
             {
                 string msg = string.Empty;
                 msg = consultantService.DeleteConsultantService(serviceId);
-
-                var response = new ResponseDataModel<IEnumerable<string>>()
+                var response = new ResponseDataModel<string>()
                 {
                     Message = msg,
                     Status = HttpStatusCode.OK
@@ -268,7 +266,7 @@ namespace LeHealth.Base.API.Controllers
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<String>>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -276,7 +274,6 @@ namespace LeHealth.Base.API.Controllers
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -315,18 +312,17 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
         }
         [Route("InsertConsultantDrugs")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
+        public ResponseDataModel<string> InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = consultantService.InsertConsultantDrugs(consultantDrug);
-                var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -336,7 +332,7 @@ namespace LeHealth.Base.API.Controllers
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -352,12 +348,12 @@ namespace LeHealth.Base.API.Controllers
         }
         [Route("UpdateConsultantDrugs")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
+        public ResponseDataModel<string> UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
         {
             try
             {
                 string appointmentret = consultantService.UpdateConsultantDrugs(consultantDrug);
-                var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = appointmentret,
@@ -368,7 +364,7 @@ namespace LeHealth.Base.API.Controllers
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -409,13 +405,10 @@ namespace LeHealth.Base.API.Controllers
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
-
             }
         }
         [Route("DeleteConsultantDrug/{drugId}")]
@@ -445,7 +438,6 @@ namespace LeHealth.Base.API.Controllers
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -488,9 +480,9 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<DiseaseSymptomModel>> GetDiseaseSymptoms(int diseaseId)
         {
-            List<DiseaseSymptomModel> diseaseSymptoms = new List<DiseaseSymptomModel>();
             try
             {
+                List<DiseaseSymptomModel> diseaseSymptoms = new List<DiseaseSymptomModel>();
                 diseaseSymptoms = consultantService.GetDiseaseSymptoms(diseaseId);
                 var response = new ResponseDataModel<IEnumerable<DiseaseSymptomModel>>()
                 {
@@ -516,17 +508,16 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
         }
-        [Route("GetDiseaseVitalSigns/{diseaseId}")]
+        [Route("GetDeceaseVitalSigns/{deceaseId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DiseaseSignModel>> GetDiseaseVitalSigns(int diseaseId)
+        public ResponseDataModel<IEnumerable<DiseaseSignModel>> GetDiseaseVitalSigns(int deceaseId)
         {
-            List<DiseaseSignModel> diseaseSigns = new List<DiseaseSignModel>();
             try
             {
-                diseaseSigns = consultantService.GetDiseaseVitalSigns(diseaseId);
+                List<DiseaseSignModel> diseaseSigns = new List<DiseaseSignModel>();
+                diseaseSigns = consultantService.GetDiseaseVitalSigns(deceaseId);
                 var response = new ResponseDataModel<IEnumerable<DiseaseSignModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -545,22 +536,19 @@ namespace LeHealth.Base.API.Controllers
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
-
-
             }
         }
         [Route("GetDiseaseICD/{diseaseId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DiseaseICDModel>> GetDiseaseICD(int diseaseId)
         {
-            List<DiseaseICDModel> diseaseSigns = new List<DiseaseICDModel>();
             try
             {
+                List<DiseaseICDModel> diseaseSigns = new List<DiseaseICDModel>();
                 diseaseSigns = consultantService.GetDiseaseICD(diseaseId);
                 var response = new ResponseDataModel<IEnumerable<DiseaseICDModel>>()
                 {
@@ -586,7 +574,6 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
         }
         [Route("DeleteDiseaseICD/{diseaseId}")]
@@ -597,7 +584,6 @@ namespace LeHealth.Base.API.Controllers
             {
                 string msg = string.Empty;
                 msg = consultantService.DeleteDiseaseICD(diseaseId);
-
                 var response = new ResponseDataModel<IEnumerable<string>>()
                 {
                     Message = msg,
@@ -650,7 +636,6 @@ namespace LeHealth.Base.API.Controllers
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -665,7 +650,6 @@ namespace LeHealth.Base.API.Controllers
             {
                 string msg = string.Empty;
                 msg = consultantService.DeleteDiseaseSign(diseaseId);
-
                 var response = new ResponseDataModel<IEnumerable<string>>()
                 {
                     Message = msg,
@@ -684,7 +668,6 @@ namespace LeHealth.Base.API.Controllers
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -699,7 +682,6 @@ namespace LeHealth.Base.API.Controllers
             {
                 string msg = string.Empty;
                 msg = consultantService.BlockDisease(disease);
-
                 var response = new ResponseDataModel<IEnumerable<string>>()
                 {
                     Message = msg,
@@ -718,7 +700,6 @@ namespace LeHealth.Base.API.Controllers
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -763,9 +744,9 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> GetMyAppointments(AppointmentModel appointment)
         {
-            List<Appointments> appointmentsList = new List<Appointments>();
             try
             {
+                List<Appointments> appointmentsList = new List<Appointments>();
                 appointmentsList = consultantService.GetMyAppointments(appointment);
                 var response = new ResponseDataModel<IEnumerable<Appointments>>()
                 {
@@ -791,16 +772,15 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
 
-
             }
         }
         [Route("GetMyConsultations")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> GetMyConsultations(ConsultantModel consultant)
         {
-            List<ConsultationModel> consultationList = new List<ConsultationModel>();
             try
             {
+                List<ConsultationModel> consultationList = new List<ConsultationModel>();
                 consultationList = consultantService.GetMyConsultations(consultant);
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
                 {
@@ -825,7 +805,6 @@ namespace LeHealth.Base.API.Controllers
             }
             finally
             {
-
 
             }
         }
