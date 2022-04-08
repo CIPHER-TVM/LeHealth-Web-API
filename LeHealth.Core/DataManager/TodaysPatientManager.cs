@@ -69,10 +69,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
-        public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment)
+        public SearchAppointmentModel GetAppointmentById(AppointmentModel appointment)
         {
             SearchAppointmentModel obj = new SearchAppointmentModel();
-            List<SearchAppointmentModel> appointmentlist = new List<SearchAppointmentModel>();
             List<Slice> slicelist = new List<Slice>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -141,9 +140,8 @@ namespace LeHealth.Core.DataManager
                             }
                         }
                         obj.SliceData = slicelist;
-                        appointmentlist.Add(obj);
                     }
-                    return appointmentlist;
+                    return obj;
                 }
             }
         }
@@ -1290,14 +1288,13 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// Get Consultation Filtered by PatientId
+        /// Get Consultation Filtered by Consultation
         /// </summary>
         /// <param name="patientId"></param>
         /// <returns>Get Consultation List</returns>
-        public List<PatientConsultationModel> GetConsultationDataById(Int32 Id)
+        public PatientConsultationModel GetConsultationDataById(Int32 Id)
         {
             PatientConsultationModel obj = new PatientConsultationModel();
-            List<PatientConsultationModel> consultationList = new List<PatientConsultationModel>();
             List<RegSymptomsModel> SymptomsList = new List<RegSymptomsModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -1341,8 +1338,7 @@ namespace LeHealth.Core.DataManager
                     }
                 }
                 obj.Symptoms = SymptomsList;
-                consultationList.Add(obj);
-                return consultationList;
+                return obj;
             }
         }
         /// <summary>

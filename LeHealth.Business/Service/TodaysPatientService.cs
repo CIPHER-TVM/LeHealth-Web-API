@@ -24,7 +24,7 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetAllAppointments(appointment);
         }
-        public List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment)
+        public SearchAppointmentModel GetAppointmentById(AppointmentModel appointment)
         {
             return todaysPatientManager.GetAppointmentById(appointment);
         }
@@ -128,11 +128,10 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultationByPatientId(cm);
         }
-        public List<PatientConsultationModel> GetConsultationDataById(Int32 patientId)
+        public PatientConsultationModel GetConsultationDataById(Int32 patientId)
         {
             return todaysPatientManager.GetConsultationDataById(patientId);
         }
-
         public List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm)
         {
             return todaysPatientManager.GetPatRegByPatientId(cm);

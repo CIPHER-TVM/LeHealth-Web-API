@@ -24,21 +24,23 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
     {
         private readonly ILogger<RegistrationController> logger;
         private readonly IRegistrationService registrationService;
-
         public RegistrationController(ILogger<RegistrationController> _logger, IRegistrationService _registrationService)
         {
             logger = _logger;
             registrationService = _registrationService;
-
         }
-
+        /// <summary>
+        /// For getting list of all patients in a hospital branch
+        /// </summary>
+        /// <param name="BranchId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("GetAllPatient/{BranchId}")]
         public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient(int BranchId)
         {
-            List<AllPatientModel> patientList = new List<AllPatientModel>();
             try
             {
+                List<AllPatientModel> patientList = new List<AllPatientModel>();
                 patientList = registrationService.GetAllPatient(BranchId);
                 var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
                 {
@@ -58,17 +60,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
         }
-
-
-
-      
         /// <summary>
         /// Save new patient details,Controller class . Step One in code execution flow
         /// </summary>
@@ -77,15 +74,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// Success or failure status
         /// </returns>
-        ///  
-
 
 
         [HttpPost]
         [Route("InsertPatientRegistration")]
         public ResponseDataModel<IEnumerable<PatientModel>> InsertPatientRegistration([FromForm] PatientRequestModel obj)
         {
-            string message = string.Empty;
             try
             {
                 PatientRegModel patientDetail = JsonConvert.DeserializeObject<PatientRegModel>(obj.PatientJson);
@@ -113,7 +107,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -125,7 +118,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("UploadPatientDocuments")]
         public ResponseDataModel<IEnumerable<PatientModel>> UploadPatientDocuments([FromForm] PatientRequestModel obj)
         {
-            string message = string.Empty;
             try
             {
                 PatientRegModel patientDetail = JsonConvert.DeserializeObject<PatientRegModel>(obj.PatientJson);
@@ -153,48 +145,30 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
         }
-
-        [HttpPost]
-        [Route("ValidateHL7")]
-        public string ValidateHL7()
-        {
-            string body = string.Empty;
-            using (var reader = new StreamReader(Request.Body))
-            {
-                body = reader.ReadToEndAsync().Result;//.ReadToEnd().ToString(); 
-            }
-            string registrationDetail = registrationService.ValidateHL7(body);
-            return registrationDetail;
-        }
-
-
-
         [HttpPost]
         [Route("GetRegisteredDataById")]
         public ResponseDataModel<IEnumerable<PatientModel>> GetRegisteredDataById(PatientModel patient)
         {
-            IServiceCollection services = new ServiceCollection();
-            services.AddControllers()
-           .AddJsonOptions(options =>
-           {
-               options.JsonSerializerOptions.PropertyNamingPolicy = null;
-           });
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            });
-
-
-            List<PatientModel> patientList = new List<PatientModel>();
+            //Check API Working before deleting code
+            //// IServiceCollection services = new ServiceCollection();
+            //// services.AddControllers()
+            ////.AddJsonOptions(options =>
+            ////{
+            ////    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            ////});
+            //// services.AddCors(c =>
+            //// {
+            ////     c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //// });
             try
             {
+                List<PatientModel> patientList = new List<PatientModel>();
                 patientList = registrationService.GetRegisteredDataById(patient.PatientId);
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {
@@ -221,14 +195,18 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// Searching patient data in patient list with a number of filters like name etc.
+        /// </summary>
+        /// <param name="patientDetails"></param>
+        /// <returns>Patient list</returns>
         [Route("SearchPatientInList")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<AllPatientModel>> SearchPatientInList(PatientSearchModel patientDetails)
         {
-            List<AllPatientModel> patientList = new List<AllPatientModel>();
             try
             {
+                List<AllPatientModel> patientList = new List<AllPatientModel>();
                 patientList = registrationService.SearchPatientInList(patientDetails);
                 var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
                 {
@@ -248,14 +226,17 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
         }
-
+        /// <summary>
+        /// For getting access information of uploaded files of a patient. 
+        /// </summary>
+        /// <param name="patientDetails">patientDetails.PatientId is primary key of patient's table</param>
+        /// <returns></returns>
         [Route("ViewPatientFiles")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<AllPatientModel>> ViewPatientFiles(PatientModel patientDetails)
@@ -282,7 +263,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -290,15 +270,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-
-
         [Route("SaveReRegistration")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatientModel>> SaveReRegistration(PatientModel patientDetail)
         {
-            string msg = string.Empty;
             try
             {
+                string msg = string.Empty;
                 string registrationDetail = registrationService.SaveReRegistration(patientDetail);
                 if (registrationDetail == "Saved Successfully")
                 {
@@ -326,14 +304,17 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
         }
-
+        /// <summary>
+        /// For blocking a patient. A blocked patient can't
+        /// </summary>
+        /// <param name="patient"></param>
+        /// <returns>success or reason for failure</returns>
 
         [Route("BlockPatient")]
         [HttpPost]
@@ -369,7 +350,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// Remove specific file of patient
+        /// </summary>
+        /// <param name="rlm">rlm.Id is file's unique id</param>
+        /// <returns>success or reason for failure</returns>
         [Route("DeletePatRegFiles")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<String>> DeletePatRegFiles(RegDocLocationModel rlm)
@@ -378,7 +363,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 string msg = string.Empty;
                 msg = registrationService.DeletePatRegFiles(rlm.Id);
-
                 var response = new ResponseDataModel<IEnumerable<String>>()
                 {
                     Message = msg,
@@ -397,7 +381,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -405,7 +388,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-
+        /// <summary>
+        /// Unblock a blocked patient
+        /// </summary>
+        /// <param name="patient"></param>
+        /// <returns>success or reason for failure</returns>
 
         [Route("UnblockPatient")]
         [HttpPost]
@@ -415,7 +402,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 string msg = string.Empty;
                 msg = registrationService.UnblockPatient(patient);
-
                 var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
                 {
                     Message = msg,
@@ -434,15 +420,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
             {
             }
         }
-
-
-
     }
 }

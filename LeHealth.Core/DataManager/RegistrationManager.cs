@@ -872,13 +872,11 @@ namespace LeHealth.Core.DataManager
                     List<RegDocLocationModel> fileList = new List<RegDocLocationModel>();
                     if ((dsPatientList != null) && (dsPatientList.Rows.Count > 0))
                     {
-                        for (Int32 j = 0; j < dsPatientList.Rows.Count; j++)
+                        for (int j = 0; j < dsPatientList.Rows.Count; j++)
                         {
                             RegDocLocationModel obj4 = new RegDocLocationModel();
                             obj4.Id = Convert.ToInt32(dsPatientList.Rows[j]["Id"]);
                             obj4.FilePath = _uploadpath + dsPatientList.Rows[j]["FilePath"].ToString();
-
-
                             var fileNameArray = obj4.FilePath.Split('.');
                             var extension = fileNameArray[(fileNameArray.Length - 1)];
                             string extname = extension.ToString().ToLower();

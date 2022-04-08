@@ -178,31 +178,29 @@ namespace LeHealth.Core.DataManager
             List<Leftmenumodel> obj = new List<Leftmenumodel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetLeftMenu", con))
+                using SqlCommand cmd = new SqlCommand("stLH_GetLeftMenu", con);
+                try
                 {
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_UserId", user);
+                    cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
+                    SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@P_UserId", user);
-                        cmd.Parameters.AddWithValue("@P_BranchId", branchesId);
-                        SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retjson);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        con.Close();
-                        string ret = retjson.Value.ToString();
-                        obj = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retjson);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    string ret = retjson.Value.ToString();
+                    obj = JsonConvert.DeserializeObject<List<Leftmenumodel>>(ret);
 
-                    }
-                    catch (Exception ex)
-                    {
-                        //obj = ex.Message;
-                    }
-                    return obj;
                 }
+                catch (Exception ex)
+                {
+                    //obj = ex.Message;
+                }
+                return obj;
             }
         }
         public Lefmenugroupmodel GetMenuongroups(int user, int branchesId, string groupIds)

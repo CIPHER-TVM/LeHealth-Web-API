@@ -20,19 +20,14 @@ namespace LeHealth.Service.Service
         {
             return menuSubmenuManager.GetMenuItem(menuId);
         }
-
         public List<MenuModel> GetMenuItems()
         {
             return menuSubmenuManager.GetMenuItems();
         }
-
-      
-
         public string SaveMenuItems(MenuModel obj)
         {
             return menuSubmenuManager.SaveMenuItems(obj);
         }
-
         public string SaveSubMenuItems(SubmenuModel obj)
         {
             return menuSubmenuManager.SaveSubMenuItems(obj);
@@ -57,7 +52,6 @@ namespace LeHealth.Service.Service
         {
             return menuSubmenuManager.GetSubMenuItems();
         }
-
         public SubmenuModel GetSubmenuMenuItem(int subMenuId)
         {
             return menuSubmenuManager.GetSubmenuMenuItem(subMenuId);

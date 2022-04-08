@@ -8,7 +8,7 @@ namespace LeHealth.Core.Interface
     public interface ITodaysPatientManager
     {
         List<SearchAppointmentModel> GetAllAppointments(AppointmentModel appointment);
-        List<SearchAppointmentModel> GetAppointmentById(AppointmentModel appointment);
+        SearchAppointmentModel GetAppointmentById(AppointmentModel appointment);
         List<SearchAppointmentModel> SearchAppointment(AppointmentModel appointment);
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<PatientListModel> GetPatientByRegNo(string regNo);
@@ -28,7 +28,7 @@ namespace LeHealth.Core.Interface
         List<ConsultantModel> GetConsultant(ConsultantByDeptModel cm);
         string AppoinmentValidCheck(AppoinmentValidCheckModel cm);
         List<ConsultationByPatientIdModel> GetConsultationByPatientId(ConsultationModel cm);
-        List<PatientConsultationModel> GetConsultationDataById(Int32 patientId);
+        PatientConsultationModel GetConsultationDataById(Int32 patientId);
         List<PatRegByPatientIdModel> GetPatRegByPatientId(ConsultationModel cm);
         List<ConsultRateModel> GetRegSchmAmtOfPatient(ConsultationModel cm);
         List<PatientModel> GetPatient(Int32 pid);
