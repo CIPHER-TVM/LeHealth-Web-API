@@ -1150,5 +1150,54 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        public string InsertUpdateTimer(TimerModel timer)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTimer", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                   	
+                    cmd.Parameters.AddWithValue("@TimerId", timer.TimerId);
+                    cmd.Parameters.AddWithValue("@PatientId", timer.PatientId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", timer.ConsultantId);
+                    cmd.Parameters.AddWithValue("@UserId", timer.UserId);
+                    cmd.Parameters.AddWithValue("@StartTime", timer.StartTime);
+                    cmd.Parameters.AddWithValue("@EndTime", timer.EndTime);
+                    cmd.Parameters.AddWithValue("@Days", timer.Days);
+                    cmd.Parameters.AddWithValue("@Hours", timer.Hours);
+                    cmd.Parameters.AddWithValue("@Minutes", timer.Minutes);
+                    cmd.Parameters.AddWithValue("@Seconds", timer.Seconds);
+                    cmd.Parameters.AddWithValue("@TickCount", timer.TickCount);
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+            }
+            return response;
+        }
     }
 }

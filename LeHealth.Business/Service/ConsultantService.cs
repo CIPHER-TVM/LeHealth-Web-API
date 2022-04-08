@@ -127,5 +127,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.DeleteSchedule(scheduleId);
         }
+        public string InsertUpdateTimer(TimerModel timer)
+        {
+            return consultantManager.InsertUpdateTimer(timer);
+        }
     }
 }

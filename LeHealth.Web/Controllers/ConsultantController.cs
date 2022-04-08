@@ -932,6 +932,37 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-
+        [Route("InsertUpdateTimer")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<TimerModel>> InsertUpdateTimer(TimerModel timer)
+        {
+            string message = string.Empty;
+            try
+            {
+                message = consultantService.InsertUpdateTimer(timer);
+                var response = new ResponseDataModel<IEnumerable<TimerModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<TimerModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }
