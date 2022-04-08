@@ -808,5 +808,109 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
+
+
+        [Route("InsertUpdateSchedule")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ScheduleModel>> InsertUpdateSchedule(ScheduleModel schedule)
+        {
+            string message = string.Empty;
+            try
+            {
+                message = consultantService.InsertUpdateSchedule(schedule);
+                var response = new ResponseDataModel<IEnumerable<ScheduleModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ScheduleModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetSchedules/{consultantId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ScheduleModel>> GetSchedules(int consultantId)
+        {
+            List<ScheduleModel> sheduletList = new List<ScheduleModel>();
+            try
+            {
+                sheduletList = consultantService.GetSchedules(consultantId);
+                var response = new ResponseDataModel<IEnumerable<ScheduleModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = sheduletList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ScheduleModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+        [Route("DeleteSchedule/{scheduleId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> DeleteSchedule(int scheduleId)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = consultantService.DeleteSchedule(scheduleId);
+
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<String>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }
