@@ -91,6 +91,11 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchAppointmentByConsultantId", con))
                 {
+                    DateTime oldFrom = DateTime.ParseExact(appointment.FromDate.Trim(), "dd-MM-yyyy", null);
+                    appointment.FromDate = oldFrom.ToString("yyyy-MM-dd");
+
+                    DateTime oldTo = DateTime.ParseExact(appointment.ToDate.Trim(), "dd-MM-yyyy", null);
+                    appointment.ToDate = oldTo.ToString("yyyy-MM-dd");
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
@@ -98,8 +103,9 @@ namespace LeHealth.Core.DataManager
                         cmd.Parameters.AddWithValue("@ConsultantId", 0);
                     else
                         cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+                    cmd.Parameters.AddWithValue("@FromDate", appointment.FromDate);
+                    cmd.Parameters.AddWithValue("@ToDate", appointment.ToDate);
 
-                 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dtAppointments = new DataTable();
                     adapter.Fill(dtAppointments);
@@ -149,10 +155,18 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByConsultantId", con))
                 {
+                    DateTime oldFrom = DateTime.ParseExact(patient.RegDateFrom.Trim(), "dd-MM-yyyy", null);
+                    patient.RegDateFrom = oldFrom.ToString("yyyy-MM-dd");
+
+                    DateTime oldTo = DateTime.ParseExact(patient.RegDateTo.Trim(), "dd-MM-yyyy", null);
+                    patient.RegDateTo = oldTo.ToString("yyyy-MM-dd");
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
                     cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
+                    cmd.Parameters.AddWithValue("@FromDate", patient.RegDateFrom);
+                    cmd.Parameters.AddWithValue("@ToDate", patient.RegDateTo);
+
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dtPatientList = new DataTable();

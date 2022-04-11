@@ -53,5 +53,7 @@ namespace LeHealth.Entity.DataModel
         public string DepartmentName { get; set; }
         public Int32 SliceNo { get; set; }
         public List<Slice> SliceData { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
     }
 }
