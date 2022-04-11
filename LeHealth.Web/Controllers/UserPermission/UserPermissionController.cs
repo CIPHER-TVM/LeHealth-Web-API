@@ -106,9 +106,9 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [Route("getUserGroupsonBranch/{BranchId}/{UserId}")]
         public ResponseDataModel<UserPermissionGroups> getUserGroupsonBranch(int BranchId, int UserId)
         {
-            UserPermissionGroups groups = new UserPermissionGroups();
             try
             {
+                UserPermissionGroups groups = new UserPermissionGroups();
                 groups = permissionservice.getUserGroupsonBranch(BranchId, UserId);
                 var response = new ResponseDataModel<UserPermissionGroups>()
                 {
@@ -143,9 +143,9 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [Route("getUserGroups")]
         public ResponseDataModel<IEnumerable<UserGroupModel>> getUserGroups()
         {
-            List<UserGroupModel> groups = new List<UserGroupModel>();
             try
             {
+                List<UserGroupModel> groups = new List<UserGroupModel>();
                 groups = permissionservice.getUserGroups();
                 var response = new ResponseDataModel<IEnumerable<UserGroupModel>>()
                 {
@@ -181,9 +181,9 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [Route("getUserGroup")]
         public ResponseDataModel<UserGroupModel> getUserGroup([FromBody] int Id)
         {
-            UserGroupModel group = new UserGroupModel();
             try
             {
+                UserGroupModel group = new UserGroupModel();
                 group = permissionservice.getUserGroup(Id);
                 var response = new ResponseDataModel<UserGroupModel>()
                 {

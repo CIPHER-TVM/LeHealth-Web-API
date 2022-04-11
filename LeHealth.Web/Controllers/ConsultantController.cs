@@ -752,6 +752,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// Get appointment listing of a consultant in a specific date
+        /// </summary>
+        /// <param name="appointment">ConsultantId,Appointment Date,Department Id, Branch Id</param>
+        /// <returns></returns>
         [Route("GetMyAppointments")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> GetMyAppointments(AppointmentModel appointment)
@@ -783,9 +788,13 @@ namespace LeHealth.Base.API.Controllers
             }
             finally
             {
-
             }
         }
+        /// <summary>
+        /// Get consultation listing of a consultant in a specific date
+        /// </summary>
+        /// <param name="appointment">ConsultantId, Date,Department Id, Branch Id</param>
+        /// <returns></returns>
         [Route("GetMyConsultations")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> GetMyConsultations(ConsultantModel consultant)
@@ -821,14 +830,18 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Save Or update schedul data
+        /// </summary>
+        /// <param name="schedule"></param>
+        /// <returns></returns>
         [Route("InsertUpdateSchedule")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ScheduleModel>> InsertUpdateSchedule(ScheduleModel schedule)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = consultantService.InsertUpdateSchedule(schedule);
                 var response = new ResponseDataModel<IEnumerable<ScheduleModel>>()
                 {
@@ -927,9 +940,9 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<TimerModel>> InsertUpdateTimer(TimerModel timer)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = consultantService.InsertUpdateTimer(timer);
                 var response = new ResponseDataModel<IEnumerable<TimerModel>>()
                 {
