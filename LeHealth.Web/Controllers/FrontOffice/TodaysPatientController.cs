@@ -1314,11 +1314,15 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        /// <summary>
+        /// Get Details of patient
+        /// </summary>
+        /// <param name="patientId">Primary key of LH_Patient Table</param>
+        /// <returns>patient details</returns>
         [HttpPost]
         [Route("GetPatient")]
         public ResponseDataModel<IEnumerable<PatientModel>> GetPatient(PatientModel cm)
         {
-           
             try
             {
                 List<PatientModel> patientList = new List<PatientModel>();

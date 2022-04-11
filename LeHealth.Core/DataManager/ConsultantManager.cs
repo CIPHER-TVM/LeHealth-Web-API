@@ -13,7 +13,7 @@ using System.IO;
 using Newtonsoft.Json;
 namespace LeHealth.Core.DataManager
 {
-    public class ConsultantManager:IConsultantManager
+    public class ConsultantManager : IConsultantManager
     {
         private readonly string _connStr;
         private readonly string _uploadpath;
@@ -30,45 +30,43 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> SearchConsultationById(ConsultationModel consultation)
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultationById", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_SearchConsultationById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable ds = new DataTable();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Rows.Count > 0))
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    ConsultationModel obj = new ConsultationModel
                     {
-                        for (Int32 i = 0; i < ds.Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel();
-                            obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
-                            obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
-                            obj.PatientName = ds.Rows[i]["PatientName"].ToString();
-                            obj.Consultant = ds.Rows[i]["Consultant"].ToString();
-                            obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
-                            obj.RegNo = ds.Rows[i]["RegNo"].ToString();
-                            obj.PIN = ds.Rows[i]["PIN"].ToString();
-                            obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
-                            obj.Status = ds.Rows[i]["Status"].ToString();
-                            obj.CancelReason = ds.Rows[i]["CancelReason"].ToString();
-                            obj.Mobile = ds.Rows[i]["Mobile"].ToString();
-                            obj.Telephone = ds.Rows[i]["Telephone"].ToString();
-                            obj.Address = ds.Rows[i]["Address"].ToString();
-                            obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
+                        ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
+                        PatientName = ds.Rows[i]["PatientName"].ToString(),
+                        Consultant = ds.Rows[i]["Consultant"].ToString(),
+                        ConsultType2 = ds.Rows[i]["ConsultType"].ToString(),
+                        RegNo = ds.Rows[i]["RegNo"].ToString(),
+                        PIN = ds.Rows[i]["PIN"].ToString(),
+                        OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString(),
+                        Status = ds.Rows[i]["Status"].ToString(),
+                        CancelReason = ds.Rows[i]["CancelReason"].ToString(),
+                        Mobile = ds.Rows[i]["Mobile"].ToString(),
+                        Telephone = ds.Rows[i]["Telephone"].ToString(),
+                        Address = ds.Rows[i]["Address"].ToString(),
+                        Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString()
+                    };
+                    Consultationlist.Add(obj);
                 }
             }
+            return Consultationlist;
         }
         /// <summary>
         /// Get appointment details using ConsultantId
@@ -79,54 +77,50 @@ namespace LeHealth.Core.DataManager
         {
             List<SearchAppointmentModel> appList = new List<SearchAppointmentModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchAppointmentByConsultantId", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
-                    if (appointment.ConsultantId == 0 || appointment.ConsultantId == null)
-                        cmd.Parameters.AddWithValue("@ConsultantId", 0);
-                    else
-                        cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_SearchAppointmentByConsultantId", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
+            if (appointment.ConsultantId == 0)
+                cmd.Parameters.AddWithValue("@ConsultantId", 0);
+            else
+                cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
 
-                 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtAppointments = new DataTable();
-                    adapter.Fill(dtAppointments);
-                    con.Close();
-                    if ((dtAppointments != null) && (dtAppointments.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtAppointments.Rows.Count; i++)
-                        {
-                            SearchAppointmentModel obj = new SearchAppointmentModel();
-                            obj.AppId = Convert.ToInt32(dtAppointments.Rows[i]["AppId"]);
-                            obj.AppDate = dtAppointments.Rows[i]["AppDate"].ToString();
-                            obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);
-                            obj.AppNo = dtAppointments.Rows[i]["AppNo"].ToString();
-                            obj.RegNo = dtAppointments.Rows[i]["RegNo"].ToString();
-                            obj.SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString();
-                            obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);
-                            obj.PatientName = dtAppointments.Rows[i]["PatientName"].ToString();
-                            obj.PIN = dtAppointments.Rows[i]["PIN"].ToString();
-                            obj.Mobile = dtAppointments.Rows[i]["ContactNumber"].ToString();
-                            obj.CFirstName = dtAppointments.Rows[i]["ConsultantName"].ToString();
-                            obj.AppStatus = dtAppointments.Rows[i]["Status"].ToString();
-                            obj.CancelReason = dtAppointments.Rows[i]["CancelReason"].ToString();
-                            obj.ResPhone = dtAppointments.Rows[i]["TelePhone"].ToString();
-                            obj.Address1 = dtAppointments.Rows[i]["Address"].ToString();
-                            obj.BranchId = Convert.ToInt32(dtAppointments.Rows[i]["BranchId"]);
-                            obj.EntryDate = dtAppointments.Rows[i]["EntryDate"].ToString();
-                            //obj.EntryDate = DateTime.Now;
-                            //DateTime dt = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                            //DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
-                            appList.Add(obj);
-                        }
-                    }
-                    return appList;
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtAppointments = new DataTable();
+            adapter.Fill(dtAppointments);
+            con.Close();
+            if ((dtAppointments != null) && (dtAppointments.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtAppointments.Rows.Count; i++)
+                {
+                    SearchAppointmentModel obj = new SearchAppointmentModel();
+                    obj.AppId = Convert.ToInt32(dtAppointments.Rows[i]["AppId"]);
+                    obj.AppDate = dtAppointments.Rows[i]["AppDate"].ToString();
+                    obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);
+                    obj.AppNo = dtAppointments.Rows[i]["AppNo"].ToString();
+                    obj.RegNo = dtAppointments.Rows[i]["RegNo"].ToString();
+                    obj.SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString();
+                    obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);
+                    obj.PatientName = dtAppointments.Rows[i]["PatientName"].ToString();
+                    obj.PIN = dtAppointments.Rows[i]["PIN"].ToString();
+                    obj.Mobile = dtAppointments.Rows[i]["ContactNumber"].ToString();
+                    obj.CFirstName = dtAppointments.Rows[i]["ConsultantName"].ToString();
+                    obj.AppStatus = dtAppointments.Rows[i]["Status"].ToString();
+                    obj.CancelReason = dtAppointments.Rows[i]["CancelReason"].ToString();
+                    obj.ResPhone = dtAppointments.Rows[i]["TelePhone"].ToString();
+                    obj.Address1 = dtAppointments.Rows[i]["Address"].ToString();
+                    obj.BranchId = Convert.ToInt32(dtAppointments.Rows[i]["BranchId"]);
+                    obj.EntryDate = dtAppointments.Rows[i]["EntryDate"].ToString();
+                    //obj.EntryDate = DateTime.Now;
+                    //DateTime dt = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    //DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appList.Add(obj);
                 }
             }
+            return appList;
         }
         /// <summary>
         /// Get Patient details using ConsultantId
@@ -137,25 +131,21 @@ namespace LeHealth.Core.DataManager
         {
             List<ConsultantPatientModel> patientList = new List<ConsultantPatientModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByConsultantId", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
-                    cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByConsultantId", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtPatientList = new DataTable();
-                    adapter.Fill(dtPatientList);
-                    con.Close();
-                    if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
-                        patientList = dtPatientList.ToListOfObject<ConsultantPatientModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtPatientList = new DataTable();
+            adapter.Fill(dtPatientList);
+            con.Close();
+            if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
+                patientList = dtPatientList.ToListOfObject<ConsultantPatientModel>();
 
-                    return patientList;
-                }
-            }
+            return patientList;
         }
         /// <summary>L
         /// </summary>
@@ -166,70 +156,67 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultant", con))
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultant", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
+                cmd.Parameters.AddWithValue("@DeptId", consultant.DeptId);
+                cmd.Parameters.AddWithValue("@ConsultantCode", consultant.ConsultantCode);
+                cmd.Parameters.AddWithValue("@Title", consultant.Title);
+                cmd.Parameters.AddWithValue("@FirstName", consultant.FirstName);
+                cmd.Parameters.AddWithValue("@MiddleName", consultant.MiddleName);
+                cmd.Parameters.AddWithValue("@LastName", consultant.LastName);
+                cmd.Parameters.AddWithValue("@Gender", consultant.Gender);
+                cmd.Parameters.AddWithValue("@DOB", consultant.DOB);
+                cmd.Parameters.AddWithValue("@Age", consultant.Age);
+                cmd.Parameters.AddWithValue("@Specialisation", consultant.Specialisation);
+                cmd.Parameters.AddWithValue("@Designation", consultant.Designation);
+                cmd.Parameters.AddWithValue("@Qualification", consultant.Qualification);
+                cmd.Parameters.AddWithValue("@NationalityId", consultant.NationalityId);
+                cmd.Parameters.AddWithValue("@Mobile", consultant.Mobile);
+                cmd.Parameters.AddWithValue("@ResPhone", consultant.ResPhone);
+                cmd.Parameters.AddWithValue("@OffPhone", consultant.OffPhone);
+                cmd.Parameters.AddWithValue("@Email", consultant.Email);
+                cmd.Parameters.AddWithValue("@Fax", consultant.Fax);
+                cmd.Parameters.AddWithValue("@DOJ", consultant.DOJ);
+                cmd.Parameters.AddWithValue("@CRegNo", consultant.CRegNo);
+                cmd.Parameters.AddWithValue("@AllowCommission", consultant.AllowCommission);
+                cmd.Parameters.AddWithValue("@DeptOverrule", consultant.DeptOverrule);
+                cmd.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
+                cmd.Parameters.AddWithValue("@AppType", consultant.AppType);
+                cmd.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
+                cmd.Parameters.AddWithValue("@Active", consultant.Active);
+                cmd.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
+                cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
+                cmd.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
+                cmd.Parameters.AddWithValue("@Signature", consultant.Signature);
+                cmd.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
+                cmd.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
+                cmd.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
+                cmd.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
-                    cmd.Parameters.AddWithValue("@DeptId", consultant.DeptId);
-                    cmd.Parameters.AddWithValue("@ConsultantCode", consultant.ConsultantCode);
-                    cmd.Parameters.AddWithValue("@Title", consultant.Title);
-                    cmd.Parameters.AddWithValue("@FirstName", consultant.FirstName);
-                    cmd.Parameters.AddWithValue("@MiddleName", consultant.MiddleName);
-                    cmd.Parameters.AddWithValue("@LastName", consultant.LastName);
-                    cmd.Parameters.AddWithValue("@Gender", consultant.Gender);
-                    cmd.Parameters.AddWithValue("@DOB", consultant.DOB);
-                    cmd.Parameters.AddWithValue("@Age", consultant.Age);
-                    cmd.Parameters.AddWithValue("@Specialisation", consultant.Specialisation);
-                    cmd.Parameters.AddWithValue("@Designation", consultant.Designation);
-                    cmd.Parameters.AddWithValue("@Qualification", consultant.Qualification);
-                    cmd.Parameters.AddWithValue("@NationalityId", consultant.NationalityId);
-                    cmd.Parameters.AddWithValue("@Mobile", consultant.Mobile);
-                    cmd.Parameters.AddWithValue("@ResPhone", consultant.ResPhone);
-                    cmd.Parameters.AddWithValue("@OffPhone", consultant.OffPhone);
-                    cmd.Parameters.AddWithValue("@Email", consultant.Email);
-                    cmd.Parameters.AddWithValue("@Fax", consultant.Fax);
-                    cmd.Parameters.AddWithValue("@DOJ", consultant.DOJ);
-                    cmd.Parameters.AddWithValue("@CRegNo", consultant.CRegNo);
-                    cmd.Parameters.AddWithValue("@AllowCommission", consultant.AllowCommission);
-                    cmd.Parameters.AddWithValue("@DeptOverrule", consultant.DeptOverrule);
-                    cmd.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
-                    cmd.Parameters.AddWithValue("@AppType", consultant.AppType);
-                    cmd.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
-                    cmd.Parameters.AddWithValue("@Active", consultant.Active);
-                    cmd.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
-                    cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
-                    cmd.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
-                    cmd.Parameters.AddWithValue("@Signature", consultant.Signature);
-                    cmd.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
-                    cmd.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
-                    cmd.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
-                    cmd.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
-
-
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    con.Close();
-                    if (descrip == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
                 }
             }
             return response;
@@ -243,61 +230,55 @@ namespace LeHealth.Core.DataManager
         {
             List<ConsultantMasterModel> patientList = new List<ConsultantMasterModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetAllConsultants", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsType", consultantType);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetAllConsultants", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsType", consultantType);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtPatientList = new DataTable();
-                    adapter.Fill(dtPatientList);
-                    con.Close();
-                    if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
-                        patientList = dtPatientList.ToListOfObject<ConsultantMasterModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtPatientList = new DataTable();
+            adapter.Fill(dtPatientList);
+            con.Close();
+            if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
+                patientList = dtPatientList.ToListOfObject<ConsultantMasterModel>();
 
-                    return patientList;
-                }
-            }
+            return patientList;
         }
         public string InsertConsultantService(ConsultantServiceModel consultant)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertConsultantServices", con))
+                using SqlCommand cmd = new SqlCommand("stLH_InsertConsultantServices", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
+                cmd.Parameters.AddWithValue("@ItemId", consultant.ItemId);
+                cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
-                    cmd.Parameters.AddWithValue("@ItemId", consultant.ItemId);
-                    cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
-
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    con.Close();
-                    if (descrip == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
                 }
             }
             return response;
@@ -307,23 +288,21 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantServiceItem", con))
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantServiceItem", con);
+                try
                 {
-                    try
-                    {
 
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@ItemId", serviceId);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        con.Close();
-                        response = "success";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ItemId", serviceId);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "success";
 
-                    }
-                    catch (Exception ex)
-                    {
-                        response = ex.Message;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
                 }
             }
             return response;
@@ -332,68 +311,62 @@ namespace LeHealth.Core.DataManager
         {
             List<ConsultantServiceModel> consultantServices = new List<ConsultantServiceModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantServices", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantServices", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtServicesList = new DataTable();
-                    adapter.Fill(dtServicesList);
-                    con.Close();
-                    if ((dtServicesList != null) && (dtServicesList.Rows.Count > 0))
-                        consultantServices = dtServicesList.ToListOfObject<ConsultantServiceModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtServicesList = new DataTable();
+            adapter.Fill(dtServicesList);
+            con.Close();
+            if ((dtServicesList != null) && (dtServicesList.Rows.Count > 0))
+                consultantServices = dtServicesList.ToListOfObject<ConsultantServiceModel>();
 
-                    return consultantServices;
-                }
-            }
+            return consultantServices;
         }
         public string InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con))
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
+                cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
+                cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
+                cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
+                cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
+                cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
+                cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
+                cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
+                cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
-                    cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
-                    cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
-                    cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
-                    cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
-                    cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
-                    cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
-                    cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
-                    cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
-
-
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    con.Close();
-                    if (descrip == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
                 }
             }
             return response;
@@ -403,43 +376,41 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_UpdateConsultantDrugs", con))
+                using SqlCommand cmd = new SqlCommand("stLH_UpdateConsultantDrugs", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
+                cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
+                cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
+                cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
+                cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
+                cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
+                cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
+                cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
+                cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
+
+
+                SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
-                    cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
-                    cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
-                    cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
-                    cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
-                    cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
-                    cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
-                    cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
-                    cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
-
-
-                    SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retVal);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var retV = retVal.Value;
-                    var retD = retDesc.Value.ToString();
-                    con.Close();
-                    if (retD == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = retD;
-                    }
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retVal);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var retV = retVal.Value;
+                var retD = retDesc.Value.ToString();
+                con.Close();
+                if (retD == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = retD;
                 }
             }
             return response;
@@ -448,47 +419,41 @@ namespace LeHealth.Core.DataManager
         {
             List<ConsultantDrugModel> consultantServices = new List<ConsultantDrugModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugList", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugList", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtConsultantDrugList = new DataTable();
-                    adapter.Fill(dtConsultantDrugList);
-                    con.Close();
-                    if ((dtConsultantDrugList != null) && (dtConsultantDrugList.Rows.Count > 0))
-                        consultantServices = dtConsultantDrugList.ToListOfObject<ConsultantDrugModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtConsultantDrugList = new DataTable();
+            adapter.Fill(dtConsultantDrugList);
+            con.Close();
+            if ((dtConsultantDrugList != null) && (dtConsultantDrugList.Rows.Count > 0))
+                consultantServices = dtConsultantDrugList.ToListOfObject<ConsultantDrugModel>();
 
-                    return consultantServices;
-                }
-            }
+            return consultantServices;
         }
         public string DeleteConsultantDrug(int drugId)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantDrug", con))
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantDrug", con);
+                try
                 {
-                    try
-                    {
 
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@DrugId", drugId);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        con.Close();
-                        response = "success";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DrugId", drugId);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    response = "success";
 
-                    }
-                    catch (Exception ex)
-                    {
-                        response = ex.Message;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
                 }
             }
             return response;
@@ -499,13 +464,10 @@ namespace LeHealth.Core.DataManager
             DiseaseModel responseobj = new DiseaseModel();
             SqlTransaction transaction;
             string response = string.Empty;
-            string Description = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                
                 con.Open();
                 transaction = con.BeginTransaction();
-                
                 SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDisease", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
@@ -628,13 +590,13 @@ namespace LeHealth.Core.DataManager
                     {
                         transaction.Rollback();
                         responseobj.DiseaseId = 0;
-                      
+
                     }
                 }
                 catch (Exception ex)
                 {
                     responseobj.DiseaseId = 0;
-                  
+
                 }
                 con.Close();
             }
@@ -645,416 +607,70 @@ namespace LeHealth.Core.DataManager
         {
             List<DiseaseSymptomModel> diseaseSymptoms = new List<DiseaseSymptomModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSymptom", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSymptom", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtList = new DataTable();
-                    adapter.Fill(dtList);
-                    con.Close();
-                    if ((dtList != null) && (dtList.Rows.Count > 0))
-                        diseaseSymptoms = dtList.ToListOfObject<DiseaseSymptomModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtList = new DataTable();
+            adapter.Fill(dtList);
+            con.Close();
+            if ((dtList != null) && (dtList.Rows.Count > 0))
+                diseaseSymptoms = dtList.ToListOfObject<DiseaseSymptomModel>();
 
-                    return diseaseSymptoms;
-                }
-            }
+            return diseaseSymptoms;
         }
         public List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId)
         {
             List<DiseaseSignModel> diseaseSigns = new List<DiseaseSignModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSign", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSign", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtList = new DataTable();
-                    adapter.Fill(dtList);
-                    con.Close();
-                    if ((dtList != null) && (dtList.Rows.Count > 0))
-                        diseaseSigns = dtList.ToListOfObject<DiseaseSignModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtList = new DataTable();
+            adapter.Fill(dtList);
+            con.Close();
+            if ((dtList != null) && (dtList.Rows.Count > 0))
+                diseaseSigns = dtList.ToListOfObject<DiseaseSignModel>();
 
-                    return diseaseSigns;
-                }
-            }
+            return diseaseSigns;
         }
-        public List<DiseaseCDModel> GetDiseaseICD(int diseaseId) 
+        public List<DiseaseCDModel> GetDiseaseICD(int diseaseId)
         {
             List<DiseaseCDModel> diseaseSigns = new List<DiseaseCDModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetDiseaseICD", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDiseaseICD", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtList = new DataTable();
-                    adapter.Fill(dtList);
-                    con.Close();
-                    if ((dtList != null) && (dtList.Rows.Count > 0))
-                        diseaseSigns = dtList.ToListOfObject<DiseaseCDModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtList = new DataTable();
+            adapter.Fill(dtList);
+            con.Close();
+            if ((dtList != null) && (dtList.Rows.Count > 0))
+                diseaseSigns = dtList.ToListOfObject<DiseaseCDModel>();
 
-                    return diseaseSigns;
-                }
-            }
+            return diseaseSigns;
         }
         public string DeleteDiseaseICD(int diseaseId)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseICD", con))
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseICD", con);
+                try
                 {
-                    try
-                    {
 
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
-
-                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retValV);
-                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retDesc);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        var ret = retValV.Value;
-                        var descrip = retDesc.Value.ToString();
-                        con.Close();
-                        if (descrip == "Deleted Successfully")
-                        {
-                            response = "Success";
-                        }
-                        else
-                        {
-                            response = descrip;
-                        }
-
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        response = ex.Message;
-                    }
-                }
-            }
-            return response;
-        }
-        public string DeleteDiseaseSymptom(int diseaseId)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseSymptom", con))
-                {
-                    try
-                    {
-
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
-                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retValV);
-                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retDesc);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        var ret = retValV.Value;
-                        var descrip = retDesc.Value.ToString();
-                        con.Close();
-                        if (descrip == "Deleted Successfully")
-                        {
-                            response = "Success";
-                        }
-                        else
-                        {
-                            response = descrip;
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        response = ex.Message;
-                    }
-                }
-            }
-            return response;
-        }
-        public string DeleteDiseaseSign(int diseaseId)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseSign", con))
-                {
-                    try
-                    {
-
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
-                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retValV);
-                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retDesc);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        var ret = retValV.Value;
-                        var descrip = retDesc.Value.ToString();
-                        con.Close();
-                        if (descrip == "Deleted Successfully")
-                        {
-                            response = "Success";
-                        }
-                        else
-                        {
-                            response = descrip;
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        response = ex.Message;
-                    }
-                }
-            }
-            return response;
-        }
-        public string BlockDisease(DiseaseModel disease)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_BlockDisease", con))
-                {
-                    try
-                    {
-
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
-                        cmd.Parameters.AddWithValue("@BlockReason", disease.BlockReason);
-                      
-                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retValV);
-
-                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retDesc);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        con.Close();
-                        var ret = retValV.Value;
-                        var descrip = retDesc.Value.ToString();
-                        if (Convert.ToInt32(ret) == disease.DiseaseId)
-                        {
-                            response = "Success";
-                        }
-                        else
-                        {
-                            response = descrip;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        response = ex.Message;
-                    }
-                }
-            }
-            return response;
-        }
-        public string UnblockDisease(DiseaseModel disease)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_UnblockDisease", con))
-                {
-                    try
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
-                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retValV);
-
-                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retDesc);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        con.Close();
-                        var ret = retValV.Value;
-                        var descrip = retDesc.Value.ToString();
-                        if (Convert.ToInt32(ret) == disease.DiseaseId)
-                        {
-                            response = "Success";
-                        }
-                        else
-                        {
-                            response = descrip;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        response = ex.Message;
-                    }
-                }
-            }
-            return response;
-        }
-
-        public List<Appointments> GetMyAppointments(AppointmentModel appointment)
-        {
-            List<Appointments> appointmentList = new List<Appointments>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                string AppQuery = "[stLH_GetAppOfaDay]";
-                using (SqlCommand cmd = new SqlCommand(AppQuery, con))
-                {
-                    con.Open();
-                    appointment.DeptId = 0;
-                    DateTime appDate = DateTime.ParseExact(appointment.AppDate.Trim(), "dd-MM-yyyy", null);
-                    appointment.AppDate = appDate.ToString("yyyy-MM-dd");
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
-                    cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
-                    cmd.Parameters.AddWithValue("@DeptId", appointment.DeptId);
-                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtAppointmentList = new DataTable();
-                    adapter.Fill(dtAppointmentList);
-                    con.Close();
-                    if ((dtAppointmentList != null) && (dtAppointmentList.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtAppointmentList.Rows.Count; i++)
-                        {
-                            Appointments obj = new Appointments();
-                            obj.AppId = Convert.ToInt32(dtAppointmentList.Rows[i]["AppId"]);
-                            obj.PatientId = Convert.ToInt32(dtAppointmentList.Rows[i]["PatientId"].ToString());
-                            obj.PatientName = dtAppointmentList.Rows[i]["PatientName"].ToString();
-                            obj.TimeNo = dtAppointmentList.Rows[i]["TimeNo"].ToString();
-                            obj.RegNo = dtAppointmentList.Rows[i]["RegNo"].ToString();
-                            obj.Status = dtAppointmentList.Rows[i]["Status"].ToString();
-                            obj.Gender = Convert.ToInt32(dtAppointmentList.Rows[i]["Gender"]);
-                            obj.AppDate = dtAppointmentList.Rows[i]["AppDate"].ToString();
-                            obj.Email = dtAppointmentList.Rows[i]["Email"].ToString();
-                            obj.Mobile = dtAppointmentList.Rows[i]["Mobile"].ToString();
-                            obj.Address1 = dtAppointmentList.Rows[i]["Address1"].ToString();
-                            appointmentList.Add(obj);
-                        }
-                    }
-                    return appointmentList;
-                }
-            }
-        }
-        public List<ConsultationModel> GetMyConsultations(ConsultantModel consultation)
-        {
-            List<ConsultationModel> consultationsList = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con))
-                {
-                   
-                    con.Open();
-                    consultation.DeptId = 0;
-                    DateTime appDate = DateTime.ParseExact(consultation.ConsultantDate.Trim(), "dd-MM-yyyy", null);
-                    consultation.ConsultantDate = appDate.ToString("yyyy-MM-dd");
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Status", consultation.Status);
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
-                    cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
-                    cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtConsultationsList = new DataTable();
-                    adapter.Fill(dtConsultationsList);
-                    con.Close();
-                    if ((dtConsultationsList != null) && (dtConsultationsList.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtConsultationsList.Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel();
-                            obj.ConsultationId = Convert.ToInt32(dtConsultationsList.Rows[i]["ConsultationId"]);
-                            obj.TokenNO = dtConsultationsList.Rows[i]["TokenNO"].ToString();
-                            obj.DeptId = Convert.ToInt32(dtConsultationsList.Rows[i]["DeptId"]);
-                            obj.PatientName = dtConsultationsList.Rows[i]["PatientName"].ToString();
-                            obj.PatientId = Convert.ToInt32(dtConsultationsList.Rows[i]["PatientId"]);
-                            obj.TimeNo = (dtConsultationsList.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(dtConsultationsList.Rows[i]["TimeNo"]);
-                            obj.RegNo = dtConsultationsList.Rows[i]["RegNo"].ToString();
-                            obj.Status = dtConsultationsList.Rows[i]["Status"].ToString();
-                            obj.Gender = dtConsultationsList.Rows[i]["Gender"].ToString();
-                            obj.Sponsor = dtConsultationsList.Rows[i]["Sponsor"].ToString();
-                            obj.Emergency = Convert.ToInt32(dtConsultationsList.Rows[i]["Emergency"]);
-                            obj.Address = dtConsultationsList.Rows[i]["Address"].ToString();
-                            obj.ConsultDate = dtConsultationsList.Rows[i]["ConsultDate"].ToString();
-                            obj.Email = dtConsultationsList.Rows[i]["Email"].ToString();
-                            obj.Mobile = dtConsultationsList.Rows[i]["Mobile"].ToString();
-                            obj.ChangeStatus = "";
-                            obj.CreditTime = "";
-                            obj.PolicyNo = dtConsultationsList.Rows[i]["PolicyNo"].ToString();
-                            obj.PolicyPeriod = 0;
-                            obj.OtherReasonForVisit = dtConsultationsList.Rows[i]["Symptoms"].ToString();
-                            consultationsList.Add(obj);
-                        }
-                    }
-
-                    return consultationsList;
-                }
-            }
-        }
-        public string InsertUpdateSchedule(ScheduleModel schedule)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSchedule", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ScheduleId", schedule.ScheduleId);
-                    cmd.Parameters.AddWithValue("@ConsultantId", schedule.ConsultantId);
-                    cmd.Parameters.AddWithValue("@StartTime", schedule.StartTime);
-                    cmd.Parameters.AddWithValue("@EndTime", schedule.EndTime);
-                    cmd.Parameters.AddWithValue("@Title", schedule.Title);
-
+                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -1071,7 +687,141 @@ namespace LeHealth.Core.DataManager
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
                     con.Close();
-                    if (descrip == "Saved Successfully")
+                    if (descrip == "Deleted Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string DeleteDiseaseSymptom(int diseaseId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseSymptom", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Deleted Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string DeleteDiseaseSign(int diseaseId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteDiseaseSign", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Deleted Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string BlockDisease(DiseaseModel disease)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_BlockDisease", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
+                    cmd.Parameters.AddWithValue("@BlockReason", disease.BlockReason);
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (Convert.ToInt32(ret) == disease.DiseaseId)
                     {
                         response = "Success";
                     }
@@ -1080,6 +830,186 @@ namespace LeHealth.Core.DataManager
                         response = descrip;
                     }
                 }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string UnblockDisease(DiseaseModel disease)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_UnblockDisease", con);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (Convert.ToInt32(ret) == disease.DiseaseId)
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public List<Appointments> GetMyAppointments(AppointmentModel appointment)
+        {
+            List<Appointments> appointmentList = new List<Appointments>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            string AppQuery = "[stLH_GetAppOfaDay]";
+            using SqlCommand cmd = new SqlCommand(AppQuery, con);
+            con.Open();
+            appointment.DeptId = 0;
+            DateTime appDate = DateTime.ParseExact(appointment.AppDate.Trim(), "dd-MM-yyyy", null);
+            appointment.AppDate = appDate.ToString("yyyy-MM-dd");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+            cmd.Parameters.AddWithValue("@AppDate", appointment.AppDate);
+            cmd.Parameters.AddWithValue("@DeptId", appointment.DeptId);
+            cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtAppointmentList = new DataTable();
+            adapter.Fill(dtAppointmentList);
+            con.Close();
+            if ((dtAppointmentList != null) && (dtAppointmentList.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtAppointmentList.Rows.Count; i++)
+                {
+                    Appointments obj = new Appointments();
+                    obj.AppId = Convert.ToInt32(dtAppointmentList.Rows[i]["AppId"]);
+                    obj.PatientId = Convert.ToInt32(dtAppointmentList.Rows[i]["PatientId"].ToString());
+                    obj.PatientName = dtAppointmentList.Rows[i]["PatientName"].ToString();
+                    obj.TimeNo = dtAppointmentList.Rows[i]["TimeNo"].ToString();
+                    obj.RegNo = dtAppointmentList.Rows[i]["RegNo"].ToString();
+                    obj.Status = dtAppointmentList.Rows[i]["Status"].ToString();
+                    obj.Gender = Convert.ToInt32(dtAppointmentList.Rows[i]["Gender"]);
+                    obj.AppDate = dtAppointmentList.Rows[i]["AppDate"].ToString();
+                    obj.Email = dtAppointmentList.Rows[i]["Email"].ToString();
+                    obj.Mobile = dtAppointmentList.Rows[i]["Mobile"].ToString();
+                    obj.Address1 = dtAppointmentList.Rows[i]["Address1"].ToString();
+                    appointmentList.Add(obj);
+                }
+            }
+            return appointmentList;
+        }
+        public List<ConsultationModel> GetMyConsultations(ConsultantModel consultation)
+        {
+            List<ConsultationModel> consultationsList = new List<ConsultationModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con);
+
+            con.Open();
+            consultation.DeptId = 0;
+            DateTime appDate = DateTime.ParseExact(consultation.ConsultantDate.Trim(), "dd-MM-yyyy", null);
+            consultation.ConsultantDate = appDate.ToString("yyyy-MM-dd");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Status", consultation.Status);
+            cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+            cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
+            cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
+            cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtConsultationsList = new DataTable();
+            adapter.Fill(dtConsultationsList);
+            con.Close();
+            if ((dtConsultationsList != null) && (dtConsultationsList.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtConsultationsList.Rows.Count; i++)
+                {
+                    ConsultationModel obj = new ConsultationModel();
+                    obj.ConsultationId = Convert.ToInt32(dtConsultationsList.Rows[i]["ConsultationId"]);
+                    obj.TokenNO = dtConsultationsList.Rows[i]["TokenNO"].ToString();
+                    obj.DeptId = Convert.ToInt32(dtConsultationsList.Rows[i]["DeptId"]);
+                    obj.PatientName = dtConsultationsList.Rows[i]["PatientName"].ToString();
+                    obj.PatientId = Convert.ToInt32(dtConsultationsList.Rows[i]["PatientId"]);
+                    obj.TimeNo = (dtConsultationsList.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(dtConsultationsList.Rows[i]["TimeNo"]);
+                    obj.RegNo = dtConsultationsList.Rows[i]["RegNo"].ToString();
+                    obj.Status = dtConsultationsList.Rows[i]["Status"].ToString();
+                    obj.Gender = dtConsultationsList.Rows[i]["Gender"].ToString();
+                    obj.Sponsor = dtConsultationsList.Rows[i]["Sponsor"].ToString();
+                    obj.Emergency = Convert.ToInt32(dtConsultationsList.Rows[i]["Emergency"]);
+                    obj.Address = dtConsultationsList.Rows[i]["Address"].ToString();
+                    obj.ConsultDate = dtConsultationsList.Rows[i]["ConsultDate"].ToString();
+                    obj.Email = dtConsultationsList.Rows[i]["Email"].ToString();
+                    obj.Mobile = dtConsultationsList.Rows[i]["Mobile"].ToString();
+                    obj.ChangeStatus = "";
+                    obj.CreditTime = "";
+                    obj.PolicyNo = dtConsultationsList.Rows[i]["PolicyNo"].ToString();
+                    obj.PolicyPeriod = 0;
+                    obj.OtherReasonForVisit = dtConsultationsList.Rows[i]["Symptoms"].ToString();
+                    consultationsList.Add(obj);
+                }
+            }
+
+            return consultationsList;
+        }
+        public string InsertUpdateSchedule(ScheduleModel schedule)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSchedule", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@ScheduleId", schedule.ScheduleId);
+                cmd.Parameters.AddWithValue("@ConsultantId", schedule.ConsultantId);
+                cmd.Parameters.AddWithValue("@StartTime", schedule.StartTime);
+                cmd.Parameters.AddWithValue("@EndTime", schedule.EndTime);
+                cmd.Parameters.AddWithValue("@Title", schedule.Title);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
             }
             return response;
         }
@@ -1087,66 +1017,60 @@ namespace LeHealth.Core.DataManager
         {
             List<ScheduleModel> schedules = new List<ScheduleModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetSchedules", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSchedules", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtschedulesList = new DataTable();
-                    adapter.Fill(dtschedulesList);
-                    con.Close();
-                    if ((dtschedulesList != null) && (dtschedulesList.Rows.Count > 0))
-                        schedules = dtschedulesList.ToListOfObject<ScheduleModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtschedulesList = new DataTable();
+            adapter.Fill(dtschedulesList);
+            con.Close();
+            if ((dtschedulesList != null) && (dtschedulesList.Rows.Count > 0))
+                schedules = dtschedulesList.ToListOfObject<ScheduleModel>();
 
-                    return schedules;
-                }
-            }
+            return schedules;
         }
         public string DeleteSchedule(int scheduleId)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_DeleteSchedule", con))
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteSchedule", con);
+                try
                 {
-                    try
-                    {
 
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@ScheduleId", scheduleId);
-                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retValV);
-                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retDesc);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        var ret = retValV.Value;
-                        var descrip = retDesc.Value.ToString();
-                        con.Close();
-                        if (descrip == "Deleted Successfully")
-                        {
-                            response = "Success";
-                        }
-                        else
-                        {
-                            response = descrip;
-                        }
-
-                    }
-                    catch (Exception ex)
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ScheduleId", scheduleId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
-                        response = ex.Message;
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Deleted Successfully")
+                    {
+                        response = "Success";
                     }
+                    else
+                    {
+                        response = descrip;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
                 }
             }
             return response;
@@ -1157,45 +1081,43 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTimer", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                   	
-                    cmd.Parameters.AddWithValue("@TimerId", timer.TimerId);
-                    cmd.Parameters.AddWithValue("@PatientId", timer.PatientId);
-                    cmd.Parameters.AddWithValue("@ConsultantId", timer.ConsultantId);
-                    cmd.Parameters.AddWithValue("@UserId", timer.UserId);
-                    cmd.Parameters.AddWithValue("@StartTime", timer.StartTime);
-                    cmd.Parameters.AddWithValue("@EndTime", timer.EndTime);
-                    cmd.Parameters.AddWithValue("@Days", timer.Days);
-                    cmd.Parameters.AddWithValue("@Hours", timer.Hours);
-                    cmd.Parameters.AddWithValue("@Minutes", timer.Minutes);
-                    cmd.Parameters.AddWithValue("@Seconds", timer.Seconds);
-                    cmd.Parameters.AddWithValue("@TickCount", timer.TickCount);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTimer", con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    con.Close();
-                    if (descrip == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
+                cmd.Parameters.AddWithValue("@TimerId", timer.TimerId);
+                cmd.Parameters.AddWithValue("@PatientId", timer.PatientId);
+                cmd.Parameters.AddWithValue("@ConsultantId", timer.ConsultantId);
+                cmd.Parameters.AddWithValue("@UserId", timer.UserId);
+                cmd.Parameters.AddWithValue("@StartTime", timer.StartTime);
+                cmd.Parameters.AddWithValue("@EndTime", timer.EndTime);
+                cmd.Parameters.AddWithValue("@Days", timer.Days);
+                cmd.Parameters.AddWithValue("@Hours", timer.Hours);
+                cmd.Parameters.AddWithValue("@Minutes", timer.Minutes);
+                cmd.Parameters.AddWithValue("@Seconds", timer.Seconds);
+                cmd.Parameters.AddWithValue("@TickCount", timer.TickCount);
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
                 }
             }
             return response;

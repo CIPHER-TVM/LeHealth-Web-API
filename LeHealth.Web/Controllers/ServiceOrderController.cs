@@ -64,9 +64,10 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetPackageItem/{packId}")]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetPackageItem(int packId)
         {
-            List<ItemsByTypeModel> itemGroupList = new List<ItemsByTypeModel>();
+            
             try
             {
+                List<ItemsByTypeModel> itemGroupList = new List<ItemsByTypeModel>();
                 itemGroupList = serviceorderService.GetPackageItem(packId);
                 var response = new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
                 {
@@ -140,9 +141,10 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<ServiceInsertResponse> InsertServiceNew(ServiceInsertInputModel siim)
         {
-            ServiceInsertResponse groups = new ServiceInsertResponse();
             try
             {
+                ServiceInsertResponse groups = new ServiceInsertResponse();
+
                 groups = serviceorderService.InsertServiceNew(siim);
                 var response = new ResponseDataModel<ServiceInsertResponse>()
                 {
@@ -256,9 +258,10 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetProfile")]
         public ResponseDataModel<IEnumerable<ProfileModel>> GetProfile(ProfileModel pm)
         {
-            List<ProfileModel> profileList = new List<ProfileModel>();
+           
             try
             {
+                List<ProfileModel> profileList = new List<ProfileModel>();
                 profileList = serviceorderService.GetProfile(pm);
                 var response = new ResponseDataModel<IEnumerable<ProfileModel>>()
                 {
@@ -296,9 +299,10 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetProfileItem")]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetProfileItem(ProfileModel pm)
         {
-            List<ItemsByTypeModel> profileItemList = new List<ItemsByTypeModel>();
             try
             {
+                List<ItemsByTypeModel> profileItemList = new List<ItemsByTypeModel>();
+
                 profileItemList = serviceorderService.GetProfileItem(pm);
                 var response = new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
                 {
@@ -372,9 +376,10 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetServicesOrderByDate")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderByDate(AvailableServiceModel asm)
         {
-            List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
             try
             {
+                List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
+
                 itemGroupList = serviceorderService.GetServicesOrderByDate(asm);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
                 {
@@ -410,9 +415,10 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetServicesOrderLoad")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderLoad(AvailableServiceModel asm)
         {
-            List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
+            
             try
             {
+                List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
                 itemGroupList = serviceorderService.GetServicesOrderLoad(asm);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
                 {
@@ -486,9 +492,10 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetServicesGroups")]
         public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups()
         {
-            List<ServiceGroupModel> serviceGroups = new List<ServiceGroupModel>();
             try
             {
+                List<ServiceGroupModel> serviceGroups = new List<ServiceGroupModel>();
+
                 serviceGroups = serviceorderService.GetServicesGroups();
 
                 var response = new ResponseDataModel<IEnumerable<ServiceGroupModel>>()

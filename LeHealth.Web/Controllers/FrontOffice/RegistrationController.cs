@@ -245,9 +245,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<AllPatientModel>> ViewPatientFiles(PatientModel patientDetails)
         {
-            List<AllPatientModel> patientList = new List<AllPatientModel>();
             try
             {
+                List<AllPatientModel> patientList = new List<AllPatientModel>();
+
                 patientList = registrationService.ViewPatientFiles(patientDetails.PatientId);
                 var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
                 {
