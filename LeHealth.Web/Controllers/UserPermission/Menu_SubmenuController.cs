@@ -143,9 +143,9 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [Route("GetLeftmenu/{user}/{BranchesId}")]
         public ResponseDataModel<List<Leftmenumodel>> GetLeftmenu(int user, int BranchesId)
         {
-            List<Leftmenumodel> menu = new List<Leftmenumodel>();
             try
             {
+                List<Leftmenumodel> menu = new List<Leftmenumodel>();
                 menu = menuSubmenuService.GetLeftmenu(user, BranchesId);
                 var response = new ResponseDataModel<List<Leftmenumodel>>()
                 {

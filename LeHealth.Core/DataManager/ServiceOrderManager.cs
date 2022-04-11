@@ -27,37 +27,32 @@ namespace LeHealth.Core.DataManager
         public List<GroupModel> GetItemsGroup(int groupId)
         {
             List<GroupModel> communicationTypeList = new List<GroupModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemGroup", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@GroupId", groupId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsItemGroup = new DataTable();
+            adapter.Fill(dsItemGroup);
+            con.Close();
+            if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetItemGroup", con))
+                for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@GroupId", groupId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsItemGroup = new DataTable();
-                    adapter.Fill(dsItemGroup);
-                    con.Close();
-                    if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
-                        {
-                            GroupModel obj = new GroupModel();
-                            obj.GroupId = Convert.ToInt32(dsItemGroup.Rows[i]["GroupId"]);
-                            obj.GroupName = dsItemGroup.Rows[i]["GroupName"].ToString();
-                            obj.GroupCode = dsItemGroup.Rows[i]["GroupCode"].ToString();
-                            obj.GroupCommPcnt = Convert.ToInt32(dsItemGroup.Rows[i]["GroupCommPcnt"]);
-                            obj.Category = dsItemGroup.Rows[i]["Category"].ToString();
-                            obj.GroupType = Convert.ToInt32(dsItemGroup.Rows[i]["GroupType"]);
-                            obj.GroupLevel = dsItemGroup.Rows[i]["GroupLevel"].ToString();
-                            obj.ParentFlag = Convert.ToInt32(dsItemGroup.Rows[i]["ParentFlag"]);
-                            communicationTypeList.Add(obj);
-                        }
-                    }
-                    return communicationTypeList;
+                    GroupModel obj = new GroupModel();
+                    obj.GroupId = Convert.ToInt32(dsItemGroup.Rows[i]["GroupId"]);
+                    obj.GroupName = dsItemGroup.Rows[i]["GroupName"].ToString();
+                    obj.GroupCode = dsItemGroup.Rows[i]["GroupCode"].ToString();
+                    obj.GroupCommPcnt = Convert.ToInt32(dsItemGroup.Rows[i]["GroupCommPcnt"]);
+                    obj.Category = dsItemGroup.Rows[i]["Category"].ToString();
+                    obj.GroupType = Convert.ToInt32(dsItemGroup.Rows[i]["GroupType"]);
+                    obj.GroupLevel = dsItemGroup.Rows[i]["GroupLevel"].ToString();
+                    obj.ParentFlag = Convert.ToInt32(dsItemGroup.Rows[i]["ParentFlag"]);
+                    communicationTypeList.Add(obj);
                 }
             }
+            return communicationTypeList;
         }
         /// <summary>
         /// Get service items in a package
@@ -68,33 +63,31 @@ namespace LeHealth.Core.DataManager
         {
             List<ItemsByTypeModel> communicationTypeList = new List<ItemsByTypeModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPackageItem", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PackId", packId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsItemGroup = new DataTable();
+            adapter.Fill(dsItemGroup);
+            con.Close();
+            if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetPackageItem", con))
+                for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@PackId", packId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsItemGroup = new DataTable();
-                    adapter.Fill(dsItemGroup);
-                    con.Close();
-                    if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
+                    ItemsByTypeModel obj = new ItemsByTypeModel
                     {
-                        for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
-                        {
-                            ItemsByTypeModel obj = new ItemsByTypeModel();
-                            obj.ItemId = Convert.ToInt32(dsItemGroup.Rows[i]["ItemId"]);
-                            obj.ItemCode = dsItemGroup.Rows[i]["ItemCode"].ToString();
-                            obj.ItemName = dsItemGroup.Rows[i]["ItemName"].ToString();
-                            obj.Rate = Convert.ToInt32(dsItemGroup.Rows[i]["Rate"]);
-                            obj.Quantity = Convert.ToInt32(dsItemGroup.Rows[i]["Quantity"]);
-                            communicationTypeList.Add(obj);
-                        }
-                    }
-                    return communicationTypeList;
+                        ItemId = Convert.ToInt32(dsItemGroup.Rows[i]["ItemId"]),
+                        ItemCode = dsItemGroup.Rows[i]["ItemCode"].ToString(),
+                        ItemName = dsItemGroup.Rows[i]["ItemName"].ToString(),
+                        Rate = Convert.ToInt32(dsItemGroup.Rows[i]["Rate"]),
+                        Quantity = Convert.ToInt32(dsItemGroup.Rows[i]["Quantity"])
+                    };
+                    communicationTypeList.Add(obj);
                 }
             }
+            return communicationTypeList;
         }
         /// <summary>
         /// Get all profile data or specific profiles data if pm.ProfileId equals zero
@@ -111,35 +104,33 @@ namespace LeHealth.Core.DataManager
         {
             List<ProfileModel> profileList = new List<ProfileModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
+            using SqlConnection con = new SqlConnection(_connStr);
 
-                using (SqlCommand cmd = new SqlCommand("stLH_GetProfile", con))
+            using SqlCommand cmd = new SqlCommand("stLH_GetProfile", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ProfileId", pm.ProfileId);
+            cmd.Parameters.AddWithValue("@Active", pm.Active);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsItemGroup = new DataTable();
+            adapter.Fill(dsItemGroup);
+            con.Close();
+            if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ProfileId", pm.ProfileId);
-                    cmd.Parameters.AddWithValue("@Active", pm.Active);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsItemGroup = new DataTable();
-                    adapter.Fill(dsItemGroup);
-                    con.Close();
-                    if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
+                    ProfileModel obj = new ProfileModel
                     {
-                        for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
-                        {
-                            ProfileModel obj = new ProfileModel();
-                            obj.ProfileId = Convert.ToInt32(dsItemGroup.Rows[i]["ProfileId"]);
-                            obj.ProfileDesc = dsItemGroup.Rows[i]["ProfileDesc"].ToString();
-                            obj.Remarks = dsItemGroup.Rows[i]["Remarks"].ToString();
-                            obj.Active = Convert.ToInt32(dsItemGroup.Rows[i]["Active"]);
-                            obj.BlockReason = dsItemGroup.Rows[i]["BlockReason"].ToString();
-                            profileList.Add(obj);
-                        }
-                    }
-                    return profileList;
+                        ProfileId = Convert.ToInt32(dsItemGroup.Rows[i]["ProfileId"]),
+                        ProfileDesc = dsItemGroup.Rows[i]["ProfileDesc"].ToString(),
+                        Remarks = dsItemGroup.Rows[i]["Remarks"].ToString(),
+                        Active = Convert.ToInt32(dsItemGroup.Rows[i]["Active"]),
+                        BlockReason = dsItemGroup.Rows[i]["BlockReason"].ToString()
+                    };
+                    profileList.Add(obj);
                 }
             }
+            return profileList;
         }
         /// <summary>
         /// Get all items in a profile 
@@ -265,33 +256,28 @@ namespace LeHealth.Core.DataManager
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLastConsultation", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+            cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsavailableService = new DataTable();
+            adapter.Fill(dsavailableService);
+            con.Close();
+            if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetLastConsultation", con))
+                for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
-                    cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsavailableService = new DataTable();
-                    adapter.Fill(dsavailableService);
-                    con.Close();
-                    if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
-                        {
-                            AvailableServiceModel obj = new AvailableServiceModel();
-                            obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = dsavailableService.Rows[i]["ConsultDate"].ToString();
-                            obj.ConsultantId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultantId"]);
-                            availableServiceList.Add(obj);
-                        }
-                    }
-                    return availableServiceList;
+                    AvailableServiceModel obj = new AvailableServiceModel();
+                    obj.ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]);
+                    obj.ConsultDate = dsavailableService.Rows[i]["ConsultDate"].ToString();
+                    obj.ConsultantId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultantId"]);
+                    availableServiceList.Add(obj);
                 }
             }
+            return availableServiceList;
         }
         /// <summary>
         /// Search service data

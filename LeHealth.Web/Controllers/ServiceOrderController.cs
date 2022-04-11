@@ -26,9 +26,9 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetItemsGroup/{groupId}")]
         public ResponseDataModel<IEnumerable<GroupModel>> GetItemsGroup(int groupId)
         {
-            List<GroupModel> itemGroupList = new List<GroupModel>();
             try
             {
+                List<GroupModel> itemGroupList = new List<GroupModel>();
                 itemGroupList = serviceorderService.GetItemsGroup(groupId);
                 var response = new ResponseDataModel<IEnumerable<GroupModel>>()
                 {
@@ -216,9 +216,9 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetAvailableService")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetAvailableService(AvailableServiceModel asm)
         {
-            List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
             try
             {
+                List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
                 itemGroupList = serviceorderService.GetAvailableService(asm);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
                 {
@@ -448,9 +448,9 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetServicesOrderDetailById/{sid}")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderDetailById(int sid)
         {
-            List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
             try
             {
+                List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
                 itemGroupList = serviceorderService.GetServicesOrderDetailById(sid);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
                 {

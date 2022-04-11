@@ -30,7 +30,6 @@ namespace LeHealth.Catalogue.API.Controllers
             formValidationService = _formValidationService;
         }
 
-
         [Route("GetFormValidation/{FormId}/{DepartmentId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormValidation(Int32 FormId, Int32 DepartmentId)
@@ -67,9 +66,9 @@ namespace LeHealth.Catalogue.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<FormValidationModel>> InsertUpdateFormValidation(FormValidationModel formvalidation)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = formValidationService.InsertUpdateFormValidation(formvalidation);
                 var response = new ResponseDataModel<IEnumerable<FormValidationModel>>()
                 {
