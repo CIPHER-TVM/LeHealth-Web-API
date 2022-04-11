@@ -47,36 +47,38 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
                     cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
 
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable ds = new DataTable();
-            adapter.Fill(ds);
-            con.Close();
-            if ((ds != null) && (ds.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < ds.Rows.Count; i++)
-                {
-                    ConsultationModel obj = new ConsultationModel
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable ds = new DataTable();
+                    adapter.Fill(ds);
+                    con.Close();
+                    if ((ds != null) && (ds.Rows.Count > 0))
                     {
-                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-                        ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
-                        ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
-                        PatientName = ds.Rows[i]["PatientName"].ToString(),
-                        Consultant = ds.Rows[i]["Consultant"].ToString(),
-                        ConsultType2 = ds.Rows[i]["ConsultType"].ToString(),
-                        RegNo = ds.Rows[i]["RegNo"].ToString(),
-                        PIN = ds.Rows[i]["PIN"].ToString(),
-                        OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString(),
-                        Status = ds.Rows[i]["Status"].ToString(),
-                        CancelReason = ds.Rows[i]["CancelReason"].ToString(),
-                        Mobile = ds.Rows[i]["Mobile"].ToString(),
-                        Telephone = ds.Rows[i]["Telephone"].ToString(),
-                        Address = ds.Rows[i]["Address"].ToString(),
-                        Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString()
-                    };
-                    Consultationlist.Add(obj);
+                        for (Int32 i = 0; i < ds.Rows.Count; i++)
+                        {
+                            ConsultationModel obj = new ConsultationModel
+                            {
+                                PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                                ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
+                                ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
+                                PatientName = ds.Rows[i]["PatientName"].ToString(),
+                                Consultant = ds.Rows[i]["Consultant"].ToString(),
+                                ConsultType2 = ds.Rows[i]["ConsultType"].ToString(),
+                                RegNo = ds.Rows[i]["RegNo"].ToString(),
+                                PIN = ds.Rows[i]["PIN"].ToString(),
+                                OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString(),
+                                Status = ds.Rows[i]["Status"].ToString(),
+                                CancelReason = ds.Rows[i]["CancelReason"].ToString(),
+                                Mobile = ds.Rows[i]["Mobile"].ToString(),
+                                Telephone = ds.Rows[i]["Telephone"].ToString(),
+                                Address = ds.Rows[i]["Address"].ToString(),
+                                Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString()
+                            };
+                            Consultationlist.Add(obj);
+                        }
+                    }
+                    return Consultationlist;
                 }
             }
-            return Consultationlist;
         }
         /// <summary>
         /// Get appointment details using ConsultantId
@@ -168,14 +170,18 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@ToDate", patient.RegDateTo);
 
 
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtPatientList = new DataTable();
-            adapter.Fill(dtPatientList);
-            con.Close();
-            if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
-                patientList = dtPatientList.ToListOfObject<ConsultantPatientModel>();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dtPatientList = new DataTable();
+                    adapter.Fill(dtPatientList);
+                    con.Close();
+                    if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
+                        patientList = dtPatientList.ToListOfObject<ConsultantPatientModel>();
 
-            return patientList;
+                    return patientList;
+                }
+
+
+            }
         }
         /// <summary>L
         /// </summary>
