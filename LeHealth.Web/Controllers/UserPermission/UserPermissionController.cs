@@ -178,8 +178,8 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("getUserGroup")]
-        public ResponseDataModel<UserGroupModel> getUserGroup([FromBody] int Id)
+        [Route("GetUserGroup")]
+        public ResponseDataModel<UserGroupModel> GetUserGroup([FromBody] int Id)
         {
             try
             {
