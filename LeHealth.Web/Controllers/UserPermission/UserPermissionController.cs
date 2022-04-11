@@ -103,8 +103,8 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         /// <param name="UserId"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("getUserGroupsonBranch/{BranchId}/{UserId}")]
-        public ResponseDataModel<UserPermissionGroups> getUserGroupsonBranch(int BranchId, int UserId)
+        [Route("GetUserGroupsonBranch/{BranchId}/{UserId}")]
+        public ResponseDataModel<UserPermissionGroups> GetUserGroupsonBranch(int BranchId, int UserId)
         {
             try
             {
@@ -140,8 +140,8 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         /// </summary>
         /// <returns>User group list</returns>
         [HttpPost]
-        [Route("getUserGroups")]
-        public ResponseDataModel<IEnumerable<UserGroupModel>> getUserGroups()
+        [Route("GetUserGroups")]
+        public ResponseDataModel<IEnumerable<UserGroupModel>> GetUserGroups()
         {
             try
             {
@@ -178,8 +178,8 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("getUserGroup")]
-        public ResponseDataModel<UserGroupModel> getUserGroup([FromBody] int Id)
+        [Route("GetUserGroup")]
+        public ResponseDataModel<UserGroupModel> GetUserGroup([FromBody] int Id)
         {
             try
             {
@@ -417,9 +417,9 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
-        [Route("getUserGrouponUser")]
+        [Route("GetUserGrouponUser")]
         [HttpPost]
-        public ResponseDataModel<MapUserGroupModel> getUserGrouponUser([FromBody] int UserId)
+        public ResponseDataModel<MapUserGroupModel> GetUserGrouponUser([FromBody] int UserId)
         {
             try
             {

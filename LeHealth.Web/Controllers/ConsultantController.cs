@@ -296,9 +296,10 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantServiceModel>> GetConsultantServices(int consultantId)
         {
-            List<ConsultantServiceModel> consultantServices = new List<ConsultantServiceModel>();
             try
             {
+                List<ConsultantServiceModel> consultantServices = new List<ConsultantServiceModel>();
+
                 consultantServices = consultantService.GetConsultantServices(consultantId);
                 var response = new ResponseDataModel<IEnumerable<ConsultantServiceModel>>()
                 {
@@ -396,9 +397,10 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugs(int consultantId)
         {
-            List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
             try
             {
+                List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
+
                 consultantDrugs = consultantService.GetConsultantDrugs(consultantId);
                 var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
                 {
@@ -871,9 +873,10 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ScheduleModel>> GetSchedules(int consultantId)
         {
-            List<ScheduleModel> sheduletList = new List<ScheduleModel>();
+           
             try
             {
+                List<ScheduleModel> sheduletList = new List<ScheduleModel>();
                 sheduletList = consultantService.GetSchedules(consultantId);
                 var response = new ResponseDataModel<IEnumerable<ScheduleModel>>()
                 {

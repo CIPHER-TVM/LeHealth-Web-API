@@ -32,14 +32,16 @@ namespace LeHealth.Catalogue.API.Controllers
             logger = _logger;
             hospitalsService = _hospitalsService;
         }
-        
+
         [Route("GetTabOrder")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<TabOrderModel>> GetTabOrder(FormNameModel formname)
         {
-            List<TabOrderModel> mandatoryList = new List<TabOrderModel>();
+
             try
+
             {
+                List<TabOrderModel> mandatoryList = new List<TabOrderModel>();
                 mandatoryList = hospitalsService.GetTabOrder(formname.Formname);
                 var response = new ResponseDataModel<IEnumerable<TabOrderModel>>()
                 {
@@ -64,7 +66,7 @@ namespace LeHealth.Catalogue.API.Controllers
             }
             finally
             {
-                
+
             }
         }
 
