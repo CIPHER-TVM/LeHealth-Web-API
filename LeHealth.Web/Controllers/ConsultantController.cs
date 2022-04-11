@@ -37,7 +37,7 @@ namespace LeHealth.Base.API.Controllers
 
         [Route("SearchConsultationById")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultationModel>> SearchConsultation(ConsultationModel consultation)
+        public ResponseDataModel<IEnumerable<ConsultationModel>> SearchConsultationById(ConsultationModel consultation)
         {
             try
             {
