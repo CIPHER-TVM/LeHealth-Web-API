@@ -34,10 +34,18 @@ namespace LeHealth.Core.DataManager
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultationById", con))
                 {
+                    DateTime oldFrom = DateTime.ParseExact(consultation.FromDate.Trim(), "dd-MM-yyyy", null);
+                    consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
+
+                    DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd-MM-yyyy", null);
+                    consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
+
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
                     cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
+                    cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
+                    cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable ds = new DataTable();
