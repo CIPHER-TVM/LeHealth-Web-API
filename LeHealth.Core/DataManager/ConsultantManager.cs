@@ -1016,6 +1016,7 @@ namespace LeHealth.Core.DataManager
                             obj.TokenNO = dtConsultationsList.Rows[i]["TokenNO"].ToString();
                             obj.DeptId = Convert.ToInt32(dtConsultationsList.Rows[i]["DeptId"]);
                             obj.PatientName = dtConsultationsList.Rows[i]["PatientName"].ToString();
+                            obj.PatientId = Convert.ToInt32(dtConsultationsList.Rows[i]["PatientId"]);
                             obj.TimeNo = (dtConsultationsList.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(dtConsultationsList.Rows[i]["TimeNo"]);
                             obj.RegNo = dtConsultationsList.Rows[i]["RegNo"].ToString();
                             obj.Status = dtConsultationsList.Rows[i]["Status"].ToString();
