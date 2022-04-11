@@ -69,7 +69,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
         /// <summary>
-        /// API for 
+        /// API for checking appointment validity
         /// </summary>
         /// <param name="ap"></param>
         /// <returns></returns>
@@ -183,6 +183,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        /// <summary>
+        /// API For getting registration data of a patient
+        /// </summary>
+        /// <param name="cd">patient id</param>
+        /// <returns>Patient registration details</returns>
         [Route("GetPatRegByPatientId")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatRegByPatientIdModel>> GetPatRegByPatientId(ConsultationModel cd)
@@ -215,7 +220,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API for getting schemerate of a consultant's scheme
+        /// </summary>
+        /// <param name="cisr"></param>
+        /// <returns>scheme details</returns>
         [Route("GetConsultantItemSchemeRate")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<GetConsultantItemSchemeRateModel>> GetConsultantItemSchemeRate(ConsultantItemSchemeRateIPModel cisr)
@@ -248,7 +257,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// Get consultanr details by department id
+        /// </summary>
+        /// <param name="deptId">Department Id</param>
+        /// <returns>consultanr details list</returns>
         [Route("GetConsultantByArray")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultantByArray(DepartmentIdModel deptId)
@@ -324,6 +337,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        /// <summary>
+        /// Get appointment details
+        /// </summary>
+        /// <param name="appointment">Appointment id</param>
+        /// <returns>appointment details</returns>
+
         [Route("GetAllAppointments")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<SearchAppointmentModel>> GetAllAppointments(AppointmentModel appointment)
@@ -395,7 +414,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         //Reg Scheme DDL
         //Registration Page Top Left
-
+        /// <summary>
+        /// API for canceling an appointment
+        /// </summary>
+        /// <param name="appointment">Appointment Id</param>
+        /// <returns></returns>
         [Route("DeleteAppointment")]
         [HttpPost]
         public ResponseDataModel<AppointmentModel> DeleteAppointment(AppointmentModel appointment)
@@ -429,6 +452,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        /// <summary>
+        /// API For Updating appointment status
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns>Success or reason for failure</returns>
         [Route("UpdateAppointmentStatus")]
         [HttpPost]
         public ResponseDataModel<AppointmentModel> UpdateAppointmentStatus(AppointmentModel appointment)
@@ -501,7 +529,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API For searching patients with patient name, register number etc
+        /// </summary>
+        /// <param name="patientDetails">Patient details class</param>
+        /// <returns>Patient details</returns>
         [Route("SearchPatient")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatientListModel>> SearchPatient(PatientSearchModel patientDetails)
@@ -534,6 +566,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        /// <summary>
+        /// API for getting patient details with register number
+        /// </summary>
+        /// <param name="patientDetails">Register number</param>
+        /// <returns>Patient details</returns>
         [Route("GetPatientByRegNo")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<PatientListModel>> GetPatientByRegNo(PatientSearchModel patientDetails)
@@ -566,7 +603,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API for displaying appointment, consultation count in front office
+        /// </summary>
+        /// <param name="CM"></param>
+        /// <returns></returns>
         [Route("GetFrontOfficeProgressBars")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<FrontOfficePBarModel>> GetFrontOfficeProgressBars(ConsultationModel CM)
@@ -602,7 +643,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API for getting schemes available under a consultant
+        /// </summary>
+        /// <param name="consultant">Consultant ID</param>
+        /// <returns>Scheme details</returns>
         [Route("GetSchemeByConsultant")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<SchemeModel>> GetSchemeByConsultant(ConsultantModel consultant)
@@ -686,6 +731,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        /// <summary>
+        /// API for updating appointment
+        /// </summary>
+        /// <param name="appointments">Appointment details</param>
+        /// <returns>Success or reason for failure</returns>
         [Route("UpdateAppointment")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<Appointments>> UpdateAppointment(Appointments appointments)
@@ -768,7 +818,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API for updating symptoms in a consultation
+        /// </summary>
+        /// <param name="consultations">Sympoms, consultation Id</param>
+        /// <returns>Success or reason for failure</returns>
         [Route("UpdateConsultationSymptoms")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> UpdateConsultationSymptoms(ConsultationModel consultations)
@@ -811,7 +865,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API for cancelling a consiltation
+        /// </summary>
+        /// <param name="consultations">Consultation Id</param>
+        /// <returns>Success or reason for failure</returns>
         [Route("CancelConsultation")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultationModel>> CancelConsultation(ConsultationModel consultations)
@@ -844,7 +902,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API For postponing an appointment
+        /// </summary>
+        /// <param name="app">APpointmentId</param>
+        /// <returns>Success or reason for failure</returns>
         [Route("PostponeAppointment")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<String>> PostponeAppointment(Appointments app)
@@ -877,7 +939,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API for getting registered scheme's amount of a patient
+        /// </summary>
+        /// <param name="cm">patient id</param>
+        /// <returns>Scheme data</returns>
         [HttpPost]
         [Route("GetRegSchmAmtOfPatient")]
         public ResponseDataModel<IEnumerable<ConsultRateModel>> GetRegSchmAmtOfPatient(ConsultationModel cm)
@@ -911,6 +977,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        /// <summary>
+        /// API for getting sponsor's list of a patient
+        /// </summary>
+        /// <param name="patientId">Patient's Id</param>
+        /// <returns>Sponsor details</returns>
         [HttpPost]
         [Route("GetSponsorListByPatientId/{patientId}")]
         public ResponseDataModel<IEnumerable<SponsorModel>> GetSponsorListByPatientId(Int32 patientId)
@@ -943,7 +1014,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API for Search appointment details
+        /// </summary>
+        /// <param name="appointment">Appointment search filters</param>
+        /// <returns>appointment details</returns>
         [HttpPost]
         [Route("SearchAppointment")]
         public ResponseDataModel<IEnumerable<SearchAppointmentModel>> SearchAppointment(AppointmentModel appointment)
@@ -1243,9 +1318,10 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetPatient")]
         public ResponseDataModel<IEnumerable<PatientModel>> GetPatient(PatientModel cm)
         {
-            List<PatientModel> patientList = new List<PatientModel>();
+           
             try
             {
+                List<PatientModel> patientList = new List<PatientModel>();
                 patientList = todaysPatientService.GetPatient(cm.PatientId);
                 var response = new ResponseDataModel<IEnumerable<PatientModel>>()
                 {

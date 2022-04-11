@@ -23,6 +23,11 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             logger = _logger;
             locationservice = _locationservice;
         }
+        /// <summary>
+        /// API For saving location data
+        /// </summary>
+        /// <param name="obj">Location details</param>
+        /// <returns>Success or reason for failure</returns>
         [HttpPost]
         [Route("Save")]
         public ResponseDataModel<string> Save(LocationModel obj)
@@ -54,13 +59,18 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        /// <summary>
+        /// API for Getting locations by Hospital branch id
+        /// </summary>
+        /// <param name="HospitalId">Branch Id</param>
+        /// <returns>Location list</returns>
         [HttpPost]
         [Route("GetLocations")]
         public ResponseDataModel<IEnumerable<LocationModel>> GetLocations([FromBody] int HospitalId)
         {
-            List<LocationModel> Location = new List<LocationModel>();
             try
             {
+                List<LocationModel> Location = new List<LocationModel>();
                 Location = locationservice.GetLocations(HospitalId);
                 var response = new ResponseDataModel<IEnumerable<LocationModel>>()
                 {
@@ -87,13 +97,17 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+        /// <summary>
+        /// API For getting location types
+        /// </summary>
+        /// <returns>Location type list</returns>
         [HttpPost]
         [Route("GetLocationTypes")]
         public ResponseDataModel<IEnumerable<LocationType>> GetLocationTypes()
         {
-            List<LocationType> Location = new List<LocationType>();
             try
             {
+                List<LocationType> Location = new List<LocationType>();
                 Location = locationservice.GetLocationTypes();
                 var response = new ResponseDataModel<IEnumerable<LocationType>>()
                 {
@@ -120,14 +134,19 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+        /// <summary>
+        /// API For getting location data by location Id
+        /// </summary>
+        /// <param name="LocationId">Primary key of location table</param>
+        /// <returns>Location data</returns>
 
         [HttpPost]
         [Route("GetLocationById")]
         public ResponseDataModel<LocationModel> GetLocationById([FromBody] int LocationId)
         {
-            LocationModel Location = new LocationModel();
             try
             {
+                LocationModel Location = new LocationModel();
                 Location = locationservice.GetLocationById(LocationId);
                 var response = new ResponseDataModel<LocationModel>()
                 {
@@ -154,7 +173,5 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
-
-
     }
 }

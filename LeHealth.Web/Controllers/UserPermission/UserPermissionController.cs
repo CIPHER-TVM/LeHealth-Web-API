@@ -23,6 +23,11 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             logger = _logger;
             permissionservice = _permissionservice;
         }
+        /// <summary>
+        /// API FOR saving  user groups
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>Successor reason for failure</returns>
 
         [HttpPost]
         [Route("SaveUserGroup")]
@@ -55,6 +60,11 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        /// <summary>
+        /// API for saving user
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SaveUsermenu")]
         public ResponseDataModel<string> SaveUsermenu(UserMenuModel obj)
@@ -86,7 +96,12 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
-
+        /// <summary>
+        /// API for getting usergroups by branch
+        /// </summary>
+        /// <param name="BranchId"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("getUserGroupsonBranch/{BranchId}/{UserId}")]
         public ResponseDataModel<UserPermissionGroups> getUserGroupsonBranch(int BranchId, int UserId)
@@ -120,7 +135,10 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
-
+        /// <summary>
+        /// API for getting usergroups
+        /// </summary>
+        /// <returns>User group list</returns>
         [HttpPost]
         [Route("getUserGroups")]
         public ResponseDataModel<IEnumerable<UserGroupModel>> getUserGroups()
@@ -154,6 +172,11 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+        /// <summary>
+        /// API for getting details of a specific usergroup
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("getUserGroup")]
         public ResponseDataModel<UserGroupModel> getUserGroup([FromBody] int Id)
@@ -187,6 +210,12 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+        
+        /// <summary>
+        /// API for saving User
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>success or reason for failure</returns>
         [HttpPost]
         [Route("SaveUser")]
         public ResponseDataModel<string> SaveUser(UserModel obj)
@@ -218,7 +247,10 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
-
+        /// <summary>
+        /// API for getting all users list
+        /// </summary>
+        /// <returns>Userlist</returns>
         [HttpPost]
         [Route("GetUsers")]
         public ResponseDataModel<IEnumerable<UserModel>> GetUsers()
@@ -250,6 +282,12 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        
+        /// <summary>
+        /// API for User details of a specific user
+        /// </summary>
+        /// <param name="Id">Primary key of a user </param>
+        /// <returns>User details of a specific user</returns>
         [HttpPost]
         [Route("GetUser")]
         public ResponseDataModel<UserModel> GetUser([FromBody] int Id)
@@ -281,6 +319,11 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("MapLocation")]
         public ResponseDataModel<string> MapLocation(MapLocationModel obj)

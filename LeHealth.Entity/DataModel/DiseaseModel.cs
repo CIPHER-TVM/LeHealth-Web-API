@@ -32,7 +32,7 @@ namespace LeHealth.Entity.DataModel
         public string Duration { get; set; }
     }
 
-    public class DiseaseICDModel
+    public class DiseaseCDModel 
     {
         public int LabelId { get; set; }
         public int DiseaseId { get; set; }

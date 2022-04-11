@@ -24,7 +24,11 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             menuSubmenuService = _menuSubmenuService;
         }
 
-
+        /// <summary>
+        /// API For saving menu items 
+        /// </summary>
+        /// <param name="obj">Menu item details</param>
+        /// <returns>SUccess or reason for failure</returns>
         [HttpPost]
         [Route("SaveMenuItems")]
         public ResponseDataModel<string> SaveMenuItems(MenuModel obj)
@@ -56,13 +60,18 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        /// <summary>
+        /// API for getting Menu item detail of a specific menu
+        /// </summary>
+        /// <param name="MenuId">Menu Id Primary key</param>
+        /// <returns>Menu item's details</returns>
         [HttpPost]
         [Route("GetMenuItem/{MenuId}")]
         public ResponseDataModel<MenuModel> GetMenuItem(int MenuId)
         {
-            MenuModel menu = new MenuModel();
             try
             {
+                MenuModel menu = new MenuModel();
                 menu = menuSubmenuService.GetMenuItem(MenuId);
                 var response = new ResponseDataModel<MenuModel>()
                 {
@@ -94,9 +103,9 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [Route("GetMenuMap/{GroupId}")]
         public ResponseDataModel<List<int>> GetMenuMap(int GroupId)
         {
-            List<int> menu = new List<int>();
             try
             {
+                List<int> menu = new List<int>();
                 menu = menuSubmenuService.GetMenuMap(GroupId);
                 var response = new ResponseDataModel<List<int>>()
                 {
@@ -124,7 +133,12 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             }
         }
 
-
+        /// <summary>
+        /// API for binding data to leftside burger menu
+        /// </summary>
+        /// <param name="user">user's id</param>
+        /// <param name="BranchesId">Branch's id</param>
+        /// <returns>Leftside menu and submenu items</returns>
         [HttpPost]
         [Route("GetLeftmenu/{user}/{BranchesId}")]
         public ResponseDataModel<List<Leftmenumodel>> GetLeftmenu(int user, int BranchesId)
@@ -164,9 +178,10 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [Route("GetMenuongroups/{user}/{BranchesId}/{GroupIds}")]
         public ResponseDataModel<Lefmenugroupmodel> GetMenuongroups(int user, int BranchesId, string GroupIds)
         {
-            Lefmenugroupmodel menu = new Lefmenugroupmodel();
+            
             try
             {
+                Lefmenugroupmodel menu = new Lefmenugroupmodel();
                 menu = menuSubmenuService.GetMenuongroups(user, BranchesId, GroupIds);
                 var response = new ResponseDataModel<Lefmenugroupmodel>()
                 {
@@ -198,9 +213,9 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         [HttpPost]
         public ResponseDataModel<IEnumerable<MenuModel>> GetMenuItems()
         {
-            List<MenuModel> Menus = new List<MenuModel>();
             try
             {
+                List<MenuModel> Menus = new List<MenuModel>();
                 Menus = menuSubmenuService.GetMenuItems();
                 var response = new ResponseDataModel<IEnumerable<MenuModel>>()
                 {
@@ -229,6 +244,11 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         }
 
         #region
+        /// <summary>
+        /// API For saving submenu items
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SaveSubMenuItems")]
         public ResponseDataModel<string> SaveSubMenuItems(SubmenuModel obj)
@@ -260,13 +280,18 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        /// <summary>
+        /// api for getting submenu item's details by its primary key id
+        /// </summary>
+        /// <param name="SubMenuId"></param>
+        /// <returns>submenu item's details</returns>
         [HttpPost]
         [Route("GetSubmenuMenuItem/{SubMenuId}")]
         public ResponseDataModel<SubmenuModel> GetSubmenuMenuItem(int SubMenuId)
         {
-            SubmenuModel menu = new SubmenuModel();
             try
             {
+                SubmenuModel menu = new SubmenuModel();
                 menu = menuSubmenuService.GetSubmenuMenuItem(SubMenuId);
                 var response = new ResponseDataModel<SubmenuModel>()
                 {
@@ -293,13 +318,17 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
+        /// <summary>
+        /// api for getting all submenu items
+        /// </summary>
+        /// <returns>List of all submenu items</returns>
         [HttpPost]
         [Route("GetSubMenuItems")]
         public ResponseDataModel<IEnumerable<SubmenuModel>> GetSubMenuItems()
         {
-            List<SubmenuModel> Menus = new List<SubmenuModel>();
             try
             {
+                List<SubmenuModel> Menus = new List<SubmenuModel>();
                 Menus = menuSubmenuService.GetSubMenuItems();
                 var response = new ResponseDataModel<IEnumerable<SubmenuModel>>()
                 {

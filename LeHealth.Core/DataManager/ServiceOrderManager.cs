@@ -101,6 +101,12 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="pm">Data in LH_Profile Table</param>
         /// <returns>Profile list</returns>
+
+        /// <summary>
+        /// API For getting profile list
+        /// </summary>
+        /// <param name="pm">if profile id is zero then returns all profile names. else returns specific profile details</param>
+        /// <returns>Profile list</returns>
         public List<ProfileModel> GetProfile(ProfileModel pm)
         {
             List<ProfileModel> profileList = new List<ProfileModel>();
@@ -688,9 +694,6 @@ namespace LeHealth.Core.DataManager
             {
                 return null;
             }
-
-
-
         }
     }
 }

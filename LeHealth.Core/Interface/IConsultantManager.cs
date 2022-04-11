@@ -23,7 +23,7 @@ namespace LeHealth.Core.Interface
         string InsertConsultantDiseases(DiseaseModel disease);
         List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId);
         List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId);
-        List<DiseaseICDModel> GetDiseaseICD(int diseaseId);
+        List<DiseaseCDModel> GetDiseaseICD(int diseaseId);
         string DeleteDiseaseICD(int diseaseId);
         string DeleteDiseaseSymptom(int diseaseId);
         string DeleteDiseaseSign(int diseaseId);

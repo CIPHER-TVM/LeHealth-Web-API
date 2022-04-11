@@ -83,7 +83,7 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetDiseaseVitalSigns(diseaseId);
         }
-        public List<DiseaseICDModel> GetDiseaseICD(int diseaseId)
+        public List<DiseaseCDModel> GetDiseaseICD(int diseaseId)
         {
             return consultantManager.GetDiseaseICD(diseaseId);
         }

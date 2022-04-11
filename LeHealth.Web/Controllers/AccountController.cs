@@ -25,14 +25,19 @@ namespace LeHealth.Base.API.Controllers
             logger = _logger;
             accountService = _accountService;
         }
+        /// <summary>
+        /// API for Login into website
+        /// </summary>
+        /// <param name="credentials"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("Login")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<LoginOutputModel>> Login(CredentialModel credentials)
         {
-            List<LoginOutputModel> loginoutputList = new List<LoginOutputModel>();
             try
             {
+                List<LoginOutputModel> loginoutputList = new List<LoginOutputModel>();
                 loginoutputList = accountService.Login(credentials);
                 var response = new ResponseDataModel<IEnumerable<LoginOutputModel>>()
                 {
@@ -59,6 +64,10 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// For testing purposes
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("Getdata")]
         public string Getdata()

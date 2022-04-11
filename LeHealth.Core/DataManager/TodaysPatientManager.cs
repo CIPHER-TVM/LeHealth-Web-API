@@ -849,7 +849,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         /// <summary>
-        /// Get Rate 
+        /// Get consult Rate 
         /// </summary>
         /// <param name="cm">ConsultantId,PatientId,ItemId</param>
         /// <returns>Rate of </returns>
@@ -887,7 +887,7 @@ namespace LeHealth.Core.DataManager
             }
         }
         /// <summary>
-        /// For Scheme amount of 
+        /// For registered Scheme amount of a patient
         /// </summary>
         /// <param name="cm"></param>
         /// <returns></returns>

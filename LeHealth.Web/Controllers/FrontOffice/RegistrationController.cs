@@ -113,10 +113,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
+        /// <summary>
+        /// API For Uploading a patient's documents
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>success or reason for failure</returns>
         [HttpPost]
         [Route("UploadPatientDocuments")]
-        public ResponseDataModel<IEnumerable<PatientModel>> UploadPatientDocuments([FromForm] PatientRequestModel obj)
+        public ResponseDataModel<string> UploadPatientDocuments([FromForm] PatientRequestModel obj)
         {
             try
             {
@@ -125,7 +129,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 patientDetail.PatientPhoto = obj.PatientPhoto;
                 string registrationDetail = registrationService.UploadPatientDocuments(patientDetail);
                 ErrorResponse er = new ErrorResponse();
-                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                var response = new ResponseDataModel<string>()
                 {
                     Response = null,
                     Status = HttpStatusCode.OK,
@@ -137,7 +141,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -272,7 +276,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("SaveReRegistration")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PatientModel>> SaveReRegistration(PatientModel patientDetail)
+        public ResponseDataModel<string> SaveReRegistration(PatientModel patientDetail)
         {
             try
             {
@@ -286,7 +290,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 {
                     msg = registrationDetail;
                 }
-                var response = new ResponseDataModel<IEnumerable<PatientModel>>()
+                var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = msg
@@ -296,7 +300,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<PatientModel>>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -318,14 +322,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("BlockPatient")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultationModel>> BlockUnblockPatient(PatientModel patient)
+        public ResponseDataModel<string> BlockUnblockPatient(PatientModel patient)
         {
             try
             {
                 string msg = string.Empty;
                 msg = registrationService.BlockPatient(patient);
 
-                var response = new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                var response = new ResponseDataModel<string>()
                 {
                     Message = msg,
                     Status = HttpStatusCode.OK
@@ -335,7 +339,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultationModel>>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -357,13 +361,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>success or reason for failure</returns>
         [Route("DeletePatRegFiles")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<String>> DeletePatRegFiles(RegDocLocationModel rlm)
+        public ResponseDataModel<string> DeletePatRegFiles(RegDocLocationModel rlm)
         {
             try
             {
                 string msg = string.Empty;
                 msg = registrationService.DeletePatRegFiles(rlm.Id);
-                var response = new ResponseDataModel<IEnumerable<String>>()
+                var response = new ResponseDataModel<string>()
                 {
                     Message = msg,
                     Status = HttpStatusCode.OK
@@ -373,7 +377,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<String>>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

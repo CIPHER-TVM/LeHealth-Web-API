@@ -32,7 +32,6 @@ namespace LeHealth.Catalogue.API.Controllers
             logger = _logger;
             hospitalsService = _hospitalsService;
         }
-
         
         [Route("GetTabOrder")]
         [HttpPost]

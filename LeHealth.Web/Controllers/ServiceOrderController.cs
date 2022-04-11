@@ -55,6 +55,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// API for getting service items in a package
+        /// </summary>
+        /// <param name="packId">Package Id</param>
+        /// <returns>Service item list</returns>
         [HttpPost]
         [Route("GetPackageItem/{packId}")]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetPackageItem(int packId)
@@ -88,14 +93,18 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-
+        /// <summary>
+        /// API for saving a service item
+        /// </summary>
+        /// <param name="asm">Service item Details</param>
+        /// <returns>success or failure to return</returns>
         [Route("InsertService")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> InsertService(AvailableServiceModel asm)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = serviceorderService.InsertService(asm);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
                 {
@@ -122,6 +131,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// API for saving a service item
+        /// </summary>
+        /// <param name="asm">Service item Details</param>
+        /// <returns>success or failure to return</returns>
         [Route("InsertServiceNew")]
         [HttpPost]
         public ResponseDataModel<ServiceInsertResponse> InsertServiceNew(ServiceInsertInputModel siim)
@@ -154,44 +168,19 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
             }
-            //
-            //string message = string.Empty;
-            //try
-            //{
-            //    message = serviceorderService.InsertServiceNew(siim);
-            //    var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
-            //    {
-            //        Status = HttpStatusCode.OK,
-            //        Message = message
-            //    };
-            //    return response;
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-            //    return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
-            //    {
-            //        Status = HttpStatusCode.InternalServerError,
-            //        Response = null,
-            //        ErrorMessage = new ErrorResponse()
-            //        {
-            //            Message = ex.Message
-            //        }
-
-            //    };
-            //}
-            //finally
-            //{
-            //}
         }
-
+        /// <summary>
+        /// API for canclling a service order
+        /// </summary>
+        /// <param name="asm">Service order Id</param>
+        /// <returns>Success or reason for failure</returns>
         [Route("CancelServiceOrder")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> CancelServiceOrder(AvailableServiceModel asm)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = serviceorderService.CancelServiceOrder(asm);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
                 {
@@ -218,7 +207,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-
+        /// <summary>
+        /// API for services with filter GroupId,Patient Id, and branch Id
+        /// </summary>
+        /// <param name="asm"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("GetAvailableService")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetAvailableService(AvailableServiceModel asm)
@@ -253,6 +246,11 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
+        /// <summary>
+        /// API For getting profile list
+        /// </summary>
+        /// <param name="pm">if profile id is zero then returns all profile names. else returns specific profile details</param>
+        /// <returns>Profile list</returns>
 
         [HttpPost]
         [Route("GetProfile")]
@@ -288,6 +286,12 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
+
+        /// <summary>
+        /// API For Getting service items in profile
+        /// </summary>
+        /// <param name="pm">Profile id</param>
+        /// <returns>Returns service items</returns>
         [HttpPost]
         [Route("GetProfileItem")]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetProfileItem(ProfileModel pm)
@@ -321,13 +325,18 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// API FOr getting latest consultation details of a patient
+        /// </summary>
+        /// <param name="asm">Consultant Id And patient id</param>
+        /// <returns>Latest consultation data</returns>
         [HttpPost]
         [Route("GetLastConsultation")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetLastConsultation(AvailableServiceModel asm)
         {
-            List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
             try
             {
+                List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
                 itemGroupList = serviceorderService.GetLastConsultation(asm);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
                 {
@@ -354,6 +363,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// Search service data
+        /// </summary>
+        /// <param name="asm">Search Data in LH_Service Table</param>
+        /// <returns>Service list</returns>
         [HttpPost]
         [Route("GetServicesOrderByDate")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderByDate(AvailableServiceModel asm)
@@ -387,6 +401,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// Get service data on page load.
+        /// </summary>
+        /// <param name="asm">Data in LH_Service Table</param>
+        /// <returns>List of service data as per filter conditions </returns>
         [HttpPost]
         [Route("GetServicesOrderLoad")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderLoad(AvailableServiceModel asm)
@@ -420,6 +439,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        /// <summary>
+        /// Get service order's itemdetails 
+        /// </summary>
+        /// <param name="cm">Data in  LH_ServiceDet Table</param>
+        /// <returns>Item Data list</returns>
         [HttpPost]
         [Route("GetServicesOrderDetailById/{sid}")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderDetailById(int sid)
@@ -453,7 +477,11 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-
+        /// <summary>
+        /// Get service group list
+        /// </summary>
+        /// <param name="asm">Data in LH_ServiceGroup Table</param>
+        /// <returns>Service group list</returns>
         [HttpPost]
         [Route("GetServicesGroups")]
         public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups()

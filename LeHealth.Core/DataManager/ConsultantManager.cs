@@ -687,9 +687,9 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<DiseaseICDModel> GetDiseaseICD(int diseaseId)
+        public List<DiseaseCDModel> GetDiseaseICD(int diseaseId) 
         {
-            List<DiseaseICDModel> diseaseSigns = new List<DiseaseICDModel>();
+            List<DiseaseCDModel> diseaseSigns = new List<DiseaseCDModel>();
 
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -704,7 +704,7 @@ namespace LeHealth.Core.DataManager
                     adapter.Fill(dtList);
                     con.Close();
                     if ((dtList != null) && (dtList.Rows.Count > 0))
-                        diseaseSigns = dtList.ToListOfObject<DiseaseICDModel>();
+                        diseaseSigns = dtList.ToListOfObject<DiseaseCDModel>();
 
                     return diseaseSigns;
                 }
