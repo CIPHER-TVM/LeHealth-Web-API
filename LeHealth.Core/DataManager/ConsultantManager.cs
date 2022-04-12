@@ -942,6 +942,7 @@ namespace LeHealth.Core.DataManager
                 {
                     Appointments obj = new Appointments();
                     obj.AppId = Convert.ToInt32(dtAppointmentList.Rows[i]["AppId"]);
+                    obj.ConsultantId = Convert.ToInt32(dtAppointmentList.Rows[i]["ConsultantId"].ToString());
                     obj.PatientId = Convert.ToInt32(dtAppointmentList.Rows[i]["PatientId"].ToString());
                     obj.PatientName = dtAppointmentList.Rows[i]["PatientName"].ToString();
                     obj.TimeNo = dtAppointmentList.Rows[i]["TimeNo"].ToString();
