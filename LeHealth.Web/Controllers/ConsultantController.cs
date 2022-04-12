@@ -1006,5 +1006,42 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
+        [Route("GetFrontOfficeProgressBarsByConsultantId")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<FrontOfficePBarModel>> GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment)
+        {
+            List<FrontOfficePBarModel> frontOfficePBarList = new List<FrontOfficePBarModel>();
+            try
+            {
+
+                FrontOfficePBarModel frontOfficePBar = new FrontOfficePBarModel();
+                frontOfficePBar = consultantService.GetFrontOfficeProgressBarsByConsultantId(appointment);
+                frontOfficePBarList.Add(frontOfficePBar);
+                var response = new ResponseDataModel<IEnumerable<FrontOfficePBarModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = frontOfficePBarList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FrontOfficePBarModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
     }
 }

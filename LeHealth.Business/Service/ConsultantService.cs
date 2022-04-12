@@ -136,5 +136,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetServicesOrderLoadByConsultantId(availableService);
         }
+        public FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment)
+        {
+            return consultantManager.GetFrontOfficeProgressBarsByConsultantId(appointment);
+        }
     }
 }

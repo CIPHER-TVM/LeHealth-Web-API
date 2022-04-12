@@ -37,5 +37,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateTimer(TimerModel timer);
         List<AvailableServiceModel> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService);
 
+        FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment);
+
     }
 }
