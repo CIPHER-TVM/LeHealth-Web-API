@@ -35,5 +35,6 @@ namespace LeHealth.Core.Interface
         List<ScheduleModel> GetSchedules(int consultantId);
         string DeleteSchedule(int scheduleId);
         string InsertUpdateTimer(TimerModel timer);
+        List<AvailableServiceModel> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService);
     }
 }

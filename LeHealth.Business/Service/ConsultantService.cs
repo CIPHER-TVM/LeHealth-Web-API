@@ -131,5 +131,10 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.InsertUpdateTimer(timer);
         }
+       
+        public List<AvailableServiceModel> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService)
+        {
+            return consultantManager.GetServicesOrderLoadByConsultantId(availableService);
+        }
     }
 }

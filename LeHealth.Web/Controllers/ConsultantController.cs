@@ -971,7 +971,40 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [HttpPost]
+        [Route("GetServicesOrderLoadByConsultantId")]
+        public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService)
+        {
 
+            try
+            {
+                List<AvailableServiceModel> availableServices = new List<AvailableServiceModel>();
+                availableServices = consultantService.GetServicesOrderLoadByConsultantId(availableService);
+                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = availableServices
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
     }
 }
