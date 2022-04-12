@@ -152,7 +152,6 @@ namespace LeHealth.Core.DataManager
         public List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient)
         {
             List<ConsultantPatientModel> patientList = new List<ConsultantPatientModel>();
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByConsultantId", con))
@@ -179,8 +178,6 @@ namespace LeHealth.Core.DataManager
 
                     return patientList;
                 }
-
-
             }
         }
         /// <summary>L
