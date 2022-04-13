@@ -11,6 +11,9 @@ using System.Globalization;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Text.RegularExpressions;
+
 namespace LeHealth.Core.DataManager
 {
     public class ConsultantManager : IConsultantManager
@@ -674,9 +677,9 @@ namespace LeHealth.Core.DataManager
 
             return diseaseSigns;
         }
-        public List<DiseaseCDModel> GetDiseaseICD(int diseaseId)
+        public List<DiseaseICDModel> GetDiseaseICD(int diseaseId)
         {
-            List<DiseaseCDModel> diseaseSigns = new List<DiseaseCDModel>();
+            List<DiseaseICDModel> diseaseSigns = new List<DiseaseICDModel>();
 
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDiseaseICD", con);
@@ -689,7 +692,7 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dtList);
             con.Close();
             if ((dtList != null) && (dtList.Rows.Count > 0))
-                diseaseSigns = dtList.ToListOfObject<DiseaseCDModel>();
+                diseaseSigns = dtList.ToListOfObject<DiseaseICDModel>();
 
             return diseaseSigns;
         }
@@ -1322,6 +1325,86 @@ namespace LeHealth.Core.DataManager
             }
             return fopb;
         }
+        public FrontOfficeProgressBarModel GetFrontOfficeProgressBarByConsultantId(AppointmentModel appointment)
+        {
+            FrontOfficeProgressBarModel frontOfficeProgressBar = new FrontOfficeProgressBarModel();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                DateTime appDate = DateTime.ParseExact(appointment.AppDate.Trim(), "dd-MM-yyyy", null);
+                appointment.AppDate = appDate.ToString("yyyy-MM-dd");
+                string jsonAppoinmentsCount = "";
+                string jsonConsultationCount = "";
+                string jsonResult = "";
+                SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetAppointmentCountByConsultId", con);
+                appointmentCountCMD.CommandType = CommandType.StoredProcedure;
+                appointmentCountCMD.Parameters.AddWithValue("@AppDate", appointment.AppDate);
+                appointmentCountCMD.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+                con.Open();
+                SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
+                DataTable dt = new DataTable();
+                adapter1.Fill(dt);
+                con.Close();
+                if ((dt != null) && (dt.Rows.Count > 0))
+                {
+                    jsonAppoinmentsCount = Regex.Replace(dt.Rows[0][0].ToString(), @"[\{\[\]\}]", "");
+                }
+                SqlCommand consultantcountCMD = new SqlCommand("stLH_GetConsultationCountByConsultId", con);
+                consultantcountCMD.CommandType = CommandType.StoredProcedure;
+                consultantcountCMD.Parameters.AddWithValue("@ConsultDate", appointment.AppDate);
+                consultantcountCMD.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+                con.Open();
+                SqlDataAdapter adapter2 = new SqlDataAdapter(consultantcountCMD);
+                DataTable dt2 = new DataTable();
+                adapter2.Fill(dt2);
+                con.Close();
+                if ((dt2 != null) && (dt2.Rows.Count > 0))
+                {
+                    jsonConsultationCount = Regex.Replace(dt2.Rows[0][0].ToString(), @"[\{\[\]\}]", "");
+                }
+                jsonResult ="{"+ jsonAppoinmentsCount +","+ jsonConsultationCount+"}";
+                frontOfficeProgressBar = JsonConvert.DeserializeObject<FrontOfficeProgressBarModel>(jsonResult);
 
+            }
+            return frontOfficeProgressBar;
+        }
+        public DiseaseModel GetDiseaseDetailsById(int diseaseId)
+        {
+            DiseaseModel disease = new DiseaseModel();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                string jsonAppoinmentsCount = "";
+                string jsonConsultationCount = "";
+                string jsonResult = "";
+                SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
+                appointmentCountCMD.CommandType = CommandType.StoredProcedure;
+                appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                con.Open();
+                SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
+                DataTable dtDisease = new DataTable();
+                adapter1.Fill(dtDisease);
+                con.Close();
+                if ((dtDisease != null) && (dtDisease.Rows.Count > 0))
+                {
+                    for (Int32 i = 0; i < dtDisease.Rows.Count; i++)
+                    {
+                        List<DiseaseICDModel> diseaseICDs = JsonConvert.DeserializeObject<List<DiseaseICDModel>>(dtDisease.Rows[i]["ICD"].ToString());
+                        disease = new DiseaseModel
+                        {
+                            DiseaseId = Convert.ToInt32(dtDisease.Rows[i]["DiseaseId"]),
+                            DiseaseDesc = dtDisease.Rows[i]["DiseaseDesc"].ToString(),
+                            ConsultantId = Convert.ToInt32(dtDisease.Rows[i]["ConsultantId"]),
+                            Active = Convert.ToInt32(dtDisease.Rows[i]["Active"]),
+                            BlockReason = dtDisease.Rows[i]["BlockReason"].ToString(),
+                            Symptoms = JsonConvert.DeserializeObject<List<DiseaseSymptomModel>>(dtDisease.Rows[i]["Symptoms"].ToString()),
+                            Signs = JsonConvert.DeserializeObject<List<DiseaseSignModel>>(dtDisease.Rows[i]["Signs"].ToString()),
+                            ICD = diseaseICDs[0]
+                        };
+                    }
+                }
+                return disease;
+
+            }
+          
+        }
     }
 }

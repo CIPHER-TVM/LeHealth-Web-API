@@ -12,6 +12,7 @@ namespace LeHealth.Entity.DataModel
         public int LabelId { get; set; }
         public List<DiseaseSymptomModel> Symptoms { get; set; }
         public List<DiseaseSignModel> Signs { get; set; }
+        public DiseaseICDModel ICD { get; set; }
         public int Active { get; set; }
         public string BlockReason { get; set; }
     }
@@ -32,7 +33,7 @@ namespace LeHealth.Entity.DataModel
         public string Duration { get; set; }
     }
 
-    public class DiseaseCDModel 
+    public class DiseaseICDModel 
     {
         public int LabelId { get; set; }
         public int DiseaseId { get; set; }

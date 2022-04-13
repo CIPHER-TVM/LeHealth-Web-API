@@ -83,7 +83,7 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetDiseaseVitalSigns(diseaseId);
         }
-        public List<DiseaseCDModel> GetDiseaseICD(int diseaseId)
+        public List<DiseaseICDModel> GetDiseaseICD(int diseaseId)
         {
             return consultantManager.GetDiseaseICD(diseaseId);
         }
@@ -139,6 +139,14 @@ namespace LeHealth.Service.Service
         public FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment)
         {
             return consultantManager.GetFrontOfficeProgressBarsByConsultantId(appointment);
+        }
+        public FrontOfficeProgressBarModel GetFrontOfficeProgressBarByConsultantId(AppointmentModel appointment)
+        {
+            return consultantManager.GetFrontOfficeProgressBarByConsultantId(appointment);
+        }
+        public DiseaseModel GetDiseaseDetailsById(int diseaseId)
+        {
+            return consultantManager.GetDiseaseDetailsById(diseaseId);
         }
     }
 }

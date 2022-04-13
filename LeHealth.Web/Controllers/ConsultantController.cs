@@ -559,13 +559,13 @@ namespace LeHealth.Base.API.Controllers
         }
         [Route("GetDiseaseICD/{diseaseId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DiseaseCDModel>> GetDiseaseICD(int diseaseId)
+        public ResponseDataModel<IEnumerable<DiseaseICDModel>> GetDiseaseICD(int diseaseId)
         {
             try
             {
-                List<DiseaseCDModel> diseaseSigns = new List<DiseaseCDModel>();
+                List<DiseaseICDModel> diseaseSigns = new List<DiseaseICDModel>();
                 diseaseSigns = consultantService.GetDiseaseICD(diseaseId);
-                var response = new ResponseDataModel<IEnumerable<DiseaseCDModel>>()
+                var response = new ResponseDataModel<IEnumerable<DiseaseICDModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = diseaseSigns
@@ -575,7 +575,7 @@ namespace LeHealth.Base.API.Controllers
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<DiseaseCDModel>>()
+                return new ResponseDataModel<IEnumerable<DiseaseICDModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1041,7 +1041,77 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("GetFrontOfficeProgressBarByConsultantId")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<FrontOfficeProgressBarModel>> GetFrontOfficeProgressBarByConsultantId(AppointmentModel appointment)
+        {
+            List<FrontOfficeProgressBarModel> frontOfficePBarList = new List<FrontOfficeProgressBarModel>();
+            try
+            {
 
+                FrontOfficeProgressBarModel frontOfficePBar = new FrontOfficeProgressBarModel();
+                frontOfficePBar = consultantService.GetFrontOfficeProgressBarByConsultantId(appointment);
+                frontOfficePBarList.Add(frontOfficePBar);
+                var response = new ResponseDataModel<IEnumerable<FrontOfficeProgressBarModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = frontOfficePBarList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FrontOfficeProgressBarModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetDiseaseDetailsById/{diseaseId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseDetailsById(int diseaseId)
+        {
+            List<DiseaseModel> frontOfficePBarList = new List<DiseaseModel>();
+            try
+            {
+
+                DiseaseModel frontOfficePBar = new DiseaseModel();
+                frontOfficePBar = consultantService.GetDiseaseDetailsById(diseaseId);
+                frontOfficePBarList.Add(frontOfficePBar);
+                var response = new ResponseDataModel<IEnumerable<DiseaseModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = frontOfficePBarList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DiseaseModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
     }
 }

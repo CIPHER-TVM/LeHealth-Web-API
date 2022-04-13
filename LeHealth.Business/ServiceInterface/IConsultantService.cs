@@ -22,7 +22,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertConsultantDiseases(DiseaseModel disease);
         List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId);
         List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId);
-        List<DiseaseCDModel> GetDiseaseICD(int diseaseId);
+        List<DiseaseICDModel> GetDiseaseICD(int diseaseId);
         string DeleteDiseaseICD(int diseaseId);
         string DeleteDiseaseSymptom(int diseaseId);
         string DeleteDiseaseSign(int diseaseId);
@@ -38,6 +38,7 @@ namespace LeHealth.Service.ServiceInterface
         List<AvailableServiceModel> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService);
 
         FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment);
-
+        FrontOfficeProgressBarModel GetFrontOfficeProgressBarByConsultantId(AppointmentModel appointment);
+        DiseaseModel GetDiseaseDetailsById(int diseaseId);
     }
 }
