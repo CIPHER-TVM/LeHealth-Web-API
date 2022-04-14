@@ -1146,5 +1146,173 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
+        [Route("GetConsultantDrugsById/{drugId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugsById(int drugId)
+        {
+            try
+            {
+                List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
+
+                consultantDrugs = consultantService.GetConsultantDrugsById(drugId);
+                var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantDrugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetSketchIndicators")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SketchIndicatorModel>> GetSketchIndicators()
+        {
+            try
+            {
+                List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
+
+                sketchIndicators = consultantService.GetSketchIndicators();
+                var response = new ResponseDataModel<IEnumerable<SketchIndicatorModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = sketchIndicators
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SketchIndicatorModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateConsultantMarking")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = consultantService.InsertUpdateConsultantMarking(consultantMarking);
+                var response = new ResponseDataModel<IEnumerable<ConsultantMarkingModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantMarkingModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetConsultantMarkings/{consultantId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> GetConsultantMarkings(int consultantId)
+        {
+
+            try
+            {
+                List<ConsultantMarkingModel> consultantMarkings = new List<ConsultantMarkingModel>();
+                consultantMarkings = consultantService.GetConsultantMarkings(consultantId);
+                var response = new ResponseDataModel<IEnumerable<ConsultantMarkingModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantMarkings
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantMarkingModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+        [Route("DeleteConsultantMarkings/{markId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> DeleteConsultantMarkings(int markId)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = consultantService.DeleteConsultantMarkings(markId);
+
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<String>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

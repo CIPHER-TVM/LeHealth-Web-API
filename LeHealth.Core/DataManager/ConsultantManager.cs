@@ -1422,5 +1422,146 @@ namespace LeHealth.Core.DataManager
 
             return diseases;
         }
+        public List<ConsultantDrugModel> GetConsultantDrugsById(int drugId)
+        {
+            List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DrugId", drugId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtConsultantDrugList = new DataTable();
+            adapter.Fill(dtConsultantDrugList);
+            con.Close();
+            if ((dtConsultantDrugList != null) && (dtConsultantDrugList.Rows.Count > 0))
+                consultantDrugs = dtConsultantDrugList.ToListOfObject<ConsultantDrugModel>();
+
+            return consultantDrugs;
+        }
+        public List<SketchIndicatorModel> GetSketchIndicators()
+        {
+            List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSketchIndicators", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtSketchIndicatorsList = new DataTable();
+            adapter.Fill(dtSketchIndicatorsList);
+            con.Close();
+            if ((dtSketchIndicatorsList != null) && (dtSketchIndicatorsList.Rows.Count > 0))
+                sketchIndicators = dtSketchIndicatorsList.ToListOfObject<SketchIndicatorModel>();
+
+            return sketchIndicators;
+        }
+        public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantMarking", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@MarkId", consultantMarking.MarkId);
+                cmd.Parameters.AddWithValue("@MarkDesc", consultantMarking.MarkDesc);
+                cmd.Parameters.AddWithValue("@IndicatorId", consultantMarking.IndicatorId);
+                cmd.Parameters.AddWithValue("@Colour", consultantMarking.Colour);
+                cmd.Parameters.AddWithValue("@ShowCaption", consultantMarking.ShowCaption);
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantMarking.ConsultantId);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<ConsultantMarkingModel> GetConsultantMarkings(int consultantId)
+        {
+            List<ConsultantMarkingModel> consultantMarkings = new List<ConsultantMarkingModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantMarkings", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtConsultantMarkingsList = new DataTable();
+            adapter.Fill(dtConsultantMarkingsList);
+            con.Close();
+            if ((dtConsultantMarkingsList != null) && (dtConsultantMarkingsList.Rows.Count > 0))
+                consultantMarkings = dtConsultantMarkingsList.ToListOfObject<ConsultantMarkingModel>();
+
+            return consultantMarkings;
+        }
+        public string DeleteConsultantMarkings(int markId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantMarkings", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@MarkId", markId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Deleted Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
     }
 }

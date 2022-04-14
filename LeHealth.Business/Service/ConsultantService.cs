@@ -152,5 +152,25 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetDiseaseByConsultantId(consultantId);
         }
+        public List<ConsultantDrugModel> GetConsultantDrugsById(int drugId)
+        {
+            return consultantManager.GetConsultantDrugsById(drugId);
+        }
+        public List<SketchIndicatorModel> GetSketchIndicators()
+        {
+            return consultantManager.GetSketchIndicators();
+        }
+        public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
+        {
+            return consultantManager.InsertUpdateConsultantMarking(consultantMarking);
+        }
+        public List<ConsultantMarkingModel> GetConsultantMarkings(int consultantId)
+        {
+            return consultantManager.GetConsultantMarkings(consultantId);
+        }
+        public string DeleteConsultantMarkings(int markId)
+        {
+            return consultantManager.DeleteConsultantMarkings(markId);
+        }
     }
 }
