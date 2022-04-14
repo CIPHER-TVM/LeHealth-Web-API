@@ -1372,9 +1372,6 @@ namespace LeHealth.Core.DataManager
             DiseaseModel disease = new DiseaseModel();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                string jsonAppoinmentsCount = "";
-                string jsonConsultationCount = "";
-                string jsonResult = "";
                 SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
                 appointmentCountCMD.CommandType = CommandType.StoredProcedure;
                 appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
@@ -1405,6 +1402,25 @@ namespace LeHealth.Core.DataManager
 
             }
           
+        }
+        public List<DiseaseModel> GetDiseaseByConsultantId(int consultantId)
+        {
+            List<DiseaseModel> diseases = new List<DiseaseModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDiseaseByConsultantId", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtDiseases = new DataTable();
+            adapter.Fill(dtDiseases);
+            con.Close();
+            if ((dtDiseases != null) && (dtDiseases.Rows.Count > 0))
+                diseases = dtDiseases.ToListOfObject<DiseaseModel>();
+
+            return diseases;
         }
     }
 }

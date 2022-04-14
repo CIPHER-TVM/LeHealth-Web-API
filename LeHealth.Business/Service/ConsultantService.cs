@@ -148,5 +148,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetDiseaseDetailsById(diseaseId);
         }
+        public List<DiseaseModel> GetDiseaseByConsultantId(int consultantId)
+        {
+            return consultantManager.GetDiseaseByConsultantId(consultantId);
+        }
     }
 }
