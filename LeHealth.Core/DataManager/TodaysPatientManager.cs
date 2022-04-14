@@ -1381,7 +1381,7 @@ namespace LeHealth.Core.DataManager
                         {
                             AppStatUnknown = Convert.ToInt32(dt.Rows[i]["StatusCount"]);
                         }
-                        AppTotalCount = AppTotalCount + Convert.ToInt32(dt.Rows[i]["StatusCount"]);
+                        AppTotalCount += Convert.ToInt32(dt.Rows[i]["StatusCount"]);
                     }
                 }
                 SqlCommand consultantcountCMD = new SqlCommand("stLH_GetConsultationCount", con);

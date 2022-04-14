@@ -11,7 +11,7 @@ namespace LeHealth.Core.Interface
         List<UserGroupModel> getUserGroups();
         UserGroupModel getUserGroup(Int32 id);
         string SaveUser(UserModel obj);
-        List<UserModel> GetUsers();
+        List<UserModel> GetUsers(Int32 branchId);
         UserModel GetUser(Int32 id);
         List<HospitalModel> GetUserBranches(Int32 id);
         List<UserGroupBranchModel> GetUserGroupBranches(Int32 id);

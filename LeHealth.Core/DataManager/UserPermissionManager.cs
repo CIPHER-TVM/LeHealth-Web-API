@@ -198,7 +198,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<UserModel> GetUsers()
+        public List<UserModel> GetUsers(Int32 branchId)
         {
             List<UserModel> obj = new List<UserModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -208,6 +208,7 @@ namespace LeHealth.Core.DataManager
                     con.Open();
 
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BranchId", branchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);

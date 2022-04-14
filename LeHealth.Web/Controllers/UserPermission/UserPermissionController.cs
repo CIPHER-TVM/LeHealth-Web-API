@@ -210,7 +210,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             {
             }
         }
-        
+
         /// <summary>
         /// API for saving User
         /// </summary>
@@ -252,12 +252,12 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         /// </summary>
         /// <returns>Userlist</returns>
         [HttpPost]
-        [Route("GetUsers")]
-        public ResponseDataModel<IEnumerable<UserModel>> GetUsers()
+        [Route("GetUsers/{BranchId}")]
+        public ResponseDataModel<IEnumerable<UserModel>> GetUsers(int BranchId)
         {
             try
             {
-                List<UserModel> retval = permissionservice.GetUsers();
+                List<UserModel> retval = permissionservice.GetUsers(BranchId);
                 var response = new ResponseDataModel<IEnumerable<UserModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -282,7 +282,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
-        
+
         /// <summary>
         /// API for User details of a specific user
         /// </summary>
