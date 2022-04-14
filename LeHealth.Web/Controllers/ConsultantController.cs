@@ -1112,6 +1112,39 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("GetDiseaseByConsultantId/{consultantId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseByConsultantId(int consultantId)
+        {
+            try
+            {
+                List<DiseaseModel> diseaseSigns = new List<DiseaseModel>();
+                diseaseSigns = consultantService.GetDiseaseByConsultantId(consultantId);
+                var response = new ResponseDataModel<IEnumerable<DiseaseModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = diseaseSigns
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DiseaseModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
+                };
+            }
+            finally
+            {
+
+            }
+        }
     }
 }

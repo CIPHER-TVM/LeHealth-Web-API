@@ -39,5 +39,6 @@ namespace LeHealth.Core.Interface
         FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment);
         FrontOfficeProgressBarModel GetFrontOfficeProgressBarByConsultantId(AppointmentModel appointment);
         DiseaseModel GetDiseaseDetailsById(int diseaseId);
+        List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
     }
 }
