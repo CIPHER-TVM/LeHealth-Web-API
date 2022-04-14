@@ -86,17 +86,17 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        public List<UserGroupModel> getUserGroups()
+        public List<UserGroupModel> getUserGroups(int branchId)
         {
             List<UserGroupModel> obj = new List<UserGroupModel>();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_getUserGroupsMaster", con))
+                using (SqlCommand cmd = new SqlCommand("stLH_getUserGroupsMasterByBranch", con))
                 {
                     con.Open();
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@P_Id", 0);
+                    cmd.Parameters.AddWithValue("@Branch_Id", branchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);

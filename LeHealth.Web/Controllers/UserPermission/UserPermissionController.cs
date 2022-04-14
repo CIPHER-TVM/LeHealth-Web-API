@@ -140,13 +140,13 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         /// </summary>
         /// <returns>User group list</returns>
         [HttpPost]
-        [Route("GetUserGroups")]
-        public ResponseDataModel<IEnumerable<UserGroupModel>> GetUserGroups()
+        [Route("GetUserGroups/{branchId}")]
+        public ResponseDataModel<IEnumerable<UserGroupModel>> GetUserGroups(int branchId)
         {
             try
             {
                 List<UserGroupModel> groups = new List<UserGroupModel>();
-                groups = permissionservice.getUserGroups();
+                groups = permissionservice.getUserGroups(branchId);
                 var response = new ResponseDataModel<IEnumerable<UserGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,

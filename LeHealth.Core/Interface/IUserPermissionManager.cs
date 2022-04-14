@@ -8,7 +8,7 @@ namespace LeHealth.Core.Interface
     public interface IUserPermissionManager
     {
         string SaveUserGroup(UserGroupModel obj);
-        List<UserGroupModel> getUserGroups();
+        List<UserGroupModel> getUserGroups(int branchId);
         UserGroupModel getUserGroup(Int32 id);
         string SaveUser(UserModel obj);
         List<UserModel> GetUsers(Int32 branchId);
