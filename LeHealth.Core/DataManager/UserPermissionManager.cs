@@ -220,7 +220,6 @@ namespace LeHealth.Core.DataManager
                     return obj;
                 }
             }
-
         }
         public UserModel GetUser(Int32 id)
         {
