@@ -379,7 +379,6 @@ namespace LeHealth.Core.DataManager
             con.Close();
             if ((dtServicesList != null) && (dtServicesList.Rows.Count > 0))
                 consultantServices = dtServicesList.ToListOfObject<ConsultantServiceModel>();
-
             return consultantServices;
         }
         public string InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
