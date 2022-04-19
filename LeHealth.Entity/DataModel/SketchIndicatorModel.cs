@@ -8,5 +8,6 @@ namespace LeHealth.Entity.DataModel
     {
         public int IndicatorId { get; set; }
         public string IndicatorDesc { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

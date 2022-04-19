@@ -13,7 +13,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateConsultant(ConsultantMasterModel consultant);
         List<ConsultantMasterModel> GetAllConsultants(int consultantType);
         string InsertConsultantService(ConsultantServiceModel consultant);
-        string DeleteConsultantService(int serviceId);
+        string DeleteConsultantService(ConsultantItemModel ci);
         List<ConsultantServiceModel> GetConsultantServices(int consultantId);
         string InsertConsultantDrugs(ConsultantDrugModel consultantDrug);
         string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug);
@@ -21,7 +21,7 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteConsultantDrug(int drugId);
         string InsertConsultantDiseases(DiseaseModel disease);
         List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId);
-        List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId);
+        List<DiseaseSignModel> GetDiseaseSigns(int diseaseId);
         List<DiseaseICDModel> GetDiseaseICD(int diseaseId);
         string DeleteDiseaseICD(int diseaseId);
         string DeleteDiseaseSymptom(int diseaseId);
@@ -35,10 +35,12 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteSchedule(int scheduleId);
 
         string InsertUpdateTimer(TimerModel timer);
+        string InsertConsultantItem(ConsultantItemModel timer);
         List<AvailableServiceModel> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService);
-
+        List<ConsultantItemModel> GetConsultantServicesItems(AvailableServiceModel availableService);
         FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment);
         FrontOfficeProgressBarModel GetFrontOfficeProgressBarByConsultantId(AppointmentModel appointment);
+        List<ICDModel> GetICDBySymptomSign(SymptomSignModel ss);
         DiseaseModel GetDiseaseDetailsById(int diseaseId);
         List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
         List<ConsultantDrugModel> GetConsultantDrugsById(int drugId);

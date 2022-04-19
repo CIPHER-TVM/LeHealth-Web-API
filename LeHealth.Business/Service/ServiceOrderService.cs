@@ -21,6 +21,10 @@ namespace LeHealth.Service.Service
         public List<ItemsByTypeModel> GetPackageItem(Int32 packId)
         {
             return serviceorderManager.GetPackageItem(packId);
+        } 
+        public List<FrequencyModel> GetFrequency(FrequencyModel fm)
+        {
+            return serviceorderManager.GetFrequency(fm);
         }
         public List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm)
         {
@@ -51,9 +55,9 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.CancelServiceOrder(asm);
         }
-        public List<ServiceGroupModel> GetServicesGroups()
+        public List<ServiceGroupModel> GetServicesGroups(int branchId)
         {
-            return serviceorderManager.GetServicesGroups();
+            return serviceorderManager.GetServicesGroups(branchId);
         }
         public List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel asm)
         {

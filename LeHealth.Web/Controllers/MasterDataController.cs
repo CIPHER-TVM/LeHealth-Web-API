@@ -159,9 +159,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-       
-     
-      
+
+
+
         //Profession Management starts
         /// <summary>
         /// To get list of all Professions Or Profession Detail of Input parameter. 
@@ -361,7 +361,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-       
+
         //Sponsor management ends
 
 
@@ -529,7 +529,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-     
+
         //Sponsor Form management ends
 
         //City Management starts
@@ -622,12 +622,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("GetVitalSign/{id}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<VitalSignModel>> GetVitalSign(Int32 id) 
+        public ResponseDataModel<IEnumerable<VitalSignModel>> GetVitalSign(Int32 id)
         {
             List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
             try
             {
-                vitalSignList = masterdataService.GetVitalSign(id); 
+                vitalSignList = masterdataService.GetVitalSign(id);
                 var response = new ResponseDataModel<IEnumerable<VitalSignModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1099,7 +1099,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
- 
+
         //Salutation Management Ends
 
         /// <summary>
@@ -1231,7 +1231,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                List< HospitalModel> hospitals = masterdataService.GetUserSpecificHospitals(UserId);
+                List<HospitalModel> hospitals = masterdataService.GetUserSpecificHospitals(UserId);
                 var response = new ResponseDataModel<IEnumerable<HospitalModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1258,7 +1258,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetUserSpecificHospitalLocations/{UserId}/{Branch}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<LocationModel>> GetUserSpecificHospitalLocations(Int32 UserId,Int32 Branch)
+        public ResponseDataModel<IEnumerable<LocationModel>> GetUserSpecificHospitalLocations(Int32 UserId, Int32 Branch)
         {
             try
             {
@@ -1535,7 +1535,46 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        /// <summary>
+        /// To get list of Zone Detail of Input parameter. 
+        /// profid=Primary key of LH_Zone Table, Returns all if zoneId=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Zone as JSON
+        /// </returns>
+        [Route("GetDrugs")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetDrugs(ConsultantDrugModel cm)
+        {
+            List<ConsultantDrugModel> drugList = new List<ConsultantDrugModel>();
+            try
+            {
+                drugList = masterdataService.GetDrugs(cm);
+                var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drugList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
+                };
+            }
+            finally
+            {
+            }
+        }
         //Zone Management Start
         /// <summary>
         /// To get list of Zone Detail of Input parameter. 
@@ -1620,7 +1659,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
 
         //RegSchemes CRUD STARTS
-   
+
         [Route("GetRegScheme/{schemeId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<RegSchemeModel>> GetRegScheme(Int32 schemeId)
@@ -1733,7 +1772,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             string message = string.Empty;
             try
             {
-                message = masterdataService.InsertUpdateRateGroup(zone); 
+                message = masterdataService.InsertUpdateRateGroup(zone);
                 var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1763,7 +1802,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
         //Operator CRUD
-       
+
         [Route("GetOperator/{operatorId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<OperatorModel>> GetOperator(Int32 operatorId)
@@ -1797,7 +1836,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        
+
 
         [Route("InsertUpdateOperator")]
         [HttpPost]
@@ -1907,7 +1946,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-      
+
         [Route("GetCompany/{Id}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<CompanyModel>> GetCompany(Int32 Id)
@@ -2251,7 +2290,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                 var response = new ResponseDataModel<IEnumerable<TendernModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = tendernessList 
+                    Response = tendernessList
                 };
                 return response;
             }

@@ -91,6 +91,39 @@ namespace LeHealth.Core.DataManager
             }
             return communicationTypeList;
         }
+
+        public List<FrequencyModel> GetFrequency(FrequencyModel fm)
+        {
+            List<FrequencyModel> freqList = new List<FrequencyModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetFrequencyList", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FrequencyId", fm.FreqId);
+                    cmd.Parameters.AddWithValue("@BranchId", fm.BranchId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsNumber = new DataTable();
+                    adapter.Fill(dsNumber);
+                    con.Close();
+                    if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                        {
+                            FrequencyModel obj = new FrequencyModel();
+                            obj.FreqId = Convert.ToInt32(dsNumber.Rows[i]["FreqId"]);
+                            obj.FreqDesc = dsNumber.Rows[i]["FreqDesc"].ToString();
+                            obj.FreqValue = Convert.ToInt32(dsNumber.Rows[i]["FreqValue"]);
+                            obj.BranchId = fm.BranchId;
+                            freqList.Add(obj);
+                        }
+                    }
+                    return freqList;
+                }
+            }
+        }
         /// <summary>
         /// Get all profile data or specific profiles data if pm.ProfileId equals zero
         /// </summary>
@@ -635,13 +668,15 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="asm">Data in LH_ServiceGroup Table</param>
         /// <returns>Service group list</returns>
-        public List<ServiceGroupModel> GetServicesGroups()
+        public List<ServiceGroupModel> GetServicesGroups(int branchId)
         {
             try
             {
                 List<ServiceGroupModel> serviceModels = new List<ServiceGroupModel>();
                 using SqlConnection con = new SqlConnection(_connStr);
                 using SqlCommand cmd = new SqlCommand("stLH_GetServiceGroups", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@BranchId", branchId);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dsserviceGroup = new DataTable();
                 adapter.Fill(dsserviceGroup);

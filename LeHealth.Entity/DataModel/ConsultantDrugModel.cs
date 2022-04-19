@@ -19,7 +19,8 @@ namespace LeHealth.Entity.DataModel
         public int Duration { get; set; }
         public string DurationMode { get; set; }
         public int UserId { get; set; }
-      
+        public int BranchId { get; set; }
+
 
     }
 }
