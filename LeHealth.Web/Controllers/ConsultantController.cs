@@ -226,7 +226,7 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
-        
+
         [Route("InsertConsultantService")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantServiceModel>> InsertConsultantService(ConsultantServiceModel consultant)
@@ -260,14 +260,14 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("DeleteConsultantService/{serviceId}")]
+        [Route("DeleteConsultantService")]
         [HttpPost]
-        public ResponseDataModel<string> DeleteConsultantService(int serviceId)
+        public ResponseDataModel<string> DeleteConsultantService(ConsultantItemModel ci)
         {
             try
             {
                 string msg = string.Empty;
-                msg = consultantService.DeleteConsultantService(serviceId);
+                msg = consultantService.DeleteConsultantService(ci);
                 var response = new ResponseDataModel<string>()
                 {
                     Message = msg,
@@ -327,7 +327,7 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
-        
+
         [Route("InsertConsultantDrugs")]
         [HttpPost]
         public ResponseDataModel<string> InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
@@ -525,14 +525,14 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
-        [Route("GetDiseaseVitalSigns/{diseaseId}")]
+        [Route("GetDiseaseSigns/{diseaseId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DiseaseSignModel>> GetDiseaseVitalSigns(int diseaseId)
+        public ResponseDataModel<IEnumerable<DiseaseSignModel>> GetDiseaseSigns(int diseaseId)
         {
             try
             {
                 List<DiseaseSignModel> diseaseSigns = new List<DiseaseSignModel>();
-                diseaseSigns = consultantService.GetDiseaseVitalSigns(diseaseId);
+                diseaseSigns = consultantService.GetDiseaseSigns(diseaseId);
                 var response = new ResponseDataModel<IEnumerable<DiseaseSignModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -626,7 +626,7 @@ namespace LeHealth.Base.API.Controllers
         }
         [Route("DeleteDiseaseSymptom/{diseaseId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> DeleteDiseaseSymptom(int diseaseId) 
+        public ResponseDataModel<IEnumerable<string>> DeleteDiseaseSymptom(int diseaseId)
         {
             try
             {
@@ -873,7 +873,7 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ScheduleModel>> GetSchedules(int consultantId)
         {
-           
+
             try
             {
                 List<ScheduleModel> sheduletList = new List<ScheduleModel>();
@@ -971,6 +971,40 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("InsertConsultantItem")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertConsultantItem(ConsultantItemModel timer)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = consultantService.InsertConsultantItem(timer);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        
+        
         [HttpPost]
         [Route("GetServicesOrderLoadByConsultantId")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService)
@@ -1006,6 +1040,44 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("GetConsultantServicesItems")]
+        public ResponseDataModel<IEnumerable<ConsultantItemModel>> GetConsultantServicesItems(AvailableServiceModel availableService)
+        {
+
+            try
+            {
+                List<ConsultantItemModel> availableServices = new List<ConsultantItemModel>();
+                availableServices = consultantService.GetConsultantServicesItems(availableService);
+                var response = new ResponseDataModel<IEnumerable<ConsultantItemModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = availableServices
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantItemModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+       
+        
+        
         [Route("GetFrontOfficeProgressBarsByConsultantId")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<FrontOfficePBarModel>> GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment)
@@ -1063,6 +1135,40 @@ namespace LeHealth.Base.API.Controllers
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<FrontOfficeProgressBarModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetICDBySymptomSign")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ICDModel>> GetICDBySymptomSign(SymptomSignModel ss)
+        {
+            
+            try
+            {
+                List<ICDModel> frontOfficePBarList = new List<ICDModel>();
+                frontOfficePBarList = consultantService.GetICDBySymptomSign(ss);
+                var response = new ResponseDataModel<IEnumerable<ICDModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = frontOfficePBarList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ICDModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

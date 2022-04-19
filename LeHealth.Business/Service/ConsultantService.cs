@@ -47,9 +47,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.InsertConsultantService(consultant);
         }
-        public string DeleteConsultantService(int serviceId)
+        public string DeleteConsultantService(ConsultantItemModel ci)
         {
-            return consultantManager.DeleteConsultantService(serviceId);
+            return consultantManager.DeleteConsultantService(ci);
         }
         public List<ConsultantServiceModel> GetConsultantServices(int consultantId)
         {
@@ -79,9 +79,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetDiseaseSymptoms(diseaseId);
         }
-        public List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId)
+        public List<DiseaseSignModel> GetDiseaseSigns(int diseaseId)
         {
-            return consultantManager.GetDiseaseVitalSigns(diseaseId);
+            return consultantManager.GetDiseaseSigns(diseaseId);
         }
         public List<DiseaseICDModel> GetDiseaseICD(int diseaseId)
         {
@@ -131,10 +131,18 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.InsertUpdateTimer(timer);
         }
-       
+        public string InsertConsultantItem(ConsultantItemModel timer)
+        {
+            return consultantManager.InsertConsultantItem(timer);
+        }
+
         public List<AvailableServiceModel> GetServicesOrderLoadByConsultantId(AvailableServiceModel availableService)
         {
             return consultantManager.GetServicesOrderLoadByConsultantId(availableService);
+        }
+        public List<ConsultantItemModel> GetConsultantServicesItems(AvailableServiceModel availableService)
+        {
+            return consultantManager.GetConsultantServicesItems(availableService);
         }
         public FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment)
         {
@@ -144,6 +152,12 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetFrontOfficeProgressBarByConsultantId(appointment);
         }
+        public List<ICDModel> GetICDBySymptomSign(SymptomSignModel ss)
+        {
+            return consultantManager.GetICDBySymptomSign(ss);
+        }
+
+
         public DiseaseModel GetDiseaseDetailsById(int diseaseId)
         {
             return consultantManager.GetDiseaseDetailsById(diseaseId);

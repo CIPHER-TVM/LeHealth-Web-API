@@ -64,7 +64,7 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetPackageItem/{packId}")]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetPackageItem(int packId)
         {
-            
+
             try
             {
                 List<ItemsByTypeModel> itemGroupList = new List<ItemsByTypeModel>();
@@ -94,6 +94,49 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+
+        /// <summary>
+        /// API for getting frequencies
+        /// </summary>
+        /// <param name="freqkId">Frequency Id</param>
+        /// <returns>Frequency item list</returns>
+        [HttpPost]
+        [Route("GetFrequency")]
+        public ResponseDataModel<IEnumerable<FrequencyModel>> GetFrequency(FrequencyModel fm)
+        {
+
+            try
+            {
+                List<FrequencyModel> freqList = new List<FrequencyModel>();
+                freqList = serviceorderService.GetFrequency(fm);
+                var response = new ResponseDataModel<IEnumerable<FrequencyModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = freqList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FrequencyModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
         /// <summary>
         /// API for saving a service item
         /// </summary>
@@ -258,7 +301,7 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetProfile")]
         public ResponseDataModel<IEnumerable<ProfileModel>> GetProfile(ProfileModel pm)
         {
-           
+
             try
             {
                 List<ProfileModel> profileList = new List<ProfileModel>();
@@ -415,7 +458,7 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetServicesOrderLoad")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServicesOrderLoad(AvailableServiceModel asm)
         {
-            
+
             try
             {
                 List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
@@ -489,14 +532,14 @@ namespace LeHealth.Base.API.Controllers
         /// <param name="asm">Data in LH_ServiceGroup Table</param>
         /// <returns>Service group list</returns>
         [HttpPost]
-        [Route("GetServicesGroups")]
-        public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups()
+        [Route("GetServicesGroups/{branchId}")]
+        public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups(int branchId)
         {
             try
             {
                 List<ServiceGroupModel> serviceGroups = new List<ServiceGroupModel>();
 
-                serviceGroups = serviceorderService.GetServicesGroups();
+                serviceGroups = serviceorderService.GetServicesGroups(branchId);
 
                 var response = new ResponseDataModel<IEnumerable<ServiceGroupModel>>()
                 {

@@ -10,7 +10,9 @@ namespace LeHealth.Entity.DataModel
         public int ItemId { get; set; }
         public string ItemName { get; set; }
         public int GroupId { get; set; }
+        public int SessionId { get; set; }
         public string GroupName { get; set; }
         public int UserId { get; set; }
+        public int BranchId { get; set; }
     }
 }

@@ -84,6 +84,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetZone(zoneId);
         }
+        public List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm)
+        {
+            return masterdataManager.GetDrugs(cm);
+        }
         //
         /// <summary>
         /// To list of all hospital details .Step two in code execution flow

@@ -292,6 +292,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
                 cmd.Parameters.AddWithValue("@ItemId", consultant.ItemId);
                 cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
+                cmd.Parameters.AddWithValue("@BranchId", consultant.BranchId);
 
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -319,7 +320,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string DeleteConsultantService(int serviceId)
+        public string DeleteConsultantService(ConsultantItemModel ci)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -327,14 +328,33 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantServiceItem", con);
                 try
                 {
-
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ItemId", serviceId);
+                    cmd.Parameters.AddWithValue("@ItemId", ci.ItemId);
+                    cmd.Parameters.AddWithValue("@BranchId", ci.BranchId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", ci.ConsultantId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
                     con.Open();
                     var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
                     con.Close();
-                    response = "success";
-
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -648,7 +668,6 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
-
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtList = new DataTable();
             adapter.Fill(dtList);
@@ -658,7 +677,7 @@ namespace LeHealth.Core.DataManager
 
             return diseaseSymptoms;
         }
-        public List<DiseaseSignModel> GetDiseaseVitalSigns(int diseaseId)
+        public List<DiseaseSignModel> GetDiseaseSigns(int diseaseId)
         {
             List<DiseaseSignModel> diseaseSigns = new List<DiseaseSignModel>();
 
@@ -1159,6 +1178,46 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string InsertConsultantItem(ConsultantItemModel ci)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertConsultantItem", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ConsultantId", ci.ConsultantId);
+                cmd.Parameters.AddWithValue("@ItemId", ci.ItemId);
+                cmd.Parameters.AddWithValue("@BranchId", ci.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", ci.UserId);
+                cmd.Parameters.AddWithValue("@SessionId", ci.SessionId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+
         public List<AvailableServiceModel> GetServicesOrderLoadByConsultantId(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
@@ -1208,6 +1267,37 @@ namespace LeHealth.Core.DataManager
             }
             return availableServiceList;
         }
+        public List<ConsultantItemModel> GetConsultantServicesItems(AvailableServiceModel cm)
+        {
+            List<ConsultantItemModel> consultantItemList = new List<ConsultantItemModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantServicesItems", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+            cmd.Parameters.AddWithValue("@PatientId", 0);
+            cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsavailableService = new DataTable();
+            adapter.Fill(dsavailableService);
+            con.Close();
+            if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
+                {
+                    ConsultantItemModel obj = new ConsultantItemModel
+                    {
+                        ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]),
+                        ItemName = dsavailableService.Rows[i]["ItemName"].ToString(),
+                        ConsultantId = cm.ConsultantId,
+                        BranchId = cm.BranchId
+                    };
+                    consultantItemList.Add(obj);
+                }
+            }
+            return consultantItemList;
+        }
+
         public FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment)
         {
             FrontOfficePBarModel fopb = new FrontOfficePBarModel();
@@ -1361,11 +1451,49 @@ namespace LeHealth.Core.DataManager
                 {
                     jsonConsultationCount = Regex.Replace(dt2.Rows[0][0].ToString(), @"[\{\[\]\}]", "");
                 }
-                jsonResult ="{"+ jsonAppoinmentsCount +","+ jsonConsultationCount+"}";
+                jsonResult = "{" + jsonAppoinmentsCount + "," + jsonConsultationCount + "}";
                 frontOfficeProgressBar = JsonConvert.DeserializeObject<FrontOfficeProgressBarModel>(jsonResult);
 
             }
             return frontOfficeProgressBar;
+        }
+
+        public List<ICDModel> GetICDBySymptomSign(SymptomSignModel ss)
+        {
+            List<ICDModel> appointmentlist = new List<ICDModel>();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                int signslistcount = ss.Signs.Count;
+                int symptomslistcount = ss.Symptoms.Count;
+                string SignIds = string.Empty;
+                if (signslistcount > 0)
+                    SignIds = string.Join(",", ss.Signs.ToArray());
+                string SymptomIds = string.Empty;
+                if (symptomslistcount > 0)
+                    SymptomIds = string.Join(",", ss.Symptoms.ToArray());
+                using SqlCommand cmd = new SqlCommand("stLH_GetICDBySignSymptom", con);
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SignIds", SignIds);
+                cmd.Parameters.AddWithValue("@SymptomIds", SymptomIds);
+                cmd.Parameters.AddWithValue("@BranchId", ss.BranchId);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable ds = new DataTable();
+                adapter.Fill(ds);
+                con.Close();
+                if ((ds != null) && (ds.Rows.Count > 0))
+                {
+                    for (Int32 i = 0; i < ds.Rows.Count; i++)
+                    {
+                        ICDModel obj = new ICDModel();
+                        obj.LabelId = Convert.ToInt32(ds.Rows[i]["LabelId"]);
+                        obj.LabelDesc = ds.Rows[i]["LabelDesc"].ToString();
+                        obj.LabelCode = ds.Rows[i]["LabelCode"].ToString();
+                        appointmentlist.Add(obj);
+                    }
+                }
+                return appointmentlist;
+            }
         }
         public DiseaseModel GetDiseaseDetailsById(int diseaseId)
         {
@@ -1401,7 +1529,7 @@ namespace LeHealth.Core.DataManager
                 return disease;
 
             }
-          
+
         }
         public List<DiseaseModel> GetDiseaseByConsultantId(int consultantId)
         {

@@ -18,6 +18,7 @@ namespace LeHealth.Core.Interface
         //Zone Management starts
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(Int32 zoneId);
+        List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         //Zone Management ends
 
         //Rate Group management starts

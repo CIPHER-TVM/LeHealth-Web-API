@@ -2362,6 +2362,47 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //Location Ends
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="la"></param>
+        /// <returns></returns>
+        public List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel dm)
+        {
+            List<ConsultantDrugModel> drugList = new List<ConsultantDrugModel>();
+
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("stLH_GetDrug", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DrugId", dm.DrugId);
+                    cmd.Parameters.AddWithValue("@DrugTypeId", dm.DrugTypeId);
+                    cmd.Parameters.AddWithValue("@BranchId", dm.BranchId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dsDrug = new DataTable();
+                    adapter.Fill(dsDrug);
+                    con.Close();
+                    if ((dsDrug != null) && (dsDrug.Rows.Count > 0))
+                    {
+                        for (Int32 i = 0; i < dsDrug.Rows.Count; i++)
+                        {
+                            ConsultantDrugModel obj = new ConsultantDrugModel();
+                            obj.DrugId = Convert.ToInt32(dsDrug.Rows[i]["DrugId"]);
+                            obj.DrugName = dsDrug.Rows[i]["DrugName"].ToString();
+                            obj.Dosage = dsDrug.Rows[i]["DOSAGE_FORM_PACKAGE"].ToString();
+                            obj.RouteId = Convert.ToInt32(dsDrug.Rows[i]["RouteId"]);
+                            obj.RouteDesc = dsDrug.Rows[i]["Route"].ToString();
+                            obj.Duration = 9999;//Convert.ToInt32(dsDrug.Rows[i]["Duration"]);
+                            obj.BranchId = dm.BranchId;//Convert.ToInt32(dsDrug.Rows[i]["Duration"]);
+                            drugList.Add(obj);
+                        }
+                    }
+                    return drugList;
+                }
+            }
+        }
         //Location Starts
         /// <summary>
         /// 
@@ -2400,6 +2441,9 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -3020,6 +3064,6 @@ namespace LeHealth.Core.DataManager
                 }
             }
         }
-        
+
     }
 }

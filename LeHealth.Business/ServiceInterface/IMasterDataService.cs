@@ -25,6 +25,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ReligionModel> GetReligion();
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(Int32 zoneId);
+        List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         string InsertUpdateRateGroup(RateGroupModel RateGroup);
         List<RateGroupModel> GetRateGroup(Int32 Id);
         string InsertUpdateOperator(OperatorModel Operator);
