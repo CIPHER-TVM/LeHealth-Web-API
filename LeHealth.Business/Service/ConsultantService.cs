@@ -194,9 +194,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetDiseaseSymptoms(symptomId);
         }
-        public List<DiseaseSignModel> GetDiseaseVitalSignsById(int signId)
+        public List<DiseaseSignModel> GetDiseaseSignsById(int signId)
         {
-            return consultantManager.GetDiseaseVitalSigns(signId);
+            return consultantManager.GetDiseaseSigns(signId);
         }
         public List<DiseaseICDModel> GetDiseaseICDById(int icdId)
         {

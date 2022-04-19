@@ -206,7 +206,6 @@ namespace LeHealth.Core.DataManager
                 using (SqlCommand cmd = new SqlCommand("stLH_getUsers", con))
                 {
                     con.Open();
-
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BranchId", branchId);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
