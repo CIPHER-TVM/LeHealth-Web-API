@@ -1691,5 +1691,24 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<ConsultantMarkingModel> GetConsultantMarkingsById(int markId)
+        {
+            List<ConsultantMarkingModel> consultantMarkings = new List<ConsultantMarkingModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantMarkingsByMarkid", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@MarkId", markId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtConsultantMarkingsList = new DataTable();
+            adapter.Fill(dtConsultantMarkingsList);
+            con.Close();
+            if ((dtConsultantMarkingsList != null) && (dtConsultantMarkingsList.Rows.Count > 0))
+                consultantMarkings = dtConsultantMarkingsList.ToListOfObject<ConsultantMarkingModel>();
+
+            return consultantMarkings;
+        }
     }
 }
