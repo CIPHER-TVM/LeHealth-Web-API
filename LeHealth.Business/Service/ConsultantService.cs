@@ -176,5 +176,17 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantMarkingsById(markId);
         }
+        public List<DiseaseSymptomModel> GetDiseaseSymptomsById(int symptomId)
+        {
+            return consultantManager.GetDiseaseSymptoms(symptomId);
+        }
+        public List<DiseaseSignModel> GetDiseaseVitalSignsById(int signId)
+        {
+            return consultantManager.GetDiseaseVitalSigns(signId);
+        }
+        public List<DiseaseICDModel> GetDiseaseICDById(int icdId)
+        {
+            return consultantManager.GetDiseaseICD(icdId);
+        }
     }
 }
