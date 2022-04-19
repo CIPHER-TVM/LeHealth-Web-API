@@ -45,5 +45,6 @@ namespace LeHealth.Core.Interface
         string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking);
         List<ConsultantMarkingModel> GetConsultantMarkings(int consultantId);
         string DeleteConsultantMarkings(int markId);
+        List<ConsultantMarkingModel> GetConsultantMarkingsById(int markId);
     }
 }

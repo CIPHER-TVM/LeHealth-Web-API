@@ -172,5 +172,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.DeleteConsultantMarkings(markId);
         }
+        public List<ConsultantMarkingModel> GetConsultantMarkingsById(int markId)
+        {
+            return consultantManager.GetConsultantMarkingsById(markId);
+        }
     }
 }
