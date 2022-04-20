@@ -1456,6 +1456,39 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
- 
+        [Route("DeleteConsultantDisease/{diseaseId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> DeleteConsultantDisease(int diseaseId)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = consultantService.DeleteConsultantDisease(diseaseId);
+
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<String>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }
