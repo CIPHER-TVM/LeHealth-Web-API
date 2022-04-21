@@ -1521,7 +1521,7 @@ namespace LeHealth.Core.DataManager
                             BlockReason = dtDisease.Rows[i]["BlockReason"].ToString(),
                             Symptoms = JsonConvert.DeserializeObject<List<DiseaseSymptomModel>>(dtDisease.Rows[i]["Symptoms"].ToString()),
                             Signs = JsonConvert.DeserializeObject<List<DiseaseSignModel>>(dtDisease.Rows[i]["Signs"].ToString()),
-                            ICD = diseaseICDs[0]
+                            ICD = diseaseICDs==null?null: diseaseICDs[0]
                         };
                     }
                 }
