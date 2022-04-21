@@ -23,73 +23,61 @@ namespace LeHealth.Core.DataManager
         public LocationModel GetLocationById(Int32 locationId)
         {
             LocationModel obj = new LocationModel();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetLocation", con))
-                {
-                    con.Open();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLocation", con);
+            con.Open();
 
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@LocationId", locationId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    con.Close();
-                    if ( (dt != null) && (dt.Rows.Count > 0))
-                    {
-                        obj = dt.ToObject<LocationModel>();
-                    }
-                    return obj;
-                }
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@LocationId", locationId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                obj = dt.ToObject<LocationModel>();
             }
+            return obj;
         }
 
         public List<LocationModel> GetLocations(Int32 hospitalId)
         {
             List<LocationModel> obj = new List<LocationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetLocations", con))
-                {
-                    con.Open();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLocations", con);
+            con.Open();
 
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@P_HospitalId", hospitalId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    con.Close();
-                    if ((dt != null) && (dt.Rows.Count > 0))
-                    {
-                        obj = dt.ToListOfObject<LocationModel>();
-                    }
-                    return obj;
-                }
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@P_HospitalId", hospitalId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                obj = dt.ToListOfObject<LocationModel>();
             }
+            return obj;
         }
 
         public List<LocationType> GetLocationTypes()
         {
             List<LocationType> obj = new List<LocationType>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetLocationType", con))
-                {
-                    con.Open();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLocationType", con);
+            con.Open();
 
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@LTypeId", 0);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    con.Close();
-                    if ((dt != null) && (dt.Rows.Count > 0))
-                    {
-                        obj = dt.ToListOfObject<LocationType>();
-                    }
-                    return obj;
-                }
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@LTypeId", 0);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                obj = dt.ToListOfObject<LocationType>();
             }
+            return obj;
         }
 
         public string Save(LocationModel obj)
