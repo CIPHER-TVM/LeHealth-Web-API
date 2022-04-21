@@ -1721,6 +1721,49 @@ namespace LeHealth.Core.DataManager
 
             return consultantMarkings;
         }
+        public string DeleteConsultantDisease(int diseaseId)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantDisease", con);
+                try
+                {
 
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                    cmd.Parameters.AddWithValue("@SessionId", 0);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Deleted Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
     }
 }
