@@ -281,10 +281,10 @@ namespace LeHealth.Core.DataManager
                 string ItemIds = string.Empty;
                 if (itemIdlistcount > 0)
                     ItemIds = string.Join(",", consultant.ItemIdList.ToArray());
-               
+
 
                 cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
-                cmd.Parameters.AddWithValue("@ItemIds", ItemIds);
+                cmd.Parameters.AddWithValue("@ItemIdList", ItemIds);
                 cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
                 cmd.Parameters.AddWithValue("@BranchId", consultant.BranchId);
 
