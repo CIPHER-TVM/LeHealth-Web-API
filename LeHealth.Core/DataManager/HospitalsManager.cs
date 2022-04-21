@@ -64,80 +64,72 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> GetConsultation(ConsultantModel consultation)
         {
             List<ConsultationModel> appointmentlist = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Status", consultation.Status);
+            cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+            cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
+            cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
+            cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con))
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Status", consultation.Status);
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
-                    cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
-                    cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable ds = new DataTable();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < ds.Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel();
-                            obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
-                            obj.TokenNO = ds.Rows[i]["TokenNO"].ToString();
-                            obj.DeptId = Convert.ToInt32(ds.Rows[i]["DeptId"]);
-                            obj.PatientName = ds.Rows[i]["PatientName"].ToString();
-                            obj.TimeNo = (ds.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Rows[i]["TimeNo"]);
-                            obj.RegNo = ds.Rows[i]["RegNo"].ToString();
-                            obj.Status = ds.Rows[i]["Status"].ToString();
-                            obj.Gender = ds.Rows[i]["Gender"].ToString();
-                            obj.Sponsor = ds.Rows[i]["Sponsor"].ToString();
-                            obj.Emergency = Convert.ToInt32(ds.Rows[i]["Emergency"]);
-                            obj.Address = ds.Rows[i]["Address"].ToString();
-                            obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
-                            obj.Email = ds.Rows[i]["Email"].ToString();
-                            obj.Mobile = ds.Rows[i]["Mobile"].ToString();
-                            appointmentlist.Add(obj);
-                        }
-                    }
-                    return appointmentlist;
+                    ConsultationModel obj = new ConsultationModel();
+                    obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
+                    obj.TokenNO = ds.Rows[i]["TokenNO"].ToString();
+                    obj.DeptId = Convert.ToInt32(ds.Rows[i]["DeptId"]);
+                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                    obj.TimeNo = (ds.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Rows[i]["TimeNo"]);
+                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                    obj.Status = ds.Rows[i]["Status"].ToString();
+                    obj.Gender = ds.Rows[i]["Gender"].ToString();
+                    obj.Sponsor = ds.Rows[i]["Sponsor"].ToString();
+                    obj.Emergency = Convert.ToInt32(ds.Rows[i]["Emergency"]);
+                    obj.Address = ds.Rows[i]["Address"].ToString();
+                    obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
+                    obj.Email = ds.Rows[i]["Email"].ToString();
+                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                    appointmentlist.Add(obj);
                 }
             }
+            return appointmentlist;
         }
 
 
         public List<TabOrderModel> GetTabOrder(string screenname)
         {
             List<TabOrderModel> Consultationlist = new List<TabOrderModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetTabOrder", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ScreenName", screenname);
+
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetTabOrder", con))
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ScreenName", screenname);
-
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable ds = new DataTable();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < ds.Rows.Count; i++)
-                        {
-                            TabOrderModel obj = new TabOrderModel();
-                            obj.ScreenName = ds.Rows[i]["ScreenName"].ToString();
-                            obj.ObjectName = ds.Rows[i]["ObjectName"].ToString();
-                            obj.ObjectOrder = Convert.ToInt32(ds.Rows[i]["ObjectOrder"]);
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
+                    TabOrderModel obj = new TabOrderModel();
+                    obj.ScreenName = ds.Rows[i]["ScreenName"].ToString();
+                    obj.ObjectName = ds.Rows[i]["ObjectName"].ToString();
+                    obj.ObjectOrder = Convert.ToInt32(ds.Rows[i]["ObjectOrder"]);
+                    Consultationlist.Add(obj);
                 }
             }
+            return Consultationlist;
         }
 
 
@@ -297,42 +289,38 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> GetAllConsultation()
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetAllConsultation", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultationId", 0);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetAllConsultation", con))
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultationId", 0);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable ds = new DataTable();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < ds.Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel();
-                            obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
-                            obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString().Substring(0, 10);
-                            obj.PatientName = ds.Rows[i]["PatientName"].ToString();
-                            obj.ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]);
-                            obj.Consultant = ds.Rows[i]["Consultant"].ToString();
-                            obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
-                            obj.RegNo = ds.Rows[i]["RegNo"].ToString();
-                            obj.PIN = ds.Rows[i]["PIN"].ToString();
-                            obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
-                            obj.Status = ds.Rows[i]["Status"].ToString();
-                            obj.Mobile = ds.Rows[i]["Mobile"].ToString();
-                            obj.Address = ds.Rows[i]["Address"].ToString();
-                            obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
+                    ConsultationModel obj = new ConsultationModel();
+                    obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
+                    obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
+                    obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString().Substring(0, 10);
+                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                    obj.ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]);
+                    obj.Consultant = ds.Rows[i]["Consultant"].ToString();
+                    obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
+                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                    obj.PIN = ds.Rows[i]["PIN"].ToString();
+                    obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
+                    obj.Status = ds.Rows[i]["Status"].ToString();
+                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                    obj.Address = ds.Rows[i]["Address"].ToString();
+                    obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
+                    Consultationlist.Add(obj);
                 }
             }
+            return Consultationlist;
         }
         /// <summary>
         /// Search data in consultation table
@@ -342,56 +330,52 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> SearchConsultation(ConsultationModel consultation)
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultation", con))
-                {
-                    DateTime oldFrom = DateTime.ParseExact(consultation.FromDate.Trim(), "dd-MM-yyyy", null);
-                    consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_SearchConsultation", con);
+            DateTime oldFrom = DateTime.ParseExact(consultation.FromDate.Trim(), "dd-MM-yyyy", null);
+            consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
 
-                    DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd-MM-yyyy", null);
-                    consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Name", consultation.PatientName);
-                    cmd.Parameters.AddWithValue("@RegNo", consultation.RegNo);
-                    cmd.Parameters.AddWithValue("@Mobile", consultation.Mobile);
-                    cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
-                    cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@Phone", "");
-                    cmd.Parameters.AddWithValue("@Address", consultation.Address);
-                    cmd.Parameters.AddWithValue("@PIN", consultation.PIN);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable ds = new DataTable();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < ds.Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel();
-                            obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
-                            obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
-                            obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
-                            obj.PatientName = ds.Rows[i]["PatientName"].ToString();
-                            obj.Consultant = ds.Rows[i]["Consultant"].ToString();
-                            obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
-                            obj.RegNo = ds.Rows[i]["RegNo"].ToString();
-                            obj.PIN = ds.Rows[i]["PIN"].ToString();
-                            obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
-                            obj.Status = ds.Rows[i]["Status"].ToString();
-                            obj.CancelReason = ds.Rows[i]["CancelReason"].ToString();
-                            obj.Mobile = ds.Rows[i]["Mobile"].ToString();
-                            obj.Telephone = ds.Rows[i]["Telephone"].ToString();
-                            obj.Address = ds.Rows[i]["Address"].ToString();
-                            obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
+            DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd-MM-yyyy", null);
+            consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Name", consultation.PatientName);
+            cmd.Parameters.AddWithValue("@RegNo", consultation.RegNo);
+            cmd.Parameters.AddWithValue("@Mobile", consultation.Mobile);
+            cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
+            cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+            cmd.Parameters.AddWithValue("@Phone", "");
+            cmd.Parameters.AddWithValue("@Address", consultation.Address);
+            cmd.Parameters.AddWithValue("@PIN", consultation.PIN);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    ConsultationModel obj = new ConsultationModel();
+                    obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
+                    obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
+                    obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
+                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                    obj.Consultant = ds.Rows[i]["Consultant"].ToString();
+                    obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
+                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                    obj.PIN = ds.Rows[i]["PIN"].ToString();
+                    obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
+                    obj.Status = ds.Rows[i]["Status"].ToString();
+                    obj.CancelReason = ds.Rows[i]["CancelReason"].ToString();
+                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                    obj.Telephone = ds.Rows[i]["Telephone"].ToString();
+                    obj.Address = ds.Rows[i]["Address"].ToString();
+                    obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
+                    Consultationlist.Add(obj);
                 }
             }
+            return Consultationlist;
         }
     }
 }

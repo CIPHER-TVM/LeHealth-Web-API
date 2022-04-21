@@ -33,55 +33,51 @@ namespace LeHealth.Core.DataManager
         public List<ConsultationModel> SearchConsultationById(ConsultationModel consultation)
         {
             List<ConsultationModel> Consultationlist = new List<ConsultationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_SearchConsultationById", con);
+            DateTime oldFrom = DateTime.ParseExact(consultation.FromDate.Trim(), "dd-MM-yyyy", null);
+            consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
+
+            DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd-MM-yyyy", null);
+            consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
+
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
+            cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchConsultationById", con))
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    DateTime oldFrom = DateTime.ParseExact(consultation.FromDate.Trim(), "dd-MM-yyyy", null);
-                    consultation.FromDate = oldFrom.ToString("yyyy-MM-dd");
-
-                    DateTime oldTo = DateTime.ParseExact(consultation.ToDate.Trim(), "dd-MM-yyyy", null);
-                    consultation.ToDate = oldTo.ToString("yyyy-MM-dd");
-
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-                    cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
-                    cmd.Parameters.AddWithValue("@FromDate", consultation.FromDate);
-                    cmd.Parameters.AddWithValue("@ToDate", consultation.ToDate);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable ds = new DataTable();
-                    adapter.Fill(ds);
-                    con.Close();
-                    if ((ds != null) && (ds.Rows.Count > 0))
+                    ConsultationModel obj = new ConsultationModel
                     {
-                        for (Int32 i = 0; i < ds.Rows.Count; i++)
-                        {
-                            ConsultationModel obj = new ConsultationModel
-                            {
-                                PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-                                ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
-                                ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
-                                PatientName = ds.Rows[i]["PatientName"].ToString(),
-                                Consultant = ds.Rows[i]["Consultant"].ToString(),
-                                ConsultType2 = ds.Rows[i]["ConsultType"].ToString(),
-                                RegNo = ds.Rows[i]["RegNo"].ToString(),
-                                PIN = ds.Rows[i]["PIN"].ToString(),
-                                OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString(),
-                                Status = ds.Rows[i]["Status"].ToString(),
-                                CancelReason = ds.Rows[i]["CancelReason"].ToString(),
-                                Mobile = ds.Rows[i]["Mobile"].ToString(),
-                                Telephone = ds.Rows[i]["Telephone"].ToString(),
-                                Address = ds.Rows[i]["Address"].ToString(),
-                                Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString()
-                            };
-                            Consultationlist.Add(obj);
-                        }
-                    }
-                    return Consultationlist;
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
+                        ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
+                        PatientName = ds.Rows[i]["PatientName"].ToString(),
+                        Consultant = ds.Rows[i]["Consultant"].ToString(),
+                        ConsultType2 = ds.Rows[i]["ConsultType"].ToString(),
+                        RegNo = ds.Rows[i]["RegNo"].ToString(),
+                        PIN = ds.Rows[i]["PIN"].ToString(),
+                        OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString(),
+                        Status = ds.Rows[i]["Status"].ToString(),
+                        CancelReason = ds.Rows[i]["CancelReason"].ToString(),
+                        Mobile = ds.Rows[i]["Mobile"].ToString(),
+                        Telephone = ds.Rows[i]["Telephone"].ToString(),
+                        Address = ds.Rows[i]["Address"].ToString(),
+                        Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString()
+                    };
+                    Consultationlist.Add(obj);
                 }
             }
+            return Consultationlist;
         }
         /// <summary>
         /// Get appointment details using ConsultantId
@@ -92,60 +88,56 @@ namespace LeHealth.Core.DataManager
         {
             List<SearchAppointmentModel> appList = new List<SearchAppointmentModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_SearchAppointmentByConsultantId", con);
+            DateTime oldFrom = DateTime.ParseExact(appointment.FromDate.Trim(), "dd-MM-yyyy", null);
+            appointment.FromDate = oldFrom.ToString("yyyy-MM-dd");
+
+            DateTime oldTo = DateTime.ParseExact(appointment.ToDate.Trim(), "dd-MM-yyyy", null);
+            appointment.ToDate = oldTo.ToString("yyyy-MM-dd");
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
+            if (appointment.ConsultantId == 0 || appointment.ConsultantId == null)
+                cmd.Parameters.AddWithValue("@ConsultantId", 0);
+            else
+                cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
+            cmd.Parameters.AddWithValue("@FromDate", appointment.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", appointment.ToDate);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtAppointments = new DataTable();
+            adapter.Fill(dtAppointments);
+            con.Close();
+            if ((dtAppointments != null) && (dtAppointments.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchAppointmentByConsultantId", con))
+                for (Int32 i = 0; i < dtAppointments.Rows.Count; i++)
                 {
-                    DateTime oldFrom = DateTime.ParseExact(appointment.FromDate.Trim(), "dd-MM-yyyy", null);
-                    appointment.FromDate = oldFrom.ToString("yyyy-MM-dd");
-
-                    DateTime oldTo = DateTime.ParseExact(appointment.ToDate.Trim(), "dd-MM-yyyy", null);
-                    appointment.ToDate = oldTo.ToString("yyyy-MM-dd");
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
-                    if (appointment.ConsultantId == 0 || appointment.ConsultantId == null)
-                        cmd.Parameters.AddWithValue("@ConsultantId", 0);
-                    else
-                        cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
-                    cmd.Parameters.AddWithValue("@FromDate", appointment.FromDate);
-                    cmd.Parameters.AddWithValue("@ToDate", appointment.ToDate);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtAppointments = new DataTable();
-                    adapter.Fill(dtAppointments);
-                    con.Close();
-                    if ((dtAppointments != null) && (dtAppointments.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtAppointments.Rows.Count; i++)
-                        {
-                            SearchAppointmentModel obj = new SearchAppointmentModel();
-                            obj.AppId = Convert.ToInt32(dtAppointments.Rows[i]["AppId"]);
-                            obj.AppDate = dtAppointments.Rows[i]["AppDate"].ToString();
-                            obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);
-                            obj.AppNo = dtAppointments.Rows[i]["AppNo"].ToString();
-                            obj.RegNo = dtAppointments.Rows[i]["RegNo"].ToString();
-                            obj.SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString();
-                            obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);
-                            obj.PatientName = dtAppointments.Rows[i]["PatientName"].ToString();
-                            obj.PIN = dtAppointments.Rows[i]["PIN"].ToString();
-                            obj.Mobile = dtAppointments.Rows[i]["ContactNumber"].ToString();
-                            obj.CFirstName = dtAppointments.Rows[i]["ConsultantName"].ToString();
-                            obj.AppStatus = dtAppointments.Rows[i]["Status"].ToString();
-                            obj.CancelReason = dtAppointments.Rows[i]["CancelReason"].ToString();
-                            obj.ResPhone = dtAppointments.Rows[i]["TelePhone"].ToString();
-                            obj.Address1 = dtAppointments.Rows[i]["Address"].ToString();
-                            obj.BranchId = Convert.ToInt32(dtAppointments.Rows[i]["BranchId"]);
-                            obj.EntryDate = dtAppointments.Rows[i]["EntryDate"].ToString();
-                            //obj.EntryDate = DateTime.Now;
-                            //DateTime dt = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                            //DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
-                            appList.Add(obj);
-                        }
-                    }
-                    return appList;
+                    SearchAppointmentModel obj = new SearchAppointmentModel();
+                    obj.AppId = Convert.ToInt32(dtAppointments.Rows[i]["AppId"]);
+                    obj.AppDate = dtAppointments.Rows[i]["AppDate"].ToString();
+                    obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);
+                    obj.AppNo = dtAppointments.Rows[i]["AppNo"].ToString();
+                    obj.RegNo = dtAppointments.Rows[i]["RegNo"].ToString();
+                    obj.SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString();
+                    obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);
+                    obj.PatientName = dtAppointments.Rows[i]["PatientName"].ToString();
+                    obj.PIN = dtAppointments.Rows[i]["PIN"].ToString();
+                    obj.Mobile = dtAppointments.Rows[i]["ContactNumber"].ToString();
+                    obj.CFirstName = dtAppointments.Rows[i]["ConsultantName"].ToString();
+                    obj.AppStatus = dtAppointments.Rows[i]["Status"].ToString();
+                    obj.CancelReason = dtAppointments.Rows[i]["CancelReason"].ToString();
+                    obj.ResPhone = dtAppointments.Rows[i]["TelePhone"].ToString();
+                    obj.Address1 = dtAppointments.Rows[i]["Address"].ToString();
+                    obj.BranchId = Convert.ToInt32(dtAppointments.Rows[i]["BranchId"]);
+                    obj.EntryDate = dtAppointments.Rows[i]["EntryDate"].ToString();
+                    //obj.EntryDate = DateTime.Now;
+                    //DateTime dt = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    //DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
+                    appList.Add(obj);
                 }
             }
+            return appList;
         }
         /// <summary>
         /// Get Patient details using ConsultantId
@@ -155,33 +147,29 @@ namespace LeHealth.Core.DataManager
         public List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient)
         {
             List<ConsultantPatientModel> patientList = new List<ConsultantPatientModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByConsultantId", con))
-                {
-                    DateTime oldFrom = DateTime.ParseExact(patient.RegDateFrom.Trim(), "dd-MM-yyyy", null);
-                    patient.RegDateFrom = oldFrom.ToString("yyyy-MM-dd");
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_SearchPatientsByConsultantId", con);
+            DateTime oldFrom = DateTime.ParseExact(patient.RegDateFrom.Trim(), "dd-MM-yyyy", null);
+            patient.RegDateFrom = oldFrom.ToString("yyyy-MM-dd");
 
-                    DateTime oldTo = DateTime.ParseExact(patient.RegDateTo.Trim(), "dd-MM-yyyy", null);
-                    patient.RegDateTo = oldTo.ToString("yyyy-MM-dd");
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
-                    cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
-                    cmd.Parameters.AddWithValue("@FromDate", patient.RegDateFrom);
-                    cmd.Parameters.AddWithValue("@ToDate", patient.RegDateTo);
+            DateTime oldTo = DateTime.ParseExact(patient.RegDateTo.Trim(), "dd-MM-yyyy", null);
+            patient.RegDateTo = oldTo.ToString("yyyy-MM-dd");
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", patient.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
+            cmd.Parameters.AddWithValue("@FromDate", patient.RegDateFrom);
+            cmd.Parameters.AddWithValue("@ToDate", patient.RegDateTo);
 
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtPatientList = new DataTable();
-                    adapter.Fill(dtPatientList);
-                    con.Close();
-                    if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
-                        patientList = dtPatientList.ToListOfObject<ConsultantPatientModel>();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtPatientList = new DataTable();
+            adapter.Fill(dtPatientList);
+            con.Close();
+            if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
+                patientList = dtPatientList.ToListOfObject<ConsultantPatientModel>();
 
-                    return patientList;
-                }
-            }
+            return patientList;
         }
         /// <summary>L
         /// </summary>
@@ -289,8 +277,14 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertConsultantServices", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+                int itemIdlistcount = consultant.ItemIdList.Count;
+                string ItemIds = string.Empty;
+                if (itemIdlistcount > 0)
+                    ItemIds = string.Join(",", consultant.ItemIdList.ToArray());
+               
+
                 cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
-                cmd.Parameters.AddWithValue("@ItemId", consultant.ItemId);
+                cmd.Parameters.AddWithValue("@ItemIds", ItemIds);
                 cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
                 cmd.Parameters.AddWithValue("@BranchId", consultant.BranchId);
 
@@ -1497,37 +1491,34 @@ namespace LeHealth.Core.DataManager
         public DiseaseModel GetDiseaseDetailsById(int diseaseId)
         {
             DiseaseModel disease = new DiseaseModel();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
+            appointmentCountCMD.CommandType = CommandType.StoredProcedure;
+            appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
+            con.Open();
+            SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
+            DataTable dtDisease = new DataTable();
+            adapter1.Fill(dtDisease);
+            con.Close();
+            if ((dtDisease != null) && (dtDisease.Rows.Count > 0))
             {
-                SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
-                appointmentCountCMD.CommandType = CommandType.StoredProcedure;
-                appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
-                con.Open();
-                SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
-                DataTable dtDisease = new DataTable();
-                adapter1.Fill(dtDisease);
-                con.Close();
-                if ((dtDisease != null) && (dtDisease.Rows.Count > 0))
+                for (Int32 i = 0; i < dtDisease.Rows.Count; i++)
                 {
-                    for (Int32 i = 0; i < dtDisease.Rows.Count; i++)
+                    List<DiseaseICDModel> diseaseICDs = JsonConvert.DeserializeObject<List<DiseaseICDModel>>(dtDisease.Rows[i]["ICD"].ToString());
+                    disease = new DiseaseModel
                     {
-                        List<DiseaseICDModel> diseaseICDs = JsonConvert.DeserializeObject<List<DiseaseICDModel>>(dtDisease.Rows[i]["ICD"].ToString());
-                        disease = new DiseaseModel
-                        {
-                            DiseaseId = Convert.ToInt32(dtDisease.Rows[i]["DiseaseId"]),
-                            DiseaseDesc = dtDisease.Rows[i]["DiseaseDesc"].ToString(),
-                            ConsultantId = Convert.ToInt32(dtDisease.Rows[i]["ConsultantId"]),
-                            Active = Convert.ToInt32(dtDisease.Rows[i]["Active"]),
-                            BlockReason = dtDisease.Rows[i]["BlockReason"].ToString(),
-                            Symptoms = JsonConvert.DeserializeObject<List<DiseaseSymptomModel>>(dtDisease.Rows[i]["Symptoms"].ToString()),
-                            Signs = JsonConvert.DeserializeObject<List<DiseaseSignModel>>(dtDisease.Rows[i]["Signs"].ToString()),
-                            ICD = diseaseICDs[0]
-                        };
-                    }
+                        DiseaseId = Convert.ToInt32(dtDisease.Rows[i]["DiseaseId"]),
+                        DiseaseDesc = dtDisease.Rows[i]["DiseaseDesc"].ToString(),
+                        ConsultantId = Convert.ToInt32(dtDisease.Rows[i]["ConsultantId"]),
+                        Active = Convert.ToInt32(dtDisease.Rows[i]["Active"]),
+                        BlockReason = dtDisease.Rows[i]["BlockReason"].ToString(),
+                        Symptoms = JsonConvert.DeserializeObject<List<DiseaseSymptomModel>>(dtDisease.Rows[i]["Symptoms"].ToString()),
+                        Signs = JsonConvert.DeserializeObject<List<DiseaseSignModel>>(dtDisease.Rows[i]["Signs"].ToString()),
+                        ICD = diseaseICDs[0]
+                    };
                 }
-                return disease;
-
             }
+            return disease;
 
         }
         public List<DiseaseModel> GetDiseaseByConsultantIdBU(int consultantId)
