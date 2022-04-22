@@ -281,8 +281,6 @@ namespace LeHealth.Core.DataManager
                 string ItemIds = string.Empty;
                 if (itemIdlistcount > 0)
                     ItemIds = string.Join(",", consultant.ItemIdList.ToArray());
-
-
                 cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
                 cmd.Parameters.AddWithValue("@ItemIdList", ItemIds);
                 cmd.Parameters.AddWithValue("@UserId", consultant.UserId);

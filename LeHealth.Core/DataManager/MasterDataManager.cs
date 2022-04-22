@@ -2249,7 +2249,8 @@ namespace LeHealth.Core.DataManager
                     obj.RouteId = Convert.ToInt32(dsDrug.Rows[i]["RouteId"]);
                     obj.RouteDesc = dsDrug.Rows[i]["Route"].ToString();
                     obj.Duration = 9999;//Convert.ToInt32(dsDrug.Rows[i]["Duration"]);
-                    obj.BranchId = dm.BranchId;//Convert.ToInt32(dsDrug.Rows[i]["Duration"]);
+                    obj.BranchId = dm.BranchId;
+                    obj.ScientificName = dsDrug.Rows[i]["ScientificName"].ToString();
                     drugList.Add(obj);
                 }
             }
