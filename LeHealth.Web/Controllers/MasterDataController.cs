@@ -28,9 +28,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<GenderModel>> GetGender()
         {
-            List<GenderModel> genderList = new List<GenderModel>();
             try
             {
+                List<GenderModel> genderList = new List<GenderModel>();
                 genderList = masterdataService.GetGender();
                 var response = new ResponseDataModel<IEnumerable<GenderModel>>()
                 {
@@ -62,9 +62,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<KinRelationModel>> GetKinRelation()
         {
-            List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
             try
             {
+                List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
                 kinRelationList = masterdataService.GetKinRelation();
                 var response = new ResponseDataModel<IEnumerable<KinRelationModel>>()
                 {
@@ -96,9 +96,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetMaritalStatus")]
         public ResponseDataModel<IEnumerable<MaritalStatusModel>> GetMaritalStatus()
         {
-            List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
             try
             {
+                List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
                 maritalStatusList = masterdataService.GetMaritalStatus();
                 var response = new ResponseDataModel<IEnumerable<MaritalStatusModel>>()
                 {
@@ -130,9 +130,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetCommunicationType")]
         public ResponseDataModel<IEnumerable<CommunicationTypeModel>> GetCommunicationType()
         {
-            List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
             try
             {
+                List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
                 communicationTypeList = masterdataService.GetCommunicationType();
                 var response = new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
                 {
@@ -174,9 +174,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ProfessionModel>> GetProfession(Int32 profid)
         {
-            List<ProfessionModel> professionList = new List<ProfessionModel>();
             try
             {
+                List<ProfessionModel> professionList = new List<ProfessionModel>();
                 professionList = masterdataService.GetProfession(profid);
                 var response = new ResponseDataModel<IEnumerable<ProfessionModel>>()
                 {
@@ -213,9 +213,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ProfessionModel>> InsertUpdateProfession(ProfessionModel Profession)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateProfession(Profession);
                 var response = new ResponseDataModel<IEnumerable<ProfessionModel>>()
                 {
@@ -249,9 +249,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<MenuGroupModel>> InsertUpdateMenuGroupMap(MenuGroupModel mgm)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateMenuGroupMap(mgm);
                 var response = new ResponseDataModel<IEnumerable<MenuGroupModel>>()
                 {
@@ -292,9 +292,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsor(Int32 sponsorid)
         {
-            List<SponsorMasterModel> professionList = new List<SponsorMasterModel>();
             try
             {
+                List<SponsorMasterModel> professionList = new List<SponsorMasterModel>();
                 professionList = masterdataService.GetSponsor(sponsorid);
                 var response = new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
                 {
@@ -329,13 +329,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateSponsor")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SponsorMasterModel>> InsertUpdateSponsor(SponsorMasterModel Sponsor)
+        public ResponseDataModel<SponsorMasterModel> InsertUpdateSponsor(SponsorMasterModel Sponsor)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateSponsor(Sponsor);
-                var response = new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                var response = new ResponseDataModel<SponsorMasterModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -345,7 +345,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                return new ResponseDataModel<SponsorMasterModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -377,9 +377,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SponsorTypeModel>> GetSponsorType(Int32 sponsortypeid)
         {
-            List<SponsorTypeModel> professionList = new List<SponsorTypeModel>();
             try
             {
+                List<SponsorTypeModel> professionList = new List<SponsorTypeModel>();
                 professionList = masterdataService.GetSponsorType(sponsortypeid);
                 var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
                 {
@@ -414,13 +414,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateSponsorType")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SponsorTypeModel>> InsertUpdateSponsorType(SponsorTypeModel Sponsor)
+        public ResponseDataModel<SponsorTypeModel> InsertUpdateSponsorType(SponsorTypeModel Sponsor)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateSponsorType(Sponsor);
-                var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                var response = new ResponseDataModel<SponsorTypeModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -430,7 +430,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                return new ResponseDataModel<SponsorTypeModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -460,9 +460,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<SponsorFormModel>> GetSponsorForm(Int32 sponsorformid)
         {
-            List<SponsorFormModel> sponsorFormList = new List<SponsorFormModel>();
             try
             {
+                List<SponsorFormModel> sponsorFormList = new List<SponsorFormModel>();
                 sponsorFormList = masterdataService.GetSponsorForm(sponsorformid);
                 var response = new ResponseDataModel<IEnumerable<SponsorFormModel>>()
                 {
@@ -497,13 +497,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateSponsorForm")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SponsorFormModel>> InsertUpdateSponsorForm(SponsorFormModel Sponsor)
+        public ResponseDataModel<SponsorFormModel> InsertUpdateSponsorForm(SponsorFormModel Sponsor)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateSponsorForm(Sponsor);
-                var response = new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                var response = new ResponseDataModel<SponsorFormModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -513,7 +513,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                return new ResponseDataModel<SponsorFormModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -544,9 +544,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<CityModel>> GetCity(Int32 id)
         {
-            List<CityModel> cityList = new List<CityModel>();
             try
             {
+                List<CityModel> cityList = new List<CityModel>();
                 cityList = masterdataService.GetCity(id);
                 var response = new ResponseDataModel<IEnumerable<CityModel>>()
                 {
@@ -581,13 +581,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateCity")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<CityModel>> InsertUpdateCity(CityModel City)
+        public ResponseDataModel<CityModel> InsertUpdateCity(CityModel City)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateCity(City);
-                var response = new ResponseDataModel<IEnumerable<CityModel>>()
+                var response = new ResponseDataModel<CityModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -597,7 +597,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CityModel>>()
+                return new ResponseDataModel<CityModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -605,7 +605,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -624,9 +623,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<VitalSignModel>> GetVitalSign(Int32 id)
         {
-            List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
             try
             {
+                List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
                 vitalSignList = masterdataService.GetVitalSign(id);
                 var response = new ResponseDataModel<IEnumerable<VitalSignModel>>()
                 {
@@ -661,13 +660,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateVitalSign")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<VitalSignModel>> InsertUpdateVitalSign(VitalSignModel vitalSign)
+        public ResponseDataModel<VitalSignModel> InsertUpdateVitalSign(VitalSignModel vitalSign)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateVitalSign(vitalSign);
-                var response = new ResponseDataModel<IEnumerable<VitalSignModel>>()
+                var response = new ResponseDataModel<VitalSignModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -677,7 +676,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<VitalSignModel>>()
+                return new ResponseDataModel<VitalSignModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -696,13 +695,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateSymptom")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SymptomModel>> InsertUpdateSymptom(SymptomModel Symptom)
+        public ResponseDataModel<SymptomModel> InsertUpdateSymptom(SymptomModel Symptom)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateSymptom(Symptom);
-                var response = new ResponseDataModel<IEnumerable<SymptomModel>>()
+                var response = new ResponseDataModel<SymptomModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -712,7 +711,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SymptomModel>>()
+                return new ResponseDataModel<SymptomModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -741,14 +740,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentPreviewModel>> GetConsentPreviewConsent(ConsentPreviewModel consentDetails)
         {
-            List<ConsentPreviewModel> patientList = new List<ConsentPreviewModel>();
             try
             {
-                patientList = masterdataService.GetConsentPreviewConsent(consentDetails.PatientId);
+                List<ConsentPreviewModel> consentcontentList = new List<ConsentPreviewModel>();
+                consentcontentList = masterdataService.GetConsentPreviewConsent(consentDetails.PatientId);
                 var response = new ResponseDataModel<IEnumerable<ConsentPreviewModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = patientList
+                    Response = consentcontentList
                 };
                 return response;
             }
@@ -780,9 +779,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentContentModel>> GetConsent(Int32 consentId)
         {
-            List<ConsentContentModel> consentList = new List<ConsentContentModel>();
             try
             {
+                List<ConsentContentModel> consentList = new List<ConsentContentModel>();
                 consentList = masterdataService.GetConsent(consentId);
                 var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
                 {
@@ -818,13 +817,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateConsent")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsentContentModel>> InsertUpdateConsent(ConsentContentModel Consent)
+        public ResponseDataModel<ConsentContentModel> InsertUpdateConsent(ConsentContentModel Consent)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateConsent(Consent);
-                var response = new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                var response = new ResponseDataModel<ConsentContentModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -834,7 +833,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsentContentModel>>()
+                return new ResponseDataModel<ConsentContentModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -863,9 +862,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetCountry/{Id}")]
         public ResponseDataModel<IEnumerable<CountryModel>> GetCountry(Int32 Id)
         {
-            List<CountryModel> countryList = new List<CountryModel>();
             try
             {
+                List<CountryModel> countryList = new List<CountryModel>();
                 countryList = masterdataService.GetCountry(Id);
                 var response = new ResponseDataModel<IEnumerable<CountryModel>>()
                 {
@@ -902,13 +901,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateCountry")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<CountryModel>> InsertUpdateCountry(CountryModel Country)
+        public ResponseDataModel<CountryModel> InsertUpdateCountry(CountryModel Country)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateCountry(Country);
-                var response = new ResponseDataModel<IEnumerable<CountryModel>>()
+                var response = new ResponseDataModel<CountryModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -918,7 +917,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CountryModel>>()
+                return new ResponseDataModel<CountryModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -946,9 +945,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetState/{Id}")]
         public ResponseDataModel<IEnumerable<StateModel>> GetState(Int32 Id)
         {
-            List<StateModel> stateList = new List<StateModel>();
             try
             {
+                List<StateModel> stateList = new List<StateModel>();
                 stateList = masterdataService.GetState(Id);
                 var response = new ResponseDataModel<IEnumerable<StateModel>>()
                 {
@@ -985,13 +984,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateState")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<StateModel>> InsertUpdateState(StateModel State)
+        public ResponseDataModel<StateModel> InsertUpdateState(StateModel State)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateState(State);
-                var response = new ResponseDataModel<IEnumerable<StateModel>>()
+                var response = new ResponseDataModel<StateModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1001,7 +1000,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<StateModel>>()
+                return new ResponseDataModel<StateModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1029,14 +1028,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetSalutation/{Id}")]
         public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation(Int32 Id)
         {
-            List<SalutationModel> stateList = new List<SalutationModel>();
             try
             {
-                stateList = masterdataService.GetSalutation(Id);
+                List<SalutationModel> salutationList = new List<SalutationModel>();
+                salutationList = masterdataService.GetSalutation(Id);
                 var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = stateList
+                    Response = salutationList
                 };
                 return response;
             }
@@ -1068,13 +1067,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateSalutation")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SalutationModel>> InsertUpdateSalutation(SalutationModel State)
+        public ResponseDataModel<SalutationModel> InsertUpdateSalutation(SalutationModel State)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateSalutation(State);
-                var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
+                var response = new ResponseDataModel<SalutationModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1084,7 +1083,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SalutationModel>>()
+                return new ResponseDataModel<SalutationModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1113,14 +1112,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetBodyPart/{Id}")]
         public ResponseDataModel<IEnumerable<BodyPartModel>> GetBodyPart(Int32 Id)
         {
-            List<BodyPartModel> stateList = new List<BodyPartModel>();
             try
             {
-                stateList = masterdataService.GetBodyPart(Id);
+                List<BodyPartModel> bodypartList = new List<BodyPartModel>();
+                bodypartList = masterdataService.GetBodyPart(Id);
                 var response = new ResponseDataModel<IEnumerable<BodyPartModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = stateList
+                    Response = bodypartList
                 };
                 return response;
             }
@@ -1152,13 +1151,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateBodyPart")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<BodyPartModel>> InsertUpdateBodyPart(BodyPartModel State)
+        public ResponseDataModel<BodyPartModel> InsertUpdateBodyPart(BodyPartModel State)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateBodyPart(State);
-                var response = new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                var response = new ResponseDataModel<BodyPartModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1168,7 +1167,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<BodyPartModel>>()
+                return new ResponseDataModel<BodyPartModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1297,16 +1296,16 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateUserHospital")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<HospitalModel>> InsertUpdateHospital([FromForm] HospitalRequestModel obj)
+        public ResponseDataModel<HospitalModel> InsertUpdateHospital([FromForm] HospitalRequestModel obj)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 HospitalRegModel hospitalDetail = JsonConvert.DeserializeObject<HospitalRegModel>(obj.HospitalJson);
                 hospitalDetail.LogoFile = obj.Logo;
                 hospitalDetail.ReportLogoFile = obj.ReportLogo;
                 message = masterdataService.InsertUpdateUserHospitals(hospitalDetail);
-                var response = new ResponseDataModel<IEnumerable<HospitalModel>>()
+                var response = new ResponseDataModel<HospitalModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1316,7 +1315,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<HospitalModel>>()
+                return new ResponseDataModel<HospitalModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1339,15 +1338,15 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         //Hospital Management Ends
         [Route("ConsentFormDataSave")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsentFormDataSaveModel>> ConsentFormDataSave([FromForm] ConsentFormSaveRequestModel obj)
+        public ResponseDataModel<ConsentFormDataSaveModel> ConsentFormDataSave([FromForm] ConsentFormSaveRequestModel obj)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 ConsentFormRegModel hospitalDetail = JsonConvert.DeserializeObject<ConsentFormRegModel>(obj.ConsentJson);
                 hospitalDetail.SignFile = obj.Sign;
                 message = masterdataService.ConsentFormDataSave(hospitalDetail);
-                var response = new ResponseDataModel<IEnumerable<ConsentFormDataSaveModel>>()
+                var response = new ResponseDataModel<ConsentFormDataSaveModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1357,7 +1356,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsentFormDataSaveModel>>()
+                return new ResponseDataModel<ConsentFormDataSaveModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1390,9 +1389,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartments(Int32 DeptId)
         {
-            List<DepartmentModel> departmentList = new List<DepartmentModel>();
             try
             {
+                List<DepartmentModel> departmentList = new List<DepartmentModel>();
                 departmentList = masterdataService.GetDepartments(DeptId);
                 var response = new ResponseDataModel<IEnumerable<DepartmentModel>>()
                 {
@@ -1429,13 +1428,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateDepartment")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DepartmentModel>> InsertUpdateDepartment(DepartmentModel obj)
+        public ResponseDataModel<DepartmentModel> InsertUpdateDepartment(DepartmentModel obj)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateDepartment(obj);
-                var response = new ResponseDataModel<IEnumerable<DepartmentModel>>()
+                var response = new ResponseDataModel<DepartmentModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1445,7 +1444,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<DepartmentModel>>()
+                return new ResponseDataModel<DepartmentModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1472,9 +1471,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<DepartmentModel>> GetDepartmentByHospital(Int32 HospId)
         {
-            List<DepartmentModel> departmentList = new List<DepartmentModel>();
             try
             {
+                List<DepartmentModel> departmentList = new List<DepartmentModel>();
                 departmentList = masterdataService.GetDepartmentByHospital(HospId);
                 var response = new ResponseDataModel<IEnumerable<DepartmentModel>>()
                 {
@@ -1506,9 +1505,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantModel>> GetConsultantByHospital(ConsultantModel cmodel)
         {
-            List<ConsultantModel> consultantList = new List<ConsultantModel>();
             try
             {
+                List<ConsultantModel> consultantList = new List<ConsultantModel>();
                 consultantList = masterdataService.GetConsultantByHospital(cmodel);
                 var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
                 {
@@ -1546,9 +1545,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetDrugs(ConsultantDrugModel cm)
         {
-            List<ConsultantDrugModel> drugList = new List<ConsultantDrugModel>();
             try
             {
+                List<ConsultantDrugModel> drugList = new List<ConsultantDrugModel>();
                 drugList = masterdataService.GetDrugs(cm);
                 var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
                 {
@@ -1587,9 +1586,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ZoneModel>> GetZone(Int32 zoneId)
         {
-            List<ZoneModel> zoneList = new List<ZoneModel>();
             try
             {
+                List<ZoneModel> zoneList = new List<ZoneModel>();
                 zoneList = masterdataService.GetZone(zoneId);
                 var response = new ResponseDataModel<IEnumerable<ZoneModel>>()
                 {
@@ -1625,13 +1624,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateZone")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> InsertUpdateZone(ZoneModel zone)
+        public ResponseDataModel<ZoneModel> InsertUpdateZone(ZoneModel zone)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateZone(zone);
-                var response = new ResponseDataModel<IEnumerable<ZoneModel>>()
+                var response = new ResponseDataModel<ZoneModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1641,7 +1640,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ZoneModel>>()
+                return new ResponseDataModel<ZoneModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1664,9 +1663,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<RegSchemeModel>> GetRegScheme(Int32 schemeId)
         {
-            List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
             try
             {
+                List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
                 regSchemeList = masterdataService.GetRegScheme(schemeId);
                 var response = new ResponseDataModel<IEnumerable<RegSchemeModel>>()
                 {
@@ -1696,13 +1695,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateRegScheme")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<RegSchemeModel>> InsertUpdateRegScheme(RegSchemeModel zone)
+        public ResponseDataModel<RegSchemeModel> InsertUpdateRegScheme(RegSchemeModel zone)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateRegScheme(zone);
-                var response = new ResponseDataModel<IEnumerable<RegSchemeModel>>()
+                var response = new ResponseDataModel<RegSchemeModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1712,7 +1711,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RegSchemeModel>>()
+                return new ResponseDataModel<RegSchemeModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1735,9 +1734,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<RateGroupModel>> GetRateGroup(Int32 Id)
         {
-            List<RateGroupModel> RateGroupList = new List<RateGroupModel>();
             try
             {
+                List<RateGroupModel> RateGroupList = new List<RateGroupModel>();
                 RateGroupList = masterdataService.GetRateGroup(Id);
                 var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
                 {
@@ -1767,13 +1766,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateRateGroup")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<RateGroupModel>> InsertUpdateRateGroup(RateGroupModel zone)
+        public ResponseDataModel<RateGroupModel> InsertUpdateRateGroup(RateGroupModel zone)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateRateGroup(zone);
-                var response = new ResponseDataModel<IEnumerable<RateGroupModel>>()
+                var response = new ResponseDataModel<RateGroupModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1783,7 +1782,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<RateGroupModel>>()
+                return new ResponseDataModel<RateGroupModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1807,9 +1806,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<OperatorModel>> GetOperator(Int32 operatorId)
         {
-            List<OperatorModel> zoneList = new List<OperatorModel>();
             try
             {
+                List<OperatorModel> zoneList = new List<OperatorModel>();
                 zoneList = masterdataService.GetOperator(operatorId);
                 var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
                 {
@@ -1840,13 +1839,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateOperator")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<OperatorModel>> InsertUpdateOperator(OperatorModel zone)
+        public ResponseDataModel<OperatorModel> InsertUpdateOperator(OperatorModel zone)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateOperator(zone);
-                var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
+                var response = new ResponseDataModel<OperatorModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1856,7 +1855,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<OperatorModel>>()
+                return new ResponseDataModel<OperatorModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1879,9 +1878,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<LeadAgentModel>> GetLeadAgent(Int32 la)
         {
-            List<LeadAgentModel> leadAgentList = new List<LeadAgentModel>();
             try
             {
+                List<LeadAgentModel> leadAgentList = new List<LeadAgentModel>();
                 leadAgentList = masterdataService.GetLeadAgent(la);
                 var response = new ResponseDataModel<IEnumerable<LeadAgentModel>>()
                 {
@@ -1912,13 +1911,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateLeadAgent")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<LeadAgentModel>> InsertUpdateLeadAgent(LeadAgentModel la)
+        public ResponseDataModel<LeadAgentModel> InsertUpdateLeadAgent(LeadAgentModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateLeadAgent(la);
-                var response = new ResponseDataModel<IEnumerable<LeadAgentModel>>()
+                var response = new ResponseDataModel<LeadAgentModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1928,7 +1927,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<LeadAgentModel>>()
+                return new ResponseDataModel<LeadAgentModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1951,9 +1950,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<CompanyModel>> GetCompany(Int32 Id)
         {
-            List<CompanyModel> companyList = new List<CompanyModel>();
             try
             {
+                List<CompanyModel> companyList = new List<CompanyModel>();
                 companyList = masterdataService.GetCompany(Id);
                 var response = new ResponseDataModel<IEnumerable<CompanyModel>>()
                 {
@@ -1982,13 +1981,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateCompany")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<CompanyModel>> InsertUpdateCompany(CompanyModel la)
+        public ResponseDataModel<CompanyModel> InsertUpdateCompany(CompanyModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateCompany(la);
-                var response = new ResponseDataModel<IEnumerable<CompanyModel>>()
+                var response = new ResponseDataModel<CompanyModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -1998,7 +1997,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CompanyModel>>()
+                return new ResponseDataModel<CompanyModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2017,14 +2016,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<MovementModel>> GetMovement(Int32 Id)
         {
-            List<MovementModel> companyList = new List<MovementModel>();
             try
             {
-                companyList = masterdataService.GetMovement(Id);
+                List<MovementModel> movementList = new List<MovementModel>();
+                movementList = masterdataService.GetMovement(Id);
                 var response = new ResponseDataModel<IEnumerable<MovementModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = companyList
+                    Response = movementList
                 };
                 return response;
             }
@@ -2048,13 +2047,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateMovement")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<MovementModel>> InsertUpdateMovement(MovementModel la)
+        public ResponseDataModel<MovementModel> InsertUpdateMovement(MovementModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateMovement(la);
-                var response = new ResponseDataModel<IEnumerable<MovementModel>>()
+                var response = new ResponseDataModel<MovementModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2064,7 +2063,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<MovementModel>>()
+                return new ResponseDataModel<MovementModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2083,14 +2082,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<PackageModel>> GetPackage(PackageModel pm)
         {
-            List<PackageModel> companyList = new List<PackageModel>();
             try
             {
-                companyList = masterdataService.GetPackage(pm);
+                List<PackageModel> packageList = new List<PackageModel>();
+                packageList = masterdataService.GetPackage(pm);
                 var response = new ResponseDataModel<IEnumerable<PackageModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = companyList
+                    Response = packageList
                 };
                 return response;
             }
@@ -2114,13 +2113,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdatePackage")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<PackageModel>> InsertUpdatePackage(PackageModel la)
+        public ResponseDataModel<PackageModel> InsertUpdatePackage(PackageModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdatePackage(la);
-                var response = new ResponseDataModel<IEnumerable<PackageModel>>()
+                var response = new ResponseDataModel<PackageModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2130,7 +2129,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<PackageModel>>()
+                return new ResponseDataModel<PackageModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2150,14 +2149,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<LocationModel>> GetLocation(Int32 Id)
         {
-            List<LocationModel> companyList = new List<LocationModel>();
             try
             {
-                companyList = masterdataService.GetLocation(Id);
+                List<LocationModel> locationList = new List<LocationModel>();
+                locationList = masterdataService.GetLocation(Id);
                 var response = new ResponseDataModel<IEnumerable<LocationModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = companyList
+                    Response = locationList
                 };
                 return response;
             }
@@ -2181,13 +2180,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateLocation")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<LocationModel>> InsertUpdateLocation(LocationModel la)
+        public ResponseDataModel<LocationModel> InsertUpdateLocation(LocationModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateLocation(la);
-                var response = new ResponseDataModel<IEnumerable<LocationModel>>()
+                var response = new ResponseDataModel<LocationModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2197,7 +2196,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<LocationModel>>()
+                return new ResponseDataModel<LocationModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2217,14 +2216,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ScientificNameModel>> GetScientificName(Int32 Id)
         {
-            List<ScientificNameModel> companyList = new List<ScientificNameModel>();
             try
             {
-                companyList = masterdataService.GetScientificName(Id);
+                List<ScientificNameModel> scientificNameList = new List<ScientificNameModel>();
+                scientificNameList = masterdataService.GetScientificName(Id);
                 var response = new ResponseDataModel<IEnumerable<ScientificNameModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = companyList
+                    Response = scientificNameList
                 };
                 return response;
             }
@@ -2248,13 +2247,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateScientificName")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ScientificNameModel>> InsertUpdateScientificName(ScientificNameModel la)
+        public ResponseDataModel<ScientificNameModel> InsertUpdateScientificName(ScientificNameModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateScientificName(la);
-                var response = new ResponseDataModel<IEnumerable<ScientificNameModel>>()
+                var response = new ResponseDataModel<ScientificNameModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2264,7 +2263,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ScientificNameModel>>()
+                return new ResponseDataModel<ScientificNameModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2283,9 +2282,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<TendernModel>> GetTendern(Int32 Id)
         {
-            List<TendernModel> tendernessList = new List<TendernModel>();
             try
             {
+                List<TendernModel> tendernessList = new List<TendernModel>();
                 tendernessList = masterdataService.GetTendern(Id);
                 var response = new ResponseDataModel<IEnumerable<TendernModel>>()
                 {
@@ -2314,13 +2313,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateTendern")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<TendernModel>> InsertUpdateTendern(TendernModel la)
+        public ResponseDataModel<TendernModel> InsertUpdateTendern(TendernModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.InsertUpdateTendern(la);
-                var response = new ResponseDataModel<IEnumerable<TendernModel>>()
+                var response = new ResponseDataModel<TendernModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2330,7 +2329,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<TendernModel>>()
+                return new ResponseDataModel<TendernModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2350,9 +2349,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ReligionModel>> GetReligion()
         {
-            List<ReligionModel> religionList = new List<ReligionModel>();
             try
             {
+                List<ReligionModel> religionList = new List<ReligionModel>();
                 religionList = masterdataService.GetReligion();
                 var response = new ResponseDataModel<IEnumerable<ReligionModel>>()
                 {
@@ -2383,14 +2382,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormMaster()
         {
-            List<FormValidationModel> cityList = new List<FormValidationModel>();
             try
             {
-                cityList = masterdataService.GetFormMaster();
+                List<FormValidationModel> formMasterList = new List<FormValidationModel>();
+                formMasterList = masterdataService.GetFormMaster();
                 var response = new ResponseDataModel<IEnumerable<FormValidationModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = cityList
+                    Response = formMasterList
                 };
                 return response;
             }
@@ -2416,14 +2415,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormFields(Int32 id)
         {
-            List<FormValidationModel> cityList = new List<FormValidationModel>();
             try
             {
-                cityList = masterdataService.GetFormFields(id);
+                List<FormValidationModel> formFieldList = new List<FormValidationModel>();
+                formFieldList = masterdataService.GetFormFields(id);
                 var response = new ResponseDataModel<IEnumerable<FormValidationModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = cityList
+                    Response = formFieldList
                 };
                 return response;
             }
@@ -2455,9 +2454,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<AppTypeModel>> GetAppType()
         {
-            List<AppTypeModel> appTypeList = new List<AppTypeModel>();
             try
             {
+                List<AppTypeModel> appTypeList = new List<AppTypeModel>();
                 appTypeList = masterdataService.GetAppType();
                 var response = new ResponseDataModel<IEnumerable<AppTypeModel>>()
                 {
@@ -2488,9 +2487,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType()
         {
-            List<VisaTypeModel> visaTypeList = new List<VisaTypeModel>();
             try
             {
+                List<VisaTypeModel> visaTypeList = new List<VisaTypeModel>();
                 visaTypeList = masterdataService.GetVisaType();
                 var response = new ResponseDataModel<IEnumerable<VisaTypeModel>>()
                 {
@@ -2522,9 +2521,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<StateModel>> GetStateByCountryId(Int32 countryId)
         {
-            List<StateModel> stateList = new List<StateModel>();
             try
             {
+                List<StateModel> stateList = new List<StateModel>();
                 stateList = masterdataService.GetStateByCountryId(countryId);
                 var response = new ResponseDataModel<IEnumerable<StateModel>>()
                 {
@@ -2556,9 +2555,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetActiveSymptoms")]
         public ResponseDataModel<IEnumerable<SymptomModel>> GetActiveSymptoms()
         {
-            List<SymptomModel> activeSymptomsList = new List<SymptomModel>();
             try
             {
+                List<SymptomModel> activeSymptomsList = new List<SymptomModel>();
                 activeSymptomsList = masterdataService.GetActiveSymptoms();
                 var response = new ResponseDataModel<IEnumerable<SymptomModel>>()
                 {
@@ -2591,9 +2590,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetItemsByType(ItemsByTypeModel ibtm)
         {
-            List<ItemsByTypeModel> itemsList = new List<ItemsByTypeModel>();
             try
             {
+                List<ItemsByTypeModel> itemsList = new List<ItemsByTypeModel>();
                 itemsList = masterdataService.GetItemsByType(ibtm);
                 var response = new ResponseDataModel<IEnumerable<ItemsByTypeModel>>()
                 {
@@ -2626,14 +2625,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsentTypeModel>> GetConsentType()
         {
-            List<ConsentTypeModel> itemsList = new List<ConsentTypeModel>();
             try
             {
-                itemsList = masterdataService.GetConsentType();
+                List<ConsentTypeModel> consentTypeList = new List<ConsentTypeModel>();
+                consentTypeList = masterdataService.GetConsentType();
                 var response = new ResponseDataModel<IEnumerable<ConsentTypeModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = itemsList
+                    Response = consentTypeList
                 };
                 return response;
             }
@@ -2648,7 +2647,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -2661,9 +2659,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<GetNumberModel>> GetNumber(string numid)
         {
-            List<GetNumberModel> numberList = new List<GetNumberModel>();
             try
             {
+                List<GetNumberModel> numberList = new List<GetNumberModel>();
                 numberList = masterdataService.GetNumber(numid);
                 var response = new ResponseDataModel<IEnumerable<GetNumberModel>>()
                 {
@@ -2695,13 +2693,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("UpdateNumberTable")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<GetNumberModel>> UpdateNumberTable(GetNumberModel la)
+        public ResponseDataModel<GetNumberModel> UpdateNumberTable(GetNumberModel la)
         {
-            string message = string.Empty;
             try
             {
+                string message = string.Empty;
                 message = masterdataService.UpdateNumberTable(la);
-                var response = new ResponseDataModel<IEnumerable<GetNumberModel>>()
+                var response = new ResponseDataModel<GetNumberModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2711,7 +2709,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<GetNumberModel>>()
+                return new ResponseDataModel<GetNumberModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2719,40 +2717,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-                };
-            }
-            finally
-            {
-            }
-        }
-
-        [Route("ConsultantSearchWithDept")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantModel>> ConsultantSearchWithDept(GetScheduleInputModel drsearch)
-        {
-            List<ConsultantModel> departmentList = new List<ConsultantModel>();
-            try
-            {
-                departmentList = masterdataService.ConsultantSearchWithDept(drsearch);
-                var response = new ResponseDataModel<IEnumerable<ConsultantModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = departmentList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
                 };
             }
             finally

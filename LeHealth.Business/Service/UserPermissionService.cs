@@ -15,19 +15,19 @@ namespace LeHealth.Service.Service
             userpermissionmanager = _userpermissionmanager;
         }
 
-        public UserGroupModel getUserGroup(Int32 id)
+        public UserGroupModel GetUserGroup(Int32 id)
         {
 
-            return userpermissionmanager.getUserGroup(id);
+            return userpermissionmanager.GetUserGroup(id);
         }
 
-        public List<UserGroupModel> getUserGroups(int branchId)
+        public List<UserGroupModel> GetUserGroups(int branchId)
         {
-            return userpermissionmanager.getUserGroups(branchId);
+            return userpermissionmanager.GetUserGroups(branchId);
         }
-        public UserPermissionGroups getUserGroupsonBranch(int branchId, int userId)
+        public UserPermissionGroups GetUserGroupsonBranch(int branchId, int userId)
         {
-            return userpermissionmanager.getUserGroupsonBranch(branchId, userId);
+            return userpermissionmanager.GetUserGroupsonBranch(branchId, userId);
         }
 
         public string SaveUserGroup(UserGroupModel obj)
@@ -77,9 +77,9 @@ namespace LeHealth.Service.Service
             return userpermissionmanager.MapUserGroup(obj);
         }
 
-        public MapUserGroupModel getUserGrouponUser(int userId)
+        public MapUserGroupModel GetUserGrouponUser(int userId)
         {
-            MapUserGroupModel obj = userpermissionmanager.getUserGrouponUser(userId);
+            MapUserGroupModel obj = userpermissionmanager.GetUserGrouponUser(userId);
 
             return obj;
         }

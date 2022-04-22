@@ -98,7 +98,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@BranchId", appointment.BranchId);
-            if (appointment.ConsultantId == 0 || appointment.ConsultantId == null)
+            if (appointment.ConsultantId == 0)
                 cmd.Parameters.AddWithValue("@ConsultantId", 0);
             else
                 cmd.Parameters.AddWithValue("@ConsultantId", appointment.ConsultantId);
@@ -1327,7 +1327,6 @@ namespace LeHealth.Core.DataManager
                 {
                     for (Int32 i = 0; i < dt.Rows.Count; i++)
                     {
-                        PatientModel obj = new PatientModel();
                         string StatusName = dt.Rows[i]["StatusName"].ToString();
                         if (StatusName == "A")
                         {
@@ -1353,7 +1352,7 @@ namespace LeHealth.Core.DataManager
                         {
                             AppStatUnknown = Convert.ToInt32(dt.Rows[i]["StatusCount"]);
                         }
-                        AppTotalCount = AppTotalCount + Convert.ToInt32(dt.Rows[i]["StatusCount"]);
+                        AppTotalCount += Convert.ToInt32(dt.Rows[i]["StatusCount"]);
                     }
                 }
                 SqlCommand consultantcountCMD = new SqlCommand("stLH_GetConsultationCountByConsultantId", con);
@@ -1369,7 +1368,6 @@ namespace LeHealth.Core.DataManager
                 {
                     for (Int32 i = 0; i < dt2.Rows.Count; i++)
                     {
-                        PatientModel obj = new PatientModel();
                         string StatusName = dt2.Rows[i]["StatusName"].ToString();
                         if (StatusName == "W")
                         {
@@ -1391,7 +1389,7 @@ namespace LeHealth.Core.DataManager
                         {
                             ConsStatUnknown = Convert.ToInt32(dt2.Rows[i]["StatusCount"]);
                         }
-                        ConsTotalCount = ConsTotalCount + Convert.ToInt32(dt2.Rows[i]["StatusCount"]);
+                        ConsTotalCount += Convert.ToInt32(dt2.Rows[i]["StatusCount"]);
                     }
                 }
                 fopb.AppPercA = (decimal)AppStatA;
@@ -1514,7 +1512,7 @@ namespace LeHealth.Core.DataManager
                         BlockReason = dtDisease.Rows[i]["BlockReason"].ToString(),
                         Symptoms = JsonConvert.DeserializeObject<List<DiseaseSymptomModel>>(dtDisease.Rows[i]["Symptoms"].ToString()),
                         Signs = JsonConvert.DeserializeObject<List<DiseaseSignModel>>(dtDisease.Rows[i]["Signs"].ToString()),
-                        ICD = diseaseICDs==null?null: diseaseICDs[0]
+                        ICD = diseaseICDs == null ? null : diseaseICDs[0]
                     };
                 }
             }

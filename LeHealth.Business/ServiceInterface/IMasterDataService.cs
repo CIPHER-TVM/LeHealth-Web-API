@@ -79,7 +79,6 @@ namespace LeHealth.Service.ServiceInterface
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
         List<GetNumberModel> GetNumber(string nid);
-        List<ConsultantModel> ConsultantSearchWithDept(GetScheduleInputModel drsearch);
         string UpdateNumberTable(GetNumberModel sname);
         List<GenderModel> GetGender();
         List<KinRelationModel> GetKinRelation();

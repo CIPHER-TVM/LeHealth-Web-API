@@ -109,7 +109,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             try
             {
                 UserPermissionGroups groups = new UserPermissionGroups();
-                groups = permissionservice.getUserGroupsonBranch(BranchId, UserId);
+                groups = permissionservice.GetUserGroupsonBranch(BranchId, UserId);
                 var response = new ResponseDataModel<UserPermissionGroups>()
                 {
                     Status = HttpStatusCode.OK,
@@ -146,7 +146,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             try
             {
                 List<UserGroupModel> groups = new List<UserGroupModel>();
-                groups = permissionservice.getUserGroups(branchId);
+                groups = permissionservice.GetUserGroups(branchId);
                 var response = new ResponseDataModel<IEnumerable<UserGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -184,7 +184,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
             try
             {
                 UserGroupModel group = new UserGroupModel();
-                group = permissionservice.getUserGroup(Id);
+                group = permissionservice.GetUserGroup(Id);
                 var response = new ResponseDataModel<UserGroupModel>()
                 {
                     Status = HttpStatusCode.OK,
@@ -423,7 +423,7 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         {
             try
             {
-                MapUserGroupModel locations = permissionservice.getUserGrouponUser(UserId);
+                MapUserGroupModel locations = permissionservice.GetUserGrouponUser(UserId);
                 var response = new ResponseDataModel<MapUserGroupModel>()
                 {
                     Status = HttpStatusCode.OK,

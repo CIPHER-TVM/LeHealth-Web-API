@@ -1418,7 +1418,7 @@ namespace LeHealth.Core.DataManager
                         {
                             ConsStatUnknown = Convert.ToInt32(dt2.Rows[i]["StatusCount"]);
                         }
-                        ConsTotalCount = ConsTotalCount + Convert.ToInt32(dt2.Rows[i]["StatusCount"]);
+                        ConsTotalCount += Convert.ToInt32(dt2.Rows[i]["StatusCount"]);
                     }
                 }
                 fopb.AppPercA = (decimal)AppStatA;

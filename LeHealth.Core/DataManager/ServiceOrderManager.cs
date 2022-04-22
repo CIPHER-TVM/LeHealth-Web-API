@@ -112,11 +112,13 @@ namespace LeHealth.Core.DataManager
                     {
                         for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                         {
-                            FrequencyModel obj = new FrequencyModel();
-                            obj.FreqId = Convert.ToInt32(dsNumber.Rows[i]["FreqId"]);
-                            obj.FreqDesc = dsNumber.Rows[i]["FreqDesc"].ToString();
-                            obj.FreqValue = Convert.ToInt32(dsNumber.Rows[i]["FreqValue"]);
-                            obj.BranchId = fm.BranchId;
+                            FrequencyModel obj = new FrequencyModel
+                            {
+                                FreqId = Convert.ToInt32(dsNumber.Rows[i]["FreqId"]),
+                                FreqDesc = dsNumber.Rows[i]["FreqDesc"].ToString(),
+                                FreqValue = Convert.ToInt32(dsNumber.Rows[i]["FreqValue"]),
+                                BranchId = fm.BranchId
+                            };
                             freqList.Add(obj);
                         }
                     }

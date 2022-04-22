@@ -85,48 +85,46 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("[stLH_SaveLocation]", con))
+                using SqlCommand cmd = new SqlCommand("[stLH_SaveLocation]", con);
+                try
                 {
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@P_LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@P_LocationName", obj.LocationName);
+                    cmd.Parameters.AddWithValue("@P_Supervisor", obj.Supervisor);
+                    cmd.Parameters.AddWithValue("@P_ContactNumber", obj.ContactNumber);
+                    cmd.Parameters.AddWithValue("@P_ManageSPoints", obj.ManageSPoints);
+                    cmd.Parameters.AddWithValue("@P_ManageBilling", obj.ManageBilling);
+                    cmd.Parameters.AddWithValue("@P_ManageCash", obj.ManageCash);
+                    cmd.Parameters.AddWithValue("@P_ManageCredit", obj.ManageCredit);
+                    cmd.Parameters.AddWithValue("@P_ManageIPCredit", obj.ManageIPCredit);
+                    cmd.Parameters.AddWithValue("@P_LTypeId", obj.LTypeId);
+                    cmd.Parameters.AddWithValue("@P_Active", obj.Active);
+                    cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
+                    cmd.Parameters.AddWithValue("@P_RepHeadImg", obj.RepHeadImg);
+                    cmd.Parameters.AddWithValue("@P_HospitalId", obj.HospitalId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@P_LocationId", obj.LocationId);
-                        cmd.Parameters.AddWithValue("@P_LocationName", obj.LocationName);
-                        cmd.Parameters.AddWithValue("@P_Supervisor", obj.Supervisor);
-                        cmd.Parameters.AddWithValue("@P_ContactNumber", obj.ContactNumber);
-                        cmd.Parameters.AddWithValue("@P_ManageSPoints", obj.ManageSPoints);
-                        cmd.Parameters.AddWithValue("@P_ManageBilling", obj.ManageBilling);
-                        cmd.Parameters.AddWithValue("@P_ManageCash", obj.ManageCash);
-                        cmd.Parameters.AddWithValue("@P_ManageCredit", obj.ManageCredit);
-                        cmd.Parameters.AddWithValue("@P_ManageIPCredit", obj.ManageIPCredit);
-                        cmd.Parameters.AddWithValue("@P_LTypeId", obj.LTypeId);
-                        cmd.Parameters.AddWithValue("@P_Active", obj.Active);
-                        cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
-                        cmd.Parameters.AddWithValue("@P_RepHeadImg", obj.RepHeadImg);
-                        cmd.Parameters.AddWithValue("@P_HospitalId", obj.HospitalId);
-                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retValV);
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
 
-                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(retDesc);
-                        con.Open();
-                        var isUpdated = cmd.ExecuteNonQuery();
-                        con.Close();
-                        var ret = retValV.Value;
-                        var descrip = retDesc.Value.ToString();
-
-                        response = descrip;
-                    }
-                    catch (Exception ex)
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                     {
-                        response = ex.Message;
-                    }
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
                 }
             }
             return response;

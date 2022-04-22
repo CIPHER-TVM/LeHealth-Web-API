@@ -297,10 +297,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetNumber(numid);
         }
-        public List<ConsultantModel> ConsultantSearchWithDept(GetScheduleInputModel numid)
-        {
-            return masterdataManager.ConsultantSearchWithDept(numid);
-        }
         public string UpdateNumberTable(GetNumberModel la)
         {
             return masterdataManager.UpdateNumberTable(la);

@@ -106,7 +106,6 @@ namespace LeHealth.Core.Interface
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
         List<GetNumberModel> GetNumber(string numid);
-        List<ConsultantModel> ConsultantSearchWithDept(GetScheduleInputModel drsearch);
         string UpdateNumberTable(GetNumberModel sname);
 
         List<GenderModel> GetGender();
