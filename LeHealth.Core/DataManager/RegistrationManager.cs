@@ -494,8 +494,10 @@ namespace LeHealth.Core.DataManager
                 patientDetail.RegDate = regDate.ToString("yyyy-MM-dd");
                 DateTime dobDate = DateTime.ParseExact(patientDetail.DOB.Trim(), "dd-MM-yyyy", null);
                 patientDetail.DOB = dobDate.ToString("yyyy-MM-dd");
-                SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("stLH_InsertPatient", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 cmd.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
                 cmd.Parameters.AddWithValue("@RegNo", patientDetail.RegNo);
                 cmd.Parameters.AddWithValue("@RegDate", patientDetail.RegDate);
@@ -650,8 +652,10 @@ namespace LeHealth.Core.DataManager
                                 if (patientDetail.Consultation.EnableConsultation == true)//checking consultation true and reg id is created
                                 {
                                     patientDetail.Consultation.PatientId = patientId;
-                                    SqlCommand patientRegConsultationSavecmd = new SqlCommand("stLH_InsertUpdateConsultation", con);
-                                    patientRegConsultationSavecmd.CommandType = CommandType.StoredProcedure;
+                                    SqlCommand patientRegConsultationSavecmd = new SqlCommand("stLH_InsertUpdateConsultation", con)
+                                    {
+                                        CommandType = CommandType.StoredProcedure
+                                    };
                                     patientRegConsultationSavecmd.Parameters.AddWithValue("@ConsultationId", DBNull.Value);
                                     DateTime consultDate = DateTime.ParseExact(patientDetail.Consultation.ConsultDate.Trim(), "dd-MM-yyyy", null);
                                     patientDetail.Consultation.ConsultDate = consultDate.ToString("yyyy-MM-dd");
@@ -739,8 +743,10 @@ namespace LeHealth.Core.DataManager
                 {
                     if (patientDetail.PatientPhotoName != "")
                     {
-                        SqlCommand cmdup = new SqlCommand("stLH_ActionUpdateProfilePic", con);
-                        cmdup.CommandType = CommandType.StoredProcedure;
+                        SqlCommand cmdup = new SqlCommand("stLH_ActionUpdateProfilePic", con)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
                         cmdup.Parameters.AddWithValue("@PatientId", patientDetail.PatientId);
                         cmdup.Parameters.AddWithValue("@ProfilePicLocation", patientDetail.PatientPhotoName);
                         SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -812,8 +818,10 @@ namespace LeHealth.Core.DataManager
         public string AutoregnoCreate()
         {
             using SqlConnection con = new SqlConnection(_connStr);
-            SqlCommand autonumberCMD = new SqlCommand("stLH_AutoNumberReg", con);
-            autonumberCMD.CommandType = CommandType.StoredProcedure;
+            SqlCommand autonumberCMD = new SqlCommand("stLH_AutoNumberReg", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
             autonumberCMD.Parameters.AddWithValue("@NumId", "REG-NO");
             SqlParameter patidReturnDesc1 = new SqlParameter("@NewNo", SqlDbType.VarChar, 20)
             {

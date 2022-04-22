@@ -2517,33 +2517,29 @@ namespace LeHealth.Core.DataManager
         {
             List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemsByType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtNumber = new DataTable();
+            adapter.Fill(dtNumber);
+            con.Close();
+            if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetItemsByType", con))
+                for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtNumber = new DataTable();
-                    adapter.Fill(dtNumber);
-                    con.Close();
-                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
-                        {
-                            ItemsByTypeModel obj = new ItemsByTypeModel();
-                            obj.ItemId = Convert.ToInt32(dtNumber.Rows[i]["ItemId"]);
-                            obj.ItemCode = dtNumber.Rows[i]["ItemCode"].ToString();
-                            obj.ItemName = dtNumber.Rows[i]["ItemName"].ToString();
-                            obj.GroupId = Convert.ToInt32(dtNumber.Rows[i]["GroupId"]);
-                            obj.GroupCode = dtNumber.Rows[i]["GroupCode"].ToString();
-                            itemList.Add(obj);
-                        }
-                    }
-                    return itemList;
+                    ItemsByTypeModel obj = new ItemsByTypeModel();
+                    obj.ItemId = Convert.ToInt32(dtNumber.Rows[i]["ItemId"]);
+                    obj.ItemCode = dtNumber.Rows[i]["ItemCode"].ToString();
+                    obj.ItemName = dtNumber.Rows[i]["ItemName"].ToString();
+                    obj.GroupId = Convert.ToInt32(dtNumber.Rows[i]["GroupId"]);
+                    obj.GroupCode = dtNumber.Rows[i]["GroupCode"].ToString();
+                    itemList.Add(obj);
                 }
             }
+            return itemList;
         }
         /// <summary>
         /// 
@@ -2582,43 +2578,39 @@ namespace LeHealth.Core.DataManager
         public List<GetNumberModel> GetNumber(string numId)
         {
             List<GetNumberModel> numberList = new List<GetNumberModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetNumber", con);
+            if (numId == "All")
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetNumber", con))
+                numId = string.Empty;
+            }
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@NumId", numId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtNumber = new DataTable();
+            adapter.Fill(dtNumber);
+            con.Close();
+            if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                 {
-                    if (numId == "All")
-                    {
-                        numId = string.Empty;
-                    }
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@NumId", numId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtNumber = new DataTable();
-                    adapter.Fill(dtNumber);
-                    con.Close();
-                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
-                        {
-                            GetNumberModel obj = new GetNumberModel();
-                            obj.selectopt = Convert.ToInt32(dtNumber.Rows[i]["selectopt"]);
-                            obj.NumId = dtNumber.Rows[i]["NumId"].ToString();
-                            obj.Description = dtNumber.Rows[i]["Description"].ToString();
-                            obj.Value = Convert.ToInt32(dtNumber.Rows[i]["Value"]);
-                            obj.Prefix = dtNumber.Rows[i]["Prefix"].ToString();
-                            obj.Suffix = dtNumber.Rows[i]["Suffix"].ToString();
-                            obj.Length = Convert.ToInt32(dtNumber.Rows[i]["Length"]);
-                            obj.State = Convert.ToInt32(dtNumber.Rows[i]["State"]);
-                            obj.Status = Convert.ToInt32(dtNumber.Rows[i]["Status"]);
-                            obj.MaxLength = Convert.ToInt32(dtNumber.Rows[i]["MaxLength"]);
-                            obj.Preview = dtNumber.Rows[i]["Preview"].ToString();
-                            numberList.Add(obj);
-                        }
-                    }
-                    return numberList;
+                    GetNumberModel obj = new GetNumberModel();
+                    obj.selectopt = Convert.ToInt32(dtNumber.Rows[i]["selectopt"]);
+                    obj.NumId = dtNumber.Rows[i]["NumId"].ToString();
+                    obj.Description = dtNumber.Rows[i]["Description"].ToString();
+                    obj.Value = Convert.ToInt32(dtNumber.Rows[i]["Value"]);
+                    obj.Prefix = dtNumber.Rows[i]["Prefix"].ToString();
+                    obj.Suffix = dtNumber.Rows[i]["Suffix"].ToString();
+                    obj.Length = Convert.ToInt32(dtNumber.Rows[i]["Length"]);
+                    obj.State = Convert.ToInt32(dtNumber.Rows[i]["State"]);
+                    obj.Status = Convert.ToInt32(dtNumber.Rows[i]["Status"]);
+                    obj.MaxLength = Convert.ToInt32(dtNumber.Rows[i]["MaxLength"]);
+                    obj.Preview = dtNumber.Rows[i]["Preview"].ToString();
+                    numberList.Add(obj);
                 }
             }
+            return numberList;
         }
         /// <summary>
         /// 
@@ -2628,30 +2620,26 @@ namespace LeHealth.Core.DataManager
         public List<FormValidationModel> GetFormMaster()
         {
             List<FormValidationModel> numberList = new List<FormValidationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetFormMaster", con))
-                {
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetFormMaster", con);
 
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dtNumber = new DataTable();
-                    adapter.Fill(dtNumber);
-                    con.Close();
-                    if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
-                        {
-                            FormValidationModel obj = new FormValidationModel();
-                            obj.FormId = Convert.ToInt32(dtNumber.Rows[i]["FormId"]);
-                            obj.FormName = dtNumber.Rows[i]["FormName"].ToString();
-                            numberList.Add(obj);
-                        }
-                    }
-                    return numberList;
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtNumber = new DataTable();
+            adapter.Fill(dtNumber);
+            con.Close();
+            if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
+                {
+                    FormValidationModel obj = new FormValidationModel();
+                    obj.FormId = Convert.ToInt32(dtNumber.Rows[i]["FormId"]);
+                    obj.FormName = dtNumber.Rows[i]["FormName"].ToString();
+                    numberList.Add(obj);
                 }
             }
+            return numberList;
         }
         /// <summary>
         /// GET list of Input Fieldt In a Form Id
@@ -2661,30 +2649,27 @@ namespace LeHealth.Core.DataManager
         public List<FormValidationModel> GetFormFields(Int32 FormId)
         {
             List<FormValidationModel> numberList = new List<FormValidationModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetFormFields", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FormId", FormId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtNumber = new DataTable();
+            adapter.Fill(dtNumber);
+            con.Close();
+            if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_GetFormFields", con);
-
-                con.Open();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@FormId", FormId);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dtNumber = new DataTable();
-                adapter.Fill(dtNumber);
-                con.Close();
-                if ((dtNumber != null) && (dtNumber.Rows.Count > 0))
+                for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                 {
-                    for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
-                    {
-                        FormValidationModel obj = new FormValidationModel();
-                        obj.FieldId = Convert.ToInt32(dtNumber.Rows[i]["FieldId"]);
-                        obj.FormId = Convert.ToInt32(dtNumber.Rows[i]["FormId"]);
-                        obj.FieldName = dtNumber.Rows[i]["FieldName"].ToString();
-                        numberList.Add(obj);
-                    }
+                    FormValidationModel obj = new FormValidationModel();
+                    obj.FieldId = Convert.ToInt32(dtNumber.Rows[i]["FieldId"]);
+                    obj.FormId = Convert.ToInt32(dtNumber.Rows[i]["FormId"]);
+                    obj.FieldName = dtNumber.Rows[i]["FieldName"].ToString();
+                    numberList.Add(obj);
                 }
-                return numberList;
             }
+            return numberList;
         }
         /// <summary>
         /// Update Data in Number configuration table 
@@ -2696,40 +2681,38 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_ActionUpdateNumber", con))
+                using SqlCommand cmd = new SqlCommand("stLH_ActionUpdateNumber", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@NumId", num.NumId);
+                cmd.Parameters.AddWithValue("@Prefix", num.Prefix);
+                cmd.Parameters.AddWithValue("@Suffix", num.Suffix);
+                cmd.Parameters.AddWithValue("@Length", num.Length);
+                cmd.Parameters.AddWithValue("@Status", num.Status);
+                cmd.Parameters.AddWithValue("@Value", num.Value);
+                cmd.Parameters.AddWithValue("@MaxLength", num.MaxLength);
+                cmd.Parameters.AddWithValue("@UserId", num.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@NumId", num.NumId);
-                    cmd.Parameters.AddWithValue("@Prefix", num.Prefix);
-                    cmd.Parameters.AddWithValue("@Suffix", num.Suffix);
-                    cmd.Parameters.AddWithValue("@Length", num.Length);
-                    cmd.Parameters.AddWithValue("@Status", num.Status);
-                    cmd.Parameters.AddWithValue("@Value", num.Value);
-                    cmd.Parameters.AddWithValue("@MaxLength", num.MaxLength);
-                    cmd.Parameters.AddWithValue("@UserId", num.UserId);
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    con.Close();
-                    if (descrip == "Saved Successfully")
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
                 }
             }
             return response;
@@ -2742,30 +2725,25 @@ namespace LeHealth.Core.DataManager
         public List<GenderModel> GetGender()
         {
             List<GenderModel> genderList = new List<GenderModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetGender", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsGender = new DataTable();
+            adapter.Fill(dsGender);
+            con.Close();
+            if ((dsGender != null) && (dsGender.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetGender", con))
+                for (Int32 i = 0; i < dsGender.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsGender = new DataTable();
-                    adapter.Fill(dsGender);
-                    con.Close();
-                    if ((dsGender != null) && (dsGender.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dsGender.Rows.Count; i++)
-                        {
-                            GenderModel obj = new GenderModel();
-                            obj.Id = Convert.ToInt32(dsGender.Rows[i]["Id"]);
-                            obj.GenderName = dsGender.Rows[i]["GenderName"].ToString();
-                            genderList.Add(obj);
-                        }
-                    }
-                    return genderList;
+                    GenderModel obj = new GenderModel();
+                    obj.Id = Convert.ToInt32(dsGender.Rows[i]["Id"]);
+                    obj.GenderName = dsGender.Rows[i]["GenderName"].ToString();
+                    genderList.Add(obj);
                 }
             }
+            return genderList;
         }
         /// <summary>
         /// Get all kin relation data
@@ -2775,29 +2753,25 @@ namespace LeHealth.Core.DataManager
         {
             List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetKinRelation", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsKinRelation = new DataTable();
+            adapter.Fill(dsKinRelation);
+            con.Close();
+            if ((dsKinRelation != null) && (dsKinRelation.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetKinRelation", con))
+                for (Int32 i = 0; i < dsKinRelation.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsKinRelation = new DataTable();
-                    adapter.Fill(dsKinRelation);
-                    con.Close();
-                    if ((dsKinRelation != null) && (dsKinRelation.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dsKinRelation.Rows.Count; i++)
-                        {
-                            KinRelationModel obj = new KinRelationModel();
-                            obj.Id = Convert.ToInt32(dsKinRelation.Rows[i]["Id"]);
-                            obj.KinRelation = dsKinRelation.Rows[i]["KinRelation"].ToString();
-                            kinRelationList.Add(obj);
-                        }
-                    }
-                    return kinRelationList;
+                    KinRelationModel obj = new KinRelationModel();
+                    obj.Id = Convert.ToInt32(dsKinRelation.Rows[i]["Id"]);
+                    obj.KinRelation = dsKinRelation.Rows[i]["KinRelation"].ToString();
+                    kinRelationList.Add(obj);
                 }
             }
+            return kinRelationList;
         }
         /// <summary>
         /// Get all Marital status Data
@@ -2806,30 +2780,25 @@ namespace LeHealth.Core.DataManager
         public List<MaritalStatusModel> GetMaritalStatus()
         {
             List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
-
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMaritalStatus", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsmaritalStatus = new DataTable();
+            adapter.Fill(dsmaritalStatus);
+            con.Close();
+            if ((dsmaritalStatus != null) && (dsmaritalStatus.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetMaritalStatus", con))
+                for (Int32 i = 0; i < dsmaritalStatus.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsmaritalStatus = new DataTable();
-                    adapter.Fill(dsmaritalStatus);
-                    con.Close();
-                    if ((dsmaritalStatus != null) && (dsmaritalStatus.Rows.Count > 0))
-                    {
-                        for (Int32 i = 0; i < dsmaritalStatus.Rows.Count; i++)
-                        {
-                            MaritalStatusModel obj = new MaritalStatusModel();
-                            obj.Id = Convert.ToInt32(dsmaritalStatus.Rows[i]["Id"]);
-                            obj.MaritalStatusDescription = dsmaritalStatus.Rows[i]["MaritalStatusDescription"].ToString();
-                            maritalStatusList.Add(obj);
-                        }
-                    }
-                    return maritalStatusList;
+                    MaritalStatusModel obj = new MaritalStatusModel();
+                    obj.Id = Convert.ToInt32(dsmaritalStatus.Rows[i]["Id"]);
+                    obj.MaritalStatusDescription = dsmaritalStatus.Rows[i]["MaritalStatusDescription"].ToString();
+                    maritalStatusList.Add(obj);
                 }
             }
+            return maritalStatusList;
         }
         /// <summary>
         /// Get All communication type list
@@ -2839,31 +2808,27 @@ namespace LeHealth.Core.DataManager
         {
             List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCommunicationType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dscommunicationType = new DataTable();
+            adapter.Fill(dscommunicationType);
+            con.Close();
+            if ((dscommunicationType != null) && (dscommunicationType.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetCommunicationType", con))
+                for (Int32 i = 0; i < dscommunicationType.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dscommunicationType = new DataTable();
-                    adapter.Fill(dscommunicationType);
-                    con.Close();
-                    if ((dscommunicationType != null) && (dscommunicationType.Rows.Count > 0))
+                    CommunicationTypeModel obj = new CommunicationTypeModel
                     {
-                        for (Int32 i = 0; i < dscommunicationType.Rows.Count; i++)
-                        {
-                            CommunicationTypeModel obj = new CommunicationTypeModel
-                            {
-                                Id = Convert.ToInt32(dscommunicationType.Rows[i]["Id"]),
-                                CommunicationType = dscommunicationType.Rows[i]["CommunicationType"].ToString()
-                            };
-                            communicationTypeList.Add(obj);
-                        }
-                    }
-                    return communicationTypeList;
+                        Id = Convert.ToInt32(dscommunicationType.Rows[i]["Id"]),
+                        CommunicationType = dscommunicationType.Rows[i]["CommunicationType"].ToString()
+                    };
+                    communicationTypeList.Add(obj);
                 }
             }
+            return communicationTypeList;
         }
 
     }

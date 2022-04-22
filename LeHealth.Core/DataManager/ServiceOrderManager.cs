@@ -96,35 +96,31 @@ namespace LeHealth.Core.DataManager
         {
             List<FrequencyModel> freqList = new List<FrequencyModel>();
 
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetFrequencyList", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FrequencyId", fm.FreqId);
+            cmd.Parameters.AddWithValue("@BranchId", fm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
             {
-                using (SqlCommand cmd = new SqlCommand("stLH_GetFrequencyList", con))
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                 {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@FrequencyId", fm.FreqId);
-                    cmd.Parameters.AddWithValue("@BranchId", fm.BranchId);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dsNumber = new DataTable();
-                    adapter.Fill(dsNumber);
-                    con.Close();
-                    if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+                    FrequencyModel obj = new FrequencyModel
                     {
-                        for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
-                        {
-                            FrequencyModel obj = new FrequencyModel
-                            {
-                                FreqId = Convert.ToInt32(dsNumber.Rows[i]["FreqId"]),
-                                FreqDesc = dsNumber.Rows[i]["FreqDesc"].ToString(),
-                                FreqValue = Convert.ToInt32(dsNumber.Rows[i]["FreqValue"]),
-                                BranchId = fm.BranchId
-                            };
-                            freqList.Add(obj);
-                        }
-                    }
-                    return freqList;
+                        FreqId = Convert.ToInt32(dsNumber.Rows[i]["FreqId"]),
+                        FreqDesc = dsNumber.Rows[i]["FreqDesc"].ToString(),
+                        FreqValue = Convert.ToInt32(dsNumber.Rows[i]["FreqValue"]),
+                        BranchId = fm.BranchId
+                    };
+                    freqList.Add(obj);
                 }
             }
+            return freqList;
         }
         /// <summary>
         /// Get all profile data or specific profiles data if pm.ProfileId equals zero

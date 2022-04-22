@@ -1452,39 +1452,37 @@ namespace LeHealth.Core.DataManager
         public List<ICDModel> GetICDBySymptomSign(SymptomSignModel ss)
         {
             List<ICDModel> appointmentlist = new List<ICDModel>();
-            using (SqlConnection con = new SqlConnection(_connStr))
+            using SqlConnection con = new SqlConnection(_connStr);
+            int signslistcount = ss.Signs.Count;
+            int symptomslistcount = ss.Symptoms.Count;
+            string SignIds = string.Empty;
+            if (signslistcount > 0)
+                SignIds = string.Join(",", ss.Signs.ToArray());
+            string SymptomIds = string.Empty;
+            if (symptomslistcount > 0)
+                SymptomIds = string.Join(",", ss.Symptoms.ToArray());
+            using SqlCommand cmd = new SqlCommand("stLH_GetICDBySignSymptom", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SignIds", SignIds);
+            cmd.Parameters.AddWithValue("@SymptomIds", SymptomIds);
+            cmd.Parameters.AddWithValue("@BranchId", ss.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
             {
-                int signslistcount = ss.Signs.Count;
-                int symptomslistcount = ss.Symptoms.Count;
-                string SignIds = string.Empty;
-                if (signslistcount > 0)
-                    SignIds = string.Join(",", ss.Signs.ToArray());
-                string SymptomIds = string.Empty;
-                if (symptomslistcount > 0)
-                    SymptomIds = string.Join(",", ss.Symptoms.ToArray());
-                using SqlCommand cmd = new SqlCommand("stLH_GetICDBySignSymptom", con);
-                con.Open();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SignIds", SignIds);
-                cmd.Parameters.AddWithValue("@SymptomIds", SymptomIds);
-                cmd.Parameters.AddWithValue("@BranchId", ss.BranchId);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable ds = new DataTable();
-                adapter.Fill(ds);
-                con.Close();
-                if ((ds != null) && (ds.Rows.Count > 0))
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    for (Int32 i = 0; i < ds.Rows.Count; i++)
-                    {
-                        ICDModel obj = new ICDModel();
-                        obj.LabelId = Convert.ToInt32(ds.Rows[i]["LabelId"]);
-                        obj.LabelDesc = ds.Rows[i]["LabelDesc"].ToString();
-                        obj.LabelCode = ds.Rows[i]["LabelCode"].ToString();
-                        appointmentlist.Add(obj);
-                    }
+                    ICDModel obj = new ICDModel();
+                    obj.LabelId = Convert.ToInt32(ds.Rows[i]["LabelId"]);
+                    obj.LabelDesc = ds.Rows[i]["LabelDesc"].ToString();
+                    obj.LabelCode = ds.Rows[i]["LabelCode"].ToString();
+                    appointmentlist.Add(obj);
                 }
-                return appointmentlist;
             }
+            return appointmentlist;
         }
         public DiseaseModel GetDiseaseDetailsById(int diseaseId)
         {

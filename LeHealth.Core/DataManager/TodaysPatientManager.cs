@@ -470,19 +470,21 @@ namespace LeHealth.Core.DataManager
                             sgdm.deptName = dtScheduleList.Rows[j]["DeptName"].ToString();
                             sgdm.id = consultantId;
                         }
-                        Label lb = new Label();
-                        lb.SliceNo = Convert.ToInt32(dtScheduleList.Rows[j]["SliceNo"]);
-                        lb.ConsultantName = dtScheduleList.Rows[j]["ConsultantName"].ToString();
-                        lb.AppId = dtScheduleList.Rows[j]["AppId"].ToString();
-                        lb.AppNo = dtScheduleList.Rows[j]["AppNo"].ToString();
-                        lb.AppDate = gsim.DateValue;
-                        lb.SliceTime = dtScheduleList.Rows[j]["SliceTime"].ToString();
-                        lb.PatientId = dtScheduleList.Rows[j]["PatientId"].ToString();
-                        lb.RegNo = dtScheduleList.Rows[j]["RegNo"].ToString();
-                        lb.PatientName = dtScheduleList.Rows[j]["PatientName"].ToString();
-                        lb.MobileNumber = dtScheduleList.Rows[j]["MobileNo"].ToString();
-                        lb.DeptName = dtScheduleList.Rows[j]["DeptName"].ToString();
-                        lb.DeptId = Convert.ToInt32(dtScheduleList.Rows[j]["DeptId"]);
+                        Label lb = new Label
+                        {
+                            SliceNo = Convert.ToInt32(dtScheduleList.Rows[j]["SliceNo"]),
+                            ConsultantName = dtScheduleList.Rows[j]["ConsultantName"].ToString(),
+                            AppId = dtScheduleList.Rows[j]["AppId"].ToString(),
+                            AppNo = dtScheduleList.Rows[j]["AppNo"].ToString(),
+                            AppDate = gsim.DateValue,
+                            SliceTime = dtScheduleList.Rows[j]["SliceTime"].ToString(),
+                            PatientId = dtScheduleList.Rows[j]["PatientId"].ToString(),
+                            RegNo = dtScheduleList.Rows[j]["RegNo"].ToString(),
+                            PatientName = dtScheduleList.Rows[j]["PatientName"].ToString(),
+                            MobileNumber = dtScheduleList.Rows[j]["MobileNo"].ToString(),
+                            DeptName = dtScheduleList.Rows[j]["DeptName"].ToString(),
+                            DeptId = Convert.ToInt32(dtScheduleList.Rows[j]["DeptId"])
+                        };
                         labelsList.Add(lb);
                     }
                 }
@@ -850,9 +852,11 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dtRateList.Rows.Count; i++)
                 {
-                    ConsultRateModel obj = new ConsultRateModel();
-                    obj.ItemId = Convert.ToInt32(dtRateList.Rows[i]["ItemId"]);
-                    obj.Rate = Convert.ToInt32(dtRateList.Rows[i]["Rate"]);
+                    ConsultRateModel obj = new ConsultRateModel
+                    {
+                        ItemId = Convert.ToInt32(dtRateList.Rows[i]["ItemId"]),
+                        Rate = Convert.ToInt32(dtRateList.Rows[i]["Rate"])
+                    };
                     rateList.Add(obj);
                 }
             }

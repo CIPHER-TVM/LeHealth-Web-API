@@ -69,10 +69,8 @@ namespace LeHealth.Service.Service
                 Guid Uniquefilename = Guid.NewGuid();
                 string actualFileName = Uniquefilename + "." + extension;
                 returnFilePath = "uploads/documents/" + actualFileName;
-                using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
-                {
-                    File.CopyTo(stream);
-                }
+                using FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create);
+                File.CopyTo(stream);
             }
             return returnFilePath;
         }
