@@ -55,9 +55,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantServices(consultantId);
         }
-        public string InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
+        public string InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs)
         {
-            return consultantManager.InsertConsultantDrugs(consultantDrug);
+            return consultantManager.InsertConsultantDrugs(consultantDrugs);
         }
         public string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug)
         {

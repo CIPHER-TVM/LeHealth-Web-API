@@ -330,12 +330,12 @@ namespace LeHealth.Base.API.Controllers
 
         [Route("InsertConsultantDrugs")]
         [HttpPost]
-        public ResponseDataModel<string> InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
+        public ResponseDataModel<string> InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs)
         {
             try
             {
                 string message = string.Empty;
-                message = consultantService.InsertConsultantDrugs(consultantDrug);
+                message = consultantService.InsertConsultantDrugs(consultantDrugs);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,

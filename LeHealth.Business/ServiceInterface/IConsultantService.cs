@@ -15,7 +15,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertConsultantService(ConsultantServiceModel consultant);
         string DeleteConsultantService(ConsultantItemModel ci);
         List<ConsultantServiceModel> GetConsultantServices(int consultantId);
-        string InsertConsultantDrugs(ConsultantDrugModel consultantDrug);
+        string InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs);
         string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug);
         List<ConsultantDrugModel> GetConsultantDrugs(int consultantId);
         string DeleteConsultantDrug(int drugId);
