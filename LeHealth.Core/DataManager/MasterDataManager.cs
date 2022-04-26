@@ -2215,8 +2215,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ManageCredit", Package.ManageCredit);
                 cmd.Parameters.AddWithValue("@ManageIPCredit", Package.ManageIPCredit);
                 cmd.Parameters.AddWithValue("@Active", Package.Active);
-                cmd.Parameters.AddWithValue("@RepHeadImg", Package.RepHeadImg);                    //
-                                                                                                   //cmd.Parameters.AddWithValue("@BlockReason", Package.BlockReason);
+                cmd.Parameters.AddWithValue("@RepHeadImg", Package.RepHeadImg);
                 cmd.Parameters.AddWithValue("@UserId", Package.UserId);
                 cmd.Parameters.AddWithValue("@HospitalId", Package.HospitalId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -2373,7 +2372,10 @@ namespace LeHealth.Core.DataManager
                 for (Int32 i = 0; i < dsItem.Rows.Count; i++)
                 {
                     var obj = JsonConvert.DeserializeObject<PendingItemModel>(dsItem.Rows[i]["ValueDatas"].ToString());
-                    itemList.Add(obj);
+                    if (obj != null)
+                    {
+                        itemList.Add(obj);
+                    }
                 }
             }
             return itemList;
