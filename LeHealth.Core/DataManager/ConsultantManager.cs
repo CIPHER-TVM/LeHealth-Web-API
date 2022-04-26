@@ -371,7 +371,7 @@ namespace LeHealth.Core.DataManager
                 consultantServices = dtServicesList.ToListOfObject<ConsultantServiceModel>();
             return consultantServices;
         }
-        public string InsertConsultantDrugs(ConsultantDrugModel consultantDrug)
+        public string InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -379,15 +379,23 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
-                cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
-                cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
-                cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
-                cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
-                cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
-                cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
-                cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
-                cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
+                for (int i = 0; i < 1; i++)
+                {
+                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs[i].ConsultantId);
+                    cmd.Parameters.AddWithValue("@UserId", consultantDrugs[i].UserId);
+
+                }
+                string drugJson = JsonConvert.SerializeObject(consultantDrugs);
+                cmd.Parameters.AddWithValue("@DrugJson", drugJson);
+                //cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
+                //cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
+                //cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
+                //cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
+                //cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
+                //cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
+                //cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
+                //cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
+                //cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
 
 
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
