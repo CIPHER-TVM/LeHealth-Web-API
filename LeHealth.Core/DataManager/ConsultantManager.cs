@@ -160,8 +160,6 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@BranchId", patient.BranchId);
             cmd.Parameters.AddWithValue("@FromDate", patient.RegDateFrom);
             cmd.Parameters.AddWithValue("@ToDate", patient.RegDateTo);
-
-
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtPatientList = new DataTable();
             adapter.Fill(dtPatientList);

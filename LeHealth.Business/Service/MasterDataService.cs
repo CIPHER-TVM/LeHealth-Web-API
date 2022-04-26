@@ -88,10 +88,18 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetDrugs(cm);
         }
-        //
-        /// <summary>
-        /// To list of all hospital details .Step two in code execution flow
-        /// </summary>
+        public List<RouteModel> GetRoute(RouteModel rm)
+        {
+            return masterdataManager.GetRoute(rm);
+        }
+        public List<DosageModel> GetDosage(DosageModel dm)
+        {
+            return masterdataManager.GetDosage(dm);
+        }
+        public List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData dm)
+        {
+            return masterdataManager.GetPendingServiceItemsByPatient(dm);
+        }
         public List<HospitalModel> GetUserHospitals(Int32 id)
         {
             return masterdataManager.GetUserHospitals(id);

@@ -341,8 +341,7 @@ namespace LeHealth.Core.DataManager
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsavailableService = new DataTable();
             adapter.Fill(dsavailableService);
-            con.Close();
-            int numberOfRecords = 0;//dsavailableService.AsEnumerable().Where(x => x["PayStatus"].ToString() == "Pending").ToList().Count;
+            con.Close();//dsavailableService.AsEnumerable().Where(x => x["PayStatus"].ToString() == "Pending").ToList().Count;
 
             if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
             {
@@ -365,8 +364,7 @@ namespace LeHealth.Core.DataManager
                         ResNo = dsavailableService.Rows[i]["ResNo"].ToString(),
                         ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]),
                         BranchId = Convert.ToInt32(dsavailableService.Rows[i]["BranchId"]),
-                        IsExternalConsultant = Convert.ToInt32(dsavailableService.Rows[i]["ExternalConsultant"]),
-                        PendingOrderCount = numberOfRecords
+                        IsExternalConsultant = Convert.ToInt32(dsavailableService.Rows[i]["ExternalConsultant"])
                     };
                     availableServiceList.Add(obj);
                 }

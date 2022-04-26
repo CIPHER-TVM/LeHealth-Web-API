@@ -14,39 +14,25 @@ namespace LeHealth.Core.Interface
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
         List<SponsorMasterModel> GetSponsor(Int32 sponsorid);
         string InsertUpdateSponsor(SponsorMasterModel sponsor);
-
-        //Zone Management starts
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
-        //Zone Management ends
-
-        //Rate Group management starts
+        List<RouteModel> GetRoute(RouteModel dm);
+        List<DosageModel> GetDosage(DosageModel dm);
+        List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData dm);
         string InsertUpdateRateGroup(RateGroupModel RateGroup);
         List<RateGroupModel> GetRateGroup(Int32 RateGroupId);
-        //Rate Group management ends
-        //Operator Management Starts
         string InsertUpdateOperator(OperatorModel Operator);
         List<OperatorModel> GetOperator(Int32 OperatorId);
-        //Operator Management Ends
-
-        //Scheme management Starts
         string InsertUpdateRegScheme(RegSchemeModel RegScheme);
         List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId);
-        //Scheme management Ends
-        //Hospital Managemnt Starts
         List<HospitalModel> GetUserHospitals(Int32 id);
         string InsertUpdateUserHospital(HospitalRegModel hm);
         string ConsentFormDataSave(ConsentFormRegModel hm);
-        //Hospital Managemnt Ends
-        //Lead Agent Management Starts
         List<LeadAgentModel> GetLeadAgent(Int32 la);
         string InsertUpdateLeadAgent(LeadAgentModel la);
-        //Lead Agent Management Ends
-        //Company Management Starts
         List<CompanyModel> GetCompany(Int32 Id);
         string InsertUpdateCompany(CompanyModel cmp);
-        //Company Management Ends
 
 
         //DEPARTMENT MANAGEMENT STARTS

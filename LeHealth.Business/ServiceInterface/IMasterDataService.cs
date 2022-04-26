@@ -26,6 +26,9 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
+        List<DosageModel> GetDosage(DosageModel dm);
+        List<RouteModel> GetRoute(RouteModel rm);
+        List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData rm);
         string InsertUpdateRateGroup(RateGroupModel RateGroup);
         List<RateGroupModel> GetRateGroup(Int32 Id);
         string InsertUpdateOperator(OperatorModel Operator);

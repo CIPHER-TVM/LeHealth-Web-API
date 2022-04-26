@@ -1574,6 +1574,105 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
+        [Route("GetDosage")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DosageModel>> GetDosage(DosageModel dm)
+        {
+            try
+            {
+                List<DosageModel> dosageList = new List<DosageModel>();
+                dosageList = masterdataService.GetDosage(dm);
+                var response = new ResponseDataModel<IEnumerable<DosageModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = dosageList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DosageModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetRoute")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<RouteModel>> GetRoute(RouteModel rm)
+        {
+            try
+            {
+                List<RouteModel> routeList = new List<RouteModel>();
+                routeList = masterdataService.GetRoute(rm);
+                var response = new ResponseDataModel<IEnumerable<RouteModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = routeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<RouteModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetPendingServiceItemsByPatient")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PendingItemModel>> GetPendingServiceItemsByPatient(PendingItemInputData rm)
+        {
+            try
+            {
+                List<PendingItemModel> routeList = new List<PendingItemModel>();
+                routeList = masterdataService.GetPendingServiceItemsByPatient(rm);
+                var response = new ResponseDataModel<IEnumerable<PendingItemModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = routeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PendingItemModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
         //Zone Management Start
         /// <summary>
         /// To get list of Zone Detail of Input parameter. 
