@@ -11,6 +11,7 @@ namespace LeHealth.Entity.DataModel
         public string Supervisor { get; set; }
         public string ContactNumber { get; set; }
         public int LTypeId { get; set; }
+        public string LType { get; set; }
         public bool ManageSPoints { get; set; }
         public bool ManageBilling { get; set; }
         public bool ManageCash { get; set; }
