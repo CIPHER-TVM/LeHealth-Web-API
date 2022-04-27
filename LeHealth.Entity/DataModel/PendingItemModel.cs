@@ -9,6 +9,7 @@ namespace LeHealth.Entity.DataModel
         public string OrderId { get; set; }
         public string OrderNo { get; set; }
         public string ConsultantName { get; set; }
+        public string OrderDate { get; set; }
         public List<ServiceItem> ItemData { get; set; }
     }
     public class ServiceItem

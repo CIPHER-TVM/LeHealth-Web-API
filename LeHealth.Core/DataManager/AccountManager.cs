@@ -57,7 +57,6 @@ namespace LeHealth.Core.DataManager
         {
             Dispose(false);
         }
-
         public List<LoginOutputModel> Login(CredentialModel credential)
         {
             List<LoginOutputModel> userDetails = new List<LoginOutputModel>();

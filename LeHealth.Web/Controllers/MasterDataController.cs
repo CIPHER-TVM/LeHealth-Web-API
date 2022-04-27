@@ -1634,7 +1634,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
