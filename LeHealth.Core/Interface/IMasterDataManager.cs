@@ -9,8 +9,46 @@ namespace LeHealth.Core.Interface
     public interface IMasterDataManager
     {
 
-        List<ProfessionModel> GetProfession(Int32 profid);
-        string InsertUpdateProfession(ProfessionModel prof);
+        string InsertUpdateServiceItem(ServiceItemModel serviceitem);
+        string BlockUnblockServiceItem(ServiceItemModel serviceitem);
+        List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
+        string InsertUpdateCPTCode(CPTCodeModelAll ccm);
+        string DeleteCPTCode(CPTCodeModel ccm);
+        List<RateGroupModel> GetRateGroup(RateGroupModelAll RateGroup);
+        string InsertUpdateRateGroup(RateGroupModelAll RateGroup);
+        string DeleteRateGroup(RateGroupModel RateGroup);
+        List<PackageModel> GetPackage(PackageModelAll pm);
+        string InsertUpdatePackage(PackageModelAll package);
+        string DeletePackage(PackageModel package);
+        List<DepartmentModel> GetDepartment(DepartmentModelAll department);
+        //List<DepartmentModel> GetDepartmentByHospital(Int32 HospId);
+        string InsertUpdateDepartment(DepartmentModelAll Dept);
+        string DeleteDepartment(DepartmentModel Dept);
+        List<SymptomModel> GetSymptom(SymptomModelAll symptom);
+        string InsertUpdateSymptom(SymptomModelAll symptom);
+        string DeleteSymptom(SymptomModel symptom);
+        List<LocationModel> GetLocation(LocationAll location);
+        string InsertUpdateLocation(LocationAll location);
+        string DeleteLocation(LocationModel location);
+        List<CountryModel> GetCountry(CountryModel country);
+        string InsertUpdateCountry(CountryModel country);
+        string DeleteCountry(CountryModel country);
+        List<StateModel> GetState(StateModel state);
+        string InsertUpdateState(StateModel state);
+        string DeleteState(StateModel state); 
+        List<CompanyModel> GetCompany(CompanyModelAll cmp);
+        string InsertUpdateCompany(CompanyModelAll cmp);
+        string DeleteCompany(CompanyModel cmp);
+        List<ProfessionModel> GetProfession(ProfessionModelAll prof);
+        string InsertUpdateProfession(ProfessionModelAll prof);
+        string DeleteProfession(ProfessionModel prof);
+        List<CityModel> GetCity(CityModelAll city);
+        string InsertUpdateCity(CityModelAll city);
+        string DeleteCity(CityModel city);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
         List<SponsorMasterModel> GetSponsor(Int32 sponsorid);
         string InsertUpdateSponsor(SponsorMasterModel sponsor);
@@ -20,8 +58,6 @@ namespace LeHealth.Core.Interface
         List<RouteModel> GetRoute(RouteModel dm);
         List<DosageModel> GetDosage(DosageModel dm);
         List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData dm);
-        string InsertUpdateRateGroup(RateGroupModel RateGroup);
-        List<RateGroupModel> GetRateGroup(Int32 RateGroupId);
         string InsertUpdateOperator(OperatorModel Operator);
         List<OperatorModel> GetOperator(Int32 OperatorId);
         string InsertUpdateRegScheme(RegSchemeModel RegScheme);
@@ -31,15 +67,13 @@ namespace LeHealth.Core.Interface
         string ConsentFormDataSave(ConsentFormRegModel hm);
         List<LeadAgentModel> GetLeadAgent(Int32 la);
         string InsertUpdateLeadAgent(LeadAgentModel la);
-        List<CompanyModel> GetCompany(Int32 Id);
-        string InsertUpdateCompany(CompanyModel cmp);
+
 
 
         //DEPARTMENT MANAGEMENT STARTS
-        List<DepartmentModel> GetDepartments(Int32 DeptId);
-        List<DepartmentModel> GetDepartmentByHospital(Int32 HospId);
+
         List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel);
-        string InsertUpdateDepartment(DepartmentModel Dept); 
+
         //DEPARTMENT MANAGEMENT ENDS
 
         //Consent Management starts
@@ -48,10 +82,6 @@ namespace LeHealth.Core.Interface
         string InsertUpdateConsent(ConsentContentModel consent);
 
         //Consent Management ends
-        List<CountryModel> GetCountry(Int32 countryDetails);
-        string InsertUpdateCountry(CountryModel countryDetails);
-        List<StateModel> GetState(Int32 stateDetails);
-        string InsertUpdateState(StateModel stateDetails);
         List<SalutationModel> GetSalutation(Int32 salutationDetails);
         string InsertUpdateSalutation(SalutationModel salutationDetails);
         List<BodyPartModel> GetBodyPart(Int32 bodyPartId);
@@ -61,21 +91,10 @@ namespace LeHealth.Core.Interface
 
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
-        List<CityModel> GetCity(Int32 city);
-        string InsertUpdateCity(CityModel city);
-        string InsertUpdateSymptom(SymptomModel symptom);
-
         List<VitalSignModel> GetVitalSign(Int32 vitalsign);
         string InsertUpdateVitalSign(VitalSignModel vitalsign);
         List<MovementModel> GetMovement(Int32 movement);
         string InsertUpdateMovement(MovementModel movement);
-
-        List<PackageModel> GetPackage(PackageModel pm);
-        string InsertUpdatePackage(PackageModel package);
-
-        List<LocationModel> GetLocation(Int32 location);
-        string InsertUpdateLocation(LocationModel package);
-
         List<ScientificNameModel> GetScientificName(Int32 sname);
         string InsertUpdateScientificName(ScientificNameModel sname);
 
@@ -88,7 +107,7 @@ namespace LeHealth.Core.Interface
 
         List<VisaTypeModel> GetVisaType();
         List<StateModel> GetStateByCountryId(Int32 countryId);
-        List<SymptomModel> GetActiveSymptoms();
+
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
         List<GetNumberModel> GetNumber(string numid);

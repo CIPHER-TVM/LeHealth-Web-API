@@ -9,7 +9,6 @@ namespace LeHealth.Core.Interface
     {
         List<PatientRegModel> InsertPatient(PatientRegModel patientDetail);
         string UploadPatientDocuments(PatientRegModel patientDetail);
-        string ValidateHL7(string nabidh);
         List<AllPatientModel> GetAllPatient(int BranchId);
       
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patientList);

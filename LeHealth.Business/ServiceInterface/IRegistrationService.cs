@@ -9,9 +9,7 @@ namespace LeHealth.Service.ServiceInterface
     {
         List<PatientRegModel> InsertPatient(PatientRegModel patientDetail);
         string UploadPatientDocuments(PatientRegModel patientDetail);
-        string ValidateHL7(string nabidh);
         List<AllPatientModel> GetAllPatient(int BranchId);
-        
         List<AllPatientModel> SearchPatientInList(PatientSearchModel patient);
         List<AllPatientModel> ViewPatientFiles(Int32 patientId); 
         List<PatientModel> GetRegisteredDataById(Int32 patientId); 

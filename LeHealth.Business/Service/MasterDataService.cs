@@ -16,14 +16,153 @@ namespace LeHealth.Service.Service
             masterdataManager = _masterdataManager;
             fileUploadService = _fileUploadService;
         }
-        public List<ProfessionModel> GetProfession(Int32 profid)
+
+        public string InsertUpdateServiceItem(ServiceItemModel serviceitem)
         {
-            return masterdataManager.GetProfession(profid);
+            return masterdataManager.InsertUpdateServiceItem(serviceitem);
         }
-        public string InsertUpdateProfession(ProfessionModel zone)
+        public string BlockUnblockServiceItem(ServiceItemModel serviceitem)
         {
-            return masterdataManager.InsertUpdateProfession(zone);
+            return masterdataManager.BlockUnblockServiceItem(serviceitem);
         }
+        public List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm)
+        {
+            return masterdataManager.GetCPTCode(ccm);
+        }
+        public string InsertUpdateCPTCode(CPTCodeModelAll ccm)
+        {
+            return masterdataManager.InsertUpdateCPTCode(ccm);
+        }
+        public string DeleteCPTCode(CPTCodeModel ccm)
+        {
+            return masterdataManager.DeleteCPTCode(ccm);
+        }
+        public List<RateGroupModel> GetRateGroup(RateGroupModelAll rm)
+        {
+            return masterdataManager.GetRateGroup(rm);
+        }
+        public string InsertUpdateRateGroup(RateGroupModelAll RateGroup)
+        {
+            return masterdataManager.InsertUpdateRateGroup(RateGroup);
+        }
+        public string DeleteRateGroup(RateGroupModel ccm)
+        {
+            return masterdataManager.DeleteRateGroup(ccm);
+        }
+        public List<PackageModel> GetPackage(PackageModelAll pm)
+        {
+            return masterdataManager.GetPackage(pm);
+        }
+        public string InsertUpdatePackage(PackageModelAll movement)
+        {
+            return masterdataManager.InsertUpdatePackage(movement);
+        }
+        public string DeletePackage(PackageModel movement)
+        {
+            return masterdataManager.DeletePackage(movement);
+        }
+        public List<DepartmentModel> GetDepartment(DepartmentModelAll Dept)
+        {
+            return masterdataManager.GetDepartment(Dept);
+        }
+        public string InsertUpdateDepartment(DepartmentModelAll Dept)
+        {
+            return masterdataManager.InsertUpdateDepartment(Dept);
+        }
+        //public List<DepartmentModel> GetDepartmentByHospital(Int32 HospId)
+        //{
+        //    return masterdataManager.GetDepartmentByHospital(HospId);
+        //}
+        public string DeleteDepartment(DepartmentModel Dept)
+        {
+            return masterdataManager.DeleteDepartment(Dept);
+        }
+        public List<SymptomModel> GetSymptom(SymptomModelAll symptom)
+        {
+            return masterdataManager.GetSymptom(symptom);
+        }
+        public string InsertUpdateSymptom(SymptomModelAll la)
+        {
+            return masterdataManager.InsertUpdateSymptom(la);
+        }
+        public string DeleteSymptom(SymptomModel la)
+        {
+            return masterdataManager.DeleteSymptom(la);
+        }
+        public List<LocationModel> GetLocation(LocationAll location)
+        {
+            return masterdataManager.GetLocation(location);
+        }
+        public string InsertUpdateLocation(LocationAll location)
+        {
+            return masterdataManager.InsertUpdateLocation(location);
+        }
+        public string DeleteLocation(LocationModel location)
+        {
+            return masterdataManager.DeleteLocation(location);
+        }
+        public List<CountryModel> GetCountry(CountryModel country)
+        {
+            return masterdataManager.GetCountry(country);
+        }
+        public string InsertUpdateCountry(CountryModel country)
+        {
+            return masterdataManager.InsertUpdateCountry(country);
+        }
+        public string DeleteCountry(CountryModel country)
+        {
+            return masterdataManager.DeleteCountry(country);
+        }
+        public List<StateModel> GetState(StateModel state)
+        {
+            return masterdataManager.GetState(state);
+        }
+        public string InsertUpdateState(StateModel state)
+        {
+            return masterdataManager.InsertUpdateState(state);
+        }
+        public string DeleteState(StateModel state)
+        {
+            return masterdataManager.DeleteState(state);
+        }
+        public List<CompanyModel> GetCompany(CompanyModelAll cmp)
+        {
+            return masterdataManager.GetCompany(cmp);
+        }
+        public string InsertUpdateCompany(CompanyModelAll cmp)
+        {
+            return masterdataManager.InsertUpdateCompany(cmp);
+        }
+        public string DeleteCompany(CompanyModel cmp)
+        {
+            return masterdataManager.DeleteCompany(cmp);
+        }
+        public List<ProfessionModel> GetProfession(ProfessionModelAll prof)
+        {
+            return masterdataManager.GetProfession(prof);
+        }
+        public string InsertUpdateProfession(ProfessionModelAll prof)
+        {
+            return masterdataManager.InsertUpdateProfession(prof);
+        } 
+        public string DeleteProfession(ProfessionModel prof)
+        {
+            return masterdataManager.DeleteProfession(prof);
+        }
+        public List<CityModel> GetCity(CityModelAll city)
+        {
+            return masterdataManager.GetCity(city);
+        }
+        public string InsertUpdateCity(CityModelAll city)
+        {
+            return masterdataManager.InsertUpdateCity(city);
+        }
+        public string DeleteCity(CityModel city)
+        {
+            return masterdataManager.DeleteCity(city);
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
         public string InsertUpdateMenuGroupMap(MenuGroupModel mgm)
         {
             return masterdataManager.InsertUpdateMenuGroupMap(mgm);
@@ -52,15 +191,6 @@ namespace LeHealth.Service.Service
         public string InsertUpdateSponsorForm(SponsorFormModel stype)
         {
             return masterdataManager.InsertUpdateSponsorForm(stype);
-        }
-
-        public List<CityModel> GetCity(Int32 id)
-        {
-            return masterdataManager.GetCity(id);
-        }
-        public string InsertUpdateCity(CityModel city)
-        {
-            return masterdataManager.InsertUpdateCity(city);
         }
         public List<AppTypeModel> GetAppType()
         {
@@ -133,14 +263,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetRegScheme(RegSchemeId);
         }
-        public string InsertUpdateRateGroup(RateGroupModel RateGroup)
-        {
-            return masterdataManager.InsertUpdateRateGroup(RateGroup);
-        }
-        public List<RateGroupModel> GetRateGroup(Int32 Id)
-        {
-            return masterdataManager.GetRateGroup(Id);
-        }
+
         public string InsertUpdateOperator(OperatorModel Operator)
         {
             return masterdataManager.InsertUpdateOperator(Operator);
@@ -161,14 +284,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateLeadAgent(la);
         }
-        public List<CompanyModel> GetCompany(Int32 Id)
-        {
-            return masterdataManager.GetCompany(Id);
-        }
-        public string InsertUpdateCompany(CompanyModel cmp)
-        {
-            return masterdataManager.InsertUpdateCompany(cmp);
-        }
         public List<BodyPartModel> GetBodyPart(Int32 Id)
         {
             return masterdataManager.GetBodyPart(Id);
@@ -177,18 +292,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateBodyPart(cmp);
         }
-        public List<DepartmentModel> GetDepartments(Int32 DeptId)
-        {
-            return masterdataManager.GetDepartments(DeptId);
-        }
-        public string InsertUpdateDepartment(DepartmentModel Dept)
-        {
-            return masterdataManager.InsertUpdateDepartment(Dept);
-        }
-        public List<DepartmentModel> GetDepartmentByHospital(Int32 HospId)
-        {
-            return masterdataManager.GetDepartmentByHospital(HospId);
-        }
+
         public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)
         {
             return masterdataManager.GetConsultantByHospital(cmodel);
@@ -205,22 +309,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateConsent(consent);
         }
-        public List<CountryModel> GetCountry(Int32 countryDetails)
-        {
-            return masterdataManager.GetCountry(countryDetails);
-        }
-        public string InsertUpdateCountry(CountryModel country)
-        {
-            return masterdataManager.InsertUpdateCountry(country);
-        }
-        public List<StateModel> GetState(Int32 stateDetails)
-        {
-            return masterdataManager.GetState(stateDetails);
-        }
-        public string InsertUpdateState(StateModel state)
-        {
-            return masterdataManager.InsertUpdateState(state);
-        }
+       
         public List<SalutationModel> GetSalutation(Int32 stateDetails)
         {
             return masterdataManager.GetSalutation(stateDetails);
@@ -245,22 +334,8 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateMovement(movement);
         }
-        public List<PackageModel> GetPackage(PackageModel pm)
-        {
-            return masterdataManager.GetPackage(pm);
-        }
-        public string InsertUpdatePackage(PackageModel movement)
-        {
-            return masterdataManager.InsertUpdatePackage(movement);
-        }
-        public List<LocationModel> GetLocation(Int32 movement)
-        {
-            return masterdataManager.GetLocation(movement);
-        }
-        public string InsertUpdateLocation(LocationModel movement)
-        {
-            return masterdataManager.InsertUpdateLocation(movement);
-        }
+
+
         public List<ScientificNameModel> GetScientificName(Int32 movement)
         {
             return masterdataManager.GetScientificName(movement);
@@ -285,10 +360,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetStateByCountryId(countryid);
         }
-        public List<SymptomModel> GetActiveSymptoms()
-        {
-            return masterdataManager.GetActiveSymptoms();
-        }
+
         public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
         {
             return masterdataManager.GetItemsByType(ibt);
@@ -297,10 +369,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetConsentType();
         }
-        public string InsertUpdateSymptom(SymptomModel la)
-        {
-            return masterdataManager.InsertUpdateSymptom(la);
-        }
+
         public List<GetNumberModel> GetNumber(string numid)
         {
             return masterdataManager.GetNumber(numid);

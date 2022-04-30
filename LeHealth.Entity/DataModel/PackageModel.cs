@@ -12,10 +12,13 @@ namespace LeHealth.Entity.DataModel
         public string EffectTo { get; set; }
         public float PackAmount { get; set; }
         public string Remarks { get; set; }
-        public int Active { get; set; }
-        public string BlockReason { get; set; }
         public int UserId { get; set; }
         public int BranchId { get; set; }
+    }
+    public class PackageModelAll : PackageModel
+    {
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 
 }

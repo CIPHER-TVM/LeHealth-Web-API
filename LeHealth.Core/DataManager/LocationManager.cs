@@ -99,8 +99,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@P_ManageCredit", obj.ManageCredit);
                     cmd.Parameters.AddWithValue("@P_ManageIPCredit", obj.ManageIPCredit);
                     cmd.Parameters.AddWithValue("@P_LTypeId", obj.LTypeId);
-                    cmd.Parameters.AddWithValue("@P_Active", obj.Active);
-                    cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
+                    //cmd.Parameters.AddWithValue("@P_Active", obj.Active);
+                    //cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
                     cmd.Parameters.AddWithValue("@P_RepHeadImg", obj.RepHeadImg);
                     cmd.Parameters.AddWithValue("@P_HospitalId", obj.HospitalId);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -108,7 +108,6 @@ namespace LeHealth.Core.DataManager
                         Direction = ParameterDirection.Output
                     };
                     cmd.Parameters.Add(retValV);
-
                     SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                     {
                         Direction = ParameterDirection.Output

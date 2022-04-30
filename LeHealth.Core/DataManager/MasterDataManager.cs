@@ -22,61 +22,377 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
-        //ProfessionManagement Starts
-        /// <summary>
-        /// Get proffession list. if profid is zero then returns all professions. if profid is not zero then 
-        /// returns specific profession details
-        /// </summary>
-        /// <param name="profid"></param>
-        /// <returns>Profession details list</returns>
-        public List<ProfessionModel> GetProfession(Int32 profid)
+
+        public string InsertUpdateServiceItem(ServiceItemModel serviceItemModel)
         {
-            List<ProfessionModel> profList = new List<ProfessionModel>();
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                //(float)Convert.ToDouble(dtProfession.Rows[i]["DedAmount"].ToString()),
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateItemMaster", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                cmd.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
+                cmd.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
+                cmd.Parameters.AddWithValue("@GroupId", serviceItemModel.GroupId);
+                cmd.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
+                cmd.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
+                cmd.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);
+                cmd.Parameters.AddWithValue("@AllowDisc", serviceItemModel.AllowDisc);
+                cmd.Parameters.AddWithValue("@AllowPP", serviceItemModel.AllowPP);
+                cmd.Parameters.AddWithValue("@IsVSign", serviceItemModel.IsVSign);
+                cmd.Parameters.AddWithValue("@ResultOn", serviceItemModel.ResultOn);
+                cmd.Parameters.AddWithValue("@STypeId", serviceItemModel.STypeId);
+                cmd.Parameters.AddWithValue("@TotalTaxPcnt", serviceItemModel.TotalTaxPcnt);
+                cmd.Parameters.AddWithValue("@AllowCommission", serviceItemModel.AllowCommission);
+                cmd.Parameters.AddWithValue("@CommPcnt", serviceItemModel.CommPcnt);
+                cmd.Parameters.AddWithValue("@CommAmt", serviceItemModel.CommAmt);
+                cmd.Parameters.AddWithValue("@MaterialCost", serviceItemModel.MaterialCost);
+                cmd.Parameters.AddWithValue("@BaseCost", serviceItemModel.BaseCost);
+                cmd.Parameters.AddWithValue("@HeadId", serviceItemModel.HeadId);
+                cmd.Parameters.AddWithValue("@SortOrder", serviceItemModel.SortOrder);
+                cmd.Parameters.AddWithValue("@Active", serviceItemModel.Active);
+                cmd.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                cmd.Parameters.AddWithValue("@SessionId", serviceItemModel.SessionId);
+                cmd.Parameters.AddWithValue("@BranchId", serviceItemModel.BranchId);
+                cmd.Parameters.AddWithValue("@ExternalItem", serviceItemModel.ExternalItem);
+                cmd.Parameters.AddWithValue("@CPTCodeId", serviceItemModel.CPTCodeId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string BlockUnblockServiceItem(ServiceItemModel serviceItemModel)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_BlockUnblockServiceItem", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                cmd.Parameters.AddWithValue("@BlockReason", serviceItemModel.BlockReason);
+                cmd.Parameters.AddWithValue("@Active", serviceItemModel.Active);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
+
+        public List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm)
+        {
+            List<CPTCodeModel> profList = new List<CPTCodeModel>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetProfession", con);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCPTCode", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ProfId", profid);
+            cmd.Parameters.AddWithValue("@CPTCodeId", ccm.CPTCodeId);
+            cmd.Parameters.AddWithValue("@ShowAll", ccm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtProfession = new DataTable();
-            adapter.Fill(dtProfession);
+            DataTable dtCPT = new DataTable();
+            adapter.Fill(dtCPT);
             con.Close();
-            if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
+            if ((dtCPT != null) && (dtCPT.Rows.Count > 0))
             {
-                for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
+                for (Int32 i = 0; i < dtCPT.Rows.Count; i++)
                 {
-                    ProfessionModel obj = new ProfessionModel
+                    CPTCodeModel obj = new CPTCodeModel
                     {
-                        ProfId = Convert.ToInt32(dtProfession.Rows[i]["ProfId"]),
-                        ProfName = dtProfession.Rows[i]["ProfName"].ToString(),
-                        ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"]),
-                        Active = Convert.ToInt32(dtProfession.Rows[i]["IsActive"]),
-                        BlockReason = dtProfession.Rows[i]["BlockReason"].ToString()
+                        CPTCodeId = Convert.ToInt32(dtCPT.Rows[i]["CPTCodeId"]),
+                        CPTCode = dtCPT.Rows[i]["CPTCode"].ToString(),
+                        CPTDesc = dtCPT.Rows[i]["CPTDesc"].ToString(),
+                        BranchId = ccm.BranchId
                     };
                     profList.Add(obj);
                 }
             }
             return profList;
         }
-        /// <summary>
-        /// Save and updating profession data. if profession.ProfId is zero then saving the proffession details,
-        /// else updates specific proffession
-        /// </summary>
-        /// <param name="profession"></param>
-        /// <returns>success or reason to failure</returns>
-        public string InsertUpdateProfession(ProfessionModel profession)
+        public string InsertUpdateCPTCode(CPTCodeModelAll ccm)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateProfession", con);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCPTCode", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ProfId", profession.ProfId);
-                cmd.Parameters.AddWithValue("@ProfName", profession.ProfName);
-                cmd.Parameters.AddWithValue("@UserId", profession.UserId);
-                cmd.Parameters.AddWithValue("@ProfGroup", profession.ProfGroup);
-                cmd.Parameters.AddWithValue("@Active", profession.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", profession.BlockReason);
+                cmd.Parameters.AddWithValue("@CPTCodeId", ccm.CPTCodeId);
+                cmd.Parameters.AddWithValue("@CPTCode", ccm.CPTCode);
+                cmd.Parameters.AddWithValue("@CPTDesc", ccm.CPTDesc);
+                cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCPTCode(CPTCodeModel ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCPTCode", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CPTCodeId", ccm.CPTCodeId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
+
+        //Rate group Starts
+        /// <summary>
+        /// Get Rate group data. if rategroup is zero then lists all rategroups, else returns specific rategroup
+        /// </summary>
+        /// <param name="RateGroupId"></param>
+        /// <returns>Rategroup list</returns>
+        public List<RateGroupModel> GetRateGroup(RateGroupModelAll rm)
+        {
+            List<RateGroupModel> stateList = new List<RateGroupModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetRateGroup", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@RGroupId", rm.RGroupId);
+            cmd.Parameters.AddWithValue("@ShowAll", rm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", rm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtRateGroupList = new DataTable();
+            adapter.Fill(dtRateGroupList);
+            con.Close();
+            if ((dtRateGroupList != null) && (dtRateGroupList.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtRateGroupList.Rows.Count; i++)
+                {
+                    RateGroupModel obj = new RateGroupModel
+                    {
+                        RGroupId = Convert.ToInt32(dtRateGroupList.Rows[i]["RGroupId"]),
+                        RGroupName = dtRateGroupList.Rows[i]["RGroupName"].ToString(),
+                        Description = dtRateGroupList.Rows[i]["Description"].ToString(),
+                        EffectFrom = dtRateGroupList.Rows[i]["EffectFrom"].ToString(),
+                        EffectTo = dtRateGroupList.Rows[i]["EffectTo"].ToString(),
+                        BranchId = rm.BranchId
+                    };
+                    stateList.Add(obj);
+                }
+            }
+            return stateList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="RateGroup"></param>
+        /// <returns></returns>
+        public string InsertUpdateRateGroup(RateGroupModelAll RateGroup)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                DateTime EffectFrom = DateTime.ParseExact(RateGroup.EffectFrom.Trim(), "dd-MM-yyyy", null);
+                RateGroup.EffectFrom = EffectFrom.ToString("yyyy-MM-dd");
+                DateTime EffectTo = DateTime.ParseExact(RateGroup.EffectTo.Trim(), "dd-MM-yyyy", null);
+                RateGroup.EffectTo = EffectTo.ToString("yyyy-MM-dd");
+
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRateGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@RGroupId", RateGroup.RGroupId);
+                cmd.Parameters.AddWithValue("@RGroupName", RateGroup.RGroupName);
+                cmd.Parameters.AddWithValue("@Description", RateGroup.Description);
+                cmd.Parameters.AddWithValue("@EffectFrom", RateGroup.EffectFrom);
+                cmd.Parameters.AddWithValue("@EffectTo", RateGroup.EffectTo);
+                cmd.Parameters.AddWithValue("@IsDisplayed", RateGroup.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", RateGroup.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", RateGroup.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteRateGroup(RateGroupModel rm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteRateGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@RGroupId", rm.RGroupId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
+        //Rate Group Ends
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="la"></param>
+        /// <returns></returns>
+        public List<PackageModel> GetPackage(PackageModelAll pm)
+        {
+            List<PackageModel> itemList = new List<PackageModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPackage", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PackId", pm.PackId);
+            cmd.Parameters.AddWithValue("@ShowAll", pm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", pm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
+                    PackageModel obj = new PackageModel
+                    {
+                        PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]),
+                        PackDesc = dsNumber.Rows[i]["PackDesc"].ToString(),
+                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString(),
+                        EffectTo = dsNumber.Rows[i]["EffectTo"].ToString(),
+                        PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString()),
+                        Remarks = dsNumber.Rows[i]["Remarks"].ToString(),
+                        BranchId = pm.BranchId
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Package"></param>
+        /// <returns></returns>
+        public string InsertUpdatePackage(PackageModelAll Package)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                DateTime packFrom = DateTime.ParseExact(Package.EffectFrom.Trim(), "dd-MM-yyyy", null);
+                Package.EffectFrom = packFrom.ToString("yyyy-MM-dd");
+                DateTime packTo = DateTime.ParseExact(Package.EffectTo.Trim(), "dd-MM-yyyy", null);
+                Package.EffectTo = packTo.ToString("yyyy-MM-dd");
+
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePackage", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PackId", Package.PackId);
+                cmd.Parameters.AddWithValue("@PackDesc", Package.PackDesc);
+                cmd.Parameters.AddWithValue("@EffectFrom", Package.EffectFrom);
+                cmd.Parameters.AddWithValue("@EffectTo", Package.EffectTo);
+                cmd.Parameters.AddWithValue("@PackAmount", Package.PackAmount);
+                cmd.Parameters.AddWithValue("@Remarks", Package.Remarks);
+                cmd.Parameters.AddWithValue("@IsDisplayed", Package.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", Package.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", Package.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -104,7 +420,909 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        //ProfessionManagement Endt
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Package"></param>
+        /// <returns></returns>
+        public string DeletePackage(PackageModel Package)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeletePackage", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PackId", Package.PackId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// Get department list from database,Step three in code execution flow
+        /// </summary>
+        /// <returns></returns>
+        public List<DepartmentModel> GetDepartment(DepartmentModelAll department)
+        {
+            List<DepartmentModel> departmentlist = new List<DepartmentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDepartment", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DeptId", department.DeptId);
+            cmd.Parameters.AddWithValue("@ShowAll", department.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", department.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    DepartmentModel obj = new DepartmentModel
+                    {
+                        DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]),
+                        DeptName = dt.Rows[i]["DeptName"].ToString(),
+                        DeptCode = dt.Rows[i]["DeptCode"].ToString(),
+                        Description = dt.Rows[i]["Description"].ToString(),
+                        BranchId = department.BranchId,
+                        TimeSlice = Convert.ToInt32(dt.Rows[i]["TimeSlice"]),
+                    };
+                    departmentlist.Add(obj);
+                }
+            }
+            return departmentlist;
+        }
+        /// <summary>
+        /// Save and updating Department master data,Saves when DeptId is zero. Updates when DeptId Not equal to zero
+        /// </summary>
+        /// <param name="department"></param>
+        /// <returns>success or reason for failure</returns>
+        public string InsertUpdateDepartment(DepartmentModelAll department)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDepartment", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DeptId", department.DeptId);
+                cmd.Parameters.AddWithValue("@DeptName", department.DeptName);
+                cmd.Parameters.AddWithValue("@DeptCode", department.DeptCode);
+                cmd.Parameters.AddWithValue("@Description", department.Description);
+                cmd.Parameters.AddWithValue("@TimeSlice", department.TimeSlice);
+                cmd.Parameters.AddWithValue("@IsDisplayed", department.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", department.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", department.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// Save and updating Department master data,Saves when DeptId is zero. Updates when DeptId Not equal to zero
+        /// </summary>
+        /// <param name="department"></param>
+        /// <returns>success or reason for failure</returns>
+        public string DeleteDepartment(DepartmentModel department)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteDepartment", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DeptId", department.DeptId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<SymptomModel> GetSymptom(SymptomModelAll symptom)
+        {
+            List<SymptomModel> stateList = new List<SymptomModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSymptom", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SymptomId", symptom.SymptomId);
+            cmd.Parameters.AddWithValue("@ShowAll", symptom.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", symptom.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsSymptomList = new DataTable();
+            adapter.Fill(dsSymptomList);
+            con.Close();
+            if ((dsSymptomList != null) && (dsSymptomList.Rows.Count > 0))
+                stateList = dsSymptomList.ToListOfObject<SymptomModel>();
+            return stateList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Symptom"></param>
+        /// <returns></returns>
+        public string InsertUpdateSymptom(SymptomModelAll Symptom)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSymptom", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SymptomId", Symptom.SymptomId);
+                cmd.Parameters.AddWithValue("@SymptomDesc", Symptom.SymptomDesc);
+                cmd.Parameters.AddWithValue("@IsDisplayed", Symptom.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", Symptom.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", Symptom.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteSymptom(SymptomModel Symptom)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteSymptom", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SymptomId", Symptom.SymptomId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="la"></param>
+        /// <returns></returns>
+        public List<LocationModel> GetLocation(LocationAll la)
+        {
+            List<LocationModel> itemList = new List<LocationModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLocation", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@LocationId", la.LocationId);
+            cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", la.HospitalId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
+                    LocationModel obj = new LocationModel
+                    {
+                        LocationId = Convert.ToInt32(dsNumber.Rows[i]["LocationId"]),
+                        LocationName = dsNumber.Rows[i]["LocationName"].ToString(),
+                        Supervisor = dsNumber.Rows[i]["Supervisor"].ToString(),
+                        ContactNumber = dsNumber.Rows[i]["ContactNumber"].ToString(),
+                        LTypeId = Convert.ToInt32(dsNumber.Rows[i]["LTypeId"]),
+                        ManageSPoints = Convert.ToBoolean(dsNumber.Rows[i]["ManageSPoints"]),
+                        ManageBilling = Convert.ToBoolean(dsNumber.Rows[i]["ManageBilling"]),
+                        ManageCash = Convert.ToBoolean(dsNumber.Rows[i]["ManageCash"]),
+                        ManageCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageCredit"]),
+                        ManageIPCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageIPCredit"]),
+                        RepHeadImg = dsNumber.Rows[i]["RepHeadImg"].ToString(),
+                        HospitalId = la.HospitalId,
+                        HospitalName = dsNumber.Rows[i]["HospitalName"].ToString(),
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Package"></param>
+        /// <returns></returns>
+        public string InsertUpdateLocation(LocationAll location)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLocation", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@LocationId", location.LocationId);
+                cmd.Parameters.AddWithValue("@LocationName", location.LocationName);
+                cmd.Parameters.AddWithValue("@Supervisor", location.Supervisor);
+                cmd.Parameters.AddWithValue("@ContactNumber", location.ContactNumber);
+                cmd.Parameters.AddWithValue("@LTypeId", location.LTypeId);
+                cmd.Parameters.AddWithValue("@ManageSPoints", location.ManageSPoints);
+                cmd.Parameters.AddWithValue("@ManageBilling", location.ManageBilling);
+                cmd.Parameters.AddWithValue("@ManageCash", location.ManageCash);
+                cmd.Parameters.AddWithValue("@ManageCredit", location.ManageCredit);
+                cmd.Parameters.AddWithValue("@ManageIPCredit", location.ManageIPCredit);
+                cmd.Parameters.AddWithValue("@RepHeadImg", location.RepHeadImg);
+                cmd.Parameters.AddWithValue("@UserId", location.UserId);
+                cmd.Parameters.AddWithValue("@HospitalId", location.HospitalId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", location.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteLocation(LocationModel Package)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteLocation", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@LocationId", Package.LocationId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
+        public List<CountryModel> GetCountry(CountryModel country)
+        {
+            List<CountryModel> countryList = new List<CountryModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCountry", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CountryId", country.CountryId);
+            cmd.Parameters.AddWithValue("@ShowAll", country.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", country.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dscontryList = new DataTable();
+            adapter.Fill(dscontryList);
+            con.Close();
+            if ((dscontryList != null) && (dscontryList.Rows.Count > 0))
+                countryList = dscontryList.ToListOfObject<CountryModel>();
+            return countryList;
+        }
+        public string InsertUpdateCountry(CountryModel country)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCountry", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CountryId", country.CountryId);
+                cmd.Parameters.AddWithValue("@CountryName", country.CountryName);
+                cmd.Parameters.AddWithValue("@CountryCode", country.CountryCode);
+                cmd.Parameters.AddWithValue("@NGroupId", country.NGroupId);
+                cmd.Parameters.AddWithValue("@NationalityName", country.NationalityName);
+                cmd.Parameters.AddWithValue("@IsDisplayed", country.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", country.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", country.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCountry(CountryModel country)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCountry", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CountryId", country.CountryId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<StateModel> GetState(StateModel state)
+        {
+            List<StateModel> countryList = new List<StateModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetState", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@StateId", state.StateId);
+            cmd.Parameters.AddWithValue("@ShowAll", state.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", state.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtStateList = new DataTable();
+            adapter.Fill(dtStateList);
+            con.Close();
+            if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
+                countryList = dtStateList.ToListOfObject<StateModel>();
+            return countryList;
+        }
+        public string InsertUpdateState(StateModel state)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateState", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@StateId", state.StateId);
+                cmd.Parameters.AddWithValue("@StateName", state.StateName);
+                cmd.Parameters.AddWithValue("@CountryId", state.CountryId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", state.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", state.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", state.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteState(StateModel state)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteState", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@StateId", state.StateId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+
+        /// <summary>
+        /// Get details of companies. if Id is zero then returns all company data. else returns Data of specific company
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public List<CompanyModel> GetCompany(CompanyModelAll company)
+        {
+            List<CompanyModel> companyList = new List<CompanyModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCompany", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CmpId", company.CmpId);
+            cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsCompany = new DataTable();
+            adapter.Fill(dsCompany);
+            con.Close();
+            if ((dsCompany != null) && (dsCompany.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsCompany.Rows.Count; i++)
+                {
+                    CompanyModel obj = new CompanyModel
+                    {
+                        CmpId = Convert.ToInt32(dsCompany.Rows[i]["CmpId"]),
+                        CmpName = dsCompany.Rows[i]["CmpName"].ToString()
+                    };
+                    companyList.Add(obj);
+                }
+            }
+            return companyList;
+        }
+        /// <summary>
+        /// Save Comapny data if cmpid is zero. else updating specific company
+        /// </summary>
+        /// <param name="Company"></param>
+        /// <returns>success or reason to failure</returns>
+        public string InsertUpdateCompany(CompanyModelAll Company)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CmpId", Company.CmpId);
+                cmd.Parameters.AddWithValue("@CmpName", Company.CmpName);
+                cmd.Parameters.AddWithValue("@IsDisplayed", Company.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", Company.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", Company.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Company saved")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCompany(CompanyModel Company)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCompany", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", Company.CmpId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Company saved")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        /// <summary>
+        /// Get proffession list. if profid is zero then returns all professions. if profid is not zero then 
+        /// returns specific profession details
+        /// </summary>
+        /// <param name="profid"></param>
+        /// <returns>Profession details list</returns>
+
+
+        public List<ProfessionModel> GetProfession(ProfessionModelAll prof)
+        {
+            List<ProfessionModel> profList = new List<ProfessionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetProfession", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ProfId", prof.ProfId);
+            cmd.Parameters.AddWithValue("@ShowAll", prof.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", prof.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtProfession = new DataTable();
+            adapter.Fill(dtProfession);
+            con.Close();
+            if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
+                {
+                    ProfessionModel obj = new ProfessionModel
+                    {
+                        ProfId = Convert.ToInt32(dtProfession.Rows[i]["ProfId"]),
+                        ProfName = dtProfession.Rows[i]["ProfName"].ToString(),
+                        ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"])
+                    };
+                    profList.Add(obj);
+                }
+            }
+            return profList;
+        }
+        /// <summary>
+        /// Save and updating profession data. if profession.ProfId is zero then saving the proffession details,
+        /// else updates specific proffession
+        /// </summary>
+        /// <param name="profession"></param>
+        /// <returns>success or reason to failure</returns>
+        public string InsertUpdateProfession(ProfessionModelAll prof)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateProfession", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ProfId", prof.ProfId);
+                cmd.Parameters.AddWithValue("@ProfName", prof.ProfName);
+                cmd.Parameters.AddWithValue("@ProfGroup", prof.ProfGroup);
+                cmd.Parameters.AddWithValue("@IsDisplayed", prof.IsDisplayed);
+                cmd.Parameters.AddWithValue("@UserId", prof.UserId);
+                cmd.Parameters.AddWithValue("@BranchId", prof.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteProfession(ProfessionModel profession)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteProfession", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", profession.ProfId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
+        /// <summary>
+        /// Get city details. returns all city data if cityid is zero else returns specific city data
+        /// </summary>
+        /// <param name="cityid"></param>
+        /// <returns>city data list</returns>
+        public List<CityModel> GetCity(CityModelAll city)
+        {
+            List<CityModel> cityList = new List<CityModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCity", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CityId", city.CityId);
+            cmd.Parameters.AddWithValue("@ShowAll", city.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", city.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsCity = new DataTable();
+            adapter.Fill(dsCity);
+            con.Close();
+            if ((dsCity != null) && (dsCity.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsCity.Rows.Count; i++)
+                {
+                    CityModel obj = new CityModel
+                    {
+                        CityId = Convert.ToInt32(dsCity.Rows[i]["CityId"]),
+                        CityName = dsCity.Rows[i]["CityName"].ToString(),
+                        StateId = Convert.ToInt32(dsCity.Rows[i]["StateId"]),
+                        CountryId = Convert.ToInt32(dsCity.Rows[i]["CountryId"]),
+                        CountryName = dsCity.Rows[i]["CountryName"].ToString()
+                    };
+                    cityList.Add(obj);
+                }
+            }
+            return cityList;
+        }
+        /// <summary>
+        /// Save city data if cityid is zero. else updating specific city
+        /// </summary>
+        /// <param name="city"></param>
+        /// <returns></returns>
+        public string InsertUpdateCity(CityModelAll city)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCity", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CityId", city.CityId);
+                cmd.Parameters.AddWithValue("@CityName", city.CityName);
+                cmd.Parameters.AddWithValue("@CountryId", city.CountryId);
+                cmd.Parameters.AddWithValue("@StateId", city.StateId);
+                cmd.Parameters.AddWithValue("@UserId", city.UserId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", city.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCity(CityModel city)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCity", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CityId", city.CityId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// Save and update MenuGroupMap. 
         /// </summary>
@@ -599,142 +1817,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //Consent Management Ends
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="countryDetails"></param>
-        /// <returns></returns>
-        public List<CountryModel> GetCountry(Int32 countryDetails)
-        {
-            List<CountryModel> countryList = new List<CountryModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetCountry", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CountryId", countryDetails);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dscontryList = new DataTable();
-            adapter.Fill(dscontryList);
-            con.Close();
-            if ((dscontryList != null) && (dscontryList.Rows.Count > 0))
-                countryList = dscontryList.ToListOfObject<CountryModel>();
-            return countryList;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="country"></param>
-        /// <returns></returns>
-        public string InsertUpdateCountry(CountryModel country)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCountry", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CountryId", country.CountryId);
-                cmd.Parameters.AddWithValue("@CountryName", country.CountryName);
-                cmd.Parameters.AddWithValue("@CountryCode", country.CountryCode);
-                cmd.Parameters.AddWithValue("@NGroupId", country.NGroupId);
-                cmd.Parameters.AddWithValue("@NationalityName", country.NationalityName);
-                cmd.Parameters.AddWithValue("@Active", country.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", country.BlockReason);
-                cmd.Parameters.AddWithValue("@UserId", country.UserId);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        //Country Management Ends
-        //State Management Starts
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stateId"></param>
-        /// <returns></returns>
-        public List<StateModel> GetState(Int32 stateId)
-        {
-            List<StateModel> countryList = new List<StateModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
 
-            using SqlCommand cmd = new SqlCommand("stLH_GetState", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@StateId", stateId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtStateList = new DataTable();
-            adapter.Fill(dtStateList);
-            con.Close();
-            if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
-                countryList = dtStateList.ToListOfObject<StateModel>();
-            return countryList;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        public string InsertUpdateState(StateModel state)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateState", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@StateId", state.StateId);
-                cmd.Parameters.AddWithValue("@StateName", state.StateName);
-                cmd.Parameters.AddWithValue("@CountryId", state.CountryId);
-                cmd.Parameters.AddWithValue("@Active", state.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", state.BlockReason);
-                cmd.Parameters.AddWithValue("@UserId", state.UserId);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        //State Management Ends
 
         //Salutation Management Starts
         /// <summary>
@@ -936,122 +2019,39 @@ namespace LeHealth.Core.DataManager
                 zoneList = dtZoneList.ToListOfObject<ZoneModel>();
             return zoneList;
         }
-
-        /// <summary>
-        /// Get department list from database,Step three in code execution flow
-        /// </summary>
-        /// <returns></returns>
-        public List<DepartmentModel> GetDepartments(Int32 DeptId)
-        {
-            List<DepartmentModel> departmentlist = new List<DepartmentModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetDepartment", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@DeptId", DeptId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-            con.Close();
-            if ((dt != null) && (dt.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dt.Rows.Count; i++)
-                {
-                    DepartmentModel obj = new DepartmentModel
-                    {
-                        DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]),
-                        DeptName = dt.Rows[i]["DeptName"].ToString(),
-                        DeptCode = dt.Rows[i]["DeptCode"].ToString(),
-                        Description = dt.Rows[i]["Description"].ToString(),
-                        BranchId = Convert.ToInt32(dt.Rows[i]["BranchId"]),
-                        TimeSlice = Convert.ToInt32(dt.Rows[i]["TimeSlice"]),
-                        Active = Convert.ToInt32(dt.Rows[i]["Active"]),
-                        BlockReason = dt.Rows[i]["BlockReason"].ToString()
-                    };
-                    departmentlist.Add(obj);
-                }
-            }
-            return departmentlist;
-        }
-        /// <summary>
-        /// Save and updating Department master data,Saves when DeptId is zero. Updates when DeptId Not equal to zero
-        /// </summary>
-        /// <param name="department"></param>
-        /// <returns>success or reason for failure</returns>
-        public string InsertUpdateDepartment(DepartmentModel department)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDepartment", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@DeptId", department.DeptId);
-                cmd.Parameters.AddWithValue("@DeptName", department.DeptName);
-                cmd.Parameters.AddWithValue("@DeptCode", department.DeptCode);
-                cmd.Parameters.AddWithValue("@BranchId", department.BranchId);
-                cmd.Parameters.AddWithValue("@Description", department.Description);
-                cmd.Parameters.AddWithValue("@TimeSlice", department.TimeSlice);
-                cmd.Parameters.AddWithValue("@Active", department.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", department.BlockReason);
-                cmd.Parameters.AddWithValue("@UserId", department.UserId);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
+        //NOT NEEDED TODO
         /// <summary>
         /// Get Department Details By HospitalId
         /// </summary>
         /// <param name="HospId"></param>
         /// <returns>List Of Departments</returns>
-        public List<DepartmentModel> GetDepartmentByHospital(Int32 HospId)
-        {
-            List<DepartmentModel> departmentlist = new List<DepartmentModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetDepartmentByHospital", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@HospitalId", HospId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-            con.Close();
-            if ((dt != null) && (dt.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dt.Rows.Count; i++)
-                {
-                    DepartmentModel obj = new DepartmentModel
-                    {
-                        DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]),
-                        DeptName = dt.Rows[i]["DeptName"].ToString(),
-                        DeptCode = dt.Rows[i]["DeptCode"].ToString()
-                    };
-                    departmentlist.Add(obj);
-                }
-            }
-            return departmentlist;
-        }
+        //public List<DepartmentModel> GetDepartmentByHospital(Int32 HospId)
+        //{
+        //    List<DepartmentModel> departmentlist = new List<DepartmentModel>();
+        //    using SqlConnection con = new SqlConnection(_connStr);
+        //    using SqlCommand cmd = new SqlCommand("stLH_GetDepartmentByHospital", con);
+        //    con.Open();
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@HospitalId", HospId);
+        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //    DataTable dt = new DataTable();
+        //    adapter.Fill(dt);
+        //    con.Close();
+        //    if ((dt != null) && (dt.Rows.Count > 0))
+        //    {
+        //        for (Int32 i = 0; i < dt.Rows.Count; i++)
+        //        {
+        //            DepartmentModel obj = new DepartmentModel
+        //            {
+        //                DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]),
+        //                DeptName = dt.Rows[i]["DeptName"].ToString(),
+        //                DeptCode = dt.Rows[i]["DeptCode"].ToString()
+        //            };
+        //            departmentlist.Add(obj);
+        //        }
+        //    }
+        //    return departmentlist;
+        //}
         public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)
         {
             List<ConsultantModel> departmentlist = new List<ConsultantModel>();
@@ -1115,8 +2115,8 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@SortOrder", RegScheme.SortOrder);
                 cmd.Parameters.AddWithValue("@CPTCodeId", RegScheme.CPTCodeId);
                 cmd.Parameters.AddWithValue("@ExternalItem", RegScheme.ExternalItem);
+
                 cmd.Parameters.AddWithValue("@Active", RegScheme.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", RegScheme.BlockReason);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1197,90 +2197,9 @@ namespace LeHealth.Core.DataManager
             }
             return regSchemeList;
         }
-        //Rate group Starts
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="RateGroup"></param>
-        /// <returns></returns>
-        public string InsertUpdateRateGroup(RateGroupModel RateGroup)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRateGroup", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RGroupId", RateGroup.RGroupId);
-                cmd.Parameters.AddWithValue("@RGroupName", RateGroup.RGroupName);
-                cmd.Parameters.AddWithValue("@Description", RateGroup.Description);
-                cmd.Parameters.AddWithValue("@EffectFrom", Convert.ToDateTime(RateGroup.EffectFrom));
-                cmd.Parameters.AddWithValue("@EffectTo", Convert.ToDateTime(RateGroup.EffectTo));
-                cmd.Parameters.AddWithValue("@UserId", RateGroup.UserId);
-                cmd.Parameters.AddWithValue("@Active", RateGroup.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", RateGroup.BlockReason);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        /// <summary>
-        /// Get Rate group data. if rategroup is zero then lists all rategroups, else returns specific rategroup
-        /// </summary>
-        /// <param name="RateGroupId"></param>
-        /// <returns>Rategroup list</returns>
-        public List<RateGroupModel> GetRateGroup(Int32 RateGroupId)
-        {
-            List<RateGroupModel> stateList = new List<RateGroupModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetRateGroup", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@RGroupId", RateGroupId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtStateList = new DataTable();
-            adapter.Fill(dtStateList);
-            con.Close();
-            if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dtStateList.Rows.Count; i++)
-                {
-                    RateGroupModel obj = new RateGroupModel
-                    {
-                        RGroupId = Convert.ToInt32(dtStateList.Rows[i]["RGroupId"]),
-                        RGroupName = dtStateList.Rows[i]["RGroupName"].ToString(),
-                        Description = dtStateList.Rows[i]["Description"].ToString(),
-                        EffectFrom = dtStateList.Rows[i]["EffectFrom"].ToString(),
-                        EffectTo = dtStateList.Rows[i]["EffectTo"].ToString(),
-                        Active = Convert.ToInt32(dtStateList.Rows[i]["Active"]),
-                        BlockReason = dtStateList.Rows[i]["BlockReason"].ToString()
-                    };
-                    stateList.Add(obj);
-                }
-            }
-            return stateList;
-        }
-        //Rate Group Ends
+
+
+
         //Hospital Starts
         /// <summary>
         /// Get Hospital list from database.Step three in code execution flow
@@ -1694,230 +2613,6 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        //Company Management Starts
-        /// <summary>
-        /// Get details of companies. if Id is zero then returns all company data. else returns Data of specific company
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public List<CompanyModel> GetCompany(Int32 Id)
-        {
-            List<CompanyModel> companyList = new List<CompanyModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetCompany", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CmpId", Id);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsCompany = new DataTable();
-            adapter.Fill(dsCompany);
-            con.Close();
-            if ((dsCompany != null) && (dsCompany.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsCompany.Rows.Count; i++)
-                {
-                    CompanyModel obj = new CompanyModel
-                    {
-                        CmpId = Convert.ToInt32(dsCompany.Rows[i]["CmpId"]),
-                        CmpName = dsCompany.Rows[i]["CmpName"].ToString(),
-                        Active = Convert.ToInt32(dsCompany.Rows[i]["Active"]),
-                        BlockReason = dsCompany.Rows[i]["BlockReason"].ToString()
-                    };
-                    companyList.Add(obj);
-                }
-            }
-            return companyList;
-        }
-        /// <summary>
-        /// Save Comapny data if cmpid is zero. else updating specific company
-        /// </summary>
-        /// <param name="Company"></param>
-        /// <returns>success or reason to failure</returns>
-        public string InsertUpdateCompany(CompanyModel Company)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CmpId", Company.CmpId);
-                cmd.Parameters.AddWithValue("@CmpName", Company.CmpName);
-                cmd.Parameters.AddWithValue("@UserId", Company.UserId);
-                cmd.Parameters.AddWithValue("@Active", Company.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", Company.BlockReason);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Company saved")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        //Company Management Ends
-
-        //City Starts
-        /// <summary>
-        /// Get city details. returns all city data if cityid is zero else returns specific city data
-        /// </summary>
-        /// <param name="cityid"></param>
-        /// <returns>city data list</returns>
-        public List<CityModel> GetCity(Int32 cityid)
-        {
-            List<CityModel> cityList = new List<CityModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetCity", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CityId", cityid);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsProfession = new DataTable();
-            adapter.Fill(dsProfession);
-            con.Close();
-            if ((dsProfession != null) && (dsProfession.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsProfession.Rows.Count; i++)
-                {
-                    CityModel obj = new CityModel
-                    {
-                        CityId = Convert.ToInt32(dsProfession.Rows[i]["CityId"]),
-                        CityName = dsProfession.Rows[i]["CityName"].ToString(),
-                        StateId = Convert.ToInt32(dsProfession.Rows[i]["StateId"]),
-                        CountryId = Convert.ToInt32(dsProfession.Rows[i]["CountryId"]),
-                        CountryName = dsProfession.Rows[i]["CountryName"].ToString()
-                    };
-                    cityList.Add(obj);
-                }
-            }
-            return cityList;
-        }
-        /// <summary>
-        /// Save city data if cityid is zero. else updating specific city
-        /// </summary>
-        /// <param name="city"></param>
-        /// <returns></returns>
-        public string InsertUpdateCity(CityModel city)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCity", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CityId", city.CityId);
-                cmd.Parameters.AddWithValue("@CityName", city.CityName);
-                cmd.Parameters.AddWithValue("@CountryId", city.CountryId);
-                cmd.Parameters.AddWithValue("@StateId", city.StateId);
-                cmd.Parameters.AddWithValue("@UserId", city.UserId);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        //City Ends
-        //Symptom Starts
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Symptom"></param>
-        /// <returns></returns>
-        public string InsertUpdateSymptom(SymptomModel Symptom)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSymptom", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SymptomId", Symptom.SymptomId);
-                cmd.Parameters.AddWithValue("@SymptomDesc", Symptom.SymptomDesc);
-                cmd.Parameters.AddWithValue("@UserId", Symptom.UserId);
-                cmd.Parameters.AddWithValue("@Active", Symptom.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", Symptom.BlockReason);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public List<SymptomModel> GetActiveSymptoms()
-        {
-            List<SymptomModel> stateList = new List<SymptomModel>();
-
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetActiveSymptoms", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsSymptomList = new DataTable();
-            adapter.Fill(dsSymptomList);
-            con.Close();
-            if ((dsSymptomList != null) && (dsSymptomList.Rows.Count > 0))
-                stateList = dsSymptomList.ToListOfObject<SymptomModel>();
-            return stateList;
-        }
-        //Symptom Ends
-
         //VitalSign Starts
         /// <summary>
         /// 
@@ -2058,192 +2753,12 @@ namespace LeHealth.Core.DataManager
         }
         //Movement Ends
         //Package Starts
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="la"></param>
-        /// <returns></returns>
-        public List<PackageModel> GetPackage(PackageModel pm)
-        {
-            List<PackageModel> itemList = new List<PackageModel>();
 
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetPackage", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PackId", pm.PackId);
-            cmd.Parameters.AddWithValue("@BranchId", pm.BranchId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsNumber = new DataTable();
-            adapter.Fill(dsNumber);
-            con.Close();
-            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
-                {
-                    PackageModel obj = new PackageModel
-                    {
-                        PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]),
-                        PackDesc = dsNumber.Rows[i]["PackDesc"].ToString(),
-                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString(),
-                        EffectTo = dsNumber.Rows[i]["EffectTo"].ToString(),
-                        PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString()),
-                        Remarks = dsNumber.Rows[i]["Remarks"].ToString(),
-                        Active = Convert.ToInt32(dsNumber.Rows[i]["Active"]),
-                        BlockReason = dsNumber.Rows[i]["BlockReason"].ToString()
-                    };
-                    itemList.Add(obj);
-                }
-            }
-            return itemList;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Package"></param>
-        /// <returns></returns>
-        public string InsertUpdatePackage(PackageModel Package)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePackage", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@PackId", Package.PackId);
-                cmd.Parameters.AddWithValue("@PackDesc", Package.PackDesc);
-                cmd.Parameters.AddWithValue("@EffectFrom", Package.EffectFrom);
-                cmd.Parameters.AddWithValue("@EffectTo", Package.EffectTo);
-                cmd.Parameters.AddWithValue("@PackAmount", Package.PackAmount);
-                cmd.Parameters.AddWithValue("@Remarks", Package.Remarks);
-                cmd.Parameters.AddWithValue("@Active", Package.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", Package.BlockReason);
-                cmd.Parameters.AddWithValue("@UserId", Package.UserId);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
+
         //Package Ends
 
         //Location Starts
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="la"></param>
-        /// <returns></returns>
-        public List<LocationModel> GetLocation(Int32 la)
-        {
-            List<LocationModel> itemList = new List<LocationModel>();
 
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetLocation", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@LocationId", la);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsNumber = new DataTable();
-            adapter.Fill(dsNumber);
-            con.Close();
-            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
-                {
-                    LocationModel obj = new LocationModel
-                    {
-                        LocationId = Convert.ToInt32(dsNumber.Rows[i]["LocationId"]),
-                        LocationName = dsNumber.Rows[i]["LocationName"].ToString(),
-                        Supervisor = dsNumber.Rows[i]["Supervisor"].ToString(),
-                        ContactNumber = dsNumber.Rows[i]["ContactNumber"].ToString(),
-                        LTypeId = Convert.ToInt32(dsNumber.Rows[i]["LTypeId"]),
-                        ManageSPoints = Convert.ToBoolean(dsNumber.Rows[i]["ManageSPoints"]),
-                        ManageBilling = Convert.ToBoolean(dsNumber.Rows[i]["ManageBilling"]),
-                        ManageCash = Convert.ToBoolean(dsNumber.Rows[i]["ManageCash"]),
-                        ManageCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageCredit"]),
-                        ManageIPCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageIPCredit"]),
-                        Active = Convert.ToBoolean(dsNumber.Rows[i]["Active"]),
-                        BlockReason = dsNumber.Rows[i]["BlockReason"].ToString(),
-                        RepHeadImg = dsNumber.Rows[i]["RepHeadImg"].ToString(),
-                        HospitalId = Convert.ToInt32(dsNumber.Rows[i]["HospitalId"]),
-                        HospitalName = dsNumber.Rows[i]["HospitalName"].ToString(),
-                    };
-                    itemList.Add(obj);
-                }
-            }
-            return itemList;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Package"></param>
-        /// <returns></returns>
-        public string InsertUpdateLocation(LocationModel Package)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLocation", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@LocationId", Package.LocationId);
-                cmd.Parameters.AddWithValue("@LocationName", Package.LocationName);
-                cmd.Parameters.AddWithValue("@Supervisor", Package.Supervisor);
-                cmd.Parameters.AddWithValue("@ContactNumber", Package.ContactNumber);
-                cmd.Parameters.AddWithValue("@LTypeId", Package.LTypeId);
-                cmd.Parameters.AddWithValue("@ManageSPoints", Package.ManageSPoints);
-                cmd.Parameters.AddWithValue("@ManageBilling", Package.ManageBilling);
-                cmd.Parameters.AddWithValue("@ManageCash", Package.ManageCash);
-                cmd.Parameters.AddWithValue("@ManageCredit", Package.ManageCredit);
-                cmd.Parameters.AddWithValue("@ManageIPCredit", Package.ManageIPCredit);
-                cmd.Parameters.AddWithValue("@Active", Package.Active);
-                cmd.Parameters.AddWithValue("@RepHeadImg", Package.RepHeadImg);
-                cmd.Parameters.AddWithValue("@UserId", Package.UserId);
-                cmd.Parameters.AddWithValue("@HospitalId", Package.HospitalId);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
         //Location Ends
         /// <summary>
         /// 
@@ -2321,7 +2836,6 @@ namespace LeHealth.Core.DataManager
             }
             return dosageList;
         }
-
         public List<RouteModel> GetRoute(RouteModel rm)
         {
             List<RouteModel> routeList = new List<RouteModel>();

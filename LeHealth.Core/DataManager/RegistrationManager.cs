@@ -24,7 +24,6 @@ namespace LeHealth.Core.DataManager
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
-
         /// <summary>
         /// Get All details of patient.Not using now. Instead of this API SearchPatientInList is calling
         /// </summary>
@@ -797,24 +796,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
-        public string ValidateHL7(string nabidh)
-        {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://developerstg.dha.gov.ae/api/nabidhtesting/hl7testutility?app_id=c8d2b83c&app_key=f8d2def2a72f005be96021920faa2c12");
-            httpWebRequest.ContentType = "text/plain";
-            httpWebRequest.Method = "POST";
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                streamWriter.Write(nabidh);
-            }
-            var responsev = string.Empty;
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                responsev = streamReader.ReadToEnd();
-            }
-            return responsev;
-        }
         public string AutoregnoCreate()
         {
             using SqlConnection con = new SqlConnection(_connStr);
@@ -859,6 +840,7 @@ namespace LeHealth.Core.DataManager
                     RegDocLocationModel obj4 = new RegDocLocationModel();
                     obj4.Id = Convert.ToInt32(dsPatientList.Rows[j]["Id"]);
                     obj4.FilePath = _uploadpath + dsPatientList.Rows[j]["FilePath"].ToString();
+                    obj4.NewUniqueName = dsPatientList.Rows[j]["FilePath"].ToString().Replace("uploads/documents/", "");
                     var fileNameArray = obj4.FilePath.Split('.');
                     var extension = fileNameArray[(fileNameArray.Length - 1)];
                     string extname = extension.ToString().ToLower();

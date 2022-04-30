@@ -477,14 +477,12 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
-
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtConsultantDrugList = new DataTable();
             adapter.Fill(dtConsultantDrugList);
             con.Close();
             if ((dtConsultantDrugList != null) && (dtConsultantDrugList.Rows.Count > 0))
                 consultantServices = dtConsultantDrugList.ToListOfObject<ConsultantDrugModel>();
-
             return consultantServices;
         }
         public string DeleteConsultantDrug(int drugId)

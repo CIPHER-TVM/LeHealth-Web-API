@@ -122,12 +122,7 @@ namespace LeHealth.Core.DataManager
             }
             return freqList;
         }
-        /// <summary>
-        /// Get all profile data or specific profiles data if pm.ProfileId equals zero
-        /// </summary>
-        /// <param name="pm">Data in LH_Profile Table</param>
-        /// <returns>Profile list</returns>
-
+        
         /// <summary>
         /// API For getting profile list
         /// </summary>

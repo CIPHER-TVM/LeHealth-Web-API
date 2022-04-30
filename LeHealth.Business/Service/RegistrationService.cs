@@ -47,10 +47,6 @@ namespace LeHealth.Service.Service
             }
             return registrationManager.UploadPatientDocuments(patientDetail);
         }
-        public string ValidateHL7(string nabidh)
-        {
-            return registrationManager.ValidateHL7(nabidh);
-        }
         public List<AllPatientModel> GetAllPatient(int BranchId)
         {
             return registrationManager.GetAllPatient(BranchId);

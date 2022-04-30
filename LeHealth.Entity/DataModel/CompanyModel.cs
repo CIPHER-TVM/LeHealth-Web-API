@@ -8,8 +8,12 @@ namespace LeHealth.Entity.DataModel
     {
         public int CmpId { get; set; }
         public string CmpName { get; set; }
-        public int Active { get; set; }
-        public string BlockReason { get; set; }
         public int UserId { get; set; } 
+    }
+    public class CompanyModelAll : CompanyModel
+    {
+        public int BranchId { get; set; }
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }

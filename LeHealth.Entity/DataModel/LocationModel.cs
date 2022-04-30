@@ -17,8 +17,6 @@ namespace LeHealth.Entity.DataModel
         public bool ManageCash { get; set; }
         public bool ManageCredit { get; set; }
         public bool ManageIPCredit { get; set; }
-        public bool Active { get; set; }
-        public string BlockReason { get; set; }
         public string RepHeadImg { get; set; }
         public int HospitalId { get; set; }
         public string HospitalName { get; set; }
@@ -29,5 +27,9 @@ namespace LeHealth.Entity.DataModel
         public int LTypeId { get; set; }
         public string LTypeName { get; set; }
     }
-   
+    public class LocationAll : LocationModel
+    {
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
+    }
 }

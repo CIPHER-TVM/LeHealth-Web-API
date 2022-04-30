@@ -10,9 +10,13 @@ namespace LeHealth.Entity.DataModel
         public string RGroupName { get; set; }
         public string Description { get; set; }
         public string EffectFrom { get; set; }
-        public string EffectTo { get; set; } 
-        public int Active { get; set; } 
-        public int UserId { get; set; } 
-        public string BlockReason { get; set; }  
+        public string EffectTo { get; set; }
+        public int UserId { get; set; }
+        public int BranchId { get; set; } 
+    }
+    public class RateGroupModelAll : RateGroupModel
+    {
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }
