@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -35,19 +36,24 @@ namespace LeHealth.Entity.DataModel
         public int ItemId { get; set; }
         public string RoomNo { get; set; }
         public int UserId { get; set; }
-        public byte[] Signature { get; set; }
+        //public byte[] Signature { get; set; }
+        public string SignatureLoc { get; set; }
         public int ConsultantLedger { get; set; }
         public int CommissionId { get; set; }
         public int SortOrder { get; set; }
         public string SpecialityCode { get; set; }
-
         public bool AllowCommission { get; set; }
         public bool DeptOverrule { get; set; }
         public bool DeptWiseConsultation { get; set; }
         public bool ExternalConsultant { get; set; }
-
-
-
-
+    }
+    public class ConsultantRequestModel
+    {
+        public string ConsultantJson { get; set; }
+        public IFormFile SignaturePhoto { get; set; }
+    }
+    public class ConsultantRegModel : ConsultantMasterModel
+    {
+        public IFormFile PhotoFile { get; set; }
     }
 }

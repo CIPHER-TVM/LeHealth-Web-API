@@ -155,13 +155,14 @@ namespace LeHealth.Base.API.Controllers
 
         [Route("InsertUpdateConsultant")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> InsertUpdateConsultant(ConsultantMasterModel consultant)
+        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> InsertUpdateConsultant([FromForm] ConsultantRequestModel obj)
         {
-
             try
             {
                 string message = string.Empty;
-                message = consultantService.InsertUpdateConsultant(consultant);
+                ConsultantRegModel consultantDetail = JsonConvert.DeserializeObject<ConsultantRegModel>(obj.ConsultantJson);
+                consultantDetail.PhotoFile = obj.SignaturePhoto;
+                message = consultantService.InsertUpdateConsultant(consultantDetail);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
                 {
                     Status = HttpStatusCode.OK,

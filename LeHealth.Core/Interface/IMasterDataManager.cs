@@ -35,7 +35,7 @@ namespace LeHealth.Core.Interface
         string DeleteCountry(CountryModel country);
         List<StateModel> GetState(StateModel state);
         string InsertUpdateState(StateModel state);
-        string DeleteState(StateModel state); 
+        string DeleteState(StateModel state);
         List<CompanyModel> GetCompany(CompanyModelAll cmp);
         string InsertUpdateCompany(CompanyModelAll cmp);
         string DeleteCompany(CompanyModel cmp);
@@ -45,6 +45,17 @@ namespace LeHealth.Core.Interface
         List<CityModel> GetCity(CityModelAll city);
         string InsertUpdateCity(CityModelAll city);
         string DeleteCity(CityModel city);
+
+
+        List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign);
+        string InsertUpdateVitalSign(VitalSignModelAll vitalsign);
+        string DeleteVitalSign(VitalSignModelAll vitalsign);
+        List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll ledgerhead);
+        string InsertUpdateLedgerHead(LedgerHeadModelAll ledgerHead);
+        string DeleteLedgerHead(LedgerHeadModelAll ledgerHead);
+        List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel ledgerhead);
+        string DeleteConsultant(ConsultantMasterModel consultant); 
+
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -84,15 +95,13 @@ namespace LeHealth.Core.Interface
         //Consent Management ends
         List<SalutationModel> GetSalutation(Int32 salutationDetails);
         string InsertUpdateSalutation(SalutationModel salutationDetails);
-        List<BodyPartModel> GetBodyPart(Int32 bodyPartId);
-        string InsertUpdateBodyPart(BodyPartModel bodyPart);
+        List<BodyPartModel> GetBodyPart(BodyPartModelAll bodypart);
+        string InsertUpdateBodyPart(BodyPartModelAll bodypart);
+        string DeleteBodyPart(BodyPartModelAll bodypart);
         List<SponsorTypeModel> GetSponsorType(Int32 sponsorType);
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
-
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
-        List<VitalSignModel> GetVitalSign(Int32 vitalsign);
-        string InsertUpdateVitalSign(VitalSignModel vitalsign);
         List<MovementModel> GetMovement(Int32 movement);
         string InsertUpdateMovement(MovementModel movement);
         List<ScientificNameModel> GetScientificName(Int32 sname);

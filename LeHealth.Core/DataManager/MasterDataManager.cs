@@ -1259,6 +1259,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@CountryId", city.CountryId);
                 cmd.Parameters.AddWithValue("@StateId", city.StateId);
                 cmd.Parameters.AddWithValue("@UserId", city.UserId);
+                cmd.Parameters.AddWithValue("@BranchId", city.BranchId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", city.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -1293,7 +1294,7 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_DeleteCity", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CityId", city.CityId);
+                cmd.Parameters.AddWithValue("@Id", city.CityId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1319,6 +1320,410 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return response;
+        }
+
+        public List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign)
+        {
+            List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetVitalSign", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SignId", vitalsign.SignId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsVitalSignList = new DataTable();
+            adapter.Fill(dsVitalSignList);
+            con.Close();
+            if ((dsVitalSignList != null) && (dsVitalSignList.Rows.Count > 0))
+                vitalSignList = dsVitalSignList.ToListOfObject<VitalSignModel>();
+            return vitalSignList;
+        }
+        public string InsertUpdateVitalSign(VitalSignModelAll vitalsign)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateVitalSign", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SignId", vitalsign.SignId);
+                cmd.Parameters.AddWithValue("@SignName", vitalsign.SignName);
+                cmd.Parameters.AddWithValue("@Mandatory", vitalsign.Mandatory);
+                cmd.Parameters.AddWithValue("@SignCode", vitalsign.SignCode);
+                cmd.Parameters.AddWithValue("@SignUnit", vitalsign.SignUnit);
+                cmd.Parameters.AddWithValue("@MinValue", vitalsign.MinValue);
+                cmd.Parameters.AddWithValue("@MaxValue", vitalsign.MaxValue);
+                cmd.Parameters.AddWithValue("@SortOrder", vitalsign.SortOrder);
+                cmd.Parameters.AddWithValue("@UserId", vitalsign.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteVitalSign(VitalSignModelAll vitalsign)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteVitalSign", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SignId", vitalsign.SignId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+        public List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll ledgerHead)
+        {
+            List<LedgerHeadModel> ledgerHeadList = new List<LedgerHeadModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLedgerHead", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SignId", ledgerHead);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsVitalSignList = new DataTable();
+            adapter.Fill(dsVitalSignList);
+            con.Close();
+            if ((dsVitalSignList != null) && (dsVitalSignList.Rows.Count > 0))
+                ledgerHeadList = dsVitalSignList.ToListOfObject<LedgerHeadModel>();
+            return ledgerHeadList;
+        }
+        public string InsertUpdateLedgerHead(LedgerHeadModelAll ledgerHead)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLedgerHead", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@SignId", vitalsign.SignId);
+                //cmd.Parameters.AddWithValue("@SignName", vitalsign.SignName);
+                //cmd.Parameters.AddWithValue("@Mandatory", vitalsign.Mandatory);
+                //cmd.Parameters.AddWithValue("@SignCode", vitalsign.SignCode);
+                //cmd.Parameters.AddWithValue("@SignUnit", vitalsign.SignUnit);
+                //cmd.Parameters.AddWithValue("@MinValue", vitalsign.MinValue);
+                //cmd.Parameters.AddWithValue("@MaxValue", vitalsign.MaxValue);
+                //cmd.Parameters.AddWithValue("@SortOrder", vitalsign.SortOrder);
+                //cmd.Parameters.AddWithValue("@UserId", vitalsign.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteLedgerHead(LedgerHeadModelAll ledgerHead)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteLedgerHead", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SignId", ledgerHead);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+
+
+        public List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant)
+        {
+            List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultant", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsConsultant = new DataTable();
+            adapter.Fill(dsConsultant);
+            con.Close();
+            if ((dsConsultant != null) && (dsConsultant.Rows.Count > 0))
+                for (Int32 i = 0; i < dsConsultant.Rows.Count; i++)
+                {
+                    ConsultantMasterModel obj = new ConsultantMasterModel();
+                    obj.ConsultantId = Convert.ToInt32(dsConsultant.Rows[i]["ConsultantId"]);
+                    obj.DeptId = Convert.ToInt32(dsConsultant.Rows[i]["DeptId"]);
+                    obj.ConsultantCode = dsConsultant.Rows[i]["ConsultantCode"].ToString();
+                    obj.Title = dsConsultant.Rows[i]["Title"].ToString();
+                    obj.FirstName = dsConsultant.Rows[i]["FirstName"].ToString();
+                    obj.MiddleName = dsConsultant.Rows[i]["MiddleName"].ToString();
+                    obj.LastName = dsConsultant.Rows[i]["LastName"].ToString();
+                    obj.Gender = dsConsultant.Rows[i]["Gender"].ToString();
+                    string dobstr = dsConsultant.Rows[i]["DOB"].ToString().Replace("/", "-");
+                    DateTime dobdatetime = DateTime.ParseExact(dobstr, "dd-MM-yyyy", null);
+                    obj.DOB = dobdatetime;
+                    obj.Age = Convert.ToInt32(dsConsultant.Rows[i]["Age"]);
+                    obj.Specialisation = dsConsultant.Rows[i]["Specialisation"].ToString();
+                    obj.Designation = dsConsultant.Rows[i]["Designation"].ToString();
+                    obj.Qualification = dsConsultant.Rows[i]["Qualification"].ToString();
+                    obj.NationalityId = Convert.ToInt32(dsConsultant.Rows[i]["NationalityId"]);
+                    obj.Mobile = dsConsultant.Rows[i]["Mobile"].ToString();
+                    obj.ResPhone = dsConsultant.Rows[i]["ResPhone"].ToString();
+                    obj.OffPhone = dsConsultant.Rows[i]["OffPhone"].ToString();
+                    obj.Email = dsConsultant.Rows[i]["Email"].ToString();
+                    obj.Fax = dsConsultant.Rows[i]["Fax"].ToString();
+                    string dojstr = dsConsultant.Rows[i]["DOJ"].ToString().Replace("/", "-");
+                    DateTime dojdatetime = DateTime.ParseExact(dobstr, "dd-MM-yyyy", null);
+                    obj.DOB = dojdatetime;
+                    obj.CRegNo = dsConsultant.Rows[i]["CRegNo"].ToString();
+                    obj.TimeSlice = Convert.ToInt32(dsConsultant.Rows[i]["TimeSlice"]);
+                    obj.AppType = Convert.ToInt32(dsConsultant.Rows[i]["AppType"]);
+                    obj.MaxPatients = Convert.ToInt32(dsConsultant.Rows[i]["MaxPatients"]);
+                    obj.ItemId = Convert.ToInt32(dsConsultant.Rows[i]["ItemId"]);
+                    obj.RoomNo = dsConsultant.Rows[i]["RoomNo"].ToString();
+                    obj.SignatureLoc = dsConsultant.Rows[i]["SignatureLoc"].ToString();
+                    obj.ConsultantLedger = Convert.ToInt32(dsConsultant.Rows[i]["ConsultantLedger"]);
+                    obj.CommissionId = Convert.ToInt32(dsConsultant.Rows[i]["CommissionId"]);
+                    obj.SortOrder = Convert.ToInt32(dsConsultant.Rows[i]["SortOrder"]);
+                    obj.SpecialityCode = dsConsultant.Rows[i]["SpecialityCode"].ToString();
+                    obj.AllowCommission = Convert.ToBoolean(dsConsultant.Rows[i]["AllowCommission"]);
+                    obj.DeptOverrule = Convert.ToBoolean(dsConsultant.Rows[i]["DeptOverrule"].ToString());
+                    obj.DeptWiseConsultation = Convert.ToBoolean(dsConsultant.Rows[i]["DeptWiseConsultation"].ToString());
+                    obj.ExternalConsultant = Convert.ToBoolean(dsConsultant.Rows[i]["ExternalConsultant"].ToString());
+                    consultantList.Add(obj);
+                }
+            return consultantList;
+        }
+        public string DeleteConsultant(ConsultantMasterModel consultant)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultant", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SignId", consultant);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Save Registration scheme if itemId is zero else update the Scheme with Id
+        /// </summary>
+        /// <param name="RegScheme"></param>
+        /// <returns></returns>
+        public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRegScheme", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ItemId", RegScheme.ItemId);
+                cmd.Parameters.AddWithValue("@ItemCode", RegScheme.ItemCode);
+                cmd.Parameters.AddWithValue("@ItemName", RegScheme.ItemName);
+                cmd.Parameters.AddWithValue("@GroupId", RegScheme.GroupId);
+                cmd.Parameters.AddWithValue("@ValidityDays", RegScheme.ValidityDays);
+                cmd.Parameters.AddWithValue("@ValidityVisits", RegScheme.ValidityVisits);
+                cmd.Parameters.AddWithValue("@AllowRateEdit", RegScheme.AllowRateEdit);
+                cmd.Parameters.AddWithValue("@AllowDisc", RegScheme.AllowDisc);
+                cmd.Parameters.AddWithValue("@AllowPP", RegScheme.AllowPP);
+                cmd.Parameters.AddWithValue("@IsVSign", RegScheme.IsVSign);
+                cmd.Parameters.AddWithValue("@ResultOn", RegScheme.ResultOn);
+                cmd.Parameters.AddWithValue("@STypeId", RegScheme.STypeId);
+                cmd.Parameters.AddWithValue("@TotalTaxPcnt", RegScheme.TotalTaxPcnt);
+                cmd.Parameters.AddWithValue("@AllowCommission", RegScheme.AllowCommission);
+                cmd.Parameters.AddWithValue("@CommPcnt", RegScheme.CommPcnt);
+                cmd.Parameters.AddWithValue("@CommAmt", RegScheme.CommAmt);
+                cmd.Parameters.AddWithValue("@MaterialCost", RegScheme.MaterialCost);
+                cmd.Parameters.AddWithValue("@BaseCost", RegScheme.BaseCost);
+                cmd.Parameters.AddWithValue("@HeadId", RegScheme.HeadId);
+                cmd.Parameters.AddWithValue("@SortOrder", RegScheme.SortOrder);
+                cmd.Parameters.AddWithValue("@CPTCodeId", RegScheme.CPTCodeId);
+                cmd.Parameters.AddWithValue("@ExternalItem", RegScheme.ExternalItem);
+
+                cmd.Parameters.AddWithValue("@Active", RegScheme.Active);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        /// <summary>
+        /// Save Re
+        /// </summary>
+        /// <param name="RegSchemeId"></param>
+        /// <returns></returns>
+        public List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId)
+        {
+            List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_RegSchemeById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemId", RegSchemeId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtRegSchemeList = new DataTable();
+            adapter.Fill(dtRegSchemeList);
+            con.Close();
+            if ((dtRegSchemeList != null) && (dtRegSchemeList.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtRegSchemeList.Rows.Count; i++)
+                {
+                    RegSchemeModel obj = new RegSchemeModel
+                    {
+                        ItemId = Convert.ToInt32(dtRegSchemeList.Rows[i]["ItemId"]),
+                        ItemCode = dtRegSchemeList.Rows[i]["ItemCode"].ToString(),
+                        ItemName = dtRegSchemeList.Rows[i]["ItemName"].ToString(),
+                        GroupId = Convert.ToInt32(dtRegSchemeList.Rows[i]["GroupId"]),
+                        ValidityDays = Convert.ToInt32(dtRegSchemeList.Rows[i]["ValidityDays"]),
+                        ValidityVisits = Convert.ToInt32(dtRegSchemeList.Rows[i]["ValidityVisits"]),
+                        AllowRateEdit = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowRateEdit"]),
+                        AllowDisc = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowDisc"]),
+                        AllowPP = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowPP"]),
+                        IsVSign = Convert.ToInt32(dtRegSchemeList.Rows[i]["IsVSign"]),
+                        ResultOn = Convert.ToInt32(dtRegSchemeList.Rows[i]["ResultOn"]),
+                        STypeId = Convert.ToInt32(dtRegSchemeList.Rows[i]["STypeId"]),
+                        TotalTaxPcnt = Convert.ToInt32(dtRegSchemeList.Rows[i]["TotalTaxPcnt"]),
+                        AllowCommission = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowCommission"]),
+                        CommPcnt = Convert.ToInt32(dtRegSchemeList.Rows[i]["CommPcnt"]),
+                        CommAmt = Convert.ToInt32(dtRegSchemeList.Rows[i]["CommAmt"]),
+                        MaterialCost = Convert.ToInt32(dtRegSchemeList.Rows[i]["MaterialCost"]),
+                        BaseCost = Convert.ToInt32(dtRegSchemeList.Rows[i]["BaseCost"]),
+                        HeadId = Convert.ToInt32(dtRegSchemeList.Rows[i]["HeadId"]),
+                        SortOrder = Convert.ToInt32(dtRegSchemeList.Rows[i]["SortOrder"]),
+                        Active = Convert.ToInt32(dtRegSchemeList.Rows[i]["Active"]),
+                        BlockReason = dtRegSchemeList.Rows[i]["BlockReason"].ToString(),
+                        CPTCodeId = Convert.ToInt32(dtRegSchemeList.Rows[i]["CPTCodeId"]),
+                        ExternalItem = Convert.ToInt32(dtRegSchemeList.Rows[i]["ExternalItem"])
+                    };
+                    regSchemeList.Add(obj);
+                }
+            }
+            return regSchemeList;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1891,28 +2296,42 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="salutationDetails"></param>
         /// <returns></returns>
-        public List<BodyPartModel> GetBodyPart(Int32 salutationDetails)
+        public List<BodyPartModel> GetBodyPart(BodyPartModelAll salutationDetails)
         {
-            List<BodyPartModel> countryList = new List<BodyPartModel>();
+            List<BodyPartModel> bodypartList = new List<BodyPartModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetBodyPart", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@BodyId", salutationDetails);
+            cmd.Parameters.AddWithValue("@BodyId", salutationDetails.BodyId);
+            cmd.Parameters.AddWithValue("@ShowAll", salutationDetails.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", salutationDetails.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtbodypartList = new DataTable();
             adapter.Fill(dtbodypartList);
             con.Close();
             if ((dtbodypartList != null) && (dtbodypartList.Rows.Count > 0))
-                countryList = dtbodypartList.ToListOfObject<BodyPartModel>();
-            return countryList;
+            {
+                for (Int32 i = 0; i < dtbodypartList.Rows.Count; i++)
+                {
+                    string imgloc = dtbodypartList.Rows[i]["BodyPartImageLocation"].ToString();
+                    BodyPartModel obj = new BodyPartModel()
+                    {
+                        BodyId = Convert.ToInt32(dtbodypartList.Rows[i]["BodyId"]),
+                        BodyDesc = dtbodypartList.Rows[i]["BodyDesc"].ToString(),
+                        BodyPartImageLocation = imgloc != "" ? _uploadpath + imgloc : imgloc,
+                    };
+                    bodypartList.Add(obj);
+                }
+            }
+            return bodypartList;
         }
         /// <summary>
         /// Save and updating Bodypart master data,Saves when BodyId is zero. Updates when Body Id Not equal to zero
         /// </summary>
         /// <param name="bodypart"></param>
         /// <returns>success or error statement</returns>
-        public string InsertUpdateBodyPart(BodyPartModel bodypart)
+        public string InsertUpdateBodyPart(BodyPartModelAll bodypart)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1921,9 +2340,48 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@BodyId", bodypart.BodyId);
                 cmd.Parameters.AddWithValue("@BodyDesc", bodypart.BodyDesc);
-                cmd.Parameters.AddWithValue("@UserId", bodypart.UserId);
-                cmd.Parameters.AddWithValue("@Active", bodypart.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", bodypart.BlockReason);
+                //cmd.Parameters.AddWithValue("@UserId", bodypart.UserId);
+                //cmd.Parameters.AddWithValue("@Active", bodypart.Active);
+                //cmd.Parameters.AddWithValue("@BlockReason", bodypart.BlockReason);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+
+        public string DeleteBodyPart(BodyPartModelAll bodypart)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteBodyPart", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@BodyId", bodypart.BodyId);
+                cmd.Parameters.AddWithValue("@BodyDesc", bodypart.BodyDesc);
+                //cmd.Parameters.AddWithValue("@UserId", bodypart.UserId);
+                //cmd.Parameters.AddWithValue("@Active", bodypart.Active);
+                //cmd.Parameters.AddWithValue("@BlockReason", bodypart.BlockReason);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -2081,122 +2539,6 @@ namespace LeHealth.Core.DataManager
             return departmentlist;
         }
 
-        /// <summary>
-        /// Save Registration scheme if itemId is zero else update the Scheme with Id
-        /// </summary>
-        /// <param name="RegScheme"></param>
-        /// <returns></returns>
-        public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRegScheme", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ItemId", RegScheme.ItemId);
-                cmd.Parameters.AddWithValue("@ItemCode", RegScheme.ItemCode);
-                cmd.Parameters.AddWithValue("@ItemName", RegScheme.ItemName);
-                cmd.Parameters.AddWithValue("@GroupId", RegScheme.GroupId);
-                cmd.Parameters.AddWithValue("@ValidityDays", RegScheme.ValidityDays);
-                cmd.Parameters.AddWithValue("@ValidityVisits", RegScheme.ValidityVisits);
-                cmd.Parameters.AddWithValue("@AllowRateEdit", RegScheme.AllowRateEdit);
-                cmd.Parameters.AddWithValue("@AllowDisc", RegScheme.AllowDisc);
-                cmd.Parameters.AddWithValue("@AllowPP", RegScheme.AllowPP);
-                cmd.Parameters.AddWithValue("@IsVSign", RegScheme.IsVSign);
-                cmd.Parameters.AddWithValue("@ResultOn", RegScheme.ResultOn);
-                cmd.Parameters.AddWithValue("@STypeId", RegScheme.STypeId);
-                cmd.Parameters.AddWithValue("@TotalTaxPcnt", RegScheme.TotalTaxPcnt);
-                cmd.Parameters.AddWithValue("@AllowCommission", RegScheme.AllowCommission);
-                cmd.Parameters.AddWithValue("@CommPcnt", RegScheme.CommPcnt);
-                cmd.Parameters.AddWithValue("@CommAmt", RegScheme.CommAmt);
-                cmd.Parameters.AddWithValue("@MaterialCost", RegScheme.MaterialCost);
-                cmd.Parameters.AddWithValue("@BaseCost", RegScheme.BaseCost);
-                cmd.Parameters.AddWithValue("@HeadId", RegScheme.HeadId);
-                cmd.Parameters.AddWithValue("@SortOrder", RegScheme.SortOrder);
-                cmd.Parameters.AddWithValue("@CPTCodeId", RegScheme.CPTCodeId);
-                cmd.Parameters.AddWithValue("@ExternalItem", RegScheme.ExternalItem);
-
-                cmd.Parameters.AddWithValue("@Active", RegScheme.Active);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        /// <summary>
-        /// Save Re
-        /// </summary>
-        /// <param name="RegSchemeId"></param>
-        /// <returns></returns>
-        public List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId)
-        {
-            List<RegSchemeModel> regSchemeList = new List<RegSchemeModel>();
-
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_RegSchemeById", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ItemId", RegSchemeId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtRegSchemeList = new DataTable();
-            adapter.Fill(dtRegSchemeList);
-            con.Close();
-            if ((dtRegSchemeList != null) && (dtRegSchemeList.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dtRegSchemeList.Rows.Count; i++)
-                {
-                    RegSchemeModel obj = new RegSchemeModel
-                    {
-                        ItemId = Convert.ToInt32(dtRegSchemeList.Rows[i]["ItemId"]),
-                        ItemCode = dtRegSchemeList.Rows[i]["ItemCode"].ToString(),
-                        ItemName = dtRegSchemeList.Rows[i]["ItemName"].ToString(),
-                        GroupId = Convert.ToInt32(dtRegSchemeList.Rows[i]["GroupId"]),
-                        ValidityDays = Convert.ToInt32(dtRegSchemeList.Rows[i]["ValidityDays"]),
-                        ValidityVisits = Convert.ToInt32(dtRegSchemeList.Rows[i]["ValidityVisits"]),
-                        AllowRateEdit = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowRateEdit"]),
-                        AllowDisc = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowDisc"]),
-                        AllowPP = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowPP"]),
-                        IsVSign = Convert.ToInt32(dtRegSchemeList.Rows[i]["IsVSign"]),
-                        ResultOn = Convert.ToInt32(dtRegSchemeList.Rows[i]["ResultOn"]),
-                        STypeId = Convert.ToInt32(dtRegSchemeList.Rows[i]["STypeId"]),
-                        TotalTaxPcnt = Convert.ToInt32(dtRegSchemeList.Rows[i]["TotalTaxPcnt"]),
-                        AllowCommission = Convert.ToInt32(dtRegSchemeList.Rows[i]["AllowCommission"]),
-                        CommPcnt = Convert.ToInt32(dtRegSchemeList.Rows[i]["CommPcnt"]),
-                        CommAmt = Convert.ToInt32(dtRegSchemeList.Rows[i]["CommAmt"]),
-                        MaterialCost = Convert.ToInt32(dtRegSchemeList.Rows[i]["MaterialCost"]),
-                        BaseCost = Convert.ToInt32(dtRegSchemeList.Rows[i]["BaseCost"]),
-                        HeadId = Convert.ToInt32(dtRegSchemeList.Rows[i]["HeadId"]),
-                        SortOrder = Convert.ToInt32(dtRegSchemeList.Rows[i]["SortOrder"]),
-                        Active = Convert.ToInt32(dtRegSchemeList.Rows[i]["Active"]),
-                        BlockReason = dtRegSchemeList.Rows[i]["BlockReason"].ToString(),
-                        CPTCodeId = Convert.ToInt32(dtRegSchemeList.Rows[i]["CPTCodeId"]),
-                        ExternalItem = Convert.ToInt32(dtRegSchemeList.Rows[i]["ExternalItem"])
-                    };
-                    regSchemeList.Add(obj);
-                }
-            }
-            return regSchemeList;
-        }
 
 
 
@@ -2613,79 +2955,8 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        //VitalSign Starts
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vitalsign"></param>
-        /// <returns></returns>
-        public string InsertUpdateVitalSign(VitalSignModel vitalsign)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateVitalSign", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SignId", vitalsign.SignId);
-                cmd.Parameters.AddWithValue("@SignName", vitalsign.SignName);
-                cmd.Parameters.AddWithValue("@Mandatory", vitalsign.Mandatory);
-                cmd.Parameters.AddWithValue("@SignCode", vitalsign.SignCode);
-                cmd.Parameters.AddWithValue("@SignUnit", vitalsign.SignUnit);
-                cmd.Parameters.AddWithValue("@MinValue", vitalsign.MinValue);
-                cmd.Parameters.AddWithValue("@MaxValue", vitalsign.MaxValue);
-                cmd.Parameters.AddWithValue("@SortOrder", vitalsign.SortOrder);
-                cmd.Parameters.AddWithValue("@UserId", vitalsign.UserId);
-                cmd.Parameters.AddWithValue("@Active", vitalsign.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", vitalsign.BlockReason);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public List<VitalSignModel> GetVitalSign(Int32 Id)
-        {
-            List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
 
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetVitalSign", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@SignId", Id);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsVitalSignList = new DataTable();
-            adapter.Fill(dsVitalSignList);
-            con.Close();
-            if ((dsVitalSignList != null) && (dsVitalSignList.Rows.Count > 0))
-                vitalSignList = dsVitalSignList.ToListOfObject<VitalSignModel>();
-            return vitalSignList;
-        }
-        //VitalSign Ends
+
         //Movement Starts
         /// <summary>
         /// 

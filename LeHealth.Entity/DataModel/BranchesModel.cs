@@ -13,7 +13,6 @@ namespace LeHealth.Entity.DataModel
     }
     public class HospitalRegModel : HospitalModel
     {
-
         public IFormFile LogoFile { get; set; }
         public IFormFile ReportLogoFile { get; set; }
     }

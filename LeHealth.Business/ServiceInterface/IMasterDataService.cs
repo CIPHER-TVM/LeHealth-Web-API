@@ -43,6 +43,21 @@ namespace LeHealth.Service.ServiceInterface
         List<CityModel> GetCity(CityModelAll city);
         string InsertUpdateCity(CityModelAll city);
         string DeleteCity(CityModel city);
+        List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign);
+        string InsertUpdateVitalSign(VitalSignModelAll vitalsign);
+        string DeleteVitalSign(VitalSignModelAll vitalsign);
+
+        List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll vitalsign);
+        string InsertUpdateLedgerHead(LedgerHeadModelAll vitalsign);
+        string DeleteLedgerHead(LedgerHeadModelAll vitalsign);
+        List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant);
+        string DeleteConsultant(ConsultantMasterModel consultant); 
+
+
+
+
+
+
         ////////////////////////////////////////////////////////////////////////////////////////
 
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
@@ -73,14 +88,13 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateLeadAgent(LeadAgentModel la);
         List<SalutationModel> GetSalutation(Int32 stateDetail);
         string InsertUpdateSalutation(SalutationModel stateDetail);
-        List<BodyPartModel> GetBodyPart(Int32 stateDetail);
-        string InsertUpdateBodyPart(BodyPartModel stateDetail);
+        List<BodyPartModel> GetBodyPart(BodyPartModelAll bodypart);
+        string InsertUpdateBodyPart(BodyPartModelAll bodypart);
+        string DeleteBodyPart(BodyPartModelAll bodypart);
         List<SponsorTypeModel> GetSponsorType(Int32 sponsorType);
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
-        List<VitalSignModel> GetVitalSign(Int32 vitalsign);
-        string InsertUpdateVitalSign(VitalSignModel vitalsign);
         List<MovementModel> GetMovement(Int32 movement);
         string InsertUpdateMovement(MovementModel movement);
         List<ScientificNameModel> GetScientificName(Int32 sname);

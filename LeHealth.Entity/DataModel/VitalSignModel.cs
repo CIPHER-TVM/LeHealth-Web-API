@@ -14,8 +14,12 @@ namespace LeHealth.Entity.DataModel
         public double MinValue { get; set; }
         public double MaxValue { get; set; }
         public int SortOrder { get; set; }
+    }
+    public class VitalSignModelAll : VitalSignModel 
+    {
+        public int BranchId { get; set; }
         public int UserId { get; set; }
-        public int Active { get; set; }
-        public string BlockReason { get; set; } 
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }

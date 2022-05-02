@@ -1277,6 +1277,312 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
 
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Sponsor as JSON
+        /// </returns>
+        [Route("GetVitalSign")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<VitalSignModel>> GetVitalSign(VitalSignModelAll vitalSign)
+        {
+            try
+            {
+                List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
+                vitalSignList = masterdataService.GetVitalSign(vitalSign);
+                var response = new ResponseDataModel<IEnumerable<VitalSignModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vitalSignList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<VitalSignModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        /// <summary>
+        /// To Save or update vital sign . if ProfId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+        [Route("InsertUpdateVitalSign")]
+        [HttpPost]
+        public ResponseDataModel<VitalSignModel> InsertUpdateVitalSign(VitalSignModelAll vitalSign)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateVitalSign(vitalSign);
+                var response = new ResponseDataModel<VitalSignModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<VitalSignModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("DeleteVitalSign")]
+        [HttpPost]
+        public ResponseDataModel<VitalSignModel> DeleteVitalSign(VitalSignModelAll vitalSign)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteVitalSign(vitalSign);
+                var response = new ResponseDataModel<VitalSignModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<VitalSignModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Sponsor as JSON
+        /// </returns>
+        [Route("GetLedgerHead")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<LedgerHeadModel>> GetLedgerHead(LedgerHeadModelAll ledgerhead)
+        {
+            try
+            {
+                List<LedgerHeadModel> vitalSignList = new List<LedgerHeadModel>();
+                vitalSignList = masterdataService.GetLedgerHead(ledgerhead);
+                var response = new ResponseDataModel<IEnumerable<LedgerHeadModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vitalSignList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<LedgerHeadModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        /// <summary>
+        /// To Save or update vital sign . if ProfId=0 saves data ,else update data
+        /// </summary>
+        /// <returns>
+        /// returns success or reason of failure
+        /// </returns>
+        [Route("InsertUpdateLedgerHead")]
+        [HttpPost]
+        public ResponseDataModel<LedgerHeadModel> InsertUpdateLedgerHead(LedgerHeadModelAll ledgerhead)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateLedgerHead(ledgerhead);
+                var response = new ResponseDataModel<LedgerHeadModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<LedgerHeadModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("DeleteLedgerHead")]
+        [HttpPost]
+        public ResponseDataModel<LedgerHeadModel> DeleteLedgerHead(LedgerHeadModelAll ledgerHead)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteLedgerHead(ledgerHead);
+                var response = new ResponseDataModel<LedgerHeadModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<LedgerHeadModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// To get list of all Professions Or Profession Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// </summary>
+        /// <returns>
+        /// returns List of Sponsor as JSON
+        /// </returns>
+        [Route("GetConsultant")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetConsultant(ConsultantMasterModel consultant)
+        {
+            //try
+            //{
+                List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
+                consultantList = masterdataService.GetConsultant(consultant);
+                var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantList
+                };
+                return response;
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+
+            //    };
+            //}
+            //finally
+            //{
+            //}
+        }
+
+        [Route("DeleteConsultant")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteConsultant(ConsultantMasterModel consultant)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteConsultant(consultant);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //END
@@ -1700,88 +2006,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        /// <summary>
-        /// To get list of all Professions Or Profession Detail of Input parameter. 
-        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
-        /// </summary>
-        /// <returns>
-        /// returns List of Sponsor as JSON
-        /// </returns>
-        [Route("GetVitalSign/{id}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<VitalSignModel>> GetVitalSign(Int32 id)
-        {
-            try
-            {
-                List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
-                vitalSignList = masterdataService.GetVitalSign(id);
-                var response = new ResponseDataModel<IEnumerable<VitalSignModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = vitalSignList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<VitalSignModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-        /// <summary>
-        /// To Save or update profession . if ProfId=0 saves data ,else update data
-        /// </summary>
-        /// <returns>
-        /// returns success or reason of failure
-        /// </returns>
-        [Route("InsertUpdateVitalSign")]
-        [HttpPost]
-        public ResponseDataModel<VitalSignModel> InsertUpdateVitalSign(VitalSignModel vitalSign)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateVitalSign(vitalSign);
-                var response = new ResponseDataModel<VitalSignModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<VitalSignModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-        //City management ends
-
-
+        
         //Consent Management starts
 
         /// <summary>
@@ -1998,13 +2223,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// returns List of State as JSON
         /// </returns>
         [HttpPost]
-        [Route("GetBodyPart/{Id}")]
-        public ResponseDataModel<IEnumerable<BodyPartModel>> GetBodyPart(Int32 Id)
+        [Route("GetBodyPart")]
+        public ResponseDataModel<IEnumerable<BodyPartModel>> GetBodyPart(BodyPartModelAll bodypart)
         {
             try
             {
                 List<BodyPartModel> bodypartList = new List<BodyPartModel>();
-                bodypartList = masterdataService.GetBodyPart(Id);
+                bodypartList = masterdataService.GetBodyPart(bodypart);
                 var response = new ResponseDataModel<IEnumerable<BodyPartModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -2040,13 +2265,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateBodyPart")]
         [HttpPost]
-        public ResponseDataModel<BodyPartModel> InsertUpdateBodyPart(BodyPartModel State)
+        public ResponseDataModel<string> InsertUpdateBodyPart(BodyPartModelAll bodypart)
         {
             try
             {
                 string message = string.Empty;
-                message = masterdataService.InsertUpdateBodyPart(State);
-                var response = new ResponseDataModel<BodyPartModel>()
+                message = masterdataService.InsertUpdateBodyPart(bodypart);
+                var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2056,7 +2281,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<BodyPartModel>()
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("DeleteBodyPart")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteBodyPart(BodyPartModelAll bodypart)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteBodyPart(bodypart);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

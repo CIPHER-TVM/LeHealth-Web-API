@@ -144,7 +144,7 @@ namespace LeHealth.Service.Service
         public string InsertUpdateProfession(ProfessionModelAll prof)
         {
             return masterdataManager.InsertUpdateProfession(prof);
-        } 
+        }
         public string DeleteProfession(ProfessionModel prof)
         {
             return masterdataManager.DeleteProfession(prof);
@@ -161,6 +161,43 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteCity(city);
         }
+        public List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign)
+        {
+            return masterdataManager.GetVitalSign(vitalsign);
+        }
+        public string InsertUpdateVitalSign(VitalSignModelAll vitalsign)
+        {
+            return masterdataManager.InsertUpdateVitalSign(vitalsign);
+        }
+        public string DeleteVitalSign(VitalSignModelAll vitalsign)
+        {
+            return masterdataManager.DeleteVitalSign(vitalsign);
+        }
+        public List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll ledgerHead)
+        {
+            return masterdataManager.GetLedgerHead(ledgerHead);
+        }
+        public string InsertUpdateLedgerHead(LedgerHeadModelAll ledgerHead)
+        {
+            return masterdataManager.InsertUpdateLedgerHead(ledgerHead);
+        }
+        public string DeleteLedgerHead(LedgerHeadModelAll ledgerHead)
+        {
+            return masterdataManager.DeleteLedgerHead(ledgerHead);
+        }
+
+        public List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant)
+        {
+            return masterdataManager.GetConsultant(consultant);
+        }
+        public string DeleteConsultant(ConsultantMasterModel consultant)
+        {
+            return masterdataManager.DeleteConsultant(consultant);
+        }
+
+
+
+
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         public string InsertUpdateMenuGroupMap(MenuGroupModel mgm)
@@ -284,13 +321,17 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateLeadAgent(la);
         }
-        public List<BodyPartModel> GetBodyPart(Int32 Id)
+        public List<BodyPartModel> GetBodyPart(BodyPartModelAll bodypart)
         {
-            return masterdataManager.GetBodyPart(Id);
+            return masterdataManager.GetBodyPart(bodypart);
         }
-        public string InsertUpdateBodyPart(BodyPartModel cmp)
+        public string InsertUpdateBodyPart(BodyPartModelAll bodypart)
         {
-            return masterdataManager.InsertUpdateBodyPart(cmp);
+            return masterdataManager.InsertUpdateBodyPart(bodypart);
+        }
+        public string DeleteBodyPart(BodyPartModelAll bodypart)
+        {
+            return masterdataManager.DeleteBodyPart(bodypart);
         }
 
         public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)
@@ -309,7 +350,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateConsent(consent);
         }
-       
+
         public List<SalutationModel> GetSalutation(Int32 stateDetails)
         {
             return masterdataManager.GetSalutation(stateDetails);
@@ -318,14 +359,9 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSalutation(state);
         }
-        public List<VitalSignModel> GetVitalSign(Int32 vitalsign)
-        {
-            return masterdataManager.GetVitalSign(vitalsign);
-        }
-        public string InsertUpdateVitalSign(VitalSignModel vitalsign)
-        {
-            return masterdataManager.InsertUpdateVitalSign(vitalsign);
-        }
+
+
+
         public List<MovementModel> GetMovement(Int32 movement)
         {
             return masterdataManager.GetMovement(movement);

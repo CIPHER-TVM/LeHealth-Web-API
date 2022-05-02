@@ -173,7 +173,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Consultant"></param>
         /// <returns></returns>
-        public string InsertUpdateConsultant(ConsultantMasterModel consultant)
+        public string InsertUpdateConsultant(ConsultantRegModel consultant)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -210,7 +210,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
                 cmd.Parameters.AddWithValue("@UserId", consultant.UserId);
                 cmd.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
-                cmd.Parameters.AddWithValue("@Signature", consultant.Signature);
+                cmd.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
                 cmd.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
                 cmd.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
                 cmd.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
