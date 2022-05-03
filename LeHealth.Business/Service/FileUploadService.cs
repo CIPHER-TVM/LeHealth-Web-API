@@ -55,20 +55,21 @@ namespace LeHealth.Service.Service
             }
             return retvals;
         }
-        public string SaveFile(IFormFile File)
+        public string SaveFile(IFormFile File, string foldername)
         {
             string returnFilePath = string.Empty;
             using (var ms = new MemoryStream())
             {
                 var webRoot = _env.WebRootPath;
                 webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
+                //var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
+                var PathWithFolderName = System.IO.Path.Combine(webRoot, foldername);
                 string fileName = File.FileName;
                 var fileNameArray = fileName.Split('.');
                 var extension = fileNameArray[(fileNameArray.Length - 1)];
                 Guid Uniquefilename = Guid.NewGuid();
                 string actualFileName = Uniquefilename + "." + extension;
-                returnFilePath = "uploads/documents/" + actualFileName;
+                returnFilePath = "uploads/" + foldername + "/" + actualFileName;
                 using FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create);
                 File.CopyTo(stream);
             }

@@ -6,8 +6,10 @@ namespace LeHealth.Entity.DataModel
 {
     public class LedgerHeadModel
     {
-        public int MyProperty { get; set; }
-     
+        public int HeadId { get; set; }
+        public string HeadDesc { get; set; }
+        public int HeadType { get; set; }
+        public string State { get; set; }     
     }
     public class LedgerHeadModelAll : LedgerHeadModel
     {

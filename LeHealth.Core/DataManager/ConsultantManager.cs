@@ -1592,7 +1592,17 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dtSketchIndicatorsList);
             con.Close();
             if ((dtSketchIndicatorsList != null) && (dtSketchIndicatorsList.Rows.Count > 0))
-                sketchIndicators = dtSketchIndicatorsList.ToListOfObject<SketchIndicatorModel>();
+                //sketchIndicators = dtSketchIndicatorsList.ToListOfObject<SketchIndicatorModel>();
+                for (Int32 i = 0; i < dtSketchIndicatorsList.Rows.Count; i++)
+                {
+                    SketchIndicatorModel obj = new SketchIndicatorModel
+                    {
+                        IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
+                        IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
+                        ImageUrl = dtSketchIndicatorsList.Rows[i]["ImageUrl"].ToString()
+                    };
+                    sketchIndicators.Add(obj);
+                }
 
             return sketchIndicators;
         }

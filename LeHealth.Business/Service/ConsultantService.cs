@@ -39,7 +39,7 @@ namespace LeHealth.Service.Service
         {
             if (consultant.PhotoFile != null)
             {
-                consultant.SignatureLoc = fileUploadService.SaveFile(consultant.PhotoFile);
+                consultant.SignatureLoc = fileUploadService.SaveFile(consultant.PhotoFile,"documents");
             }
             return consultantManager.InsertUpdateConsultant(consultant);
         }

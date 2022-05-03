@@ -185,7 +185,24 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteLedgerHead(ledgerHead);
         }
-
+        public List<BodyPartModelReturn> GetBodyPart(BodyPartModel bodypart)
+        {
+            return masterdataManager.GetBodyPart(bodypart);
+        }
+        public string InsertUpdateBodyPart(BodyPartRegModel bodypart)
+        {
+            if (bodypart.BodyPartImgFile != null)
+            {
+                bodypart.BodyPartImageLocation = fileUploadService.SaveFile(bodypart.BodyPartImgFile,"bodyparts");
+            }
+            return masterdataManager.InsertUpdateBodyPart(bodypart);
+        }
+        public string DeleteBodyPart(BodyPartModel bodypart)
+        {
+            return masterdataManager.DeleteBodyPart(bodypart);
+        }
+        /////////////////////////////////////////////////////////////////////////////
+    
         public List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant)
         {
             return masterdataManager.GetConsultant(consultant);
@@ -194,7 +211,18 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteConsultant(consultant);
         }
-
+        public List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId)
+        {
+            return masterdataManager.GetRegScheme(RegSchemeId);
+        }
+        public string InsertUpdateRegScheme(RegSchemeModelAll RegScheme)
+        {
+            return masterdataManager.InsertUpdateRegScheme(RegScheme);
+        }
+        public string DeleteRegScheme(RegSchemeModelAll RegScheme)
+        {
+            return masterdataManager.DeleteRegScheme(RegScheme); 
+        }
 
 
 
@@ -275,11 +303,11 @@ namespace LeHealth.Service.Service
         {
             if (hm.LogoFile != null)
             {
-                hm.Logo = fileUploadService.SaveFile(hm.LogoFile);
+                hm.Logo = fileUploadService.SaveFile(hm.LogoFile,"documents");
             }
             if (hm.ReportLogoFile != null)
             {
-                hm.ReportLogo = fileUploadService.SaveFile(hm.LogoFile);
+                hm.ReportLogo = fileUploadService.SaveFile(hm.LogoFile, "documents");
             }
             return masterdataManager.InsertUpdateUserHospital(hm);
         }
@@ -288,18 +316,12 @@ namespace LeHealth.Service.Service
 
             if (hm.SignFile != null)
             {
-                hm.Sign = fileUploadService.SaveFile(hm.SignFile);
+                hm.Sign = fileUploadService.SaveFile(hm.SignFile,"documents");
             }
             return masterdataManager.ConsentFormDataSave(hm);
         }
-        public string InsertUpdateRegScheme(RegSchemeModel RegScheme)
-        {
-            return masterdataManager.InsertUpdateRegScheme(RegScheme);
-        }
-        public List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId)
-        {
-            return masterdataManager.GetRegScheme(RegSchemeId);
-        }
+        
+        
 
         public string InsertUpdateOperator(OperatorModel Operator)
         {
@@ -320,18 +342,6 @@ namespace LeHealth.Service.Service
         public string InsertUpdateLeadAgent(LeadAgentModel la)
         {
             return masterdataManager.InsertUpdateLeadAgent(la);
-        }
-        public List<BodyPartModel> GetBodyPart(BodyPartModelAll bodypart)
-        {
-            return masterdataManager.GetBodyPart(bodypart);
-        }
-        public string InsertUpdateBodyPart(BodyPartModelAll bodypart)
-        {
-            return masterdataManager.InsertUpdateBodyPart(bodypart);
-        }
-        public string DeleteBodyPart(BodyPartModelAll bodypart)
-        {
-            return masterdataManager.DeleteBodyPart(bodypart);
         }
 
         public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)

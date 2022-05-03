@@ -26,9 +26,14 @@ namespace LeHealth.Entity.DataModel
         public int BaseCost { get; set; }
         public int HeadId { get; set; }
         public int SortOrder { get; set; }
-        public int Active { get; set; }
-        public string BlockReason { get; set; }
         public int CPTCodeId { get; set; } 
         public int ExternalItem { get; set; }  
+    }
+    public class RegSchemeModelAll : RegSchemeModel 
+    {
+        public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }

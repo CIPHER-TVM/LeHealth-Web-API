@@ -46,13 +46,20 @@ namespace LeHealth.Service.ServiceInterface
         List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign);
         string InsertUpdateVitalSign(VitalSignModelAll vitalsign);
         string DeleteVitalSign(VitalSignModelAll vitalsign);
-
         List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll vitalsign);
         string InsertUpdateLedgerHead(LedgerHeadModelAll vitalsign);
         string DeleteLedgerHead(LedgerHeadModelAll vitalsign);
-        List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant);
-        string DeleteConsultant(ConsultantMasterModel consultant); 
+        List<BodyPartModelReturn> GetBodyPart(BodyPartModel bodypart);
+        string InsertUpdateBodyPart(BodyPartRegModel bodypart);
+        string DeleteBodyPart(BodyPartModel bodypart);
 
+
+        List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant);
+        string DeleteConsultant(ConsultantMasterModel consultant);
+        List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegScheme);
+        string InsertUpdateRegScheme(RegSchemeModelAll RegScheme);
+        string DeleteRegScheme(RegSchemeModelAll RegScheme);
+        
 
 
 
@@ -81,16 +88,11 @@ namespace LeHealth.Service.ServiceInterface
         List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData rm);
         string InsertUpdateOperator(OperatorModel Operator);
         List<OperatorModel> GetOperator(Int32 OperatorId);
-        string InsertUpdateRegScheme(RegSchemeModel RegScheme);
-        List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId);
         List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel);
         List<LeadAgentModel> GetLeadAgent(Int32 la);
         string InsertUpdateLeadAgent(LeadAgentModel la);
         List<SalutationModel> GetSalutation(Int32 stateDetail);
         string InsertUpdateSalutation(SalutationModel stateDetail);
-        List<BodyPartModel> GetBodyPart(BodyPartModelAll bodypart);
-        string InsertUpdateBodyPart(BodyPartModelAll bodypart);
-        string DeleteBodyPart(BodyPartModelAll bodypart);
         List<SponsorTypeModel> GetSponsorType(Int32 sponsorType);
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);

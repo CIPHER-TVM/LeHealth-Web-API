@@ -53,9 +53,16 @@ namespace LeHealth.Core.Interface
         List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll ledgerhead);
         string InsertUpdateLedgerHead(LedgerHeadModelAll ledgerHead);
         string DeleteLedgerHead(LedgerHeadModelAll ledgerHead);
-        List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel ledgerhead);
-        string DeleteConsultant(ConsultantMasterModel consultant); 
+        List<BodyPartModelReturn> GetBodyPart(BodyPartModel bodypart);
+        string InsertUpdateBodyPart(BodyPartRegModel bodypart);
+        string DeleteBodyPart(BodyPartModel bodypart);
 
+        //////////////////////////////////////////////////
+        List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel ledgerhead);
+        string DeleteConsultant(ConsultantMasterModel consultant);
+        List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId);
+        string InsertUpdateRegScheme(RegSchemeModelAll RegScheme);
+        string DeleteRegScheme(RegSchemeModelAll RegScheme);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -70,9 +77,7 @@ namespace LeHealth.Core.Interface
         List<DosageModel> GetDosage(DosageModel dm);
         List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData dm);
         string InsertUpdateOperator(OperatorModel Operator);
-        List<OperatorModel> GetOperator(Int32 OperatorId);
-        string InsertUpdateRegScheme(RegSchemeModel RegScheme);
-        List<RegSchemeModel> GetRegScheme(Int32 RegSchemeId);
+        List<OperatorModel> GetOperator(Int32 OperatorId);        
         List<HospitalModel> GetUserHospitals(Int32 id);
         string InsertUpdateUserHospital(HospitalRegModel hm);
         string ConsentFormDataSave(ConsentFormRegModel hm);
@@ -95,9 +100,6 @@ namespace LeHealth.Core.Interface
         //Consent Management ends
         List<SalutationModel> GetSalutation(Int32 salutationDetails);
         string InsertUpdateSalutation(SalutationModel salutationDetails);
-        List<BodyPartModel> GetBodyPart(BodyPartModelAll bodypart);
-        string InsertUpdateBodyPart(BodyPartModelAll bodypart);
-        string DeleteBodyPart(BodyPartModelAll bodypart);
         List<SponsorTypeModel> GetSponsorType(Int32 sponsorType);
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
