@@ -1321,14 +1321,14 @@ namespace LeHealth.Base.API.Controllers
         }
         [Route("InsertConsultantMarking")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> InsertConsultantMarking([FromForm]ConsultantMarkingRequestModel obj)
+        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> InsertConsultantMarking(ConsultantMarkingModel obj)
         {
             try
             {
                 string message = string.Empty;
-                ConsultantMarkingRegModel consultantm = JsonConvert.DeserializeObject<ConsultantMarkingRegModel>(obj.ConsultantMarkingJson);
-                consultantm.ConsultantMarkingFile = obj.ConsultantMarkingImg;
-                message = consultantService.InsertUpdateConsultantMarking(consultantm);
+                //ConsultantMarkingRegModel consultantm = JsonConvert.DeserializeObject<ConsultantMarkingRegModel>(obj.ConsultantMarkingJson);
+                //consultantm.ConsultantMarkingFile = obj.ConsultantMarkingImg;
+                message = consultantService.InsertUpdateConsultantMarking(obj);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMarkingModel>>()
                 {
                     Status = HttpStatusCode.OK,

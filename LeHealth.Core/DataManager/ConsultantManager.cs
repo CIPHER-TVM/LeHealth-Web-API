@@ -1607,7 +1607,7 @@ namespace LeHealth.Core.DataManager
 
             return sketchIndicators;
         }
-        public string InsertUpdateConsultantMarking(ConsultantMarkingRegModel consultantMarking)
+        public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))

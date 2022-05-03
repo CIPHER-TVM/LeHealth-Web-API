@@ -39,7 +39,7 @@ namespace LeHealth.Service.Service
         {
             if (consultant.PhotoFile != null)
             {
-                consultant.SignatureLoc = fileUploadService.SaveFile(consultant.PhotoFile,"documents");
+                consultant.SignatureLoc = fileUploadService.SaveFile(consultant.PhotoFile, "documents");
             }
             return consultantManager.InsertUpdateConsultant(consultant);
         }
@@ -178,11 +178,11 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetSketchIndicators(sketch);
         }
-        public string InsertUpdateConsultantMarking(ConsultantMarkingRegModel consultantMarking)
+        public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
         {
-            if (consultantMarking.ConsultantMarkingFile != null)
+            if (consultantMarking.Base64Img != "")
             {
-                consultantMarking.ConsultantMarkingImageLocation = fileUploadService.SaveFile(consultantMarking.ConsultantMarkingFile, "consultantmarkings");
+                consultantMarking.ConsultantMarkingImageLocation = fileUploadService.SaveBase64Fn(consultantMarking.Base64Img);
             }
             return consultantManager.InsertUpdateConsultantMarking(consultantMarking);
         }

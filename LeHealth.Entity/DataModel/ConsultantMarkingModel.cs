@@ -26,7 +26,8 @@ namespace LeHealth.Entity.DataModel
         public string ConsultantMarkingImageLocation { get; set; }
         public int BodyPartId { get; set; }
         public string BodyPartLocation { get; set; }
-        public int BranchId { get; set; } 
+        public int BranchId { get; set; }
+        public string Base64Img { get; set; } 
     }
 
 
