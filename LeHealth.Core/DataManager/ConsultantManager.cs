@@ -1790,5 +1790,68 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public ConsultantMasterModel GetConsultantById(int consultantId)
+        {
+            ConsultantMasterModel consultant = new ConsultantMasterModel();
+            using SqlConnection con = new SqlConnection(_connStr);
+            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetConsultant", con);
+            appointmentCountCMD.CommandType = CommandType.StoredProcedure;
+            appointmentCountCMD.Parameters.AddWithValue("@ConsultantId", consultantId);
+            con.Open();
+            SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
+            DataTable dtConsultant = new DataTable();
+            adapter1.Fill(dtConsultant);
+            con.Close();
+            if ((dtConsultant != null) && (dtConsultant.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtConsultant.Rows.Count; i++)
+                {
+                    CultureInfo provider = CultureInfo.InvariantCulture;
+                    DateTime DOB = DateTime.ParseExact(dtConsultant.Rows[i]["DOB"].ToString(), "dd/MM/yyyy", provider);
+                    DateTime DOJ = DateTime.ParseExact(dtConsultant.Rows[i]["DOJ"].ToString(), "dd/MM/yyyy", provider);
+                    consultant = new ConsultantMasterModel
+                    {
+                        ConsultantId = Convert.ToInt32(dtConsultant.Rows[i]["ConsultantId"]),
+                        DeptId = Convert.ToInt32(dtConsultant.Rows[i]["DeptId"]),
+                        ConsultantCode = dtConsultant.Rows[i]["ConsultantCode"].ToString(),
+                        Title = dtConsultant.Rows[i]["Title"].ToString(),
+                        FirstName = dtConsultant.Rows[i]["FirstName"].ToString(),
+                        MiddleName = dtConsultant.Rows[i]["MiddleName"].ToString(),
+                        LastName = dtConsultant.Rows[i]["LastName"].ToString(),
+                        Gender = dtConsultant.Rows[i]["Gender"].ToString(),
+                        DOB = DOB,
+                        Age = Convert.ToInt32(dtConsultant.Rows[i]["Age"]),
+                        Specialisation = dtConsultant.Rows[i]["Specialisation"].ToString(),
+                        Designation = dtConsultant.Rows[i]["Designation"].ToString(),
+                        Qualification = dtConsultant.Rows[i]["Qualification"].ToString(),
+                        NationalityId = Convert.ToInt32(dtConsultant.Rows[i]["NationalityId"]),
+                        Mobile = dtConsultant.Rows[i]["Mobile"].ToString(),
+                        ResPhone = dtConsultant.Rows[i]["ResPhone"].ToString(),
+                        OffPhone = dtConsultant.Rows[i]["OffPhone"].ToString(),
+                        Email = dtConsultant.Rows[i]["Email"].ToString(),
+                        Fax = dtConsultant.Rows[i]["Fax"].ToString(),
+                        DOJ = DOJ,
+                        CRegNo = dtConsultant.Rows[i]["CRegNo"].ToString(),
+                        TimeSlice = Convert.ToInt32(dtConsultant.Rows[i]["TimeSlice"]),
+                        AppType = Convert.ToInt32(dtConsultant.Rows[i]["AppType"]),
+                        MaxPatients = Convert.ToInt32(dtConsultant.Rows[i]["MaxPatients"]),
+                        ItemId = Convert.ToInt32(dtConsultant.Rows[i]["ItemId"]),
+                        RoomNo = dtConsultant.Rows[i]["RoomNo"].ToString(),
+                        ConsultantLedger = Convert.ToInt32(dtConsultant.Rows[i]["ConsultantLedger"]),
+                        CommissionId = Convert.ToInt32(dtConsultant.Rows[i]["CommissionId"]),
+                        SortOrder = Convert.ToInt32(dtConsultant.Rows[i]["SortOrder"]),
+                        AllowCommission = Convert.ToBoolean(dtConsultant.Rows[i]["AllowCommission"].ToString()),
+                        DeptOverrule = Convert.ToBoolean(dtConsultant.Rows[i]["DeptOverrule"].ToString()),
+                        DeptWiseConsultation = Convert.ToBoolean(dtConsultant.Rows[i]["DeptWiseConsultation"].ToString()),
+                        ExternalConsultant = Convert.ToBoolean(dtConsultant.Rows[i]["ExternalConsultant"].ToString()),
+
+                    };
+
+
+                }
+            }
+            return consultant;
+
+        }
     }
 }

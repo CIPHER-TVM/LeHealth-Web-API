@@ -50,5 +50,6 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteConsultantMarkings(int markId);
         List<ConsultantMarkingModel> GetConsultantMarkingsById(int markId);
         string DeleteConsultantDisease(int diseaseId);
+        ConsultantMasterModel GetConsultantById(int consultantId);
     }
 }
