@@ -1578,48 +1578,51 @@ namespace LeHealth.Core.DataManager
 
             return consultantDrugs;
         }
-        public List<SketchIndicatorModel> GetSketchIndicators()
+        public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
         {
             List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetSketchIndicators", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-
+            cmd.Parameters.AddWithValue("@IndicatorId", sketch.IndicatorId);
+            cmd.Parameters.AddWithValue("@ShowAll", sketch.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtSketchIndicatorsList = new DataTable();
             adapter.Fill(dtSketchIndicatorsList);
             con.Close();
             if ((dtSketchIndicatorsList != null) && (dtSketchIndicatorsList.Rows.Count > 0))
-                //sketchIndicators = dtSketchIndicatorsList.ToListOfObject<SketchIndicatorModel>();
                 for (Int32 i = 0; i < dtSketchIndicatorsList.Rows.Count; i++)
                 {
+                    string imgloc = dtSketchIndicatorsList.Rows[i]["ImageLocation"].ToString();
                     SketchIndicatorModel obj = new SketchIndicatorModel
                     {
                         IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
                         IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
-                        ImageUrl = dtSketchIndicatorsList.Rows[i]["ImageUrl"].ToString()
+                        ImageUrl = imgloc != "" ? _uploadpath + imgloc : imgloc,
                     };
                     sketchIndicators.Add(obj);
                 }
 
             return sketchIndicators;
         }
-        public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
+        public string InsertUpdateConsultantMarking(ConsultantMarkingRegModel consultantMarking)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantMarking", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-
                 cmd.Parameters.AddWithValue("@MarkId", consultantMarking.MarkId);
                 cmd.Parameters.AddWithValue("@MarkDesc", consultantMarking.MarkDesc);
-                cmd.Parameters.AddWithValue("@IndicatorId", consultantMarking.IndicatorId);
+                //cmd.Parameters.AddWithValue("@IndicatorId", consultantMarking.IndicatorId);
                 cmd.Parameters.AddWithValue("@Colour", consultantMarking.Colour);
                 cmd.Parameters.AddWithValue("@ShowCaption", consultantMarking.ShowCaption);
                 cmd.Parameters.AddWithValue("@ConsultantId", consultantMarking.ConsultantId);
+                cmd.Parameters.AddWithValue("@BodyPartId", consultantMarking.BodyPartId); 
+                cmd.Parameters.AddWithValue("@ConsultantMarkingImageLocation", consultantMarking.ConsultantMarkingImageLocation);
+                cmd.Parameters.AddWithValue("@BranchId", consultantMarking.BranchId);
 
 
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -1648,22 +1651,36 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<ConsultantMarkingModel> GetConsultantMarkings(int consultantId)
+        public List<ConsultantMarkingModel> GetConsultantMarkings(ConsultantMarkingModel consultantMarking)
         {
             List<ConsultantMarkingModel> consultantMarkings = new List<ConsultantMarkingModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantMarkings", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
-
+            cmd.Parameters.AddWithValue("@MarkId", consultantMarking.MarkId);
+            cmd.Parameters.AddWithValue("@ConsultantId", consultantMarking.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", consultantMarking.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtConsultantMarkingsList = new DataTable();
             adapter.Fill(dtConsultantMarkingsList);
             con.Close();
             if ((dtConsultantMarkingsList != null) && (dtConsultantMarkingsList.Rows.Count > 0))
-                consultantMarkings = dtConsultantMarkingsList.ToListOfObject<ConsultantMarkingModel>();
+            {
+                for (Int32 i = 0; i < dtConsultantMarkingsList.Rows.Count; i++)
+                {
+                    string imgloc = dtConsultantMarkingsList.Rows[i]["ImageLocation"].ToString();
+                    string bodypartloc = dtConsultantMarkingsList.Rows[i]["BodyPartImageLocation"].ToString();
+                    ConsultantMarkingModel obj = new ConsultantMarkingModel()
+                    {
+                        MarkId = Convert.ToInt32(dtConsultantMarkingsList.Rows[i]["MarkId"]),
+                        MarkDesc = dtConsultantMarkingsList.Rows[i]["MarkDesc"].ToString(),
+                        ConsultantMarkingImageLocation = imgloc != "" ? _uploadpath + imgloc : imgloc, 
+                        BodyPartLocation = bodypartloc != "" ? _uploadpath + bodypartloc : bodypartloc
+                    };
+                    consultantMarkings.Add(obj);
+                }
+            }
 
             return consultantMarkings;
         }

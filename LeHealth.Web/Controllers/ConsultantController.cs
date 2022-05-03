@@ -1288,13 +1288,13 @@ namespace LeHealth.Base.API.Controllers
         }
         [Route("GetSketchIndicators")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SketchIndicatorModel>> GetSketchIndicators()
+        public ResponseDataModel<IEnumerable<SketchIndicatorModel>> GetSketchIndicators(SketchIndicatorModelAll sketch)
         {
             try
             {
                 List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
 
-                sketchIndicators = consultantService.GetSketchIndicators();
+                sketchIndicators = consultantService.GetSketchIndicators(sketch);
                 var response = new ResponseDataModel<IEnumerable<SketchIndicatorModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1319,14 +1319,16 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("InsertUpdateConsultantMarking")]
+        [Route("InsertConsultantMarking")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
+        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> InsertConsultantMarking([FromForm]ConsultantMarkingRequestModel obj)
         {
             try
             {
                 string message = string.Empty;
-                message = consultantService.InsertUpdateConsultantMarking(consultantMarking);
+                ConsultantMarkingRegModel consultantm = JsonConvert.DeserializeObject<ConsultantMarkingRegModel>(obj.ConsultantMarkingJson);
+                consultantm.ConsultantMarkingFile = obj.ConsultantMarkingImg;
+                message = consultantService.InsertUpdateConsultantMarking(consultantm);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMarkingModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1351,9 +1353,9 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("GetConsultantMarkings/{consultantId}")]
+        [Route("GetConsultantMarkings")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> GetConsultantMarkings(int consultantId)
+        public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> GetConsultantMarkings(ConsultantMarkingModel consultantId)
         {
 
             try

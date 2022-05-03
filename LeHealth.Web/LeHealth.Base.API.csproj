@@ -30,6 +30,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\uploads\documents\" />
     <Folder Include="wwwroot\uploads\bodyparts\" />
+    <Folder Include="wwwroot\uploads\consultantmarkings\" />
     <Folder Include="wwwroot\uploads\sketchindicators\" />
   </ItemGroup>
 

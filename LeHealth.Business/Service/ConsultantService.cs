@@ -174,15 +174,19 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantDrugsById(drugId);
         }
-        public List<SketchIndicatorModel> GetSketchIndicators()
+        public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
         {
-            return consultantManager.GetSketchIndicators();
+            return consultantManager.GetSketchIndicators(sketch);
         }
-        public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
+        public string InsertUpdateConsultantMarking(ConsultantMarkingRegModel consultantMarking)
         {
+            if (consultantMarking.ConsultantMarkingFile != null)
+            {
+                consultantMarking.ConsultantMarkingImageLocation = fileUploadService.SaveFile(consultantMarking.ConsultantMarkingFile, "consultantmarkings");
+            }
             return consultantManager.InsertUpdateConsultantMarking(consultantMarking);
         }
-        public List<ConsultantMarkingModel> GetConsultantMarkings(int consultantId)
+        public List<ConsultantMarkingModel> GetConsultantMarkings(ConsultantMarkingModel consultantId)
         {
             return consultantManager.GetConsultantMarkings(consultantId);
         }
