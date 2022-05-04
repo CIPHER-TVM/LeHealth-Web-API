@@ -210,5 +210,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.DeleteConsultantDisease(diseaseId);
         }
+        public ConsultantMasterModel GetConsultantById(int consultantId)
+        {
+            return consultantManager.GetConsultantById(consultantId);
+        }
     }
 }
