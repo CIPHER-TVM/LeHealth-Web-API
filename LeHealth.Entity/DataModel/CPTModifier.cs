@@ -4,12 +4,12 @@ using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
-    public class MaritalStatusModel
+    public class CPTModifierModel
     {
         public int Id { get; set; }
-        public string MaritalStatusDescription { get; set; }
+        public string CPTModifier { get; set; }
     }
-    public class MaritalStatusModelAll : MaritalStatusModel
+    public class CPTModifierAll : CPTModifierModel
     {
         public int BranchId { get; set; }
         public int UserId { get; set; }

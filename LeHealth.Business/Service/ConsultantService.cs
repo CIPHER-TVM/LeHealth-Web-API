@@ -174,10 +174,6 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantDrugsById(drugId);
         }
-        public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
-        {
-            return consultantManager.GetSketchIndicators(sketch);
-        }
         public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
         {
             if (consultantMarking.Base64Img != "")

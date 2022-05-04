@@ -210,6 +210,99 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+         public List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm)
+        {
+            List<CPTModifierModel> profList = new List<CPTModifierModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCPTModifier", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", ccm.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", ccm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtCPT = new DataTable();
+            adapter.Fill(dtCPT);
+            con.Close();
+            if ((dtCPT != null) && (dtCPT.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtCPT.Rows.Count; i++)
+                {
+                    CPTModifierModel obj = new CPTModifierModel
+                    {
+                        Id = Convert.ToInt32(dtCPT.Rows[i]["Id"]),
+                        CPTModifier = dtCPT.Rows[i]["CPTModifier"].ToString()
+                    };
+                    profList.Add(obj);
+                }
+            }
+            return profList;
+        }
+        public string InsertUpdateCPTModifier(CPTModifierAll ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCPTModifier", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", ccm.Id);
+                cmd.Parameters.AddWithValue("@CPTModifier", ccm.CPTModifier);
+                cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCPTModifier(CPTModifierAll ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCPTModifier", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", ccm.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
 
         //Rate group Starts
         /// <summary>
@@ -1127,6 +1220,7 @@ namespace LeHealth.Core.DataManager
                     {
                         ProfId = Convert.ToInt32(dtProfession.Rows[i]["ProfId"]),
                         ProfName = dtProfession.Rows[i]["ProfName"].ToString(),
+                        ProfCode = dtProfession.Rows[i]["ProfCode"].ToString(),
                         ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"])
                     };
                     profList.Add(obj);
@@ -1149,6 +1243,7 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ProfId", prof.ProfId);
                 cmd.Parameters.AddWithValue("@ProfName", prof.ProfName);
+                cmd.Parameters.AddWithValue("@ProfCode", prof.ProfCode);
                 cmd.Parameters.AddWithValue("@ProfGroup", prof.ProfGroup);
                 cmd.Parameters.AddWithValue("@IsDisplayed", prof.IsDisplayed);
                 cmd.Parameters.AddWithValue("@UserId", prof.UserId);
@@ -1608,7 +1703,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public string DeleteBodyPart(BodyPartModel bodypart)
         {
             string response = string.Empty;
@@ -1638,7 +1732,283 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
+        {
+            List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSketchIndicators", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@IndicatorId", sketch.IndicatorId);
+            cmd.Parameters.AddWithValue("@ShowAll", sketch.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtSketchIndicatorsList = new DataTable();
+            adapter.Fill(dtSketchIndicatorsList);
+            con.Close();
+            if ((dtSketchIndicatorsList != null) && (dtSketchIndicatorsList.Rows.Count > 0))
+                for (Int32 i = 0; i < dtSketchIndicatorsList.Rows.Count; i++)
+                {
+                    string imgloc = dtSketchIndicatorsList.Rows[i]["ImageLocation"].ToString();
+                    SketchIndicatorModel obj = new SketchIndicatorModel
+                    {
+                        IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
+                        IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
+                        ImageUrl = imgloc != "" ? _uploadpath + imgloc : imgloc,
+                    };
+                    sketchIndicators.Add(obj);
+                }
 
+            return sketchIndicators;
+        }
+        public string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSketchIndicator", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IndicatorId", sketch.IndicatorId);
+                cmd.Parameters.AddWithValue("@IndicatorDesc", sketch.IndicatorDesc);
+                cmd.Parameters.AddWithValue("@ImageLocation", sketch.ImageUrl);
+                cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", sketch.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteSketchIndicator(SketchIndicatorModelAll sketch)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteSketchIndicator", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IndicatorId", sketch.IndicatorId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="salutationDetails"></param>
+        /// <returns></returns>
+        public List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails)
+        {
+            List<SalutationModel> salutationList = new List<SalutationModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SalutationId", salutationDetails.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", salutationDetails.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", salutationDetails.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtsalutationList = new DataTable();
+            adapter.Fill(dtsalutationList);
+            con.Close();
+            if ((dtsalutationList != null) && (dtsalutationList.Rows.Count > 0))
+                salutationList = dtsalutationList.ToListOfObject<SalutationModel>();
+            return salutationList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="salutation"></param>
+        /// <returns></returns>
+        public string InsertUpdateSalutation(SalutationModelAll salutation)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSalutation", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SalutationId", salutation.Id);
+                cmd.Parameters.AddWithValue("@Salutation", salutation.Salutation);
+                cmd.Parameters.AddWithValue("@UserId", salutation.UserId);
+                cmd.Parameters.AddWithValue("@BranchId", salutation.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", salutation.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteSalutation(SalutationModelAll salutation)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteSalutation", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SalutationId", salutation.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
+        public List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll maritalstatus)
+        {
+            List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMaritalStatus", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsmaritalStatus = new DataTable();
+            adapter.Fill(dsmaritalStatus);
+            con.Close();
+            if ((dsmaritalStatus != null) && (dsmaritalStatus.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsmaritalStatus.Rows.Count; i++)
+                {
+                    MaritalStatusModel obj = new MaritalStatusModel();
+                    obj.Id = Convert.ToInt32(dsmaritalStatus.Rows[i]["Id"]);
+                    obj.MaritalStatusDescription = dsmaritalStatus.Rows[i]["MaritalStatusDescription"].ToString();
+                    maritalStatusList.Add(obj);
+                }
+            }
+            return maritalStatusList;
+        }
+        public string InsertUpdateMaritalStatus(MaritalStatusModelAll maritalStatus)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMaritalStatus", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SalutationId", maritalStatus.Id);
+                cmd.Parameters.AddWithValue("@MaritalStatusDescription", maritalStatus.MaritalStatusDescription);
+                cmd.Parameters.AddWithValue("@UserId", maritalStatus.UserId);
+                cmd.Parameters.AddWithValue("@BranchId", maritalStatus.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", maritalStatus.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteMaritalStatus(MaritalStatusModelAll maritalstatus) 
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteMaritalStatus", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", maritalstatus.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1789,123 +2159,6 @@ namespace LeHealth.Core.DataManager
         /// Save Registration scheme if itemId is zero else update the Scheme with Id
         /// </summary>
         /// <param name="RegScheme"></param>
-        /// <returns></returns>
-        public string InsertUpdateRegScheme(RegSchemeModelAll RegScheme)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRegScheme", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ItemId", RegScheme.ItemId);
-                cmd.Parameters.AddWithValue("@ItemCode", RegScheme.ItemCode);
-                cmd.Parameters.AddWithValue("@ItemName", RegScheme.ItemName);
-                cmd.Parameters.AddWithValue("@GroupId", RegScheme.GroupId);
-                cmd.Parameters.AddWithValue("@ValidityDays", RegScheme.ValidityDays);
-                cmd.Parameters.AddWithValue("@ValidityVisits", RegScheme.ValidityVisits);
-                cmd.Parameters.AddWithValue("@AllowRateEdit", RegScheme.AllowRateEdit);
-                cmd.Parameters.AddWithValue("@AllowDisc", RegScheme.AllowDisc);
-                cmd.Parameters.AddWithValue("@AllowPP", RegScheme.AllowPP);
-                cmd.Parameters.AddWithValue("@IsVSign", RegScheme.IsVSign);
-                cmd.Parameters.AddWithValue("@ResultOn", RegScheme.ResultOn);
-                cmd.Parameters.AddWithValue("@STypeId", RegScheme.STypeId);
-                cmd.Parameters.AddWithValue("@TotalTaxPcnt", RegScheme.TotalTaxPcnt);
-                cmd.Parameters.AddWithValue("@AllowCommission", RegScheme.AllowCommission);
-                cmd.Parameters.AddWithValue("@CommPcnt", RegScheme.CommPcnt);
-                cmd.Parameters.AddWithValue("@CommAmt", RegScheme.CommAmt);
-                cmd.Parameters.AddWithValue("@MaterialCost", RegScheme.MaterialCost);
-                cmd.Parameters.AddWithValue("@BaseCost", RegScheme.BaseCost);
-                cmd.Parameters.AddWithValue("@HeadId", RegScheme.HeadId);
-                cmd.Parameters.AddWithValue("@SortOrder", RegScheme.SortOrder);
-                cmd.Parameters.AddWithValue("@CPTCodeId", RegScheme.CPTCodeId);
-                cmd.Parameters.AddWithValue("@ExternalItem", RegScheme.ExternalItem);
-
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        public string DeleteRegScheme(RegSchemeModelAll RegScheme)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_DeleteRegScheme", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ItemId", RegScheme.ItemId);
-                cmd.Parameters.AddWithValue("@ItemCode", RegScheme.ItemCode);
-                cmd.Parameters.AddWithValue("@ItemName", RegScheme.ItemName);
-                cmd.Parameters.AddWithValue("@GroupId", RegScheme.GroupId);
-                cmd.Parameters.AddWithValue("@ValidityDays", RegScheme.ValidityDays);
-                cmd.Parameters.AddWithValue("@ValidityVisits", RegScheme.ValidityVisits);
-                cmd.Parameters.AddWithValue("@AllowRateEdit", RegScheme.AllowRateEdit);
-                cmd.Parameters.AddWithValue("@AllowDisc", RegScheme.AllowDisc);
-                cmd.Parameters.AddWithValue("@AllowPP", RegScheme.AllowPP);
-                cmd.Parameters.AddWithValue("@IsVSign", RegScheme.IsVSign);
-                cmd.Parameters.AddWithValue("@ResultOn", RegScheme.ResultOn);
-                cmd.Parameters.AddWithValue("@STypeId", RegScheme.STypeId);
-                cmd.Parameters.AddWithValue("@TotalTaxPcnt", RegScheme.TotalTaxPcnt);
-                cmd.Parameters.AddWithValue("@AllowCommission", RegScheme.AllowCommission);
-                cmd.Parameters.AddWithValue("@CommPcnt", RegScheme.CommPcnt);
-                cmd.Parameters.AddWithValue("@CommAmt", RegScheme.CommAmt);
-                cmd.Parameters.AddWithValue("@MaterialCost", RegScheme.MaterialCost);
-                cmd.Parameters.AddWithValue("@BaseCost", RegScheme.BaseCost);
-                cmd.Parameters.AddWithValue("@HeadId", RegScheme.HeadId);
-                cmd.Parameters.AddWithValue("@SortOrder", RegScheme.SortOrder);
-                cmd.Parameters.AddWithValue("@CPTCodeId", RegScheme.CPTCodeId);
-                cmd.Parameters.AddWithValue("@ExternalItem", RegScheme.ExternalItem);
-
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        /// <summary>
-        /// Save Re
-        /// </summary>
-        /// <param name="RegSchemeId"></param>
         /// <returns></returns>
 
 
@@ -2406,73 +2659,6 @@ namespace LeHealth.Core.DataManager
         }
         //Consent Management Ends
 
-
-        //Salutation Management Starts
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="salutationDetails"></param>
-        /// <returns></returns>
-        public List<SalutationModel> GetSalutation(Int32 salutationDetails)
-        {
-            List<SalutationModel> countryList = new List<SalutationModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@SalutationId", salutationDetails);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtsalutationList = new DataTable();
-            adapter.Fill(dtsalutationList);
-            con.Close();
-            if ((dtsalutationList != null) && (dtsalutationList.Rows.Count > 0))
-                countryList = dtsalutationList.ToListOfObject<SalutationModel>();
-            return countryList;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="salutation"></param>
-        /// <returns></returns>
-        public string InsertUpdateSalutation(SalutationModel salutation)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSalutation", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SalutationId", salutation.Id);
-                cmd.Parameters.AddWithValue("@Salutation", salutation.Salutation);
-                cmd.Parameters.AddWithValue("@UserId", salutation.UserId);
-                cmd.Parameters.AddWithValue("@Active", salutation.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", salutation.BlockReason);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        //Salutation Management Ends
 
         /// <summary>
         /// Save and updating Zone master data,Saves when Id is zero. Updates when Id Not equal to zero
@@ -3764,33 +3950,7 @@ namespace LeHealth.Core.DataManager
             }
             return kinRelationList;
         }
-        /// <summary>
-        /// Get all Marital status Data
-        /// </summary>
-        /// <returns>Marital status list</returns>
-        public List<MaritalStatusModel> GetMaritalStatus()
-        {
-            List<MaritalStatusModel> maritalStatusList = new List<MaritalStatusModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetMaritalStatus", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsmaritalStatus = new DataTable();
-            adapter.Fill(dsmaritalStatus);
-            con.Close();
-            if ((dsmaritalStatus != null) && (dsmaritalStatus.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsmaritalStatus.Rows.Count; i++)
-                {
-                    MaritalStatusModel obj = new MaritalStatusModel();
-                    obj.Id = Convert.ToInt32(dsmaritalStatus.Rows[i]["Id"]);
-                    obj.MaritalStatusDescription = dsmaritalStatus.Rows[i]["MaritalStatusDescription"].ToString();
-                    maritalStatusList.Add(obj);
-                }
-            }
-            return maritalStatusList;
-        }
+        
         /// <summary>
         /// Get All communication type list
         /// </summary>

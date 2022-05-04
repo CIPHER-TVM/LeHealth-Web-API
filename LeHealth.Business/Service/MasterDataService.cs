@@ -37,6 +37,20 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteCPTCode(ccm);
         }
+        public List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm)
+        {
+            return masterdataManager.GetCPTModifier(ccm);
+        }
+        public string InsertUpdateCPTModifier(CPTModifierAll ccm)
+        {
+            return masterdataManager.InsertUpdateCPTModifier(ccm);
+        }
+        public string DeleteCPTModifier(CPTModifierAll ccm)
+        {
+            return masterdataManager.DeleteCPTModifier(ccm);
+        }
+
+
         public List<RateGroupModel> GetRateGroup(RateGroupModelAll rm)
         {
             return masterdataManager.GetRateGroup(rm);
@@ -201,8 +215,52 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteBodyPart(bodypart);
         }
+        public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
+        {
+            return masterdataManager.GetSketchIndicators(sketch);
+        }
+        public string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch)
+        {
+            if (sketch.IndicatorFile != null)
+            {
+                sketch.ImageUrl = fileUploadService.SaveFile(sketch.IndicatorFile, "sketchindicators");
+            }
+            return masterdataManager.InsertUpdateSketchIndicator(sketch);
+        }
+        public string DeleteSketchIndicator(SketchIndicatorModelAll sketch)
+        {
+            return masterdataManager.DeleteSketchIndicator(sketch);
+        }
+        public List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId)
+        {
+            return masterdataManager.GetRegScheme(RegSchemeId);
+        }
+        public List<SalutationModel> GetSalutation(SalutationModelAll salutation)
+        {
+            return masterdataManager.GetSalutation(salutation);
+        }
+        public string InsertUpdateSalutation(SalutationModelAll salutation)
+        {
+            return masterdataManager.InsertUpdateSalutation(salutation);
+        }
+        public string DeleteSalutation(SalutationModelAll salutation)
+        {
+            return masterdataManager.DeleteSalutation(salutation);
+        }
+        public List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll msma)
+        {
+            return masterdataManager.GetMaritalStatus(msma);
+        }
+        public string InsertUpdateMaritalStatus(MaritalStatusModelAll maritalstatus)
+        {
+            return masterdataManager.InsertUpdateMaritalStatus(maritalstatus);
+        }
+        public string DeleteMaritalStatus(MaritalStatusModelAll maritalStatus)
+        {
+            return masterdataManager.DeleteMaritalStatus(maritalStatus);
+        }
         /////////////////////////////////////////////////////////////////////////////
-    
+
         public List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant)
         {
             return masterdataManager.GetConsultant(consultant);
@@ -211,21 +269,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteConsultant(consultant);
         }
-        public List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId)
-        {
-            return masterdataManager.GetRegScheme(RegSchemeId);
-        }
-        public string InsertUpdateRegScheme(RegSchemeModelAll RegScheme)
-        {
-            return masterdataManager.InsertUpdateRegScheme(RegScheme);
-        }
-        public string DeleteRegScheme(RegSchemeModelAll RegScheme)
-        {
-            return masterdataManager.DeleteRegScheme(RegScheme); 
-        }
-
-
-
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         public string InsertUpdateMenuGroupMap(MenuGroupModel mgm)
@@ -361,17 +404,6 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateConsent(consent);
         }
 
-        public List<SalutationModel> GetSalutation(Int32 stateDetails)
-        {
-            return masterdataManager.GetSalutation(stateDetails);
-        }
-        public string InsertUpdateSalutation(SalutationModel state)
-        {
-            return masterdataManager.InsertUpdateSalutation(state);
-        }
-
-
-
         public List<MovementModel> GetMovement(Int32 movement)
         {
             return masterdataManager.GetMovement(movement);
@@ -432,10 +464,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetKinRelation();
         }
-        public List<MaritalStatusModel> GetMaritalStatus()
-        {
-            return masterdataManager.GetMaritalStatus();
-        }
+        
         public List<CommunicationTypeModel> GetCommunicationType()
         {
             return masterdataManager.GetCommunicationType();

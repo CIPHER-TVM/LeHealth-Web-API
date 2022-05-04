@@ -14,6 +14,9 @@ namespace LeHealth.Core.Interface
         List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
         string InsertUpdateCPTCode(CPTCodeModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
+        List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
+        string InsertUpdateCPTModifier(CPTModifierAll ccm);
+        string DeleteCPTModifier(CPTModifierAll ccm);
         List<RateGroupModel> GetRateGroup(RateGroupModelAll RateGroup);
         string InsertUpdateRateGroup(RateGroupModelAll RateGroup);
         string DeleteRateGroup(RateGroupModel RateGroup);
@@ -45,8 +48,6 @@ namespace LeHealth.Core.Interface
         List<CityModel> GetCity(CityModelAll city);
         string InsertUpdateCity(CityModelAll city);
         string DeleteCity(CityModel city);
-
-
         List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign);
         string InsertUpdateVitalSign(VitalSignModelAll vitalsign);
         string DeleteVitalSign(VitalSignModelAll vitalsign);
@@ -56,13 +57,20 @@ namespace LeHealth.Core.Interface
         List<BodyPartModelReturn> GetBodyPart(BodyPartModel bodypart);
         string InsertUpdateBodyPart(BodyPartRegModel bodypart);
         string DeleteBodyPart(BodyPartModel bodypart);
+        List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch);
+        string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch);
+        string DeleteSketchIndicator(SketchIndicatorModelAll sketch);
+        List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId);
+        List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
+        string InsertUpdateSalutation(SalutationModelAll salutationDetails);
+        string DeleteSalutation(SalutationModelAll salutationDetails); 
+        List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
+        string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
+        string DeleteMaritalStatus(MaritalStatusModelAll MaritalStatus);
 
         //////////////////////////////////////////////////
         List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel ledgerhead);
         string DeleteConsultant(ConsultantMasterModel consultant);
-        List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId);
-        string InsertUpdateRegScheme(RegSchemeModelAll RegScheme);
-        string DeleteRegScheme(RegSchemeModelAll RegScheme);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,7 +85,7 @@ namespace LeHealth.Core.Interface
         List<DosageModel> GetDosage(DosageModel dm);
         List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData dm);
         string InsertUpdateOperator(OperatorModel Operator);
-        List<OperatorModel> GetOperator(Int32 OperatorId);        
+        List<OperatorModel> GetOperator(Int32 OperatorId);
         List<HospitalModel> GetUserHospitals(Int32 id);
         string InsertUpdateUserHospital(HospitalRegModel hm);
         string ConsentFormDataSave(ConsentFormRegModel hm);
@@ -98,8 +106,6 @@ namespace LeHealth.Core.Interface
         string InsertUpdateConsent(ConsentContentModel consent);
 
         //Consent Management ends
-        List<SalutationModel> GetSalutation(Int32 salutationDetails);
-        string InsertUpdateSalutation(SalutationModel salutationDetails);
         List<SponsorTypeModel> GetSponsorType(Int32 sponsorType);
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
@@ -126,7 +132,6 @@ namespace LeHealth.Core.Interface
 
         List<GenderModel> GetGender();
         List<KinRelationModel> GetKinRelation();
-        List<MaritalStatusModel> GetMaritalStatus();
         List<CommunicationTypeModel> GetCommunicationType();
         List<HospitalModel> GetUserSpecificHospitals(int userId);
         List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);

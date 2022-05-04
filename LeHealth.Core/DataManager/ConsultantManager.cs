@@ -1578,35 +1578,7 @@ namespace LeHealth.Core.DataManager
 
             return consultantDrugs;
         }
-        public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
-        {
-            List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetSketchIndicators", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@IndicatorId", sketch.IndicatorId);
-            cmd.Parameters.AddWithValue("@ShowAll", sketch.ShowAll);
-            cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtSketchIndicatorsList = new DataTable();
-            adapter.Fill(dtSketchIndicatorsList);
-            con.Close();
-            if ((dtSketchIndicatorsList != null) && (dtSketchIndicatorsList.Rows.Count > 0))
-                for (Int32 i = 0; i < dtSketchIndicatorsList.Rows.Count; i++)
-                {
-                    string imgloc = dtSketchIndicatorsList.Rows[i]["ImageLocation"].ToString();
-                    SketchIndicatorModel obj = new SketchIndicatorModel
-                    {
-                        IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
-                        IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
-                        ImageUrl = imgloc != "" ? _uploadpath + imgloc : imgloc,
-                    };
-                    sketchIndicators.Add(obj);
-                }
-
-            return sketchIndicators;
-        }
+       
         public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
         {
             string response = string.Empty;

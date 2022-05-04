@@ -1286,39 +1286,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("GetSketchIndicators")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<SketchIndicatorModel>> GetSketchIndicators(SketchIndicatorModelAll sketch)
-        {
-            try
-            {
-                List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
 
-                sketchIndicators = consultantService.GetSketchIndicators(sketch);
-                var response = new ResponseDataModel<IEnumerable<SketchIndicatorModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = sketchIndicators
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SketchIndicatorModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
         [Route("InsertConsultantMarking")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> InsertConsultantMarking(ConsultantMarkingModel obj)

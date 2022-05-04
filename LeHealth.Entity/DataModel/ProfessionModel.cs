@@ -8,6 +8,7 @@ namespace LeHealth.Entity.DataModel
     {
         public int ProfId { get; set; }
         public string ProfName { get; set; }
+        public string ProfCode { get; set; } 
         public int ProfGroup { get; set; }
     }
     public class ProfessionModelAll : ProfessionModel

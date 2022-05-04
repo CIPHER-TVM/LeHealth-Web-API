@@ -44,7 +44,6 @@ namespace LeHealth.Core.Interface
         DiseaseModel GetDiseaseDetailsById(int diseaseId);
         List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
         List<ConsultantDrugModel> GetConsultantDrugsById(int drugId);
-        List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch);
         string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking);
         List<ConsultantMarkingModel> GetConsultantMarkings(ConsultantMarkingModel consultantId);
         string DeleteConsultantMarkings(int markId);
