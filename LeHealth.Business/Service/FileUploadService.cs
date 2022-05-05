@@ -75,18 +75,18 @@ namespace LeHealth.Service.Service
             }
             return returnFilePath;
         }
-        public string SaveBase64Fn(string Base64ImageString)
+        public string SaveBase64Fn(string Base64ImageString,string folderName)
         {
             try
             {
                 var webRoot = _env.WebRootPath;
                 webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                var PathWithFolderName = System.IO.Path.Combine(webRoot, "consultantmarkings");
+                var PathWithFolderName = System.IO.Path.Combine(webRoot, folderName);
                 byte[] docbytes = Convert.FromBase64String(Base64ImageString);
                 Guid Uniquefilename = Guid.NewGuid();
                 var actualFileName = Uniquefilename + "." + ".png";
                 System.IO.File.WriteAllBytes(PathWithFolderName + actualFileName, docbytes);
-                string returnfilePath = "uploads/" + "consultantmarkings" + "/" + actualFileName;
+                string returnfilePath = "uploads/" + folderName + "/" + actualFileName;
                 return returnfilePath;
             }
             catch (Exception ex)

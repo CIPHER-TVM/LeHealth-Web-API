@@ -1286,6 +1286,72 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("InsertConsultantSketch")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertConsultantSketch(SketchModelAll obj)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = consultantService.InsertConsultantSketch(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetConsultantSketch")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SketchModel>> GetConsultantSketch(SketchModelAll sketch)
+        {
+            try
+            {
+                List<SketchModel> consultantDrugs = new List<SketchModel>();
+                consultantDrugs = consultantService.GetConsultantSketch(sketch);
+                var response = new ResponseDataModel<IEnumerable<SketchModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantDrugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SketchModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
 
         [Route("InsertConsultantMarking")]
         [HttpPost]
@@ -1294,8 +1360,6 @@ namespace LeHealth.Base.API.Controllers
             try
             {
                 string message = string.Empty;
-                //ConsultantMarkingRegModel consultantm = JsonConvert.DeserializeObject<ConsultantMarkingRegModel>(obj.ConsultantMarkingJson);
-                //consultantm.ConsultantMarkingFile = obj.ConsultantMarkingImg;
                 message = consultantService.InsertUpdateConsultantMarking(obj);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMarkingModel>>()
                 {
@@ -1321,6 +1385,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        
         [Route("GetConsultantMarkings")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantMarkingModel>> GetConsultantMarkings(ConsultantMarkingModel consultantId)

@@ -12,6 +12,6 @@ namespace LeHealth.Service.ServiceInterface
     {
         List<RegDocLocationModel> SaveFileMultiple(List<IFormFile> Files); 
         string SaveFile(IFormFile File,string foldername); 
-        string SaveBase64Fn(string filestring);  
+        string SaveBase64Fn(string filestring,string foldername);  
     }
 }

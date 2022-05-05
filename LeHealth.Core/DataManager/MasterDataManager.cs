@@ -1730,6 +1730,73 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        //public List<SketchModel> GetSketch(SketchModelAll sketch)
+        //{
+        //    List<SketchModel> sketchIndicators = new List<SketchModel>();
+        //    using SqlConnection con = new SqlConnection(_connStr);
+        //    using SqlCommand cmd = new SqlCommand("stLH_GetSketchIndicators", con);
+        //    con.Open();
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@IndicatorId", sketch.Id); 
+        //    cmd.Parameters.AddWithValue("@ShowAll", sketch.ShowAll);
+        //    cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
+        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //    DataTable dtSketchIndicatorsList = new DataTable();
+        //    adapter.Fill(dtSketchIndicatorsList);
+        //    con.Close();
+        //    if ((dtSketchIndicatorsList != null) && (dtSketchIndicatorsList.Rows.Count > 0))
+        //        for (Int32 i = 0; i < dtSketchIndicatorsList.Rows.Count; i++)
+        //        {
+        //            string imgloc = dtSketchIndicatorsList.Rows[i]["ImageLocation"].ToString();
+        //            SketchIndicatorModel obj = new SketchIndicatorModel
+        //            {
+        //                IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
+        //                IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
+        //                ImageUrl = imgloc != "" ? _uploadpath + imgloc : imgloc,
+        //            };
+        //            sketchIndicators.Add(obj);
+        //        }
+
+        //    return sketchIndicators;
+        //}
+        //public string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch)
+        //{
+        //    string response = string.Empty;
+        //    using (SqlConnection con = new SqlConnection(_connStr))
+        //    {
+        //        using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSketchIndicator", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("@IndicatorId", sketch.IndicatorId);
+        //        cmd.Parameters.AddWithValue("@IndicatorDesc", sketch.IndicatorDesc);
+        //        cmd.Parameters.AddWithValue("@ImageLocation", sketch.ImageUrl);
+        //        cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
+        //        cmd.Parameters.AddWithValue("@IsDisplayed", sketch.IsDisplayed);
+        //        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+        //        {
+        //            Direction = ParameterDirection.Output
+        //        };
+        //        cmd.Parameters.Add(retValV);
+        //        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+        //        {
+        //            Direction = ParameterDirection.Output
+        //        };
+        //        cmd.Parameters.Add(retDesc);
+        //        con.Open();
+        //        var isUpdated = cmd.ExecuteNonQuery();
+        //        var ret = retValV.Value;
+        //        var descrip = retDesc.Value.ToString();
+        //        con.Close();
+        //        if (descrip == "Saved Successfully")
+        //        {
+        //            response = "Success";
+        //        }
+        //        else
+        //        {
+        //            response = descrip;
+        //        }
+        //    }
+        //    return response;
+        //}
         public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
         {
             List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
@@ -2189,7 +2256,6 @@ namespace LeHealth.Core.DataManager
         public List<ReligionModel> GetReligion(ReligionModelAll religion)
         {
             List<ReligionModel> religionList = new List<ReligionModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetReligion", con);
             con.Open();
@@ -2210,12 +2276,13 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMaritalStatus", con);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateReligion", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", religion.Id);
-                //cmd.Parameters.AddWithValue("@MaritalStatus", maritalStatus.MaritalStatusDescription);
-                //cmd.Parameters.AddWithValue("@BranchId", maritalStatus.BranchId);
-                //cmd.Parameters.AddWithValue("@IsDisplayed", maritalStatus.IsDisplayed);
+                cmd.Parameters.AddWithValue("@ReligionName", religion.ReligionName);
+                cmd.Parameters.AddWithValue("@ReligionCode", religion.ReligionCode);
+                cmd.Parameters.AddWithValue("@BranchId", religion.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -2247,7 +2314,7 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_DeleteMaritalStatus", con);
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteReligion", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", religion.Id);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)

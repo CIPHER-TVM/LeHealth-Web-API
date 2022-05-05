@@ -174,11 +174,24 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantDrugsById(drugId);
         }
+        public string InsertConsultantSketch(SketchModelAll sketch)
+        {
+            if (sketch.Base64Img != "")
+            {
+                sketch.FileLocation = fileUploadService.SaveBase64Fn(sketch.Base64Img, "sketches");
+            }
+            return consultantManager.InsertConsultantSketch(sketch);
+        }
+        public List<SketchModel> GetConsultantSketch(SketchModelAll sketch)
+        {
+            return consultantManager.GetConsultantSketch(sketch);
+        }
+
         public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
         {
             if (consultantMarking.Base64Img != "")
             {
-                consultantMarking.ConsultantMarkingImageLocation = fileUploadService.SaveBase64Fn(consultantMarking.Base64Img);
+                consultantMarking.ConsultantMarkingImageLocation = fileUploadService.SaveBase64Fn(consultantMarking.Base64Img, "consultantmarkings");
             }
             return consultantManager.InsertUpdateConsultantMarking(consultantMarking);
         }
