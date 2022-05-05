@@ -65,6 +65,17 @@ namespace LeHealth.Service.ServiceInterface
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string DeleteMaritalStatus(MaritalStatusModelAll MaritalStatus);
+        List<CommunicationTypeModel> GetCommunicationType(CommunicationTypeModelAll ctype);
+        string InsertUpdateCommunicationType(CommunicationTypeModelAll ctype);
+        string DeleteCommunicationType(CommunicationTypeModelAll ctype);
+        List<VisaTypeModel> GetVisaType(VisaTypeModelAll visatype);
+        string InsertUpdateVisaType(VisaTypeModelAll visatype);
+        string DeleteVisaType(VisaTypeModelAll visatype); 
+
+        List<ReligionModel> GetReligion(ReligionModelAll religion);
+        string InsertUpdateReligion(ReligionModelAll religion);
+        string DeleteReligion(ReligionModelAll religion);  
+
         /////////////////////////////////////////////
         List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant);
         string DeleteConsultant(ConsultantMasterModel consultant);
@@ -82,7 +93,6 @@ namespace LeHealth.Service.ServiceInterface
         List<AppTypeModel> GetAppType();
         List<FormValidationModel> GetFormFields(Int32 Id);
         List<FormValidationModel> GetFormMaster();
-        List<ReligionModel> GetReligion();
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
@@ -102,21 +112,15 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateMovement(MovementModel movement);
         List<ScientificNameModel> GetScientificName(Int32 sname);
         string InsertUpdateScientificName(ScientificNameModel sname);
-
         List<TendernModel> GetTendern(Int32 sname);
         string InsertUpdateTendern(TendernModel sname);
-
-
-        List<VisaTypeModel> GetVisaType();
         List<StateModel> GetStateByCountryId(Int32 countryId);
-
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();
         List<GetNumberModel> GetNumber(string nid);
         string UpdateNumberTable(GetNumberModel sname);
         List<GenderModel> GetGender();
         List<KinRelationModel> GetKinRelation();
-        List<CommunicationTypeModel> GetCommunicationType();
         List<HospitalModel> GetUserSpecificHospitals(int UserId);
         List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);
     }

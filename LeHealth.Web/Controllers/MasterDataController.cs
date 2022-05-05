@@ -126,7 +126,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("InsertUpdateCPTCode")]//Checked
+        [Route("InsertUpdateCPTCode")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<CPTCodeModel>> InsertUpdateCPTCode(CPTCodeModelAll CPTCode)
         {
@@ -160,7 +160,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("DeleteCPTCode")]//Checked
+        [Route("DeleteCPTCode")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<CPTCodeModel>> DeleteCPTCode(CPTCodeModel CPTCode)
         {
@@ -326,7 +326,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
 
         [Route("InsertUpdateRateGroup")]
         [HttpPost]
@@ -1456,8 +1455,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
-
         [Route("DeleteVitalSign")]
         [HttpPost]
         public ResponseDataModel<VitalSignModel> DeleteVitalSign(VitalSignModelAll vitalSign)
@@ -1721,6 +1718,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        
         [Route("GetSketchIndicators")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<SketchIndicatorModel>> GetSketchIndicators(SketchIndicatorModelAll sketch)
@@ -2038,7 +2036,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("DeleteMaritalStatus")]
         [HttpPost]
         public ResponseDataModel<string> DeleteMaritalStatus(MaritalStatusModelAll maritalStatus)
-        { 
+        {
             try
             {
                 string message = string.Empty;
@@ -2069,6 +2067,308 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [HttpPost]
+        [Route("GetCommunicationType")]
+        public ResponseDataModel<IEnumerable<CommunicationTypeModel>> GetCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            try
+            {
+                List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
+                communicationTypeList = masterdataService.GetCommunicationType(ctype);
+                var response = new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = communicationTypeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateCommunicationType")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateCommunicationType(ctype);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("DeleteCommunicationType")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteCommunicationType(ctype);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        
+        [Route("GetVisaType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType(VisaTypeModelAll visatype)
+        {
+            try
+            {
+                List<VisaTypeModel> visaTypeList = new List<VisaTypeModel>();
+                visaTypeList = masterdataService.GetVisaType(visatype);
+                var response = new ResponseDataModel<IEnumerable<VisaTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = visaTypeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<VisaTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateVisaType")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateVisaType(VisaTypeModelAll visatype)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateVisaType(visatype); 
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("DeleteVisaType")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteVisaType(VisaTypeModelAll visatype) 
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteVisaType(visatype);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetReligion")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ReligionModel>> GetReligion(ReligionModelAll religion)
+        {
+            try
+            {
+                List<ReligionModel> religionList = new List<ReligionModel>();
+                religionList = masterdataService.GetReligion(religion);
+                var response = new ResponseDataModel<IEnumerable<ReligionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = religionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ReligionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        
+        [Route("InsertUpdateReligion")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateReligion(ReligionModelAll religion)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateReligion(religion);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("DeleteReligion")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteReligion(ReligionModelAll religion)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteReligion(religion); 
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
         ////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -2203,42 +2503,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<KinRelationModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
-        
-
-        [HttpPost]
-        [Route("GetCommunicationType")]
-        public ResponseDataModel<IEnumerable<CommunicationTypeModel>> GetCommunicationType()
-        {
-            try
-            {
-                List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
-                communicationTypeList = masterdataService.GetCommunicationType();
-                var response = new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = communicationTypeList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CommunicationTypeModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -2538,7 +2802,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        
+
         //Consent Management starts
 
         /// <summary>
@@ -3150,7 +3414,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         //RegSchemes CRUD STARTS
 
-        
+
         //CRUD RateGroup
 
 
@@ -3497,40 +3761,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-
-        [Route("GetReligion")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ReligionModel>> GetReligion()
-        {
-            try
-            {
-                List<ReligionModel> religionList = new List<ReligionModel>();
-                religionList = masterdataService.GetReligion();
-                var response = new ResponseDataModel<IEnumerable<ReligionModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = religionList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ReligionModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
-
         [Route("GetFormMaster")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<FormValidationModel>> GetFormMaster()
@@ -3629,40 +3859,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-                };
-            }
-            finally
-            {
-            }
-        }
-
-        [Route("GetVisaType")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType()
-        {
-            try
-            {
-                List<VisaTypeModel> visaTypeList = new List<VisaTypeModel>();
-                visaTypeList = masterdataService.GetVisaType();
-                var response = new ResponseDataModel<IEnumerable<VisaTypeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = visaTypeList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<VisaTypeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
                 };
             }
             finally

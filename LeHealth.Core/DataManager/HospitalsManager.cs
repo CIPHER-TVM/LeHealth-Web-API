@@ -81,21 +81,23 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    ConsultationModel obj = new ConsultationModel();
-                    obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
-                    obj.TokenNO = ds.Rows[i]["TokenNO"].ToString();
-                    obj.DeptId = Convert.ToInt32(ds.Rows[i]["DeptId"]);
-                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
-                    obj.TimeNo = (ds.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Rows[i]["TimeNo"]);
-                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
-                    obj.Status = ds.Rows[i]["Status"].ToString();
-                    obj.Gender = ds.Rows[i]["Gender"].ToString();
-                    obj.Sponsor = ds.Rows[i]["Sponsor"].ToString();
-                    obj.Emergency = Convert.ToInt32(ds.Rows[i]["Emergency"]);
-                    obj.Address = ds.Rows[i]["Address"].ToString();
-                    obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
-                    obj.Email = ds.Rows[i]["Email"].ToString();
-                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                    ConsultationModel obj = new ConsultationModel
+                    {
+                        ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
+                        TokenNO = ds.Rows[i]["TokenNO"].ToString(),
+                        DeptId = Convert.ToInt32(ds.Rows[i]["DeptId"]),
+                        PatientName = ds.Rows[i]["PatientName"].ToString(),
+                        TimeNo = (ds.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Rows[i]["TimeNo"]),
+                        RegNo = ds.Rows[i]["RegNo"].ToString(),
+                        Status = ds.Rows[i]["Status"].ToString(),
+                        Gender = ds.Rows[i]["Gender"].ToString(),
+                        Sponsor = ds.Rows[i]["Sponsor"].ToString(),
+                        Emergency = Convert.ToInt32(ds.Rows[i]["Emergency"]),
+                        Address = ds.Rows[i]["Address"].ToString(),
+                        ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
+                        Email = ds.Rows[i]["Email"].ToString(),
+                        Mobile = ds.Rows[i]["Mobile"].ToString()
+                    };
                     appointmentlist.Add(obj);
                 }
             }
@@ -122,10 +124,12 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    TabOrderModel obj = new TabOrderModel();
-                    obj.ScreenName = ds.Rows[i]["ScreenName"].ToString();
-                    obj.ObjectName = ds.Rows[i]["ObjectName"].ToString();
-                    obj.ObjectOrder = Convert.ToInt32(ds.Rows[i]["ObjectOrder"]);
+                    TabOrderModel obj = new TabOrderModel
+                    {
+                        ScreenName = ds.Rows[i]["ScreenName"].ToString(),
+                        ObjectName = ds.Rows[i]["ObjectName"].ToString(),
+                        ObjectOrder = Convert.ToInt32(ds.Rows[i]["ObjectOrder"])
+                    };
                     Consultationlist.Add(obj);
                 }
             }
@@ -302,21 +306,23 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    ConsultationModel obj = new ConsultationModel();
-                    obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
-                    obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
-                    obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString().Substring(0, 10);
-                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
-                    obj.ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]);
-                    obj.Consultant = ds.Rows[i]["Consultant"].ToString();
-                    obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
-                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
-                    obj.PIN = ds.Rows[i]["PIN"].ToString();
-                    obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
-                    obj.Status = ds.Rows[i]["Status"].ToString();
-                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
-                    obj.Address = ds.Rows[i]["Address"].ToString();
-                    obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
+                    ConsultationModel obj = new ConsultationModel
+                    {
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
+                        ConsultDate = ds.Rows[i]["ConsultDate"].ToString().Substring(0, 10),
+                        PatientName = ds.Rows[i]["PatientName"].ToString(),
+                        ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]),
+                        Consultant = ds.Rows[i]["Consultant"].ToString(),
+                        ConsultType2 = ds.Rows[i]["ConsultType"].ToString(),
+                        RegNo = ds.Rows[i]["RegNo"].ToString(),
+                        PIN = ds.Rows[i]["PIN"].ToString(),
+                        OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString(),
+                        Status = ds.Rows[i]["Status"].ToString(),
+                        Mobile = ds.Rows[i]["Mobile"].ToString(),
+                        Address = ds.Rows[i]["Address"].ToString(),
+                        Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString()
+                    };
                     Consultationlist.Add(obj);
                 }
             }
@@ -356,22 +362,24 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    ConsultationModel obj = new ConsultationModel();
-                    obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
-                    obj.ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]);
-                    obj.ConsultDate = ds.Rows[i]["ConsultDate"].ToString();
-                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
-                    obj.Consultant = ds.Rows[i]["Consultant"].ToString();
-                    obj.ConsultType2 = ds.Rows[i]["ConsultType"].ToString();
-                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
-                    obj.PIN = ds.Rows[i]["PIN"].ToString();
-                    obj.OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString();
-                    obj.Status = ds.Rows[i]["Status"].ToString();
-                    obj.CancelReason = ds.Rows[i]["CancelReason"].ToString();
-                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
-                    obj.Telephone = ds.Rows[i]["Telephone"].ToString();
-                    obj.Address = ds.Rows[i]["Address"].ToString();
-                    obj.Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString();
+                    ConsultationModel obj = new ConsultationModel
+                    {
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
+                        ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
+                        PatientName = ds.Rows[i]["PatientName"].ToString(),
+                        Consultant = ds.Rows[i]["Consultant"].ToString(),
+                        ConsultType2 = ds.Rows[i]["ConsultType"].ToString(),
+                        RegNo = ds.Rows[i]["RegNo"].ToString(),
+                        PIN = ds.Rows[i]["PIN"].ToString(),
+                        OtherReasonForVisit = ds.Rows[i]["Symptoms"].ToString(),
+                        Status = ds.Rows[i]["Status"].ToString(),
+                        CancelReason = ds.Rows[i]["CancelReason"].ToString(),
+                        Mobile = ds.Rows[i]["Mobile"].ToString(),
+                        Telephone = ds.Rows[i]["Telephone"].ToString(),
+                        Address = ds.Rows[i]["Address"].ToString(),
+                        Sponsor = ds.Rows[i]["ConsultationSponsors"].ToString()
+                    };
                     Consultationlist.Add(obj);
                 }
             }

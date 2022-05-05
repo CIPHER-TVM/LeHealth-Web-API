@@ -207,7 +207,7 @@ namespace LeHealth.Service.Service
         {
             if (bodypart.BodyPartImgFile != null)
             {
-                bodypart.BodyPartImageLocation = fileUploadService.SaveFile(bodypart.BodyPartImgFile,"bodyparts");
+                bodypart.BodyPartImageLocation = fileUploadService.SaveFile(bodypart.BodyPartImgFile, "bodyparts");
             }
             return masterdataManager.InsertUpdateBodyPart(bodypart);
         }
@@ -259,6 +259,44 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteMaritalStatus(maritalStatus);
         }
+        public List<CommunicationTypeModel> GetCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            return masterdataManager.GetCommunicationType(ctype);
+        }
+        public string InsertUpdateCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            return masterdataManager.InsertUpdateCommunicationType(ctype);
+        }
+        public string DeleteCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            return masterdataManager.DeleteCommunicationType(ctype);
+        }
+        public List<VisaTypeModel> GetVisaType(VisaTypeModelAll visatype)
+        {
+            return masterdataManager.GetVisaType(visatype);
+        }
+        public string InsertUpdateVisaType(VisaTypeModelAll visatype)
+        {
+            return masterdataManager.InsertUpdateVisaType(visatype);
+        }
+        public string DeleteVisaType(VisaTypeModelAll visatype)
+        {
+            return masterdataManager.DeleteVisaType(visatype);
+        }
+        public List<ReligionModel> GetReligion(ReligionModelAll religion)
+        {
+            return masterdataManager.GetReligion(religion);
+        }
+        public string InsertUpdateReligion(ReligionModelAll religion)
+        {
+            return masterdataManager.InsertUpdateReligion(religion);
+        }
+        public string DeleteReligion(ReligionModelAll religion)
+        {
+            return masterdataManager.DeleteReligion(religion);
+        }
+
+
         /////////////////////////////////////////////////////////////////////////////
 
         public List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant)
@@ -346,7 +384,7 @@ namespace LeHealth.Service.Service
         {
             if (hm.LogoFile != null)
             {
-                hm.Logo = fileUploadService.SaveFile(hm.LogoFile,"documents");
+                hm.Logo = fileUploadService.SaveFile(hm.LogoFile, "documents");
             }
             if (hm.ReportLogoFile != null)
             {
@@ -359,12 +397,12 @@ namespace LeHealth.Service.Service
 
             if (hm.SignFile != null)
             {
-                hm.Sign = fileUploadService.SaveFile(hm.SignFile,"documents");
+                hm.Sign = fileUploadService.SaveFile(hm.SignFile, "documents");
             }
             return masterdataManager.ConsentFormDataSave(hm);
         }
-        
-        
+
+
 
         public string InsertUpdateOperator(OperatorModel Operator)
         {
@@ -373,10 +411,6 @@ namespace LeHealth.Service.Service
         public List<OperatorModel> GetOperator(Int32 OperatorId)
         {
             return masterdataManager.GetOperator(OperatorId);
-        }
-        public List<ReligionModel> GetReligion()
-        {
-            return masterdataManager.GetReligion();
         }
         public List<LeadAgentModel> GetLeadAgent(Int32 la)
         {
@@ -430,10 +464,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateTendern(movement);
         }
-        public List<VisaTypeModel> GetVisaType()
-        {
-            return masterdataManager.GetVisaType();
-        }
         public List<StateModel> GetStateByCountryId(Int32 countryid)
         {
             return masterdataManager.GetStateByCountryId(countryid);
@@ -463,11 +493,6 @@ namespace LeHealth.Service.Service
         public List<KinRelationModel> GetKinRelation()
         {
             return masterdataManager.GetKinRelation();
-        }
-        
-        public List<CommunicationTypeModel> GetCommunicationType()
-        {
-            return masterdataManager.GetCommunicationType();
         }
         public List<HospitalModel> GetUserSpecificHospitals(int UserId)
         {

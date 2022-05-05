@@ -210,7 +210,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-         public List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm)
+        public List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm)
         {
             List<CPTModifierModel> profList = new List<CPTModifierModel>();
             using SqlConnection con = new SqlConnection(_connStr);
@@ -512,7 +512,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -552,7 +551,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         /// <summary>
         /// Get department list from database,Step three in code execution flow
         /// </summary>
@@ -1927,6 +1925,9 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetMaritalStatus", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", maritalstatus.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", maritalstatus.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", maritalstatus.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsmaritalStatus = new DataTable();
             adapter.Fill(dsmaritalStatus);
@@ -1935,9 +1936,11 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dsmaritalStatus.Rows.Count; i++)
                 {
-                    MaritalStatusModel obj = new MaritalStatusModel();
-                    obj.Id = Convert.ToInt32(dsmaritalStatus.Rows[i]["Id"]);
-                    obj.MaritalStatusDescription = dsmaritalStatus.Rows[i]["MaritalStatusDescription"].ToString();
+                    MaritalStatusModel obj = new MaritalStatusModel
+                    {
+                        Id = Convert.ToInt32(dsmaritalStatus.Rows[i]["Id"]),
+                        MaritalStatusDescription = dsmaritalStatus.Rows[i]["MaritalStatusDescription"].ToString()
+                    };
                     maritalStatusList.Add(obj);
                 }
             }
@@ -1950,9 +1953,8 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMaritalStatus", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SalutationId", maritalStatus.Id);
-                cmd.Parameters.AddWithValue("@MaritalStatusDescription", maritalStatus.MaritalStatusDescription);
-                cmd.Parameters.AddWithValue("@UserId", maritalStatus.UserId);
+                cmd.Parameters.AddWithValue("@Id", maritalStatus.Id);
+                cmd.Parameters.AddWithValue("@MaritalStatus", maritalStatus.MaritalStatusDescription);
                 cmd.Parameters.AddWithValue("@BranchId", maritalStatus.BranchId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", maritalStatus.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -1981,7 +1983,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string DeleteMaritalStatus(MaritalStatusModelAll maritalstatus) 
+        public string DeleteMaritalStatus(MaritalStatusModelAll maritalstatus)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -2009,6 +2011,266 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<CommunicationTypeModel> GetCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCommunicationType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", ctype.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", ctype.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", ctype.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dscommunicationType = new DataTable();
+            adapter.Fill(dscommunicationType);
+            con.Close();
+            if ((dscommunicationType != null) && (dscommunicationType.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dscommunicationType.Rows.Count; i++)
+                {
+                    CommunicationTypeModel obj = new CommunicationTypeModel
+                    {
+                        Id = Convert.ToInt32(dscommunicationType.Rows[i]["Id"]),
+                        CommunicationType = dscommunicationType.Rows[i]["CommunicationType"].ToString()
+                    };
+                    communicationTypeList.Add(obj);
+                }
+            }
+            return communicationTypeList;
+        }
+        public string InsertUpdateCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCommunicationType", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", ctype.Id);
+                cmd.Parameters.AddWithValue("@CommunicationType", ctype.CommunicationType);
+                cmd.Parameters.AddWithValue("@BranchId", ctype.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", ctype.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCommunicationType(CommunicationTypeModelAll ctype)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCommunicationType", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", ctype.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
+        public List<VisaTypeModel> GetVisaType(VisaTypeModelAll visatype)
+        {
+            List<VisaTypeModel> visatypeList = new List<VisaTypeModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetVisaType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisaTypeID", visatype.VisaTypeID);
+            cmd.Parameters.AddWithValue("@ShowAll", visatype.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", visatype.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtVisaTypeList = new DataTable();
+            adapter.Fill(dtVisaTypeList);
+            con.Close();
+            if ((dtVisaTypeList != null) && (dtVisaTypeList.Rows.Count > 0))
+                visatypeList = dtVisaTypeList.ToListOfObject<VisaTypeModel>();
+            return visatypeList;
+        }
+        public string InsertUpdateVisaType(VisaTypeModelAll visatype)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateVisaType", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", visatype.VisaTypeID);
+                cmd.Parameters.AddWithValue("@VisaType", visatype.VisaType);
+                cmd.Parameters.AddWithValue("@BranchId", visatype.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", visatype.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteVisaType(VisaTypeModelAll visatype)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteVisaType", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", visatype.VisaTypeID);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
+        public List<ReligionModel> GetReligion(ReligionModelAll religion)
+        {
+            List<ReligionModel> religionList = new List<ReligionModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetReligion", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", religion.ID);
+            cmd.Parameters.AddWithValue("@ShowAll", religion.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", religion.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsReligionList = new DataTable();
+            adapter.Fill(dsReligionList);
+            con.Close();
+            if ((dsReligionList != null) && (dsReligionList.Rows.Count > 0))
+                religionList = dsReligionList.ToListOfObject<ReligionModel>();
+            return religionList;
+        }
+        public string InsertUpdateReligion(ReligionModelAll religion)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMaritalStatus", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", religion.Id);
+                //cmd.Parameters.AddWithValue("@MaritalStatus", maritalStatus.MaritalStatusDescription);
+                //cmd.Parameters.AddWithValue("@BranchId", maritalStatus.BranchId);
+                //cmd.Parameters.AddWithValue("@IsDisplayed", maritalStatus.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteReligion(ReligionModelAll religion)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteMaritalStatus", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", religion.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2840,9 +3102,7 @@ namespace LeHealth.Core.DataManager
                         DHAUserName = dsHospitalList.Rows[i]["DHAFacilityId"].ToString(),
                         DHAPassword = dsHospitalList.Rows[i]["DHAFacilityId"].ToString(),
                         SR_ID = dsHospitalList.Rows[i]["SR_ID"].ToString(),
-                        MalaffiSystemcode = dsHospitalList.Rows[i]["MalaffiSystemcode"].ToString(),
-                        Active = Convert.ToInt32(dsHospitalList.Rows[i]["IsActive"]),
-                        BlockReason = dsHospitalList.Rows[i]["BlockReason"].ToString()
+                        MalaffiSystemcode = dsHospitalList.Rows[i]["MalaffiSystemcode"].ToString()
                     };
                     hospitalList.Add(obj);
                 }
@@ -2891,9 +3151,9 @@ namespace LeHealth.Core.DataManager
                         DHAUserName = dsHospitalList.Rows[i]["DHAFacilityId"].ToString(),
                         DHAPassword = dsHospitalList.Rows[i]["DHAFacilityId"].ToString(),
                         SR_ID = dsHospitalList.Rows[i]["SR_ID"].ToString(),
-                        MalaffiSystemcode = dsHospitalList.Rows[i]["MalaffiSystemcode"].ToString(),
-                        Active = Convert.ToInt32(dsHospitalList.Rows[i]["IsActive"]),
-                        BlockReason = dsHospitalList.Rows[i]["BlockReason"].ToString()
+                        MalaffiSystemcode = dsHospitalList.Rows[i]["MalaffiSystemcode"].ToString()
+                        //Active = Convert.ToInt32(dsHospitalList.Rows[i]["IsActive"]),
+                        //BlockReason = dsHospitalList.Rows[i]["BlockReason"].ToString()
                     };
                     hospitalList.Add(obj);
                 }
@@ -2971,8 +3231,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@DhaUserName", hospital.DHAUserName);
                 cmd.Parameters.AddWithValue("@DhaPassword", hospital.DHAPassword);
                 cmd.Parameters.AddWithValue("@UserId", hospital.UserId);
-                cmd.Parameters.AddWithValue("@Active", hospital.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", hospital.BlockReason);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -3578,27 +3836,7 @@ namespace LeHealth.Core.DataManager
 
 
         // GET MASTER ONLY NO CRUD
-        /// <summary>
-        /// Get Details of Religion
-        /// </summary>
-        /// <returns>List of religion details</returns>
-        public List<ReligionModel> GetReligion()
-        {
-            List<ReligionModel> religionList = new List<ReligionModel>();
 
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetReligion", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsReligionList = new DataTable();
-            adapter.Fill(dsReligionList);
-            con.Close();
-            if ((dsReligionList != null) && (dsReligionList.Rows.Count > 0))
-                religionList = dsReligionList.ToListOfObject<ReligionModel>();
-            return religionList;
-        }
         /// <summary>
         /// Get Details of Appointment Type
         /// </summary>
@@ -3630,27 +3868,7 @@ namespace LeHealth.Core.DataManager
             }
             return profList;
         }
-        /// <summary>
-        /// Get Details of Visa Type
-        /// </summary>
-        /// <returns>List of Visa types</returns>
-        public List<VisaTypeModel> GetVisaType()
-        {
-            List<VisaTypeModel> schemeList = new List<VisaTypeModel>();
 
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetVisaType", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtVisaTypeList = new DataTable();
-            adapter.Fill(dtVisaTypeList);
-            con.Close();
-
-            if ((dtVisaTypeList != null) && (dtVisaTypeList.Rows.Count > 0))
-                schemeList = dtVisaTypeList.ToListOfObject<VisaTypeModel>();
-            return schemeList;
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -3950,37 +4168,5 @@ namespace LeHealth.Core.DataManager
             }
             return kinRelationList;
         }
-        
-        /// <summary>
-        /// Get All communication type list
-        /// </summary>
-        /// <returns>List of communication types</returns>
-        public List<CommunicationTypeModel> GetCommunicationType()
-        {
-            List<CommunicationTypeModel> communicationTypeList = new List<CommunicationTypeModel>();
-
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetCommunicationType", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dscommunicationType = new DataTable();
-            adapter.Fill(dscommunicationType);
-            con.Close();
-            if ((dscommunicationType != null) && (dscommunicationType.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dscommunicationType.Rows.Count; i++)
-                {
-                    CommunicationTypeModel obj = new CommunicationTypeModel
-                    {
-                        Id = Convert.ToInt32(dscommunicationType.Rows[i]["Id"]),
-                        CommunicationType = dscommunicationType.Rows[i]["CommunicationType"].ToString()
-                    };
-                    communicationTypeList.Add(obj);
-                }
-            }
-            return communicationTypeList;
-        }
-
     }
 }

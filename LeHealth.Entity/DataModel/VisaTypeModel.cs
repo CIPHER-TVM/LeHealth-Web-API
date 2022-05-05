@@ -8,6 +8,12 @@ namespace LeHealth.Entity.DataModel
     {
         public int VisaTypeID { get; set; }
         public string VisaType { get; set; }
-        public bool Active { get; set; } 
+    }
+    public class VisaTypeModelAll : VisaTypeModel
+    {
+        public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }
