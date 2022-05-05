@@ -2194,7 +2194,7 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetReligion", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", religion.ID);
+            cmd.Parameters.AddWithValue("@ID", religion.Id);
             cmd.Parameters.AddWithValue("@ShowAll", religion.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", religion.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
