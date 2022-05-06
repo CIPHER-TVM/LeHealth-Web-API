@@ -1789,12 +1789,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("DeleteSketchIndicator")]
         [HttpPost]
-        public ResponseDataModel<string> DeleteSketchIndicator(SketchIndicatorModelAll bodypart)
+        public ResponseDataModel<string> DeleteSketchIndicator(SketchIndicatorModelAll sketchIndicator)
         {
             try
             {
                 string message = string.Empty;
-                message = masterdataService.DeleteSketchIndicator(bodypart);
+                message = masterdataService.DeleteSketchIndicator(sketchIndicator);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,

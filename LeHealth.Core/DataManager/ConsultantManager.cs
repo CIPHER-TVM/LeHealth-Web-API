@@ -113,28 +113,30 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dtAppointments.Rows.Count; i++)
                 {
-                    SearchAppointmentModel obj = new SearchAppointmentModel();
-                    obj.AppId = Convert.ToInt32(dtAppointments.Rows[i]["AppId"]);
-                    obj.AppDate = dtAppointments.Rows[i]["AppDate"].ToString();
-                    obj.AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]);
-                    obj.AppNo = dtAppointments.Rows[i]["AppNo"].ToString();
-                    obj.RegNo = dtAppointments.Rows[i]["RegNo"].ToString();
-                    obj.SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString();
-                    obj.PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]);
-                    obj.PatientName = dtAppointments.Rows[i]["PatientName"].ToString();
-                    obj.PIN = dtAppointments.Rows[i]["PIN"].ToString();
-                    obj.Mobile = dtAppointments.Rows[i]["ContactNumber"].ToString();
-                    obj.CFirstName = dtAppointments.Rows[i]["ConsultantName"].ToString();
-                    obj.AppStatus = dtAppointments.Rows[i]["Status"].ToString();
-                    obj.CancelReason = dtAppointments.Rows[i]["CancelReason"].ToString();
-                    obj.ResPhone = dtAppointments.Rows[i]["TelePhone"].ToString();
-                    obj.Address1 = dtAppointments.Rows[i]["Address"].ToString();
-                    obj.BranchId = Convert.ToInt32(dtAppointments.Rows[i]["BranchId"]);
-                    obj.EntryDate = dtAppointments.Rows[i]["EntryDate"].ToString();
+                    SearchAppointmentModel obj = new SearchAppointmentModel
+                    {
+                        AppId = Convert.ToInt32(dtAppointments.Rows[i]["AppId"]),
+                        AppDate = dtAppointments.Rows[i]["AppDate"].ToString(),
+                        AppType = (dtAppointments.Rows[0]["AppType"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["AppType"]),
+                        AppNo = dtAppointments.Rows[i]["AppNo"].ToString(),
+                        RegNo = dtAppointments.Rows[i]["RegNo"].ToString(),
+                        SliceTime = dtAppointments.Rows[i]["SliceTime"].ToString(),
+                        PatientId = (dtAppointments.Rows[0]["PatientId"] == DBNull.Value) ? 0 : Convert.ToInt32(dtAppointments.Rows[0]["PatientId"]),
+                        PatientName = dtAppointments.Rows[i]["PatientName"].ToString(),
+                        PIN = dtAppointments.Rows[i]["PIN"].ToString(),
+                        Mobile = dtAppointments.Rows[i]["ContactNumber"].ToString(),
+                        CFirstName = dtAppointments.Rows[i]["ConsultantName"].ToString(),
+                        AppStatus = dtAppointments.Rows[i]["Status"].ToString(),
+                        CancelReason = dtAppointments.Rows[i]["CancelReason"].ToString(),
+                        ResPhone = dtAppointments.Rows[i]["TelePhone"].ToString(),
+                        Address1 = dtAppointments.Rows[i]["Address"].ToString(),
+                        BranchId = Convert.ToInt32(dtAppointments.Rows[i]["BranchId"]),
+                        EntryDate = dtAppointments.Rows[i]["EntryDate"].ToString()
+                    };
+                    appList.Add(obj);
                     //obj.EntryDate = DateTime.Now;
                     //DateTime dt = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                     //DateTime dateValue = DateTime.ParseExact(appointments.AppDate.Trim(), "dd-MM-yyyy", null);
-                    appList.Add(obj);
                 }
             }
             return appList;
@@ -524,7 +526,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
                 cmd.Parameters.AddWithValue("@DiseaseDesc", disease.DiseaseDesc);
                 cmd.Parameters.AddWithValue("@ConsultantId", disease.ConsultantId);
-
                 SqlParameter diseaseIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1639,7 +1640,6 @@ namespace LeHealth.Core.DataManager
                     consultantMarkings.Add(obj);
                 }
             }
-
             return consultantMarkings;
         }
         public string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking)
