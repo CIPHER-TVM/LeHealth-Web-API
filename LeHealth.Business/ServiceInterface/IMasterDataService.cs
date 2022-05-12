@@ -8,10 +8,13 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IMasterDataService
     {
+        string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
+        List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string BlockUnblockServiceItem(ServiceItemModel serviceitem);
+        //List<CommonMasterFieldModelAll> GetCPTCode(CommonMasterFieldModelAll ccm);
         List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
-        string InsertUpdateCPTCode(CPTCodeModelAll ccm);
+        //string InsertUpdateCPTCode(CPTCodeModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
@@ -26,7 +29,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateDepartment(DepartmentModelAll Dept);
         string DeleteDepartment(DepartmentModel Dept);
         List<SymptomModel> GetSymptom(SymptomModelAll symptom);
-        string InsertUpdateSymptom(SymptomModelAll symptom);
+        //string InsertUpdateSymptom(SymptomModelAll symptom);
         string DeleteSymptom(SymptomModel symptom);
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
@@ -38,10 +41,10 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateState(StateModel state);
         string DeleteState(StateModel state);
         List<CompanyModel> GetCompany(CompanyModelAll cmp);
-        string InsertUpdateCompany(CompanyModelAll cmp);
+        //string InsertUpdateCompany(CompanyModelAll cmp);
         string DeleteCompany(CompanyModel cmp);
         List<ProfessionModel> GetProfession(ProfessionModelAll profid);
-        string InsertUpdateProfession(ProfessionModelAll prof);
+        //string InsertUpdateProfession(ProfessionModelAll prof);
         string DeleteProfession(ProfessionModel prof);
         List<CityModel> GetCity(CityModelAll city);
         string InsertUpdateCity(CityModelAll city);
@@ -60,7 +63,7 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteSketchIndicator(SketchIndicatorModelAll sketch);
         List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegScheme);
         List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
-        string InsertUpdateSalutation(SalutationModelAll salutationDetails);
+        //string InsertUpdateSalutation(SalutationModelAll salutationDetails);
         string DeleteSalutation(SalutationModelAll salutationDetails);
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
@@ -70,11 +73,17 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteCommunicationType(CommunicationTypeModelAll ctype);
         List<VisaTypeModel> GetVisaType(VisaTypeModelAll visatype);
         string InsertUpdateVisaType(VisaTypeModelAll visatype);
-        string DeleteVisaType(VisaTypeModelAll visatype); 
+        string DeleteVisaType(VisaTypeModelAll visatype);
 
         List<ReligionModel> GetReligion(ReligionModelAll religion);
         string InsertUpdateReligion(ReligionModelAll religion);
-        string DeleteReligion(ReligionModelAll religion);  
+        string DeleteReligion(ReligionModelAll religion);
+        List<LeadAgentModel> GetLeadAgent(LeadAgentModelAll la);
+        string InsertUpdateLeadAgent(LeadAgentModelAll la);
+        string DeleteLeadAgent(LeadAgentModelAll la);
+        List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor);
+        string InsertUpdateSponsor(SponsorMasterModelAll sponsor);
+        string DeleteSponsor(SponsorMasterModelAll sponsor);
 
         /////////////////////////////////////////////
         List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant);
@@ -82,8 +91,6 @@ namespace LeHealth.Service.ServiceInterface
         ////////////////////////////////////////////////////////////////////////////////////////
 
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
-        List<SponsorMasterModel> GetSponsor(Int32 sponsorid);
-        string InsertUpdateSponsor(SponsorMasterModel sponsor);
         List<HospitalModel> GetUserHospitals(Int32 id);
         string InsertUpdateUserHospitals(HospitalRegModel hm);
         string ConsentFormDataSave(ConsentFormRegModel hm);
@@ -102,8 +109,6 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateOperator(OperatorModel Operator);
         List<OperatorModel> GetOperator(Int32 OperatorId);
         List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel);
-        List<LeadAgentModel> GetLeadAgent(Int32 la);
-        string InsertUpdateLeadAgent(LeadAgentModel la);
         List<SponsorTypeModel> GetSponsorType(Int32 sponsorType);
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);

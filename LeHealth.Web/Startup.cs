@@ -20,6 +20,7 @@ using LeHealth.Service.Service;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace LeHealth.Catalogue.API
 {
@@ -35,15 +36,15 @@ namespace LeHealth.Catalogue.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           /* services.AddControllers()
-            .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            });
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            });*/
+            /* services.AddControllers()
+             .AddJsonOptions(options =>
+             {
+                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
+             });*/
+            //services.AddCors(c =>
+            // {
+            //     c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            // });
 
             //Authenticating JWT token and validating token
             //var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -141,7 +142,17 @@ namespace LeHealth.Catalogue.API
             //{
             //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             //});
-            app.UseStaticFiles();
+            app.UseStaticFiles(
+                new StaticFileOptions()
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+                        ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers",
+                          "Origin, X-Requested-With, Content-Type, Accept");
+                    },
+                }
+                );
 
             app.UseRouting();
 

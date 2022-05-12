@@ -26,8 +26,6 @@ namespace LeHealth.Entity.DataModel
         public float CoPayPcnt { get; set; }
         public string Remarks { get; set; }
         public int SFormId { get; set; }
-        public int Active { get; set; }
-        public string BlockReason { get; set; }
         public float SponsorLimit { get; set; }
         public string DHANo { get; set; }
         public int EnableSponsorLimit { get; set; }
@@ -37,6 +35,12 @@ namespace LeHealth.Entity.DataModel
         public int SortOrder { get; set; }
         public int PartyId { get; set; }
         public int UnclaimedId { get; set; }
-        public int UserId { get; set; } 
+    }
+    public class SponsorMasterModelAll : SponsorMasterModel
+    {
+        public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }

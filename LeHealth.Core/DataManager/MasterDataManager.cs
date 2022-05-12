@@ -22,7 +22,43 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
-
+        public string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateItemMaster", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ItemId", masterItem.Id);
+                cmd.Parameters.AddWithValue("@ItemName", masterItem.NameData);
+                cmd.Parameters.AddWithValue("@ItemCode", masterItem.CodeData);
+                cmd.Parameters.AddWithValue("@ItemDescription", masterItem.DescriptionData);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
         public string InsertUpdateServiceItem(ServiceItemModel serviceItemModel)
         {
             string response = string.Empty;
@@ -144,16 +180,16 @@ namespace LeHealth.Core.DataManager
             }
             return profList;
         }
-        public string InsertUpdateCPTCode(CPTCodeModelAll ccm)
+        public string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCPTCode", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CPTCodeId", ccm.CPTCodeId);
-                cmd.Parameters.AddWithValue("@CPTCode", ccm.CPTCode);
-                cmd.Parameters.AddWithValue("@CPTDesc", ccm.CPTDesc);
+                cmd.Parameters.AddWithValue("@CPTCodeId", ccm.Id);
+                cmd.Parameters.AddWithValue("@CPTCode", ccm.CodeData);
+                cmd.Parameters.AddWithValue("@CPTDesc", ccm.DescriptionData);
                 cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -453,7 +489,6 @@ namespace LeHealth.Core.DataManager
                         EffectTo = dsNumber.Rows[i]["EffectTo"].ToString(),
                         PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString()),
                         Remarks = dsNumber.Rows[i]["Remarks"].ToString(),
-                        BranchId = pm.BranchId
                     };
                     itemList.Add(obj);
                 }
@@ -474,7 +509,6 @@ namespace LeHealth.Core.DataManager
                 Package.EffectFrom = packFrom.ToString("yyyy-MM-dd");
                 DateTime packTo = DateTime.ParseExact(Package.EffectTo.Trim(), "dd-MM-yyyy", null);
                 Package.EffectTo = packTo.ToString("yyyy-MM-dd");
-
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePackage", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PackId", Package.PackId);
@@ -702,15 +736,15 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Symptom"></param>
         /// <returns></returns>
-        public string InsertUpdateSymptom(SymptomModelAll Symptom)
+        public string InsertUpdateSymptom(CommonMasterFieldModelAll Symptom)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSymptom", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SymptomId", Symptom.SymptomId);
-                cmd.Parameters.AddWithValue("@SymptomDesc", Symptom.SymptomDesc);
+                cmd.Parameters.AddWithValue("@SymptomId", Symptom.Id);
+                cmd.Parameters.AddWithValue("@SymptomDesc", Symptom.DescriptionData);
                 cmd.Parameters.AddWithValue("@IsDisplayed", Symptom.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", Symptom.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", Symptom.UserId);
@@ -1116,15 +1150,15 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Company"></param>
         /// <returns>success or reason to failure</returns>
-        public string InsertUpdateCompany(CompanyModelAll Company)
+        public string InsertUpdateCompany(CommonMasterFieldModelAll Company)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCompany", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CmpId", Company.CmpId);
-                cmd.Parameters.AddWithValue("@CmpName", Company.CmpName);
+                cmd.Parameters.AddWithValue("@CmpId", Company.Id);
+                cmd.Parameters.AddWithValue("@CmpName", Company.NameData);
                 cmd.Parameters.AddWithValue("@IsDisplayed", Company.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", Company.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", Company.UserId);
@@ -1232,17 +1266,17 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="profession"></param>
         /// <returns>success or reason to failure</returns>
-        public string InsertUpdateProfession(ProfessionModelAll prof)
+        public string InsertUpdateProfession(CommonMasterFieldModelAll prof)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateProfession", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ProfId", prof.ProfId);
-                cmd.Parameters.AddWithValue("@ProfName", prof.ProfName);
-                cmd.Parameters.AddWithValue("@ProfCode", prof.ProfCode);
-                cmd.Parameters.AddWithValue("@ProfGroup", prof.ProfGroup);
+                cmd.Parameters.AddWithValue("@ProfId", prof.Id);
+                cmd.Parameters.AddWithValue("@ProfName", prof.NameData);
+                cmd.Parameters.AddWithValue("@ProfCode", prof.CodeData);
+                cmd.Parameters.AddWithValue("@ProfGroup", 0);
                 cmd.Parameters.AddWithValue("@IsDisplayed", prof.IsDisplayed);
                 cmd.Parameters.AddWithValue("@UserId", prof.UserId);
                 cmd.Parameters.AddWithValue("@BranchId", prof.BranchId);
@@ -1414,7 +1448,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign)
         {
             List<VitalSignModel> vitalSignList = new List<VitalSignModel>();
@@ -1528,7 +1561,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll ledgerHead)
         {
             List<LedgerHeadModel> ledgerHeadList = new List<LedgerHeadModel>();
@@ -1724,9 +1756,7 @@ namespace LeHealth.Core.DataManager
                 var ret = retValV.Value;
                 var descrip = retDesc.Value.ToString();
                 con.Close();
-
                 response = descrip;
-
             }
             return response;
         }
@@ -1823,7 +1853,6 @@ namespace LeHealth.Core.DataManager
                     };
                     sketchIndicators.Add(obj);
                 }
-
             return sketchIndicators;
         }
         public string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch)
@@ -1919,7 +1948,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="salutation"></param>
         /// <returns></returns>
-        public string InsertUpdateSalutation(SalutationModelAll salutation)
+        public string InsertUpdateSalutation(CommonMasterFieldModelAll salutation)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1927,7 +1956,7 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSalutation", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@SalutationId", salutation.Id);
-                cmd.Parameters.AddWithValue("@Salutation", salutation.Salutation);
+                cmd.Parameters.AddWithValue("@Salutation", salutation.NameData);
                 cmd.Parameters.AddWithValue("@UserId", salutation.UserId);
                 cmd.Parameters.AddWithValue("@BranchId", salutation.BranchId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", salutation.IsDisplayed);
@@ -2337,8 +2366,266 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<LeadAgentModel> GetLeadAgent(LeadAgentModelAll la)
+        {
+            List<LeadAgentModel> leadAgentList = new List<LeadAgentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLeadAgent", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@LeadAgentId", la.LeadAgentId);
+            cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", la.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
+                    LeadAgentModel obj = new LeadAgentModel
+                    {
+                        LeadAgentId = Convert.ToInt32(dsNumber.Rows[i]["LeadAgentId"]),
+                        Name = dsNumber.Rows[i]["Name"].ToString(),
+                        ContactNo = dsNumber.Rows[i]["ContactNo"].ToString(),
+                        CommisionPercent = (float)Convert.ToDouble(dsNumber.Rows[i]["CommisionPercent"].ToString()),
+                    };
+                    leadAgentList.Add(obj);
+                }
+            }
+            return leadAgentList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LeadAgent"></param>
+        /// <returns></returns>
+        public string InsertUpdateLeadAgent(LeadAgentModelAll LeadAgent)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLeadAgent", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@LeadAgentID", LeadAgent.LeadAgentId);
+                cmd.Parameters.AddWithValue("@Name", LeadAgent.Name);
+                cmd.Parameters.AddWithValue("@ContactNo", LeadAgent.ContactNo);
+                cmd.Parameters.AddWithValue("@CommisionPercent", LeadAgent.CommisionPercent);
+                cmd.Parameters.AddWithValue("@BranchId", LeadAgent.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", LeadAgent.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteLeadAgent(LeadAgentModelAll LeadAgent)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteLeadAgent", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", LeadAgent.LeadAgentId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
 
-
+        /// <summary>
+        /// Get sponsor list. if sponsorid is zero then returns all sponsor details. else returns specific sponsor id details
+        /// </summary>
+        /// <param name="sponsorid"></param>
+        /// <returns></returns>
+        public List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor)
+        {
+            List<SponsorMasterModel> sponsorList = new List<SponsorMasterModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsor", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SponsorId", sponsor.SponsorId);
+            cmd.Parameters.AddWithValue("@ShowAll", sponsor.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", sponsor.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtSponsor = new DataTable();
+            adapter.Fill(dtSponsor);
+            con.Close();
+            if ((dtSponsor != null) && (dtSponsor.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtSponsor.Rows.Count; i++)
+                {
+                    SponsorMasterModel obj = new SponsorMasterModel
+                    {
+                        SponsorId = Convert.ToInt32(dtSponsor.Rows[i]["SponsorId"]),
+                        SponsorName = dtSponsor.Rows[i]["SponsorName"].ToString(),
+                        SponsorType = Convert.ToInt32(dtSponsor.Rows[i]["SponsorType"]),
+                        Address1 = dtSponsor.Rows[i]["Address1"].ToString(),
+                        Address2 = dtSponsor.Rows[i]["Address2"].ToString(),
+                        Street = dtSponsor.Rows[i]["Street"].ToString(),
+                        PlacePO = dtSponsor.Rows[i]["PlacePO"].ToString(),
+                        PIN = dtSponsor.Rows[i]["PIN"].ToString(),
+                        City = dtSponsor.Rows[i]["City"].ToString(),
+                        State = dtSponsor.Rows[i]["State"].ToString(),
+                        CountryId = Convert.ToInt32(dtSponsor.Rows[i]["CountryId"]),
+                        Phone = dtSponsor.Rows[i]["Phone"].ToString(),
+                        Mobile = dtSponsor.Rows[i]["Mobile"].ToString(),
+                        Email = dtSponsor.Rows[i]["Email"].ToString(),
+                        Fax = dtSponsor.Rows[i]["Fax"].ToString(),
+                        ContactPerson = dtSponsor.Rows[i]["ContactPerson"].ToString(),
+                        DedAmount = (float)Convert.ToDouble(dtSponsor.Rows[i]["DedAmount"].ToString()),
+                        CoPayPcnt = (float)Convert.ToDouble(dtSponsor.Rows[i]["CoPayPcnt"].ToString()),
+                        Remarks = dtSponsor.Rows[i]["Remarks"].ToString(),
+                        SFormId = Convert.ToInt32(dtSponsor.Rows[i]["SFormId"]),
+                        SponsorLimit = (float)Convert.ToDouble(dtSponsor.Rows[i]["SponsorLimit"].ToString()),
+                        DHANo = dtSponsor.Rows[i]["DHANo"].ToString(),
+                        EnableSponsorLimit = Convert.ToInt32(dtSponsor.Rows[i]["EnableSponsorLimit"]),
+                        EnableSponsorConsent = Convert.ToInt32(dtSponsor.Rows[i]["EnableSponsorConsent"]),
+                        AuthorizationMode = dtSponsor.Rows[i]["AuthorizationMode"].ToString(),
+                        URL = dtSponsor.Rows[i]["URL"].ToString(),
+                        SortOrder = Convert.ToInt32(dtSponsor.Rows[i]["SortOrder"]),
+                        PartyId = Convert.ToInt32(dtSponsor.Rows[i]["PartyId"]),
+                        UnclaimedId = Convert.ToInt32(dtSponsor.Rows[i]["UnclaimedId"])
+                    };
+                    sponsorList.Add(obj);
+                }
+            }
+            return sponsorList;
+        }
+        /// <summary>
+        /// insert update sponsor details if SponsorId is zero then inserting the data else updating the data of id
+        /// </summary>
+        /// <param name="sponsor"></param>
+        /// <returns>success or reason to failure</returns>
+        public string InsertUpdateSponsor(SponsorMasterModelAll sponsor)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsor", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SponsorId", sponsor.SponsorId);
+                cmd.Parameters.AddWithValue("@SponsorName", sponsor.SponsorName);
+                cmd.Parameters.AddWithValue("@SponsorType", sponsor.SponsorType);
+                cmd.Parameters.AddWithValue("@Address1", sponsor.Address1);
+                cmd.Parameters.AddWithValue("@Address2", sponsor.Address2);
+                cmd.Parameters.AddWithValue("@Street", sponsor.Street);
+                cmd.Parameters.AddWithValue("@PlacePO", sponsor.PlacePO);
+                cmd.Parameters.AddWithValue("@PIN", sponsor.PIN);
+                cmd.Parameters.AddWithValue("@City", sponsor.City);
+                cmd.Parameters.AddWithValue("@State", sponsor.State);
+                cmd.Parameters.AddWithValue("@CountryId", sponsor.CountryId);
+                cmd.Parameters.AddWithValue("@Phone", sponsor.Phone);
+                cmd.Parameters.AddWithValue("@Mobile", sponsor.Mobile);
+                cmd.Parameters.AddWithValue("@Email", sponsor.Email);
+                cmd.Parameters.AddWithValue("@Fax", sponsor.Fax);
+                cmd.Parameters.AddWithValue("@ContactPerson", sponsor.ContactPerson);
+                cmd.Parameters.AddWithValue("@DedAmount", sponsor.DedAmount);
+                cmd.Parameters.AddWithValue("@CoPayPcnt", sponsor.CoPayPcnt);
+                cmd.Parameters.AddWithValue("@Remarks", sponsor.Remarks);
+                cmd.Parameters.AddWithValue("@PartyId", sponsor.PartyId);
+                cmd.Parameters.AddWithValue("@UnclaimedId", sponsor.UnclaimedId);
+                cmd.Parameters.AddWithValue("@SFormId", sponsor.SFormId);
+                cmd.Parameters.AddWithValue("@SponsorLimit", sponsor.SponsorLimit);
+                cmd.Parameters.AddWithValue("@DHANo", sponsor.DHANo);
+                cmd.Parameters.AddWithValue("@EnableLimit", sponsor.EnableSponsorLimit);
+                cmd.Parameters.AddWithValue("@EnableConsent", sponsor.EnableSponsorConsent);
+                cmd.Parameters.AddWithValue("@AuthorizationMode", sponsor.AuthorizationMode);
+                cmd.Parameters.AddWithValue("@URL", sponsor.URL);
+                cmd.Parameters.AddWithValue("@SortOrder", sponsor.SortOrder);
+                cmd.Parameters.AddWithValue("@BranchId", sponsor.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", sponsor.IsDisplayed);
+                cmd.Parameters.AddWithValue("@UserId", sponsor.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteSponsor(SponsorMasterModelAll sponsor)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteSponsor", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SponsorId", sponsor.SponsorId);
+                cmd.Parameters.AddWithValue("@UserId", sponsor.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
         //////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant)
@@ -2538,143 +2825,6 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        //SponsorManagement Starts
-        /// <summary>
-        /// Get sponsor list. if sponsorid is zero then returns all sponsor details. else returns specific sponsor id details
-        /// </summary>
-        /// <param name="sponsorid"></param>
-        /// <returns></returns>
-        public List<SponsorMasterModel> GetSponsor(Int32 sponsorid)
-        {
-            List<SponsorMasterModel> profList = new List<SponsorMasterModel>();
-
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetSponsor", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@SponsorId", sponsorid);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtProfession = new DataTable();
-            adapter.Fill(dtProfession);
-            con.Close();
-            if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
-                {
-                    SponsorMasterModel obj = new SponsorMasterModel
-                    {
-                        SponsorId = Convert.ToInt32(dtProfession.Rows[i]["SponsorId"]),
-                        SponsorName = dtProfession.Rows[i]["SponsorName"].ToString(),
-                        SponsorType = Convert.ToInt32(dtProfession.Rows[i]["SponsorType"]),
-                        Address1 = dtProfession.Rows[i]["Address1"].ToString(),
-                        Address2 = dtProfession.Rows[i]["Address2"].ToString(),
-                        Street = dtProfession.Rows[i]["Street"].ToString(),
-                        PlacePO = dtProfession.Rows[i]["PlacePO"].ToString(),
-                        PIN = dtProfession.Rows[i]["PIN"].ToString(),
-                        City = dtProfession.Rows[i]["City"].ToString(),
-                        State = dtProfession.Rows[i]["State"].ToString(),
-                        CountryId = Convert.ToInt32(dtProfession.Rows[i]["CountryId"]),
-                        Phone = dtProfession.Rows[i]["Phone"].ToString(),
-                        Mobile = dtProfession.Rows[i]["Mobile"].ToString(),
-                        Email = dtProfession.Rows[i]["Email"].ToString(),
-                        Fax = dtProfession.Rows[i]["Fax"].ToString(),
-                        ContactPerson = dtProfession.Rows[i]["ContactPerson"].ToString(),
-                        DedAmount = (float)Convert.ToDouble(dtProfession.Rows[i]["DedAmount"].ToString()),
-                        CoPayPcnt = (float)Convert.ToDouble(dtProfession.Rows[i]["CoPayPcnt"].ToString()),
-                        Remarks = dtProfession.Rows[i]["Remarks"].ToString(),
-                        SFormId = Convert.ToInt32(dtProfession.Rows[i]["SFormId"]),
-                        Active = Convert.ToInt32(dtProfession.Rows[i]["Active"]),
-                        BlockReason = dtProfession.Rows[i]["BlockReason"].ToString(),
-                        SponsorLimit = (float)Convert.ToDouble(dtProfession.Rows[i]["SponsorLimit"].ToString()),
-                        DHANo = dtProfession.Rows[i]["DHANo"].ToString(),
-                        EnableSponsorLimit = Convert.ToInt32(dtProfession.Rows[i]["EnableSponsorLimit"]),
-                        EnableSponsorConsent = Convert.ToInt32(dtProfession.Rows[i]["EnableSponsorConsent"]),
-                        AuthorizationMode = dtProfession.Rows[i]["AuthorizationMode"].ToString(),
-                        URL = dtProfession.Rows[i]["URL"].ToString(),
-                        SortOrder = Convert.ToInt32(dtProfession.Rows[i]["SortOrder"]),
-                        PartyId = Convert.ToInt32(dtProfession.Rows[i]["PartyId"]),
-                        UnclaimedId = Convert.ToInt32(dtProfession.Rows[i]["UnclaimedId"])
-                    };
-                    profList.Add(obj);
-                }
-            }
-            return profList;
-        }
-        /// <summary>
-        /// insert update sponsor details if SponsorId is zero then inserting the data else updating the data of id
-        /// </summary>
-        /// <param name="sponsor"></param>
-        /// <returns>success or reason to failure</returns>
-        public string InsertUpdateSponsor(SponsorMasterModel sponsor)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsor", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SponsorId", sponsor.SponsorId);
-                cmd.Parameters.AddWithValue("@SponsorName", sponsor.SponsorName);
-                cmd.Parameters.AddWithValue("@SponsorType", sponsor.SponsorType);
-                cmd.Parameters.AddWithValue("@Address1", sponsor.Address1);
-                cmd.Parameters.AddWithValue("@Address2", sponsor.Address2);
-                cmd.Parameters.AddWithValue("@Street", sponsor.Street);
-                cmd.Parameters.AddWithValue("@PlacePO", sponsor.PlacePO);
-                cmd.Parameters.AddWithValue("@PIN", sponsor.PIN);
-                cmd.Parameters.AddWithValue("@City", sponsor.City);
-                cmd.Parameters.AddWithValue("@State", sponsor.State);
-                cmd.Parameters.AddWithValue("@CountryId", sponsor.CountryId);
-                cmd.Parameters.AddWithValue("@Phone", sponsor.Phone);
-                cmd.Parameters.AddWithValue("@Mobile", sponsor.Mobile);
-                cmd.Parameters.AddWithValue("@Email", sponsor.Email);
-                cmd.Parameters.AddWithValue("@Fax", sponsor.Fax);
-                cmd.Parameters.AddWithValue("@ContactPerson", sponsor.ContactPerson);
-                cmd.Parameters.AddWithValue("@DedAmount", sponsor.DedAmount);
-                cmd.Parameters.AddWithValue("@CoPayPcnt", sponsor.CoPayPcnt);
-                cmd.Parameters.AddWithValue("@Remarks", sponsor.Remarks);
-                cmd.Parameters.AddWithValue("@PartyId", sponsor.PartyId);
-                cmd.Parameters.AddWithValue("@UnclaimedId", sponsor.UnclaimedId);
-                cmd.Parameters.AddWithValue("@SFormId", sponsor.SFormId);
-                cmd.Parameters.AddWithValue("@SponsorLimit", sponsor.SponsorLimit);
-                cmd.Parameters.AddWithValue("@Active", sponsor.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", sponsor.BlockReason);
-                cmd.Parameters.AddWithValue("@DHANo", sponsor.DHANo);
-                cmd.Parameters.AddWithValue("@EnableLimit", sponsor.EnableSponsorLimit);
-                cmd.Parameters.AddWithValue("@EnableConsent", sponsor.EnableSponsorConsent);
-                cmd.Parameters.AddWithValue("@AuthorizationMode", sponsor.AuthorizationMode);
-                cmd.Parameters.AddWithValue("@URL", sponsor.URL);
-                cmd.Parameters.AddWithValue("@SortOrder", sponsor.SortOrder);
-                cmd.Parameters.AddWithValue("@UserId", sponsor.UserId);
-
-
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-        //SponsorManagement Endt
-
-        //SponsorType Starts
         /// <summary>
         /// 
         /// </summary>
@@ -2690,19 +2840,17 @@ namespace LeHealth.Core.DataManager
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@STypeId", typeid);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dtProfession = new DataTable();
-            adapter.Fill(dtProfession);
+            DataTable dtSponsorType = new DataTable();
+            adapter.Fill(dtSponsorType);
             con.Close();
-            if ((dtProfession != null) && (dtProfession.Rows.Count > 0))
+            if ((dtSponsorType != null) && (dtSponsorType.Rows.Count > 0))
             {
-                for (Int32 i = 0; i < dtProfession.Rows.Count; i++)
+                for (Int32 i = 0; i < dtSponsorType.Rows.Count; i++)
                 {
                     SponsorTypeModel obj = new SponsorTypeModel
                     {
-                        STypeId = Convert.ToInt32(dtProfession.Rows[i]["STypeId"]),
-                        STypeDesc = dtProfession.Rows[i]["STypeDesc"].ToString(),
-                        Active = Convert.ToInt32(dtProfession.Rows[i]["Active"]),
-                        BlockReason = dtProfession.Rows[i]["BlockReason"].ToString()
+                        STypeId = Convert.ToInt32(dtSponsorType.Rows[i]["STypeId"]),
+                        STypeDesc = dtSponsorType.Rows[i]["STypeDesc"].ToString()
                     };
                     stypeList.Add(obj);
                 }
@@ -2723,8 +2871,6 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@STypeId", stype.STypeId);
                 cmd.Parameters.AddWithValue("@STypeDesc", stype.STypeDesc);
-                cmd.Parameters.AddWithValue("@Active", stype.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", stype.BlockReason);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -2752,9 +2898,6 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        //SponsorType Ends
-
-        //SponsorForm Starts
         /// <summary>
         /// 
         /// </summary>
@@ -2763,7 +2906,6 @@ namespace LeHealth.Core.DataManager
         public List<SponsorFormModel> GetSponsorForm(Int32 formid)
         {
             List<SponsorFormModel> sformList = new List<SponsorFormModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetSponsorForms", con);
             con.Open();
@@ -2780,9 +2922,9 @@ namespace LeHealth.Core.DataManager
                     SponsorFormModel obj = new SponsorFormModel
                     {
                         SFormId = Convert.ToInt32(dsProfession.Rows[i]["SFormId"]),
-                        SFormName = dsProfession.Rows[i]["SFormName"].ToString(),
-                        Active = Convert.ToInt32(dsProfession.Rows[i]["Active"]),
-                        BlockReason = dsProfession.Rows[i]["SFormName"].ToString()
+                        SFormName = dsProfession.Rows[i]["SFormName"].ToString()
+                        //Active = Convert.ToInt32(dsProfession.Rows[i]["Active"]),
+                        //BlockReason = dsProfession.Rows[i]["SFormName"].ToString()
                     };
                     sformList.Add(obj);
                 }
@@ -2803,8 +2945,6 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@SFormId", sform.SFormId);
                 cmd.Parameters.AddWithValue("@SFormName", sform.SFormName);
-                cmd.Parameters.AddWithValue("@Active", sform.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", sform.BlockReason);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -2987,8 +3127,6 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //Consent Management Ends
-
-
         /// <summary>
         /// Save and updating Zone master data,Saves when Id is zero. Updates when Id Not equal to zero
         /// </summary>
@@ -3097,7 +3235,6 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantByHospital", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-
             cmd.Parameters.AddWithValue("@HospitalId", cmodel.BranchId);
             cmd.Parameters.AddWithValue("@IsExternal", cmodel.IsExternal);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -3118,16 +3255,11 @@ namespace LeHealth.Core.DataManager
             }
             return departmentlist;
         }
-
-
-
-
         //Hospital Starts
         /// <summary>
         /// Get Hospital list from database.Step three in code execution flow
         /// </summary>
         /// <returns></returns>
-
         public List<HospitalModel> GetUserHospitals(Int32 id)
         {
             List<HospitalModel> hospitalList = new List<HospitalModel>();
@@ -3324,7 +3456,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         //Hospital Ends
         /// <summary>
         /// 
@@ -3368,7 +3499,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         //Operator Starts Now
         /// <summary>
         /// 
@@ -3426,7 +3556,6 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetOperatorById", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-
             cmd.Parameters.AddWithValue("@Id", OperatorId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsStateList = new DataTable();
@@ -3449,91 +3578,6 @@ namespace LeHealth.Core.DataManager
             }
             return stateList;
         }
-        //Operator Ends Now
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="la"></param>
-        /// <returns></returns>
-        public List<LeadAgentModel> GetLeadAgent(Int32 la)
-        {
-            List<LeadAgentModel> itemList = new List<LeadAgentModel>();
-
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetLeadAgent", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@LeadAgentId", la);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsNumber = new DataTable();
-            adapter.Fill(dsNumber);
-            con.Close();
-            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
-                {
-                    LeadAgentModel obj = new LeadAgentModel
-                    {
-                        LeadAgentId = Convert.ToInt32(dsNumber.Rows[i]["LeadAgentId"]),
-                        Name = dsNumber.Rows[i]["Name"].ToString(),
-                        ContactNo = dsNumber.Rows[i]["ContactNo"].ToString(),
-                        CommisionPercent = (float)Convert.ToDouble(dsNumber.Rows[i]["CommisionPercent"].ToString()),
-                        Active = Convert.ToInt32(dsNumber.Rows[i]["Active"]),
-                        BlockReason = dsNumber.Rows[i]["BlockReason"].ToString()
-                    };
-                    itemList.Add(obj);
-                }
-            }
-            return itemList;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="LeadAgent"></param>
-        /// <returns></returns>
-        public string InsertUpdateLeadAgent(LeadAgentModel LeadAgent)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateLeadAgent", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@LeadAgentID", LeadAgent.LeadAgentId);
-                cmd.Parameters.AddWithValue("@Name", LeadAgent.Name);
-                cmd.Parameters.AddWithValue("@ContactNo", LeadAgent.ContactNo);
-                cmd.Parameters.AddWithValue("@CommisionPercent", LeadAgent.CommisionPercent);
-                cmd.Parameters.AddWithValue("@Active", LeadAgent.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", LeadAgent.BlockReason);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
-
-
-
-        //Movement Starts
         /// <summary>
         /// 
         /// </summary>
@@ -3584,7 +3628,6 @@ namespace LeHealth.Core.DataManager
         public List<MovementModel> GetMovement(Int32 Id)
         {
             List<MovementModel> vitalSignList = new List<MovementModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetMovementDetails", con);
             con.Open();
@@ -3599,14 +3642,6 @@ namespace LeHealth.Core.DataManager
             return vitalSignList;
         }
         //Movement Ends
-        //Package Starts
-
-
-        //Package Ends
-
-        //Location Starts
-
-        //Location Ends
         /// <summary>
         /// 
         /// </summary>
@@ -3615,7 +3650,6 @@ namespace LeHealth.Core.DataManager
         public List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel dm)
         {
             List<ConsultantDrugModel> drugList = new List<ConsultantDrugModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDrug", con);
             con.Open();
@@ -3647,7 +3681,6 @@ namespace LeHealth.Core.DataManager
             }
             return drugList;
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -3750,7 +3783,6 @@ namespace LeHealth.Core.DataManager
         public List<ScientificNameModel> GetScientificName(Int32 la)
         {
             List<ScientificNameModel> itemList = new List<ScientificNameModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetScientificName", con);
             con.Open();
@@ -3776,9 +3808,6 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
-
-
-
         /// <summary>
         /// Save or update a drug's scientific name.If ScientificId is zero then inserts the value. else updates the value
         /// </summary>
@@ -3831,7 +3860,6 @@ namespace LeHealth.Core.DataManager
         public List<TendernModel> GetTendern(Int32 tendernessid)
         {
             List<TendernModel> itemList = new List<TendernModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetTendernDetails", con);
             con.Open();
@@ -3900,10 +3928,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
         //Tendern Ends
-
-
         // GET MASTER ONLY NO CRUD
-
         /// <summary>
         /// Get Details of Appointment Type
         /// </summary>
@@ -3935,7 +3960,6 @@ namespace LeHealth.Core.DataManager
             }
             return profList;
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -3966,12 +3990,12 @@ namespace LeHealth.Core.DataManager
         public List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt)
         {
             List<ItemsByTypeModel> itemList = new List<ItemsByTypeModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetItemsByType", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
+            cmd.Parameters.AddWithValue("@BranchId", ibt.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtNumber = new DataTable();
             adapter.Fill(dtNumber);
@@ -4000,7 +4024,6 @@ namespace LeHealth.Core.DataManager
         public List<ConsentTypeModel> GetConsentType()
         {
             List<ConsentTypeModel> consentTypeList = new List<ConsentTypeModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsentType", con);
             con.Open();
@@ -4072,7 +4095,6 @@ namespace LeHealth.Core.DataManager
         /// 
         /// </summary>
         /// <returns></returns>
-
         public List<FormValidationModel> GetFormMaster()
         {
             List<FormValidationModel> numberList = new List<FormValidationModel>();
@@ -4177,7 +4199,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         /// <summary>
         /// Get all gender data
         /// </summary>
@@ -4214,7 +4235,6 @@ namespace LeHealth.Core.DataManager
         public List<KinRelationModel> GetKinRelation()
         {
             List<KinRelationModel> kinRelationList = new List<KinRelationModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetKinRelation", con);
             con.Open();

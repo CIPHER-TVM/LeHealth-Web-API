@@ -75,17 +75,19 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dt.Rows.Count; i++)
                 {
-                    LoginOutputModel obj = new LoginOutputModel();
-                    obj.UserId = dt.Rows[i]["UserId"].ToString();
-                    obj.Username = dt.Rows[i]["UserName"].ToString();
-                    obj.Usersname = dt.Rows[i]["UsersName"].ToString();
-                    obj.Usertype = dt.Rows[i]["UserType"].ToString();
-                    obj.UserState = dt.Rows[i]["State"].ToString();
-                    obj.UserActive = dt.Rows[i]["Active"].ToString();
-                    obj.BlockReason = dt.Rows[i]["BlockReason"].ToString();
-                    obj.DeptId = dt.Rows[i]["DeptId"].ToString();
-                    obj.DeptName = dt.Rows[i]["DeptName"].ToString();
-                    obj.Id = Convert.ToInt32(dt.Rows[i]["ConsultantId"].ToString());
+                    LoginOutputModel obj = new LoginOutputModel
+                    {
+                        UserId = dt.Rows[i]["UserId"].ToString(),
+                        Username = dt.Rows[i]["UserName"].ToString(),
+                        Usersname = dt.Rows[i]["UsersName"].ToString(),
+                        Usertype = dt.Rows[i]["UserType"].ToString(),
+                        UserState = dt.Rows[i]["State"].ToString(),
+                        UserActive = dt.Rows[i]["Active"].ToString(),
+                        BlockReason = dt.Rows[i]["BlockReason"].ToString(),
+                        DeptId = dt.Rows[i]["DeptId"].ToString(),
+                        DeptName = dt.Rows[i]["DeptName"].ToString(),
+                        Id = Convert.ToInt32(dt.Rows[i]["ConsultantId"].ToString())
+                    };
                     userDetails.Add(obj);
                 }
             }

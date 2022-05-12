@@ -8,7 +8,5 @@ namespace LeHealth.Entity.DataModel
     {
         public int SFormId { get; set; }
         public string SFormName { get; set; }
-        public int Active { get; set; }
-        public string BlockReason { get; set; } 
     }
 }

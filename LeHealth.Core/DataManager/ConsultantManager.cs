@@ -553,8 +553,6 @@ namespace LeHealth.Core.DataManager
                     {
                         response = descrip;
                     }
-                    //........................
-
 
                     if (diseaseId > 0)//Inserted / Updated Successfully
                     {
@@ -587,11 +585,9 @@ namespace LeHealth.Core.DataManager
 
                         SqlCommand cmdSymptom = new SqlCommand("stLH_InsertDiseaseSymptom", con);
                         cmdSymptom.CommandType = CommandType.StoredProcedure;
-
                         cmdSymptom.Parameters.AddWithValue("@DiseaseId", diseaseId);
                         string symptomsString = JsonConvert.SerializeObject(disease.Symptoms);
                         cmdSymptom.Parameters.AddWithValue("@SymptomJSON", symptomsString);
-
                         SqlParameter symRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
@@ -609,11 +605,9 @@ namespace LeHealth.Core.DataManager
 
                         SqlCommand cmdSign = new SqlCommand("stLH_InsertDiseaseSign", con);
                         cmdSign.CommandType = CommandType.StoredProcedure;
-
                         cmdSign.Parameters.AddWithValue("@DiseaseId", diseaseId);
                         string signsString = JsonConvert.SerializeObject(disease.Signs);
                         cmdSign.Parameters.AddWithValue("@SignJSON", signsString);
-
                         SqlParameter signRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
@@ -636,7 +630,6 @@ namespace LeHealth.Core.DataManager
                         {
                             response = descript;
                         }
-
                     }
                     else
                     {
@@ -648,7 +641,6 @@ namespace LeHealth.Core.DataManager
                 catch (Exception ex)
                 {
                     responseobj.DiseaseId = 0;
-
                 }
                 con.Close();
             }
@@ -658,7 +650,6 @@ namespace LeHealth.Core.DataManager
         public List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId)
         {
             List<DiseaseSymptomModel> diseaseSymptoms = new List<DiseaseSymptomModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSymptom", con);
             con.Open();
@@ -670,13 +661,11 @@ namespace LeHealth.Core.DataManager
             con.Close();
             if ((dtList != null) && (dtList.Rows.Count > 0))
                 diseaseSymptoms = dtList.ToListOfObject<DiseaseSymptomModel>();
-
             return diseaseSymptoms;
         }
         public List<DiseaseSignModel> GetDiseaseSigns(int diseaseId)
         {
             List<DiseaseSignModel> diseaseSigns = new List<DiseaseSignModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDiseaseSign", con);
             con.Open();

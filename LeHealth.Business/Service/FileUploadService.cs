@@ -17,13 +17,10 @@ namespace LeHealth.Service.Service
 {
     public class FileUploadService : IFileUploadService
     {
-        private readonly IConfiguration _configuration;
         private IHostingEnvironment _env;
-        private readonly string _uploadpath;
-        public FileUploadService(IHospitalsManager _hospitalsManager, IHostingEnvironment env, IConfiguration configuration)
+        public FileUploadService(IHostingEnvironment env)
         {
             _env = env;
-            _uploadpath = configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
         public List<RegDocLocationModel> SaveFileMultiple(List<IFormFile> Files)
@@ -39,7 +36,7 @@ namespace LeHealth.Service.Service
                     RegDocLocationModel rlm = new RegDocLocationModel();
                     string fileName = a.FileName;
                     var fileNameArray = fileName.Split('.');
-                    var extension = fileNameArray[(fileNameArray.Length - 1)];
+                    var extension = fileNameArray[fileNameArray.Length - 1];
                     Guid Uniquefilename = Guid.NewGuid();
                     var actualFileName = Uniquefilename + "." + extension;
                     string fullpathtest = "uploads/documents/" + actualFileName;
@@ -62,11 +59,10 @@ namespace LeHealth.Service.Service
             {
                 var webRoot = _env.WebRootPath;
                 webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                //var PathWithFolderName = System.IO.Path.Combine(webRoot, "documents");
                 var PathWithFolderName = System.IO.Path.Combine(webRoot, foldername);
                 string fileName = File.FileName;
                 var fileNameArray = fileName.Split('.');
-                var extension = fileNameArray[(fileNameArray.Length - 1)];
+                var extension = fileNameArray[fileNameArray.Length - 1];
                 Guid Uniquefilename = Guid.NewGuid();
                 string actualFileName = Uniquefilename + "." + extension;
                 returnFilePath = "uploads/" + foldername + "/" + actualFileName;
@@ -75,24 +71,17 @@ namespace LeHealth.Service.Service
             }
             return returnFilePath;
         }
-        public string SaveBase64Fn(string Base64ImageString,string folderName)
+        public string SaveBase64Fn(string Base64ImageString, string folderName)
         {
-            try
-            {
-                var webRoot = _env.WebRootPath;
-                webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                var PathWithFolderName = System.IO.Path.Combine(webRoot, folderName);
-                byte[] docbytes = Convert.FromBase64String(Base64ImageString);
-                Guid Uniquefilename = Guid.NewGuid();
-                var actualFileName = Uniquefilename + "." + ".png";
-                System.IO.File.WriteAllBytes(PathWithFolderName + actualFileName, docbytes);
-                string returnfilePath = "uploads/" + folderName + "/" + actualFileName;
-                return returnfilePath;
-            }
-            catch (Exception ex)
-            {
-                return "error";
-            }
+            var webRoot = _env.WebRootPath;
+            webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            var PathWithFolderName = System.IO.Path.Combine(webRoot, folderName);
+            byte[] docbytes = Convert.FromBase64String(Base64ImageString);
+            Guid Uniquefilename = Guid.NewGuid();
+            var actualFileName = Uniquefilename + "." + ".png";
+            System.IO.File.WriteAllBytes(PathWithFolderName + "/" + actualFileName, docbytes);
+            string returnfilePath = "uploads/" + folderName + "/" + actualFileName;
+            return returnfilePath;
         }
     }
 }

@@ -23,8 +23,6 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int ShowAll { get; set; }
         public int IsDisplayed { get; set; }
-        /////////
-
     }
     public class BodyPartModelReturn
     {

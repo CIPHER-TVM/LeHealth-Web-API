@@ -16,7 +16,53 @@ namespace LeHealth.Service.Service
             masterdataManager = _masterdataManager;
             fileUploadService = _fileUploadService;
         }
+        public List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll masterItem)
+        {
+            List<CommonMasterFieldModel> returnvalue=new List<CommonMasterFieldModel>();
+            switch (masterItem.MasterFieldType)
+            {
+                //case 1:
+                //    returnvalue = masterdataManager.GetCPTCode(masterItem);
+                //    break;
+                //case 2:
+                //    returnvalue = masterdataManager.GetSymptom(masterItem);
+                //    break;
+                //case 3:
+                //    returnvalue = masterdataManager.GetCompany(masterItem);
+                //    break;
+                //case 4:
+                //    returnvalue = masterdataManager.GetProfession(masterItem);
+                //    break;
+                //default:
+                //    returnvalue = masterdataManager.GetCPTCode(masterItem);
+                //    break;
+            }
+            return returnvalue;
+        }
 
+        public string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem)
+        {
+            string returnvalue;
+            switch (masterItem.MasterFieldType)
+            {
+                case 1:
+                    returnvalue = masterdataManager.InsertUpdateCPTCode(masterItem);
+                    break;
+                case 2:
+                    returnvalue = masterdataManager.InsertUpdateSymptom(masterItem); 
+                    break;
+                case 3:
+                    returnvalue = masterdataManager.InsertUpdateCompany(masterItem); 
+                    break;
+                case 4:
+                    returnvalue = masterdataManager.InsertUpdateProfession(masterItem);
+                    break;
+                default:
+                    returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
+                    break;
+            }
+            return returnvalue;
+        }
         public string InsertUpdateServiceItem(ServiceItemModel serviceitem)
         {
             return masterdataManager.InsertUpdateServiceItem(serviceitem);
@@ -29,10 +75,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetCPTCode(ccm);
         }
-        public string InsertUpdateCPTCode(CPTCodeModelAll ccm)
-        {
-            return masterdataManager.InsertUpdateCPTCode(ccm);
-        }
+        //public string InsertUpdateCPTCode(CPTCodeModelAll ccm)
+        //{
+        //    return masterdataManager.InsertUpdateCPTCode(ccm);
+        //}
         public string DeleteCPTCode(CPTCodeModel ccm)
         {
             return masterdataManager.DeleteCPTCode(ccm);
@@ -95,10 +141,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetSymptom(symptom);
         }
-        public string InsertUpdateSymptom(SymptomModelAll la)
-        {
-            return masterdataManager.InsertUpdateSymptom(la);
-        }
+        //public string InsertUpdateSymptom(SymptomModelAll la)
+        //{
+        //    return masterdataManager.InsertUpdateSymptom(la);
+        //}
         public string DeleteSymptom(SymptomModel la)
         {
             return masterdataManager.DeleteSymptom(la);
@@ -143,10 +189,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetCompany(cmp);
         }
-        public string InsertUpdateCompany(CompanyModelAll cmp)
-        {
-            return masterdataManager.InsertUpdateCompany(cmp);
-        }
+        //public string InsertUpdateCompany(CompanyModelAll cmp)
+        //{
+        //    return masterdataManager.InsertUpdateCompany(cmp);
+        //}
         public string DeleteCompany(CompanyModel cmp)
         {
             return masterdataManager.DeleteCompany(cmp);
@@ -155,10 +201,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetProfession(prof);
         }
-        public string InsertUpdateProfession(ProfessionModelAll prof)
-        {
-            return masterdataManager.InsertUpdateProfession(prof);
-        }
+        //public string InsertUpdateProfession(ProfessionModelAll prof)
+        //{
+        //    return masterdataManager.InsertUpdateProfession(prof);
+        //}
         public string DeleteProfession(ProfessionModel prof)
         {
             return masterdataManager.DeleteProfession(prof);
@@ -239,10 +285,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetSalutation(salutation);
         }
-        public string InsertUpdateSalutation(SalutationModelAll salutation)
-        {
-            return masterdataManager.InsertUpdateSalutation(salutation);
-        }
+        //public string InsertUpdateSalutation(SalutationModelAll salutation)
+        //{
+        //    return masterdataManager.InsertUpdateSalutation(salutation);
+        //}
         public string DeleteSalutation(SalutationModelAll salutation)
         {
             return masterdataManager.DeleteSalutation(salutation);
@@ -295,7 +341,42 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteReligion(religion);
         }
-
+        public List<LeadAgentModel> GetLeadAgent(LeadAgentModelAll la)
+        {
+            return masterdataManager.GetLeadAgent(la);
+        }
+        public string InsertUpdateLeadAgent(LeadAgentModelAll la)
+        {
+            return masterdataManager.InsertUpdateLeadAgent(la);
+        }
+        public string DeleteLeadAgent(LeadAgentModelAll la)
+        {
+            return masterdataManager.DeleteLeadAgent(la);
+        }
+        public List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor)
+        {
+            return masterdataManager.GetSponsor(sponsor);
+        }
+        public string InsertUpdateSponsor(SponsorMasterModelAll sponsor)
+        {
+            return masterdataManager.InsertUpdateSponsor(sponsor);
+        }
+        public string DeleteSponsor(SponsorMasterModelAll sponsor)
+        {
+            return masterdataManager.DeleteSponsor(sponsor);
+        }
+        public List<SponsorTypeModel> GetSponsorType(Int32 id)
+        {
+            return masterdataManager.GetSponsorType(id);
+        }
+        public string InsertUpdateSponsorType(SponsorTypeModel stype)
+        {
+            return masterdataManager.InsertUpdateSponsorType(stype);
+        }
+        //public string DeleteSponsorType(SponsorTypeModel stype)
+        //{
+        //    return masterdataManager.DeleteSponsorType(stype);
+        //}
 
         /////////////////////////////////////////////////////////////////////////////
 
@@ -313,23 +394,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateMenuGroupMap(mgm);
         }
-        public List<SponsorMasterModel> GetSponsor(Int32 profid)
-        {
-            return masterdataManager.GetSponsor(profid);
-        }
-        public string InsertUpdateSponsor(SponsorMasterModel zone)
-        {
-            return masterdataManager.InsertUpdateSponsor(zone);
-        }
-        public List<SponsorTypeModel> GetSponsorType(Int32 id)
-        {
-            return masterdataManager.GetSponsorType(id);
-        }
-        public string InsertUpdateSponsorType(SponsorTypeModel stype)
-        {
-            return masterdataManager.InsertUpdateSponsorType(stype);
-        }
-
         public List<SponsorFormModel> GetSponsorForm(Int32 id)
         {
             return masterdataManager.GetSponsorForm(id);
@@ -412,15 +476,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetOperator(OperatorId);
         }
-        public List<LeadAgentModel> GetLeadAgent(Int32 la)
-        {
-            return masterdataManager.GetLeadAgent(la);
-        }
-        public string InsertUpdateLeadAgent(LeadAgentModel la)
-        {
-            return masterdataManager.InsertUpdateLeadAgent(la);
-        }
-
         public List<ConsultantModel> GetConsultantByHospital(ConsultantModel cmodel)
         {
             return masterdataManager.GetConsultantByHospital(cmodel);
@@ -503,8 +558,5 @@ namespace LeHealth.Service.Service
 
             return masterdataManager.GetUserSpecificHospitalLocations(userId, branch);
         }
-
-
-
     }
 }

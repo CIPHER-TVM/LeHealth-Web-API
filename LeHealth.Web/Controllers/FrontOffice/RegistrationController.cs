@@ -38,8 +38,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [Route("GetAllPatient/{BranchId}")]
         public ResponseDataModel<IEnumerable<AllPatientModel>> GetAllPatient(int BranchId)
         {
-            try
-            {
+            //try
+            //{
                 List<AllPatientModel> patientList = new List<AllPatientModel>();
                 patientList = registrationService.GetAllPatient(BranchId);
                 var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
@@ -48,23 +48,23 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     Response = patientList
                 };
                 return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AllPatientModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<AllPatientModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
         /// <summary>
         /// Save new patient details,Controller class . Step One in code execution flow

@@ -178,6 +178,8 @@ namespace LeHealth.Service.Service
         {
             if (sketch.Base64Img != "")
             {
+                string[] values = sketch.Base64Img.Split(',');
+                sketch.Base64Img = values[1];
                 sketch.FileLocation = fileUploadService.SaveBase64Fn(sketch.Base64Img, "sketches");
             }
             return consultantManager.InsertConsultantSketch(sketch);

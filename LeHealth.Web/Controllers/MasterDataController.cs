@@ -24,6 +24,71 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             logger = _logger;
             masterdataService = _masterdataService;
         }
+        [Route("InsertUpdateCommonMasterItem")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> InsertUpdateCommonMasterItem(CommonMasterFieldModelAll MasterItem)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateCommonMasterItem(MasterItem);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetCommonMasterItem")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<CommonMasterFieldModel>> GetCommonMasterItem(CommonMasterFieldModelAll cmfma)
+        {
+            try
+            {
+                List<CommonMasterFieldModel> cptList = new List<CommonMasterFieldModel>();
+                cptList = masterdataService.GetCommonMasterItem(cmfma);
+                var response = new ResponseDataModel<IEnumerable<CommonMasterFieldModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CommonMasterFieldModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
 
         [Route("InsertUpdateServiceItem")]
         [HttpPost]
@@ -126,39 +191,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("InsertUpdateCPTCode")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<CPTCodeModel>> InsertUpdateCPTCode(CPTCodeModelAll CPTCode)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateCPTCode(CPTCode);
-                var response = new ResponseDataModel<IEnumerable<CPTCodeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CPTCodeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+        //[Route("InsertUpdateCPTCode")]
+        //[HttpPost]
+        //public ResponseDataModel<IEnumerable<CPTCodeModel>> InsertUpdateCPTCode(CPTCodeModelAll CPTCode)
+        //{
+        //    try
+        //    {
+        //        string message = string.Empty;
+        //        message = masterdataService.InsertUpdateCPTCode(CPTCode);
+        //        var response = new ResponseDataModel<IEnumerable<CPTCodeModel>>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Message = message
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<IEnumerable<CPTCodeModel>>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
 
-                };
-            }
-            finally
-            {
-            }
-        }
+        //        };
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
 
         [Route("DeleteCPTCode")]
         [HttpPost]
@@ -647,38 +712,38 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
 
         }
-        [Route("InsertUpdateSymptom")]
-        [HttpPost]
-        public ResponseDataModel<SymptomModel> InsertUpdateSymptom(SymptomModelAll Symptom)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateSymptom(Symptom);
-                var response = new ResponseDataModel<SymptomModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<SymptomModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
+        //[Route("InsertUpdateSymptom")]
+        //[HttpPost]
+        //public ResponseDataModel<SymptomModel> InsertUpdateSymptom(SymptomModelAll Symptom)
+        //{
+        //    try
+        //    {
+        //        string message = string.Empty;
+        //        message = masterdataService.InsertUpdateSymptom(Symptom);
+        //        var response = new ResponseDataModel<SymptomModel>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Message = message
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<SymptomModel>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
+        //        };
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
         [Route("DeleteSymptom")]
         [HttpPost]
         public ResponseDataModel<SymptomModel> DeleteSymptom(SymptomModel Symptom)
@@ -1079,38 +1144,38 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("InsertUpdateCompany")]
-        [HttpPost]
-        public ResponseDataModel<CompanyModel> InsertUpdateCompany(CompanyModelAll cmp)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateCompany(cmp);
-                var response = new ResponseDataModel<CompanyModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<CompanyModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
+        //[Route("InsertUpdateCompany")]
+        //[HttpPost]
+        //public ResponseDataModel<CompanyModel> InsertUpdateCompany(CompanyModelAll cmp)
+        //{
+        //    try
+        //    {
+        //        string message = string.Empty;
+        //        message = masterdataService.InsertUpdateCompany(cmp);
+        //        var response = new ResponseDataModel<CompanyModel>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Message = message
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<CompanyModel>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
+        //        };
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
 
         [Route("DeleteCompany")]
         [HttpPost]
@@ -1190,39 +1255,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// returns success or reason of failure
         /// </returns>
-        [Route("InsertUpdateProfession")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ProfessionModel>> InsertUpdateProfession(ProfessionModelAll Profession)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateProfession(Profession);
-                var response = new ResponseDataModel<IEnumerable<ProfessionModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ProfessionModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+        //[Route("InsertUpdateProfession")]
+        //[HttpPost]
+        //public ResponseDataModel<IEnumerable<ProfessionModel>> InsertUpdateProfession(ProfessionModelAll Profession)
+        //{
+        //    try
+        //    {
+        //        string message = string.Empty;
+        //        message = masterdataService.InsertUpdateProfession(Profession);
+        //        var response = new ResponseDataModel<IEnumerable<ProfessionModel>>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Message = message
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<IEnumerable<ProfessionModel>>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
 
-                };
-            }
-            finally
-            {
-            }
-        }
+        //        };
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
 
         [Route("DeleteProfession")]
         [HttpPost]
@@ -1726,7 +1791,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
-
                 sketchIndicators = masterdataService.GetSketchIndicators(sketch);
                 var response = new ResponseDataModel<IEnumerable<SketchIndicatorModel>>()
                 {
@@ -1901,38 +1965,38 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// returns success or reason of failure
         /// </returns>
 
-        [Route("InsertUpdateSalutation")]
-        [HttpPost]
-        public ResponseDataModel<SalutationModel> InsertUpdateSalutation(SalutationModelAll salutation)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateSalutation(salutation);
-                var response = new ResponseDataModel<SalutationModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<SalutationModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
+        //[Route("InsertUpdateSalutation")]
+        //[HttpPost]
+        //public ResponseDataModel<SalutationModel> InsertUpdateSalutation(SalutationModelAll salutation)
+        //{
+        //    try
+        //    {
+        //        string message = string.Empty;
+        //        message = masterdataService.InsertUpdateSalutation(salutation);
+        //        var response = new ResponseDataModel<SalutationModel>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Message = message
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<SalutationModel>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
+        //        };
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
         [Route("DeleteSalutation")]
         [HttpPost]
         public ResponseDataModel<SalutationModel> DeleteSalutation(SalutationModelAll salutation)
@@ -2369,6 +2433,112 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
+        [Route("GetLeadAgent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<LeadAgentModel>> GetLeadAgent(LeadAgentModelAll la)
+        {
+            try
+            {
+                List<LeadAgentModel> leadAgentList = new List<LeadAgentModel>();
+                leadAgentList = masterdataService.GetLeadAgent(la);
+                var response = new ResponseDataModel<IEnumerable<LeadAgentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = leadAgentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<LeadAgentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+            }
+        }
+
+        [Route("InsertUpdateLeadAgent")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateLeadAgent(LeadAgentModelAll la)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateLeadAgent(la);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+        [Route("DeleteLeadAgent")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteLeadAgent(LeadAgentModelAll la)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteLeadAgent(la);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         ////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -2561,14 +2731,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// returns List of Sponsor as JSON
         /// </returns>
-        [Route("GetSponsor/{sponsorid}")]
+        [Route("GetSponsor")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsor(Int32 sponsorid)
+        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsor(SponsorMasterModelAll sponsor)
         {
             try
             {
                 List<SponsorMasterModel> professionList = new List<SponsorMasterModel>();
-                professionList = masterdataService.GetSponsor(sponsorid);
+                professionList = masterdataService.GetSponsor(sponsor);
                 var response = new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -2594,6 +2764,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        
         /// <summary>
         /// To Save or update profession . if ProfId=0 saves data ,else update data
         /// </summary>
@@ -2602,13 +2773,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// </returns>
         [Route("InsertUpdateSponsor")]
         [HttpPost]
-        public ResponseDataModel<SponsorMasterModel> InsertUpdateSponsor(SponsorMasterModel Sponsor)
+        public ResponseDataModel<string> InsertUpdateSponsor(SponsorMasterModelAll Sponsor)
         {
             try
             {
                 string message = string.Empty;
                 message = masterdataService.InsertUpdateSponsor(Sponsor);
-                var response = new ResponseDataModel<SponsorMasterModel>()
+                var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -2618,7 +2789,41 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<SponsorMasterModel>()
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        
+        [Route("DeleteSponsor")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteSponsor(SponsorMasterModelAll Sponsor)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteSponsor(Sponsor);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -3481,79 +3686,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
-                };
-            }
-            finally
-            {
-
-
-            }
-        }
-
-        //Lead Agent Starts
-        //Get Referenced by Doctor DDL Data
-        [Route("GetLeadAgent/{la}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<LeadAgentModel>> GetLeadAgent(Int32 la)
-        {
-            try
-            {
-                List<LeadAgentModel> leadAgentList = new List<LeadAgentModel>();
-                leadAgentList = masterdataService.GetLeadAgent(la);
-                var response = new ResponseDataModel<IEnumerable<LeadAgentModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = leadAgentList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<LeadAgentModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-
-            }
-        }
-
-        [Route("InsertUpdateLeadAgent")]
-        [HttpPost]
-        public ResponseDataModel<LeadAgentModel> InsertUpdateLeadAgent(LeadAgentModel la)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateLeadAgent(la);
-                var response = new ResponseDataModel<LeadAgentModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<LeadAgentModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
                 };
             }
             finally

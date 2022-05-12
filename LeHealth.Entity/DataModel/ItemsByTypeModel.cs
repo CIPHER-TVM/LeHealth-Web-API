@@ -13,5 +13,6 @@ namespace LeHealth.Entity.DataModel
         public string GroupCode { get; set; }
         public int Rate { get; set; }
         public int Quantity { get; set; }
+        public int BranchId { get; set; } 
     }
 }

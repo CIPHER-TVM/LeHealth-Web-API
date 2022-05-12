@@ -8,11 +8,11 @@ namespace LeHealth.Core.Interface
 {
     public interface IMasterDataManager
     {
-
+        string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string BlockUnblockServiceItem(ServiceItemModel serviceitem);
         List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
-        string InsertUpdateCPTCode(CPTCodeModelAll ccm);
+        string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
@@ -28,7 +28,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateDepartment(DepartmentModelAll Dept);
         string DeleteDepartment(DepartmentModel Dept);
         List<SymptomModel> GetSymptom(SymptomModelAll symptom);
-        string InsertUpdateSymptom(SymptomModelAll symptom);
+        string InsertUpdateSymptom(CommonMasterFieldModelAll symptom);
         string DeleteSymptom(SymptomModel symptom);
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
@@ -40,10 +40,10 @@ namespace LeHealth.Core.Interface
         string InsertUpdateState(StateModel state);
         string DeleteState(StateModel state);
         List<CompanyModel> GetCompany(CompanyModelAll cmp);
-        string InsertUpdateCompany(CompanyModelAll cmp);
+        string InsertUpdateCompany(CommonMasterFieldModelAll cmp);
         string DeleteCompany(CompanyModel cmp);
         List<ProfessionModel> GetProfession(ProfessionModelAll prof);
-        string InsertUpdateProfession(ProfessionModelAll prof);
+        string InsertUpdateProfession(CommonMasterFieldModelAll prof);
         string DeleteProfession(ProfessionModel prof);
         List<CityModel> GetCity(CityModelAll city);
         string InsertUpdateCity(CityModelAll city);
@@ -62,7 +62,7 @@ namespace LeHealth.Core.Interface
         string DeleteSketchIndicator(SketchIndicatorModelAll sketch);
         List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId);
         List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
-        string InsertUpdateSalutation(SalutationModelAll salutationDetails);
+        string InsertUpdateSalutation(CommonMasterFieldModelAll salutationDetails);
         string DeleteSalutation(SalutationModelAll salutationDetails); 
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
@@ -76,7 +76,12 @@ namespace LeHealth.Core.Interface
         List<ReligionModel> GetReligion(ReligionModelAll religion);
         string InsertUpdateReligion(ReligionModelAll religion);
         string DeleteReligion(ReligionModelAll reigion);
-
+        List<LeadAgentModel> GetLeadAgent(LeadAgentModelAll la);
+        string InsertUpdateLeadAgent(LeadAgentModelAll la);
+        string DeleteLeadAgent(LeadAgentModelAll la);
+        List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsorid);
+        string InsertUpdateSponsor(SponsorMasterModelAll sponsor);
+        string DeleteSponsor(SponsorMasterModelAll sponsor);
 
         //////////////////////////////////////////////////
         List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel ledgerhead);
@@ -86,8 +91,6 @@ namespace LeHealth.Core.Interface
 
 
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
-        List<SponsorMasterModel> GetSponsor(Int32 sponsorid);
-        string InsertUpdateSponsor(SponsorMasterModel sponsor);
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
@@ -99,10 +102,6 @@ namespace LeHealth.Core.Interface
         List<HospitalModel> GetUserHospitals(Int32 id);
         string InsertUpdateUserHospital(HospitalRegModel hm);
         string ConsentFormDataSave(ConsentFormRegModel hm);
-        List<LeadAgentModel> GetLeadAgent(Int32 la);
-        string InsertUpdateLeadAgent(LeadAgentModel la);
-
-
 
         //DEPARTMENT MANAGEMENT STARTS
 

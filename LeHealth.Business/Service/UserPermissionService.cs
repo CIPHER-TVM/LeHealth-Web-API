@@ -83,7 +83,6 @@ namespace LeHealth.Service.Service
 
             return obj;
         }
-
         public string SaveUsermenu(UserMenuModel obj)
         {
             return userpermissionmanager.SaveUsermenu(obj);

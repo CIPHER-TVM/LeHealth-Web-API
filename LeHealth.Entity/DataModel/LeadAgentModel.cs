@@ -10,7 +10,12 @@ namespace LeHealth.Entity.DataModel
         public string Name { get; set; }
         public string ContactNo { get; set; }
         public float CommisionPercent { get; set; }
-        public int Active { get; set; }
-        public string BlockReason { get; set; }
+    }
+    public class LeadAgentModelAll : LeadAgentModel
+    {
+        public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }
