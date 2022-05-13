@@ -18,24 +18,24 @@ namespace LeHealth.Service.Service
         }
         public List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll masterItem)
         {
-            List<CommonMasterFieldModel> returnvalue=new List<CommonMasterFieldModel>();
+            List<CommonMasterFieldModel> returnvalue = new List<CommonMasterFieldModel>();
             switch (masterItem.MasterFieldType)
             {
-                //case 1:
-                //    returnvalue = masterdataManager.GetCPTCode(masterItem);
-                //    break;
-                //case 2:
-                //    returnvalue = masterdataManager.GetSymptom(masterItem);
-                //    break;
-                //case 3:
-                //    returnvalue = masterdataManager.GetCompany(masterItem);
-                //    break;
-                //case 4:
-                //    returnvalue = masterdataManager.GetProfession(masterItem);
-                //    break;
-                //default:
-                //    returnvalue = masterdataManager.GetCPTCode(masterItem);
-                //    break;
+                case "DrugType":
+                    returnvalue = masterdataManager.GetDrugType(masterItem);
+                    break;
+                    //case 2:
+                    //    returnvalue = masterdataManager.GetSymptom(masterItem);
+                    //    break;
+                    //case 3:
+                    //    returnvalue = masterdataManager.GetCompany(masterItem);
+                    //    break;
+                    //case 4:
+                    //    returnvalue = masterdataManager.GetProfession(masterItem);
+                    //    break;
+                    //default:
+                    //    returnvalue = masterdataManager.GetCPTCode(masterItem);
+                    //    break;
             }
             return returnvalue;
         }
@@ -45,18 +45,18 @@ namespace LeHealth.Service.Service
             string returnvalue;
             switch (masterItem.MasterFieldType)
             {
-                case 1:
+                case "DrugType":
                     returnvalue = masterdataManager.InsertUpdateCPTCode(masterItem);
                     break;
-                case 2:
-                    returnvalue = masterdataManager.InsertUpdateSymptom(masterItem); 
+                case "":
+                    returnvalue = masterdataManager.InsertUpdateSymptom(masterItem);
                     break;
-                case 3:
-                    returnvalue = masterdataManager.InsertUpdateCompany(masterItem); 
-                    break;
-                case 4:
-                    returnvalue = masterdataManager.InsertUpdateProfession(masterItem);
-                    break;
+                //case "":
+                //    returnvalue = masterdataManager.InsertUpdateCompany(masterItem); 
+                //    break;
+                //case "":
+                //    returnvalue = masterdataManager.InsertUpdateProfession(masterItem);
+                //    break;
                 default:
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
                     break;
@@ -377,7 +377,18 @@ namespace LeHealth.Service.Service
         //{
         //    return masterdataManager.DeleteSponsorType(stype);
         //}
-
+        public List<TaxModel> GetTax(TaxModelAll tax)
+        {
+            return masterdataManager.GetTax(tax);
+        }
+        public string InsertUpdateTax(TaxModelAll tax)
+        {
+            return masterdataManager.InsertUpdateTax(tax);
+        }
+        public string DeleteTax(TaxModelAll tax)
+        {
+            return masterdataManager.DeleteTax(tax);
+        }
         /////////////////////////////////////////////////////////////////////////////
 
         public List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant)

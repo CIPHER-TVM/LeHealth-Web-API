@@ -84,6 +84,9 @@ namespace LeHealth.Service.ServiceInterface
         List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor);
         string InsertUpdateSponsor(SponsorMasterModelAll sponsor);
         string DeleteSponsor(SponsorMasterModelAll sponsor);
+        List<TaxModel> GetTax(TaxModelAll tax);
+        string InsertUpdateTax(TaxModelAll tax);
+        string DeleteTax(TaxModelAll tax);
 
         /////////////////////////////////////////////
         List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel consultant);

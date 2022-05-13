@@ -89,7 +89,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-
         [Route("InsertUpdateServiceItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ServiceItemModel>> InsertUpdateServiceItem(ServiceItemModel ServiceItem)
@@ -1783,7 +1782,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("GetSketchIndicators")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<SketchIndicatorModel>> GetSketchIndicators(SketchIndicatorModelAll sketch)
@@ -2231,7 +2230,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("GetVisaType")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<VisaTypeModel>> GetVisaType(VisaTypeModelAll visatype)
@@ -2272,7 +2271,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 string message = string.Empty;
-                message = masterdataService.InsertUpdateVisaType(visatype); 
+                message = masterdataService.InsertUpdateVisaType(visatype);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
@@ -2301,7 +2300,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("DeleteVisaType")]
         [HttpPost]
-        public ResponseDataModel<string> DeleteVisaType(VisaTypeModelAll visatype) 
+        public ResponseDataModel<string> DeleteVisaType(VisaTypeModelAll visatype)
         {
             try
             {
@@ -2365,7 +2364,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("InsertUpdateReligion")]
         [HttpPost]
         public ResponseDataModel<string> InsertUpdateReligion(ReligionModelAll religion)
@@ -2407,7 +2406,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 string message = string.Empty;
-                message = masterdataService.DeleteReligion(religion); 
+                message = masterdataService.DeleteReligion(religion);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
@@ -2513,6 +2512,107 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 string message = string.Empty;
                 message = masterdataService.DeleteLeadAgent(la);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetTax")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<TaxModel>> GetTax(TaxModelAll tax)
+        {
+            try
+            {
+                List<TaxModel> cptList = new List<TaxModel>();
+                cptList = masterdataService.GetTax(tax);
+                var response = new ResponseDataModel<IEnumerable<TaxModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<TaxModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateTax")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateTax(TaxModelAll la)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateTax(la);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+
+
+            }
+        }
+
+        [Route("DeleteTax")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteTax(TaxModelAll la)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteTax(la);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
@@ -2764,7 +2864,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         /// <summary>
         /// To Save or update profession . if ProfId=0 saves data ,else update data
         /// </summary>
@@ -2804,7 +2904,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("DeleteSponsor")]
         [HttpPost]
         public ResponseDataModel<string> DeleteSponsor(SponsorMasterModelAll Sponsor)

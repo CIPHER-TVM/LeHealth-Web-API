@@ -16,11 +16,9 @@ namespace LeHealth.Core.DataManager
     public class UserPermissionManager : IUserPermissionManager
     {
         private readonly string _connStr;
-        private readonly string _uploadpath;
         public UserPermissionManager(IConfiguration _configuration)
         {
             _connStr = _configuration.GetConnectionString("NetroxeDb");
-            _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
         #region UserGroups
         public UserGroupModel GetUserGroup(Int32 id)
@@ -56,7 +54,6 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_getUserGroupsMasteronBranch", con);
             con.Open();
-
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@P_branchId", branchId);
             cmd.Parameters.AddWithValue("@P_userId", userid);
@@ -243,7 +240,6 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetBranchesOnUser", con);
             con.Open();
-
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@P_UserId", id);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -284,7 +280,6 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetLocationsOnUser", con);
             con.Open();
-
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@P_UserId", userId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);

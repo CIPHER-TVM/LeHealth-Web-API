@@ -27,7 +27,7 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateItemMaster", con);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCommonMasterItem", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ItemId", masterItem.Id);
                 cmd.Parameters.AddWithValue("@ItemName", masterItem.NameData);
@@ -2607,6 +2607,131 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@SponsorId", sponsor.SponsorId);
                 cmd.Parameters.AddWithValue("@UserId", sponsor.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
+        public List<CommonMasterFieldModel> GetDrugType(CommonMasterFieldModelAll la)
+        {
+            List<CommonMasterFieldModel> drugList = new List<CommonMasterFieldModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDrugType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DrugTypeId", la.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", la.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
+                    {
+                        Id = Convert.ToInt32(dsNumber.Rows[i]["DrugTypeId"]),
+                        DescriptionData = dsNumber.Rows[i]["DrugTypeDesc"].ToString(),
+                    };
+                    drugList.Add(obj);
+                }
+            }
+            return drugList;
+        }
+        public List<TaxModel> GetTax(TaxModelAll tax)
+        {
+            List<TaxModel> taxList = new List<TaxModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetTax", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@TaxId", tax.TaxId);
+            cmd.Parameters.AddWithValue("@ShowAll", tax.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", tax.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
+                    TaxModel obj = new TaxModel
+                    {
+                        TaxId = Convert.ToInt32(dsNumber.Rows[i]["TaxId"]),
+                        TaxDesc = dsNumber.Rows[i]["TaxDesc"].ToString(),
+                        TaxPcnt = (float)Convert.ToDouble(dsNumber.Rows[i]["TaxPcnt"].ToString()),
+                        HeadId = Convert.ToInt32(dsNumber.Rows[i]["HeadId"])
+                    };
+                    taxList.Add(obj);
+                }
+            }
+            return taxList;
+        }
+        public string InsertUpdateTax(TaxModelAll tax)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTax", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TaxId", tax.TaxId);
+                cmd.Parameters.AddWithValue("@TaxDesc", tax.TaxDesc);
+                cmd.Parameters.AddWithValue("@TaxPcnt", tax.TaxPcnt);
+                cmd.Parameters.AddWithValue("@HeadId", tax.HeadId);
+                cmd.Parameters.AddWithValue("@BranchId", tax.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", tax.UserId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", tax.IsDisplayed);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteTax(TaxModelAll tax)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteTax", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", tax.TaxId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

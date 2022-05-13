@@ -63,7 +63,7 @@ namespace LeHealth.Core.Interface
         List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId);
         List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
         string InsertUpdateSalutation(CommonMasterFieldModelAll salutationDetails);
-        string DeleteSalutation(SalutationModelAll salutationDetails); 
+        string DeleteSalutation(SalutationModelAll salutationDetails);
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string DeleteMaritalStatus(MaritalStatusModelAll MaritalStatus);
@@ -82,7 +82,10 @@ namespace LeHealth.Core.Interface
         List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsorid);
         string InsertUpdateSponsor(SponsorMasterModelAll sponsor);
         string DeleteSponsor(SponsorMasterModelAll sponsor);
-
+        List<CommonMasterFieldModel> GetDrugType(CommonMasterFieldModelAll ccm);
+        List<TaxModel> GetTax(TaxModelAll tax);
+        string InsertUpdateTax(TaxModelAll tax);
+        string DeleteTax(TaxModelAll tax);
         //////////////////////////////////////////////////
         List<ConsultantMasterModel> GetConsultant(ConsultantMasterModel ledgerhead);
         string DeleteConsultant(ConsultantMasterModel consultant);
