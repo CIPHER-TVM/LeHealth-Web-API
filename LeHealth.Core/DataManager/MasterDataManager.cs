@@ -61,63 +61,122 @@ namespace LeHealth.Core.DataManager
         }
         public string InsertUpdateServiceItem(ServiceItemModel serviceItemModel)
         {
-            string response = string.Empty;
+            string response1 = string.Empty;
+            string response2 = string.Empty;
+            string response3 = string.Empty;
+            string responseFinal = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 //(float)Convert.ToDouble(dtProfession.Rows[i]["DedAmount"].ToString()),
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateItemMaster", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                cmd.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
-                cmd.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
-                cmd.Parameters.AddWithValue("@GroupId", serviceItemModel.GroupId);
-                cmd.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
-                cmd.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
-                cmd.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);
-                cmd.Parameters.AddWithValue("@AllowDisc", serviceItemModel.AllowDisc);
-                cmd.Parameters.AddWithValue("@AllowPP", serviceItemModel.AllowPP);
-                cmd.Parameters.AddWithValue("@IsVSign", serviceItemModel.IsVSign);
-                cmd.Parameters.AddWithValue("@ResultOn", serviceItemModel.ResultOn);
-                cmd.Parameters.AddWithValue("@STypeId", serviceItemModel.STypeId);
-                cmd.Parameters.AddWithValue("@TotalTaxPcnt", serviceItemModel.TotalTaxPcnt);
-                cmd.Parameters.AddWithValue("@AllowCommission", serviceItemModel.AllowCommission);
-                cmd.Parameters.AddWithValue("@CommPcnt", serviceItemModel.CommPcnt);
-                cmd.Parameters.AddWithValue("@CommAmt", serviceItemModel.CommAmt);
-                cmd.Parameters.AddWithValue("@MaterialCost", serviceItemModel.MaterialCost);
-                cmd.Parameters.AddWithValue("@BaseCost", serviceItemModel.BaseCost);
-                cmd.Parameters.AddWithValue("@HeadId", serviceItemModel.HeadId);
-                cmd.Parameters.AddWithValue("@SortOrder", serviceItemModel.SortOrder);
-                cmd.Parameters.AddWithValue("@Active", serviceItemModel.Active);
-                cmd.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                cmd.Parameters.AddWithValue("@SessionId", serviceItemModel.SessionId);
-                cmd.Parameters.AddWithValue("@BranchId", serviceItemModel.BranchId);
-                cmd.Parameters.AddWithValue("@ExternalItem", serviceItemModel.ExternalItem);
-                cmd.Parameters.AddWithValue("@CPTCodeId", serviceItemModel.CPTCodeId);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateItemMaster", con);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                cmd1.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
+                cmd1.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
+                cmd1.Parameters.AddWithValue("@GroupId", serviceItemModel.GroupId);
+                cmd1.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
+                cmd1.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
+                cmd1.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);
+                cmd1.Parameters.AddWithValue("@AllowDisc", serviceItemModel.AllowDisc);
+                cmd1.Parameters.AddWithValue("@AllowPP", serviceItemModel.AllowPP);
+                cmd1.Parameters.AddWithValue("@IsVSign", serviceItemModel.IsVSign);
+                cmd1.Parameters.AddWithValue("@ResultOn", serviceItemModel.ResultOn);
+                cmd1.Parameters.AddWithValue("@STypeId", serviceItemModel.STypeId);
+                cmd1.Parameters.AddWithValue("@TotalTaxPcnt", serviceItemModel.TotalTaxPcnt);
+                cmd1.Parameters.AddWithValue("@AllowCommission", serviceItemModel.AllowCommission);
+                cmd1.Parameters.AddWithValue("@CommPcnt", serviceItemModel.CommPcnt);
+                cmd1.Parameters.AddWithValue("@CommAmt", serviceItemModel.CommAmt);
+                cmd1.Parameters.AddWithValue("@MaterialCost", serviceItemModel.MaterialCost);
+                cmd1.Parameters.AddWithValue("@BaseCost", serviceItemModel.BaseCost);
+                cmd1.Parameters.AddWithValue("@HeadId", serviceItemModel.HeadId);
+                cmd1.Parameters.AddWithValue("@SortOrder", serviceItemModel.SortOrder);
+                cmd1.Parameters.AddWithValue("@Active", serviceItemModel.Active);
+                cmd1.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                cmd1.Parameters.AddWithValue("@SessionId", serviceItemModel.SessionId);
+                cmd1.Parameters.AddWithValue("@BranchId", serviceItemModel.BranchId);
+                cmd1.Parameters.AddWithValue("@ExternalItem", serviceItemModel.ExternalItem);
+                cmd1.Parameters.AddWithValue("@CPTCodeId", serviceItemModel.CPTCodeId);
+                SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
                 };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                cmd1.Parameters.Add(retValV1);
+                SqlParameter retDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                 {
                     Direction = ParameterDirection.Output
                 };
-                cmd.Parameters.Add(retDesc);
+                cmd1.Parameters.Add(retDesc1);
                 con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
+                var isUpdated1 = cmd1.ExecuteNonQuery();
+                var ret1 = retValV1.Value;
+                var descrip1 = retDesc1.Value.ToString();
                 con.Close();
-                if (descrip == "Saved Successfully")
+                if (descrip1 == "Saved Successfully")
                 {
-                    response = "Success";
+                    response1 = "Success";
+                    serviceItemModel.ItemId = Convert.ToInt32(ret1);
                 }
                 else
                 {
-                    response = descrip;
+                    response1 = descrip1;
+                }
+                if (response1 == "Success")
+                {
+                    using SqlCommand cmd2 = new SqlCommand("stLH_InsertItemTax", con);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
+                    cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                    cmd2.Parameters.AddWithValue("@TaxIds", taxString);
+                    cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd2.Parameters.Add(retValV2);
+                    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd2.Parameters.Add(retDesc2);
+                    con.Open();
+                    var isUpdated2 = cmd2.ExecuteNonQuery();
+                    var ret2 = retValV2.Value;
+                    var descrip2 = retDesc2.Value.ToString();
+                    con.Close();
+                    if (descrip2 == "Saved Successfully")
+                    {
+                        response2 = "Success";
+                    }
+                }
+                if (response2 == "Success")
+                {
+                    using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateItemRate", con);
+                    cmd3.CommandType = CommandType.StoredProcedure;
+                    cmd3.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                    cmd3.Parameters.AddWithValue("@RGroupId", serviceItemModel.ItemRateList);
+                    cmd3.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                    SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retValV3);
+                    SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retDesc3);
+                    con.Open();
+                    var isUpdated3 = cmd3.ExecuteNonQuery();
+                    var ret3 = retValV3.Value;
+                    var descrip3 = retDesc3.Value.ToString();
+                    con.Close();
+                    if (descrip3 == "Saved Successfully")
+                    {
+                        response3 = "Success";
+                    }
                 }
             }
-            return response;
+            return responseFinal = response1 + response2 + response3;
         }
         public string BlockUnblockServiceItem(ServiceItemModel serviceItemModel)
         {

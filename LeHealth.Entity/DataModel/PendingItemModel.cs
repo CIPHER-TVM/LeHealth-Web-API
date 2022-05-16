@@ -11,6 +11,7 @@ namespace LeHealth.Entity.DataModel
         public string ConsultantName { get; set; }
         public string OrderDate { get; set; }
         public string PatientName { get; set; }
+        public string FirstName { get; set; }
         public string RegNo { get; set; }
         public string Mobile { get; set; }
         public string ResNo { get; set; }
@@ -57,6 +58,8 @@ namespace LeHealth.Entity.DataModel
         public int CPTCodeId { get; set; }
         public string BlockReason { get; set; }
         public int Active { get; set; }
-        public int BranchId { get; set; } 
+        public int BranchId { get; set; }
+        public List<int> ItemTaxList { get; set; } 
+        public List<RateModel> ItemRateList { get; set; }
     }
 }

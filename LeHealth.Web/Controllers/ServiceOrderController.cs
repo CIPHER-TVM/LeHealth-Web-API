@@ -23,13 +23,13 @@ namespace LeHealth.Base.API.Controllers
             serviceorderService = _serviceOrderService;
         }
         [HttpPost]
-        [Route("GetItemsGroup/{groupId}")]
-        public ResponseDataModel<IEnumerable<GroupModel>> GetItemsGroup(int groupId)
+        [Route("GetItemsGroup")]
+        public ResponseDataModel<IEnumerable<GroupModel>> GetItemsGroup(GroupModelAll group)
         {
             try
             {
                 List<GroupModel> itemGroupList = new List<GroupModel>();
-                itemGroupList = serviceorderService.GetItemsGroup(groupId);
+                itemGroupList = serviceorderService.GetItemsGroup(group);
                 var response = new ResponseDataModel<IEnumerable<GroupModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -54,6 +54,73 @@ namespace LeHealth.Base.API.Controllers
             finally
             {
             }
+        }
+
+        [HttpPost]
+        [Route("GetItemRate")]
+        public ResponseDataModel<IEnumerable<RateModel>> GetItemRate(RateModelAll group)
+        {
+            try
+            {
+                List<RateModel> itemGroupList = new List<RateModel>();
+                itemGroupList = serviceorderService.GetItemRate(group);
+                var response = new ResponseDataModel<IEnumerable<RateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemGroupList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<RateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [HttpPost]
+        [Route("GetItem")]
+        public ResponseDataModel<IEnumerable<ItemModel>> GetItem(ItemModelAll item)
+        {
+            //try
+            //{
+            List<ItemModel> itemGroupList = new List<ItemModel>();
+            itemGroupList = serviceorderService.GetItem(item);
+            var response = new ResponseDataModel<IEnumerable<ItemModel>>()
+            {
+                Status = HttpStatusCode.OK,
+                Response = itemGroupList
+            };
+            return response;
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<ItemModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
         /// <summary>
         /// API for getting service items in a package

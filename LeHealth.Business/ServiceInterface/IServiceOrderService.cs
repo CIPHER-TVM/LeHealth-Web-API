@@ -7,7 +7,9 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IServiceOrderService
     {
-        List<GroupModel> GetItemsGroup(int groupId);
+        List<GroupModel> GetItemsGroup(GroupModelAll groupId);
+        List<RateModel> GetItemRate(RateModelAll groupId);
+        List<ItemModel> GetItem(ItemModelAll groupId);
         List<ItemsByTypeModel> GetPackageItem(int packId);
         List<FrequencyModel> GetFrequency(FrequencyModel fm);
         List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm);

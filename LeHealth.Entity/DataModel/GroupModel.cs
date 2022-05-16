@@ -15,4 +15,11 @@ namespace LeHealth.Entity.DataModel
         public String GroupLevel { get; set; }
         public int ParentFlag { get; set; }
     }
+    public class GroupModelAll : GroupModel
+    {
+        public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
+    }
 }

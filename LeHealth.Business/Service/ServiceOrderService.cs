@@ -14,9 +14,17 @@ namespace LeHealth.Service.Service
         {
             serviceorderManager = _serviceorderManager;
         }
-        public List<GroupModel> GetItemsGroup(Int32 groupId)
+        public List<GroupModel> GetItemsGroup(GroupModelAll group)
         {
-            return serviceorderManager.GetItemsGroup(groupId);
+            return serviceorderManager.GetItemsGroup(group);
+        } 
+        public List<ItemModel> GetItem(ItemModelAll group)
+        {
+            return serviceorderManager.GetItem(group);
+        } 
+        public List<RateModel> GetItemRate(RateModelAll group)
+        {
+            return serviceorderManager.GetItemRate(group);
         }
         public List<ItemsByTypeModel> GetPackageItem(Int32 packId)
         {

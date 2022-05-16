@@ -24,14 +24,16 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="groupid">Data in LH_ItemGroup Table</param>
         /// <returns>Profile list</returns>
-        public List<GroupModel> GetItemsGroup(int groupId)
+        public List<GroupModel> GetItemsGroup(GroupModelAll group)
         {
-            List<GroupModel> communicationTypeList = new List<GroupModel>();
+            List<GroupModel> itemgroupList = new List<GroupModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetItemGroup", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@GroupId", groupId);
+            cmd.Parameters.AddWithValue("@GroupId", group.GroupId);
+            cmd.Parameters.AddWithValue("@ShowAll", group.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", group.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();
             adapter.Fill(dsItemGroup);
@@ -51,11 +53,87 @@ namespace LeHealth.Core.DataManager
                         GroupLevel = dsItemGroup.Rows[i]["GroupLevel"].ToString(),
                         ParentFlag = Convert.ToInt32(dsItemGroup.Rows[i]["ParentFlag"])
                     };
-                    communicationTypeList.Add(obj);
+                    itemgroupList.Add(obj);
                 }
             }
-            return communicationTypeList;
+            return itemgroupList;
         }
+        public List<RateModel> GetItemRate(RateModelAll group)
+        {
+            List<RateModel> itemgroupList = new List<RateModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemRate", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemId", group.ItemId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsItemGroup = new DataTable();
+            adapter.Fill(dsItemGroup);
+            con.Close();
+            if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
+                {
+                    RateModel obj = new RateModel
+                    {
+                        RGroupId = Convert.ToInt32(dsItemGroup.Rows[i]["RGroupId"]),
+                        RGroupName = dsItemGroup.Rows[i]["RGroupName"].ToString(),
+                        Rate = (float)Convert.ToDouble(dsItemGroup.Rows[i]["Rate"]),
+                        ItemId = group.ItemId
+                    };
+                    itemgroupList.Add(obj);
+                }
+            }
+            return itemgroupList;
+        }
+        public List<ItemModel> GetItem(ItemModelAll asm)
+        {
+            List<ItemModel> itemList = new List<ItemModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItem", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemId", asm.ItemId);
+            cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsavailableService = new DataTable();
+            adapter.Fill(dsavailableService);
+            con.Close();
+            if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
+                {
+                    ItemModel obj = new ItemModel();
+                    obj.ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]);
+                    obj.ItemCode = dsavailableService.Rows[i]["ItemCode"].ToString();
+                    obj.ItemName = dsavailableService.Rows[i]["ItemName"].ToString();
+                    obj.GroupId = Convert.ToInt32(dsavailableService.Rows[i]["GroupId"]);
+                    obj.ValidityDays = Convert.ToInt32(dsavailableService.Rows[i]["ValidityDays"]);
+                    obj.ValidityVisits = Convert.ToInt32(dsavailableService.Rows[i]["ValidityVisits"]);
+                    obj.AllowrateEdit = Convert.ToInt32(dsavailableService.Rows[i]["AllowRateEdit"]);
+                    obj.AllowDisc = Convert.ToInt32(dsavailableService.Rows[i]["AllowDisc"]);
+                    obj.AllowPP = Convert.ToInt32(dsavailableService.Rows[i]["AllowPP"]);
+                    obj.IsVSign = Convert.ToInt32(dsavailableService.Rows[i]["IsVSign"]);
+                    obj.ResultOn = Convert.ToInt32(dsavailableService.Rows[i]["ResultOn"]);
+                    obj.STypeId = Convert.ToInt32(dsavailableService.Rows[i]["STypeId"]);
+                    obj.TotalTaxPcnt = Convert.ToInt32(dsavailableService.Rows[i]["TotalTaxPcnt"]);
+                    obj.AllowCommission = Convert.ToInt32(dsavailableService.Rows[i]["AllowCommission"]);
+                    obj.CommPcnt = Convert.ToInt32(dsavailableService.Rows[i]["CommPcnt"]);
+                    obj.CommAmt = Convert.ToInt32(dsavailableService.Rows[i]["CommAmt"]);
+                    obj.MaterialCost = Convert.ToInt32(dsavailableService.Rows[i]["MaterialCost"]);
+                    obj.BaseCost = Convert.ToInt32(dsavailableService.Rows[i]["BaseCost"]);
+                    obj.HeadId = Convert.ToInt32(dsavailableService.Rows[i]["HeadId"]);
+                    obj.SortOrder = Convert.ToInt32(dsavailableService.Rows[i]["SortOrder"]);
+                    obj.CPTCodeId = Convert.ToInt32(dsavailableService.Rows[i]["CPTCodeId"]);
+                    obj.ExternalItem = Convert.ToInt32(dsavailableService.Rows[i]["ExternalItem"]);
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+
         /// <summary>
         /// Get service items in a package
         /// </summary>
@@ -123,7 +201,7 @@ namespace LeHealth.Core.DataManager
             }
             return freqList;
         }
-        
+
         /// <summary>
         /// API For getting profile list
         /// </summary>
