@@ -1324,18 +1324,19 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="todaydate"></param>
         /// <returns>Count of different statuses of consultation and appointment</returns>
-        public FrontOfficePBarModel GetFrontOfficeProgressBars(string todaydate)
+        public FrontOfficePBarModel GetFrontOfficeProgressBars(ConsultationModel cm)
         {
             FrontOfficePBarModel fopb = new FrontOfficePBarModel();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                DateTime appDate = DateTime.ParseExact(todaydate.Trim(), "dd-MM-yyyy", null);
-                todaydate = appDate.ToString("yyyy-MM-dd");
+                DateTime appDate = DateTime.ParseExact(cm.ConsultDate.Trim(), "dd-MM-yyyy", null);
+                cm.ConsultDate = appDate.ToString("yyyy-MM-dd");
                 List<PercentageCountGetModel> AppcountGetList = new List<PercentageCountGetModel>();
                 List<PercentageCountGetModel> ConscountGetList = new List<PercentageCountGetModel>();
                 SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetAppointmentCount", con);
                 appointmentCountCMD.CommandType = CommandType.StoredProcedure;
-                appointmentCountCMD.Parameters.AddWithValue("@AppDate", todaydate);
+                appointmentCountCMD.Parameters.AddWithValue("@AppDate", cm.ConsultDate);
+                appointmentCountCMD.Parameters.AddWithValue("@BranchId", cm.BranchId);
                 con.Open();
                 SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
                 DataTable dt = new DataTable();
@@ -1390,7 +1391,8 @@ namespace LeHealth.Core.DataManager
                 }
                 SqlCommand consultantcountCMD = new SqlCommand("stLH_GetConsultationCount", con);
                 consultantcountCMD.CommandType = CommandType.StoredProcedure;
-                consultantcountCMD.Parameters.AddWithValue("@ConsultDate", todaydate);
+                consultantcountCMD.Parameters.AddWithValue("@ConsultDate", cm.ConsultDate);
+                consultantcountCMD.Parameters.AddWithValue("@BranchId", cm.BranchId);
                 con.Open();
                 SqlDataAdapter adapter2 = new SqlDataAdapter(consultantcountCMD);
                 DataTable dt2 = new DataTable();

@@ -41,9 +41,9 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetPatientByRegNo(regNo);
         }
-        public FrontOfficePBarModel GetFrontOfficeProgressBars(string todaydate)
+        public FrontOfficePBarModel GetFrontOfficeProgressBars(ConsultationModel cm)
         {
-            return todaysPatientManager.GetFrontOfficeProgressBars(todaydate);
+            return todaysPatientManager.GetFrontOfficeProgressBars(cm);
         }
         public List<SchemeModel> GetSchemeByConsultant(Int32 consultantid)
         {

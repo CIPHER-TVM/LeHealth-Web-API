@@ -12,5 +12,9 @@ namespace LeHealth.Entity.DataModel
         public DateTime EndTime { get; set; }
         public string Title { get; set; }
     }
+    public class ScheduleModelAll : ScheduleModel
+    {
+        public int BranchId { get; set; }
+    }
 }
 

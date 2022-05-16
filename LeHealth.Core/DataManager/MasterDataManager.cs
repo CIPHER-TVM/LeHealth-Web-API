@@ -153,7 +153,8 @@ namespace LeHealth.Core.DataManager
                     using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateItemRate", con);
                     cmd3.CommandType = CommandType.StoredProcedure;
                     cmd3.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                    cmd3.Parameters.AddWithValue("@RGroupId", serviceItemModel.ItemRateList);
+                    string rateString = JsonConvert.SerializeObject(serviceItemModel.ItemRateList);
+                    cmd3.Parameters.AddWithValue("@RateJSON", rateString);
                     cmd3.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
                     SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
                     {

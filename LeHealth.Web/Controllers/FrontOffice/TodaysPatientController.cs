@@ -617,7 +617,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
 
                 FrontOfficePBarModel asdf = new FrontOfficePBarModel();
-                asdf = todaysPatientService.GetFrontOfficeProgressBars(CM.ConsultDate);
+                asdf = todaysPatientService.GetFrontOfficeProgressBars(CM);
                 patientList.Add(asdf);
                 var response = new ResponseDataModel<IEnumerable<FrontOfficePBarModel>>()
                 {

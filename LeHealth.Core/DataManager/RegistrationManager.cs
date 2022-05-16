@@ -85,7 +85,7 @@ namespace LeHealth.Core.DataManager
                     {
                         PatientId = Convert.ToInt32(dsPatientList.Rows[i]["PatientId"]),
                         RegNo = dsPatientList.Rows[i]["RegNo"].ToString(),
-                        RegDate = dsPatientList.Rows[i]["RegDate"].ToString().ToString(),
+                        RegDate = dsPatientList.Rows[i]["RegDate"].ToString(),
                         AgeInYears = dsPatientList.Rows[i]["AgeInYears"].ToString(),
                         PatientName = dsPatientList.Rows[i]["PatientName"].ToString(),
                         Age = dsPatientList.Rows[i]["Age"].ToString(),
