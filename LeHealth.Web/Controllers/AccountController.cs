@@ -44,6 +44,8 @@ namespace LeHealth.Base.API.Controllers
                     Status = HttpStatusCode.OK,
                     Response = loginoutputList
                 };
+                logger.LogInformation("Login: " + credentials.ToString() + " " + DateTime.Now.ToString());
+
                 return response;
             }
             catch (Exception ex)
