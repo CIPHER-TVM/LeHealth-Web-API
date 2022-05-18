@@ -1,0 +1,4 @@
+2022-05-17T22:01:55.9901932+05:30  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-05-17T22:01:56.1375460+05:30  [INF] Hosting environment: "Development" (c3307c92)
+2022-05-17T22:01:56.1436652+05:30  [INF] Content root path: "E:\NetroxeProjects\Lehelth\API\LeHealth.Web" (b5d60022)
+2022-05-17T22:15:05.7896514+05:30 80000009-0000-fd00-b63f-84710c7967bb [INF] Login: LeHealth.Entity.DataModel.CredentialModel 5/17/2022 10:15:05 PM (195d88bd)

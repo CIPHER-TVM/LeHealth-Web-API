@@ -21,6 +21,7 @@ using LeHealth.Service.Service;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace LeHealth.Catalogue.API
 {
@@ -81,6 +82,7 @@ namespace LeHealth.Catalogue.API
             //});
             services.ConfigureCors();
             services.AddControllers();
+            services.AddLogging();
             // services.AddAutoMapper(typeof(AutoMapping));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -126,7 +128,7 @@ namespace LeHealth.Catalogue.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
         {
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
@@ -142,6 +144,7 @@ namespace LeHealth.Catalogue.API
             //{
             //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             //});
+           
             app.UseStaticFiles(
                 new StaticFileOptions()
                 {
@@ -170,6 +173,7 @@ namespace LeHealth.Catalogue.API
             //{
             //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
             //});
+            loggerFactory.AddFile($@"{Directory.GetCurrentDirectory()}\Logs\log.txt");
         }
     }
 }

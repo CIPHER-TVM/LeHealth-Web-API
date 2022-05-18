@@ -37,6 +37,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     Status = HttpStatusCode.OK,
                     Message = message
                 };
+                
                 return response;
             }
             catch (Exception ex)
