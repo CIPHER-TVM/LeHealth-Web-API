@@ -13,7 +13,7 @@ namespace LeHealth.Core.Interface
         List<PatientListModel> SearchPatient(PatientSearchModel patientList);
         List<PatientListModel> GetPatientByRegNo(string regNo);
         FrontOfficePBarModel GetFrontOfficeProgressBars(ConsultationModel cm);
-        List<SchemeModel> GetSchemeByConsultant(Int32 consultantid);
+        List<SchemeModel> GetSchemeByConsultant(ConsultantModel consultant);
         List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap);
         List<GetAppTimeModel> GetAppTime(GetAppNumberIPModel gap);
         string DeleteAppointment(AppointmentModel appointment);

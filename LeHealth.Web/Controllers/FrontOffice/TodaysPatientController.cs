@@ -655,7 +655,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             try
             {
                 List<SchemeModel> schemeList = new List<SchemeModel>();
-                schemeList = todaysPatientService.GetSchemeByConsultant(consultant.ConsultantId);
+                schemeList = todaysPatientService.GetSchemeByConsultant(consultant);
                 string msg = string.Empty;
                 if (schemeList.Count > 0)
                 {

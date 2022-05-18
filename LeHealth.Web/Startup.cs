@@ -82,7 +82,7 @@ namespace LeHealth.Catalogue.API
             //});
             services.ConfigureCors();
             services.AddControllers();
-            services.AddLogging();
+            //services.AddLogging();
             // services.AddAutoMapper(typeof(AutoMapping));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -173,7 +173,7 @@ namespace LeHealth.Catalogue.API
             //{
             //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
             //});
-            loggerFactory.AddFile($@"{Directory.GetCurrentDirectory()}\Logs\log.txt");
+            //loggerFactory.AddFile($@"{Directory.GetCurrentDirectory()}\Logs\log.txt");
         }
     }
 }

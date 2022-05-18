@@ -45,9 +45,9 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetFrontOfficeProgressBars(cm);
         }
-        public List<SchemeModel> GetSchemeByConsultant(Int32 consultantid)
+        public List<SchemeModel> GetSchemeByConsultant(ConsultantModel consultant)
         {
-            return todaysPatientManager.GetSchemeByConsultant(consultantid);
+            return todaysPatientManager.GetSchemeByConsultant(consultant);
         }
 
         public List<GetAppNoModel> GetAppNumber(GetAppNumberIPModel gap)

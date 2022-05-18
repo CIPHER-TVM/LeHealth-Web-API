@@ -310,7 +310,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultantid"> </param>
         /// <returns>List of Scheme details</returns>
-        public List<SchemeModel> GetSchemeByConsultant(Int32 consultantid)
+        public List<SchemeModel> GetSchemeByConsultant(ConsultantModel consultant)
         {
             List<SchemeModel> schemeList = new List<SchemeModel>();
 
@@ -318,7 +318,8 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantItem", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ConsultantId", consultantid);
+            cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", consultant.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtSchemeList = new DataTable();
             adapter.Fill(dtSchemeList);
