@@ -123,9 +123,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.InsertUpdateSchedule(schedule);
         }
-        public List<ScheduleModel> GetSchedules(int consultantId)
+        public List<ScheduleModel> GetSchedules(ScheduleModelAll schedule)
         {
-            return consultantManager.GetSchedules(consultantId);
+            return consultantManager.GetSchedules(schedule);
         }
         public string DeleteSchedule(int scheduleId)
         {

@@ -27,6 +27,13 @@ namespace LeHealth.Entity.DataModel
     }
     public class PendingItemInputData
     {
+        public string OrderFromDate { get; set; }
+        public string OrderToDate { get; set; }
+        public string OrderNo { get; set; }
+        public string RegNo { get; set; }
+        public string PatientName { get; set; }
+        public int ConsultantId { get; set; }
+        public int IsExternalConsultant { get; set; }
         public int PatientId { get; set; }
         public int BranchId { get; set; }
     }
@@ -59,7 +66,7 @@ namespace LeHealth.Entity.DataModel
         public string BlockReason { get; set; }
         public int Active { get; set; }
         public int BranchId { get; set; }
-        public List<int> ItemTaxList { get; set; } 
+        public List<int> ItemTaxList { get; set; }
         public List<RateModel> ItemRateList { get; set; }
     }
 }

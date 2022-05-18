@@ -32,7 +32,7 @@ namespace LeHealth.Core.Interface
         List<Appointments> GetMyAppointments(AppointmentModel appointment);
         List<ConsultationModel> GetMyConsultations(ConsultantModel consultant);
         string InsertUpdateSchedule(ScheduleModel schedule);
-        List<ScheduleModel> GetSchedules(int consultantId);
+        List<ScheduleModel> GetSchedules(ScheduleModelAll schedule);
         string DeleteSchedule(int scheduleId);
         string InsertUpdateTimer(TimerModel timer);
         string InsertConsultantItem(ConsultantItemModel timer);

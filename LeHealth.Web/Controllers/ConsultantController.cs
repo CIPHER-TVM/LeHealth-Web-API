@@ -870,15 +870,15 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("GetSchedules/{consultantId}")]
+        [Route("GetSchedules")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ScheduleModel>> GetSchedules(int consultantId)
+        public ResponseDataModel<IEnumerable<ScheduleModel>> GetSchedules(ScheduleModelAll schedule)
         {
 
             try
             {
                 List<ScheduleModel> sheduletList = new List<ScheduleModel>();
-                sheduletList = consultantService.GetSchedules(consultantId);
+                sheduletList = consultantService.GetSchedules(schedule);
                 var response = new ResponseDataModel<IEnumerable<ScheduleModel>>()
                 {
                     Status = HttpStatusCode.OK,

@@ -1054,7 +1054,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<ScheduleModel> GetSchedules(int consultantId)
+        public List<ScheduleModel> GetSchedules(ScheduleModelAll schedule)
         {
             List<ScheduleModel> schedules = new List<ScheduleModel>();
 
@@ -1062,7 +1062,8 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetSchedules", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+            cmd.Parameters.AddWithValue("@ConsultantId", schedule.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", schedule.BranchId);
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtschedulesList = new DataTable();

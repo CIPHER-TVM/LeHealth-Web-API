@@ -3939,9 +3939,25 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPendingItemByPatient", con);
             con.Open();
+            if (rm.OrderFromDate.Trim() != "" && rm.OrderToDate.Trim() != "")
+            {
+                DateTime orderFromDate = DateTime.ParseExact(rm.OrderFromDate.Trim(), "dd-MM-yyyy", null);
+                rm.OrderFromDate = orderFromDate.ToString("yyyy-MM-dd");
+                DateTime orderToDate = DateTime.ParseExact(rm.OrderToDate.Trim(), "dd-MM-yyyy", null);
+                rm.OrderToDate = orderToDate.ToString("yyyy-MM-dd");
+            }
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PatientId", rm.PatientId);
             cmd.Parameters.AddWithValue("@BranchId", rm.BranchId);
+            //New Parameters start
+            cmd.Parameters.AddWithValue("@OrderFromDate", rm.OrderFromDate);
+            cmd.Parameters.AddWithValue("@OrderToDate", rm.OrderToDate);
+            cmd.Parameters.AddWithValue("@OrderNo", rm.OrderNo);
+            cmd.Parameters.AddWithValue("@RegNo", rm.RegNo);
+            cmd.Parameters.AddWithValue("@PatientName", rm.PatientName);
+            cmd.Parameters.AddWithValue("@ConsultantId", rm.ConsultantId);
+            cmd.Parameters.AddWithValue("@IsExternal", rm.IsExternalConsultant);
+            //New Parameters end
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItem = new DataTable();
             adapter.Fill(dsItem);

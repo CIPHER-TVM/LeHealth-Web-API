@@ -453,7 +453,6 @@ namespace LeHealth.Core.DataManager
         public List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetServiceOrderLoad", con);
             con.Open();
