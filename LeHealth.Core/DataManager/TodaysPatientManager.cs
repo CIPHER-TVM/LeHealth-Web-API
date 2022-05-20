@@ -230,6 +230,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@IdentityNo", patientDetails.IdentityNo);
             cmd.Parameters.AddWithValue("@Address", patientDetails.Address.Trim());
             cmd.Parameters.AddWithValue("@Mode", patientDetails.Mode);
+            cmd.Parameters.AddWithValue("@BranchId", patientDetails.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtPatientList = new DataTable();
             adapter.Fill(dtPatientList);
@@ -313,7 +314,6 @@ namespace LeHealth.Core.DataManager
         public List<SchemeModel> GetSchemeByConsultant(ConsultantModel consultant)
         {
             List<SchemeModel> schemeList = new List<SchemeModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantItem", con);
             con.Open();

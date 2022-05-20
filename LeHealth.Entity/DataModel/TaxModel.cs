@@ -10,12 +10,13 @@ namespace LeHealth.Entity.DataModel
         public string TaxDesc { get; set; }
         public float TaxPcnt { get; set; }
         public int HeadId { get; set; }
+        public int IsDisplayed { get; set; }
     }
-    public class TaxModelAll:TaxModel
+    public class TaxModelAll : TaxModel
     {
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
+
     }
 }

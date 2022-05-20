@@ -878,28 +878,29 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", la.HospitalId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsNumber = new DataTable();
-            adapter.Fill(dsNumber);
+            DataTable dsLocation = new DataTable();
+            adapter.Fill(dsLocation);
             con.Close();
-            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            if ((dsLocation != null) && (dsLocation.Rows.Count > 0))
             {
-                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                for (Int32 i = 0; i < dsLocation.Rows.Count; i++)
                 {
                     LocationModel obj = new LocationModel
                     {
-                        LocationId = Convert.ToInt32(dsNumber.Rows[i]["LocationId"]),
-                        LocationName = dsNumber.Rows[i]["LocationName"].ToString(),
-                        Supervisor = dsNumber.Rows[i]["Supervisor"].ToString(),
-                        ContactNumber = dsNumber.Rows[i]["ContactNumber"].ToString(),
-                        LTypeId = Convert.ToInt32(dsNumber.Rows[i]["LTypeId"]),
-                        ManageSPoints = Convert.ToBoolean(dsNumber.Rows[i]["ManageSPoints"]),
-                        ManageBilling = Convert.ToBoolean(dsNumber.Rows[i]["ManageBilling"]),
-                        ManageCash = Convert.ToBoolean(dsNumber.Rows[i]["ManageCash"]),
-                        ManageCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageCredit"]),
-                        ManageIPCredit = Convert.ToBoolean(dsNumber.Rows[i]["ManageIPCredit"]),
-                        RepHeadImg = dsNumber.Rows[i]["RepHeadImg"].ToString(),
+                        LocationId = Convert.ToInt32(dsLocation.Rows[i]["LocationId"]),
+                        LocationName = dsLocation.Rows[i]["LocationName"].ToString(),
+                        Supervisor = dsLocation.Rows[i]["Supervisor"].ToString(),
+                        ContactNumber = dsLocation.Rows[i]["ContactNumber"].ToString(),
+                        LTypeId = Convert.ToInt32(dsLocation.Rows[i]["LTypeId"]),
+                        ManageSPoints = Convert.ToBoolean(dsLocation.Rows[i]["ManageSPoints"]),
+                        ManageBilling = Convert.ToBoolean(dsLocation.Rows[i]["ManageBilling"]),
+                        ManageCash = Convert.ToBoolean(dsLocation.Rows[i]["ManageCash"]),
+                        ManageCredit = Convert.ToBoolean(dsLocation.Rows[i]["ManageCredit"]),
+                        ManageIPCredit = Convert.ToBoolean(dsLocation.Rows[i]["ManageIPCredit"]),
+                        RepHeadImg = dsLocation.Rows[i]["RepHeadImg"].ToString(),
                         HospitalId = la.HospitalId,
-                        HospitalName = dsNumber.Rows[i]["HospitalName"].ToString(),
+                        HospitalName = dsLocation.Rows[i]["HospitalName"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsLocation.Rows[i]["IsDisplayed"])
                     };
                     itemList.Add(obj);
                 }
@@ -2737,7 +2738,8 @@ namespace LeHealth.Core.DataManager
                         TaxId = Convert.ToInt32(dsNumber.Rows[i]["TaxId"]),
                         TaxDesc = dsNumber.Rows[i]["TaxDesc"].ToString(),
                         TaxPcnt = (float)Convert.ToDouble(dsNumber.Rows[i]["TaxPcnt"].ToString()),
-                        HeadId = Convert.ToInt32(dsNumber.Rows[i]["HeadId"])
+                        HeadId = Convert.ToInt32(dsNumber.Rows[i]["HeadId"]),
+                        IsDisplayed = Convert.ToInt32(dsNumber.Rows[i]["IsDisplayed"])
                     };
                     taxList.Add(obj);
                 }

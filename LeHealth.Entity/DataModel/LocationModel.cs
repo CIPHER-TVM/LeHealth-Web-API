@@ -21,6 +21,7 @@ namespace LeHealth.Entity.DataModel
         public int HospitalId { get; set; }
         public string HospitalName { get; set; }
         public int UserId { get; set; }
+        public int IsDisplayed { get; set; }
     }
     public class LocationType
     {
@@ -29,7 +30,6 @@ namespace LeHealth.Entity.DataModel
     }
     public class LocationAll : LocationModel
     {
-        public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
+        public int ShowAll { get; set; }        
     }
 }
