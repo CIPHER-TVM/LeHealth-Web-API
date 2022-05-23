@@ -285,7 +285,6 @@ namespace LeHealth.Core.DataManager
         public List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             int listcount = asm.GroupIdList.Count;
             string GroupIds = string.Empty;
@@ -297,7 +296,6 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@GroupId", GroupIds);
             cmd.Parameters.AddWithValue("@PatientId", asm.PatientId);
             cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
-
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsavailableService = new DataTable();
             adapter.Fill(dsavailableService);
@@ -327,7 +325,7 @@ namespace LeHealth.Core.DataManager
                     obj.BaseCost = Convert.ToInt32(dsavailableService.Rows[i]["BaseCost"]);
                     obj.HeadId = Convert.ToInt32(dsavailableService.Rows[i]["HeadId"]);
                     obj.SortOrder = Convert.ToInt32(dsavailableService.Rows[i]["SortOrder"]);
-                    obj.Active = Convert.ToInt32(dsavailableService.Rows[i]["Active"]);
+                    obj.IsDeleted = Convert.ToInt32(dsavailableService.Rows[i]["IsDeleted"]);
                     obj.BlockReason = dsavailableService.Rows[i]["BlockReason"].ToString();
                     obj.CPTCodeId = Convert.ToInt32(dsavailableService.Rows[i]["CPTCodeId"]);
                     obj.ExternalItem = Convert.ToInt32(dsavailableService.Rows[i]["ExternalItem"]);

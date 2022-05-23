@@ -70,6 +70,7 @@ namespace LeHealth.Core.DataManager
                 //(float)Convert.ToDouble(dtProfession.Rows[i]["DedAmount"].ToString()),
                 using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateItemMaster", con);
                 cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.Clear();
                 cmd1.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
                 cmd1.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
                 cmd1.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
@@ -90,9 +91,8 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@BaseCost", serviceItemModel.BaseCost);
                 cmd1.Parameters.AddWithValue("@HeadId", serviceItemModel.HeadId);
                 cmd1.Parameters.AddWithValue("@SortOrder", serviceItemModel.SortOrder);
-                cmd1.Parameters.AddWithValue("@Active", serviceItemModel.Active);
                 cmd1.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                cmd1.Parameters.AddWithValue("@SessionId", serviceItemModel.SessionId);
+                //cmd1.Parameters.AddWithValue("@SessionId", serviceItemModel.SessionId);
                 cmd1.Parameters.AddWithValue("@BranchId", serviceItemModel.BranchId);
                 cmd1.Parameters.AddWithValue("@ExternalItem", serviceItemModel.ExternalItem);
                 cmd1.Parameters.AddWithValue("@CPTCodeId", serviceItemModel.CPTCodeId);
@@ -120,75 +120,73 @@ namespace LeHealth.Core.DataManager
                 {
                     response1 = descrip1;
                 }
-                if (response1 == "Success")
-                {
-                    using SqlCommand cmd2 = new SqlCommand("stLH_InsertItemTax", con);
-                    cmd2.CommandType = CommandType.StoredProcedure;
-                    string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
-                    cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                    cmd2.Parameters.AddWithValue("@TaxIds", taxString);
-                    cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd2.Parameters.Add(retValV2);
-                    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd2.Parameters.Add(retDesc2);
-                    con.Open();
-                    var isUpdated2 = cmd2.ExecuteNonQuery();
-                    var ret2 = retValV2.Value;
-                    var descrip2 = retDesc2.Value.ToString();
-                    con.Close();
-                    if (descrip2 == "Saved Successfully")
-                    {
-                        response2 = "Success";
-                    }
-                }
-                if (response2 == "Success")
-                {
-                    using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateItemRate", con);
-                    cmd3.CommandType = CommandType.StoredProcedure;
-                    cmd3.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                    string rateString = JsonConvert.SerializeObject(serviceItemModel.ItemRateList);
-                    cmd3.Parameters.AddWithValue("@RateJSON", rateString);
-                    cmd3.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                    SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd3.Parameters.Add(retValV3);
-                    SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd3.Parameters.Add(retDesc3);
-                    con.Open();
-                    var isUpdated3 = cmd3.ExecuteNonQuery();
-                    var ret3 = retValV3.Value;
-                    var descrip3 = retDesc3.Value.ToString();
-                    con.Close();
-                    if (descrip3 == "Saved Successfully")
-                    {
-                        response3 = "Success";
-                    }
-                }
+                //if (response1 == "Success")
+                //{
+                //    using SqlCommand cmd2 = new SqlCommand("stLH_InsertItemTax", con);
+                //    cmd2.CommandType = CommandType.StoredProcedure;
+                //    string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
+                //    cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                //    cmd2.Parameters.AddWithValue("@TaxIds", taxString);
+                //    cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                //    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                //    {
+                //        Direction = ParameterDirection.Output
+                //    };
+                //    cmd2.Parameters.Add(retValV2);
+                //    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                //    {
+                //        Direction = ParameterDirection.Output
+                //    };
+                //    cmd2.Parameters.Add(retDesc2);
+                //    con.Open();
+                //    var isUpdated2 = cmd2.ExecuteNonQuery();
+                //    var ret2 = retValV2.Value;
+                //    var descrip2 = retDesc2.Value.ToString();
+                //    con.Close();
+                //    if (descrip2 == "Saved Successfully")
+                //    {
+                //        response2 = "Success";
+                //    }
+                //}
+                //if (response2 == "Success")
+                //{
+                //    using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateItemRate", con);
+                //    cmd3.CommandType = CommandType.StoredProcedure;
+                //    cmd3.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                //    string rateString = JsonConvert.SerializeObject(serviceItemModel.ItemRateList);
+                //    cmd3.Parameters.AddWithValue("@RateJSON", rateString);
+                //    cmd3.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                //    SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
+                //    {
+                //        Direction = ParameterDirection.Output
+                //    };
+                //    cmd3.Parameters.Add(retValV3);
+                //    SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                //    {
+                //        Direction = ParameterDirection.Output
+                //    };
+                //    cmd3.Parameters.Add(retDesc3);
+                //    con.Open();
+                //    var isUpdated3 = cmd3.ExecuteNonQuery();
+                //    var ret3 = retValV3.Value;
+                //    var descrip3 = retDesc3.Value.ToString();
+                //    con.Close();
+                //    if (descrip3 == "Saved Successfully")
+                //    {
+                //        response3 = "Success";
+                //    }
+                //}
             }
             return responseFinal = response1 + response2 + response3;
         }
-        public string BlockUnblockServiceItem(ServiceItemModel serviceItemModel)
+        public string DeleteServiceItem(ServiceItemModel serviceItemModel)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_BlockUnblockServiceItem", con);
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteServiceItem", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                cmd.Parameters.AddWithValue("@BlockReason", serviceItemModel.BlockReason);
-                cmd.Parameters.AddWithValue("@Active", serviceItemModel.Active);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

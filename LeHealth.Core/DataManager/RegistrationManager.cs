@@ -117,6 +117,8 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             try
             {
+                DateTime regDate = DateTime.ParseExact(reregistration.RegDate.Trim(), "dd-MM-yyyy", null);
+                reregistration.RegDate = regDate.ToString("yyyy-MM-dd");
                 using SqlConnection con = new SqlConnection(_connStr);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertPatRegs", con);
                 cmd.CommandType = CommandType.StoredProcedure;

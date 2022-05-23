@@ -45,18 +45,19 @@ namespace LeHealth.Service.Service
             string returnvalue;
             switch (masterItem.MasterFieldType)
             {
-                case "DrugType":
+                case "CPTCode":
                     returnvalue = masterdataManager.InsertUpdateCPTCode(masterItem);
                     break;
-                case "":
+                case "Symptom":
                     returnvalue = masterdataManager.InsertUpdateSymptom(masterItem);
+                    break;
+                case "Profession":
+                    returnvalue = masterdataManager.InsertUpdateProfession(masterItem);
                     break;
                 //case "":
                 //    returnvalue = masterdataManager.InsertUpdateCompany(masterItem); 
                 //    break;
-                //case "":
-                //    returnvalue = masterdataManager.InsertUpdateProfession(masterItem);
-                //    break;
+
                 default:
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
                     break;
@@ -67,9 +68,9 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateServiceItem(serviceitem);
         }
-        public string BlockUnblockServiceItem(ServiceItemModel serviceitem)
+        public string DeleteServiceItem(ServiceItemModel serviceitem)
         {
-            return masterdataManager.BlockUnblockServiceItem(serviceitem);
+            return masterdataManager.DeleteServiceItem(serviceitem);
         }
         public List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm)
         {
@@ -95,8 +96,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteCPTModifier(ccm);
         }
-
-
         public List<RateGroupModel> GetRateGroup(RateGroupModelAll rm)
         {
             return masterdataManager.GetRateGroup(rm);

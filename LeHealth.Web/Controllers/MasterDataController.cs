@@ -124,14 +124,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("BlockUnblockServiceItem")]
+        [Route("DeleteServiceItem")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ServiceItemModel>> BlockUnblockServiceItem(ServiceItemModel ServiceItem)
+        public ResponseDataModel<IEnumerable<ServiceItemModel>> DeleteServiceItem(ServiceItemModel ServiceItem)
         {
             try
             {
                 string message = string.Empty;
-                message = masterdataService.BlockUnblockServiceItem(ServiceItem);
+                message = masterdataService.DeleteServiceItem(ServiceItem);
                 var response = new ResponseDataModel<IEnumerable<ServiceItemModel>>()
                 {
                     Status = HttpStatusCode.OK,

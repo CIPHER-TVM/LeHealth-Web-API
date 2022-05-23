@@ -10,7 +10,7 @@ namespace LeHealth.Core.Interface
     {
         string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
-        string BlockUnblockServiceItem(ServiceItemModel serviceitem);
+        string DeleteServiceItem(ServiceItemModel serviceitem);
         List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
         string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);

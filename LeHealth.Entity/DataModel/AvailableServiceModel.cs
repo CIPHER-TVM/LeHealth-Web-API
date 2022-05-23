@@ -42,7 +42,7 @@ namespace LeHealth.Entity.DataModel
         public int BaseCost { get; set; }
         public int HeadId { get; set; }
         public int SortOrder { get; set; }
-        public int Active { get; set; }
+        public int IsDeleted { get; set; }
         public String BlockReason { get; set; }
         public int CPTCodeId { get; set; }
         public int? ExternalItem { get; set; }
