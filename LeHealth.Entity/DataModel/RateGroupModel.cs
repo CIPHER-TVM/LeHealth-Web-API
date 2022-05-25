@@ -12,11 +12,11 @@ namespace LeHealth.Entity.DataModel
         public string EffectFrom { get; set; }
         public string EffectTo { get; set; }
         public int UserId { get; set; }
-        public int BranchId { get; set; } 
+        public int BranchId { get; set; }
+        public int IsDisplayed { get; set; }
     }
     public class RateGroupModelAll : RateGroupModel
     {
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
     }
 }

@@ -906,6 +906,7 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
+        
         [Route("DeleteSchedule/{scheduleId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> DeleteSchedule(int scheduleId)
@@ -940,6 +941,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        
         [Route("InsertUpdateTimer")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<TimerModel>> InsertUpdateTimer(TimerModel timer)
@@ -1045,7 +1047,6 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetConsultantServicesItems")]
         public ResponseDataModel<IEnumerable<ConsultantItemModel>> GetConsultantServicesItems(AvailableServiceModel availableService)
         {
-
             try
             {
                 List<ConsultantItemModel> availableServices = new List<ConsultantItemModel>();
@@ -1076,9 +1077,6 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
-       
-        
-        
         [Route("GetFrontOfficeProgressBarsByConsultantId")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<FrontOfficePBarModel>> GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment)
@@ -1253,6 +1251,7 @@ namespace LeHealth.Base.API.Controllers
 
             }
         }
+        
         [Route("GetConsultantDrugsById/{drugId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugsById(int drugId)
@@ -1286,6 +1285,43 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        
+        [Route("GetConsultantBaseCost")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantBaseCostModel>> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
+        {
+            try
+            {
+                List<ConsultantBaseCostModel> consultantDrugs = new List<ConsultantBaseCostModel>();
+
+                consultantDrugs = consultantService.GetConsultantBaseCost(cbcm);
+                var response = new ResponseDataModel<IEnumerable<ConsultantBaseCostModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantDrugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantBaseCostModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        
+
+
         [Route("InsertConsultantSketch")]
         [HttpPost]
         public ResponseDataModel<string> InsertConsultantSketch(SketchModelAll obj)

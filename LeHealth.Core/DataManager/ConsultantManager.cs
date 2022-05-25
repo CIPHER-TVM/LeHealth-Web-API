@@ -1477,6 +1477,34 @@ namespace LeHealth.Core.DataManager
             }
             return appointmentlist;
         }
+        public List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll ss)
+        {
+            List<ConsultantBaseCostModel> consultantbasecostlist = new List<ConsultantBaseCostModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            string SignIds = string.Empty;
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantBaseCost", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", ss.ConsultantId);
+            //cmd.Parameters.AddWithValue("@SymptomIds", SymptomIds);
+            //cmd.Parameters.AddWithValue("@BranchId", ss.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    ConsultantBaseCostModel obj = new ConsultantBaseCostModel();
+                    obj.ItemId = Convert.ToInt32(ds.Rows[i]["ItemId"]);
+                    obj.ItemCode = ds.Rows[i]["ItemCode"].ToString();
+                    obj.BaseCost = (float)Convert.ToDouble(ds.Rows[i]["BaseCost"].ToString());
+                    consultantbasecostlist.Add(obj);
+                }
+            }
+            return consultantbasecostlist;
+        }
         public DiseaseModel GetDiseaseDetailsById(int diseaseId)
         {
             DiseaseModel disease = new DiseaseModel();

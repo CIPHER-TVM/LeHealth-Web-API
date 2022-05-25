@@ -157,39 +157,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetCPTCode")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<CPTCodeModel>> GetCPTCode(CPTCodeModelAll ccm)
-        {
-            try
-            {
-                List<CPTCodeModel> cptList = new List<CPTCodeModel>();
-                cptList = masterdataService.GetCPTCode(ccm);
-                var response = new ResponseDataModel<IEnumerable<CPTCodeModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = cptList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CPTCodeModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
+       
 
         //[Route("InsertUpdateCPTCode")]
         //[HttpPost]

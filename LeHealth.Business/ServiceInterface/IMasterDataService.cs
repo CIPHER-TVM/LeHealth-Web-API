@@ -12,8 +12,6 @@ namespace LeHealth.Service.ServiceInterface
         List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
-        //List<CommonMasterFieldModelAll> GetCPTCode(CommonMasterFieldModelAll ccm);
-        List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
         //string InsertUpdateCPTCode(CPTCodeModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);

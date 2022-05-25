@@ -208,14 +208,14 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        public List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm)
+        public List<CommonMasterFieldModel> GetCPTCode(CommonMasterFieldModelAll ccm)
         {
-            List<CPTCodeModel> profList = new List<CPTCodeModel>();
+            List<CommonMasterFieldModel> profList = new List<CommonMasterFieldModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetCPTCode", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CPTCodeId", ccm.CPTCodeId);
+            cmd.Parameters.AddWithValue("@CPTCodeId", ccm.Id);
             cmd.Parameters.AddWithValue("@ShowAll", ccm.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -226,12 +226,12 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dtCPT.Rows.Count; i++)
                 {
-                    CPTCodeModel obj = new CPTCodeModel
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
                     {
-                        CPTCodeId = Convert.ToInt32(dtCPT.Rows[i]["CPTCodeId"]),
-                        CPTCode = dtCPT.Rows[i]["CPTCode"].ToString(),
-                        CPTDesc = dtCPT.Rows[i]["CPTDesc"].ToString(),
-                        BranchId = ccm.BranchId
+                        Id = Convert.ToInt32(dtCPT.Rows[i]["CPTCodeId"]),
+                        CodeData = dtCPT.Rows[i]["CPTCode"].ToString(),
+                        DescriptionData = dtCPT.Rows[i]["CPTDesc"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dtCPT.Rows[i]["IsDisplayed"]),
                     };
                     profList.Add(obj);
                 }
@@ -429,6 +429,7 @@ namespace LeHealth.Core.DataManager
                         Description = dtRateGroupList.Rows[i]["Description"].ToString(),
                         EffectFrom = dtRateGroupList.Rows[i]["EffectFrom"].ToString(),
                         EffectTo = dtRateGroupList.Rows[i]["EffectTo"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dtRateGroupList.Rows[i]["IsDisplayed"]),
                         BranchId = rm.BranchId
                     };
                     stateList.Add(obj);
@@ -673,6 +674,7 @@ namespace LeHealth.Core.DataManager
                         Description = dt.Rows[i]["Description"].ToString(),
                         BranchId = department.BranchId,
                         TimeSlice = Convert.ToInt32(dt.Rows[i]["TimeSlice"]),
+                        IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]),
                     };
                     departmentlist.Add(obj);
                 }
@@ -1312,7 +1314,8 @@ namespace LeHealth.Core.DataManager
                         ProfId = Convert.ToInt32(dtProfession.Rows[i]["ProfId"]),
                         ProfName = dtProfession.Rows[i]["ProfName"].ToString(),
                         ProfCode = dtProfession.Rows[i]["ProfCode"].ToString(),
-                        ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"])
+                        ProfGroup = Convert.ToInt32(dtProfession.Rows[i]["ProfGroup"]),
+                        IsDisplayed = Convert.ToInt32(dtProfession.Rows[i]["IsDisplayed"])
                     };
                     profList.Add(obj);
                 }
@@ -2713,6 +2716,65 @@ namespace LeHealth.Core.DataManager
             }
             return drugList;
         }
+        public List<CommonMasterFieldModel> GetContainer(CommonMasterFieldModelAll la)
+        {
+            List<CommonMasterFieldModel> containerList = new List<CommonMasterFieldModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetContainer", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", la.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", la.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsContainer = new DataTable();
+            adapter.Fill(dsContainer);
+            con.Close();
+            if ((dsContainer != null) && (dsContainer.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsContainer.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
+                    {
+                        Id = Convert.ToInt32(dsContainer.Rows[i]["Id"]),
+                        NameData = dsContainer.Rows[i]["ContainerName"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsContainer.Rows[i]["IsDisplayed"]),
+                    };
+                    containerList.Add(obj);
+                }
+            }
+            return containerList;
+        }
+        public List<CommonMasterFieldModel> GetVaccineType(CommonMasterFieldModelAll la)
+        {
+            List<CommonMasterFieldModel> vtList = new List<CommonMasterFieldModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetVaccineType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", la.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", la.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsVT = new DataTable();
+            adapter.Fill(dsVT);
+            con.Close();
+            if ((dsVT != null) && (dsVT.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsVT.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
+                    {
+                        Id = Convert.ToInt32(dsVT.Rows[i]["Id"]),
+                        NameData = dsVT.Rows[i]["VaccineTypeName"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsVT.Rows[i]["IsDisplayed"]),
+                    };
+                    vtList.Add(obj);
+                }
+            }
+            return vtList;
+        }
+        
         public List<TaxModel> GetTax(TaxModelAll tax)
         {
             List<TaxModel> taxList = new List<TaxModel>();
