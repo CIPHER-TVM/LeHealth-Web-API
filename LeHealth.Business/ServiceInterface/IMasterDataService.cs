@@ -12,8 +12,6 @@ namespace LeHealth.Service.ServiceInterface
         List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
-        //List<CommonMasterFieldModelAll> GetCPTCode(CommonMasterFieldModelAll ccm);
-        List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
         //string InsertUpdateCPTCode(CPTCodeModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
@@ -40,8 +38,6 @@ namespace LeHealth.Service.ServiceInterface
         List<StateModel> GetState(StateModel state);
         string InsertUpdateState(StateModel state);
         string DeleteState(StateModel state);
-        List<CompanyModel> GetCompany(CompanyModelAll cmp);
-        //string InsertUpdateCompany(CompanyModelAll cmp);
         string DeleteCompany(CompanyModel cmp);
         List<ProfessionModel> GetProfession(ProfessionModelAll profid);
         //string InsertUpdateProfession(ProfessionModelAll prof);

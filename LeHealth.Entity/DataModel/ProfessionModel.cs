@@ -10,12 +10,13 @@ namespace LeHealth.Entity.DataModel
         public string ProfName { get; set; }
         public string ProfCode { get; set; } 
         public int ProfGroup { get; set; }
+        public int IsDisplayed { get; set; }
     }
     public class ProfessionModelAll : ProfessionModel
     {
         public int BranchId { get; set; } 
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
+        
     }
 }

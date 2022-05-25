@@ -173,6 +173,10 @@ namespace LeHealth.Service.Service
         public List<ConsultantDrugModel> GetConsultantDrugsById(int drugId)
         {
             return consultantManager.GetConsultantDrugsById(drugId);
+        } 
+        public List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
+        {
+            return consultantManager.GetConsultantBaseCost(cbcm);
         }
         public string InsertConsultantSketch(SketchModelAll sketch)
         {

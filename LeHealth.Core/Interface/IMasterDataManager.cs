@@ -11,7 +11,6 @@ namespace LeHealth.Core.Interface
         string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
-        List<CPTCodeModel> GetCPTCode(CPTCodeModelAll ccm);
         string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
@@ -39,7 +38,7 @@ namespace LeHealth.Core.Interface
         List<StateModel> GetState(StateModel state);
         string InsertUpdateState(StateModel state);
         string DeleteState(StateModel state);
-        List<CompanyModel> GetCompany(CompanyModelAll cmp);
+        List<CommonMasterFieldModel> GetCompany(CommonMasterFieldModelAll cmp);
         string InsertUpdateCompany(CommonMasterFieldModelAll cmp);
         string DeleteCompany(CompanyModel cmp);
         List<ProfessionModel> GetProfession(ProfessionModelAll prof);
@@ -83,6 +82,10 @@ namespace LeHealth.Core.Interface
         string InsertUpdateSponsor(SponsorMasterModelAll sponsor);
         string DeleteSponsor(SponsorMasterModelAll sponsor);
         List<CommonMasterFieldModel> GetDrugType(CommonMasterFieldModelAll ccm);
+        List<CommonMasterFieldModel> GetContainer(CommonMasterFieldModelAll ccm); 
+        List<CommonMasterFieldModel> GetVaccineType(CommonMasterFieldModelAll ccm);
+        List<CommonMasterFieldModel> GetCPTCode(CommonMasterFieldModelAll ccm);
+
         List<TaxModel> GetTax(TaxModelAll tax);
         string InsertUpdateTax(TaxModelAll tax);
         string DeleteTax(TaxModelAll tax);

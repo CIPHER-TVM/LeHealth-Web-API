@@ -23,6 +23,12 @@ namespace LeHealth.Entity.DataModel
         public string GroupDesc { get; set; }
         public string GroupRange { get; set; }
     }
+    public class ICDGroupModelAll : ICDGroupModel
+    {
+        public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+    }
     public class ICDLabelModel
     {
 

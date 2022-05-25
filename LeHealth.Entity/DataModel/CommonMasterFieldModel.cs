@@ -10,6 +10,7 @@ namespace LeHealth.Entity.DataModel
         public string NameData { get; set; }
         public string CodeData { get; set; }
         public string DescriptionData { get; set; }
+        public int IsDisplayed { get; set; }
     }
     public class CommonMasterFieldModelAll : CommonMasterFieldModel
     {
@@ -17,6 +18,6 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
+        
     }
 }
