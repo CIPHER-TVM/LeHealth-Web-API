@@ -565,5 +565,31 @@ namespace LeHealth.Service.Service
 
             return masterdataManager.GetUserSpecificHospitalLocations(userId, branch);
         }
+
+        public string InsertUpdateICDCategory(ICDCategroyModel icdCategory)
+        {
+            return masterdataManager.InsertUpdateICDCategory(icdCategory);
+        }
+        public List<ICDCategroyModel> GetICDCategory(int categoryId)
+        {
+            return masterdataManager.GetICDCategory(categoryId);
+        }
+        public string InsertUpdateICDGroup(ICDGroupModel icdGroup)
+        {
+            return masterdataManager.InsertUpdateICDGroup(icdGroup);
+        }
+        public List<ICDGroupModel> GetICDGroup(int groupId)
+        {
+            return masterdataManager.GetICDGroup(groupId);
+        }
+        public string InsertUpdateICDLabel(ICDLabelModel icdLabel)
+        {
+            return masterdataManager.InsertUpdateICDLabel(icdLabel);
+        }
+        public List<ICDLabelModel> GetICDLabel(int labelId)
+        {
+            return masterdataManager.GetICDLabel(labelId);
+        }
+
     }
 }

@@ -10,4 +10,28 @@ namespace LeHealth.Entity.DataModel
         public string LabelDesc { get; set; }
         public string LabelCode { get; set; }
     }
+
+    public class ICDCategroyModel
+    {
+        public int CatgId { get; set; }
+        public string CatgDesc { get; set; }
+      
+    }
+    public class ICDGroupModel
+    {
+        public int GroupId { get; set; }
+        public string GroupDesc { get; set; }
+        public string GroupRange { get; set; }
+    }
+    public class ICDLabelModel
+    {
+
+        public int LabelId { get; set; }
+        public int GroupId { get; set; }
+        public string GroupDesc { get; set; }
+        public int CatgId { get; set; }
+        public string CatgDesc { get; set; }
+        public string LabelDesc { get; set; }
+        public string LabelCode { get; set; }
+    }
 }
