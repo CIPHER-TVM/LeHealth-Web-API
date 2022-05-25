@@ -38,8 +38,6 @@ namespace LeHealth.Service.ServiceInterface
         List<StateModel> GetState(StateModel state);
         string InsertUpdateState(StateModel state);
         string DeleteState(StateModel state);
-        List<CompanyModel> GetCompany(CompanyModelAll cmp);
-        //string InsertUpdateCompany(CompanyModelAll cmp);
         string DeleteCompany(CompanyModel cmp);
         List<ProfessionModel> GetProfession(ProfessionModelAll profid);
         //string InsertUpdateProfession(ProfessionModelAll prof);

@@ -1079,39 +1079,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetCompany")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<CompanyModel>> GetCompany(CompanyModelAll cmp)
-        {
-            try
-            {
-                List<CompanyModel> companyList = new List<CompanyModel>();
-                companyList = masterdataService.GetCompany(cmp);
-                var response = new ResponseDataModel<IEnumerable<CompanyModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = companyList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<CompanyModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
-
         //[Route("InsertUpdateCompany")]
         //[HttpPost]
         //public ResponseDataModel<CompanyModel> InsertUpdateCompany(CompanyModelAll cmp)
@@ -4339,14 +4306,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        [Route("GetICDGroup/{groupId}")]
+        [Route("GetICDGroup")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ICDGroupModel>> GetICDGroup(int groupId)
+        public ResponseDataModel<IEnumerable<ICDGroupModel>> GetICDGroup(ICDGroupModel groupId)
         {
             try
             {
                 List<ICDGroupModel> icdList = new List<ICDGroupModel>();
-                icdList = masterdataService.GetICDGroup(groupId);
+                //icdList = masterdataService.GetICDGroup(groupId);
                 var response = new ResponseDataModel<IEnumerable<ICDGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,

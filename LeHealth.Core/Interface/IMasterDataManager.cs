@@ -38,7 +38,7 @@ namespace LeHealth.Core.Interface
         List<StateModel> GetState(StateModel state);
         string InsertUpdateState(StateModel state);
         string DeleteState(StateModel state);
-        List<CompanyModel> GetCompany(CompanyModelAll cmp);
+        List<CommonMasterFieldModel> GetCompany(CommonMasterFieldModelAll cmp);
         string InsertUpdateCompany(CommonMasterFieldModelAll cmp);
         string DeleteCompany(CompanyModel cmp);
         List<ProfessionModel> GetProfession(ProfessionModelAll prof);

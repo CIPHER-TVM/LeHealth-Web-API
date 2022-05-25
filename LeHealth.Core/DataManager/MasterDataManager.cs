@@ -67,7 +67,6 @@ namespace LeHealth.Core.DataManager
             string responseFinal = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                //(float)Convert.ToDouble(dtProfession.Rows[i]["DedAmount"].ToString()),
                 using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateItemMaster", con);
                 cmd1.CommandType = CommandType.StoredProcedure;
                 cmd1.Parameters.Clear();
@@ -1178,14 +1177,14 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<CompanyModel> GetCompany(CompanyModelAll company)
+        public List<CommonMasterFieldModel> GetCompany(CommonMasterFieldModelAll company)
         {
-            List<CompanyModel> companyList = new List<CompanyModel>();
+            List<CommonMasterFieldModel> companyList = new List<CommonMasterFieldModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetCompany", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CmpId", company.CmpId);
+            cmd.Parameters.AddWithValue("@CmpId", company.Id);
             cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -1196,10 +1195,10 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dsCompany.Rows.Count; i++)
                 {
-                    CompanyModel obj = new CompanyModel
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
                     {
-                        CmpId = Convert.ToInt32(dsCompany.Rows[i]["CmpId"]),
-                        CmpName = dsCompany.Rows[i]["CmpName"].ToString()
+                        Id = Convert.ToInt32(dsCompany.Rows[i]["CmpId"]),
+                        NameData = dsCompany.Rows[i]["CmpName"].ToString()
                     };
                     companyList.Add(obj);
                 }
