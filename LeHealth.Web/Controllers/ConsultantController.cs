@@ -1217,6 +1217,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+      
         [Route("GetDiseaseByConsultantId/{consultantId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseByConsultantId(int consultantId)

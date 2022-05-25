@@ -4402,6 +4402,106 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("InsertUpdateProfile")]
+        [HttpPost]
+        public ResponseDataModel<ProfileModel> InsertUpdateProfile(ProfileModel profile)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateProfile(profile);
+                var response = new ResponseDataModel<ProfileModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ProfileModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetProfileById/{profileId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ProfileModel>>  GetProfileById(int profileId)
+        {
+            List<ProfileModel> profiles = new List<ProfileModel>();
+            try
+            {
+
+                ProfileModel profile = new ProfileModel();
+                profile = masterdataService.GetProfileById(profileId);
+                profiles.Add(profile);
+                var response = new ResponseDataModel<IEnumerable<ProfileModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = profiles
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ProfileModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("UnBlockProfile")]
+        [HttpPost]
+        public ResponseDataModel<ProfileModel> UnBlockProfile(ProfileModel profile)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.UnBlockProfile(profile);
+                var response = new ResponseDataModel<ProfileModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ProfileModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
     }
 }
