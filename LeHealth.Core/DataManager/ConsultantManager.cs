@@ -2107,5 +2107,119 @@ namespace LeHealth.Core.DataManager
             return consultant;
 
         }
+       
+        public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
+        {
+            List<ConsultantTimeScheduleMaster> responselist = new List<ConsultantTimeScheduleMaster>();
+            ConsultantTimeScheduleMaster responseobj = new ConsultantTimeScheduleMaster();
+            SqlTransaction transaction;
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                con.Open();
+                transaction = con.BeginTransaction();
+                SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantTimeScheduleMaster", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string DayIds = "";
+
+                foreach (var timeSchedule in timeScheduleMaster.TimeSchedules)
+                {
+                    
+                    string temp = DayIds;
+                    temp = temp+ timeSchedule.DayId + "-";
+                    DayIds = temp;
+
+                    timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute;
+                    timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute;
+                }
+
+                cmd.Parameters.AddWithValue("@ScheMid", timeScheduleMaster.ScheMid);
+                cmd.Parameters.AddWithValue("@ConsultantId", timeScheduleMaster.ConsultantId);
+                cmd.Parameters.AddWithValue("@BranchId", timeScheduleMaster.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", timeScheduleMaster.UserId);
+                cmd.Parameters.AddWithValue("@AlldaySameFlag", timeScheduleMaster.AlldaySameFlag);
+                cmd.Parameters.AddWithValue("@DayIds", DayIds);
+
+                
+
+                SqlParameter timeMasterRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(timeMasterRetVal);
+
+                SqlParameter timeMasterRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(timeMasterRetDesc);
+                cmd.Transaction = transaction;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    int ScheduleMasterId = (int)timeMasterRetVal.Value;
+
+                    //........................
+                    var desceMaster = timeMasterRetDesc.Value.ToString();
+                    response = desceMaster;
+                    if (desceMaster == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+
+                    if (ScheduleMasterId > 0)//Inserted / Updated Successfully
+                    {
+                        transaction.Commit();
+                        //====================InsertTimeSchedules===========================
+                        string timeScheduleString = JsonConvert.SerializeObject(timeScheduleMaster.TimeSchedules);
+
+                        SqlCommand cmdTimeSchedule = new SqlCommand("stLH_InsertConsultantTimeSchedule", con);
+                        cmdTimeSchedule.CommandType = CommandType.StoredProcedure;
+
+                        cmdTimeSchedule.Parameters.AddWithValue("@ScheMid", ScheduleMasterId);
+                        cmdTimeSchedule.Parameters.AddWithValue("@ConsultantId", timeScheduleMaster.ConsultantId);
+                        cmdTimeSchedule.Parameters.AddWithValue("@BranchId", timeScheduleMaster.BranchId);
+                        cmdTimeSchedule.Parameters.AddWithValue("@UserId", timeScheduleMaster.UserId);
+                        cmdTimeSchedule.Parameters.AddWithValue("@TimeScheduleJSON", timeScheduleString);
+
+                        SqlParameter timeScheduleRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter timeScheduleRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmdTimeSchedule.Parameters.Add(timeScheduleRetVal);
+                        cmdTimeSchedule.Parameters.Add(timeScheduleRetDesc);
+                        cmdTimeSchedule.ExecuteNonQuery();
+
+                        var descTimeSchedule = timeScheduleRetDesc.Value.ToString();
+                        con.Close();
+                        response = descTimeSchedule;
+                        if (descTimeSchedule == "Saved Successfully")
+                        {
+                            response = "Success";
+                        }
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        responseobj.ScheMid = 0;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    responseobj.ScheMid = 0;
+                }
+                con.Close();
+            }
+            responselist.Add(responseobj);
+            return response;
+        }
+
     }
 }
