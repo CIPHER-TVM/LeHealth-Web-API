@@ -4272,6 +4272,201 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+       
+        [Route("InsertUpdateICDCategory")]
+        [HttpPost]
+        public ResponseDataModel<ICDCategroyModel> InsertUpdateICDCategory(ICDCategroyModel icdCategory)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateICDCategory(icdCategory);
+                var response = new ResponseDataModel<ICDCategroyModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ICDCategroyModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetICDCategory/{categoryId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ICDCategroyModel>> GetICDCategory(int categoryId)
+        {
+            try
+            {
+                List<ICDCategroyModel> icdList = new List<ICDCategroyModel>();
+                icdList = masterdataService.GetICDCategory(categoryId);
+                var response = new ResponseDataModel<IEnumerable<ICDCategroyModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = icdList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ICDCategroyModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("InsertUpdateICDGroup")]
+        [HttpPost]
+        public ResponseDataModel<ICDGroupModel> InsertUpdateICDGroup(ICDGroupModel icdGroup)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateICDGroup(icdGroup);
+                var response = new ResponseDataModel<ICDGroupModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ICDGroupModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetICDGroup/{groupId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ICDGroupModel>> GetICDGroup(int groupId)
+        {
+            try
+            {
+                List<ICDGroupModel> icdList = new List<ICDGroupModel>();
+                icdList = masterdataService.GetICDGroup(groupId);
+                var response = new ResponseDataModel<IEnumerable<ICDGroupModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = icdList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ICDGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateICDLabel")]
+        [HttpPost]
+        public ResponseDataModel<ICDLabelModel> InsertUpdateICDLabel(ICDLabelModel icdLabel)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateICDLabel(icdLabel);
+                var response = new ResponseDataModel<ICDLabelModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ICDLabelModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetICDLabel/{labelId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ICDLabelModel>> GetICDLabel(int labelId)
+        {
+            try
+            {
+                List<ICDLabelModel> icdList = new List<ICDLabelModel>();
+                icdList = masterdataService.GetICDLabel(labelId);
+                var response = new ResponseDataModel<IEnumerable<ICDLabelModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = icdList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ICDLabelModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
     }
 }

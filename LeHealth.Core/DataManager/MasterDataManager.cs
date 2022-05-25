@@ -4456,5 +4456,208 @@ namespace LeHealth.Core.DataManager
             }
             return kinRelationList;
         }
+        /// <summary>
+        /// Save ICD Categroy
+        /// </summary>
+        /// <param name="icdCategory"></param>
+        /// <returns></returns>
+        public string InsertUpdateICDCategory(ICDCategroyModel icdCategory)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+               
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDCategroy", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+          
+                cmd.Parameters.AddWithValue("@CatgId", icdCategory.CatgId);
+                cmd.Parameters.AddWithValue("@CatgDesc", icdCategory.CatgDesc);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        /// <summary>
+        /// Get ICD Category list
+        /// </summary>
+        /// <param name="icdCategory"></param>
+        /// <returns></returns>
+        public List<ICDCategroyModel> GetICDCategory(int categoryId)
+        {
+            List<ICDCategroyModel> itemList = new List<ICDCategroyModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetICDCategory", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CatgId", categoryId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                itemList = dataTable.ToListOfObject<ICDCategroyModel>();
+            }
+            return itemList;
+        }
+
+        /// <summary>
+        /// Save ICD Group
+        /// </summary>
+        /// <param name="icdGroup"></param>
+        /// <returns></returns>
+        public string InsertUpdateICDGroup(ICDGroupModel icdGroup)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+               
+                cmd.Parameters.AddWithValue("@GroupId", icdGroup.GroupId);
+                cmd.Parameters.AddWithValue("@GroupDesc", icdGroup.GroupDesc);
+                cmd.Parameters.AddWithValue("@GroupRange", icdGroup.GroupRange);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        /// <summary>
+        /// Get ICD Group list
+        /// </summary>
+        /// <param name="icdGroup"></param>
+        /// <returns></returns>
+        public List<ICDGroupModel> GetICDGroup(int groupId)
+        {
+            List<ICDGroupModel> itemList = new List<ICDGroupModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetICDGroup", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            
+            cmd.Parameters.AddWithValue("@GroupId", groupId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                itemList = dataTable.ToListOfObject<ICDGroupModel>();
+            }
+            return itemList;
+        }
+        /// <summary>
+        /// Save ICD Label
+        /// </summary>
+        /// <param name="icdLabel"></param>
+        /// <returns></returns>
+        public string InsertUpdateICDLabel(ICDLabelModel icdLabel)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDLabel", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+               
+                cmd.Parameters.AddWithValue("@LabelId", icdLabel.LabelId);
+                cmd.Parameters.AddWithValue("@LabelDesc", icdLabel.LabelDesc);
+                cmd.Parameters.AddWithValue("@LabelCode", icdLabel.LabelCode);
+                cmd.Parameters.AddWithValue("@GroupId", icdLabel.GroupId);
+                cmd.Parameters.AddWithValue("@CatgId", icdLabel.CatgId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        /// <summary>
+        /// Get ICD Label list
+        /// </summary>
+        /// <param name="icdLabel"></param>
+        /// <returns></returns>
+        public List<ICDLabelModel> GetICDLabel(int labelId)
+        {
+            List<ICDLabelModel> itemList = new List<ICDLabelModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetICDLabel", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+          
+            cmd.Parameters.AddWithValue("@LabelId", labelId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                itemList = dataTable.ToListOfObject<ICDLabelModel>();
+            }
+            return itemList;
+        }
+
     }
 }
