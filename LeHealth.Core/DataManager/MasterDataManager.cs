@@ -179,9 +179,13 @@ namespace LeHealth.Core.DataManager
                 {
                     using SqlCommand cmd2 = new SqlCommand("stLH_InsertItemTax", con);
                     cmd2.CommandType = CommandType.StoredProcedure;
-                    string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
+                    //string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
+                    int listcount = serviceItemModel.ItemTaxList.Count;
+                    string TaxIds = "";
+                    if (listcount > 0)
+                        TaxIds = string.Join(",", serviceItemModel.ItemTaxList.ToArray());
                     cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                    cmd2.Parameters.AddWithValue("@TaxIds", taxString);
+                    cmd2.Parameters.AddWithValue("@TaxIds", TaxIds);
                     cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
                     SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -1253,7 +1257,8 @@ namespace LeHealth.Core.DataManager
                     CommonMasterFieldModel obj = new CommonMasterFieldModel
                     {
                         Id = Convert.ToInt32(dsCompany.Rows[i]["CmpId"]),
-                        NameData = dsCompany.Rows[i]["CmpName"].ToString()
+                        NameData = dsCompany.Rows[i]["CmpName"].ToString(),
+                        DescriptionData = dsCompany.Rows[i]["CompanyDescription"].ToString()
                     };
                     companyList.Add(obj);
                 }
@@ -1274,6 +1279,7 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CmpId", Company.Id);
                 cmd.Parameters.AddWithValue("@CmpName", Company.NameData);
+                cmd.Parameters.AddWithValue("@CmpDescription", Company.DescriptionData);
                 cmd.Parameters.AddWithValue("@IsDisplayed", Company.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", Company.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", Company.UserId);

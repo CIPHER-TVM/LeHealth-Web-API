@@ -182,16 +182,16 @@ namespace LeHealth.Core.DataManager
             SqlTransaction transaction;
             int userId = 0;
             int ConsultantId = 0;
-            
+
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
                 con.Open();
                 transaction = con.BeginTransaction();
 
-               
 
-                
+
+
                 try
                 {
 
@@ -368,10 +368,10 @@ namespace LeHealth.Core.DataManager
                             response = descrip;
 
                         }
-                       
+
                     }
-                   
-                   
+
+
 
                     SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
                     cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
@@ -452,7 +452,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveAddress.Parameters.Add(retValSaveAddress);
                     cmdSaveAddress.Parameters.Add(retDescSaveAddress);
                     cmdSaveAddress.Transaction = transaction;
-                   
+
                     cmdSaveAddress.ExecuteNonQuery();
                     con.Close();
                     int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
@@ -470,10 +470,10 @@ namespace LeHealth.Core.DataManager
                 }
                 con.Close();
             }
-           
+
             return response;
         }
-      
+
         /// <summary>
         /// Get Consultant details using ConsultantType
         /// </summary>
@@ -1767,6 +1767,34 @@ namespace LeHealth.Core.DataManager
             return disease;
 
         }
+
+        public List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel ci)
+        {
+            List<ConsultantItemModel> consultantitemlist = new List<ConsultantItemModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            string SignIds = string.Empty;
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantItemBytype", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", ci.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", ci.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    ConsultantItemModel obj = new ConsultantItemModel();
+                    obj.ItemId = Convert.ToInt32(ds.Rows[i]["ItemId"]);
+                    obj.ItemName = ds.Rows[i]["ItemName"].ToString();
+                    obj.ItemSelect = Convert.ToInt32(ds.Rows[i]["ItemSelect"]);
+                    consultantitemlist.Add(obj);
+                }
+            }
+            return consultantitemlist;
+        }
         public List<DiseaseModel> GetDiseaseByConsultantIdBU(int consultantId)
         {
             List<DiseaseModel> diseases = new List<DiseaseModel>();
@@ -2135,7 +2163,7 @@ namespace LeHealth.Core.DataManager
             return consultant;
 
         }
-       
+
         public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
             List<ConsultantTimeScheduleMaster> responselist = new List<ConsultantTimeScheduleMaster>();
@@ -2153,9 +2181,9 @@ namespace LeHealth.Core.DataManager
 
                 foreach (var timeSchedule in timeScheduleMaster.TimeSchedules)
                 {
-                    
+
                     string temp = DayIds;
-                    temp = temp+ timeSchedule.DayId + "-";
+                    temp = temp + timeSchedule.DayId + "-";
                     DayIds = temp;
 
                     timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute;
@@ -2169,7 +2197,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@AlldaySameFlag", timeScheduleMaster.AlldaySameFlag);
                 cmd.Parameters.AddWithValue("@DayIds", DayIds);
 
-                
+
 
                 SqlParameter timeMasterRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
                 {

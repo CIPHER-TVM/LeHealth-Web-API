@@ -1321,6 +1321,39 @@ namespace LeHealth.Base.API.Controllers
             }
         }
         
+        [Route("GetConsultantItemByType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantItemModel>> GetConsultantItemByType(ConsultantItemModel cbcm)
+        {
+            try
+            {
+                List<ConsultantItemModel> consultantDrugs = new List<ConsultantItemModel>();
+                consultantDrugs = consultantService.GetConsultantItemByType(cbcm);
+                var response = new ResponseDataModel<IEnumerable<ConsultantItemModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantDrugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantItemModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        
 
 
         [Route("InsertConsultantSketch")]
