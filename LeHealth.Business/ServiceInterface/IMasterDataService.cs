@@ -139,5 +139,6 @@ namespace LeHealth.Service.ServiceInterface
         ProfileModel GetProfileById(int profileId);
         string BlockProfile(ProfileModel profile);
         string UnBlockProfile(ProfileModel profile);
+        List<ProfileItemModel> GetItemForProfile(int patientId);
     }
 }

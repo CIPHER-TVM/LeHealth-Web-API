@@ -154,6 +154,7 @@ namespace LeHealth.Core.Interface
         ProfileModel GetProfileById(int profileId);
         string BlockProfile(ProfileModel profile);
         string UnBlockProfile(ProfileModel profile);
+        List<ProfileItemModel> GetItemForProfile(int patientId);
         List<CommonMasterFieldModel> GetCommissionRule(CommonMasterFieldModelAll cr);  
 
     }

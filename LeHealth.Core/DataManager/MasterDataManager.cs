@@ -4919,6 +4919,7 @@ namespace LeHealth.Core.DataManager
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
+                    cmd.Parameters.AddWithValue("@UserId", profile.UserId);
                     cmd.Parameters.AddWithValue("@BlockReason", profile.BlockReason);
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -4963,6 +4964,7 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
+                    cmd.Parameters.AddWithValue("@UserId", profile.UserId);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -4994,6 +4996,27 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return response;
+        }
+       
+
+ public List<ProfileItemModel> GetItemForProfile(int patientId)
+        {
+            List<ProfileItemModel> itemList = new List<ProfileItemModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemForProfile", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@PatientId", patientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                itemList = dataTable.ToListOfObject<ProfileItemModel>();
+            }
+            return itemList;
         }
         public List<CommonMasterFieldModel> GetCommissionRule(CommonMasterFieldModelAll cmfr)
         {
