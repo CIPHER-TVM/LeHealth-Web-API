@@ -14,6 +14,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
+        List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
         string DeleteCPTModifier(CPTModifierAll ccm);
         List<RateGroupModel> GetRateGroup(RateGroupModelAll RateGroup);
@@ -23,7 +24,6 @@ namespace LeHealth.Core.Interface
         string InsertUpdatePackage(PackageModelAll package);
         string DeletePackage(PackageModel package);
         List<DepartmentModel> GetDepartment(DepartmentModelAll department);
-        //List<DepartmentModel> GetDepartmentByHospital(Int32 HospId);
         string InsertUpdateDepartment(DepartmentModelAll Dept);
         string DeleteDepartment(DepartmentModel Dept);
         List<SymptomModel> GetSymptom(SymptomModelAll symptom);
@@ -85,7 +85,6 @@ namespace LeHealth.Core.Interface
         List<CommonMasterFieldModel> GetContainer(CommonMasterFieldModelAll ccm); 
         List<CommonMasterFieldModel> GetVaccineType(CommonMasterFieldModelAll ccm);
         List<CommonMasterFieldModel> GetCPTCode(CommonMasterFieldModelAll ccm);
-
         List<TaxModel> GetTax(TaxModelAll tax);
         string InsertUpdateTax(TaxModelAll tax);
         string DeleteTax(TaxModelAll tax);
@@ -151,6 +150,7 @@ namespace LeHealth.Core.Interface
         List<ICDGroupModel> GetICDGroup(int groupId);
         string InsertUpdateICDLabel(ICDLabelModel icdLabel);
         List<ICDLabelModel> GetICDLabel(int labelId);
+        List<CommonMasterFieldModel> GetCommissionRule(CommonMasterFieldModelAll cr);  
 
     }
 }

@@ -10,6 +10,7 @@ namespace LeHealth.Service.ServiceInterface
     {
         string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
         List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
+        List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
         //string InsertUpdateCPTCode(CPTCodeModelAll ccm);
@@ -40,7 +41,6 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteState(StateModel state);
         string DeleteCompany(CompanyModel cmp);
         List<ProfessionModel> GetProfession(ProfessionModelAll profid);
-        //string InsertUpdateProfession(ProfessionModelAll prof);
         string DeleteProfession(ProfessionModel prof);
         List<CityModel> GetCity(CityModelAll city);
         string InsertUpdateCity(CityModelAll city);

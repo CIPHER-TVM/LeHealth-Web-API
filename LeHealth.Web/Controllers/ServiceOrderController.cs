@@ -89,6 +89,40 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+
+        [HttpPost]
+        [Route("GetItemTax")]
+        public ResponseDataModel<IEnumerable<TaxModel>> GetItemRate(TaxModelAll group)
+        {
+            try
+            {
+                List<TaxModel> itemGroupList = new List<TaxModel>();
+                itemGroupList = serviceorderService.GetItemTax(group);
+                var response = new ResponseDataModel<IEnumerable<TaxModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemGroupList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<TaxModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
         [HttpPost]
         [Route("GetItem")]
         public ResponseDataModel<IEnumerable<ItemModel>> GetItem(ItemModelAll item)
@@ -357,7 +391,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-
+       
         /// <summary>
         /// API For getting profile list
         /// </summary>

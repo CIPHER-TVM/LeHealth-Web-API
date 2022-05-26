@@ -82,4 +82,20 @@ namespace LeHealth.Entity.DataModel
         public Int32 itemTypeId { get; set; } 
         
     }
+    public class ItemRateModel
+    {
+        public int ItemId { get; set; }
+        public int RGroupId { get; set; }
+        public string RGroupName { get; set; }
+        public float Rate { get; set; }
+    }
+
+    public class ItemTaxModel
+    {
+        public int ItemId { get; set; }
+        public int TaxId { get; set; }
+        public string TaxName { get; set; }
+        public float TaxPercent { get; set; }
+        public int IsTaxApplicable { get; set; } 
+    }
 }

@@ -59,6 +59,62 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<AvailableServiceModel> GetServiceItem(AvailableServiceModel company)
+        {
+            List<AvailableServiceModel> serviceItemList = new List<AvailableServiceModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemDetailById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemId", company.Id);
+            //cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtServiceItem = new DataTable();
+            adapter.Fill(dtServiceItem);
+            con.Close();
+            if ((dtServiceItem != null) && (dtServiceItem.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtServiceItem.Rows.Count; i++)
+                {
+                    AvailableServiceModel obj = new AvailableServiceModel();
+                    obj.ItemId = Convert.ToInt32(dtServiceItem.Rows[i]["ItemId"]);
+                    obj.ItemCode = dtServiceItem.Rows[i]["ItemCode"].ToString();
+                    obj.ItemName = dtServiceItem.Rows[i]["ItemName"].ToString();
+                    obj.GroupId = Convert.ToInt32(dtServiceItem.Rows[i]["GroupId"]);
+                    obj.ValidityDays = Convert.ToInt32(dtServiceItem.Rows[i]["ValidityDays"]);
+                    obj.ValidityVisits = Convert.ToInt32(dtServiceItem.Rows[i]["ValidityVisits"]);
+                    obj.AllowRateEdit = Convert.ToInt32(dtServiceItem.Rows[i]["AllowRateEdit"]);
+                    obj.AllowDisc = Convert.ToInt32(dtServiceItem.Rows[i]["AllowDisc"]);
+                    obj.AllowPP = Convert.ToInt32(dtServiceItem.Rows[i]["AllowPP"]);
+                    obj.IsVSign = Convert.ToInt32(dtServiceItem.Rows[i]["IsVSign"]);
+                    obj.ResultOn = Convert.ToInt32(dtServiceItem.Rows[i]["ResultOn"]);
+                    obj.STypeId = Convert.ToInt32(dtServiceItem.Rows[i]["STypeId"]);
+                    obj.TotalTaxPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["TotalTaxPcnt"]);
+                    obj.AllowCommission = Convert.ToInt32(dtServiceItem.Rows[i]["AllowCommission"]);
+                    obj.CommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["CommPcnt"]);
+                    obj.CommAmt = Convert.ToInt32(dtServiceItem.Rows[i]["CommAmt"]);
+                    obj.MaterialCost = Convert.ToInt32(dtServiceItem.Rows[i]["MaterialCost"]);
+                    obj.BaseCost = Convert.ToInt32(dtServiceItem.Rows[i]["BaseCost"]);
+                    obj.HeadId = Convert.ToInt32(dtServiceItem.Rows[i]["HeadId"]);
+                    obj.SortOrder = Convert.ToInt32(dtServiceItem.Rows[i]["SortOrder"]);
+                    obj.IsDeleted = Convert.ToInt32(dtServiceItem.Rows[i]["IsDeleted"]);
+                    obj.BlockReason = dtServiceItem.Rows[i]["BlockReason"].ToString();
+                    obj.CPTCodeId = Convert.ToInt32(dtServiceItem.Rows[i]["CPTCodeId"]);
+                    obj.ExternalItem = Convert.ToInt32(dtServiceItem.Rows[i]["ExternalItem"]);
+                    obj.GroupName = dtServiceItem.Rows[i]["GroupName"].ToString();
+                    obj.GroupCode = dtServiceItem.Rows[i]["GroupCode"].ToString();
+                    obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
+                    obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
+                    obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
+                    obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
+                    obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
+                    obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
+                    serviceItemList.Add(obj);
+                }
+            }
+            return serviceItemList;
+        }
         public string InsertUpdateServiceItem(ServiceItemModel serviceItemModel)
         {
             string response1 = string.Empty;
@@ -119,62 +175,62 @@ namespace LeHealth.Core.DataManager
                 {
                     response1 = descrip1;
                 }
-                //if (response1 == "Success")
-                //{
-                //    using SqlCommand cmd2 = new SqlCommand("stLH_InsertItemTax", con);
-                //    cmd2.CommandType = CommandType.StoredProcedure;
-                //    string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
-                //    cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                //    cmd2.Parameters.AddWithValue("@TaxIds", taxString);
-                //    cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                //    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
-                //    {
-                //        Direction = ParameterDirection.Output
-                //    };
-                //    cmd2.Parameters.Add(retValV2);
-                //    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                //    {
-                //        Direction = ParameterDirection.Output
-                //    };
-                //    cmd2.Parameters.Add(retDesc2);
-                //    con.Open();
-                //    var isUpdated2 = cmd2.ExecuteNonQuery();
-                //    var ret2 = retValV2.Value;
-                //    var descrip2 = retDesc2.Value.ToString();
-                //    con.Close();
-                //    if (descrip2 == "Saved Successfully")
-                //    {
-                //        response2 = "Success";
-                //    }
-                //}
-                //if (response2 == "Success")
-                //{
-                //    using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateItemRate", con);
-                //    cmd3.CommandType = CommandType.StoredProcedure;
-                //    cmd3.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                //    string rateString = JsonConvert.SerializeObject(serviceItemModel.ItemRateList);
-                //    cmd3.Parameters.AddWithValue("@RateJSON", rateString);
-                //    cmd3.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                //    SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
-                //    {
-                //        Direction = ParameterDirection.Output
-                //    };
-                //    cmd3.Parameters.Add(retValV3);
-                //    SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                //    {
-                //        Direction = ParameterDirection.Output
-                //    };
-                //    cmd3.Parameters.Add(retDesc3);
-                //    con.Open();
-                //    var isUpdated3 = cmd3.ExecuteNonQuery();
-                //    var ret3 = retValV3.Value;
-                //    var descrip3 = retDesc3.Value.ToString();
-                //    con.Close();
-                //    if (descrip3 == "Saved Successfully")
-                //    {
-                //        response3 = "Success";
-                //    }
-                //}
+                if (response1 == "Success")
+                {
+                    using SqlCommand cmd2 = new SqlCommand("stLH_InsertItemTax", con);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
+                    cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                    cmd2.Parameters.AddWithValue("@TaxIds", taxString);
+                    cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd2.Parameters.Add(retValV2);
+                    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd2.Parameters.Add(retDesc2);
+                    con.Open();
+                    var isUpdated2 = cmd2.ExecuteNonQuery();
+                    var ret2 = retValV2.Value;
+                    var descrip2 = retDesc2.Value.ToString();
+                    con.Close();
+                    if (descrip2 == "Saved Successfully")
+                    {
+                        response2 = "Success";
+                    }
+                }
+                if (response2 == "Success")
+                {
+                    using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateItemRate", con);
+                    cmd3.CommandType = CommandType.StoredProcedure;
+                    cmd3.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                    string rateString = JsonConvert.SerializeObject(serviceItemModel.ItemRateList);
+                    cmd3.Parameters.AddWithValue("@RateJSON", rateString);
+                    cmd3.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                    SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retValV3);
+                    SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retDesc3);
+                    con.Open();
+                    var isUpdated3 = cmd3.ExecuteNonQuery();
+                    var ret3 = retValV3.Value;
+                    var descrip3 = retDesc3.Value.ToString();
+                    con.Close();
+                    if (descrip3 == "Saved Successfully")
+                    {
+                        response3 = "Success";
+                    }
+                }
             }
             return responseFinal = response1 + response2 + response3;
         }
@@ -206,7 +262,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
         public List<CommonMasterFieldModel> GetCPTCode(CommonMasterFieldModelAll ccm)
         {
             List<CommonMasterFieldModel> profList = new List<CommonMasterFieldModel>();
@@ -2773,7 +2828,7 @@ namespace LeHealth.Core.DataManager
             }
             return vtList;
         }
-        
+
         public List<TaxModel> GetTax(TaxModelAll tax)
         {
             List<TaxModel> taxList = new List<TaxModel>();
@@ -4527,10 +4582,10 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-               
+
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDCategroy", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-          
+
                 cmd.Parameters.AddWithValue("@CatgId", icdCategory.CatgId);
                 cmd.Parameters.AddWithValue("@CatgDesc", icdCategory.CatgDesc);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -4596,7 +4651,7 @@ namespace LeHealth.Core.DataManager
 
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDGroup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-               
+
                 cmd.Parameters.AddWithValue("@GroupId", icdGroup.GroupId);
                 cmd.Parameters.AddWithValue("@GroupDesc", icdGroup.GroupDesc);
                 cmd.Parameters.AddWithValue("@GroupRange", icdGroup.GroupRange);
@@ -4638,7 +4693,7 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetICDGroup", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            
+
             cmd.Parameters.AddWithValue("@GroupId", groupId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
@@ -4663,7 +4718,7 @@ namespace LeHealth.Core.DataManager
 
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDLabel", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-               
+
                 cmd.Parameters.AddWithValue("@LabelId", icdLabel.LabelId);
                 cmd.Parameters.AddWithValue("@LabelDesc", icdLabel.LabelDesc);
                 cmd.Parameters.AddWithValue("@LabelCode", icdLabel.LabelCode);
@@ -4707,7 +4762,7 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetICDLabel", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-          
+
             cmd.Parameters.AddWithValue("@LabelId", labelId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
@@ -4719,6 +4774,33 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
+        public List<CommonMasterFieldModel> GetCommissionRule(CommonMasterFieldModelAll cmfr)
+        {
+            List<CommonMasterFieldModel> itemList = new List<CommonMasterFieldModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCommissionRules", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
 
+            cmd.Parameters.AddWithValue("@CommissionId", cmfr.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", cmfr.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", cmfr.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel();
+                    obj.Id = Convert.ToInt32(dataTable.Rows[i]["CommissionId"]);
+                    obj.NameData = dataTable.Rows[i]["CommissionName"].ToString();
+                    obj.CodeData = dataTable.Rows[i]["CommissionCode"].ToString();
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
     }
 }

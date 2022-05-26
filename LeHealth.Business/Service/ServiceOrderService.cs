@@ -26,6 +26,10 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.GetItemRate(group);
         }
+        public List<TaxModel> GetItemTax(TaxModelAll group)
+        {
+            return serviceorderManager.GetItemTax(group);
+        }
         public List<ItemsByTypeModel> GetPackageItem(Int32 packId)
         {
             return serviceorderManager.GetPackageItem(packId);

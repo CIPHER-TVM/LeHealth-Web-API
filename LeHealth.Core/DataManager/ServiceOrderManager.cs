@@ -86,6 +86,33 @@ namespace LeHealth.Core.DataManager
             }
             return itemgroupList;
         }
+        public List<TaxModel> GetItemTax(TaxModelAll asm)
+        {
+            List<TaxModel> availableServiceList = new List<TaxModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemTax", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemId", asm.ItemId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsavailableService = new DataTable();
+            adapter.Fill(dsavailableService);
+            con.Close();
+            if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
+                {
+                    TaxModel obj = new TaxModel();
+                    obj.TaxId = Convert.ToInt32(dsavailableService.Rows[i]["TaxId"]);
+                    obj.TaxDesc = dsavailableService.Rows[i]["TaxDesc"].ToString();
+                    obj.TaxPcnt = (float)Convert.ToDouble(dsavailableService.Rows[i]["TaxPcnt"].ToString());
+                    obj.IsApplied = dsavailableService.Rows[i]["Selected"].ToString();
+                    availableServiceList.Add(obj);
+                }
+            }
+            return availableServiceList;
+        }
+
         public List<ItemModel> GetItem(ItemModelAll asm)
         {
             List<ItemModel> itemList = new List<ItemModel>();
@@ -346,6 +373,7 @@ namespace LeHealth.Core.DataManager
             }
             return availableServiceList;
         }
+
         /// <summary>
         /// Get last consultation data of a patient with specific consultant
         /// </summary>
@@ -388,7 +416,6 @@ namespace LeHealth.Core.DataManager
         public List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel cm)
         {
             List<AvailableServiceModel> availableServiceList = new List<AvailableServiceModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetServiceOrderByDate", con);
             con.Open();

@@ -36,6 +36,9 @@ namespace LeHealth.Service.Service
                 case "Company":
                     returnvalue = masterdataManager.GetCompany(masterItem);
                     break;
+                case "CommissionRule":
+                    returnvalue = masterdataManager.GetCommissionRule(masterItem); 
+                    break;
                     //default:
                     //    returnvalue = masterdataManager.GetCPTCode(masterItem);
                     //    break;
@@ -67,6 +70,10 @@ namespace LeHealth.Service.Service
             }
             return returnvalue;
         }
+        public List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm)
+        {
+            return masterdataManager.GetServiceItem(ccm);
+        }
         public string InsertUpdateServiceItem(ServiceItemModel serviceitem)
         {
             return masterdataManager.InsertUpdateServiceItem(serviceitem);
@@ -75,11 +82,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteServiceItem(serviceitem);
         }
-
-        //public string InsertUpdateCPTCode(CPTCodeModelAll ccm)
-        //{
-        //    return masterdataManager.InsertUpdateCPTCode(ccm);
-        //}
         public string DeleteCPTCode(CPTCodeModel ccm)
         {
             return masterdataManager.DeleteCPTCode(ccm);

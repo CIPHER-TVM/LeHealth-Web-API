@@ -11,9 +11,11 @@ namespace LeHealth.Entity.DataModel
         public float TaxPcnt { get; set; }
         public int HeadId { get; set; }
         public int IsDisplayed { get; set; }
+        public string IsApplied { get; set; } //For ServiceItem Tax
     }
     public class TaxModelAll : TaxModel
     {
+        public int ItemId { get; set; }
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }

@@ -9,6 +9,7 @@ namespace LeHealth.Service.ServiceInterface
     {
         List<GroupModel> GetItemsGroup(GroupModelAll groupId);
         List<RateModel> GetItemRate(RateModelAll groupId);
+        List<TaxModel> GetItemTax(TaxModelAll groupId);
         List<ItemModel> GetItem(ItemModelAll groupId);
         List<ItemsByTypeModel> GetPackageItem(int packId);
         List<FrequencyModel> GetFrequency(FrequencyModel fm);

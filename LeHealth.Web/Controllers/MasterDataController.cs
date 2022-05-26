@@ -88,6 +88,38 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
             }
+        } 
+        [Route("GetServiceItem")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServiceItem(AvailableServiceModel cmfma)
+        {
+            try
+            {
+                List<AvailableServiceModel> cptList = new List<AvailableServiceModel>();
+                cptList = masterdataService.GetServiceItem(cmfma);
+                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
         }
 
         [Route("InsertUpdateServiceItem")]
@@ -1079,38 +1111,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        //[Route("InsertUpdateCompany")]
-        //[HttpPost]
-        //public ResponseDataModel<CompanyModel> InsertUpdateCompany(CompanyModelAll cmp)
-        //{
-        //    try
-        //    {
-        //        string message = string.Empty;
-        //        message = masterdataService.InsertUpdateCompany(cmp);
-        //        var response = new ResponseDataModel<CompanyModel>()
-        //        {
-        //            Status = HttpStatusCode.OK,
-        //            Message = message
-        //        };
-        //        return response;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-        //        return new ResponseDataModel<CompanyModel>()
-        //        {
-        //            Status = HttpStatusCode.InternalServerError,
-        //            Response = null,
-        //            ErrorMessage = new ErrorResponse()
-        //            {
-        //                Message = ex.Message
-        //            }
-        //        };
-        //    }
-        //    finally
-        //    {
-        //    }
-        //}
 
         [Route("DeleteCompany")]
         [HttpPost]
@@ -4402,6 +4402,5 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-
     }
 }
