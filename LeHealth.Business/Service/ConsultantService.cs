@@ -233,5 +233,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantById(consultantId);
         }
+        public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
+        {
+            return consultantManager.InsertUpdateConsultantTimeSchedule(timeScheduleMaster);
+        }
     }
 }

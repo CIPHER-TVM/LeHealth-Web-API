@@ -134,5 +134,10 @@ namespace LeHealth.Service.ServiceInterface
         List<ICDGroupModel> GetICDGroup(int groupId);
         string InsertUpdateICDLabel(ICDLabelModel icdLabel);
         List<ICDLabelModel> GetICDLabel(int labelId);
+
+        string InsertUpdateProfile(ProfileModel profile);
+        ProfileModel GetProfileById(int profileId);
+        string BlockProfile(ProfileModel profile);
+        string UnBlockProfile(ProfileModel profile);
     }
 }

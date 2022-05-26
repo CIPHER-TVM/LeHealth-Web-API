@@ -592,6 +592,21 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetICDLabel(labelId);
         }
-
+        public string InsertUpdateProfile(ProfileModel profile)
+        {
+            return masterdataManager.InsertUpdateProfile(profile);
+        }
+        public ProfileModel GetProfileById(int profileId)
+        {
+            return masterdataManager.GetProfileById(profileId);
+        }
+        public string BlockProfile(ProfileModel profile)
+        {
+            return masterdataManager.InsertUpdateProfile(profile);
+        }
+        public string UnBlockProfile(ProfileModel profile)
+        {
+            return masterdataManager.InsertUpdateProfile(profile);
+        }
     }
 }

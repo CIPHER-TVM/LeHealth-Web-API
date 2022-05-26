@@ -4774,6 +4774,227 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
+        /// <summary>
+        /// Save Profile and profile items
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        public string InsertUpdateProfile(ProfileModel profile)
+        {
+          
+            SqlTransaction transaction;
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                con.Open();
+                transaction = con.BeginTransaction();
+                SqlCommand cmdSaveProfile = new SqlCommand("stLH_InsertUpdateProfile", con);
+                cmdSaveProfile.CommandType = CommandType.StoredProcedure;
+                cmdSaveProfile.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
+                cmdSaveProfile.Parameters.AddWithValue("@ProfileDesc", profile.ProfileDesc);
+                cmdSaveProfile.Parameters.AddWithValue("@UserId", profile.UserId);
+                cmdSaveProfile.Parameters.AddWithValue("@Active", profile.Active);
+                cmdSaveProfile.Parameters.AddWithValue("@Remarks", profile.Remarks);
+
+                SqlParameter profileRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                
+
+                SqlParameter profileRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmdSaveProfile.Parameters.Add(profileRetVal);
+                cmdSaveProfile.Parameters.Add(profileRetDesc);
+                cmdSaveProfile.Transaction = transaction;
+                try
+                {
+                    cmdSaveProfile.ExecuteNonQuery();
+                    int ProfileId = (int)profileRetVal.Value;
+
+                    var descProfile = profileRetDesc.Value.ToString();
+                    response = descProfile;
+                    if (descProfile == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+
+                    if (ProfileId > 0)//Inserted / Updated Successfully
+                    {
+                        transaction.Commit();
+                        //====================InsertProfileItem===========================
+                        string jsonProfileItems = JsonConvert.SerializeObject(profile.ProfileItems);
+
+                        SqlCommand cmdSign = new SqlCommand("stLH_InsertProfileItem", con);
+                        cmdSign.CommandType = CommandType.StoredProcedure;
+                        cmdSign.Parameters.AddWithValue("@ProfileId", ProfileId);
+                        cmdSign.Parameters.AddWithValue("@UserId", profile.UserId);
+                        cmdSign.Parameters.AddWithValue("@ItemJSON", jsonProfileItems);
+
+                        SqlParameter signRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter signRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmdSign.Parameters.Add(signRetVal);
+                        cmdSign.Parameters.Add(signRetDesc);
+                        cmdSign.ExecuteNonQuery();
+
+                        var descript = signRetDesc.Value.ToString();
+                        con.Close();
+                        response = descript;
+                        if (descript == "Saved Successfully")
+                        {
+                            response = "Success";
+                        }
+                        
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+                con.Close();
+            }
+           
+            return response;
+        }
+        /// <summary>
+        /// Get Profile Details By profileId
+        /// </summary>
+        /// <param name="profileId"></param>
+        /// <returns></returns>
+        public ProfileModel GetProfileById(int profileId)
+        {
+            //stLH_GetProfileDetailsById
+            ProfileModel profile = new ProfileModel();
+            using SqlConnection con = new SqlConnection(_connStr);
+            SqlCommand cmdGetProfile = new SqlCommand("stLH_GetProfileDetailsById", con);
+            cmdGetProfile.CommandType = CommandType.StoredProcedure;
+            cmdGetProfile.Parameters.AddWithValue("@ProfileId", profileId);
+            con.Open();
+            SqlDataAdapter adapter1 = new SqlDataAdapter(cmdGetProfile);
+            DataTable dataTable = new DataTable();
+            adapter1.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    
+                    profile = new ProfileModel
+                    {
+                        ProfileId = Convert.ToInt32(dataTable.Rows[i]["ProfileId"]),
+                        ProfileDesc = dataTable.Rows[i]["ProfileDesc"].ToString(),
+                        Remarks = dataTable.Rows[i]["Remarks"].ToString(),
+                        Active = Convert.ToInt32(dataTable.Rows[i]["Active"]),
+                        BlockReason = dataTable.Rows[i]["BlockReason"].ToString(),
+                        ProfileItems = JsonConvert.DeserializeObject<List<ProfileItemModel>>(dataTable.Rows[i]["ProfileItems"].ToString()),
+                       
+                    };
+                }
+            }
+            return profile;
+
+        }
+        public string BlockProfile(ProfileModel profile)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_BlockProfile", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
+                    cmd.Parameters.AddWithValue("@BlockReason", profile.BlockReason);
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (Convert.ToInt32(ret) == profile.ProfileId)
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string UnBlockProfile(ProfileModel profile)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_UnblockProfile", con);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (Convert.ToInt32(ret) == profile.ProfileId)
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
         public List<CommonMasterFieldModel> GetCommissionRule(CommonMasterFieldModelAll cmfr)
         {
             List<CommonMasterFieldModel> itemList = new List<CommonMasterFieldModel>();

@@ -1217,6 +1217,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+      
         [Route("GetDiseaseByConsultantId/{consultantId}")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseByConsultantId(int consultantId)
@@ -1584,6 +1585,39 @@ namespace LeHealth.Base.API.Controllers
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+       
+        [Route("InsertUpdateConsultantTimeSchedule")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantTimeScheduleMaster>> InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = consultantService.InsertUpdateConsultantTimeSchedule(timeScheduleMaster);
+                var response = new ResponseDataModel<IEnumerable<ConsultantTimeScheduleMaster>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantTimeScheduleMaster>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
