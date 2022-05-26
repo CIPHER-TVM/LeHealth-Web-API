@@ -1631,6 +1631,41 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("GetConsultantTimeSchedule/{scheduleId}")]
+        [HttpPost]
+        public ResponseDataModel<ConsultantTimeScheduleMaster> GetConsultantTimeSchedule(int scheduleId)
+        {
+            List<ConsultantTimeScheduleMaster> timeSchedulers = new List<ConsultantTimeScheduleMaster>();
+            try
+            {
+
+                ConsultantTimeScheduleMaster timeSchedule = new ConsultantTimeScheduleMaster();
+                timeSchedule = consultantService.GetConsultantTimeSchedule(scheduleId);
+                timeSchedulers.Add(timeSchedule);
+                var response = new ResponseDataModel<ConsultantTimeScheduleMaster>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = timeSchedule
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ConsultantTimeScheduleMaster>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
     }
 }

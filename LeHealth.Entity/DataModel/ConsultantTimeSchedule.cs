@@ -17,7 +17,7 @@ namespace LeHealth.Entity.DataModel
     public class ConsultantTimeSchedule
     {
         public int Scheid { get; set; }
-        public int Consultantd { get; set; }
+        public int ConsultantId { get; set; }
         public int BranchId { get; set; }
         public int DayId { get; set; }
         public int ScheMid { get; set; }

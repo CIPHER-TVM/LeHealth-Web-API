@@ -53,5 +53,6 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteConsultantDisease(int diseaseId);
         ConsultantMasterModel GetConsultantById(int consultantId);
         string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster);
+        ConsultantTimeScheduleMaster GetConsultantTimeSchedule(int scheduleId);
     }
 }
