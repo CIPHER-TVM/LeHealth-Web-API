@@ -602,11 +602,15 @@ namespace LeHealth.Service.Service
         }
         public string BlockProfile(ProfileModel profile)
         {
-            return masterdataManager.InsertUpdateProfile(profile);
+            return masterdataManager.BlockProfile(profile);
         }
         public string UnBlockProfile(ProfileModel profile)
         {
-            return masterdataManager.InsertUpdateProfile(profile);
+            return masterdataManager.UnBlockProfile(profile);
+        }
+        public List<ProfileItemModel> GetItemForProfile(int patientId)
+        {
+            return masterdataManager.GetItemForProfile(patientId);
         }
     }
 }

@@ -2276,6 +2276,57 @@ namespace LeHealth.Core.DataManager
             responselist.Add(responseobj);
             return response;
         }
+        public ConsultantTimeScheduleMaster GetConsultantTimeSchedule(int scheduleId)
+        {
+            ConsultantTimeScheduleMaster consultant = new ConsultantTimeScheduleMaster();
+            using SqlConnection con = new SqlConnection(_connStr);
+            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetConsultantTimeScheduleById", con);
+            appointmentCountCMD.CommandType = CommandType.StoredProcedure;
+            appointmentCountCMD.Parameters.AddWithValue("@Scheid", scheduleId);
+            con.Open();
+            SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
+            DataTable dataTable = new DataTable();
+            adapter1.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                   
+                    List<ConsultantTimeSchedule> timeSchedules= JsonConvert.DeserializeObject<List<ConsultantTimeSchedule>>(dataTable.Rows[i]["TimeSchedules"].ToString());
+                    foreach (var item in timeSchedules)
+                    {
+                        string[] strlistFrom = item.FromTime.Split(':');
+                        string[] strlistTo = item.ToTime.Split(':');
+                        item.FromHour= (strlistFrom[0]!="")? strlistFrom[0]:"00";
+                        item.FromMinute = (strlistFrom[1] != "") ? strlistFrom[1] : "00";
+
+                        item.ToHour = (strlistTo[0] != "") ? strlistTo[0] : "00";
+                        item.ToMinute = (strlistTo[1] != "") ? strlistTo[1] : "00";
+                    }
+
+                    consultant = new ConsultantTimeScheduleMaster
+                    {
+                       
+                        ScheMid = Convert.ToInt32(dataTable.Rows[i]["ScheMid"]),
+                        ConsultantId = Convert.ToInt32(dataTable.Rows[i]["ConsultantId"]),
+                        BranchId = Convert.ToInt32(dataTable.Rows[i]["BranchId"]),
+                        AlldaySameFlag = Convert.ToInt32(dataTable.Rows[i]["AlldaySameFlag"]),
+                        UserId = Convert.ToInt32(dataTable.Rows[i]["UserId"]),
+                        TimeSchedules = timeSchedules,
+
+
+
+
+
+                    };
+
+
+                }
+            }
+            return consultant;
+
+        }
 
     }
 }

@@ -21,7 +21,7 @@ namespace LeHealth.Entity.DataModel
         public int ItemId { get; set; }
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
-        public float Rate { get; set; }
+        public double Rate { get; set; }
     }
     
 }

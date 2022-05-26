@@ -4402,5 +4402,171 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("InsertUpdateProfile")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> InsertUpdateProfile(ProfileModel profile)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = masterdataService.InsertUpdateProfile(profile);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetItemForProfile/{patientId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ProfileItemModel>>  GetItemForProfile(int patientId)
+        {
+            try
+            {
+                List<ProfileItemModel> icdList = new List<ProfileItemModel>();
+                icdList = masterdataService.GetItemForProfile(patientId);
+                var response = new ResponseDataModel<IEnumerable<ProfileItemModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = icdList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ProfileItemModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetProfileById/{profileId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ProfileModel>> GetProfileById(int profileId)
+        {
+            List<ProfileModel> frontOfficePBarList = new List<ProfileModel>();
+            try
+            {
+
+                ProfileModel frontOfficePBar = new ProfileModel();
+                frontOfficePBar = masterdataService.GetProfileById(profileId);
+                frontOfficePBarList.Add(frontOfficePBar);
+                var response = new ResponseDataModel<IEnumerable<ProfileModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = frontOfficePBarList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ProfileModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("BlockProfile")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> BlockProfile(ProfileModel profile)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = masterdataService.BlockProfile(profile);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("UnBlockProfile")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> UnBlockProfile(ProfileModel profile)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = masterdataService.UnBlockProfile(profile);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }
