@@ -4207,76 +4207,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-       
-        [Route("InsertUpdateICDCategory")]
-        [HttpPost]
-        public ResponseDataModel<ICDCategroyModel> InsertUpdateICDCategory(ICDCategroyModel icdCategory)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.InsertUpdateICDCategory(icdCategory);
-                var response = new ResponseDataModel<ICDCategroyModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<ICDCategroyModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
-        [Route("GetICDCategory/{categoryId}")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<ICDCategroyModel>> GetICDCategory(int categoryId)
-        {
-            try
-            {
-                List<ICDCategroyModel> icdList = new List<ICDCategroyModel>();
-                icdList = masterdataService.GetICDCategory(categoryId);
-                var response = new ResponseDataModel<IEnumerable<ICDCategroyModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = icdList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ICDCategroyModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
 
 
         [Route("InsertUpdateICDGroup")]
         [HttpPost]
-        public ResponseDataModel<ICDGroupModel> InsertUpdateICDGroup(ICDGroupModel icdGroup)
+        public ResponseDataModel<ICDGroupModel> InsertUpdateICDGroup(ICDGroupModelAll icdGroup)
         {
             try
             {
@@ -4308,12 +4243,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetICDGroup")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ICDGroupModel>> GetICDGroup(ICDGroupModel groupId)
+        public ResponseDataModel<IEnumerable<ICDGroupModel>> GetICDGroup(ICDGroupModelAll groupId)
         {
             try
             {
                 List<ICDGroupModel> icdList = new List<ICDGroupModel>();
-                //icdList = masterdataService.GetICDGroup(groupId);
+                icdList = masterdataService.GetICDGroup(groupId);
                 var response = new ResponseDataModel<IEnumerable<ICDGroupModel>>()
                 {
                     Status = HttpStatusCode.OK,

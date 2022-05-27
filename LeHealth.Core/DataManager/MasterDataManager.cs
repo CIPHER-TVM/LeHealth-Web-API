@@ -4583,7 +4583,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="icdCategory"></param>
         /// <returns></returns>
-        public string InsertUpdateICDCategory(ICDCategroyModel icdCategory)
+        public string InsertUpdateICDCategory(CommonMasterFieldModelAll icdCategory)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -4592,8 +4592,12 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDCategroy", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@CatgId", icdCategory.CatgId);
-                cmd.Parameters.AddWithValue("@CatgDesc", icdCategory.CatgDesc);
+                cmd.Parameters.AddWithValue("@CatgId", icdCategory.Id);
+                cmd.Parameters.AddWithValue("@CatgName", icdCategory.NameData);
+                cmd.Parameters.AddWithValue("@CatgDesc", icdCategory.DescriptionData);
+                cmd.Parameters.AddWithValue("@BranchId", icdCategory.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", icdCategory.IsDisplayed);
+
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -4625,21 +4629,31 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="icdCategory"></param>
         /// <returns></returns>
-        public List<ICDCategroyModel> GetICDCategory(int categoryId)
+        public List<CommonMasterFieldModel> GetICDCategory(CommonMasterFieldModelAll category)
         {
-            List<ICDCategroyModel> itemList = new List<ICDCategroyModel>();
+            List<CommonMasterFieldModel> itemList = new List<CommonMasterFieldModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetICDCategory", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CatgId", categoryId);
+            cmd.Parameters.AddWithValue("@CatgId", category.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", category.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", category.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
             con.Close();
             if ((dataTable != null) && (dataTable.Rows.Count > 0))
             {
-                itemList = dataTable.ToListOfObject<ICDCategroyModel>();
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel();
+                    obj.Id = Convert.ToInt32(dataTable.Rows[i]["CatgId"]);
+                    obj.NameData = dataTable.Rows[i]["CatgName"].ToString();
+                    obj.DescriptionData = dataTable.Rows[i]["CatgDesc"].ToString();
+                    obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
+                    itemList.Add(obj);
+                }
             }
             return itemList;
         }
@@ -4649,7 +4663,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="icdGroup"></param>
         /// <returns></returns>
-        public string InsertUpdateICDGroup(ICDGroupModel icdGroup)
+        public string InsertUpdateICDGroup(ICDGroupModelAll icdGroup)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -4661,6 +4675,8 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@GroupId", icdGroup.GroupId);
                 cmd.Parameters.AddWithValue("@GroupDesc", icdGroup.GroupDesc);
                 cmd.Parameters.AddWithValue("@GroupRange", icdGroup.GroupRange);
+                cmd.Parameters.AddWithValue("@BranchId", icdGroup.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", icdGroup.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -4692,7 +4708,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="icdGroup"></param>
         /// <returns></returns>
-        public List<ICDGroupModel> GetICDGroup(int groupId)
+        public List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group)
         {
             List<ICDGroupModel> itemList = new List<ICDGroupModel>();
             using SqlConnection con = new SqlConnection(_connStr);
@@ -4700,14 +4716,24 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@GroupId", groupId);
+            cmd.Parameters.AddWithValue("@GroupId", group.GroupId);
+            cmd.Parameters.AddWithValue("@ShowAll", group.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", group.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
             con.Close();
             if ((dataTable != null) && (dataTable.Rows.Count > 0))
             {
-                itemList = dataTable.ToListOfObject<ICDGroupModel>();
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    ICDGroupModel obj = new ICDGroupModel();
+                    obj.GroupId = Convert.ToInt32(dataTable.Rows[i]["GroupId"]);
+                    obj.GroupDesc = dataTable.Rows[i]["GroupDesc"].ToString();
+                    obj.GroupRange = dataTable.Rows[i]["GroupRange"].ToString();
+                    obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
+                    itemList.Add(obj);
+                }
             }
             return itemList;
         }
@@ -4787,7 +4813,7 @@ namespace LeHealth.Core.DataManager
         /// <returns></returns>
         public string InsertUpdateProfile(ProfileModel profile)
         {
-          
+
             SqlTransaction transaction;
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -4806,7 +4832,7 @@ namespace LeHealth.Core.DataManager
                 {
                     Direction = ParameterDirection.Output
                 };
-                
+
 
                 SqlParameter profileRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                 {
@@ -4858,12 +4884,12 @@ namespace LeHealth.Core.DataManager
                         {
                             response = "Success";
                         }
-                        
+
                     }
                     else
                     {
                         transaction.Rollback();
-                        
+
 
                     }
                 }
@@ -4873,7 +4899,7 @@ namespace LeHealth.Core.DataManager
                 }
                 con.Close();
             }
-           
+
             return response;
         }
         /// <summary>
@@ -4898,7 +4924,7 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    
+
                     profile = new ProfileModel
                     {
                         ProfileId = Convert.ToInt32(dataTable.Rows[i]["ProfileId"]),
@@ -4907,7 +4933,7 @@ namespace LeHealth.Core.DataManager
                         Active = Convert.ToInt32(dataTable.Rows[i]["Active"]),
                         BlockReason = dataTable.Rows[i]["BlockReason"].ToString(),
                         ProfileItems = JsonConvert.DeserializeObject<List<ProfileItemModel>>(dataTable.Rows[i]["ProfileItems"].ToString()),
-                       
+
                     };
                 }
             }
@@ -5003,9 +5029,9 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-       
 
- public List<ProfileItemModel> GetItemForProfile(int patientId)
+
+        public List<ProfileItemModel> GetItemForProfile(int patientId)
         {
             List<ProfileItemModel> itemList = new List<ProfileItemModel>();
             using SqlConnection con = new SqlConnection(_connStr);

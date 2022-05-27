@@ -144,10 +144,10 @@ namespace LeHealth.Core.Interface
         List<HospitalModel> GetUserSpecificHospitals(int userId);
         List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);
 
-        string InsertUpdateICDCategory(ICDCategroyModel icdCategory);
-        List<ICDCategroyModel> GetICDCategory(int categoryId);
-        string InsertUpdateICDGroup(ICDGroupModel icdGroup);
-        List<ICDGroupModel> GetICDGroup(int groupId);
+        string InsertUpdateICDCategory(CommonMasterFieldModelAll icdCategory);
+        List<CommonMasterFieldModel> GetICDCategory(CommonMasterFieldModelAll category); 
+        string InsertUpdateICDGroup(ICDGroupModelAll icdGroup);
+        List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);
         string InsertUpdateICDLabel(ICDLabelModel icdLabel);
         List<ICDLabelModel> GetICDLabel(int labelId);
         string InsertUpdateProfile(ProfileModel profile);

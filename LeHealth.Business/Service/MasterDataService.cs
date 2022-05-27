@@ -37,7 +37,10 @@ namespace LeHealth.Service.Service
                     returnvalue = masterdataManager.GetCompany(masterItem);
                     break;
                 case "CommissionRule":
-                    returnvalue = masterdataManager.GetCommissionRule(masterItem); 
+                    returnvalue = masterdataManager.GetCommissionRule(masterItem);
+                    break;
+                case "ICDCategory":
+                    returnvalue = masterdataManager.GetICDCategory(masterItem);
                     break;
                     //default:
                     //    returnvalue = masterdataManager.GetCPTCode(masterItem);
@@ -62,6 +65,9 @@ namespace LeHealth.Service.Service
                     break;
                 case "Company":
                     returnvalue = masterdataManager.InsertUpdateCompany(masterItem);
+                    break;
+                case "ICDCategory":
+                    returnvalue = masterdataManager.InsertUpdateICDCategory(masterItem);
                     break;
 
                 default:
@@ -186,7 +192,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteState(state);
         }
-        
+
         //public string InsertUpdateCompany(CompanyModelAll cmp)
         //{
         //    return masterdataManager.InsertUpdateCompany(cmp);
@@ -568,21 +574,14 @@ namespace LeHealth.Service.Service
             return masterdataManager.GetUserSpecificHospitalLocations(userId, branch);
         }
 
-        public string InsertUpdateICDCategory(ICDCategroyModel icdCategory)
-        {
-            return masterdataManager.InsertUpdateICDCategory(icdCategory);
-        }
-        public List<ICDCategroyModel> GetICDCategory(int categoryId)
-        {
-            return masterdataManager.GetICDCategory(categoryId);
-        }
-        public string InsertUpdateICDGroup(ICDGroupModel icdGroup)
+
+        public string InsertUpdateICDGroup(ICDGroupModelAll icdGroup)
         {
             return masterdataManager.InsertUpdateICDGroup(icdGroup);
         }
-        public List<ICDGroupModel> GetICDGroup(int groupId)
+        public List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group)
         {
-            return masterdataManager.GetICDGroup(groupId);
+            return masterdataManager.GetICDGroup(group);
         }
         public string InsertUpdateICDLabel(ICDLabelModel icdLabel)
         {
