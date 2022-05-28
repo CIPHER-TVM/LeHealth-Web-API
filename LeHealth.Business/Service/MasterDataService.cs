@@ -583,13 +583,17 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetICDGroup(group);
         }
-        public string InsertUpdateICDLabel(ICDLabelModel icdLabel)
+        public string InsertUpdateICDLabel(ICDLabelModelAll icdLabel)
         {
             return masterdataManager.InsertUpdateICDLabel(icdLabel);
         }
-        public List<ICDLabelModel> GetICDLabel(int labelId)
+        public string DeleteICDLabel(ICDLabelModelAll icdLabel)
         {
-            return masterdataManager.GetICDLabel(labelId);
+            return masterdataManager.DeleteICDLabel(icdLabel); 
+        }
+        public List<ICDLabelModel> GetICDLabel(ICDLabelModelAll label)
+        {
+            return masterdataManager.GetICDLabel(label);
         }
         public string InsertUpdateProfile(ProfileModel profile)
         {

@@ -73,6 +73,9 @@ namespace LeHealth.Entity.DataModel
         public Int32 Selected { get; set; }    
         public Int32 IsExternalConsultant { get; set; }    
         public Int32 IsCancelled { get; set; }    
+        public Int32 DrugTypeId { get; set; }    
+        public Int32 VaccineTypeId { get; set; }    
+        public string DefaultTAT { get; set; }    
         public List<ItemDataModel> ItemObj { get; set; }
     }
     public class ItemDataModel

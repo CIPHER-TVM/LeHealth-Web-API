@@ -4275,13 +4275,13 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("InsertUpdateICDLabel")]
         [HttpPost]
-        public ResponseDataModel<ICDLabelModel> InsertUpdateICDLabel(ICDLabelModel icdLabel)
+        public ResponseDataModel<string> InsertUpdateICDLabel(ICDLabelModelAll icdLabel)
         {
             try
             {
                 string message = string.Empty;
                 message = masterdataService.InsertUpdateICDLabel(icdLabel);
-                var response = new ResponseDataModel<ICDLabelModel>()
+                var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
                     Message = message
@@ -4291,7 +4291,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<ICDLabelModel>()
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -4305,14 +4305,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        [Route("GetICDLabel/{labelId}")]
+        [Route("GetICDLabel")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ICDLabelModel>> GetICDLabel(int labelId)
+        public ResponseDataModel<IEnumerable<ICDLabelModel>> GetICDLabel(ICDLabelModelAll label)
         {
             try
             {
                 List<ICDLabelModel> icdList = new List<ICDLabelModel>();
-                icdList = masterdataService.GetICDLabel(labelId);
+                icdList = masterdataService.GetICDLabel(label);
                 var response = new ResponseDataModel<IEnumerable<ICDLabelModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -4337,6 +4337,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("DeleteICDLabel")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteICDLabel(ICDLabelModelAll icdLabel)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteICDLabel(icdLabel);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
         [Route("InsertUpdateProfile")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> InsertUpdateProfile(ProfileModel profile)

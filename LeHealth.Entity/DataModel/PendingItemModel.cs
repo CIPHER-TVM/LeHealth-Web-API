@@ -66,6 +66,9 @@ namespace LeHealth.Entity.DataModel
         public string BlockReason { get; set; }
         public int Active { get; set; }
         public int BranchId { get; set; }
+        public int DrugTypeId { get; set; }
+        public int VaccineTypeId { get; set; }
+        public string DefaultTAT { get; set; }
         public List<int> ItemTaxList { get; set; }
         public List<RateModel> ItemRateList { get; set; }
     }

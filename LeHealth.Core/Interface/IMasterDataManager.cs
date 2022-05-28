@@ -148,8 +148,9 @@ namespace LeHealth.Core.Interface
         List<CommonMasterFieldModel> GetICDCategory(CommonMasterFieldModelAll category); 
         string InsertUpdateICDGroup(ICDGroupModelAll icdGroup);
         List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);
-        string InsertUpdateICDLabel(ICDLabelModel icdLabel);
-        List<ICDLabelModel> GetICDLabel(int labelId);
+        string InsertUpdateICDLabel(ICDLabelModelAll icdLabel);
+        string DeleteICDLabel(ICDLabelModelAll icdLabel);
+        List<ICDLabelModel> GetICDLabel(ICDLabelModelAll icdLabel);
         string InsertUpdateProfile(ProfileModel profile);
         ProfileModel GetProfileById(int profileId);
         string BlockProfile(ProfileModel profile);

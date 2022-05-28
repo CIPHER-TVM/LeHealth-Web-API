@@ -13,7 +13,7 @@ namespace LeHealth.Entity.DataModel
         public int DeptId { get; set; }
         public string Designation { get; set; }
         public string CRegNo { get; set; }
-        public DateTime DOJ { get; set; }
+        public string DOJ { get; set; }
         public string Specialisation { get; set; }
         public string RoomNo { get; set; }
         public int SortOrder { get; set; }
@@ -25,7 +25,7 @@ namespace LeHealth.Entity.DataModel
         public string LastName { get; set; }
         public int NationalityId { get; set; }
         public string Gender { get; set; }
-        public DateTime DOB { get; set; }
+        public string DOB { get; set; }
         public int Age { get; set; }
         public string Qualification { get; set; }
         public ConsultantAddressModel Residence { get; set; }
