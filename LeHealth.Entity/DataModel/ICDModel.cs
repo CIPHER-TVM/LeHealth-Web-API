@@ -15,14 +15,14 @@ namespace LeHealth.Entity.DataModel
     {
         public int CatgId { get; set; }
         public string CatgDesc { get; set; }
-      
+
     }
     public class ICDGroupModel
     {
         public int GroupId { get; set; }
         public string GroupDesc { get; set; }
         public string GroupRange { get; set; }
-        public int IsDisplayed { get; set; } 
+        public int IsDisplayed { get; set; }
     }
     public class ICDGroupModelAll : ICDGroupModel
     {
@@ -32,13 +32,20 @@ namespace LeHealth.Entity.DataModel
     }
     public class ICDLabelModel
     {
-
         public int LabelId { get; set; }
+        public string LabelDesc { get; set; }
+        public string LabelCode { get; set; }
         public int GroupId { get; set; }
         public string GroupDesc { get; set; }
         public int CatgId { get; set; }
         public string CatgDesc { get; set; }
-        public string LabelDesc { get; set; }
-        public string LabelCode { get; set; }
+        public int IsDisplayed { get; set; } 
     }
+    public class ICDLabelModelAll : ICDLabelModel
+    {
+        public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+    }
+
 }

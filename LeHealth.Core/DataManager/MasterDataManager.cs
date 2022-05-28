@@ -110,6 +110,13 @@ namespace LeHealth.Core.DataManager
                     obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
                     obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
                     obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
+                    obj.DrugTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["DrugTypeId"]);
+                    obj.VaccineTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["VaccineTypeId"]);
+                    obj.DefaultTAT =dtServiceItem.Rows[i]["DefaultTAT"].ToString();
+
+
+
+
                     serviceItemList.Add(obj);
                 }
             }
@@ -151,6 +158,10 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@BranchId", serviceItemModel.BranchId);
                 cmd1.Parameters.AddWithValue("@ExternalItem", serviceItemModel.ExternalItem);
                 cmd1.Parameters.AddWithValue("@CPTCodeId", serviceItemModel.CPTCodeId);
+                cmd1.Parameters.AddWithValue("@DrugTypeId", serviceItemModel.DrugTypeId);
+                cmd1.Parameters.AddWithValue("@VaccineTypeId", serviceItemModel.VaccineTypeId);
+                cmd1.Parameters.AddWithValue("@DefaultTAT", serviceItemModel.DefaultTAT);
+
                 SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1882,73 +1893,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        //public List<SketchModel> GetSketch(SketchModelAll sketch)
-        //{
-        //    List<SketchModel> sketchIndicators = new List<SketchModel>();
-        //    using SqlConnection con = new SqlConnection(_connStr);
-        //    using SqlCommand cmd = new SqlCommand("stLH_GetSketchIndicators", con);
-        //    con.Open();
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@IndicatorId", sketch.Id); 
-        //    cmd.Parameters.AddWithValue("@ShowAll", sketch.ShowAll);
-        //    cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
-        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //    DataTable dtSketchIndicatorsList = new DataTable();
-        //    adapter.Fill(dtSketchIndicatorsList);
-        //    con.Close();
-        //    if ((dtSketchIndicatorsList != null) && (dtSketchIndicatorsList.Rows.Count > 0))
-        //        for (Int32 i = 0; i < dtSketchIndicatorsList.Rows.Count; i++)
-        //        {
-        //            string imgloc = dtSketchIndicatorsList.Rows[i]["ImageLocation"].ToString();
-        //            SketchIndicatorModel obj = new SketchIndicatorModel
-        //            {
-        //                IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
-        //                IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
-        //                ImageUrl = imgloc != "" ? _uploadpath + imgloc : imgloc,
-        //            };
-        //            sketchIndicators.Add(obj);
-        //        }
-
-        //    return sketchIndicators;
-        //}
-        //public string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch)
-        //{
-        //    string response = string.Empty;
-        //    using (SqlConnection con = new SqlConnection(_connStr))
-        //    {
-        //        using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSketchIndicator", con);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@IndicatorId", sketch.IndicatorId);
-        //        cmd.Parameters.AddWithValue("@IndicatorDesc", sketch.IndicatorDesc);
-        //        cmd.Parameters.AddWithValue("@ImageLocation", sketch.ImageUrl);
-        //        cmd.Parameters.AddWithValue("@BranchId", sketch.BranchId);
-        //        cmd.Parameters.AddWithValue("@IsDisplayed", sketch.IsDisplayed);
-        //        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-        //        {
-        //            Direction = ParameterDirection.Output
-        //        };
-        //        cmd.Parameters.Add(retValV);
-        //        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-        //        {
-        //            Direction = ParameterDirection.Output
-        //        };
-        //        cmd.Parameters.Add(retDesc);
-        //        con.Open();
-        //        var isUpdated = cmd.ExecuteNonQuery();
-        //        var ret = retValV.Value;
-        //        var descrip = retDesc.Value.ToString();
-        //        con.Close();
-        //        if (descrip == "Saved Successfully")
-        //        {
-        //            response = "Success";
-        //        }
-        //        else
-        //        {
-        //            response = descrip;
-        //        }
-        //    }
-        //    return response;
-        //}
         public List<SketchIndicatorModel> GetSketchIndicators(SketchIndicatorModelAll sketch)
         {
             List<SketchIndicatorModel> sketchIndicators = new List<SketchIndicatorModel>();
@@ -2960,9 +2904,7 @@ namespace LeHealth.Core.DataManager
                     obj.MiddleName = dsConsultant.Rows[i]["MiddleName"].ToString();
                     obj.LastName = dsConsultant.Rows[i]["LastName"].ToString();
                     obj.Gender = dsConsultant.Rows[i]["Gender"].ToString();
-                    string dobstr = dsConsultant.Rows[i]["DOB"].ToString().Replace("/", "-");
-                    DateTime dobdatetime = DateTime.ParseExact(dobstr, "dd-MM-yyyy", null);
-                    obj.DOB = dobdatetime;
+                    obj.DOB = dsConsultant.Rows[i]["DOB"].ToString();
                     obj.Age = Convert.ToInt32(dsConsultant.Rows[i]["Age"]);
                     obj.Specialisation = dsConsultant.Rows[i]["Specialisation"].ToString();
                     obj.Designation = dsConsultant.Rows[i]["Designation"].ToString();
@@ -2973,9 +2915,7 @@ namespace LeHealth.Core.DataManager
                     obj.OffPhone = dsConsultant.Rows[i]["OffPhone"].ToString();
                     obj.Email = dsConsultant.Rows[i]["Email"].ToString();
                     obj.Fax = dsConsultant.Rows[i]["Fax"].ToString();
-                    string dojstr = dsConsultant.Rows[i]["DOJ"].ToString().Replace("/", "-");
-                    DateTime dojdatetime = DateTime.ParseExact(dobstr, "dd-MM-yyyy", null);
-                    obj.DOB = dojdatetime;
+                    obj.DOJ = dsConsultant.Rows[i]["DOJ"].ToString();
                     obj.CRegNo = dsConsultant.Rows[i]["CRegNo"].ToString();
                     obj.TimeSlice = Convert.ToInt32(dsConsultant.Rows[i]["TimeSlice"]);
                     obj.AppType = Convert.ToInt32(dsConsultant.Rows[i]["AppType"]);
@@ -4742,7 +4682,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="icdLabel"></param>
         /// <returns></returns>
-        public string InsertUpdateICDLabel(ICDLabelModel icdLabel)
+        public string InsertUpdateICDLabel(ICDLabelModelAll icdLabel)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -4756,6 +4696,8 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@LabelCode", icdLabel.LabelCode);
                 cmd.Parameters.AddWithValue("@GroupId", icdLabel.GroupId);
                 cmd.Parameters.AddWithValue("@CatgId", icdLabel.CatgId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", icdLabel.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", icdLabel.BranchId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -4787,24 +4729,65 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="icdLabel"></param>
         /// <returns></returns>
-        public List<ICDLabelModel> GetICDLabel(int labelId)
+        public List<ICDLabelModel> GetICDLabel(ICDLabelModelAll label)
         {
-            List<ICDLabelModel> itemList = new List<ICDLabelModel>();
+            List<ICDLabelModel> labelList = new List<ICDLabelModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetICDLabel", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@LabelId", labelId);
+            cmd.Parameters.AddWithValue("@LabelId", label.LabelId);
+            cmd.Parameters.AddWithValue("@ShowAll", label.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", label.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
             con.Close();
             if ((dataTable != null) && (dataTable.Rows.Count > 0))
             {
-                itemList = dataTable.ToListOfObject<ICDLabelModel>();
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    ICDLabelModel obj = new ICDLabelModel();
+                    obj.LabelId = Convert.ToInt32(dataTable.Rows[i]["LabelId"]);
+                    obj.LabelDesc = dataTable.Rows[i]["LabelDesc"].ToString();
+                    obj.LabelCode = dataTable.Rows[i]["LabelCode"].ToString();
+                    obj.GroupId = Convert.ToInt32(dataTable.Rows[i]["GroupId"]);
+                    obj.GroupDesc = dataTable.Rows[i]["GroupDesc"].ToString();
+                    obj.CatgId = Convert.ToInt32(dataTable.Rows[i]["CatgId"]);
+                    obj.CatgDesc = dataTable.Rows[i]["CatgDesc"].ToString();
+                    obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
+                    labelList.Add(obj);
+                }
             }
-            return itemList;
+            return labelList;
+        }
+        public string DeleteICDLabel(ICDLabelModelAll icdlabel)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteICDLabel", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", icdlabel.LabelId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
         }
         /// <summary>
         /// Save Profile and profile items

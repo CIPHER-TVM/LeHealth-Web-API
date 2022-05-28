@@ -157,8 +157,8 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantMasterModel>> InsertUpdateConsultant([FromForm] ConsultantRequestModel obj)
         {
-            try
-            {
+            //try
+            //{
                 string message = string.Empty;
                 ConsultantRegModel consultantDetail = JsonConvert.DeserializeObject<ConsultantRegModel>(obj.ConsultantJson);
                 consultantDetail.PhotoFile = obj.SignaturePhoto;
@@ -169,23 +169,23 @@ namespace LeHealth.Base.API.Controllers
                     Message = message
                 };
                 return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
         /// <summary>
         /// API for getting all consultant's list by consultant type 

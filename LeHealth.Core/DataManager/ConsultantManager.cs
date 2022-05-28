@@ -182,29 +182,18 @@ namespace LeHealth.Core.DataManager
             SqlTransaction transaction;
             int userId = 0;
             int ConsultantId = 0;
-
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 con.Open();
                 transaction = con.BeginTransaction();
-
-
-
-
                 try
                 {
-
-
                     if (consultant.AllowConsultantLogin)
                     {
-
-
                         SqlCommand cmdSaveUser = new SqlCommand("stLH_SaveUser", con)
                         {
                             CommandType = CommandType.StoredProcedure
                         };
-
                         var json = JsonConvert.SerializeObject(consultant.UserData.BranchIds);
                         var jsongroups = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
                         cmdSaveUser.Parameters.AddWithValue("@P_UserName", consultant.UserData.UserName);
@@ -226,8 +215,18 @@ namespace LeHealth.Core.DataManager
                         cmdSaveUser.Parameters.Add(retDesc);
                         cmdSaveUser.Transaction = transaction;
                         cmdSaveUser.ExecuteNonQuery();
-                        transaction.Commit();
-                        userId = (int)retVal.Value;
+                        //transaction.Commit();
+                        if (retVal.Value != System.DBNull.Value)
+                        {
+                            userId = (int)retVal.Value;
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            userId = 0;
+                            transaction.Rollback();
+                            return "Username already exists";
+                        }
                         string descr = retDesc.Value.ToString();
                         response = descr;
                         if (userId > 0)//Inserted / Updated Successfully
@@ -261,6 +260,9 @@ namespace LeHealth.Core.DataManager
                             //cmdSaveGroup.Transaction = transaction;
                             //cmdSaveGroup.ExecuteNonQuery();
 
+
+
+
                             //var ret = retValSaveGroup.Value;
                             //var descrip = retDescSaveGroup.Value.ToString();
                             //response = descrip;
@@ -272,7 +274,6 @@ namespace LeHealth.Core.DataManager
                             cmdSaveLocation.CommandType = CommandType.StoredProcedure;
                             cmdSaveLocation.Parameters.AddWithValue("@P_UserId", userId);
                             cmdSaveLocation.Parameters.AddWithValue("@P_Locations", jsonLocationId);
-
                             SqlParameter retValSaveLocation = new SqlParameter("@RetVal", SqlDbType.Int)
                             {
                                 Direction = ParameterDirection.Output
@@ -287,8 +288,6 @@ namespace LeHealth.Core.DataManager
                             cmdSaveLocation.ExecuteNonQuery();
                             var retDescSaveLocationV = retDescSaveLocation.Value.ToString();
                             response = retDescSaveLocationV;
-
-
                             Lefmenugroupmodel objMenu = new Lefmenugroupmodel();
                             var intList = consultant.UserData.GroupIds.Select(s => Convert.ToInt32(s)).ToList();
                             var jsonIntgroups = JsonConvert.SerializeObject(intList);
@@ -311,13 +310,9 @@ namespace LeHealth.Core.DataManager
                             cmdGetMenu.Parameters.Add(subjson);
                             cmdGetMenu.Transaction = transaction;
                             cmdGetMenu.ExecuteNonQuery();
-
                             // string ret = retjson.Value.ToString();
                             string sub = subjson.Value.ToString();
                             if (sub != null)
-                            {
-                                objMenu.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
-                            }
 
                             //UserPermissionGroups objGroup = new UserPermissionGroups();
                             //SqlCommand cmdGetGroup = new SqlCommand("stLH_getUserGroupsMasteronBranch", con);
@@ -328,51 +323,49 @@ namespace LeHealth.Core.DataManager
                             //SqlDataAdapter adapter = new SqlDataAdapter(cmdGetGroup);
                             //DataSet ds = new DataSet();
                             //adapter.Fill(ds);
+                            if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
+                            {
+                                objGroup.groupIds = new List<string>();
 
                             List<int> subMenuIds = new List<int>();
                             foreach (var submenu in objMenu.subMenuIds)
                             {
-                                subMenuIds.Add(Convert.ToInt32(submenu.submenuId));
-                            }
-
-
-                            SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
 
                             var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
                             var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
+
+                            var jsonSubMenuIds = JsonConvert.SerializeObject(objMenu.subMenuIds);
+                            var jsonGroupIds = JsonConvert.SerializeObject(groupIds);
                             cmdSaveMenu.CommandType = CommandType.StoredProcedure;
                             cmdSaveMenu.Parameters.AddWithValue("@P_UserId", userId);
                             cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
                             cmdSaveMenu.Parameters.AddWithValue("@P_SubmenuIds", jsonSubMenuIds);
                             cmdSaveMenu.Parameters.AddWithValue("@P_Groups", jsonGroupIds);
-
                             SqlParameter retValSaveMenu = new SqlParameter("@RetVal", SqlDbType.Int)
                             {
                                 Direction = ParameterDirection.Output
                             };
                             cmdSaveMenu.Parameters.Add(retValSaveMenu);
-
                             SqlParameter retDescSaveMenu = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                             {
                                 Direction = ParameterDirection.Output
                             };
                             cmdSaveMenu.Parameters.Add(retDescSaveMenu);
                             cmdSaveMenu.Transaction = transaction;
-                            cmdSaveMenu.ExecuteNonQuery();
-                            var retp = retValSaveMenu.Value;
-                            var descriptio = retDescSaveMenu.Value.ToString();
 
                             response = descriptio;
 
-                        }
 
-                    }
+                            response = descrip;
 
 
                     CultureInfo provider = CultureInfo.InvariantCulture;
                     // It throws Argument null exception  
                     DateTime DateOfBirth = DateTime.ParseExact(consultant.DateOfBirth, "dd-MM-yyyy", provider);
                     DateTime DateOfJoin = DateTime.ParseExact(consultant.DateOfJoin, "dd-MM-yyyy", provider);
+
+
+
                     SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
                     cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
                     cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
@@ -397,7 +390,6 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@DOJ", DateOfJoin);
                     cmdSaveConsultant.Parameters.AddWithValue("@CRegNo", consultant.CRegNo);
                     cmdSaveConsultant.Parameters.AddWithValue("@AllowCommission", consultant.AllowCommission);
-                    // cmdSaveConsultant.Parameters.AddWithValue("@AllowConsultantLogin", consultant.AllowConsultantLogin);
                     cmdSaveConsultant.Parameters.AddWithValue("@DeptOverrule", consultant.DeptOverrule);
                     cmdSaveConsultant.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
                     cmdSaveConsultant.Parameters.AddWithValue("@AppType", consultant.AppType);
@@ -423,9 +415,6 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.Add(retDescSaveConsultant);
                     cmdSaveConsultant.Transaction = transaction;
                     var isInserted = cmdSaveConsultant.ExecuteNonQuery();
-                    ConsultantId = Convert.ToInt32(retValSaveConsultant.Value);
-                    var patidReturnDesc1V = retDescSaveConsultant.Value.ToString();
-                    response = patidReturnDesc1V;
                  if(response == "Saved Successfully")
                     {
                         SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
@@ -459,6 +448,9 @@ namespace LeHealth.Core.DataManager
                         var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
                         response = patadrReturnDesc1V;
                     }
+                    var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
+                    response = patadrReturnDesc1V;
+                }
 
                     
                    
@@ -469,9 +461,6 @@ namespace LeHealth.Core.DataManager
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    //responseobj.ConsultantId = 0;
-                    //responseobj.RegNo = "";
-                    //responseobj.ErrorMessage = ex.Message.ToString();
                     response = ex.Message.ToString();
                 }
                 con.Close();
@@ -2122,9 +2111,6 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dtConsultant.Rows.Count; i++)
                 {
-                    CultureInfo provider = CultureInfo.InvariantCulture;
-                    DateTime DOB = DateTime.ParseExact(dtConsultant.Rows[i]["DOB"].ToString(), "dd/MM/yyyy", provider);
-                    DateTime DOJ = DateTime.ParseExact(dtConsultant.Rows[i]["DOJ"].ToString(), "dd/MM/yyyy", provider);
                     consultant = new ConsultantMasterModel
                     {
                         ConsultantId = Convert.ToInt32(dtConsultant.Rows[i]["ConsultantId"]),
@@ -2135,7 +2121,7 @@ namespace LeHealth.Core.DataManager
                         MiddleName = dtConsultant.Rows[i]["MiddleName"].ToString(),
                         LastName = dtConsultant.Rows[i]["LastName"].ToString(),
                         Gender = dtConsultant.Rows[i]["Gender"].ToString(),
-                        DOB = DOB,
+                        DOB = dtConsultant.Rows[i]["DOB"].ToString(),
                         Age = Convert.ToInt32(dtConsultant.Rows[i]["Age"]),
                         Month = Convert.ToInt32(dtConsultant.Rows[i]["Month"]),
                         Specialisation = dtConsultant.Rows[i]["Specialisation"].ToString(),
@@ -2147,7 +2133,7 @@ namespace LeHealth.Core.DataManager
                         OffPhone = dtConsultant.Rows[i]["OffPhone"].ToString(),
                         Email = dtConsultant.Rows[i]["Email"].ToString(),
                         Fax = dtConsultant.Rows[i]["Fax"].ToString(),
-                        DOJ = DOJ,
+                        DOJ = dtConsultant.Rows[i]["DOJ"].ToString(),
                         CRegNo = dtConsultant.Rows[i]["CRegNo"].ToString(),
                         TimeSlice = Convert.ToInt32(dtConsultant.Rows[i]["TimeSlice"]),
                         AppType = Convert.ToInt32(dtConsultant.Rows[i]["AppType"]),
@@ -2299,13 +2285,13 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dataTable.Rows.Count; i++)
                 {
-                   
-                    List<ConsultantTimeSchedule> timeSchedules= JsonConvert.DeserializeObject<List<ConsultantTimeSchedule>>(dataTable.Rows[i]["TimeSchedules"].ToString());
+
+                    List<ConsultantTimeSchedule> timeSchedules = JsonConvert.DeserializeObject<List<ConsultantTimeSchedule>>(dataTable.Rows[i]["TimeSchedules"].ToString());
                     foreach (var item in timeSchedules)
                     {
                         string[] strlistFrom = item.FromTime.Split(':');
                         string[] strlistTo = item.ToTime.Split(':');
-                        item.FromHour= (strlistFrom[0]!="")? strlistFrom[0]:"00";
+                        item.FromHour = (strlistFrom[0] != "") ? strlistFrom[0] : "00";
                         item.FromMinute = (strlistFrom[1] != "") ? strlistFrom[1] : "00";
 
                         item.ToHour = (strlistTo[0] != "") ? strlistTo[0] : "00";
@@ -2314,7 +2300,7 @@ namespace LeHealth.Core.DataManager
 
                     consultant = new ConsultantTimeScheduleMaster
                     {
-                       
+
                         ScheMid = Convert.ToInt32(dataTable.Rows[i]["ScheMid"]),
                         ConsultantId = Convert.ToInt32(dataTable.Rows[i]["ConsultantId"]),
                         BranchId = Convert.ToInt32(dataTable.Rows[i]["BranchId"]),
