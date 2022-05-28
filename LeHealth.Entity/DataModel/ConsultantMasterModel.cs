@@ -29,6 +29,7 @@ namespace LeHealth.Entity.DataModel
         public DateTime DOB { get; set; }
         public string DateOfBirth { get; set; }
         public int Age { get; set; }
+        public int Month { get; set; }
         public string Qualification { get; set; }
         public ConsultantAddressModel Residence { get; set; }
         public string Mobile { get; set; }

@@ -2137,6 +2137,7 @@ namespace LeHealth.Core.DataManager
                         Gender = dtConsultant.Rows[i]["Gender"].ToString(),
                         DOB = DOB,
                         Age = Convert.ToInt32(dtConsultant.Rows[i]["Age"]),
+                        Month = Convert.ToInt32(dtConsultant.Rows[i]["Month"]),
                         Specialisation = dtConsultant.Rows[i]["Specialisation"].ToString(),
                         Designation = dtConsultant.Rows[i]["Designation"].ToString(),
                         Qualification = dtConsultant.Rows[i]["Qualification"].ToString(),
