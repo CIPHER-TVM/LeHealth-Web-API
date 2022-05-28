@@ -159,6 +159,11 @@ namespace LeHealth.Core.Interface
         List<CommonMasterFieldModel> GetCommissionRule(CommonMasterFieldModelAll cr);
         string InsertUpdateSign(CommonMasterFieldModelAll commonMaster);
         List<CommonMasterFieldModel> GetSign(CommonMasterFieldModelAll sign);
-
+        List<LocationModel> GetLocationByType(LocationAll location);
+        string InsertAssociateLocation(LocationAssociateModel locationAssociate);
+        string InsertUpdateServicePoint(ServicePointModel servicePoint);
+        List<ServicePointModel> GetServicePoint(int sPointId);
+        string BlockServicePoint(ServicePointModel servicePoint);
+        string UnBlockServicePoint(ServicePointModel servicePoint);
     }
 }

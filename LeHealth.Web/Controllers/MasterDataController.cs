@@ -4535,6 +4535,199 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("GetLocationByType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<LocationModel>> GetLocationByType(LocationAll location)
+        {
+            try
+            {
+                List<LocationModel> locations = new List<LocationModel>();
+                locations = masterdataService.GetLocationByType(location);
+                var response = new ResponseDataModel<IEnumerable<LocationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = locations
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<LocationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertAssociateLocation")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> InsertAssociateLocation(LocationAssociateModel locationAssociate)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = masterdataService.InsertAssociateLocation(locationAssociate);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateServicePoint")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> InsertUpdateServicePoint(ServicePointModel servicePoint)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = masterdataService.InsertUpdateServicePoint(servicePoint);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetServicePoint/{sPointId}")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ServicePointModel>> GetServicePoint(int sPointId)
+        {
+            try
+            {
+                List<ServicePointModel> services = new List<ServicePointModel>();
+                services = masterdataService.GetServicePoint(sPointId);
+                var response = new ResponseDataModel<IEnumerable<ServicePointModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = services
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ServicePointModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
+
+        [Route("BlockServicePoint")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> BlockServicePoint(ServicePointModel servicePoint)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = masterdataService.BlockServicePoint(servicePoint);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("UnBlockServicePoint")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> UnBlockServicePoint(ServicePointModel servicePoint)
+        {
+            try
+            {
+                string msg = string.Empty;
+                msg = masterdataService.UnBlockServicePoint(servicePoint);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Message = msg,
+                    Status = HttpStatusCode.OK
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

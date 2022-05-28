@@ -5130,5 +5130,228 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
+        public List<LocationModel> GetLocationByType(LocationAll location)
+        {
+            List<LocationModel> itemList = new List<LocationModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetLocationByType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@LTypeId", location.LTypeId);
+            cmd.Parameters.AddWithValue("@BranchId", location.HospitalId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                itemList = dataTable.ToListOfObject<LocationModel>();
+            }
+            return itemList;
+        }
+        public string InsertAssociateLocation(LocationAssociateModel locationAssociate)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertAssociateLocation", con);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@LocationId", locationAssociate.LocationId);
+                    cmd.Parameters.AddWithValue("@AstLocationId", locationAssociate.AstLocationId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string InsertUpdateServicePoint(ServicePointModel servicePoint)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateServicePoint", con);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@SPointId", servicePoint.SPointId);
+                    cmd.Parameters.AddWithValue("@LocationId", servicePoint.LocationId);
+                    cmd.Parameters.AddWithValue("@SPointName", servicePoint.SPointName);
+                    cmd.Parameters.AddWithValue("@Schedulable", servicePoint.Schedulable);
+                    cmd.Parameters.AddWithValue("@RoutineNos", servicePoint.RoutineNos);
+                    cmd.Parameters.AddWithValue("@UrgentNos", servicePoint.UrgentNos);
+                    cmd.Parameters.AddWithValue("@Active", servicePoint.Active);
+                    cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public List<ServicePointModel> GetServicePoint(int sPointId)
+        {
+            List<ServicePointModel> itemList = new List<ServicePointModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetServicePoint", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@SPointId", sPointId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                itemList = dataTable.ToListOfObject<ServicePointModel>();
+            }
+            return itemList;
+        }
+
+        public string BlockServicePoint(ServicePointModel servicePoint)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_BlockServicePoint", con);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SPointId", servicePoint.SPointId);
+                    cmd.Parameters.AddWithValue("@BlockReason", servicePoint.BlockReason);
+                    cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (Convert.ToInt32(ret) == servicePoint.SPointId)
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string UnBlockServicePoint(ServicePointModel servicePoint)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_UnblockServicePoint", con);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SPointId", servicePoint.SPointId);
+                    cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    if (Convert.ToInt32(ret) == servicePoint.SPointId)
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
     }
 }
