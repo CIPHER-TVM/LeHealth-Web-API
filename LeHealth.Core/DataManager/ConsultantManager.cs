@@ -233,34 +233,37 @@ namespace LeHealth.Core.DataManager
                         if (userId > 0)//Inserted / Updated Successfully
                         {
 
-                            SqlCommand cmdSaveGroup = new SqlCommand("stLH_SaveUserGroup", con);
-                            var jsonsubmenuIds = JsonConvert.SerializeObject(consultant.UserGroupData.submenuIds);
-                            cmdSaveGroup.CommandType = CommandType.StoredProcedure;
-                            cmdSaveGroup.Parameters.AddWithValue("@P_UserGroupId", consultant.UserGroupData.UserGroupId);
-                            cmdSaveGroup.Parameters.AddWithValue("@P_branchId", consultant.UserGroupData.branchId);
-                            cmdSaveGroup.Parameters.AddWithValue("@P_UserGroup", consultant.UserGroupData.UserGroup);
-                            cmdSaveGroup.Parameters.AddWithValue("@P_Active", consultant.UserGroupData.Active);
-                            cmdSaveGroup.Parameters.AddWithValue("@P_BlockReason", consultant.UserGroupData.BlockReason);
-                            cmdSaveGroup.Parameters.AddWithValue("@P_Submenu", jsonsubmenuIds);
-
-                            SqlParameter retValSaveGroup = new SqlParameter("@RetVal", SqlDbType.Int)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
 
 
-                            SqlParameter retDescSaveGroup = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            cmdSaveGroup.Parameters.Add(retValSaveGroup);
-                            cmdSaveGroup.Parameters.Add(retDescSaveGroup);
-                            cmdSaveGroup.Transaction = transaction;
-                            cmdSaveGroup.ExecuteNonQuery();
 
-                            var ret = retValSaveGroup.Value;
-                            var descrip = retDescSaveGroup.Value.ToString();
-                            response = descrip;
+                            //SqlCommand cmdSaveGroup = new SqlCommand("stLH_SaveUserGroup", con);
+                            //var jsonsubmenuIds = JsonConvert.SerializeObject(consultant.UserGroupData.submenuIds);
+                            //cmdSaveGroup.CommandType = CommandType.StoredProcedure;
+                            //cmdSaveGroup.Parameters.AddWithValue("@P_UserGroupId", consultant.UserGroupData.UserGroupId);
+                            //cmdSaveGroup.Parameters.AddWithValue("@P_branchId", consultant.UserGroupData.branchId);
+                            //cmdSaveGroup.Parameters.AddWithValue("@P_UserGroup", consultant.UserGroupData.UserGroup);
+                            //cmdSaveGroup.Parameters.AddWithValue("@P_Active", consultant.UserGroupData.Active);
+                            //cmdSaveGroup.Parameters.AddWithValue("@P_BlockReason", consultant.UserGroupData.BlockReason);
+                            //cmdSaveGroup.Parameters.AddWithValue("@P_Submenu", jsonsubmenuIds);
+
+                            //SqlParameter retValSaveGroup = new SqlParameter("@RetVal", SqlDbType.Int)
+                            //{
+                            //    Direction = ParameterDirection.Output
+                            //};
+
+
+                            //SqlParameter retDescSaveGroup = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            //{
+                            //    Direction = ParameterDirection.Output
+                            //};
+                            //cmdSaveGroup.Parameters.Add(retValSaveGroup);
+                            //cmdSaveGroup.Parameters.Add(retDescSaveGroup);
+                            //cmdSaveGroup.Transaction = transaction;
+                            //cmdSaveGroup.ExecuteNonQuery();
+
+                            //var ret = retValSaveGroup.Value;
+                            //var descrip = retDescSaveGroup.Value.ToString();
+                            //response = descrip;
 
 
 
@@ -316,33 +319,27 @@ namespace LeHealth.Core.DataManager
                                 objMenu.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
                             }
 
-                            UserPermissionGroups objGroup = new UserPermissionGroups();
-                            SqlCommand cmdGetGroup = new SqlCommand("stLH_getUserGroupsMasteronBranch", con);
-                            cmdGetGroup.CommandType = CommandType.StoredProcedure;
-                            cmdGetGroup.Parameters.AddWithValue("@P_branchId", consultant.BranchId);
-                            cmdGetGroup.Parameters.AddWithValue("@P_userId", userId);
-                            cmdGetGroup.Transaction = transaction;
-                            SqlDataAdapter adapter = new SqlDataAdapter(cmdGetGroup);
-                            DataSet ds = new DataSet();
-                            adapter.Fill(ds);
+                            //UserPermissionGroups objGroup = new UserPermissionGroups();
+                            //SqlCommand cmdGetGroup = new SqlCommand("stLH_getUserGroupsMasteronBranch", con);
+                            //cmdGetGroup.CommandType = CommandType.StoredProcedure;
+                            //cmdGetGroup.Parameters.AddWithValue("@P_branchId", consultant.BranchId);
+                            //cmdGetGroup.Parameters.AddWithValue("@P_userId", userId);
+                            //cmdGetGroup.Transaction = transaction;
+                            //SqlDataAdapter adapter = new SqlDataAdapter(cmdGetGroup);
+                            //DataSet ds = new DataSet();
+                            //adapter.Fill(ds);
 
-                            List<int> groupIds = new List<int>();
-                            if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[1] != null) && (ds.Tables[1].Rows.Count > 0))
+                            List<int> subMenuIds = new List<int>();
+                            foreach (var submenu in objMenu.subMenuIds)
                             {
-                                objGroup.groupIds = new List<string>();
-
-                                foreach (DataRow dr in ds.Tables[1].Rows)
-                                {
-                                    objGroup.groupIds.Add(dr.ItemArray[0].ToString());
-                                    groupIds.Add(Convert.ToInt32(dr.ItemArray[0].ToString()));
-                                }
+                                subMenuIds.Add(Convert.ToInt32(submenu.submenuId));
                             }
 
 
                             SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
 
-                            var jsonSubMenuIds = JsonConvert.SerializeObject(objMenu.subMenuIds);
-                            var jsonGroupIds = JsonConvert.SerializeObject(groupIds);
+                            var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
+                            var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
                             cmdSaveMenu.CommandType = CommandType.StoredProcedure;
                             cmdSaveMenu.Parameters.AddWithValue("@P_UserId", userId);
                             cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
@@ -365,14 +362,17 @@ namespace LeHealth.Core.DataManager
                             var retp = retValSaveMenu.Value;
                             var descriptio = retDescSaveMenu.Value.ToString();
 
-                            response = descrip;
+                            response = descriptio;
 
                         }
 
                     }
 
 
-
+                    CultureInfo provider = CultureInfo.InvariantCulture;
+                    // It throws Argument null exception  
+                    DateTime DateOfBirth = DateTime.ParseExact(consultant.DateOfBirth, "dd-MM-yyyy", provider);
+                    DateTime DateOfJoin = DateTime.ParseExact(consultant.DateOfJoin, "dd-MM-yyyy", provider);
                     SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
                     cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
                     cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
@@ -383,7 +383,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@MiddleName", consultant.MiddleName);
                     cmdSaveConsultant.Parameters.AddWithValue("@LastName", consultant.LastName);
                     cmdSaveConsultant.Parameters.AddWithValue("@Gender", consultant.Gender);
-                    cmdSaveConsultant.Parameters.AddWithValue("@DOB", consultant.DOB);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DOB", DateOfBirth);
                     cmdSaveConsultant.Parameters.AddWithValue("@Age", consultant.Age);
                     cmdSaveConsultant.Parameters.AddWithValue("@Specialisation", consultant.Specialisation);
                     cmdSaveConsultant.Parameters.AddWithValue("@Designation", consultant.Designation);
@@ -394,7 +394,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@OffPhone", consultant.OffPhone);
                     cmdSaveConsultant.Parameters.AddWithValue("@Email", consultant.Email);
                     cmdSaveConsultant.Parameters.AddWithValue("@Fax", consultant.Fax);
-                    cmdSaveConsultant.Parameters.AddWithValue("@DOJ", consultant.DOJ);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DOJ", DateOfJoin);
                     cmdSaveConsultant.Parameters.AddWithValue("@CRegNo", consultant.CRegNo);
                     cmdSaveConsultant.Parameters.AddWithValue("@AllowCommission", consultant.AllowCommission);
                     // cmdSaveConsultant.Parameters.AddWithValue("@AllowConsultantLogin", consultant.AllowConsultantLogin);
@@ -426,38 +426,44 @@ namespace LeHealth.Core.DataManager
                     ConsultantId = Convert.ToInt32(retValSaveConsultant.Value);
                     var patidReturnDesc1V = retDescSaveConsultant.Value.ToString();
                     response = patidReturnDesc1V;
-
-
-                    SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
-                    cmdSaveAddress.CommandType = CommandType.StoredProcedure;
-                    cmdSaveAddress.Parameters.AddWithValue("@UserId", userId);
-                    cmdSaveAddress.Parameters.AddWithValue("@ConsultantId", ConsultantId);
-                    cmdSaveAddress.Parameters.AddWithValue("@Address1", consultant.Residence.Address1);
-                    cmdSaveAddress.Parameters.AddWithValue("@Address2", consultant.Residence.Address2);
-                    cmdSaveAddress.Parameters.AddWithValue("@AddType", consultant.Residence.AddType);
-                    cmdSaveAddress.Parameters.AddWithValue("@City", consultant.Residence.City);
-                    cmdSaveAddress.Parameters.AddWithValue("@CountryId", consultant.Residence.CountryId);
-                    cmdSaveAddress.Parameters.AddWithValue("@PlacePO", consultant.Residence.PlacePO);
-                    cmdSaveAddress.Parameters.AddWithValue("@PIN", consultant.Residence.PIN);
-                    cmdSaveAddress.Parameters.AddWithValue("@State", consultant.Residence.State);
-                    cmdSaveAddress.Parameters.AddWithValue("@Street", consultant.Residence.Street);
-                    SqlParameter retValSaveAddress = new SqlParameter("@RetVal", SqlDbType.Int)
+                 if(response == "Saved Successfully")
                     {
-                        Direction = ParameterDirection.Output
-                    };
-                    SqlParameter retDescSaveAddress = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmdSaveAddress.Parameters.Add(retValSaveAddress);
-                    cmdSaveAddress.Parameters.Add(retDescSaveAddress);
-                    cmdSaveAddress.Transaction = transaction;
+                        SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
+                        cmdSaveAddress.CommandType = CommandType.StoredProcedure;
+                        cmdSaveAddress.Parameters.AddWithValue("@UserId", userId);
+                        cmdSaveAddress.Parameters.AddWithValue("@ConsultantId", ConsultantId);
+                        cmdSaveAddress.Parameters.AddWithValue("@Address1", consultant.Residence.Address1);
+                        cmdSaveAddress.Parameters.AddWithValue("@Address2", consultant.Residence.Address2);
+                        cmdSaveAddress.Parameters.AddWithValue("@AddType", consultant.Residence.AddType);
+                        cmdSaveAddress.Parameters.AddWithValue("@City", consultant.Residence.City);
+                        cmdSaveAddress.Parameters.AddWithValue("@CountryId", consultant.Residence.CountryId);
+                        cmdSaveAddress.Parameters.AddWithValue("@PlacePO", consultant.Residence.PlacePO);
+                        cmdSaveAddress.Parameters.AddWithValue("@PIN", consultant.Residence.PIN);
+                        cmdSaveAddress.Parameters.AddWithValue("@State", consultant.Residence.State);
+                        cmdSaveAddress.Parameters.AddWithValue("@Street", consultant.Residence.Street);
+                        SqlParameter retValSaveAddress = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        SqlParameter retDescSaveAddress = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmdSaveAddress.Parameters.Add(retValSaveAddress);
+                        cmdSaveAddress.Parameters.Add(retDescSaveAddress);
+                        cmdSaveAddress.Transaction = transaction;
 
-                    cmdSaveAddress.ExecuteNonQuery();
+                        cmdSaveAddress.ExecuteNonQuery();
+
+                        int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
+                        var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
+                        response = patadrReturnDesc1V;
+                    }
+
+                    
+                   
+
                     con.Close();
-                    int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
-                    var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
-                    response = patadrReturnDesc1V;
                 }
 
                 catch (Exception ex)
