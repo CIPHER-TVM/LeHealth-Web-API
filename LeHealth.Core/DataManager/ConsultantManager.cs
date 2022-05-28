@@ -232,10 +232,6 @@ namespace LeHealth.Core.DataManager
                         if (userId > 0)//Inserted / Updated Successfully
                         {
 
-
-
-
-
                             SqlCommand cmdSaveLocation = new SqlCommand("stLH_SaveUserLocation", con);
                             var jsonLocationId = JsonConvert.SerializeObject(consultant.LocationIds);
                             cmdSaveLocation.CommandType = CommandType.StoredProcedure;
@@ -2094,7 +2090,7 @@ namespace LeHealth.Core.DataManager
                         MiddleName = dtConsultant.Rows[i]["MiddleName"].ToString(),
                         LastName = dtConsultant.Rows[i]["LastName"].ToString(),
                         Gender = dtConsultant.Rows[i]["Gender"].ToString(),
-                        DateOfBirth = dtConsultant.Rows[i]["DOB"].ToString(),
+                        //DOB = dtConsultant.Rows[i]["DOB"].ToString(),
                         Age = Convert.ToInt32(dtConsultant.Rows[i]["Age"]),
                         Month = Convert.ToInt32(dtConsultant.Rows[i]["Month"]),
                         Specialisation = dtConsultant.Rows[i]["Specialisation"].ToString(),
