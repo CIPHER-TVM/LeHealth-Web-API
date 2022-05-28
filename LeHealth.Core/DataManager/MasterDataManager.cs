@@ -2904,7 +2904,7 @@ namespace LeHealth.Core.DataManager
                     obj.MiddleName = dsConsultant.Rows[i]["MiddleName"].ToString();
                     obj.LastName = dsConsultant.Rows[i]["LastName"].ToString();
                     obj.Gender = dsConsultant.Rows[i]["Gender"].ToString();
-                    obj.DOB = dsConsultant.Rows[i]["DOB"].ToString();
+                    //obj.DOB = dsConsultant.Rows[i]["DOB"].ToString();
                     obj.Age = Convert.ToInt32(dsConsultant.Rows[i]["Age"]);
                     obj.Specialisation = dsConsultant.Rows[i]["Specialisation"].ToString();
                     obj.Designation = dsConsultant.Rows[i]["Designation"].ToString();
@@ -2915,7 +2915,7 @@ namespace LeHealth.Core.DataManager
                     obj.OffPhone = dsConsultant.Rows[i]["OffPhone"].ToString();
                     obj.Email = dsConsultant.Rows[i]["Email"].ToString();
                     obj.Fax = dsConsultant.Rows[i]["Fax"].ToString();
-                    obj.DOJ = dsConsultant.Rows[i]["DOJ"].ToString();
+                    //obj.DOJ = dsConsultant.Rows[i]["DOJ"].ToString();
                     obj.CRegNo = dsConsultant.Rows[i]["CRegNo"].ToString();
                     obj.TimeSlice = Convert.ToInt32(dsConsultant.Rows[i]["TimeSlice"]);
                     obj.AppType = Convert.ToInt32(dsConsultant.Rows[i]["AppType"]);
