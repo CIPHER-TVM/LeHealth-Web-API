@@ -42,6 +42,9 @@ namespace LeHealth.Service.Service
                 case "ICDCategory":
                     returnvalue = masterdataManager.GetICDCategory(masterItem);
                     break;
+                case "Sign":
+                    returnvalue = masterdataManager.GetSign(masterItem);
+                    break;
                     //default:
                     //    returnvalue = masterdataManager.GetCPTCode(masterItem);
                     //    break;
@@ -69,7 +72,9 @@ namespace LeHealth.Service.Service
                 case "ICDCategory":
                     returnvalue = masterdataManager.InsertUpdateICDCategory(masterItem);
                     break;
-
+                case "Sign":
+                    returnvalue = masterdataManager.InsertUpdateSign(masterItem);
+                    break;
                 default:
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
                     break;
