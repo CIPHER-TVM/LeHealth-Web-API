@@ -1028,14 +1028,14 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string DeleteLocation(LocationModel Package)
+        public string DeleteLocation(LocationModel location)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_DeleteLocation", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@LocationId", Package.LocationId);
+                cmd.Parameters.AddWithValue("@LocationId", location.LocationId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -4076,17 +4076,17 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Package"></param>
         /// <returns></returns>
-        public string InsertUpdateScientificName(ScientificNameModel Package)
+        public string InsertUpdateScientificName(ScientificNameModel ScientificName)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateScientifcName", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ScientificId", Package.ScientificId);
-                cmd.Parameters.AddWithValue("@ScientificName", Package.ScientificName);
-                cmd.Parameters.AddWithValue("@ScientificCode", Package.ScientificCode);
-                cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                cmd.Parameters.AddWithValue("@ScientificId", ScientificName.ScientificId);
+                cmd.Parameters.AddWithValue("@ScientificName", ScientificName.ScientificName);
+                cmd.Parameters.AddWithValue("@ScientificCode", ScientificName.ScientificCode);
+                cmd.Parameters.AddWithValue("@UserId", ScientificName.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -4153,17 +4153,17 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="TendernId">Primary key of LH_PhyTendern Table,Update Data if param is not zero</param>
         /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
-        public string InsertUpdateTendern(TendernModel Package)
+        public string InsertUpdateTendern(TendernModel tendern)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTendern", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@TendernId", Package.TendernId);
-                cmd.Parameters.AddWithValue("@TendernDesc", Package.TendernDesc);
-                cmd.Parameters.AddWithValue("@Active", Package.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", Package.BlockReason);
+                cmd.Parameters.AddWithValue("@TendernId", tendern.TendernId);
+                cmd.Parameters.AddWithValue("@TendernDesc", tendern.TendernDesc);
+                cmd.Parameters.AddWithValue("@Active", tendern.Active);
+                cmd.Parameters.AddWithValue("@BlockReason", tendern.BlockReason);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5207,7 +5207,6 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Schedulable", servicePoint.Schedulable);
                     cmd.Parameters.AddWithValue("@RoutineNos", servicePoint.RoutineNos);
                     cmd.Parameters.AddWithValue("@UrgentNos", servicePoint.UrgentNos);
-                    cmd.Parameters.AddWithValue("@Active", servicePoint.Active);
                     cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -5263,17 +5262,16 @@ namespace LeHealth.Core.DataManager
             return itemList;
         }
 
-        public string BlockServicePoint(ServicePointModel servicePoint)
+        public string DeleteServicePoint(ServicePointModel servicePoint)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_BlockServicePoint", con);
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteServicePoint", con);
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@SPointId", servicePoint.SPointId);
-                    cmd.Parameters.AddWithValue("@BlockReason", servicePoint.BlockReason);
                     cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -5308,49 +5306,5 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string UnBlockServicePoint(ServicePointModel servicePoint)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_UnblockServicePoint", con);
-                try
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@SPointId", servicePoint.SPointId);
-                    cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    if (Convert.ToInt32(ret) == servicePoint.SPointId)
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    response = ex.Message;
-                }
-            }
-            return response;
-        }
-
     }
 }

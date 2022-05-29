@@ -636,13 +636,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetServicePoint(sPoint);
         }
-        public string BlockServicePoint(ServicePointModel servicePoint)
+        public string DeleteServicePoint(ServicePointModel servicePoint)
         {
-            return masterdataManager.BlockServicePoint(servicePoint);
+            return masterdataManager.DeleteServicePoint(servicePoint);
         }
-        public string UnBlockServicePoint(ServicePointModel servicePoint)
-        {
-            return masterdataManager.UnBlockServicePoint(servicePoint);
-        }
+        
     }
 }

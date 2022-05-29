@@ -163,7 +163,6 @@ namespace LeHealth.Core.Interface
         string InsertAssociateLocation(LocationAssociateModel locationAssociate);
         string InsertUpdateServicePoint(ServicePointModel servicePoint);
         List<ServicePointModel> GetServicePoint(ServicePointModelAll sPoint);
-        string BlockServicePoint(ServicePointModel servicePoint);
-        string UnBlockServicePoint(ServicePointModel servicePoint);
+        string DeleteServicePoint(ServicePointModel servicePoint);
     }
 }

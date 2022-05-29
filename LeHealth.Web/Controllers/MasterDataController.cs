@@ -4665,46 +4665,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
 
-        [Route("BlockServicePoint")]
+        [Route("DeleteServicePoint")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> BlockServicePoint(ServicePointModel servicePoint)
+        public ResponseDataModel<IEnumerable<string>> DeleteServicePoint(ServicePointModel servicePoint)
         {
             try
             {
                 string msg = string.Empty;
-                msg = masterdataService.BlockServicePoint(servicePoint);
-                var response = new ResponseDataModel<IEnumerable<string>>()
-                {
-                    Message = msg,
-                    Status = HttpStatusCode.OK
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<string>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
-        [Route("UnBlockServicePoint")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> UnBlockServicePoint(ServicePointModel servicePoint)
-        {
-            try
-            {
-                string msg = string.Empty;
-                msg = masterdataService.UnBlockServicePoint(servicePoint);
+                msg = masterdataService.DeleteServicePoint(servicePoint);
                 var response = new ResponseDataModel<IEnumerable<string>>()
                 {
                     Message = msg,
