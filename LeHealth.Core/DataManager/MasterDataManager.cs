@@ -609,6 +609,41 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                 {
+                    // var obj = JsonConvert.DeserializeObject<PackageModel>(dsNumber.Rows[i]["ValueDatas"].ToString());
+
+                    PackageModel obj = new PackageModel
+                    {
+                        PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]),
+                        PackDesc = dsNumber.Rows[i]["PackDesc"].ToString(),
+                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString(),
+                        EffectTo = dsNumber.Rows[i]["EffectTo"].ToString(),
+                        PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString()),
+                        Remarks = dsNumber.Rows[i]["Remarks"].ToString(),
+                        ItemRateData = JsonConvert.DeserializeObject<List<ItemRatePackage>>(dsNumber.Rows[i]["PackageItemRate"].ToString()),
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+        public List<PackageModel> GetPackageItemRate(PackageModelAll pm)
+        {
+            List<PackageModel> itemList = new List<PackageModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPackage", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PackId", pm.PackId);
+            cmd.Parameters.AddWithValue("@ShowAll", pm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", pm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
                     PackageModel obj = new PackageModel
                     {
                         PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]),

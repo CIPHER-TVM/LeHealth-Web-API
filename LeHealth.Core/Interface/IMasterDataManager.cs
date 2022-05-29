@@ -21,6 +21,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateRateGroup(RateGroupModelAll RateGroup);
         string DeleteRateGroup(RateGroupModel RateGroup);
         List<PackageModel> GetPackage(PackageModelAll pm);
+        List<PackageModel> GetPackageItemRate(PackageModelAll pm); 
         string InsertUpdatePackage(PackageModelAll package);
         string DeletePackage(PackageModel package);
         List<DepartmentModel> GetDepartment(DepartmentModelAll department);
