@@ -112,7 +112,7 @@ namespace LeHealth.Core.DataManager
                     obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
                     obj.DrugTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["DrugTypeId"]);
                     obj.VaccineTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["VaccineTypeId"]);
-                    obj.DefaultTAT =dtServiceItem.Rows[i]["DefaultTAT"].ToString();
+                    obj.DefaultTAT = dtServiceItem.Rows[i]["DefaultTAT"].ToString();
 
 
 
@@ -5070,8 +5070,8 @@ namespace LeHealth.Core.DataManager
 
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSign", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                
-                
+
+
                 cmd.Parameters.AddWithValue("@SignId", commonMaster.Id);
                 cmd.Parameters.AddWithValue("@SignDesc", commonMaster.DescriptionData);
 
@@ -5108,20 +5108,18 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetSign", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-
             cmd.Parameters.AddWithValue("@SignId", sign.Id);
-           
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
             con.Close();
-           
+
             if ((dataTable != null) && (dataTable.Rows.Count > 0))
             {
                 for (Int32 i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    
-                    	   CommonMasterFieldModel obj = new CommonMasterFieldModel();
+
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel();
                     obj.Id = Convert.ToInt32(dataTable.Rows[i]["SignId"]);
                     obj.DescriptionData = dataTable.Rows[i]["SignDesc"].ToString();
                     obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["Select"]);
