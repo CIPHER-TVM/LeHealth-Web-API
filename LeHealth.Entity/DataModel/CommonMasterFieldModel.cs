@@ -15,7 +15,7 @@ namespace LeHealth.Entity.DataModel
     public class CommonMasterFieldModelAll : CommonMasterFieldModel
     {
         public string MasterFieldType { get; set; }
-        public int BranchId { get; set; }
+        public int BranchId { get; set; }  
         public int UserId { get; set; }
         public int ShowAll { get; set; }
         
