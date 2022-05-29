@@ -637,6 +637,7 @@ namespace LeHealth.Core.DataManager
                 Package.EffectFrom = packFrom.ToString("yyyy-MM-dd");
                 DateTime packTo = DateTime.ParseExact(Package.EffectTo.Trim(), "dd-MM-yyyy", null);
                 Package.EffectTo = packTo.ToString("yyyy-MM-dd");
+                string rateString = JsonConvert.SerializeObject(Package.ItemRateList);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePackage", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PackId", Package.PackId);
@@ -648,6 +649,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@IsDisplayed", Package.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", Package.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", Package.UserId);
+                cmd.Parameters.AddWithValue("@ItemRateJSON", rateString);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

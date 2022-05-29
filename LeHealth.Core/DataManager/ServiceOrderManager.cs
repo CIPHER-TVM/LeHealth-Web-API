@@ -169,7 +169,6 @@ namespace LeHealth.Core.DataManager
         public List<ItemsByTypeModel> GetPackageItem(int packId)
         {
             List<ItemsByTypeModel> communicationTypeList = new List<ItemsByTypeModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPackageItem", con);
             con.Open();
