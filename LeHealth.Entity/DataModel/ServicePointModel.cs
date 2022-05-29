@@ -14,7 +14,13 @@ namespace LeHealth.Entity.DataModel
         public int RoutineNos { get; set; }
         public int UrgentNos { get; set; }
         public int Active { get; set; }
-        public int UserId { get; set; }
         public string BlockReason { get; set; }
+        public int UserId { get; set; }
+
+    }
+    public class ServicePointModelAll : ServicePointModel
+    {
+        public int BranchId { get; set; }
+
     }
 }

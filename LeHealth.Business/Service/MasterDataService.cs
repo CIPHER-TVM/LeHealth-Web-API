@@ -632,9 +632,9 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateServicePoint(servicePoint);
         }
-        public List<ServicePointModel> GetServicePoint(int sPointId)
+        public List<ServicePointModel> GetServicePoint(ServicePointModelAll sPoint)
         {
-            return masterdataManager.GetServicePoint(sPointId);
+            return masterdataManager.GetServicePoint(sPoint);
         }
         public string BlockServicePoint(ServicePointModel servicePoint)
         {

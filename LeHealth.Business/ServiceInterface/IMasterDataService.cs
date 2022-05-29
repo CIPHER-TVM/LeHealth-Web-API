@@ -141,7 +141,7 @@ namespace LeHealth.Service.ServiceInterface
         List<LocationModel> GetLocationByType(LocationAll location);
         string InsertAssociateLocation(LocationAssociateModel locationAssociate);
         string InsertUpdateServicePoint(ServicePointModel servicePoint);
-        List<ServicePointModel> GetServicePoint(int sPointId);
+        List<ServicePointModel> GetServicePoint(ServicePointModelAll sPoint);
         string BlockServicePoint(ServicePointModel servicePoint);
         string UnBlockServicePoint(ServicePointModel servicePoint);
     }

@@ -5242,7 +5242,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<ServicePointModel> GetServicePoint(int sPointId)
+        public List<ServicePointModel> GetServicePoint(ServicePointModelAll sPoint)
         {
             List<ServicePointModel> itemList = new List<ServicePointModel>();
             using SqlConnection con = new SqlConnection(_connStr);
@@ -5250,7 +5250,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@SPointId", sPointId);
+            cmd.Parameters.AddWithValue("@SPointId", sPoint.SPointId);
+            cmd.Parameters.AddWithValue("@BranchId", sPoint.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);

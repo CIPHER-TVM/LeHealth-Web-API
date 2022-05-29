@@ -4631,14 +4631,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        [Route("GetServicePoint/{sPointId}")]
+        [Route("GetServicePoint")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ServicePointModel>> GetServicePoint(int sPointId)
+        public ResponseDataModel<IEnumerable<ServicePointModel>> GetServicePoint(ServicePointModelAll sPoint)
         {
             try
             {
                 List<ServicePointModel> services = new List<ServicePointModel>();
-                services = masterdataService.GetServicePoint(sPointId);
+                services = masterdataService.GetServicePoint(sPoint);
                 var response = new ResponseDataModel<IEnumerable<ServicePointModel>>()
                 {
                     Status = HttpStatusCode.OK,
