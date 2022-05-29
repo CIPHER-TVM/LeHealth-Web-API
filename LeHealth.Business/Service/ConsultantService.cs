@@ -247,5 +247,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantTimeSchedule(scheduleId);
         }
+        public string DeleteConsultant(int id)
+        {
+            return consultantManager.DeleteConsultant(id);
+        }
     }
 }

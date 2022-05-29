@@ -620,5 +620,29 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetItemForProfile(patientId);
         }
+        public List<LocationModel> GetLocationByType(LocationAll location)
+        {
+            return masterdataManager.GetLocationByType(location);
+        }
+        public string InsertAssociateLocation(LocationAssociateModel locationAssociate)
+        {
+            return masterdataManager.InsertAssociateLocation(locationAssociate);
+        }
+        public string InsertUpdateServicePoint(ServicePointModel servicePoint)
+        {
+            return masterdataManager.InsertUpdateServicePoint(servicePoint);
+        }
+        public List<ServicePointModel> GetServicePoint(int sPointId)
+        {
+            return masterdataManager.GetServicePoint(sPointId);
+        }
+        public string BlockServicePoint(ServicePointModel servicePoint)
+        {
+            return masterdataManager.BlockServicePoint(servicePoint);
+        }
+        public string UnBlockServicePoint(ServicePointModel servicePoint)
+        {
+            return masterdataManager.UnBlockServicePoint(servicePoint);
+        }
     }
 }

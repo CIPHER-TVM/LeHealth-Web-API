@@ -138,5 +138,11 @@ namespace LeHealth.Service.ServiceInterface
         string BlockProfile(ProfileModel profile);
         string UnBlockProfile(ProfileModel profile);
         List<ProfileItemModel> GetItemForProfile(int patientId);
+        List<LocationModel> GetLocationByType(LocationAll location);
+        string InsertAssociateLocation(LocationAssociateModel locationAssociate);
+        string InsertUpdateServicePoint(ServicePointModel servicePoint);
+        List<ServicePointModel> GetServicePoint(int sPointId);
+        string BlockServicePoint(ServicePointModel servicePoint);
+        string UnBlockServicePoint(ServicePointModel servicePoint);
     }
 }

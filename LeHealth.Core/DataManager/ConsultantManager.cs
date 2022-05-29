@@ -374,7 +374,11 @@ namespace LeHealth.Core.DataManager
                             cmdSaveConsultant.Parameters.Add(retDescSaveConsultant);
                             cmdSaveConsultant.Transaction = transaction;
                             var isInserted = cmdSaveConsultant.ExecuteNonQuery();
-                            if (response == "Saved Successfully")
+
+                       
+                        var description = retDescSaveConsultant.Value.ToString();
+                        response = description;
+                        if (response == "Saved Successfully")
                             {
                                 SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
                                 cmdSaveAddress.CommandType = CommandType.StoredProcedure;
@@ -2086,7 +2090,7 @@ namespace LeHealth.Core.DataManager
                         MiddleName = dtConsultant.Rows[i]["MiddleName"].ToString(),
                         LastName = dtConsultant.Rows[i]["LastName"].ToString(),
                         Gender = dtConsultant.Rows[i]["Gender"].ToString(),
-                        DOB = dtConsultant.Rows[i]["DOB"].ToString(),
+                        //DOB = dtConsultant.Rows[i]["DOB"].ToString(),
                         Age = Convert.ToInt32(dtConsultant.Rows[i]["Age"]),
                         Month = Convert.ToInt32(dtConsultant.Rows[i]["Month"]),
                         Specialisation = dtConsultant.Rows[i]["Specialisation"].ToString(),
@@ -2098,7 +2102,7 @@ namespace LeHealth.Core.DataManager
                         OffPhone = dtConsultant.Rows[i]["OffPhone"].ToString(),
                         Email = dtConsultant.Rows[i]["Email"].ToString(),
                         Fax = dtConsultant.Rows[i]["Fax"].ToString(),
-                        DOJ = dtConsultant.Rows[i]["DOJ"].ToString(),
+                        DateOfJoin = dtConsultant.Rows[i]["DOJ"].ToString(),
                         CRegNo = dtConsultant.Rows[i]["CRegNo"].ToString(),
                         TimeSlice = Convert.ToInt32(dtConsultant.Rows[i]["TimeSlice"]),
                         AppType = Convert.ToInt32(dtConsultant.Rows[i]["AppType"]),
@@ -2284,6 +2288,52 @@ namespace LeHealth.Core.DataManager
             }
             return consultant;
 
+        }
+        public string DeleteConsultant(int id)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultant", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultantId", id);
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Deleted Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
         }
 
     }

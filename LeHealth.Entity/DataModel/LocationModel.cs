@@ -32,4 +32,11 @@ namespace LeHealth.Entity.DataModel
     {
         public int ShowAll { get; set; }        
     }
+public class LocationAssociateModel
+    {
+        public int LocationId { get; set; }
+        public int AstLocationId { get; set; }
+    }
+
+
 }
