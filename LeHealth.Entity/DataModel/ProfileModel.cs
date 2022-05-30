@@ -10,7 +10,7 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public string ProfileDesc { get; set; }
         public string Remarks { get; set; }
-        public int Active { get; set; }
+        public bool Active { get; set; }
         public string BlockReason { get; set; } 
         public List<int> ProfileIds { get; set; }
         public List<ProfileItemModel> ProfileItems { get; set; }

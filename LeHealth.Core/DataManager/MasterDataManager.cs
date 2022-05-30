@@ -4977,7 +4977,7 @@ namespace LeHealth.Core.DataManager
                         ProfileId = Convert.ToInt32(dataTable.Rows[i]["ProfileId"]),
                         ProfileDesc = dataTable.Rows[i]["ProfileDesc"].ToString(),
                         Remarks = dataTable.Rows[i]["Remarks"].ToString(),
-                        Active = Convert.ToInt32(dataTable.Rows[i]["Active"]),
+                        Active = Convert.ToBoolean(dataTable.Rows[i]["Active"]),
                         BlockReason = dataTable.Rows[i]["BlockReason"].ToString(),
                         ProfileItems = JsonConvert.DeserializeObject<List<ProfileItemModel>>(dataTable.Rows[i]["ProfileItems"].ToString()),
 

@@ -257,7 +257,7 @@ namespace LeHealth.Core.DataManager
                         ProfileId = Convert.ToInt32(dsItemGroup.Rows[i]["ProfileId"]),
                         ProfileDesc = dsItemGroup.Rows[i]["ProfileDesc"].ToString(),
                         Remarks = dsItemGroup.Rows[i]["Remarks"].ToString(),
-                        Active = Convert.ToInt32(dsItemGroup.Rows[i]["Active"]),
+                        Active = Convert.ToBoolean(dsItemGroup.Rows[i]["Active"]),
                         BlockReason = dsItemGroup.Rows[i]["BlockReason"].ToString()
                     };
                     profileList.Add(obj);
