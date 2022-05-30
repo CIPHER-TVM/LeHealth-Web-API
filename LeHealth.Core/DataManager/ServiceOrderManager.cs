@@ -243,7 +243,6 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ProfileId", pm.ProfileId);
-            cmd.Parameters.AddWithValue("@Active", pm.Active);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();
             adapter.Fill(dsItemGroup);
@@ -257,8 +256,6 @@ namespace LeHealth.Core.DataManager
                         ProfileId = Convert.ToInt32(dsItemGroup.Rows[i]["ProfileId"]),
                         ProfileDesc = dsItemGroup.Rows[i]["ProfileDesc"].ToString(),
                         Remarks = dsItemGroup.Rows[i]["Remarks"].ToString(),
-                        Active = Convert.ToBoolean(dsItemGroup.Rows[i]["Active"]),
-                        BlockReason = dsItemGroup.Rows[i]["BlockReason"].ToString()
                     };
                     profileList.Add(obj);
                 }

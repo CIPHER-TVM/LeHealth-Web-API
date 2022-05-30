@@ -618,21 +618,17 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetICDLabel(label);
         }
-        public string InsertUpdateProfile(ProfileModel profile)
+        public string InsertUpdateProfile(ProfileModelAll profile)
         {
             return masterdataManager.InsertUpdateProfile(profile);
         }
-        public ProfileModel GetProfileById(int profileId)
+        public List<ProfileModel> GetProfile(ProfileModelAll profile)
         {
-            return masterdataManager.GetProfileById(profileId);
+            return masterdataManager.GetProfile(profile);
         }
-        public string BlockProfile(ProfileModel profile)
+        public string DeleteProfile(ProfileModelAll profile)
         {
-            return masterdataManager.BlockProfile(profile);
-        }
-        public string UnBlockProfile(ProfileModel profile)
-        {
-            return masterdataManager.UnBlockProfile(profile);
+            return masterdataManager.DeleteProfile(profile);
         }
         public List<ProfileItemModel> GetItemForProfile(int patientId)
         {
