@@ -131,10 +131,9 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteICDLabel(ICDLabelModelAll icdLabel);
         List<ICDLabelModel> GetICDLabel(ICDLabelModelAll label);
 
-        string InsertUpdateProfile(ProfileModel profile);
-        ProfileModel GetProfileById(int profileId);
-        string BlockProfile(ProfileModel profile);
-        string UnBlockProfile(ProfileModel profile);
+        string InsertUpdateProfile(ProfileModelAll profile);
+        List<ProfileModel> GetProfile(ProfileModelAll profile);
+        string DeleteProfile(ProfileModelAll profile);
         List<ProfileItemModel> GetItemForProfile(int patientId);
         List<LocationModel> GetLocationByType(LocationAll location);
         string InsertAssociateLocation(LocationAssociateModel locationAssociate);

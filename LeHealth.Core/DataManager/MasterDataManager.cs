@@ -4858,7 +4858,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="profile"></param>
         /// <returns></returns>
-        public string InsertUpdateProfile(ProfileModel profile)
+        public string InsertUpdateProfile(ProfileModelAll profile)
         {
 
             SqlTransaction transaction;
@@ -4872,7 +4872,6 @@ namespace LeHealth.Core.DataManager
                 cmdSaveProfile.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
                 cmdSaveProfile.Parameters.AddWithValue("@ProfileDesc", profile.ProfileDesc);
                 cmdSaveProfile.Parameters.AddWithValue("@UserId", profile.UserId);
-                cmdSaveProfile.Parameters.AddWithValue("@Active", profile.Active);
                 cmdSaveProfile.Parameters.AddWithValue("@Remarks", profile.Remarks);
 
                 SqlParameter profileRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -4954,14 +4953,14 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="profileId"></param>
         /// <returns></returns>
-        public ProfileModel GetProfileById(int profileId)
+        public List<ProfileModel> GetProfile(ProfileModelAll profile)
         {
-            //stLH_GetProfileDetailsById
-            ProfileModel profile = new ProfileModel();
+            List<ProfileModel> profileList = new List<ProfileModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             SqlCommand cmdGetProfile = new SqlCommand("stLH_GetProfileDetailsById", con);
             cmdGetProfile.CommandType = CommandType.StoredProcedure;
-            cmdGetProfile.Parameters.AddWithValue("@ProfileId", profileId);
+            cmdGetProfile.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
+            cmdGetProfile.Parameters.AddWithValue("@BranchId", profile.BranchId);
             con.Open();
             SqlDataAdapter adapter1 = new SqlDataAdapter(cmdGetProfile);
             DataTable dataTable = new DataTable();
@@ -4971,23 +4970,18 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dataTable.Rows.Count; i++)
                 {
-
-                    profile = new ProfileModel
-                    {
-                        ProfileId = Convert.ToInt32(dataTable.Rows[i]["ProfileId"]),
-                        ProfileDesc = dataTable.Rows[i]["ProfileDesc"].ToString(),
-                        Remarks = dataTable.Rows[i]["Remarks"].ToString(),
-                        Active = Convert.ToInt32(dataTable.Rows[i]["Active"]),
-                        BlockReason = dataTable.Rows[i]["BlockReason"].ToString(),
-                        ProfileItems = JsonConvert.DeserializeObject<List<ProfileItemModel>>(dataTable.Rows[i]["ProfileItems"].ToString()),
-
-                    };
+                    ProfileModel obj = new ProfileModel();
+                    obj.ProfileId = Convert.ToInt32(dataTable.Rows[i]["ProfileId"]);
+                    obj.ProfileDesc = dataTable.Rows[i]["ProfileDesc"].ToString();
+                    obj.Remarks = dataTable.Rows[i]["Remarks"].ToString();
+                    obj.ProfileItems = JsonConvert.DeserializeObject<List<ProfileItemModel>>(dataTable.Rows[i]["ProfileItems"].ToString());
+                    profileList.Add(obj);
                 }
             }
-            return profile;
+            return profileList;
 
         }
-        public string BlockProfile(ProfileModel profile)
+        public string DeleteProfile(ProfileModelAll profile)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -4996,51 +4990,6 @@ namespace LeHealth.Core.DataManager
                 try
                 {
 
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
-                    cmd.Parameters.AddWithValue("@UserId", profile.UserId);
-                    cmd.Parameters.AddWithValue("@BlockReason", profile.BlockReason);
-
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-                    if (Convert.ToInt32(ret) == profile.ProfileId)
-                    {
-                        response = "Success";
-                    }
-                    else
-                    {
-                        response = descrip;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    response = ex.Message;
-                }
-            }
-            return response;
-        }
-        public string UnBlockProfile(ProfileModel profile)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_UnblockProfile", con);
-                try
-                {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
                     cmd.Parameters.AddWithValue("@UserId", profile.UserId);

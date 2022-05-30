@@ -153,10 +153,9 @@ namespace LeHealth.Core.Interface
         string InsertUpdateICDLabel(ICDLabelModelAll icdLabel);
         string DeleteICDLabel(ICDLabelModelAll icdLabel);
         List<ICDLabelModel> GetICDLabel(ICDLabelModelAll icdLabel);
-        string InsertUpdateProfile(ProfileModel profile);
-        ProfileModel GetProfileById(int profileId);
-        string BlockProfile(ProfileModel profile);
-        string UnBlockProfile(ProfileModel profile);
+        string InsertUpdateProfile(ProfileModelAll profile);
+        List<ProfileModel> GetProfile(ProfileModelAll profile);
+        string DeleteProfile(ProfileModelAll profile);
         List<ProfileItemModel> GetItemForProfile(int patientId);
         List<CommonMasterFieldModel> GetCommissionRule(CommonMasterFieldModelAll cr);
         string InsertUpdateSign(CommonMasterFieldModelAll commonMaster);

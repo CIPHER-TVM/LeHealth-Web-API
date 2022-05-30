@@ -4308,7 +4308,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateProfile")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> InsertUpdateProfile(ProfileModel profile)
+        public ResponseDataModel<IEnumerable<string>> InsertUpdateProfile(ProfileModelAll profile)
         {
             try
             {
@@ -4371,21 +4371,19 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetProfileById/{profileId}")]
+        [Route("GetProfile")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ProfileModel>> GetProfileById(int profileId)
+        public ResponseDataModel<IEnumerable<ProfileModel>> GetProfile(ProfileModelAll profile)
         {
-            List<ProfileModel> frontOfficePBarList = new List<ProfileModel>();
             try
             {
 
-                ProfileModel frontOfficePBar = new ProfileModel();
-                frontOfficePBar = masterdataService.GetProfileById(profileId);
-                frontOfficePBarList.Add(frontOfficePBar);
+                List<ProfileModel> frontOfficePBar = new List<ProfileModel>();
+                frontOfficePBar = masterdataService.GetProfile(profile);
                 var response = new ResponseDataModel<IEnumerable<ProfileModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = frontOfficePBarList
+                    Response = frontOfficePBar
                 };
                 return response;
             }
@@ -4407,46 +4405,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("BlockProfile")]
+        [Route("DeleteProfile")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> BlockProfile(ProfileModel profile)
+        public ResponseDataModel<IEnumerable<string>> DeleteProfile(ProfileModelAll profile)
         {
             try
             {
                 string msg = string.Empty;
-                msg = masterdataService.BlockProfile(profile);
-                var response = new ResponseDataModel<IEnumerable<string>>()
-                {
-                    Message = msg,
-                    Status = HttpStatusCode.OK
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<string>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
-        }
-        [Route("UnBlockProfile")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<string>> UnBlockProfile(ProfileModel profile)
-        {
-            try
-            {
-                string msg = string.Empty;
-                msg = masterdataService.UnBlockProfile(profile);
+                msg = masterdataService.DeleteProfile(profile);
                 var response = new ResponseDataModel<IEnumerable<string>>()
                 {
                     Message = msg,
