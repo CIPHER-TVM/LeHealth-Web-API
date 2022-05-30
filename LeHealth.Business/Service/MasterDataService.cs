@@ -81,6 +81,40 @@ namespace LeHealth.Service.Service
             }
             return returnvalue;
         }
+
+        public string DeleteCommonMasterItem(CommonMasterFieldModelAll masterItem)
+        {
+            string returnvalue;
+            switch (masterItem.MasterFieldType)
+            {
+                case "Sign":
+                    returnvalue = masterdataManager.DeleteSign(masterItem);
+                    break;
+                case "VitalSign":
+                    returnvalue = masterdataManager.DeleteVitalSign(masterItem);
+                    break;
+                case "Symptom":
+                    returnvalue = masterdataManager.DeleteSymptom(masterItem);
+                    break;
+                //case "Company":
+                //    returnvalue = masterdataManager.InsertUpdateCompany(masterItem);
+                //    break;
+                //case "ICDCategory":
+                //    returnvalue = masterdataManager.InsertUpdateICDCategory(masterItem);
+                //    break;
+                //case "Sign":
+                //    returnvalue = masterdataManager.InsertUpdateSign(masterItem);
+                //    break;
+                default:
+                    returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
+                    break;
+            }
+            return returnvalue;
+        }
+
+
+
+
         public List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm)
         {
             return masterdataManager.GetServiceItem(ccm);
@@ -141,10 +175,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateDepartment(Dept);
         }
-        //public List<DepartmentModel> GetDepartmentByHospital(Int32 HospId)
-        //{
-        //    return masterdataManager.GetDepartmentByHospital(HospId);
-        //}
         public string DeleteDepartment(DepartmentModel Dept)
         {
             return masterdataManager.DeleteDepartment(Dept);
@@ -152,14 +182,6 @@ namespace LeHealth.Service.Service
         public List<SymptomModel> GetSymptom(SymptomModelAll symptom)
         {
             return masterdataManager.GetSymptom(symptom);
-        }
-        //public string InsertUpdateSymptom(SymptomModelAll la)
-        //{
-        //    return masterdataManager.InsertUpdateSymptom(la);
-        //}
-        public string DeleteSymptom(SymptomModel la)
-        {
-            return masterdataManager.DeleteSymptom(la);
         }
         public List<LocationModel> GetLocation(LocationAll location)
         {
@@ -237,10 +259,6 @@ namespace LeHealth.Service.Service
         public string InsertUpdateVitalSign(VitalSignModelAll vitalsign)
         {
             return masterdataManager.InsertUpdateVitalSign(vitalsign);
-        }
-        public string DeleteVitalSign(VitalSignModelAll vitalsign)
-        {
-            return masterdataManager.DeleteVitalSign(vitalsign);
         }
         public List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll ledgerHead)
         {
@@ -594,7 +612,7 @@ namespace LeHealth.Service.Service
         }
         public string DeleteICDLabel(ICDLabelModelAll icdLabel)
         {
-            return masterdataManager.DeleteICDLabel(icdLabel); 
+            return masterdataManager.DeleteICDLabel(icdLabel);
         }
         public List<ICDLabelModel> GetICDLabel(ICDLabelModelAll label)
         {
@@ -640,6 +658,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteServicePoint(servicePoint);
         }
-        
+
     }
 }

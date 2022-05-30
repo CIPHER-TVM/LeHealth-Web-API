@@ -37,7 +37,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     Status = HttpStatusCode.OK,
                     Message = message
                 };
-                
+
                 return response;
             }
             catch (Exception ex)
@@ -88,7 +88,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
             }
-        } 
+        }
+        [Route("DeleteCommonMasterItem")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<string>> DeleteCommonMasterItem(CommonMasterFieldModelAll MasterItem)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteCommonMasterItem(MasterItem);
+                var response = new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<string>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
         [Route("GetServiceItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServiceItem(AvailableServiceModel cmfma)
@@ -189,7 +222,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-       
+
 
         //[Route("InsertUpdateCPTCode")]
         //[HttpPost]
@@ -711,70 +744,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
 
-        }
-        //[Route("InsertUpdateSymptom")]
-        //[HttpPost]
-        //public ResponseDataModel<SymptomModel> InsertUpdateSymptom(SymptomModelAll Symptom)
-        //{
-        //    try
-        //    {
-        //        string message = string.Empty;
-        //        message = masterdataService.InsertUpdateSymptom(Symptom);
-        //        var response = new ResponseDataModel<SymptomModel>()
-        //        {
-        //            Status = HttpStatusCode.OK,
-        //            Message = message
-        //        };
-        //        return response;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-        //        return new ResponseDataModel<SymptomModel>()
-        //        {
-        //            Status = HttpStatusCode.InternalServerError,
-        //            Response = null,
-        //            ErrorMessage = new ErrorResponse()
-        //            {
-        //                Message = ex.Message
-        //            }
-        //        };
-        //    }
-        //    finally
-        //    {
-        //    }
-        //}
-        [Route("DeleteSymptom")]
-        [HttpPost]
-        public ResponseDataModel<SymptomModel> DeleteSymptom(SymptomModel Symptom)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.DeleteSymptom(Symptom);
-                var response = new ResponseDataModel<SymptomModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<SymptomModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
         }
 
         [Route("GetLocation")]
@@ -1430,39 +1399,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 string message = string.Empty;
                 message = masterdataService.InsertUpdateVitalSign(vitalSign);
-                var response = new ResponseDataModel<VitalSignModel>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Message = message
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<VitalSignModel>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-        [Route("DeleteVitalSign")]
-        [HttpPost]
-        public ResponseDataModel<VitalSignModel> DeleteVitalSign(VitalSignModelAll vitalSign)
-        {
-            try
-            {
-                string message = string.Empty;
-                message = masterdataService.DeleteVitalSign(vitalSign);
                 var response = new ResponseDataModel<VitalSignModel>()
                 {
                     Status = HttpStatusCode.OK,
@@ -4404,7 +4340,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetItemForProfile/{patientId}")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ProfileItemModel>>  GetItemForProfile(int patientId)
+        public ResponseDataModel<IEnumerable<ProfileItemModel>> GetItemForProfile(int patientId)
         {
             try
             {

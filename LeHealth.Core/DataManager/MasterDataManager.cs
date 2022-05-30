@@ -940,14 +940,41 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string DeleteSymptom(SymptomModel Symptom)
+        public string DeleteSymptom(CommonMasterFieldModelAll Symptom)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_DeleteSymptom", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SymptomId", Symptom.SymptomId);
+                cmd.Parameters.AddWithValue("@SymptomId", Symptom.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
+        public string DeleteSign(CommonMasterFieldModelAll Symptom)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteSign", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SignId", Symptom.Id);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1697,14 +1724,14 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string DeleteVitalSign(VitalSignModelAll vitalsign)
+        public string DeleteVitalSign(CommonMasterFieldModelAll vitalsign)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_DeleteVitalSign", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SignId", vitalsign.SignId);
+                cmd.Parameters.AddWithValue("@SignId", vitalsign.Id);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5165,6 +5192,7 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
+        
         public List<LocationModel> GetLocationByType(LocationAll location)
         {
             List<LocationModel> itemList = new List<LocationModel>();

@@ -26,6 +26,7 @@ namespace LeHealth.Entity.DataModel
     {
         public int ItemId { get; set; }
         public string Rate { get; set; } 
+        public string ItemName { get; set; } 
     }
 
 }
