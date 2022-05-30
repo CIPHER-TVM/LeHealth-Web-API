@@ -29,7 +29,8 @@ namespace LeHealth.Core.Interface
         string DeleteDepartment(DepartmentModel Dept);
         List<SymptomModel> GetSymptom(SymptomModelAll symptom);
         string InsertUpdateSymptom(CommonMasterFieldModelAll symptom);
-        string DeleteSymptom(SymptomModel symptom);
+        string DeleteSymptom(CommonMasterFieldModelAll symptom);
+        string DeleteSign(CommonMasterFieldModelAll symptom); 
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
         string DeleteLocation(LocationModel location);
@@ -50,7 +51,7 @@ namespace LeHealth.Core.Interface
         string DeleteCity(CityModel city);
         List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign);
         string InsertUpdateVitalSign(VitalSignModelAll vitalsign);
-        string DeleteVitalSign(VitalSignModelAll vitalsign);
+        string DeleteVitalSign(CommonMasterFieldModelAll vitalsign);
         List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll ledgerhead);
         string InsertUpdateLedgerHead(LedgerHeadModelAll ledgerHead);
         string DeleteLedgerHead(LedgerHeadModelAll ledgerHead);

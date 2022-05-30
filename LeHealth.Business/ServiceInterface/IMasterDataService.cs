@@ -9,6 +9,7 @@ namespace LeHealth.Service.ServiceInterface
     public interface IMasterDataService
     {
         string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
+        string DeleteCommonMasterItem(CommonMasterFieldModelAll masterItem);
         List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
         List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
@@ -28,8 +29,6 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateDepartment(DepartmentModelAll Dept);
         string DeleteDepartment(DepartmentModel Dept);
         List<SymptomModel> GetSymptom(SymptomModelAll symptom);
-        //string InsertUpdateSymptom(SymptomModelAll symptom);
-        string DeleteSymptom(SymptomModel symptom);
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
         string DeleteLocation(LocationModel location);
@@ -47,7 +46,6 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteCity(CityModel city);
         List<VitalSignModel> GetVitalSign(VitalSignModelAll vitalsign);
         string InsertUpdateVitalSign(VitalSignModelAll vitalsign);
-        string DeleteVitalSign(VitalSignModelAll vitalsign);
         List<LedgerHeadModel> GetLedgerHead(LedgerHeadModelAll vitalsign);
         string InsertUpdateLedgerHead(LedgerHeadModelAll vitalsign);
         string DeleteLedgerHead(LedgerHeadModelAll vitalsign);
