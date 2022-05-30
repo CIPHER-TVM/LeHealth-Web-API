@@ -9,6 +9,7 @@ namespace LeHealth.Entity.DataModel
         public int ProfileId { get; set; }
         public string ProfileDesc { get; set; }
         public string Remarks { get; set; }
+        public bool IsDisplayed { get; set; }
         public List<int> ProfileIds { get; set; }
         public List<ProfileItemModel> ProfileItems { get; set; }
     }
@@ -17,7 +18,7 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int BranchId { get; set; }
         public int ShowAll { get; set; }
-        public bool IsDisplayed { get; set; }
+      
     }
     public class ProfileItemModel
     {

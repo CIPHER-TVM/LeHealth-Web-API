@@ -4872,14 +4872,13 @@ namespace LeHealth.Core.DataManager
                 cmdSaveProfile.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
                 cmdSaveProfile.Parameters.AddWithValue("@ProfileDesc", profile.ProfileDesc);
                 cmdSaveProfile.Parameters.AddWithValue("@UserId", profile.UserId);
+                cmdSaveProfile.Parameters.AddWithValue("@IsDisplayed", profile.IsDisplayed);
+                cmdSaveProfile.Parameters.AddWithValue("@BranchId", profile.BranchId);
                 cmdSaveProfile.Parameters.AddWithValue("@Remarks", profile.Remarks);
-
                 SqlParameter profileRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
                 };
-
-
                 SqlParameter profileRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                 {
                     Direction = ParameterDirection.Output
@@ -4891,7 +4890,6 @@ namespace LeHealth.Core.DataManager
                 {
                     cmdSaveProfile.ExecuteNonQuery();
                     int ProfileId = (int)profileRetVal.Value;
-
                     var descProfile = profileRetDesc.Value.ToString();
                     response = descProfile;
                     if (descProfile == "Saved Successfully")
@@ -4930,13 +4928,10 @@ namespace LeHealth.Core.DataManager
                         {
                             response = "Success";
                         }
-
                     }
                     else
                     {
                         transaction.Rollback();
-
-
                     }
                 }
                 catch (Exception ex)
@@ -4960,6 +4955,7 @@ namespace LeHealth.Core.DataManager
             SqlCommand cmdGetProfile = new SqlCommand("stLH_GetProfileDetailsById", con);
             cmdGetProfile.CommandType = CommandType.StoredProcedure;
             cmdGetProfile.Parameters.AddWithValue("@ProfileId", profile.ProfileId);
+            cmdGetProfile.Parameters.AddWithValue("@ShowAll", profile.ShowAll);
             cmdGetProfile.Parameters.AddWithValue("@BranchId", profile.BranchId);
             con.Open();
             SqlDataAdapter adapter1 = new SqlDataAdapter(cmdGetProfile);
@@ -4974,6 +4970,7 @@ namespace LeHealth.Core.DataManager
                     obj.ProfileId = Convert.ToInt32(dataTable.Rows[i]["ProfileId"]);
                     obj.ProfileDesc = dataTable.Rows[i]["ProfileDesc"].ToString();
                     obj.Remarks = dataTable.Rows[i]["Remarks"].ToString();
+                    obj.IsDisplayed = Convert.ToBoolean(dataTable.Rows[i]["IsDisplayed"]);
                     obj.ProfileItems = JsonConvert.DeserializeObject<List<ProfileItemModel>>(dataTable.Rows[i]["ProfileItems"].ToString());
                     profileList.Add(obj);
                 }
@@ -5141,7 +5138,7 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
-        
+
         public List<LocationModel> GetLocationByType(LocationAll location)
         {
             List<LocationModel> itemList = new List<LocationModel>();
