@@ -31,7 +31,7 @@ namespace LeHealth.Service.ServiceInterface
         List<Appointments> GetMyAppointments(AppointmentModel appointment);
         List<ConsultationModel> GetMyConsultations(ConsultantModel consultant);
         string InsertUpdateSchedule(ScheduleModel schedule);
-        List<ScheduleModel> GetSchedules(ScheduleModelAll schedule); 
+        List<ScheduleModel> GetSchedules(ScheduleModelAll schedule);
         string DeleteSchedule(int scheduleId);
         string InsertUpdateTimer(TimerModel timer);
         string InsertConsultantItem(ConsultantItemModel timer);
@@ -56,6 +56,5 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster);
         ConsultantTimeScheduleMaster GetConsultantTimeSchedule(int scheduleId);
         string DeleteConsultant(int id);
-        string InsertUpdateConsultantBaseCost(ConsultantBaseCostModel consultantBaseCost);
     }
 }

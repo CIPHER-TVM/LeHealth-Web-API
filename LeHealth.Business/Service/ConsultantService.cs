@@ -251,9 +251,6 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.DeleteConsultant(id);
         }
-        public string InsertUpdateConsultantBaseCost(ConsultantBaseCostModel consultantBaseCost)
-        {
-            return consultantManager.InsertUpdateConsultantBaseCost(consultantBaseCost);
-        }
+       
     }
 }
