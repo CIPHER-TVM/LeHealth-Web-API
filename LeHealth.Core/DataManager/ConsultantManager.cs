@@ -233,7 +233,8 @@ namespace LeHealth.Core.DataManager
                         {
 
                             SqlCommand cmdSaveLocation = new SqlCommand("stLH_SaveUserLocation", con);
-                            var jsonLocationId = JsonConvert.SerializeObject(consultant.LocationIds);
+                            List<int> locationIds=  consultant.LocationIds.Select(x => x.LocationId).ToList();
+                            var jsonLocationId = JsonConvert.SerializeObject(locationIds);
                             cmdSaveLocation.CommandType = CommandType.StoredProcedure;
                             cmdSaveLocation.Parameters.AddWithValue("@P_UserId", userId);
                             cmdSaveLocation.Parameters.AddWithValue("@P_Locations", jsonLocationId);
@@ -252,8 +253,8 @@ namespace LeHealth.Core.DataManager
                             var retDescSaveLocationV = retDescSaveLocation.Value.ToString();
                             response = retDescSaveLocationV;
                             Lefmenugroupmodel objMenu = new Lefmenugroupmodel();
-                            var intList = consultant.UserData.GroupIds.Select(s => Convert.ToInt32(s)).ToList();
-                            var jsonIntgroups = JsonConvert.SerializeObject(intList);
+                            var groupIds = consultant.UserData.GroupIds.Select(s => Convert.ToInt32(s)).ToList();
+                            var jsonIntgroups = JsonConvert.SerializeObject(groupIds);
                             jsonIntgroups = jsonIntgroups.Replace("[", "");
                             jsonIntgroups = jsonIntgroups.Replace("]", "");
                             SqlCommand cmdGetMenu = new SqlCommand("stLH_GetMenuongroups", con);
@@ -275,24 +276,14 @@ namespace LeHealth.Core.DataManager
                             cmdGetMenu.ExecuteNonQuery();
                             // string ret = retjson.Value.ToString();
                             string sub = subjson.Value.ToString();
-
                             if (sub != null)
                             {
                                 objMenu.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
                             }
-
-
-                            List<int> subMenuIds = new List<int>();
-                            foreach (var submenu in objMenu.subMenuIds)
-
-                            {
-                                subMenuIds.Add(Convert.ToInt32(submenu.submenuId));
-                            }
-                            SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
+                            List<int> subMenuIds = objMenu.subMenuIds.Select(x => x.submenuId).ToList();
                             var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
                             var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
-
-
+                            SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
                             cmdSaveMenu.CommandType = CommandType.StoredProcedure;
                             cmdSaveMenu.Parameters.AddWithValue("@P_UserId", userId);
                             cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
@@ -318,14 +309,12 @@ namespace LeHealth.Core.DataManager
                             transaction.Rollback();
                         }
 
-                        CultureInfo provider = CultureInfo.InvariantCulture;
-                            // It throws Argument null exception  
-                            DateTime DateOfBirth = DateTime.ParseExact(consultant.DateOfBirth, "dd-MM-yyyy", provider);
-                            DateTime DateOfJoin = DateTime.ParseExact(consultant.DateOfJoin, "dd-MM-yyyy", provider);
+                        DateTime DateOfBirth = DateTime.Parse(consultant.DateOfBirth, null, DateTimeStyles.RoundtripKind);
+                        DateTime DateOfJoin = DateTime.Parse(consultant.DateOfJoin, null, DateTimeStyles.RoundtripKind);
 
 
 
-                            SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
+                        SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
                             cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
                             cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
                             cmdSaveConsultant.Parameters.AddWithValue("@DeptId", consultant.DeptId);
@@ -356,7 +345,8 @@ namespace LeHealth.Core.DataManager
                             cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
                             cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
                             cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
-                            cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
+                        cmdSaveConsultant.Parameters.AddWithValue("@ItemId", consultant.ItemId);
+                        cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
                             cmdSaveConsultant.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
                             cmdSaveConsultant.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
                             cmdSaveConsultant.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
@@ -375,10 +365,10 @@ namespace LeHealth.Core.DataManager
                             cmdSaveConsultant.Transaction = transaction;
                             var isInserted = cmdSaveConsultant.ExecuteNonQuery();
 
-                       
+                        ConsultantId = (int)retValSaveConsultant.Value;
                         var description = retDescSaveConsultant.Value.ToString();
                         response = description;
-                        if (response == "Saved Successfully")
+                        if (response == "Saved Successfully" && ConsultantId!=0)
                             {
                                 SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
                                 cmdSaveAddress.CommandType = CommandType.StoredProcedure;
@@ -404,28 +394,14 @@ namespace LeHealth.Core.DataManager
                                 cmdSaveAddress.Parameters.Add(retValSaveAddress);
                                 cmdSaveAddress.Parameters.Add(retDescSaveAddress);
                                 cmdSaveAddress.Transaction = transaction;
-
                                 cmdSaveAddress.ExecuteNonQuery();
-
-
-
                                 int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
                                 var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
                                 response = patadrReturnDesc1V;
+                            con.Close();
                             }
-                       
-                        
-                        
-                        
                         }
-
-
-
-
-
                     }
-                   
-                
 
                 catch (Exception ex)
                 {
@@ -2064,68 +2040,85 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
         public ConsultantMasterModel GetConsultantById(int consultantId)
         {
             ConsultantMasterModel consultant = new ConsultantMasterModel();
             using SqlConnection con = new SqlConnection(_connStr);
-            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetConsultant", con);
-            appointmentCountCMD.CommandType = CommandType.StoredProcedure;
-            appointmentCountCMD.Parameters.AddWithValue("@ConsultantId", consultantId);
             con.Open();
-            SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
-            DataTable dtConsultant = new DataTable();
-            adapter1.Fill(dtConsultant);
+            SqlCommand cmd = new SqlCommand("stLH_GetConsultant", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+            cmd.Parameters.AddWithValue("@Active", 1);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
             con.Close();
-            if ((dtConsultant != null) && (dtConsultant.Rows.Count > 0))
+            if ((dt != null) && (dt.Rows.Count > 0))
             {
-                for (Int32 i = 0; i < dtConsultant.Rows.Count; i++)
+              //consultant = dt.ToObject<ConsultantMasterModel>();
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
                 {
-                    consultant = new ConsultantMasterModel
-                    {
-                        ConsultantId = Convert.ToInt32(dtConsultant.Rows[i]["ConsultantId"]),
-                        DeptId = Convert.ToInt32(dtConsultant.Rows[i]["DeptId"]),
-                        ConsultantCode = dtConsultant.Rows[i]["ConsultantCode"].ToString(),
-                        Title = dtConsultant.Rows[i]["Title"].ToString(),
-                        FirstName = dtConsultant.Rows[i]["FirstName"].ToString(),
-                        MiddleName = dtConsultant.Rows[i]["MiddleName"].ToString(),
-                        LastName = dtConsultant.Rows[i]["LastName"].ToString(),
-                        Gender = dtConsultant.Rows[i]["Gender"].ToString(),
-                        //DOB = dtConsultant.Rows[i]["DOB"].ToString(),
-                        Age = Convert.ToInt32(dtConsultant.Rows[i]["Age"]),
-                        Month = Convert.ToInt32(dtConsultant.Rows[i]["Month"]),
-                        Specialisation = dtConsultant.Rows[i]["Specialisation"].ToString(),
-                        Designation = dtConsultant.Rows[i]["Designation"].ToString(),
-                        Qualification = dtConsultant.Rows[i]["Qualification"].ToString(),
-                        NationalityId = Convert.ToInt32(dtConsultant.Rows[i]["NationalityId"]),
-                        Mobile = dtConsultant.Rows[i]["Mobile"].ToString(),
-                        ResPhone = dtConsultant.Rows[i]["ResPhone"].ToString(),
-                        OffPhone = dtConsultant.Rows[i]["OffPhone"].ToString(),
-                        Email = dtConsultant.Rows[i]["Email"].ToString(),
-                        Fax = dtConsultant.Rows[i]["Fax"].ToString(),
-                        DateOfJoin = dtConsultant.Rows[i]["DOJ"].ToString(),
-                        CRegNo = dtConsultant.Rows[i]["CRegNo"].ToString(),
-                        TimeSlice = Convert.ToInt32(dtConsultant.Rows[i]["TimeSlice"]),
-                        AppType = Convert.ToInt32(dtConsultant.Rows[i]["AppType"]),
-                        MaxPatients = Convert.ToInt32(dtConsultant.Rows[i]["MaxPatients"]),
-                        ItemId = Convert.ToInt32(dtConsultant.Rows[i]["ItemId"]),
-                        RoomNo = dtConsultant.Rows[i]["RoomNo"].ToString(),
-                        ConsultantLedger = Convert.ToInt32(dtConsultant.Rows[i]["ConsultantLedger"]),
-                        CommissionId = Convert.ToInt32(dtConsultant.Rows[i]["CommissionId"]),
-                        SortOrder = Convert.ToInt32(dtConsultant.Rows[i]["SortOrder"]),
-                        AllowCommission = Convert.ToBoolean(dtConsultant.Rows[i]["AllowCommission"].ToString()),
-                        DeptOverrule = Convert.ToBoolean(dtConsultant.Rows[i]["DeptOverrule"].ToString()),
-                        DeptWiseConsultation = Convert.ToBoolean(dtConsultant.Rows[i]["DeptWiseConsultation"].ToString()),
-                        ExternalConsultant = Convert.ToBoolean(dtConsultant.Rows[i]["ExternalConsultant"].ToString()),
-
-                    };
-
+                    consultant.Title = dt.Rows[i]["Title"].ToString();
+                    consultant.FirstName = dt.Rows[i]["FirstName"].ToString();
+                    consultant.MiddleName = dt.Rows[i]["MiddleName"].ToString();
+                    consultant.LastName = dt.Rows[i]["LastName"].ToString();
+                    consultant.ConsultantId = Convert.ToInt32(dt.Rows[i]["ConsultantId"]);
+                    consultant.SpecialityCode = dt.Rows[i]["SpecialityCode"].ToString();
+                    consultant.ConsultantCode = dt.Rows[i]["ConsultantCode"].ToString();
+                    consultant.DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]);
+                    consultant.Designation = dt.Rows[i]["Designation"].ToString();
+                    consultant.CRegNo = dt.Rows[i]["CRegNo"].ToString();
+                    consultant.DOJ = dt.Rows[i]["DOJ"].ToString();
+                    consultant.Specialisation = dt.Rows[i]["Specialisation"].ToString();
+                    consultant.RoomNo = dt.Rows[i]["RoomNo"].ToString();
+                    consultant.SortOrder = Convert.ToInt32(dt.Rows[i]["SortOrder"]);
+                    consultant.NationalityId = Convert.ToInt32(dt.Rows[i]["NationalityId"]);
+                    consultant.Gender = dt.Rows[i]["Gender"].ToString();
+                    consultant.DOB = dt.Rows[i]["DOB"].ToString();
+                    consultant.Age = Convert.ToInt32(dt.Rows[i]["Age"]);
+                    consultant.Month = Convert.ToInt32(dt.Rows[i]["Month"]);
+                    consultant.Qualification = dt.Rows[i]["Qualification"].ToString();
+                    consultant.Mobile = dt.Rows[i]["Mobile"].ToString();
+                    consultant.ResPhone = dt.Rows[i]["ResPhone"].ToString();
+                    consultant.OffPhone = dt.Rows[i]["OffPhone"].ToString();
+                    consultant.Email = dt.Rows[i]["Email"].ToString();
+                    consultant.Fax = dt.Rows[i]["Fax"].ToString();
+                    consultant.TimeSlice = Convert.ToInt32(dt.Rows[i]["TimeSlice"]);
+                    consultant.MaxPatients = Convert.ToInt32(dt.Rows[i]["MaxPatients"]);
+                    consultant.ConsultantLedger = Convert.ToInt32(dt.Rows[i]["ConsultantLedger"]);
+                    consultant.CommissionId = Convert.ToInt32(dt.Rows[i]["CommissionId"]);
+                    consultant.AllowCommission = Convert.ToBoolean(dt.Rows[i]["AllowCommission"]);
+                    consultant.DeptOverrule = Convert.ToBoolean(dt.Rows[i]["DeptOverrule"]);
+                    consultant.DeptWiseConsultation = Convert.ToBoolean(dt.Rows[i]["DeptWiseConsultation"]);
+                    consultant.ExternalConsultant = Convert.ToBoolean(dt.Rows[i]["ExternalConsultant"]);
+                    consultant.AppType = Convert.ToInt32(dt.Rows[i]["AppType"]);
+                    consultant.ItemId =Convert.ToInt32(dt.Rows[i]["ItemId"]);
+                    consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"].ToString();
 
                 }
             }
+
+
+            con.Open();
+            SqlCommand cmdAddress = new SqlCommand("stLH_GetConsultantAddress", con);
+            cmdAddress.CommandType = CommandType.StoredProcedure;
+            cmdAddress.Parameters.AddWithValue("@ConsultantId", consultantId);
+            cmdAddress.Parameters.AddWithValue("@AddType", 0);
+            SqlDataAdapter adapter3 = new SqlDataAdapter(cmdAddress);
+            DataTable dsRate3 = new DataTable();
+            adapter3.Fill(dsRate3);
+            con.Close();
+            ConsultantAddressModel consultantAddress = new ConsultantAddressModel();
+            if ((dsRate3 != null) && (dsRate3.Rows.Count > 0))
+            {
+                consultantAddress = dsRate3.ToObject<ConsultantAddressModel>();
+               
+            }
+            consultant.Residence = consultantAddress;
+           
             return consultant;
-
         }
-
         public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
             List<ConsultantTimeScheduleMaster> responselist = new List<ConsultantTimeScheduleMaster>();
@@ -2335,6 +2328,46 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string InsertUpdateConsultantBaseCost(ConsultantBaseCostModel consultantBaseCost)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                       
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantBaseCost", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EntryId", consultantBaseCost.EntryId);
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantBaseCost.ConsultantId);
+                cmd.Parameters.AddWithValue("@ItemId", consultantBaseCost.ItemId);
+                cmd.Parameters.AddWithValue("@BaseCost", consultantBaseCost.BaseCost);
+               
 
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
     }
 }
