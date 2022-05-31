@@ -14,6 +14,7 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int BranchId { get; set; }
         public int IsDisplayed { get; set; }
+        public List<ItemRateDetailModel> Rate { get; set; }
     }
     public class RateGroupModelAll : RateGroupModel
     {

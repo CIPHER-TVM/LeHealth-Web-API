@@ -499,6 +499,7 @@ namespace LeHealth.Core.DataManager
                         EffectFrom = dtRateGroupList.Rows[i]["EffectFrom"].ToString(),
                         EffectTo = dtRateGroupList.Rows[i]["EffectTo"].ToString(),
                         IsDisplayed = Convert.ToInt32(dtRateGroupList.Rows[i]["IsDisplayed"]),
+
                         BranchId = rm.BranchId
                     };
                     stateList.Add(obj);
@@ -1668,7 +1669,7 @@ namespace LeHealth.Core.DataManager
                     {
                         SignId = Convert.ToInt32(dsVitalSignList.Rows[i]["SignId"]),
                         SignName = dsVitalSignList.Rows[i]["SignName"].ToString(),
-                        Mandatory = dsVitalSignList.Rows[i]["Mandatory"].ToString(),
+                        Mandatory = Convert.ToInt32(dsVitalSignList.Rows[i]["Mandatory"]),
                         SignCode = dsVitalSignList.Rows[i]["SignCode"].ToString(),
                         SignUnit = dsVitalSignList.Rows[i]["SignUnit"].ToString(),
                         MinValue = Convert.ToDouble(dsVitalSignList.Rows[i]["MinValue"]),
