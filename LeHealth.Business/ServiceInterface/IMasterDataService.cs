@@ -133,5 +133,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateServicePoint(ServicePointModel servicePoint);
         List<ServicePointModel> GetServicePoint(ServicePointModelAll sPoint);
         string DeleteServicePoint(ServicePointModel servicePoint);
+        string InsertUpdateDeleteTradeName(TradeNameModelAll tradeName);
+        List<TradeNameModel> GetTradeName(TradeNameModelAll tradeName);
     }
 }

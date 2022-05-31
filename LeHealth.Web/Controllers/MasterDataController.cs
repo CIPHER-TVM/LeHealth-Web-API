@@ -4397,5 +4397,71 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("InsertUpdateDeleteTradeName")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteTradeName(TradeNameModelAll tradeName)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteTradeName(tradeName);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetTradeName")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<TradeNameModel>> GetTradeName(TradeNameModelAll tradeName)
+        {
+            try
+            {
+                List<TradeNameModel> tradeNames = new List<TradeNameModel>();
+                tradeNames = masterdataService.GetTradeName(tradeName);
+                var response = new ResponseDataModel<IEnumerable<TradeNameModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = tradeNames
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<TradeNameModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }
