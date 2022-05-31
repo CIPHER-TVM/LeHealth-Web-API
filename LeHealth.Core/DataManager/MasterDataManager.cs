@@ -2008,7 +2008,7 @@ namespace LeHealth.Core.DataManager
                 };
                 cmd.Parameters.Add(retDesc);
                 con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
+                //var isUpdated = cmd.ExecuteNonQuery();
                 var ret = retValV.Value;
                 var descrip = retDesc.Value.ToString();
                 con.Close();
@@ -2116,7 +2116,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string DeleteSalutation(SalutationModelAll salutation)
+        public string DeleteSalutation(CommonMasterFieldModelAll salutation)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -3894,17 +3894,17 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="movement"></param>
         /// <returns></returns>
-        public string InsertUpdateMovement(MovementModel movement)
+        public string InsertUpdateMovement(CommonMasterFieldModelAll movement)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateMovement", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@MovementId", movement.MovementId);
-                cmd.Parameters.AddWithValue("@MovementDesc", movement.MovementDesc);
-                cmd.Parameters.AddWithValue("@Active", movement.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", movement.BlockReason);
+                cmd.Parameters.AddWithValue("@MovementId", movement.Id);
+                cmd.Parameters.AddWithValue("@MovementDesc", movement.DescriptionData);
+                cmd.Parameters.AddWithValue("@BranchId", movement.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", movement.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -3936,21 +3936,61 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<MovementModel> GetMovement(Int32 Id)
+        public List<CommonMasterFieldModel> GetMovement(CommonMasterFieldModelAll movement)
         {
-            List<MovementModel> vitalSignList = new List<MovementModel>();
+            List<CommonMasterFieldModel> movementList = new List<CommonMasterFieldModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetMovementDetails", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@MovementId", Id);
+            cmd.Parameters.AddWithValue("@MovementId", movement.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", movement.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", movement.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsMovementList = new DataTable();
             adapter.Fill(dsMovementList);
             con.Close();
             if ((dsMovementList != null) && (dsMovementList.Rows.Count > 0))
-                vitalSignList = dsMovementList.ToListOfObject<MovementModel>();
-            return vitalSignList;
+            {
+                for (Int32 i = 0; i < dsMovementList.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
+                    {
+                        Id = Convert.ToInt32(dsMovementList.Rows[i]["MovementId"]),
+                        DescriptionData = dsMovementList.Rows[i]["MovementDesc"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsMovementList.Rows[i]["IsDisplayed"])
+                    };
+                    movementList.Add(obj);
+                }
+            }
+            return movementList;
+        }
+        public string DeleteMovement(CommonMasterFieldModelAll movement)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteMovement", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", movement.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
         }
         //Movement Ends
         /// <summary>
@@ -4184,14 +4224,16 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="tendernessid">Primary key of LH_PhyTendern Table</param>
         /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
-        public List<TendernModel> GetTendern(Int32 tendernessid)
+        public List<CommonMasterFieldModel> GetTendern(CommonMasterFieldModelAll tenderness)
         {
-            List<TendernModel> itemList = new List<TendernModel>();
+            List<CommonMasterFieldModel> tendernList = new List<CommonMasterFieldModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetTendernDetails", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@TendernId", tendernessid);
+            cmd.Parameters.AddWithValue("@TendernId", tenderness.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", tenderness.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", tenderness.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsNumber = new DataTable();
             adapter.Fill(dsNumber);
@@ -4200,34 +4242,33 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
                 {
-                    TendernModel obj = new TendernModel
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
                     {
-                        TendernId = Convert.ToInt32(dsNumber.Rows[i]["TendernId"]),
-                        TendernDesc = dsNumber.Rows[i]["TendernDesc"].ToString(),
-                        Active = Convert.ToInt32(dsNumber.Rows[i]["Active"]),
-                        BlockReason = dsNumber.Rows[i]["BlockReason"].ToString()
+                        Id = Convert.ToInt32(dsNumber.Rows[i]["TendernId"]),
+                        DescriptionData = dsNumber.Rows[i]["TendernDesc"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsNumber.Rows[i]["IsDisplayed"])
                     };
-                    itemList.Add(obj);
+                    tendernList.Add(obj);
                 }
             }
-            return itemList;
+            return tendernList;
         }
         /// <summary>
         /// Save/Update Details of pain sensitivity(Tenderness)
         /// </summary>
         /// <param name="TendernId">Primary key of LH_PhyTendern Table,Update Data if param is not zero</param>
         /// <returns>List of tenderness details, Returns all if tendernessid=0</returns>
-        public string InsertUpdateTendern(TendernModel tendern)
+        public string InsertUpdateTendern(CommonMasterFieldModelAll tendern)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTendern", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@TendernId", tendern.TendernId);
-                cmd.Parameters.AddWithValue("@TendernDesc", tendern.TendernDesc);
-                cmd.Parameters.AddWithValue("@Active", tendern.Active);
-                cmd.Parameters.AddWithValue("@BlockReason", tendern.BlockReason);
+                cmd.Parameters.AddWithValue("@TendernId", tendern.Id);
+                cmd.Parameters.AddWithValue("@TendernDesc", tendern.DescriptionData);
+                cmd.Parameters.AddWithValue("@BranchId", tendern.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", tendern.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -4251,6 +4292,33 @@ namespace LeHealth.Core.DataManager
                 {
                     response = descrip;
                 }
+            }
+            return response;
+        }
+        public string DeleteTendern(CommonMasterFieldModelAll tendern)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteTenderness", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", tendern.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
             }
             return response;
         }
