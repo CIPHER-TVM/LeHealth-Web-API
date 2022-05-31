@@ -14,7 +14,6 @@ namespace LeHealth.Service.ServiceInterface
         List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
-        //string InsertUpdateCPTCode(CPTCodeModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
@@ -57,8 +56,6 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteSketchIndicator(SketchIndicatorModelAll sketch);
         List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegScheme);
         List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
-        //string InsertUpdateSalutation(SalutationModelAll salutationDetails);
-        string DeleteSalutation(SalutationModelAll salutationDetails);
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string DeleteMaritalStatus(MaritalStatusModelAll MaritalStatus);
@@ -110,12 +107,8 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
-        List<MovementModel> GetMovement(Int32 movement);
-        string InsertUpdateMovement(MovementModel movement);
         List<ScientificNameModel> GetScientificName(Int32 sname);
         string InsertUpdateScientificName(ScientificNameModel sname);
-        List<TendernModel> GetTendern(Int32 sname);
-        string InsertUpdateTendern(TendernModel sname);
         List<StateModel> GetStateByCountryId(Int32 countryId);
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();

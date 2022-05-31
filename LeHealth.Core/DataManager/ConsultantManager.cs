@@ -408,7 +408,7 @@ namespace LeHealth.Core.DataManager
                     transaction.Rollback();
                     response = ex.Message.ToString();
                 }
-               
+
             }
 
             return response;
@@ -1655,8 +1655,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ConsultantId", ss.ConsultantId);
-            //cmd.Parameters.AddWithValue("@SymptomIds", SymptomIds);
-            //cmd.Parameters.AddWithValue("@BranchId", ss.BranchId);
+            cmd.Parameters.AddWithValue("@BranchId", ss.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -1666,9 +1665,9 @@ namespace LeHealth.Core.DataManager
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
                     ConsultantBaseCostModel obj = new ConsultantBaseCostModel();
-                    obj.ItemId = Convert.ToInt32(ds.Rows[i]["ItemId"]);
-                    obj.ItemCode = ds.Rows[i]["ItemCode"].ToString();
-                    obj.BaseCost = (float)Convert.ToDouble(ds.Rows[i]["BaseCost"].ToString());
+                    obj.ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]);
+                    obj.ConsultantName = ds.Rows[i]["ConsultantName"].ToString();
+                    obj.ItemRates = JsonConvert.DeserializeObject<List<ItemRateDetailModel>>(ds.Rows[i]["ConsultantItemRate"].ToString());
                     consultantbasecostlist.Add(obj);
                 }
             }
@@ -1678,7 +1677,7 @@ namespace LeHealth.Core.DataManager
         {
             DiseaseModel disease = new DiseaseModel();
             using SqlConnection con = new SqlConnection(_connStr);
-            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
+            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDisInsertUpdatePackageeaseDetailsById", con);
             appointmentCountCMD.CommandType = CommandType.StoredProcedure;
             appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
             con.Open();

@@ -45,6 +45,12 @@ namespace LeHealth.Service.Service
                 case "Sign":
                     returnvalue = masterdataManager.GetSign(masterItem);
                     break;
+                case "Tenderness":
+                    returnvalue = masterdataManager.GetTendern(masterItem);
+                    break;
+                case "Movement":
+                    returnvalue = masterdataManager.GetMovement(masterItem);
+                    break;
                     //default:
                     //    returnvalue = masterdataManager.GetCPTCode(masterItem);
                     //    break;
@@ -75,6 +81,15 @@ namespace LeHealth.Service.Service
                 case "Sign":
                     returnvalue = masterdataManager.InsertUpdateSign(masterItem);
                     break;
+                case "Tenderness":
+                    returnvalue = masterdataManager.InsertUpdateTendern(masterItem);
+                    break;
+                case "Movement":
+                    returnvalue = masterdataManager.InsertUpdateMovement(masterItem);
+                    break;
+                case "Salutation": 
+                    returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
+                    break;
                 default:
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
                     break;
@@ -96,15 +111,15 @@ namespace LeHealth.Service.Service
                 case "Symptom":
                     returnvalue = masterdataManager.DeleteSymptom(masterItem);
                     break;
-                //case "Company":
-                //    returnvalue = masterdataManager.InsertUpdateCompany(masterItem);
-                //    break;
-                //case "ICDCategory":
-                //    returnvalue = masterdataManager.InsertUpdateICDCategory(masterItem);
-                //    break;
-                //case "Sign":
-                //    returnvalue = masterdataManager.InsertUpdateSign(masterItem);
-                //    break;
+                case "Tendern":
+                    returnvalue = masterdataManager.DeleteTendern(masterItem);
+                    break;
+                case "Movement":
+                    returnvalue = masterdataManager.DeleteMovement(masterItem); 
+                    break;
+                case "Salutation":
+                    returnvalue = masterdataManager.DeleteSalutation(masterItem); 
+                    break;
                 default:
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
                     break;
@@ -219,11 +234,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteState(state);
         }
-
-        //public string InsertUpdateCompany(CompanyModelAll cmp)
-        //{
-        //    return masterdataManager.InsertUpdateCompany(cmp);
-        //}
         public string DeleteCompany(CompanyModel cmp)
         {
             return masterdataManager.DeleteCompany(cmp);
@@ -232,10 +242,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetProfession(prof);
         }
-        //public string InsertUpdateProfession(ProfessionModelAll prof)
-        //{
-        //    return masterdataManager.InsertUpdateProfession(prof);
-        //}
         public string DeleteProfession(ProfessionModel prof)
         {
             return masterdataManager.DeleteProfession(prof);
@@ -311,14 +317,6 @@ namespace LeHealth.Service.Service
         public List<SalutationModel> GetSalutation(SalutationModelAll salutation)
         {
             return masterdataManager.GetSalutation(salutation);
-        }
-        //public string InsertUpdateSalutation(SalutationModelAll salutation)
-        //{
-        //    return masterdataManager.InsertUpdateSalutation(salutation);
-        //}
-        public string DeleteSalutation(SalutationModelAll salutation)
-        {
-            return masterdataManager.DeleteSalutation(salutation);
         }
         public List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll msma)
         {
@@ -531,16 +529,6 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateConsent(consent);
         }
 
-        public List<MovementModel> GetMovement(Int32 movement)
-        {
-            return masterdataManager.GetMovement(movement);
-        }
-        public string InsertUpdateMovement(MovementModel movement)
-        {
-            return masterdataManager.InsertUpdateMovement(movement);
-        }
-
-
         public List<ScientificNameModel> GetScientificName(Int32 movement)
         {
             return masterdataManager.GetScientificName(movement);
@@ -548,14 +536,6 @@ namespace LeHealth.Service.Service
         public string InsertUpdateScientificName(ScientificNameModel movement)
         {
             return masterdataManager.InsertUpdateScientificName(movement);
-        }
-        public List<TendernModel> GetTendern(Int32 movement)
-        {
-            return masterdataManager.GetTendern(movement);
-        }
-        public string InsertUpdateTendern(TendernModel movement)
-        {
-            return masterdataManager.InsertUpdateTendern(movement);
         }
         public List<StateModel> GetStateByCountryId(Int32 countryid)
         {

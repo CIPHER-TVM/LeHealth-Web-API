@@ -64,7 +64,7 @@ namespace LeHealth.Core.Interface
         List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId);
         List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
         string InsertUpdateSalutation(CommonMasterFieldModelAll salutationDetails);
-        string DeleteSalutation(SalutationModelAll salutationDetails);
+        string DeleteSalutation(CommonMasterFieldModelAll salutationDetails);
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string DeleteMaritalStatus(MaritalStatusModelAll MaritalStatus);
@@ -126,13 +126,15 @@ namespace LeHealth.Core.Interface
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
-        List<MovementModel> GetMovement(Int32 movement);
-        string InsertUpdateMovement(MovementModel movement);
+        List<CommonMasterFieldModel> GetMovement(CommonMasterFieldModelAll movement);
+        string InsertUpdateMovement(CommonMasterFieldModelAll movement);
+        string DeleteMovement(CommonMasterFieldModelAll movement);
         List<ScientificNameModel> GetScientificName(Int32 sname);
         string InsertUpdateScientificName(ScientificNameModel sname);
 
-        List<TendernModel> GetTendern(Int32 sname);
-        string InsertUpdateTendern(TendernModel sname);
+        List<CommonMasterFieldModel> GetTendern(CommonMasterFieldModelAll tenderness); 
+        string InsertUpdateTendern(CommonMasterFieldModelAll tenderness);
+        string DeleteTendern(CommonMasterFieldModelAll tenderness); 
         List<AppTypeModel> GetAppType();
         List<FormValidationModel> GetFormFields(Int32 Id);
         List<FormValidationModel> GetFormMaster();

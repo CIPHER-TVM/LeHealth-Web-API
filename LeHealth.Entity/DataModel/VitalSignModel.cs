@@ -8,7 +8,7 @@ namespace LeHealth.Entity.DataModel
     {
         public int SignId { get; set; }
         public string SignName { get; set; }
-        public string Mandatory { get; set; } 
+        public int Mandatory { get; set; } 
         public string SignCode { get; set; }
         public string SignUnit { get; set; }
         public double MinValue { get; set; }
