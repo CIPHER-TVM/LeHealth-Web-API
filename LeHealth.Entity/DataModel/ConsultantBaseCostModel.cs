@@ -16,7 +16,7 @@ namespace LeHealth.Entity.DataModel
         public int ItemId { get; set; }
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
-        public float BaseCost { get; set; }
+        public string BaseCost { get; set; }
     }
     public class ConsultantBaseCostModelAll : ConsultantBaseCostModel
     {
