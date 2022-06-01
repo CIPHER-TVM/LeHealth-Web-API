@@ -499,7 +499,7 @@ namespace LeHealth.Core.DataManager
                         EffectFrom = dtRateGroupList.Rows[i]["EffectFrom"].ToString(),
                         EffectTo = dtRateGroupList.Rows[i]["EffectTo"].ToString(),
                         IsDisplayed = Convert.ToInt32(dtRateGroupList.Rows[i]["IsDisplayed"]),
-
+                        Rate = JsonConvert.DeserializeObject<List<ItemRateDetailModel>>(dtRateGroupList.Rows[i]["RateDetail"].ToString()),
                         BranchId = rm.BranchId
                     };
                     stateList.Add(obj);
