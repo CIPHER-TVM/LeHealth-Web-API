@@ -373,6 +373,34 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel ccm)
+        {
+            CommunicationConfigurationModel profList = new CommunicationConfigurationModel();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCommunicationConfiguration", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtCPT = new DataTable();
+            adapter.Fill(dtCPT);
+            con.Close();
+            if ((dtCPT != null) && (dtCPT.Rows.Count > 0))
+            {
+                profList = new CommunicationConfigurationModel
+                {
+                    BranchId = Convert.ToInt32(dtCPT.Rows[0]["BranchId"]),
+                    APIUrl = dtCPT.Rows[0]["APIUrl"].ToString(),
+                    UserName = dtCPT.Rows[0]["UserName"].ToString(),
+                    SMSPassword = dtCPT.Rows[0]["SMSPasswordData"].ToString(),
+                    MailSender = dtCPT.Rows[0]["MailSender"].ToString(),
+                    MailPassword = dtCPT.Rows[0]["MailPasswordData"].ToString(),
+                    SMTP = dtCPT.Rows[0]["SMTP"].ToString(),
+                    SMTPPort = Convert.ToInt32(dtCPT.Rows[0]["SMTPPort"]),
+                };
+            }
+            return profList;
+        }
         public string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm)
         {
             string response = string.Empty;
@@ -380,11 +408,14 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCommunicationConfiguration", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@CPTCodeId", ccm.Id);
-                //cmd.Parameters.AddWithValue("@CPTCode", ccm.CodeData);
-                //cmd.Parameters.AddWithValue("@CPTDesc", ccm.DescriptionData);
-                //cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
-                //cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                cmd.Parameters.AddWithValue("@APIUrl", ccm.APIUrl);
+                cmd.Parameters.AddWithValue("@UserName", ccm.UserName);
+                cmd.Parameters.AddWithValue("@SMSPassword", ccm.SMSPassword);
+                cmd.Parameters.AddWithValue("@MailSender", ccm.MailSender);
+                cmd.Parameters.AddWithValue("@MailPassword", ccm.MailPassword);
+                cmd.Parameters.AddWithValue("@SMTP", ccm.SMTP);
+                cmd.Parameters.AddWithValue("@SMTPPort", ccm.SMTPPort);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -4299,7 +4330,7 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetScientificName", con);
             con.Open();
-            
+
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ScientificId", scientificName.ScientificId);
             cmd.Parameters.AddWithValue("@ShowAll", scientificName.ShowAll);

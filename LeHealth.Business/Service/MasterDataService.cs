@@ -90,7 +90,7 @@ namespace LeHealth.Service.Service
                 case "Movement":
                     returnvalue = masterdataManager.InsertUpdateMovement(masterItem);
                     break;
-                case "Salutation": 
+                case "Salutation":
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
                     break;
                 default:
@@ -118,10 +118,10 @@ namespace LeHealth.Service.Service
                     returnvalue = masterdataManager.DeleteTendern(masterItem);
                     break;
                 case "Movement":
-                    returnvalue = masterdataManager.DeleteMovement(masterItem); 
+                    returnvalue = masterdataManager.DeleteMovement(masterItem);
                     break;
                 case "Salutation":
-                    returnvalue = masterdataManager.DeleteSalutation(masterItem); 
+                    returnvalue = masterdataManager.DeleteSalutation(masterItem);
                     break;
                 default:
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
@@ -141,7 +141,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteServiceItem(serviceitem);
         }
-
+        public CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel ngm)
+        {
+            return masterdataManager.GetCommunicationConfiguration(ngm);
+        }
         public List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ngm)
         {
             return masterdataManager.GetNationalityGroup(ngm);
@@ -154,9 +157,9 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteNationalityGroup(ngm);
         }
-        public string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm) 
+        public string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm)
         {
-            return masterdataManager.InsertUpdateCommunicationConfiguration(ccm); 
+            return masterdataManager.InsertUpdateCommunicationConfiguration(ccm);
         }
 
         public string DeleteCPTCode(CPTCodeModel ccm)
