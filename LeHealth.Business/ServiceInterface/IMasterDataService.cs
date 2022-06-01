@@ -107,8 +107,8 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateSponsorType(SponsorTypeModel sponsorType);
         List<SponsorFormModel> GetSponsorForm(Int32 sponsorForm);
         string InsertUpdateSponsorForm(SponsorFormModel sponsorForm);
-        List<ScientificNameModel> GetScientificName(Int32 sname);
-        string InsertUpdateScientificName(ScientificNameModel sname);
+        List<ScientificNameModel> GetScientificName(ScientificNameModelAll scientificName);
+        string InsertUpdateScientificName(ScientificNameModelAll scientificName);
         List<StateModel> GetStateByCountryId(Int32 countryId);
         List<ItemsByTypeModel> GetItemsByType(ItemsByTypeModel ibt);
         List<ConsentTypeModel> GetConsentType();

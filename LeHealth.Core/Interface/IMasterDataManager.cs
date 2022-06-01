@@ -129,8 +129,8 @@ namespace LeHealth.Core.Interface
         List<CommonMasterFieldModel> GetMovement(CommonMasterFieldModelAll movement);
         string InsertUpdateMovement(CommonMasterFieldModelAll movement);
         string DeleteMovement(CommonMasterFieldModelAll movement);
-        List<ScientificNameModel> GetScientificName(Int32 sname);
-        string InsertUpdateScientificName(ScientificNameModel sname);
+        List<ScientificNameModel> GetScientificName(ScientificNameModelAll scientificName);
+        string InsertUpdateScientificName(ScientificNameModelAll scientificName);
 
         List<CommonMasterFieldModel> GetTendern(CommonMasterFieldModelAll tenderness); 
         string InsertUpdateTendern(CommonMasterFieldModelAll tenderness);
