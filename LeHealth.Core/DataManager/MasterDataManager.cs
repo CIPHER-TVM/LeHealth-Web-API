@@ -5386,5 +5386,73 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string InsertUpdateDeleteTradeName(TradeNameModelAll tradeName)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTradeName", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+       
+                cmd.Parameters.AddWithValue("@TradeId", tradeName.TradeId);
+                cmd.Parameters.AddWithValue("@TradeName", tradeName.TradeName);
+                cmd.Parameters.AddWithValue("@ScientificId", tradeName.ScientificId);
+                cmd.Parameters.AddWithValue("@RouteId", tradeName.RouteId);
+                cmd.Parameters.AddWithValue("@DosageForm", tradeName.DosageForm);
+                cmd.Parameters.AddWithValue("@IngredentStrength", tradeName.IngredentStrength);
+                cmd.Parameters.AddWithValue("@PackagePrice", tradeName.PackagePrice);
+                cmd.Parameters.AddWithValue("@GranularUnit", tradeName.GranularUnit);
+                cmd.Parameters.AddWithValue("@Manufacturer", tradeName.Manufacturer);
+                cmd.Parameters.AddWithValue("@RegisteredOwner", tradeName.RegisteredOwner);
+                cmd.Parameters.AddWithValue("@IsDisplayed", tradeName.IsDisplayed);
+                cmd.Parameters.AddWithValue("@IsDeleted", tradeName.IsDeleted);
+                cmd.Parameters.AddWithValue("@BranchId", tradeName.BranchId);
+                cmd.Parameters.AddWithValue("@TradeCode", tradeName.TradeCode);
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<TradeNameModel> GetTradeName(TradeNameModelAll tradeName)
+        {
+            List<TradeNameModel> tradeNames = new List<TradeNameModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetTradeName", con);
+            con.Open();
+    
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@TradeNameId", tradeName.TradeId);
+            cmd.Parameters.AddWithValue("@ShowAll", tradeName.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", tradeName.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+                tradeNames = dt.ToListOfObject<TradeNameModel>();
+            return tradeNames;
+        }
     }
 }

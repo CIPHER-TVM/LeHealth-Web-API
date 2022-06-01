@@ -634,6 +634,13 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteServicePoint(servicePoint);
         }
-
+        public string InsertUpdateDeleteTradeName(TradeNameModelAll tradeName)
+        {
+            return masterdataManager.InsertUpdateDeleteTradeName(tradeName);
+        }
+        public List<TradeNameModel> GetTradeName(TradeNameModelAll tradeName)
+        {
+            return masterdataManager.GetTradeName(tradeName);
+        }
     }
 }

@@ -251,5 +251,6 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.DeleteConsultant(id);
         }
+       
     }
 }

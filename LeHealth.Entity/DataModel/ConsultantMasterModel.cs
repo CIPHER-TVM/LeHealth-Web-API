@@ -7,6 +7,11 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsultantMasterModel
     {
+        public string Title { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+
         public int ConsultantId { get; set; }
         public string SpecialityCode { get; set; }
         public string ConsultantCode { get; set; }
@@ -20,10 +25,7 @@ namespace LeHealth.Entity.DataModel
         public int SortOrder { get; set; }
 
 
-        public string Title { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
+       
         public int NationalityId { get; set; }
         public string Gender { get; set; }
         public string DOB { get; set; }
@@ -61,7 +63,7 @@ namespace LeHealth.Entity.DataModel
         //public byte[] Signature { get; set; }
         public string SignatureLoc { get; set; }
         public string Location { get; set; }
-        public List<string> LocationIds { get; set; }
+        public List<LocationModel> LocationIds { get; set; }
         public int BranchId { get; set; }
 
         public UserModel UserData { get; set; } 
