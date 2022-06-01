@@ -6,11 +6,13 @@ namespace LeHealth.Entity.DataModel
 {
     public class CommunicationConfigurationModel
     {
-        public int ComId { get; set; }
-        public string One { get; set; }
-        public string Two { get; set; }
-        public string Three { get; set; }
-        public string Four { get; set; }
-        public string Five { get; set; } 
+        public int BranchId { get; set; }
+        public string APIUrl { get; set; }
+        public string UserName { get; set; }
+        public string SMSPassword { get; set; }
+        public string MailSender { get; set; }
+        public string MailPassword { get; set; }
+        public string SMTP { get; set; }
+        public int SMTPPort { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteNationalityGroup(NationalityGroupModelAll serviceitem);
         string DeleteCPTCode(CPTCodeModel ccm);
         string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm);
+        CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel pm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
         string DeleteCPTModifier(CPTModifierAll ccm);

@@ -221,6 +221,42 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("GetCommunicationConfiguration")]
+        [HttpPost]
+        public ResponseDataModel<CommunicationConfigurationModel> GetCommunicationConfiguration(CommunicationConfigurationModel cmfma)
+        {
+            try
+            {
+                CommunicationConfigurationModel cptList = new CommunicationConfigurationModel();
+                cptList = masterdataService.GetCommunicationConfiguration(cmfma);
+                if (cptList.UserName == null)
+                {
+                    cptList = null;
+                }
+                var response = new ResponseDataModel<CommunicationConfigurationModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<CommunicationConfigurationModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
         [Route("GetNationalityGroup")]
         [HttpPost]
