@@ -3654,14 +3654,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetScientificName/{Id}")]
+        [Route("GetScientificName")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ScientificNameModel>> GetScientificName(Int32 Id)
+        public ResponseDataModel<IEnumerable<ScientificNameModel>> GetScientificName(ScientificNameModelAll scientificName)
         {
             try
             {
                 List<ScientificNameModel> scientificNameList = new List<ScientificNameModel>();
-                scientificNameList = masterdataService.GetScientificName(Id);
+                scientificNameList = masterdataService.GetScientificName(scientificName);
                 var response = new ResponseDataModel<IEnumerable<ScientificNameModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -3689,12 +3689,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateScientificName")]
         [HttpPost]
-        public ResponseDataModel<ScientificNameModel> InsertUpdateScientificName(ScientificNameModel la)
+        public ResponseDataModel<ScientificNameModel> InsertUpdateScientificName(ScientificNameModelAll scientificName)
         {
             try
             {
                 string message = string.Empty;
-                message = masterdataService.InsertUpdateScientificName(la);
+                message = masterdataService.InsertUpdateScientificName(scientificName);
                 var response = new ResponseDataModel<ScientificNameModel>()
                 {
                     Status = HttpStatusCode.OK,

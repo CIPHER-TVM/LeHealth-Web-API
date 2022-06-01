@@ -17,6 +17,7 @@ namespace LeHealth.Entity.DataModel
         public string Manufacturer { get; set; }
         public string RegisteredOwner { get; set; }
         public int IsDeleted { get; set; }
+        public int ZoneId { get; set; }
         public string TradeCode { get; set; }
     }
     public class TradeNameModelAll : TradeNameModel

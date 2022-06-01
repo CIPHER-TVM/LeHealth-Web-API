@@ -4289,18 +4289,21 @@ namespace LeHealth.Core.DataManager
         }
         //Location Starts
         /// <summary>
-        /// Get Scientific names of drugs master
+        /// Get Scientific names of drugs master. ShowAll=1 && ScientificId=0 gell all data, ShowAll=0 && ScientificId={id} get single data,
         /// </summary>
-        /// <param name="la"></param>
+        /// <param name="scientificName"></param>
         /// <returns></returns>
-        public List<ScientificNameModel> GetScientificName(Int32 la)
+        public List<ScientificNameModel> GetScientificName(ScientificNameModelAll scientificName)
         {
             List<ScientificNameModel> itemList = new List<ScientificNameModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetScientificName", con);
             con.Open();
+            
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ScientificId", la);
+            cmd.Parameters.AddWithValue("@ScientificId", scientificName.ScientificId);
+            cmd.Parameters.AddWithValue("@ShowAll", scientificName.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", scientificName.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsNumber = new DataTable();
             adapter.Fill(dsNumber);
@@ -4314,6 +4317,8 @@ namespace LeHealth.Core.DataManager
                         ScientificId = Convert.ToInt32(dsNumber.Rows[i]["ScientificId"]),
                         ScientificCode = dsNumber.Rows[i]["ScientificCode"].ToString(),
                         ScientificName = dsNumber.Rows[i]["ScientificName"].ToString(),
+                        ZoneId = Convert.ToInt32(dsNumber.Rows[i]["ZoneId"]),
+                        IsDeleted = Convert.ToInt32(dsNumber.Rows[i]["IsDeleted"]),
                         Active = Convert.ToInt32(dsNumber.Rows[i]["Active"])
                     };
                     itemList.Add(obj);
@@ -4322,21 +4327,25 @@ namespace LeHealth.Core.DataManager
             return itemList;
         }
         /// <summary>
-        /// Save or update a drug's scientific name.If ScientificId is zero then inserts the value. else updates the value
+        /// Save or update a drug's scientific name.If ScientificId is zero then inserts the value. else updates the value. If Iseleted=1, It will delete the value
         /// </summary>
-        /// <param name="Package"></param>
+        /// <param name="ScientificNameModelAll"></param>
         /// <returns></returns>
-        public string InsertUpdateScientificName(ScientificNameModel ScientificName)
+        public string InsertUpdateScientificName(ScientificNameModelAll scientificName)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateScientifcName", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ScientificId", ScientificName.ScientificId);
-                cmd.Parameters.AddWithValue("@ScientificName", ScientificName.ScientificName);
-                cmd.Parameters.AddWithValue("@ScientificCode", ScientificName.ScientificCode);
-                cmd.Parameters.AddWithValue("@UserId", ScientificName.UserId);
+                cmd.Parameters.AddWithValue("@ScientificId", scientificName.ScientificId);
+                cmd.Parameters.AddWithValue("@ScientificName", scientificName.ScientificName);
+                cmd.Parameters.AddWithValue("@ScientificCode", scientificName.ScientificCode);
+                cmd.Parameters.AddWithValue("@IsDisplayed", scientificName.IsDisplayed);
+                cmd.Parameters.AddWithValue("@IsDeleted", scientificName.IsDeleted);
+                cmd.Parameters.AddWithValue("@BranchId", scientificName.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", scientificName.UserId);
+                cmd.Parameters.AddWithValue("@ZoneId", scientificName.ZoneId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5553,7 +5562,8 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@IsDeleted", tradeName.IsDeleted);
                 cmd.Parameters.AddWithValue("@BranchId", tradeName.BranchId);
                 cmd.Parameters.AddWithValue("@TradeCode", tradeName.TradeCode);
-
+                cmd.Parameters.AddWithValue("@UserId", tradeName.UserId);
+                cmd.Parameters.AddWithValue("@ZoneId", tradeName.ZoneId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

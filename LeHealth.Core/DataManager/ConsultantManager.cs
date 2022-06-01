@@ -2095,42 +2095,42 @@ namespace LeHealth.Core.DataManager
               //consultant = dt.ToObject<ConsultantMasterModel>();
                 for (Int32 i = 0; i < dt.Rows.Count; i++)
                 {
-                    consultant.Title = dt.Rows[i]["Title"].ToString();
-                    consultant.FirstName = dt.Rows[i]["FirstName"].ToString();
-                    consultant.MiddleName = dt.Rows[i]["MiddleName"].ToString();
-                    consultant.LastName = dt.Rows[i]["LastName"].ToString();
-                    consultant.ConsultantId = Convert.ToInt32(dt.Rows[i]["ConsultantId"]);
-                    consultant.SpecialityCode = dt.Rows[i]["SpecialityCode"].ToString();
-                    consultant.ConsultantCode = dt.Rows[i]["ConsultantCode"].ToString();
-                    consultant.DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]);
-                    consultant.Designation = dt.Rows[i]["Designation"].ToString();
-                    consultant.CRegNo = dt.Rows[i]["CRegNo"].ToString();
-                    consultant.DOJ = dt.Rows[i]["DOJ"].ToString();
-                    consultant.Specialisation = dt.Rows[i]["Specialisation"].ToString();
-                    consultant.RoomNo = dt.Rows[i]["RoomNo"].ToString();
-                    consultant.SortOrder = Convert.ToInt32(dt.Rows[i]["SortOrder"]);
-                    consultant.NationalityId = Convert.ToInt32(dt.Rows[i]["NationalityId"]);
-                    consultant.Gender = dt.Rows[i]["Gender"].ToString();
-                    consultant.DOB = dt.Rows[i]["DOB"].ToString();
-                    consultant.Age = Convert.ToInt32(dt.Rows[i]["Age"]);
-                    consultant.Month = Convert.ToInt32(dt.Rows[i]["Month"]);
-                    consultant.Qualification = dt.Rows[i]["Qualification"].ToString();
-                    consultant.Mobile = dt.Rows[i]["Mobile"].ToString();
-                    consultant.ResPhone = dt.Rows[i]["ResPhone"].ToString();
-                    consultant.OffPhone = dt.Rows[i]["OffPhone"].ToString();
-                    consultant.Email = dt.Rows[i]["Email"].ToString();
-                    consultant.Fax = dt.Rows[i]["Fax"].ToString();
-                    consultant.TimeSlice = Convert.ToInt32(dt.Rows[i]["TimeSlice"]);
-                    consultant.MaxPatients = Convert.ToInt32(dt.Rows[i]["MaxPatients"]);
-                    consultant.ConsultantLedger = Convert.ToInt32(dt.Rows[i]["ConsultantLedger"]);
-                    consultant.CommissionId = Convert.ToInt32(dt.Rows[i]["CommissionId"]);
-                    consultant.AllowCommission = Convert.ToBoolean(dt.Rows[i]["AllowCommission"]);
-                    consultant.DeptOverrule = Convert.ToBoolean(dt.Rows[i]["DeptOverrule"]);
-                    consultant.DeptWiseConsultation = Convert.ToBoolean(dt.Rows[i]["DeptWiseConsultation"]);
-                    consultant.ExternalConsultant = Convert.ToBoolean(dt.Rows[i]["ExternalConsultant"]);
-                    consultant.AppType = Convert.ToInt32(dt.Rows[i]["AppType"]);
-                    consultant.ItemId =Convert.ToInt32(dt.Rows[i]["ItemId"]);
-                    consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"].ToString();
+                    consultant.Title = dt.Rows[i]["Title"]!=null? dt.Rows[i]["Title"].ToString():"";
+                    consultant.FirstName = dt.Rows[i]["FirstName"]!=null? dt.Rows[i]["FirstName"].ToString() : "";
+                    consultant.MiddleName = dt.Rows[i]["MiddleName"]!=null? dt.Rows[i]["MiddleName"].ToString():"";
+                    consultant.LastName = dt.Rows[i]["LastName"]!=null? dt.Rows[i]["LastName"].ToString():"";
+                    consultant.ConsultantId = dt.Rows[i]["ConsultantId"]!=null? Convert.ToInt32(dt.Rows[i]["ConsultantId"]):0;
+                    consultant.SpecialityCode = dt.Rows[i]["SpecialityCode"]!=null? dt.Rows[i]["SpecialityCode"].ToString():"";
+                    consultant.ConsultantCode = dt.Rows[i]["ConsultantCode"]!=null? dt.Rows[i]["ConsultantCode"].ToString():"";
+                    consultant.DeptId = dt.Rows[i]["DeptId"]!=null? Convert.ToInt32(dt.Rows[i]["DeptId"]):0;
+                    consultant.Designation = dt.Rows[i]["Designation"]!=null? dt.Rows[i]["Designation"].ToString():"";
+                    consultant.CRegNo = dt.Rows[i]["CRegNo"]!=null? dt.Rows[i]["CRegNo"].ToString():"";
+                    consultant.DOJ = dt.Rows[i]["DOJ"]!=null? dt.Rows[i]["DOJ"].ToString():"";
+                    consultant.Specialisation = dt.Rows[i]["Specialisation"]!=null? dt.Rows[i]["Specialisation"].ToString():"";
+                    consultant.RoomNo = dt.Rows[i]["RoomNo"]!=null? dt.Rows[i]["RoomNo"].ToString():"";
+                    consultant.SortOrder = dt.Rows[i]["SortOrder"]!=null? Convert.ToInt32(dt.Rows[i]["SortOrder"]):0;
+                    consultant.NationalityId = dt.Rows[i]["NationalityId"]!=null? Convert.ToInt32(dt.Rows[i]["NationalityId"]):0;
+                    consultant.Gender = dt.Rows[i]["Gender"]!=null? dt.Rows[i]["Gender"].ToString():"";
+                    consultant.DOB = dt.Rows[i]["DOB"]!=null? dt.Rows[i]["DOB"].ToString():"";
+                    consultant.Age = dt.Rows[i]["Age"]!=null? Convert.ToInt32(dt.Rows[i]["Age"]):0;
+                    consultant.Month = dt.Rows[i]["Month"]!=null? Convert.ToInt32(dt.Rows[i]["Month"]):0;
+                    consultant.Qualification = dt.Rows[i]["Qualification"]!=null? dt.Rows[i]["Qualification"].ToString():"";
+                    consultant.Mobile = dt.Rows[i]["Mobile"]!=null? dt.Rows[i]["Mobile"].ToString():"";
+                    consultant.ResPhone = dt.Rows[i]["ResPhone"]!=null? dt.Rows[i]["ResPhone"].ToString():"";
+                    consultant.OffPhone = dt.Rows[i]["OffPhone"]!=null? dt.Rows[i]["OffPhone"].ToString():"";
+                    consultant.Email = dt.Rows[i]["Email"]!=null? dt.Rows[i]["Email"].ToString():"";
+                    consultant.Fax = dt.Rows[i]["Fax"]!=null? dt.Rows[i]["Fax"].ToString():"";
+                    consultant.TimeSlice = dt.Rows[i]["TimeSlice"]!=null? Convert.ToInt32(dt.Rows[i]["TimeSlice"]):0;
+                    consultant.MaxPatients = dt.Rows[i]["MaxPatients"]!=null? Convert.ToInt32(dt.Rows[i]["MaxPatients"]):0;
+                    consultant.ConsultantLedger = dt.Rows[i]["ConsultantLedger"]!=null? Convert.ToInt32(dt.Rows[i]["ConsultantLedger"]):0;
+                    consultant.CommissionId = dt.Rows[i]["CommissionId"]!=null? Convert.ToInt32(dt.Rows[i]["CommissionId"]):0;
+                    consultant.AllowCommission = dt.Rows[i]["AllowCommission"]!=null? Convert.ToBoolean(dt.Rows[i]["AllowCommission"]): false;
+                    consultant.DeptOverrule = dt.Rows[i]["DeptOverrule"]!=null? Convert.ToBoolean(dt.Rows[i]["DeptOverrule"]):false;
+                    consultant.DeptWiseConsultation = dt.Rows[i]["DeptWiseConsultation"]!=null? Convert.ToBoolean(dt.Rows[i]["DeptWiseConsultation"]):false;
+                    consultant.ExternalConsultant = dt.Rows[i]["ExternalConsultant"]!=null? Convert.ToBoolean(dt.Rows[i]["ExternalConsultant"]):false;
+                    consultant.AppType = dt.Rows[i]["AppType"]!=null? Convert.ToInt32(dt.Rows[i]["AppType"]):0;
+                    consultant.ItemId = dt.Rows[i]["ItemId"]!=null?Convert.ToInt32(dt.Rows[i]["ItemId"]):0;
+                    consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"]!=null? dt.Rows[i]["SignatureLoc"].ToString():"";
 
                 }
             }
@@ -2149,7 +2149,21 @@ namespace LeHealth.Core.DataManager
             if ((dsRate3 != null) && (dsRate3.Rows.Count > 0))
             {
                 consultantAddress = dsRate3.ToObject<ConsultantAddressModel>();
-               
+                for (Int32 i = 0; i < dsRate3.Rows.Count; i++)
+                {
+                    consultantAddress.Address1= dsRate3.Rows[i]["Address1"] != null ? dsRate3.Rows[i]["Address1"].ToString() : "";
+                    consultantAddress.Address2 = dsRate3.Rows[i]["Address2"] != null ? dsRate3.Rows[i]["Address2"].ToString() : "";
+                    consultantAddress.AddType = dsRate3.Rows[i]["AddType"] != null ? Convert.ToInt32(dsRate3.Rows[i]["AddType"]) : 0;
+                    consultantAddress.City = dsRate3.Rows[i]["City"] != null ? dsRate3.Rows[i]["City"].ToString() : "";
+                    consultantAddress.ConsultantId = dsRate3.Rows[i]["ConsultantId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["ConsultantId"]) : 0;
+                    consultantAddress.CountryId = dsRate3.Rows[i]["CountryId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["CountryId"]) : 0;
+                    consultantAddress.PIN = dsRate3.Rows[i]["PIN"] != null ? dsRate3.Rows[i]["PIN"].ToString() : "";
+                    consultantAddress.PlacePO = dsRate3.Rows[i]["PlacePO"] != null ? dsRate3.Rows[i]["PlacePO"].ToString() : "";
+                    consultantAddress.State = dsRate3.Rows[i]["State"] != null ? dsRate3.Rows[i]["State"].ToString() : "";
+                    consultantAddress.Street = dsRate3.Rows[i]["Street"] != null ? dsRate3.Rows[i]["Street"].ToString() : "";
+                 
+
+                }
             }
             consultant.Residence = consultantAddress;
            

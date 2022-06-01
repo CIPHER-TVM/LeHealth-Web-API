@@ -546,13 +546,13 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateConsent(consent);
         }
 
-        public List<ScientificNameModel> GetScientificName(Int32 movement)
+        public List<ScientificNameModel> GetScientificName(ScientificNameModelAll scientificName)
         {
-            return masterdataManager.GetScientificName(movement);
+            return masterdataManager.GetScientificName(scientificName);
         }
-        public string InsertUpdateScientificName(ScientificNameModel movement)
+        public string InsertUpdateScientificName(ScientificNameModelAll scientificName)
         {
-            return masterdataManager.InsertUpdateScientificName(movement);
+            return masterdataManager.InsertUpdateScientificName(scientificName);
         }
         public List<StateModel> GetStateByCountryId(Int32 countryid)
         {
