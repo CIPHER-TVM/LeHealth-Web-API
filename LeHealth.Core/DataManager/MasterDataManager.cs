@@ -479,9 +479,10 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateNationalityGroup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@NGroupId", ccm.NGroupId);
-                cmd.Parameters.AddWithValue("@NGroupDesc", ccm.NGroupDesc);
+                cmd.Parameters.AddWithValue("@NGrpId", ccm.NGroupId);
+                cmd.Parameters.AddWithValue("@NGrpDesc", ccm.NGroupDesc);
                 cmd.Parameters.AddWithValue("@RegionCode", ccm.RegionCode);
+                cmd.Parameters.AddWithValue("@UserId", ccm.UserId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -534,7 +535,6 @@ namespace LeHealth.Core.DataManager
                 var descrip = retDesc.Value.ToString();
                 con.Close();
                 response = descrip;
-
             }
             return response;
         }
