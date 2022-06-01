@@ -4557,6 +4557,70 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("InsertUpdateDeleteDrug")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteDrug(DrugModelAll drug)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteDrug(drug);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetDrug")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DrugModel>> GetDrug(DrugModelAll drug)
+        {
+            try
+            {
+                List<DrugModel> drugs = new List<DrugModel>();
+                drugs = masterdataService.GetDrug(drug);
+                var response = new ResponseDataModel<IEnumerable<DrugModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DrugModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

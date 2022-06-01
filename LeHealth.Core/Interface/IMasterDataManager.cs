@@ -174,5 +174,7 @@ namespace LeHealth.Core.Interface
         string DeleteServicePoint(ServicePointModel servicePoint);
         string InsertUpdateDeleteTradeName(TradeNameModelAll tradeName);
         List<TradeNameModel> GetTradeName(TradeNameModelAll tradeName);
+        string InsertUpdateDeleteDrug(DrugModelAll drug);
+        List<DrugModel> GetDrug(DrugModelAll drug);
     }
 }

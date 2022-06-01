@@ -662,5 +662,13 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetTradeName(tradeName);
         }
+        public string InsertUpdateDeleteDrug(DrugModelAll drug)
+        {
+            return masterdataManager.InsertUpdateDeleteDrug(drug);
+        }
+        public List<DrugModel> GetDrug(DrugModelAll drug)
+        {
+            return masterdataManager.GetDrug(drug);
+        }
     }
 }
