@@ -373,6 +373,140 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCommunicationConfiguration", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@CPTCodeId", ccm.Id);
+                //cmd.Parameters.AddWithValue("@CPTCode", ccm.CodeData);
+                //cmd.Parameters.AddWithValue("@CPTDesc", ccm.DescriptionData);
+                //cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
+                //cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ccm)
+        {
+            List<NationalityGroupModel> profList = new List<NationalityGroupModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetNationalityGroup", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@NGrpId", ccm.NGroupId);
+            cmd.Parameters.AddWithValue("@ShowAll", ccm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtCPT = new DataTable();
+            adapter.Fill(dtCPT);
+            con.Close();
+            if ((dtCPT != null) && (dtCPT.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtCPT.Rows.Count; i++)
+                {
+                    NationalityGroupModel obj = new NationalityGroupModel
+                    {
+                        NGroupId = Convert.ToInt32(dtCPT.Rows[i]["NGroupId"]),
+                        NGroupDesc = dtCPT.Rows[i]["NGroupDesc"].ToString(),
+                        RegionCode = dtCPT.Rows[i]["RegionCode"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dtCPT.Rows[i]["IsDisplayed"]),
+                    };
+                    profList.Add(obj);
+                }
+            }
+            return profList;
+        }
+        public string InsertUpdateNationalityGroup(NationalityGroupModelAll ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateNationalityGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@NGroupId", ccm.NGroupId);
+                cmd.Parameters.AddWithValue("@NGroupDesc", ccm.NGroupDesc);
+                cmd.Parameters.AddWithValue("@RegionCode", ccm.RegionCode);
+                cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteNationalityGroup(NationalityGroupModelAll ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteNationalityGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@NGroupId", ccm.NGroupId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
         public List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm)
         {
             List<CPTModifierModel> profList = new List<CPTModifierModel>();
@@ -2009,7 +2143,7 @@ namespace LeHealth.Core.DataManager
                 };
                 cmd.Parameters.Add(retDesc);
                 con.Open();
-                //var isUpdated = cmd.ExecuteNonQuery();
+                var isUpdated = cmd.ExecuteNonQuery();
                 var ret = retValV.Value;
                 var descrip = retDesc.Value.ToString();
                 con.Close();
@@ -2056,9 +2190,9 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="salutationDetails"></param>
         /// <returns></returns>
-        public List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails)
+        public List<CommonMasterFieldModel> GetSalutation(CommonMasterFieldModelAll salutationDetails)
         {
-            List<SalutationModel> salutationList = new List<SalutationModel>();
+            List<CommonMasterFieldModel> salutationList = new List<CommonMasterFieldModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetSalutation", con);
             con.Open();
@@ -2071,7 +2205,18 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dtsalutationList);
             con.Close();
             if ((dtsalutationList != null) && (dtsalutationList.Rows.Count > 0))
-                salutationList = dtsalutationList.ToListOfObject<SalutationModel>();
+            {
+                for (Int32 i = 0; i < dtsalutationList.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
+                    {
+                        Id = Convert.ToInt32(dtsalutationList.Rows[i]["Id"]),
+                        NameData = dtsalutationList.Rows[i]["Salutation"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dtsalutationList.Rows[i]["IsDisplayed"]),
+                    };
+                    salutationList.Add(obj);
+                }
+            }
             return salutationList;
         }
         /// <summary>
@@ -5393,7 +5538,7 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTradeName", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-       
+
                 cmd.Parameters.AddWithValue("@TradeId", tradeName.TradeId);
                 cmd.Parameters.AddWithValue("@TradeName", tradeName.TradeName);
                 cmd.Parameters.AddWithValue("@ScientificId", tradeName.ScientificId);
@@ -5441,7 +5586,7 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetTradeName", con);
             con.Open();
-    
+
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@TradeNameId", tradeName.TradeId);
             cmd.Parameters.AddWithValue("@ShowAll", tradeName.ShowAll);

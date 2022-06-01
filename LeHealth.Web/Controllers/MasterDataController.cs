@@ -222,41 +222,106 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("GetNationalityGroup")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<NationalityGroupModel>> GetNationalityGroup(NationalityGroupModelAll cmfma)
+        {
+            try
+            {
+                List<NationalityGroupModel> cptList = new List<NationalityGroupModel>();
+                cptList = masterdataService.GetNationalityGroup(cmfma);
+                var response = new ResponseDataModel<IEnumerable<NationalityGroupModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<NationalityGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
+        [Route("InsertUpdateNationalityGroup")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateNationalityGroup(NationalityGroupModelAll ngm)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateNationalityGroup(ngm);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
-        //[Route("InsertUpdateCPTCode")]
-        //[HttpPost]
-        //public ResponseDataModel<IEnumerable<CPTCodeModel>> InsertUpdateCPTCode(CPTCodeModelAll CPTCode)
-        //{
-        //    try
-        //    {
-        //        string message = string.Empty;
-        //        message = masterdataService.InsertUpdateCPTCode(CPTCode);
-        //        var response = new ResponseDataModel<IEnumerable<CPTCodeModel>>()
-        //        {
-        //            Status = HttpStatusCode.OK,
-        //            Message = message
-        //        };
-        //        return response;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-        //        return new ResponseDataModel<IEnumerable<CPTCodeModel>>()
-        //        {
-        //            Status = HttpStatusCode.InternalServerError,
-        //            Response = null,
-        //            ErrorMessage = new ErrorResponse()
-        //            {
-        //                Message = ex.Message
-        //            }
+                };
+            }
+            finally
+            {
+            }
+        }
 
-        //        };
-        //    }
-        //    finally
-        //    {
-        //    }
-        //}
+        [Route("DeleteNationalityGroup")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteNationalityGroup(NationalityGroupModelAll ngm)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteNationalityGroup(ngm);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
 
         [Route("DeleteCPTCode")]
         [HttpPost]
@@ -284,6 +349,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateCommunicationConfiguration")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ngm)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateCommunicationConfiguration(ngm);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
                 };
             }
             finally
@@ -1788,46 +1886,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        /// <summary>
-        /// To get list of all State Or State Detail of Input parameter. 
-        /// id=Primary key of LH_State Table, Returns all if id=0
-        /// </summary>
-        /// <returns>
-        /// returns List of State as JSON
-        /// </returns>
-        [HttpPost]
-        [Route("GetSalutation")]
-        public ResponseDataModel<IEnumerable<SalutationModel>> GetSalutation(SalutationModelAll salutation)
-        {
-            try
-            {
-                List<SalutationModel> salutationList = new List<SalutationModel>();
-                salutationList = masterdataService.GetSalutation(salutation);
-                var response = new ResponseDataModel<IEnumerable<SalutationModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = salutationList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<SalutationModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
+        
 
         [HttpPost]
         [Route("GetMaritalStatus")]

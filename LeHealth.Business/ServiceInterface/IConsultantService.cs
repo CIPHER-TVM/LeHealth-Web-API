@@ -46,6 +46,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
         List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm);
         string InsertConsultantSketch(SketchModelAll sketch);
+        string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm); 
         List<SketchModel> GetConsultantSketch(SketchModelAll sketch);
         string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking);
         List<ConsultantMarkingModel> GetConsultantMarkings(ConsultantMarkingModel consultant);

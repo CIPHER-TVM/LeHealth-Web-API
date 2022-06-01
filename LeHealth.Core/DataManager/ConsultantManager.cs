@@ -1673,6 +1673,43 @@ namespace LeHealth.Core.DataManager
             }
             return consultantbasecostlist;
         }
+        public string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                string rateString = JsonConvert.SerializeObject(cbcm.itemRateIP);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantBaseCost", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ConsultantId", cbcm.ConsultantId);
+                cmd.Parameters.AddWithValue("@BranchId", cbcm.BranchId);
+                cmd.Parameters.AddWithValue("@ItemRateJSON", rateString);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
         public DiseaseModel GetDiseaseDetailsById(int diseaseId)
         {
             DiseaseModel disease = new DiseaseModel();

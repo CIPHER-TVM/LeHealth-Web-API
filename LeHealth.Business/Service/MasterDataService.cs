@@ -51,6 +51,9 @@ namespace LeHealth.Service.Service
                 case "Movement":
                     returnvalue = masterdataManager.GetMovement(masterItem);
                     break;
+                case "Salutation":
+                    returnvalue = masterdataManager.GetSalutation(masterItem);
+                    break;
                     //default:
                     //    returnvalue = masterdataManager.GetCPTCode(masterItem);
                     //    break;
@@ -126,10 +129,6 @@ namespace LeHealth.Service.Service
             }
             return returnvalue;
         }
-
-
-
-
         public List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm)
         {
             return masterdataManager.GetServiceItem(ccm);
@@ -142,6 +141,24 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteServiceItem(serviceitem);
         }
+
+        public List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ngm)
+        {
+            return masterdataManager.GetNationalityGroup(ngm);
+        }
+        public string InsertUpdateNationalityGroup(NationalityGroupModelAll ngm)
+        {
+            return masterdataManager.InsertUpdateNationalityGroup(ngm);
+        }
+        public string DeleteNationalityGroup(NationalityGroupModelAll ngm)
+        {
+            return masterdataManager.DeleteNationalityGroup(ngm);
+        }
+        public string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm) 
+        {
+            return masterdataManager.InsertUpdateCommunicationConfiguration(ccm); 
+        }
+
         public string DeleteCPTCode(CPTCodeModel ccm)
         {
             return masterdataManager.DeleteCPTCode(ccm);
@@ -314,7 +331,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetRegScheme(RegSchemeId);
         }
-        public List<SalutationModel> GetSalutation(SalutationModelAll salutation)
+        public List<CommonMasterFieldModel> GetSalutation(CommonMasterFieldModelAll salutation)
         {
             return masterdataManager.GetSalutation(salutation);
         }

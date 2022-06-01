@@ -178,6 +178,10 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetConsultantBaseCost(cbcm);
         }
+        public string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
+        {
+            return consultantManager.InsertUpdateConsultantBaseCost(cbcm); 
+        }
         public List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm)
         {
             return consultantManager.GetConsultantItemByType(cbcm);

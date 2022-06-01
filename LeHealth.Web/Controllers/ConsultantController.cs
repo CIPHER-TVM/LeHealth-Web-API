@@ -1294,7 +1294,6 @@ namespace LeHealth.Base.API.Controllers
             try
             {
                 List<ConsultantBaseCostModel> consultantDrugs = new List<ConsultantBaseCostModel>();
-
                 consultantDrugs = consultantService.GetConsultantBaseCost(cbcm);
                 var response = new ResponseDataModel<IEnumerable<ConsultantBaseCostModel>>()
                 {
@@ -1320,7 +1319,40 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        
+        [Route("InsertUpdateConsultantBaseCost")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll ServiceItem)
+        {
+            try
+            { 
+                string message = string.Empty;
+                message = consultantService.InsertUpdateConsultantBaseCost(ServiceItem);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         [Route("GetConsultantItemByType")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ConsultantItemModel>> GetConsultantItemByType(ConsultantItemModel cbcm)

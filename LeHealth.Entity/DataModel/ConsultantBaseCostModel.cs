@@ -20,7 +20,12 @@ namespace LeHealth.Entity.DataModel
     }
     public class ConsultantBaseCostModelAll : ConsultantBaseCostModel
     {
+        public List<ItemRateInput> itemRateIP { get; set; } 
         public int BranchId { get; set; }
-
+    }
+    public class ItemRateInput
+    {
+        public int ItemId { get; set; }
+        public float BaseCost { get; set; }
     }
 }

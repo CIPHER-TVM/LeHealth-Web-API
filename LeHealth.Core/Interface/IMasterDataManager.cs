@@ -17,6 +17,9 @@ namespace LeHealth.Core.Interface
         List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
         string DeleteCPTModifier(CPTModifierAll ccm);
+        List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ngm);
+        string InsertUpdateNationalityGroup(NationalityGroupModelAll ngm);
+        string DeleteNationalityGroup(NationalityGroupModelAll ngm); 
         List<RateGroupModel> GetRateGroup(RateGroupModelAll RateGroup);
         string InsertUpdateRateGroup(RateGroupModelAll RateGroup);
         string DeleteRateGroup(RateGroupModel RateGroup);
@@ -24,6 +27,7 @@ namespace LeHealth.Core.Interface
         List<PackageModel> GetPackageItemRate(PackageModelAll pm); 
         string InsertUpdatePackage(PackageModelAll package);
         string DeletePackage(PackageModel package);
+        string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm); 
         List<DepartmentModel> GetDepartment(DepartmentModelAll department);
         string InsertUpdateDepartment(DepartmentModelAll Dept);
         string DeleteDepartment(DepartmentModel Dept);
@@ -62,7 +66,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch);
         string DeleteSketchIndicator(SketchIndicatorModelAll sketch);
         List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegSchemeId);
-        List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
+        List<CommonMasterFieldModel> GetSalutation(CommonMasterFieldModelAll salutationDetails);
         string InsertUpdateSalutation(CommonMasterFieldModelAll salutationDetails);
         string DeleteSalutation(CommonMasterFieldModelAll salutationDetails);
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);

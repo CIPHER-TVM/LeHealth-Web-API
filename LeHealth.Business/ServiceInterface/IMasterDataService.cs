@@ -14,7 +14,12 @@ namespace LeHealth.Service.ServiceInterface
         List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
+
+        List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ccm);
+        string InsertUpdateNationalityGroup(NationalityGroupModelAll serviceitem);
+        string DeleteNationalityGroup(NationalityGroupModelAll serviceitem);
         string DeleteCPTCode(CPTCodeModel ccm);
+        string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
         string DeleteCPTModifier(CPTModifierAll ccm);
@@ -55,7 +60,6 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateSketchIndicator(SketchIndicatorRegModel sketch);
         string DeleteSketchIndicator(SketchIndicatorModelAll sketch);
         List<RegSchemeModel> GetRegScheme(RegSchemeModelAll RegScheme);
-        List<SalutationModel> GetSalutation(SalutationModelAll salutationDetails);
         List<MaritalStatusModel> GetMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string InsertUpdateMaritalStatus(MaritalStatusModelAll MaritalStatus);
         string DeleteMaritalStatus(MaritalStatusModelAll MaritalStatus);
