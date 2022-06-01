@@ -5609,5 +5609,124 @@ namespace LeHealth.Core.DataManager
                 tradeNames = dt.ToListOfObject<TradeNameModel>();
             return tradeNames;
         }
+        public string InsertUpdateDeleteDrug(DrugModelAll drug)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDrug", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DrugId", drug.DrugId);
+                cmd.Parameters.AddWithValue("@DrugCode", drug.DrugCode);
+                cmd.Parameters.AddWithValue("@DrugName", drug.DrugName);
+                cmd.Parameters.AddWithValue("@Ingredient", drug.Ingredient);
+                cmd.Parameters.AddWithValue("@Form", drug.Form);
+                cmd.Parameters.AddWithValue("@MarketStatus", drug.MarketStatus);
+                cmd.Parameters.AddWithValue("@Remarks", drug.Remarks);
+                cmd.Parameters.AddWithValue("@DrugTypeId", drug.DrugTypeId);
+                cmd.Parameters.AddWithValue("@RouteId", drug.RouteId);
+                cmd.Parameters.AddWithValue("@ScientificId", drug.ScientificId);
+                cmd.Parameters.AddWithValue("@TradeId", drug.TradeId);
+                cmd.Parameters.AddWithValue("@IsDeleted", drug.IsDeleted);
+                cmd.Parameters.AddWithValue("@ZoneId", drug.ZoneId);
+                cmd.Parameters.AddWithValue("@BranchId", drug.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", drug.UserId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", drug.IsDisplayed);
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<DrugModel> GetDrug(DrugModelAll drug)
+        {
+            List<DrugModel> drugs = new List<DrugModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDrug", con);
+            con.Open();
+           
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DrugId", drug.DrugId);
+            cmd.Parameters.AddWithValue("@DrugTypeId", drug.DrugTypeId);
+            cmd.Parameters.AddWithValue("@ShowAll", drug.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", drug.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+
+                    DrugModel obj = new DrugModel();
+                    obj.DrugId = dt.Rows[i]["DrugId"] != null ? Convert.ToInt32(dt.Rows[i]["DrugId"]) : 0;
+                    obj.DrugCode = dt.Rows[i]["DrugCode"] != null ? dt.Rows[i]["DrugCode"].ToString() : "";
+                    obj.DrugName = dt.Rows[i]["DrugName"] != null ? dt.Rows[i]["DrugName"].ToString() : "";
+                    obj.Ingredient = dt.Rows[i]["Ingredient"] != null ? dt.Rows[i]["Ingredient"].ToString() : "";
+                    obj.Form = dt.Rows[i]["Form"] != null ? dt.Rows[i]["Form"].ToString() : "";
+                    obj.MarketStatus = dt.Rows[i]["MarketStatus"] != null ? Convert.ToInt32(dt.Rows[i]["MarketStatus"]) : 0;
+                    obj.Status = dt.Rows[i]["Status"] != null ? dt.Rows[i]["Status"].ToString() : "";
+                    obj.Remarks = dt.Rows[i]["Remarks"] != null ? dt.Rows[i]["Remarks"].ToString() : "";
+                    obj.DrugTypeId = dt.Rows[i]["DrugTypeId"] != null ? Convert.ToInt32(dt.Rows[i]["DrugTypeId"]) : 0;
+                    obj.RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0;
+                    obj.ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0;
+                    obj.TradeId = dt.Rows[i]["TradeId"] != null ? Convert.ToInt32(dt.Rows[i]["TradeId"]) : 0;
+                    obj.IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0;
+                    obj.ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0;
+                    obj.ScientificNameDetails = new ScientificNameModel
+                    {
+                        ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,
+                        ScientificCode = dt.Rows[i]["ScientificCode"] != null ? dt.Rows[i]["ScientificCode"].ToString() : "",
+                        ScientificName = dt.Rows[i]["ScientificName"] != null ? dt.Rows[i]["ScientificName"].ToString() : "",
+                    };
+                    obj.RouteDetails = new RouteModel
+                    {
+                        RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0,
+                        RouteDesc = dt.Rows[i]["RouteDesc"] != null ? dt.Rows[i]["RouteDesc"].ToString() : "",
+                    };
+                    obj.TradeNameDetails = new TradeNameModel
+                    {
+                        TradeId = dt.Rows[i]["TradeId"] != null ? Convert.ToInt32(dt.Rows[i]["TradeId"]) : 0,
+                        TradeCode = dt.Rows[i]["TradeCode"] != null ? dt.Rows[i]["TradeCode"].ToString() : "",
+                        TradeName = dt.Rows[i]["TradeName"] != null ? dt.Rows[i]["TradeName"].ToString() : "",
+                        ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,
+                        RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0,
+                        DosageForm = dt.Rows[i]["DosageForm"] != null ? dt.Rows[i]["DosageForm"].ToString() : "",
+                        IngredentStrength = dt.Rows[i]["IngredentStrength"] != null ? dt.Rows[i]["IngredentStrength"].ToString() : "",
+                        PackagePrice = dt.Rows[i]["PackagePrice"] != null ? dt.Rows[i]["PackagePrice"].ToString() : "",
+                        GranularUnit = dt.Rows[i]["GranularUnit"] != null ? dt.Rows[i]["GranularUnit"].ToString() : "",
+                        Manufacturer = dt.Rows[i]["Manufacturer"] != null ? dt.Rows[i]["Manufacturer"].ToString() : "",
+                        RegisteredOwner = dt.Rows[i]["RegisteredOwner"] != null ? dt.Rows[i]["RegisteredOwner"].ToString() : "",
+                    };
+
+                    drugs.Add(obj);
+                }
+            }
+
+            return drugs;
+        }
     }
 }
