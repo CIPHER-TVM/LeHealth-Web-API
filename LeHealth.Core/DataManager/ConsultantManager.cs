@@ -231,27 +231,30 @@ namespace LeHealth.Core.DataManager
                         response = descr;
                         if (userId > 0)//Inserted / Updated Successfully
                         {
-
-                            SqlCommand cmdSaveLocation = new SqlCommand("stLH_SaveUserLocation", con);
-                            List<int> locationIds=  consultant.LocationIds.Select(x => x.LocationId).ToList();
-                            var jsonLocationId = JsonConvert.SerializeObject(locationIds);
-                            cmdSaveLocation.CommandType = CommandType.StoredProcedure;
-                            cmdSaveLocation.Parameters.AddWithValue("@P_UserId", userId);
-                            cmdSaveLocation.Parameters.AddWithValue("@P_Locations", jsonLocationId);
-                            SqlParameter retValSaveLocation = new SqlParameter("@RetVal", SqlDbType.Int)
+                            if (consultant.LocationIds != null)
                             {
-                                Direction = ParameterDirection.Output
-                            };
-                            SqlParameter retDescSaveLocation = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            cmdSaveLocation.Parameters.Add(retValSaveLocation);
-                            cmdSaveLocation.Parameters.Add(retDescSaveLocation);
-                            cmdSaveLocation.Transaction = transaction;
-                            cmdSaveLocation.ExecuteNonQuery();
-                            var retDescSaveLocationV = retDescSaveLocation.Value.ToString();
-                            response = retDescSaveLocationV;
+                                SqlCommand cmdSaveLocation = new SqlCommand("stLH_SaveUserLocation", con);
+                                List<int> locationIds = consultant.LocationIds.Select(x => x.LocationId).ToList();
+                                var jsonLocationId = JsonConvert.SerializeObject(locationIds);
+                                cmdSaveLocation.CommandType = CommandType.StoredProcedure;
+                                cmdSaveLocation.Parameters.AddWithValue("@P_UserId", userId);
+                                cmdSaveLocation.Parameters.AddWithValue("@P_Locations", jsonLocationId);
+                                SqlParameter retValSaveLocation = new SqlParameter("@RetVal", SqlDbType.Int)
+                                {
+                                    Direction = ParameterDirection.Output
+                                };
+                                SqlParameter retDescSaveLocation = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                                {
+                                    Direction = ParameterDirection.Output
+                                };
+                                cmdSaveLocation.Parameters.Add(retValSaveLocation);
+                                cmdSaveLocation.Parameters.Add(retDescSaveLocation);
+                                cmdSaveLocation.Transaction = transaction;
+                                cmdSaveLocation.ExecuteNonQuery();
+                                var retDescSaveLocationV = retDescSaveLocation.Value.ToString();
+                                response = retDescSaveLocationV;
+                            }
+                           
                             Lefmenugroupmodel objMenu = new Lefmenugroupmodel();
                             var groupIds = consultant.UserData.GroupIds.Select(s => Convert.ToInt32(s)).ToList();
                             var jsonIntgroups = JsonConvert.SerializeObject(groupIds);
