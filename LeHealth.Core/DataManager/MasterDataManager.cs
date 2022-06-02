@@ -5579,7 +5579,8 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@LocationId", locationAssociate.LocationId);
-                    cmd.Parameters.AddWithValue("@AstLocationId", locationAssociate.AstLocationId);
+                    string associateLcations = JsonConvert.SerializeObject(locationAssociate.AssociateLcations);
+                    cmd.Parameters.AddWithValue("@LocationJSON", associateLcations);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
