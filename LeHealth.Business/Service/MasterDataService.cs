@@ -720,5 +720,13 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateDeleteDosage(dosageModel);
         }
+        public List<FrequencyModel> GetFrequency(FrequencyModelAll frequency)
+        {
+            return masterdataManager.GetFrequency(frequency);
+        }
+        public string InsertUpdateDeleteFrequency(FrequencyModelAll frequency)
+        {
+            return masterdataManager.InsertUpdateDeleteFrequency(frequency);
+        }
     }
 }

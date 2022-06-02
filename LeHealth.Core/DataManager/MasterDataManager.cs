@@ -6232,5 +6232,82 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<FrequencyModel> GetFrequency(FrequencyModelAll frequency)
+        {
+            List<FrequencyModel> frequencies = new List<FrequencyModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetFrequency", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FreqId", frequency.FreqId);
+            cmd.Parameters.AddWithValue("@BranchId", frequency.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", frequency.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    FrequencyModel obj = new FrequencyModel
+                    {
+                        FreqId = dt.Rows[i]["FreqId"] != null ? Convert.ToInt32(dt.Rows[i]["FreqId"]) : 0,
+                        FreqDesc = dt.Rows[i]["FreqDesc"] != null ? dt.Rows[i]["FreqDesc"].ToString() : "",
+                        FreqValue = dt.Rows[i]["FreqValue"] != null ? Convert.ToInt32(dt.Rows[i]["FreqValue"]) : 0,
+                        ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0,
+                        BranchId = dt.Rows[i]["BranchId"] != null ? Convert.ToInt32(dt.Rows[i]["BranchId"]) : 0,
+                        IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0,
+                    };
+                    frequencies.Add(obj);
+                }
+            }
+            return frequencies;
+        }
+        public string InsertUpdateDeleteFrequency(FrequencyModelAll frequency)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateFrequency", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FreqId", frequency.FreqId);
+                cmd.Parameters.AddWithValue("@FreqDesc", frequency.FreqDesc);
+                cmd.Parameters.AddWithValue("@FreqValue", frequency.FreqValue);
+
+                cmd.Parameters.AddWithValue("@ZoneId", frequency.ZoneId);
+                cmd.Parameters.AddWithValue("@BranchId", frequency.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", frequency.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleted", frequency.IsDeleted);
+                cmd.Parameters.AddWithValue("@IsDisplayed", frequency.IsDisplayed);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
     }
 }

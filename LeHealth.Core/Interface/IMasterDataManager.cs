@@ -189,5 +189,7 @@ namespace LeHealth.Core.Interface
         List<SponserConsentModel> GetSponserConsent(SponserConsentModelAll sponserConsent);
         List<DosageModel> GetDosage(DosageModelAll dosageModel);
         string InsertUpdateDeleteDosage(DosageModelAll dosageModel);
+        List<FrequencyModel> GetFrequency(FrequencyModelAll frequency);
+        string InsertUpdateDeleteFrequency(FrequencyModelAll frequency);
     }
 }
