@@ -4823,5 +4823,200 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("InsertUpdateDeleteInformedConsent")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteInformedConsent(InformedConsentModelAll informedConsent)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteInformedConsent(informedConsent);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetInformedConsent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<InformedConsentModel>> GetInformedConsent(InformedConsentModelAll informedConsent)
+        {
+            try
+            {
+                List<InformedConsentModel> informedConsents = new List<InformedConsentModel>();
+                informedConsents = masterdataService.GetInformedConsent(informedConsent);
+                var response = new ResponseDataModel<IEnumerable<InformedConsentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = informedConsents
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<InformedConsentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateDeletePatientConsent")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeletePatientConsent(PatientConsentModelAll patientConsent)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeletePatientConsent(patientConsent);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetPatientConsent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientConsentModel>> GetPatientConsent(PatientConsentModelAll patientConsent)
+        {
+            try
+            {
+                List<PatientConsentModel> patientConsents = new List<PatientConsentModel>();
+                patientConsents = masterdataService.GetPatientConsent(patientConsent);
+                var response = new ResponseDataModel<IEnumerable<PatientConsentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = patientConsents
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientConsentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateDeleteSponserConsent")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteSponserConsent(SponserConsentModelAll sponserConsent)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteSponserConsent(sponserConsent);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetSponserConsent")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SponserConsentModel>> GetSponserConsent(SponserConsentModelAll sponserConsent)
+        {
+            try
+            {
+                List<SponserConsentModel> drugs = new List<SponserConsentModel>();
+                drugs = masterdataService.GetSponserConsent(sponserConsent);
+                var response = new ResponseDataModel<IEnumerable<SponserConsentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponserConsentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

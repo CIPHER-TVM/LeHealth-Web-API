@@ -692,5 +692,29 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetDrug(drug);
         }
+        public string InsertUpdateDeleteInformedConsent(InformedConsentModelAll informedConsent)
+        {
+            return masterdataManager.InsertUpdateDeleteInformedConsent(informedConsent);
+        }
+        public List<InformedConsentModel> GetInformedConsent(InformedConsentModelAll informedConsent)
+        {
+            return masterdataManager.GetInformedConsent(informedConsent);
+        }
+        public string InsertUpdateDeletePatientConsent(PatientConsentModelAll patientConsent)
+        {
+            return masterdataManager.InsertUpdateDeletePatientConsent(patientConsent);
+        }
+        public List<PatientConsentModel> GetPatientConsent(PatientConsentModelAll patientConsent)
+        {
+            return masterdataManager.GetPatientConsent(patientConsent);
+        }
+        public string InsertUpdateDeleteSponserConsent(SponserConsentModelAll sponserConsent)
+        {
+            return masterdataManager.InsertUpdateDeleteSponserConsent(sponserConsent);
+        }
+        public List<SponserConsentModel> GetSponserConsent(SponserConsentModelAll sponserConsent)
+        {
+            return masterdataManager.GetSponserConsent(sponserConsent);
+        }
     }
 }

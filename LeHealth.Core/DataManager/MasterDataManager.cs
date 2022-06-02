@@ -5952,5 +5952,249 @@ namespace LeHealth.Core.DataManager
 
             return drugs;
         }
+        public string InsertUpdateDeleteInformedConsent(InformedConsentModelAll informedConsent)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateInformedConsent", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ContentId", informedConsent.ContentId);
+                cmd.Parameters.AddWithValue("@CGroupId", informedConsent.CGroupId);
+                cmd.Parameters.AddWithValue("@EnglishTxt", informedConsent.CTEnglish);
+                cmd.Parameters.AddWithValue("@ArabicTxt", informedConsent.CTArabic);
+                cmd.Parameters.AddWithValue("@DisplayOrder", informedConsent.DisplayOrder);
+                cmd.Parameters.AddWithValue("@BranchId", informedConsent.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", informedConsent.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleted", informedConsent.IsDeleted);
+                cmd.Parameters.AddWithValue("@IsDisplayed", informedConsent.IsDisplayed);
+               
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<InformedConsentModel> GetInformedConsent(InformedConsentModelAll informedConsent)
+        {
+            List<InformedConsentModel> informedConsents = new List<InformedConsentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetInformedConsent", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ContentId", informedConsent.ContentId);
+            cmd.Parameters.AddWithValue("@ShowAll", informedConsent.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", informedConsent.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+        InformedConsentModel obj = new InformedConsentModel();
+                    obj.ContentId = dt.Rows[i]["ContentId"] != null ? Convert.ToInt32(dt.Rows[i]["ContentId"]) : 0;
+                    obj.CTEnglish = dt.Rows[i]["CTEnglish"] != null ? dt.Rows[i]["CTEnglish"].ToString() : "";
+                    obj.CTArabic = dt.Rows[i]["CTArabic"] != null ? dt.Rows[i]["CTArabic"].ToString() : "";
+                    obj.DisplayOrder = dt.Rows[i]["DisplayOrder"] != null ? Convert.ToInt32(dt.Rows[i]["DisplayOrder"]) : 0;
+                    obj.CType = dt.Rows[i]["CType"] != null ? dt.Rows[i]["CType"].ToString() : "";
+                    obj.CGroupId = dt.Rows[i]["CGroupId"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupId"]) : 0;
+                    obj.CGroupName = dt.Rows[i]["CGroupName"] != null ? dt.Rows[i]["CGroupName"].ToString() : "";
+                 
+                  
+
+
+                    informedConsents.Add(obj);
+                }
+            }
+
+            return informedConsents;
+        }
+        public string InsertUpdateDeletePatientConsent(PatientConsentModelAll patientConsent)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePatConsent", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ContentId", patientConsent.ContentId);
+                cmd.Parameters.AddWithValue("@EnglishTxt", patientConsent.CTEnglish);
+                cmd.Parameters.AddWithValue("@ArabicTxt", patientConsent.CTArabic);
+                cmd.Parameters.AddWithValue("@DisplayOrder", patientConsent.DisplayOrder);
+                cmd.Parameters.AddWithValue("@BranchId", patientConsent.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", patientConsent.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleted", patientConsent.IsDeleted);
+                cmd.Parameters.AddWithValue("@IsDisplayed", patientConsent.IsDisplayed);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<PatientConsentModel> GetPatientConsent(PatientConsentModelAll patientConsent)
+        {
+            List<PatientConsentModel> patientConsents = new List<PatientConsentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPatConsent", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ContentId", patientConsent.ContentId);
+            cmd.Parameters.AddWithValue("@ShowAll", patientConsent.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", patientConsent.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    PatientConsentModel obj = new PatientConsentModel();
+                    obj.ContentId = dt.Rows[i]["ContentId"] != null ? Convert.ToInt32(dt.Rows[i]["ContentId"]) : 0;
+                    obj.CTEnglish = dt.Rows[i]["CTEnglish"] != null ? dt.Rows[i]["CTEnglish"].ToString() : "";
+                    obj.CTArabic = dt.Rows[i]["CTArabic"] != null ? dt.Rows[i]["CTArabic"].ToString() : "";
+                    obj.DisplayOrder = dt.Rows[i]["DisplayOrder"] != null ? Convert.ToInt32(dt.Rows[i]["DisplayOrder"]) : 0;
+                    obj.CType = dt.Rows[i]["CType"] != null ? dt.Rows[i]["CType"].ToString() : "";
+                    obj.CGroupId = dt.Rows[i]["CGroupId"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupId"]) : 0;
+                 
+
+
+
+                    patientConsents.Add(obj);
+                }
+            }
+
+            return patientConsents;
+        }
+        public string InsertUpdateDeleteSponserConsent(SponserConsentModelAll sponserConsent)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorConsent", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ContentId", sponserConsent.ContentId);
+                cmd.Parameters.AddWithValue("@EnglishTxt", sponserConsent.CTEnglish);
+                cmd.Parameters.AddWithValue("@ArabicTxt", sponserConsent.CTArabic);
+                cmd.Parameters.AddWithValue("@DisplayOrder", sponserConsent.DisplayOrder);
+                cmd.Parameters.AddWithValue("@BranchId", sponserConsent.BranchId);
+                cmd.Parameters.AddWithValue("@SponsorId", sponserConsent.SponsorId);
+                cmd.Parameters.AddWithValue("@UserId", sponserConsent.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleted", sponserConsent.IsDeleted);
+                cmd.Parameters.AddWithValue("@IsDisplayed", sponserConsent.IsDisplayed);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<SponserConsentModel> GetSponserConsent(SponserConsentModelAll sponserConsent)
+        {
+            List<SponserConsentModel> informedConsents = new List<SponserConsentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsorConsent", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ContentId", sponserConsent.ContentId);
+            cmd.Parameters.AddWithValue("@ShowAll", sponserConsent.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", sponserConsent.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    SponserConsentModel obj = new SponserConsentModel();
+                    obj.ContentId = dt.Rows[i]["ContentId"] != null ? Convert.ToInt32(dt.Rows[i]["ContentId"]) : 0;
+                    obj.CTEnglish = dt.Rows[i]["CTEnglish"] != null ? dt.Rows[i]["CTEnglish"].ToString() : "";
+                    obj.CTArabic = dt.Rows[i]["CTArabic"] != null ? dt.Rows[i]["CTArabic"].ToString() : "";
+                    obj.DisplayOrder = dt.Rows[i]["DisplayOrder"] != null ? Convert.ToInt32(dt.Rows[i]["DisplayOrder"]) : 0;
+                  
+                  
+                    obj.SponsorId = dt.Rows[i]["SponsorId"] != null ? Convert.ToInt32(dt.Rows[i]["SponsorId"]) : 0;
+                    obj.SponsorName = dt.Rows[i]["SponsorName"] != null ? dt.Rows[i]["SponsorName"].ToString() : "";
+
+
+
+                    informedConsents.Add(obj);
+                }
+            }
+
+            return informedConsents;
+        }
     }
 }

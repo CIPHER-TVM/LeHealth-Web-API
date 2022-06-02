@@ -182,5 +182,11 @@ namespace LeHealth.Core.Interface
         List<TradeNameModel> GetTradeName(TradeNameModelAll tradeName);
         string InsertUpdateDeleteDrug(DrugModelAll drug);
         List<DrugModel> GetDrug(DrugModelAll drug);
+        string InsertUpdateDeleteInformedConsent(InformedConsentModelAll informedConsent);
+        List<InformedConsentModel> GetInformedConsent(InformedConsentModelAll informedConsent);
+        string InsertUpdateDeletePatientConsent(PatientConsentModelAll patientConsent);
+        List<PatientConsentModel> GetPatientConsent(PatientConsentModelAll patientConsent);
+        string InsertUpdateDeleteSponserConsent(SponserConsentModelAll sponserConsent);
+        List<SponserConsentModel> GetSponserConsent(SponserConsentModelAll sponserConsent);
     }
 }
