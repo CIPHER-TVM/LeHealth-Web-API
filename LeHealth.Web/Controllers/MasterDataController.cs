@@ -3633,39 +3633,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetDosage")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<DosageModel>> GetDosage(DosageModel dm)
-        {
-            try
-            {
-                List<DosageModel> dosageList = new List<DosageModel>();
-                dosageList = masterdataService.GetDosage(dm);
-                var response = new ResponseDataModel<IEnumerable<DosageModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = dosageList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<DosageModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
         [Route("GetRoute")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<RouteModel>> GetRoute(RouteModel rm)
@@ -5012,6 +4979,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetDosage")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DosageModel>> GetDosage(DosageModelAll dosageModel)
+        {
+            try
+            {
+                List<DosageModel> dosageList = new List<DosageModel>();
+                dosageList = masterdataService.GetDosage(dosageModel);
+                var response = new ResponseDataModel<IEnumerable<DosageModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = dosageList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DosageModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
                 };
             }
             finally

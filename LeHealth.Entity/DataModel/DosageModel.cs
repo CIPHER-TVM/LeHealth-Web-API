@@ -10,6 +10,14 @@ namespace LeHealth.Entity.DataModel
         public string DosageDesc { get; set; }
         public bool Active { get; set; }
         public int DosageValue { get; set; }
+        public int IsDeleted { get; set; }
+        public int ZoneId { get; set; }
+    }
+    public class DosageModelAll : DosageModel
+    {
         public int BranchId { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+        public int IsDisplayed { get; set; }
     }
 }

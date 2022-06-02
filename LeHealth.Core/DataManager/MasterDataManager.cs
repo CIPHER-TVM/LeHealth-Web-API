@@ -4399,41 +4399,7 @@ namespace LeHealth.Core.DataManager
             }
             return drugList;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="la"></param>
-        /// <returns></returns>
-        public List<DosageModel> GetDosage(DosageModel dm)
-        {
-            List<DosageModel> dosageList = new List<DosageModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetDosage", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@DosageId", dm.DosageId);
-            cmd.Parameters.AddWithValue("@BranchId", dm.BranchId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsDrug = new DataTable();
-            adapter.Fill(dsDrug);
-            con.Close();
-            if ((dsDrug != null) && (dsDrug.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsDrug.Rows.Count; i++)
-                {
-                    DosageModel obj = new DosageModel
-                    {
-                        DosageId = Convert.ToInt32(dsDrug.Rows[i]["DosageId"]),
-                        DosageDesc = dsDrug.Rows[i]["DosageDesc"].ToString(),
-                        Active = Convert.ToBoolean(dsDrug.Rows[i]["Active"]),
-                        DosageValue = Convert.ToInt32(dsDrug.Rows[i]["DosageValue"]),
-                        BranchId = dm.BranchId
-                    };
-                    dosageList.Add(obj);
-                }
-            }
-            return dosageList;
-        }
+     
         public List<RouteModel> GetRoute(RouteModel rm)
         {
             List<RouteModel> routeList = new List<RouteModel>();
@@ -6192,6 +6158,36 @@ namespace LeHealth.Core.DataManager
             }
 
             return informedConsents;
+        }
+        public List<DosageModel> GetDosage(DosageModelAll dosageModel)
+        {
+            List<DosageModel> dosageList = new List<DosageModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDosage", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DosageId", dosageModel.DosageId);
+            cmd.Parameters.AddWithValue("@BranchId", dosageModel.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", dosageModel.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsDrug = new DataTable();
+            adapter.Fill(dsDrug);
+            con.Close();
+            if ((dsDrug != null) && (dsDrug.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsDrug.Rows.Count; i++)
+                {
+                    DosageModel obj = new DosageModel
+                    {
+                        DosageId = Convert.ToInt32(dsDrug.Rows[i]["DosageId"]),
+                        DosageDesc = dsDrug.Rows[i]["DosageDesc"].ToString(),
+                        Active = Convert.ToBoolean(dsDrug.Rows[i]["Active"]),
+                        DosageValue = Convert.ToInt32(dsDrug.Rows[i]["DosageValue"]),
+                    };
+                    dosageList.Add(obj);
+                }
+            }
+            return dosageList;
         }
     }
 }
