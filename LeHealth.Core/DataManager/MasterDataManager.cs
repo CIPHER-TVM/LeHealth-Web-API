@@ -5941,7 +5941,6 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePatConsent", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ContentId", patientConsent.ContentId);
-                cmd.Parameters.AddWithValue("@CGroupId", patientConsent.CGroupId);
                 cmd.Parameters.AddWithValue("@EnglishTxt", patientConsent.CTEnglish);
                 cmd.Parameters.AddWithValue("@ArabicTxt", patientConsent.CTArabic);
                 cmd.Parameters.AddWithValue("@DisplayOrder", patientConsent.DisplayOrder);
