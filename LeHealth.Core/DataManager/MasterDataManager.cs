@@ -842,7 +842,104 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+
         //Rate Group Ends
+
+        public List<CurrencyModel> GetCurrency(CurrencyModelAll rm)
+        {
+            List<CurrencyModel> currencyList = new List<CurrencyModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCurrency", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CurrencyId", rm.CurrencyId);
+            cmd.Parameters.AddWithValue("@ShowAll", rm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", rm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtCurrencyList = new DataTable();
+            adapter.Fill(dtCurrencyList);
+            con.Close();
+            if ((dtCurrencyList != null) && (dtCurrencyList.Rows.Count > 0))
+            {
+                currencyList = dtCurrencyList.ToListOfObject<CurrencyModel>();
+            }
+            return currencyList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="RateGroup"></param>
+        /// <returns></returns>
+        public string InsertUpdateCurrency(CurrencyModelAll currency)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCurrency", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CurrencyId", currency.CurrencyId);
+                cmd.Parameters.AddWithValue("@CurrencyName", currency.CurrencyName);
+                cmd.Parameters.AddWithValue("@CurrencyDesc", currency.CurrencyDesc);
+                cmd.Parameters.AddWithValue("@UserId", currency.UserId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", currency.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", currency.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCurrency(CurrencyModelAll cm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCurrency", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", cm.CurrencyId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+
+            }
+            return response;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -1471,7 +1568,7 @@ namespace LeHealth.Core.DataManager
         }
         public List<StateModel> GetState(StateModel state)
         {
-            List<StateModel> countryList = new List<StateModel>();
+            List<StateModel> stateList = new List<StateModel>();
             using SqlConnection con = new SqlConnection(_connStr);
 
             using SqlCommand cmd = new SqlCommand("stLH_GetState", con);
@@ -1485,8 +1582,8 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dtStateList);
             con.Close();
             if ((dtStateList != null) && (dtStateList.Rows.Count > 0))
-                countryList = dtStateList.ToListOfObject<StateModel>();
-            return countryList;
+                stateList = dtStateList.ToListOfObject<StateModel>();
+            return stateList;
         }
         public string InsertUpdateState(StateModel state)
         {
@@ -1497,6 +1594,7 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@StateId", state.StateId);
                 cmd.Parameters.AddWithValue("@StateName", state.StateName);
+                cmd.Parameters.AddWithValue("@StateCode", state.StateCode);
                 cmd.Parameters.AddWithValue("@CountryId", state.CountryId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", state.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", state.BranchId);
@@ -2237,6 +2335,7 @@ namespace LeHealth.Core.DataManager
                         IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
                         IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
                         ImageUrl = imgloc != "" ? _uploadpath + imgloc : imgloc,
+                        IsDisplayed = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IsDisplayed"]),
                     };
                     sketchIndicators.Add(obj);
                 }
@@ -5146,7 +5245,6 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetICDLabel", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-
             cmd.Parameters.AddWithValue("@LabelId", label.LabelId);
             cmd.Parameters.AddWithValue("@ShowAll", label.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", label.BranchId);
@@ -5167,6 +5265,8 @@ namespace LeHealth.Core.DataManager
                     obj.CatgId = Convert.ToInt32(dataTable.Rows[i]["CatgId"]);
                     obj.CatgDesc = dataTable.Rows[i]["CatgDesc"].ToString();
                     obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
+                    obj.LabelSigns = JsonConvert.DeserializeObject<List<LabelSign>>(dataTable.Rows[i]["LabelSigns"].ToString());
+                    obj.LabelSymptoms = JsonConvert.DeserializeObject<List<LabelSymptom>>(dataTable.Rows[i]["LabelSymptoms"].ToString());
                     labelList.Add(obj);
                 }
             }
@@ -5465,6 +5565,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@SignId", sign.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", sign.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", sign.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
@@ -5474,11 +5576,10 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dataTable.Rows.Count; i++)
                 {
-
                     CommonMasterFieldModel obj = new CommonMasterFieldModel();
                     obj.Id = Convert.ToInt32(dataTable.Rows[i]["SignId"]);
                     obj.DescriptionData = dataTable.Rows[i]["SignDesc"].ToString();
-                    obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["Select"]);
+                    obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
                     itemList.Add(obj);
                 }
             }

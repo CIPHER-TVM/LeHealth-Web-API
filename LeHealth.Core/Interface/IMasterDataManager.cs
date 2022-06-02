@@ -25,7 +25,10 @@ namespace LeHealth.Core.Interface
         string DeleteRateGroup(RateGroupModel RateGroup);
         List<CardTypeModel> GetCardType(CardTypeModelAll ct);
         string InsertUpdateCardType(CardTypeModelAll ct);
-        string DeleteCardType(CardTypeModelAll ct); 
+        string DeleteCardType(CardTypeModelAll ct);
+        List<CurrencyModel> GetCurrency(CurrencyModelAll ct);
+        string InsertUpdateCurrency(CurrencyModelAll ct);
+        string DeleteCurrency(CurrencyModelAll ct);
         List<PackageModel> GetPackage(PackageModelAll pm);
         CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel pm); 
         List<PackageModel> GetPackageItemRate(PackageModelAll pm); 

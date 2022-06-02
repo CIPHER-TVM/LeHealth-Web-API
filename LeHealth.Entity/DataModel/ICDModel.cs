@@ -39,13 +39,25 @@ namespace LeHealth.Entity.DataModel
         public string GroupDesc { get; set; }
         public int CatgId { get; set; }
         public string CatgDesc { get; set; }
-        public int IsDisplayed { get; set; } 
+        public int IsDisplayed { get; set; }
+        public List<LabelSign> LabelSigns { get; set; }
+        public List<LabelSymptom> LabelSymptoms { get; set; }
     }
     public class ICDLabelModelAll : ICDLabelModel
     {
         public int BranchId { get; set; }
-        public int UserId { get; set; }
+        public int UserId { get; set; } 
         public int ShowAll { get; set; }
+    }
+    public class LabelSign
+    {
+        public int SignId { get; set; }
+        public string SignName { get; set; } 
+    }
+    public class LabelSymptom
+    {
+        public int SymptomId { get; set; }
+        public string SymptomName { get; set; } 
     }
 
 }

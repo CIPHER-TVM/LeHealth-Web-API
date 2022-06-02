@@ -10,7 +10,9 @@ namespace LeHealth.Entity.DataModel
         public string NationalityName { get; set; }
         public int CountryId { get; set; }
         public string CountryCode { get; set; }
+        public string ReportCode { get; set; } 
         public int NGroupId { get; set; }
+        public string NGroupDesc { get; set; }
         public int ShowAll { get; set; }
         public int BranchId { get; set; } 
         public int UserId { get; set; } 

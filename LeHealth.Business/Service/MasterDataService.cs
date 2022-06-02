@@ -432,10 +432,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateSponsorType(stype);
         }
-        //public string DeleteSponsorType(SponsorTypeModel stype)
-        //{
-        //    return masterdataManager.DeleteSponsorType(stype);
-        //}
         public List<TaxModel> GetTax(TaxModelAll tax)
         {
             return masterdataManager.GetTax(tax);
@@ -447,6 +443,18 @@ namespace LeHealth.Service.Service
         public string DeleteTax(TaxModelAll tax)
         {
             return masterdataManager.DeleteTax(tax);
+        }
+        public List<CurrencyModel> GetCurrency(CurrencyModelAll tax)
+        {
+            return masterdataManager.GetCurrency(tax);
+        }
+        public string InsertUpdateCurrency(CurrencyModelAll tax)
+        {
+            return masterdataManager.InsertUpdateCurrency(tax);
+        }
+        public string DeleteCurrency(CurrencyModelAll tax)
+        {
+            return masterdataManager.DeleteCurrency(tax);
         }
         /////////////////////////////////////////////////////////////////////////////
 

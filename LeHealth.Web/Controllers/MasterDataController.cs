@@ -458,7 +458,108 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        //
+        [Route("GetCurrency")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<CurrencyModel>> GetCurrency(CurrencyModelAll ct)
+        {
+            try
+            {
+                List<CurrencyModel> ctList = new List<CurrencyModel>();
+                ctList = masterdataService.GetCurrency(ct);
+                var response = new ResponseDataModel<IEnumerable<CurrencyModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = ctList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CurrencyModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
+        [Route("InsertUpdateCurrency")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateCurrency(CurrencyModelAll ngm)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateCurrency(ngm);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("DeleteCurrency")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteCurrency(CurrencyModelAll ngm)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteCurrency(ngm);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //
         [Route("DeleteCPTCode")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<CPTCodeModel>> DeleteCPTCode(CPTCodeModel CPTCode)
@@ -661,12 +762,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateRateGroup")]
         [HttpPost]
-        public ResponseDataModel<RateGroupModel> InsertUpdateRateGroup(RateGroupModelAll zone)
+        public ResponseDataModel<RateGroupModel> InsertUpdateRateGroup(RateGroupModelAll rategroup)
         {
             try
             {
                 string message = string.Empty;
-                message = masterdataService.InsertUpdateRateGroup(zone);
+                message = masterdataService.InsertUpdateRateGroup(rategroup);
                 var response = new ResponseDataModel<RateGroupModel>()
                 {
                     Status = HttpStatusCode.OK,
@@ -3726,12 +3827,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                List<OperatorModel> zoneList = new List<OperatorModel>();
-                zoneList = masterdataService.GetOperator(operatorId);
+                List<OperatorModel> operatorList = new List<OperatorModel>();
+                operatorList = masterdataService.GetOperator(operatorId);
                 var response = new ResponseDataModel<IEnumerable<OperatorModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = zoneList
+                    Response = operatorList
                 };
                 return response;
             }
@@ -3757,12 +3858,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateOperator")]
         [HttpPost]
-        public ResponseDataModel<OperatorModel> InsertUpdateOperator(OperatorModel zone)
+        public ResponseDataModel<OperatorModel> InsertUpdateOperator(OperatorModel operatordata)
         {
             try
             {
                 string message = string.Empty;
-                message = masterdataService.InsertUpdateOperator(zone);
+                message = masterdataService.InsertUpdateOperator(operatordata);
                 var response = new ResponseDataModel<OperatorModel>()
                 {
                     Status = HttpStatusCode.OK,
