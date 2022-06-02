@@ -751,6 +751,7 @@ namespace LeHealth.Core.DataManager
                         Description = dtRateGroupList.Rows[i]["Description"].ToString(),
                         EffectFrom = dtRateGroupList.Rows[i]["EffectFrom"].ToString(),
                         EffectTo = dtRateGroupList.Rows[i]["EffectTo"].ToString(),
+                        IsStandard = Convert.ToBoolean(dtRateGroupList.Rows[i]["IsStandard"]),
                         IsDisplayed = Convert.ToInt32(dtRateGroupList.Rows[i]["IsDisplayed"]),
                         Rate = JsonConvert.DeserializeObject<List<ItemRateDetailModel>>(dtRateGroupList.Rows[i]["RateDetail"].ToString()),
                         BranchId = rm.BranchId
@@ -774,7 +775,7 @@ namespace LeHealth.Core.DataManager
                 RateGroup.EffectFrom = EffectFrom.ToString("yyyy-MM-dd");
                 DateTime EffectTo = DateTime.ParseExact(RateGroup.EffectTo.Trim(), "dd-MM-yyyy", null);
                 RateGroup.EffectTo = EffectTo.ToString("yyyy-MM-dd");
-
+                string jsonRateItems = JsonConvert.SerializeObject(RateGroup.BaseCostData);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateRateGroup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@RGroupId", RateGroup.RGroupId);
@@ -782,7 +783,9 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Description", RateGroup.Description);
                 cmd.Parameters.AddWithValue("@EffectFrom", RateGroup.EffectFrom);
                 cmd.Parameters.AddWithValue("@EffectTo", RateGroup.EffectTo);
+                cmd.Parameters.AddWithValue("@RateJSON", jsonRateItems);
                 cmd.Parameters.AddWithValue("@IsDisplayed", RateGroup.IsDisplayed);
+                cmd.Parameters.AddWithValue("@IsStandard", RateGroup.IsStandard);
                 cmd.Parameters.AddWithValue("@BranchId", RateGroup.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", RateGroup.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -5785,7 +5788,7 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDrug", con);
             con.Open();
-           
+
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@DrugId", drug.DrugId);
             cmd.Parameters.AddWithValue("@DrugTypeId", drug.DrugTypeId);
