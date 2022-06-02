@@ -273,7 +273,6 @@ namespace LeHealth.Core.DataManager
                 var descrip = retDesc.Value.ToString();
                 con.Close();
                 response = descrip;
-
             }
             return response;
         }
@@ -5523,14 +5522,13 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSign", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-
-
                 cmd.Parameters.AddWithValue("@SignId", commonMaster.Id);
                 cmd.Parameters.AddWithValue("@SignDesc", commonMaster.DescriptionData);
-
+                cmd.Parameters.AddWithValue("@UserId", commonMaster.UserId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", commonMaster.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", commonMaster.BranchId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5571,7 +5569,6 @@ namespace LeHealth.Core.DataManager
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
             con.Close();
-
             if ((dataTable != null) && (dataTable.Rows.Count > 0))
             {
                 for (Int32 i = 0; i < dataTable.Rows.Count; i++)
