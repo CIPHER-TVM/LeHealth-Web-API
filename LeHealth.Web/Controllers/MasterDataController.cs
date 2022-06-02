@@ -358,6 +358,106 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("GetCardType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<CardTypeModel>> GetCardType(CardTypeModelAll ct)
+        {
+            try
+            {
+                List<CardTypeModel> ctList = new List<CardTypeModel>();
+                ctList = masterdataService.GetCardType(ct);
+                var response = new ResponseDataModel<IEnumerable<CardTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = ctList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CardTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("InsertUpdateCardType")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateCardType(CardTypeModelAll ngm)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateCardType(ngm);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("DeleteCardType")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteCardType(CardTypeModelAll ngm)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteCardType(ngm);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
 
         [Route("DeleteCPTCode")]
         [HttpPost]

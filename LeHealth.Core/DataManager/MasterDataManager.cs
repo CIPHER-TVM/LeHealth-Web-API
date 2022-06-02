@@ -538,6 +538,94 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+
+        public List<CardTypeModel> GetCardType(CardTypeModelAll ccm)
+        {
+            List<CardTypeModel> ctList = new List<CardTypeModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetCard", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CardId", ccm.CardId);
+            cmd.Parameters.AddWithValue("@ShowAll", ccm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtCT = new DataTable();
+            adapter.Fill(dtCT);
+            con.Close();
+            if ((dtCT != null) && (dtCT.Rows.Count > 0))
+            {
+                ctList = dtCT.ToListOfObject<CardTypeModel>();
+            }
+            return ctList;
+        }
+        public string InsertUpdateCardType(CardTypeModelAll ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CardId", ccm.CardId);
+                cmd.Parameters.AddWithValue("@CardName", ccm.CardName);
+                cmd.Parameters.AddWithValue("@ServiceCharge", ccm.ServiceCharge);
+                cmd.Parameters.AddWithValue("@UserId", ccm.UserId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public string DeleteCardType(CardTypeModelAll ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteCard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", ccm.CardId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
         public List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm)
         {
             List<CPTModifierModel> profList = new List<CPTModifierModel>();
@@ -3044,6 +3132,7 @@ namespace LeHealth.Core.DataManager
                         TaxDesc = dsNumber.Rows[i]["TaxDesc"].ToString(),
                         TaxPcnt = (float)Convert.ToDouble(dsNumber.Rows[i]["TaxPcnt"].ToString()),
                         HeadId = Convert.ToInt32(dsNumber.Rows[i]["HeadId"]),
+                        HeadDesc = dsNumber.Rows[i]["HeadDesc"].ToString(),
                         IsDisplayed = Convert.ToInt32(dsNumber.Rows[i]["IsDisplayed"])
                     };
                     taxList.Add(obj);

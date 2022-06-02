@@ -14,7 +14,9 @@ namespace LeHealth.Service.ServiceInterface
         List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
-
+        List<CardTypeModel> GetCardType(CardTypeModelAll ct);
+        string InsertUpdateCardType(CardTypeModelAll ct);
+        string DeleteCardType(CardTypeModelAll ct);
         List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ccm);
         string InsertUpdateNationalityGroup(NationalityGroupModelAll serviceitem);
         string DeleteNationalityGroup(NationalityGroupModelAll serviceitem);

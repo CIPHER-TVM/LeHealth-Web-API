@@ -10,6 +10,7 @@ namespace LeHealth.Entity.DataModel
         public string TaxDesc { get; set; }
         public float TaxPcnt { get; set; }
         public int HeadId { get; set; }
+        public string HeadDesc { get; set; } 
         public int IsDisplayed { get; set; }
         public string IsApplied { get; set; } //For ServiceItem Tax
     }

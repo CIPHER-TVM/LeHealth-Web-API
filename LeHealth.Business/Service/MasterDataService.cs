@@ -157,6 +157,20 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteNationalityGroup(ngm);
         }
+
+        public List<CardTypeModel> GetCardType(CardTypeModelAll ngm)
+        {
+            return masterdataManager.GetCardType(ngm);
+        }
+        public string InsertUpdateCardType(CardTypeModelAll ngm) 
+        {
+            return masterdataManager.InsertUpdateCardType(ngm);
+        }
+        public string DeleteCardType(CardTypeModelAll ngm)
+        {
+            return masterdataManager.DeleteCardType(ngm);
+        }
+
         public string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm)
         {
             return masterdataManager.InsertUpdateCommunicationConfiguration(ccm);
