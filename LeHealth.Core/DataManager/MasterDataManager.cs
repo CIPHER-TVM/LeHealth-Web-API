@@ -6170,24 +6170,67 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@BranchId", dosageModel.BranchId);
             cmd.Parameters.AddWithValue("@ShowAll", dosageModel.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsDrug = new DataTable();
-            adapter.Fill(dsDrug);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
             con.Close();
-            if ((dsDrug != null) && (dsDrug.Rows.Count > 0))
+            if ((dt != null) && (dt.Rows.Count > 0))
             {
-                for (Int32 i = 0; i < dsDrug.Rows.Count; i++)
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
                 {
                     DosageModel obj = new DosageModel
                     {
-                        DosageId = Convert.ToInt32(dsDrug.Rows[i]["DosageId"]),
-                        DosageDesc = dsDrug.Rows[i]["DosageDesc"].ToString(),
-                        Active = Convert.ToBoolean(dsDrug.Rows[i]["Active"]),
-                        DosageValue = Convert.ToInt32(dsDrug.Rows[i]["DosageValue"]),
+                        DosageId = dt.Rows[i]["DosageId"]!=null? Convert.ToInt32(dt.Rows[i]["DosageId"]):0,
+                        DosageDesc = dt.Rows[i]["DosageDesc"]!=null? dt.Rows[i]["DosageDesc"].ToString():"",
+                        Active = dt.Rows[i]["Active"]!=null? Convert.ToBoolean(dt.Rows[i]["Active"]):false,
+                        DosageValue = dt.Rows[i]["DosageValue"]!=null? Convert.ToDouble(dt.Rows[i]["DosageValue"]):0,
                     };
                     dosageList.Add(obj);
                 }
             }
             return dosageList;
+        }
+        public string InsertUpdateDeleteDosage(DosageModelAll dosageModel)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDose", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DosageId", dosageModel.DosageId);
+                cmd.Parameters.AddWithValue("@DosageDesc", dosageModel.DosageDesc);
+                cmd.Parameters.AddWithValue("@DosageValue", dosageModel.DosageValue);
+                cmd.Parameters.AddWithValue("@ZoneId", dosageModel.ZoneId);
+                cmd.Parameters.AddWithValue("@BranchId", dosageModel.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", dosageModel.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleted", dosageModel.IsDeleted);
+                cmd.Parameters.AddWithValue("@IsDisplayed", dosageModel.IsDisplayed);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
         }
     }
 }

@@ -5018,5 +5018,38 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("InsertUpdateDeleteDosage")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteDosage(DosageModelAll dosageModel)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteDosage(dosageModel);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

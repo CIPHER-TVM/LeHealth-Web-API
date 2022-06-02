@@ -153,5 +153,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateDeleteSponserConsent(SponserConsentModelAll sponserConsent);
         List<SponserConsentModel> GetSponserConsent(SponserConsentModelAll sponserConsent);
         List<DosageModel> GetDosage(DosageModelAll dosageModel);
+        string InsertUpdateDeleteDosage(DosageModelAll dosageModel);
+
     }
 }

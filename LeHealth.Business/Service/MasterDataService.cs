@@ -716,5 +716,9 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetDosage(dosageModel);
         }
+        public string InsertUpdateDeleteDosage(DosageModelAll dosageModel)
+        {
+            return masterdataManager.InsertUpdateDeleteDosage(dosageModel);
+        }
     }
 }
