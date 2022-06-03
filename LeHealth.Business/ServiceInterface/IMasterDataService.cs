@@ -129,6 +129,7 @@ namespace LeHealth.Service.ServiceInterface
         List<HospitalModel> GetUserSpecificHospitals(int UserId);
         List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);
         string InsertUpdateICDGroup(ICDGroupModelAll icdGroup);
+        string DeleteICDGroup(ICDGroupModelAll icdGroup);
         List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);
         string InsertUpdateICDLabel(ICDLabelModelAll icdLabel);
         string DeleteICDLabel(ICDLabelModelAll icdLabel);

@@ -108,7 +108,6 @@ namespace LeHealth.Core.DataManager
                     obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
                     obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
                     obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
-                    obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
                     obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
                     obj.DrugTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["DrugTypeId"]);
                     obj.VaccineTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["VaccineTypeId"]);
@@ -5105,6 +5104,33 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
+        public string DeleteICDCategory(CommonMasterFieldModelAll icdcategory)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteICDCategory", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", icdcategory.Id);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
 
         /// <summary>
         /// Save ICD Group
@@ -5185,6 +5211,33 @@ namespace LeHealth.Core.DataManager
             }
             return itemList;
         }
+        public string DeleteICDGroup(ICDGroupModelAll icdgroup)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteICDGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", icdgroup.GroupId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                response = descrip;
+            }
+            return response;
+        }
         /// <summary>
         /// Save ICD Label
         /// </summary>
@@ -5264,8 +5317,8 @@ namespace LeHealth.Core.DataManager
                     obj.CatgId = Convert.ToInt32(dataTable.Rows[i]["CatgId"]);
                     obj.CatgDesc = dataTable.Rows[i]["CatgDesc"].ToString();
                     obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
-                    obj.LabelSigns = JsonConvert.DeserializeObject<List<LabelSign>>(dataTable.Rows[i]["LabelSigns"].ToString());
-                    obj.LabelSymptoms = JsonConvert.DeserializeObject<List<LabelSymptom>>(dataTable.Rows[i]["LabelSymptoms"].ToString());
+                    //obj.LabelSigns = JsonConvert.DeserializeObject<List<LabelSign>>(dataTable.Rows[i]["LabelSigns"].ToString());
+                    //obj.LabelSymptoms = JsonConvert.DeserializeObject<List<LabelSymptom>>(dataTable.Rows[i]["LabelSymptoms"].ToString());
                     labelList.Add(obj);
                 }
             }
@@ -5965,7 +6018,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@UserId", informedConsent.UserId);
                 cmd.Parameters.AddWithValue("@IsDeleted", informedConsent.IsDeleted);
                 cmd.Parameters.AddWithValue("@IsDisplayed", informedConsent.IsDisplayed);
-               
+
 
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -6013,7 +6066,7 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dt.Rows.Count; i++)
                 {
-        InformedConsentModel obj = new InformedConsentModel();
+                    InformedConsentModel obj = new InformedConsentModel();
                     obj.ContentId = dt.Rows[i]["ContentId"] != null ? Convert.ToInt32(dt.Rows[i]["ContentId"]) : 0;
                     obj.CTEnglish = dt.Rows[i]["CTEnglish"] != null ? dt.Rows[i]["CTEnglish"].ToString() : "";
                     obj.CTArabic = dt.Rows[i]["CTArabic"] != null ? dt.Rows[i]["CTArabic"].ToString() : "";
@@ -6021,8 +6074,8 @@ namespace LeHealth.Core.DataManager
                     obj.CType = dt.Rows[i]["CType"] != null ? dt.Rows[i]["CType"].ToString() : "";
                     obj.CGroupId = dt.Rows[i]["CGroupId"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupId"]) : 0;
                     obj.CGroupName = dt.Rows[i]["CGroupName"] != null ? dt.Rows[i]["CGroupName"].ToString() : "";
-                 
-                  
+
+
 
 
                     informedConsents.Add(obj);
@@ -6101,7 +6154,7 @@ namespace LeHealth.Core.DataManager
                     obj.DisplayOrder = dt.Rows[i]["DisplayOrder"] != null ? Convert.ToInt32(dt.Rows[i]["DisplayOrder"]) : 0;
                     obj.CType = dt.Rows[i]["CType"] != null ? dt.Rows[i]["CType"].ToString() : "";
                     obj.CGroupId = dt.Rows[i]["CGroupId"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupId"]) : 0;
-                 
+
 
 
 
@@ -6180,8 +6233,8 @@ namespace LeHealth.Core.DataManager
                     obj.CTEnglish = dt.Rows[i]["CTEnglish"] != null ? dt.Rows[i]["CTEnglish"].ToString() : "";
                     obj.CTArabic = dt.Rows[i]["CTArabic"] != null ? dt.Rows[i]["CTArabic"].ToString() : "";
                     obj.DisplayOrder = dt.Rows[i]["DisplayOrder"] != null ? Convert.ToInt32(dt.Rows[i]["DisplayOrder"]) : 0;
-                  
-                  
+
+
                     obj.SponsorId = dt.Rows[i]["SponsorId"] != null ? Convert.ToInt32(dt.Rows[i]["SponsorId"]) : 0;
                     obj.SponsorName = dt.Rows[i]["SponsorName"] != null ? dt.Rows[i]["SponsorName"].ToString() : "";
 

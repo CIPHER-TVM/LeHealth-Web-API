@@ -1761,11 +1761,11 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
 
         /// <summary>
-        /// To get list of all Professions Or Profession Detail of Input parameter. 
-        /// sponsorid=Primary key of LH_Sponsor Table, Returns all if sponsorid=0
+        /// To get list of all Ledgers Or Ledger Detail of Input parameter. 
+        /// sponsorid=Primary key of LH_LedgerHead Table, Returns all if HeadId=0
         /// </summary>
         /// <returns>
-        /// returns List of Sponsor as JSON
+        /// returns List of Ledgers as JSON
         /// </returns>
         [Route("GetLedgerHead")]
         [HttpPost]
@@ -4290,6 +4290,38 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<ICDGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("DeleteICDGroup")]
+        [HttpPost]
+        public ResponseDataModel<string> DeleteICDGroup(ICDGroupModelAll icdGroup)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.DeleteICDGroup(icdGroup);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

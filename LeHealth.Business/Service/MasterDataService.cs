@@ -123,6 +123,9 @@ namespace LeHealth.Service.Service
                 case "Salutation":
                     returnvalue = masterdataManager.DeleteSalutation(masterItem);
                     break;
+                case "ICDCategory":
+                    returnvalue = masterdataManager.DeleteICDCategory(masterItem);
+                    break;
                 default:
                     returnvalue = masterdataManager.InsertUpdateSalutation(masterItem);
                     break;
@@ -157,7 +160,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteNationalityGroup(ngm);
         }
-
         public List<CardTypeModel> GetCardType(CardTypeModelAll ngm)
         {
             return masterdataManager.GetCardType(ngm);
@@ -170,12 +172,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteCardType(ngm);
         }
-
         public string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm)
         {
             return masterdataManager.InsertUpdateCommunicationConfiguration(ccm);
         }
-
         public string DeleteCPTCode(CPTCodeModel ccm)
         {
             return masterdataManager.DeleteCPTCode(ccm);
@@ -627,6 +627,10 @@ namespace LeHealth.Service.Service
         public List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group)
         {
             return masterdataManager.GetICDGroup(group);
+        }
+        public string DeleteICDGroup(ICDGroupModelAll icdGroup)
+        {
+            return masterdataManager.DeleteICDGroup(icdGroup); 
         }
         public string InsertUpdateICDLabel(ICDLabelModelAll icdLabel)
         {
