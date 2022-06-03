@@ -19,12 +19,13 @@ namespace LeHealth.Entity.DataModel
         public int IsDeleted { get; set; }
         public int ZoneId { get; set; }
         public string TradeCode { get; set; }
+
+        public int IsDisplayed { get; set; }
     }
-    public class TradeNameModelAll : TradeNameModel
+    public class TradeNameModelAll: TradeNameModel
     {
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
     }
 }

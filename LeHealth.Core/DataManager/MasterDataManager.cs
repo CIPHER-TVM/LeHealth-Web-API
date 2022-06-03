@@ -5848,7 +5848,32 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dt);
             con.Close();
             if ((dt != null) && (dt.Rows.Count > 0))
-                tradeNames = dt.ToListOfObject<TradeNameModel>();
+            //  tradeNames = dt.ToListOfObject<TradeNameModel>();
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    TradeNameModel obj = new TradeNameModel
+                    {
+                        TradeId = dt.Rows[i]["TradeId"] != null ? Convert.ToInt32(dt.Rows[i]["TradeId"]) : 0,
+                        ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,
+                        RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0,
+                        IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0,
+                        ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0,
+                        IsDisplayed = dt.Rows[i]["IsDisplayed"] != null ? Convert.ToInt32(dt.Rows[i]["IsDisplayed"]) : 0,
+                        TradeName = dt.Rows[i]["TradeName"] != null ? dt.Rows[i]["TradeName"].ToString() : "",
+                        TradeCode = dt.Rows[i]["TradeCode"] != null ? dt.Rows[i]["TradeCode"].ToString() : "",
+                        DosageForm = dt.Rows[i]["DosageForm"] != null ? dt.Rows[i]["DosageForm"].ToString() : "",
+                        IngredentStrength = dt.Rows[i]["IngredentStrength"] != null ? dt.Rows[i]["IngredentStrength"].ToString() : "",
+                        PackagePrice = dt.Rows[i]["PackagePrice"] != null ? dt.Rows[i]["PackagePrice"].ToString() : "",
+                        GranularUnit = dt.Rows[i]["GranularUnit"] != null ? dt.Rows[i]["GranularUnit"].ToString() : "",
+                        Manufacturer = dt.Rows[i]["Manufacturer"] != null ? dt.Rows[i]["Manufacturer"].ToString() : "",
+                        RegisteredOwner = dt.Rows[i]["RegisteredOwner"] != null ? dt.Rows[i]["RegisteredOwner"].ToString() : "",
+
+                    };
+                    tradeNames.Add(obj);
+                }
+            }
+
             return tradeNames;
         }
         public string InsertUpdateDeleteDrug(DrugModelAll drug)
@@ -5865,6 +5890,9 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Form", drug.Form);
                 cmd.Parameters.AddWithValue("@MarketStatus", drug.MarketStatus);
                 cmd.Parameters.AddWithValue("@Remarks", drug.Remarks);
+                cmd.Parameters.AddWithValue("@IngredientStrength", drug.IngredientStrength);
+                cmd.Parameters.AddWithValue("@DDCCode", drug.DDCCode);
+                cmd.Parameters.AddWithValue("@PackageNo", drug.PackageNo);
                 cmd.Parameters.AddWithValue("@DrugTypeId", drug.DrugTypeId);
                 cmd.Parameters.AddWithValue("@RouteId", drug.RouteId);
                 cmd.Parameters.AddWithValue("@ScientificId", drug.ScientificId);
@@ -5932,6 +5960,9 @@ namespace LeHealth.Core.DataManager
                     obj.MarketStatus = dt.Rows[i]["MarketStatus"] != null ? Convert.ToInt32(dt.Rows[i]["MarketStatus"]) : 0;
                     obj.Status = dt.Rows[i]["Status"] != null ? dt.Rows[i]["Status"].ToString() : "";
                     obj.Remarks = dt.Rows[i]["Remarks"] != null ? dt.Rows[i]["Remarks"].ToString() : "";
+                    obj.IngredientStrength = dt.Rows[i]["IngredientStrength"] != null ? dt.Rows[i]["IngredientStrength"].ToString() : "";
+                    obj.DDCCode = dt.Rows[i]["DDCCode"] != null ? dt.Rows[i]["DDCCode"].ToString() : "";
+                    obj.PackageNo = dt.Rows[i]["PackageNo"] != null ? dt.Rows[i]["PackageNo"].ToString() : "";
                     obj.DrugTypeId = dt.Rows[i]["DrugTypeId"] != null ? Convert.ToInt32(dt.Rows[i]["DrugTypeId"]) : 0;
                     obj.RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0;
                     obj.ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0;
@@ -6234,10 +6265,12 @@ namespace LeHealth.Core.DataManager
                 {
                     DosageModel obj = new DosageModel
                     {
-                        DosageId = dt.Rows[i]["DosageId"] != null ? Convert.ToInt32(dt.Rows[i]["DosageId"]) : 0,
-                        DosageDesc = dt.Rows[i]["DosageDesc"] != null ? dt.Rows[i]["DosageDesc"].ToString() : "",
-                        Active = dt.Rows[i]["Active"] != null ? Convert.ToBoolean(dt.Rows[i]["Active"]) : false,
-                        DosageValue = dt.Rows[i]["DosageValue"] != null ? Convert.ToDouble(dt.Rows[i]["DosageValue"]) : 0,
+                        DosageId = dt.Rows[i]["DosageId"]!=null? Convert.ToInt32(dt.Rows[i]["DosageId"]):0,
+                        DosageDesc = dt.Rows[i]["DosageDesc"]!=null? dt.Rows[i]["DosageDesc"].ToString():"",
+                        ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0,
+                        IsDisplayed = dt.Rows[i]["IsDisplayed"] != null ? Convert.ToInt32(dt.Rows[i]["IsDisplayed"]) : 0,
+                        IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0,
+                        DosageValue = dt.Rows[i]["DosageValue"]!=null? Convert.ToDouble(dt.Rows[i]["DosageValue"]):0,
                     };
                     dosageList.Add(obj);
                 }
@@ -6312,7 +6345,7 @@ namespace LeHealth.Core.DataManager
                         FreqDesc = dt.Rows[i]["FreqDesc"] != null ? dt.Rows[i]["FreqDesc"].ToString() : "",
                         FreqValue = dt.Rows[i]["FreqValue"] != null ? Convert.ToInt32(dt.Rows[i]["FreqValue"]) : 0,
                         ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0,
-                        BranchId = dt.Rows[i]["BranchId"] != null ? Convert.ToInt32(dt.Rows[i]["BranchId"]) : 0,
+                        IsDisplayed = dt.Rows[i]["IsDisplayed"] != null ? Convert.ToInt32(dt.Rows[i]["IsDisplayed"]) : 0,
                         IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0,
                     };
                     frequencies.Add(obj);
@@ -6363,6 +6396,33 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return response;
+        }
+        public List<ConsentGroupModel> GetConsentGroup()
+        {
+            List<ConsentGroupModel> consentGroups = new List<ConsentGroupModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsentGroup", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ConsentGroupModel obj = new ConsentGroupModel
+                    {
+                        CGroupID = dt.Rows[i]["CGroupID"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupID"]) : 0,
+                        CGroupName = dt.Rows[i]["CGroupName"] != null ? dt.Rows[i]["CGroupName"].ToString() : "",
+                       
+                    };
+                    consentGroups.Add(obj);
+                }
+            }
+            return consentGroups;
         }
     }
 }
