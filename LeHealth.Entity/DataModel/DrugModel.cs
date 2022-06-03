@@ -14,6 +14,9 @@ namespace LeHealth.Entity.DataModel
         public int MarketStatus { get; set; }
         public string Status { get; set; }
         public string Remarks { get; set; }
+        public string IngredientStrength { get; set; }
+        public string PackageNo { get; set; }
+        public string DDCCode { get; set; }
         public int DrugTypeId { get; set; }
         public int RouteId { get; set; }
         public bool Active { get; set; }

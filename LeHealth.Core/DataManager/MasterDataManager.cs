@@ -5889,6 +5889,9 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Form", drug.Form);
                 cmd.Parameters.AddWithValue("@MarketStatus", drug.MarketStatus);
                 cmd.Parameters.AddWithValue("@Remarks", drug.Remarks);
+                cmd.Parameters.AddWithValue("@IngredientStrength", drug.IngredientStrength);
+                cmd.Parameters.AddWithValue("@DDCCode", drug.DDCCode);
+                cmd.Parameters.AddWithValue("@PackageNo", drug.PackageNo);
                 cmd.Parameters.AddWithValue("@DrugTypeId", drug.DrugTypeId);
                 cmd.Parameters.AddWithValue("@RouteId", drug.RouteId);
                 cmd.Parameters.AddWithValue("@ScientificId", drug.ScientificId);
@@ -5956,6 +5959,9 @@ namespace LeHealth.Core.DataManager
                     obj.MarketStatus = dt.Rows[i]["MarketStatus"] != null ? Convert.ToInt32(dt.Rows[i]["MarketStatus"]) : 0;
                     obj.Status = dt.Rows[i]["Status"] != null ? dt.Rows[i]["Status"].ToString() : "";
                     obj.Remarks = dt.Rows[i]["Remarks"] != null ? dt.Rows[i]["Remarks"].ToString() : "";
+                    obj.IngredientStrength = dt.Rows[i]["IngredientStrength"] != null ? dt.Rows[i]["IngredientStrength"].ToString() : "";
+                    obj.DDCCode = dt.Rows[i]["DDCCode"] != null ? dt.Rows[i]["DDCCode"].ToString() : "";
+                    obj.PackageNo = dt.Rows[i]["PackageNo"] != null ? dt.Rows[i]["PackageNo"].ToString() : "";
                     obj.DrugTypeId = dt.Rows[i]["DrugTypeId"] != null ? Convert.ToInt32(dt.Rows[i]["DrugTypeId"]) : 0;
                     obj.RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0;
                     obj.ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0;
