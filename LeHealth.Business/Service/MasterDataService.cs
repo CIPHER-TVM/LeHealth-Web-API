@@ -510,10 +510,6 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetRoute(rm);
         }
-        public List<DosageModel> GetDosage(DosageModel dm)
-        {
-            return masterdataManager.GetDosage(dm);
-        }
         public List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData dm)
         {
             return masterdataManager.GetPendingServiceItemsByPatient(dm);
@@ -719,6 +715,22 @@ namespace LeHealth.Service.Service
         public List<SponserConsentModel> GetSponserConsent(SponserConsentModelAll sponserConsent)
         {
             return masterdataManager.GetSponserConsent(sponserConsent);
+        }
+        public List<DosageModel> GetDosage(DosageModelAll dosageModel)
+        {
+            return masterdataManager.GetDosage(dosageModel);
+        }
+        public string InsertUpdateDeleteDosage(DosageModelAll dosageModel)
+        {
+            return masterdataManager.InsertUpdateDeleteDosage(dosageModel);
+        }
+        public List<FrequencyModel> GetFrequency(FrequencyModelAll frequency)
+        {
+            return masterdataManager.GetFrequency(frequency);
+        }
+        public string InsertUpdateDeleteFrequency(FrequencyModelAll frequency)
+        {
+            return masterdataManager.InsertUpdateDeleteFrequency(frequency);
         }
     }
 }

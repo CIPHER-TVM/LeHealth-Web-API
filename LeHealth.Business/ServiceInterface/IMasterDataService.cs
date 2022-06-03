@@ -107,7 +107,6 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateZone(ZoneModel zone);
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
-        List<DosageModel> GetDosage(DosageModel dm);
         List<RouteModel> GetRoute(RouteModel rm);
         List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData rm);
         string InsertUpdateOperator(OperatorModel Operator);
@@ -154,5 +153,9 @@ namespace LeHealth.Service.ServiceInterface
         List<PatientConsentModel> GetPatientConsent(PatientConsentModelAll patientConsent);
         string InsertUpdateDeleteSponserConsent(SponserConsentModelAll sponserConsent);
         List<SponserConsentModel> GetSponserConsent(SponserConsentModelAll sponserConsent);
+        List<DosageModel> GetDosage(DosageModelAll dosageModel);
+        string InsertUpdateDeleteDosage(DosageModelAll dosageModel);
+        List<FrequencyModel> GetFrequency(FrequencyModelAll frequency);
+        string InsertUpdateDeleteFrequency(FrequencyModelAll frequency);
     }
 }

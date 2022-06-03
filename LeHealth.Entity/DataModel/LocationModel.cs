@@ -35,7 +35,8 @@ namespace LeHealth.Entity.DataModel
 public class LocationAssociateModel
     {
         public int LocationId { get; set; }
-        public int AstLocationId { get; set; }
+        public List<LocationModel> AssociateLcations { get; set; }
+        // public int AstLocationId { get; set; }
     }
 
 

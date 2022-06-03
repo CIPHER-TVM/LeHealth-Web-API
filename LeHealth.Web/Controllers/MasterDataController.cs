@@ -3633,39 +3633,6 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        [Route("GetDosage")]
-        [HttpPost]
-        public ResponseDataModel<IEnumerable<DosageModel>> GetDosage(DosageModel dm)
-        {
-            try
-            {
-                List<DosageModel> dosageList = new List<DosageModel>();
-                dosageList = masterdataService.GetDosage(dm);
-                var response = new ResponseDataModel<IEnumerable<DosageModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = dosageList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<DosageModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
         [Route("GetRoute")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<RouteModel>> GetRoute(RouteModel rm)
@@ -5024,12 +4991,12 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                List<SponserConsentModel> drugs = new List<SponserConsentModel>();
-                drugs = masterdataService.GetSponserConsent(sponserConsent);
+                List<SponserConsentModel> sponserConsents = new List<SponserConsentModel>();
+                sponserConsents = masterdataService.GetSponserConsent(sponserConsent);
                 var response = new ResponseDataModel<IEnumerable<SponserConsentModel>>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = drugs
+                    Response = sponserConsents
                 };
                 return response;
             }
@@ -5044,6 +5011,138 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     {
                         Message = ex.Message
                     }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetDosage")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DosageModel>> GetDosage(DosageModelAll dosageModel)
+        {
+            try
+            {
+                List<DosageModel> dosageList = new List<DosageModel>();
+                dosageList = masterdataService.GetDosage(dosageModel);
+                var response = new ResponseDataModel<IEnumerable<DosageModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = dosageList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DosageModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateDeleteDosage")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteDosage(DosageModelAll dosageModel)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteDosage(dosageModel);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetFrequency")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<FrequencyModel>> GetFrequency(FrequencyModelAll frequency)
+        {
+            try
+            {
+                List<FrequencyModel> frequencies = new List<FrequencyModel>();
+                frequencies = masterdataService.GetFrequency(frequency);
+                var response = new ResponseDataModel<IEnumerable<FrequencyModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = frequencies
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<FrequencyModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdateDeleteFrequency")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteFrequency(FrequencyModelAll frequency)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteFrequency(frequency);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
                 };
             }
             finally

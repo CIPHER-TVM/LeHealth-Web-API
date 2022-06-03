@@ -4398,41 +4398,7 @@ namespace LeHealth.Core.DataManager
             }
             return drugList;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="la"></param>
-        /// <returns></returns>
-        public List<DosageModel> GetDosage(DosageModel dm)
-        {
-            List<DosageModel> dosageList = new List<DosageModel>();
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetDosage", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@DosageId", dm.DosageId);
-            cmd.Parameters.AddWithValue("@BranchId", dm.BranchId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsDrug = new DataTable();
-            adapter.Fill(dsDrug);
-            con.Close();
-            if ((dsDrug != null) && (dsDrug.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsDrug.Rows.Count; i++)
-                {
-                    DosageModel obj = new DosageModel
-                    {
-                        DosageId = Convert.ToInt32(dsDrug.Rows[i]["DosageId"]),
-                        DosageDesc = dsDrug.Rows[i]["DosageDesc"].ToString(),
-                        Active = Convert.ToBoolean(dsDrug.Rows[i]["Active"]),
-                        DosageValue = Convert.ToInt32(dsDrug.Rows[i]["DosageValue"]),
-                        BranchId = dm.BranchId
-                    };
-                    dosageList.Add(obj);
-                }
-            }
-            return dosageList;
-        }
+     
         public List<RouteModel> GetRoute(RouteModel rm)
         {
             List<RouteModel> routeList = new List<RouteModel>();
@@ -5666,7 +5632,8 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@LocationId", locationAssociate.LocationId);
-                    cmd.Parameters.AddWithValue("@AstLocationId", locationAssociate.AstLocationId);
+                    string associateLcations = JsonConvert.SerializeObject(locationAssociate.AssociateLcations);
+                    cmd.Parameters.AddWithValue("@LocationJSON", associateLcations);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -6245,6 +6212,156 @@ namespace LeHealth.Core.DataManager
             }
 
             return informedConsents;
+        }
+        public List<DosageModel> GetDosage(DosageModelAll dosageModel)
+        {
+            List<DosageModel> dosageList = new List<DosageModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDosage", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DosageId", dosageModel.DosageId);
+            cmd.Parameters.AddWithValue("@BranchId", dosageModel.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", dosageModel.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    DosageModel obj = new DosageModel
+                    {
+                        DosageId = dt.Rows[i]["DosageId"]!=null? Convert.ToInt32(dt.Rows[i]["DosageId"]):0,
+                        DosageDesc = dt.Rows[i]["DosageDesc"]!=null? dt.Rows[i]["DosageDesc"].ToString():"",
+                        Active = dt.Rows[i]["Active"]!=null? Convert.ToBoolean(dt.Rows[i]["Active"]):false,
+                        DosageValue = dt.Rows[i]["DosageValue"]!=null? Convert.ToDouble(dt.Rows[i]["DosageValue"]):0,
+                    };
+                    dosageList.Add(obj);
+                }
+            }
+            return dosageList;
+        }
+        public string InsertUpdateDeleteDosage(DosageModelAll dosageModel)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDose", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DosageId", dosageModel.DosageId);
+                cmd.Parameters.AddWithValue("@DosageDesc", dosageModel.DosageDesc);
+                cmd.Parameters.AddWithValue("@DosageValue", dosageModel.DosageValue);
+                cmd.Parameters.AddWithValue("@ZoneId", dosageModel.ZoneId);
+                cmd.Parameters.AddWithValue("@BranchId", dosageModel.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", dosageModel.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleted", dosageModel.IsDeleted);
+                cmd.Parameters.AddWithValue("@IsDisplayed", dosageModel.IsDisplayed);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        public List<FrequencyModel> GetFrequency(FrequencyModelAll frequency)
+        {
+            List<FrequencyModel> frequencies = new List<FrequencyModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetFrequency", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FreqId", frequency.FreqId);
+            cmd.Parameters.AddWithValue("@BranchId", frequency.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", frequency.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    FrequencyModel obj = new FrequencyModel
+                    {
+                        FreqId = dt.Rows[i]["FreqId"] != null ? Convert.ToInt32(dt.Rows[i]["FreqId"]) : 0,
+                        FreqDesc = dt.Rows[i]["FreqDesc"] != null ? dt.Rows[i]["FreqDesc"].ToString() : "",
+                        FreqValue = dt.Rows[i]["FreqValue"] != null ? Convert.ToInt32(dt.Rows[i]["FreqValue"]) : 0,
+                        ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0,
+                        BranchId = dt.Rows[i]["BranchId"] != null ? Convert.ToInt32(dt.Rows[i]["BranchId"]) : 0,
+                        IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0,
+                    };
+                    frequencies.Add(obj);
+                }
+            }
+            return frequencies;
+        }
+        public string InsertUpdateDeleteFrequency(FrequencyModelAll frequency)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateFrequency", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FreqId", frequency.FreqId);
+                cmd.Parameters.AddWithValue("@FreqDesc", frequency.FreqDesc);
+                cmd.Parameters.AddWithValue("@FreqValue", frequency.FreqValue);
+
+                cmd.Parameters.AddWithValue("@ZoneId", frequency.ZoneId);
+                cmd.Parameters.AddWithValue("@BranchId", frequency.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", frequency.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleted", frequency.IsDeleted);
+                cmd.Parameters.AddWithValue("@IsDisplayed", frequency.IsDisplayed);
+
+
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
         }
     }
 }
