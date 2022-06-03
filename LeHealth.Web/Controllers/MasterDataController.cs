@@ -5149,5 +5149,38 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("GetConsentGroup")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsentGroupModel>> GetConsentGroup()
+        {
+            try
+            {
+                List<ConsentGroupModel> frequencies = new List<ConsentGroupModel>();
+                frequencies = masterdataService.GetConsentGroup();
+                var response = new ResponseDataModel<IEnumerable<ConsentGroupModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = frequencies
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsentGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

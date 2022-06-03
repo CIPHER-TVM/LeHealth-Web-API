@@ -157,5 +157,6 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateDeleteDosage(DosageModelAll dosageModel);
         List<FrequencyModel> GetFrequency(FrequencyModelAll frequency);
         string InsertUpdateDeleteFrequency(FrequencyModelAll frequency);
+        List<ConsentGroupModel> GetConsentGroup();
     }
 }

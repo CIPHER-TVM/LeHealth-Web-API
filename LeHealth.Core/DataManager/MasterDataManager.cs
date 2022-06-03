@@ -6396,5 +6396,32 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<ConsentGroupModel> GetConsentGroup()
+        {
+            List<ConsentGroupModel> consentGroups = new List<ConsentGroupModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsentGroup", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ConsentGroupModel obj = new ConsentGroupModel
+                    {
+                        CGroupID = dt.Rows[i]["CGroupID"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupID"]) : 0,
+                        CGroupName = dt.Rows[i]["CGroupName"] != null ? dt.Rows[i]["CGroupName"].ToString() : "",
+                       
+                    };
+                    consentGroups.Add(obj);
+                }
+            }
+            return consentGroups;
+        }
     }
 }

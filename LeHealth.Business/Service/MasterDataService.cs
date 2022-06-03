@@ -732,5 +732,9 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertUpdateDeleteFrequency(frequency);
         }
+        public List<ConsentGroupModel> GetConsentGroup()
+        {
+            return masterdataManager.GetConsentGroup();
+        }
     }
 }
