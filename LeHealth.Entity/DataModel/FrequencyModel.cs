@@ -11,13 +11,13 @@ namespace LeHealth.Entity.DataModel
         public int FreqValue { get; set; }
         public int IsDeleted { get; set; }
         public int ZoneId { get; set; }
+        public int IsDisplayed { get; set; }
         public int BranchId { get; set; }
     }
-    public class FrequencyModelAll : FrequencyModel
+    public class FrequencyModelAll:FrequencyModel
     {
-     
+      
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
     }
 }
