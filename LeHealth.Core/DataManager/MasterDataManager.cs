@@ -2026,7 +2026,8 @@ namespace LeHealth.Core.DataManager
                         SignUnit = dsVitalSignList.Rows[i]["SignUnit"].ToString(),
                         MinValue = Convert.ToDouble(dsVitalSignList.Rows[i]["MinValue"]),
                         MaxValue = Convert.ToDouble(dsVitalSignList.Rows[i]["MaxValue"]),
-                        SortOrder = Convert.ToInt32(dsVitalSignList.Rows[i]["SortOrder"])
+                        SortOrder = Convert.ToInt32(dsVitalSignList.Rows[i]["SortOrder"]),
+                        IsDisplayed = Convert.ToInt32(dsVitalSignList.Rows[i]["IsDisplayed"])
                     };
                     vitalSignList.Add(obj);
                 }
@@ -4398,7 +4399,7 @@ namespace LeHealth.Core.DataManager
             }
             return drugList;
         }
-     
+
         public List<RouteModel> GetRoute(RouteModel rm)
         {
             List<RouteModel> routeList = new List<RouteModel>();
@@ -6233,10 +6234,10 @@ namespace LeHealth.Core.DataManager
                 {
                     DosageModel obj = new DosageModel
                     {
-                        DosageId = dt.Rows[i]["DosageId"]!=null? Convert.ToInt32(dt.Rows[i]["DosageId"]):0,
-                        DosageDesc = dt.Rows[i]["DosageDesc"]!=null? dt.Rows[i]["DosageDesc"].ToString():"",
-                        Active = dt.Rows[i]["Active"]!=null? Convert.ToBoolean(dt.Rows[i]["Active"]):false,
-                        DosageValue = dt.Rows[i]["DosageValue"]!=null? Convert.ToDouble(dt.Rows[i]["DosageValue"]):0,
+                        DosageId = dt.Rows[i]["DosageId"] != null ? Convert.ToInt32(dt.Rows[i]["DosageId"]) : 0,
+                        DosageDesc = dt.Rows[i]["DosageDesc"] != null ? dt.Rows[i]["DosageDesc"].ToString() : "",
+                        Active = dt.Rows[i]["Active"] != null ? Convert.ToBoolean(dt.Rows[i]["Active"]) : false,
+                        DosageValue = dt.Rows[i]["DosageValue"] != null ? Convert.ToDouble(dt.Rows[i]["DosageValue"]) : 0,
                     };
                     dosageList.Add(obj);
                 }
