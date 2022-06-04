@@ -355,7 +355,9 @@ namespace LeHealth.Core.DataManager
                             cmdSaveConsultant.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
                             cmdSaveConsultant.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
                             cmdSaveConsultant.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
-                            SqlParameter retValSaveConsultant = new SqlParameter("@RetVal", SqlDbType.Int)
+                        cmdSaveConsultant.Parameters.AddWithValue("@IsDeleted", consultant.IsDeleted);
+                        cmdSaveConsultant.Parameters.AddWithValue("@IsDisplayed", consultant.IsDisplayed);
+                        SqlParameter retValSaveConsultant = new SqlParameter("@RetVal", SqlDbType.Int)
                             {
                                 Direction = ParameterDirection.Output
                             };
@@ -2136,39 +2138,40 @@ namespace LeHealth.Core.DataManager
                     consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"]!=null? dt.Rows[i]["SignatureLoc"].ToString():"";
 
                 }
-            }
-
-
-            con.Open();
-            SqlCommand cmdAddress = new SqlCommand("stLH_GetConsultantAddress", con);
-            cmdAddress.CommandType = CommandType.StoredProcedure;
-            cmdAddress.Parameters.AddWithValue("@ConsultantId", consultantId);
-            cmdAddress.Parameters.AddWithValue("@AddType", 0);
-            SqlDataAdapter adapter3 = new SqlDataAdapter(cmdAddress);
-            DataTable dsRate3 = new DataTable();
-            adapter3.Fill(dsRate3);
-            con.Close();
-            ConsultantAddressModel consultantAddress = new ConsultantAddressModel();
-            if ((dsRate3 != null) && (dsRate3.Rows.Count > 0))
-            {
-                consultantAddress = dsRate3.ToObject<ConsultantAddressModel>();
-                for (Int32 i = 0; i < dsRate3.Rows.Count; i++)
+                con.Open();
+                SqlCommand cmdAddress = new SqlCommand("stLH_GetConsultantAddress", con);
+                cmdAddress.CommandType = CommandType.StoredProcedure;
+                cmdAddress.Parameters.AddWithValue("@ConsultantId", consultantId);
+                cmdAddress.Parameters.AddWithValue("@AddType", 0);
+                SqlDataAdapter adapter3 = new SqlDataAdapter(cmdAddress);
+                DataTable dsRate3 = new DataTable();
+                adapter3.Fill(dsRate3);
+                con.Close();
+                ConsultantAddressModel consultantAddress = new ConsultantAddressModel();
+                if ((dsRate3 != null) && (dsRate3.Rows.Count > 0))
                 {
-                    consultantAddress.Address1= dsRate3.Rows[i]["Address1"] != null ? dsRate3.Rows[i]["Address1"].ToString() : "";
-                    consultantAddress.Address2 = dsRate3.Rows[i]["Address2"] != null ? dsRate3.Rows[i]["Address2"].ToString() : "";
-                    consultantAddress.AddType = dsRate3.Rows[i]["AddType"] != null ? Convert.ToInt32(dsRate3.Rows[i]["AddType"]) : 0;
-                    consultantAddress.City = dsRate3.Rows[i]["City"] != null ? dsRate3.Rows[i]["City"].ToString() : "";
-                    consultantAddress.ConsultantId = dsRate3.Rows[i]["ConsultantId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["ConsultantId"]) : 0;
-                    consultantAddress.CountryId = dsRate3.Rows[i]["CountryId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["CountryId"]) : 0;
-                    consultantAddress.PIN = dsRate3.Rows[i]["PIN"] != null ? dsRate3.Rows[i]["PIN"].ToString() : "";
-                    consultantAddress.PlacePO = dsRate3.Rows[i]["PlacePO"] != null ? dsRate3.Rows[i]["PlacePO"].ToString() : "";
-                    consultantAddress.State = dsRate3.Rows[i]["State"] != null ? dsRate3.Rows[i]["State"].ToString() : "";
-                    consultantAddress.Street = dsRate3.Rows[i]["Street"] != null ? dsRate3.Rows[i]["Street"].ToString() : "";
-                 
+                    consultantAddress = dsRate3.ToObject<ConsultantAddressModel>();
+                    for (Int32 i = 0; i < dsRate3.Rows.Count; i++)
+                    {
+                        consultantAddress.Address1 = dsRate3.Rows[i]["Address1"] != null ? dsRate3.Rows[i]["Address1"].ToString() : "";
+                        consultantAddress.Address2 = dsRate3.Rows[i]["Address2"] != null ? dsRate3.Rows[i]["Address2"].ToString() : "";
+                        consultantAddress.AddType = dsRate3.Rows[i]["AddType"] != null ? Convert.ToInt32(dsRate3.Rows[i]["AddType"]) : 0;
+                        consultantAddress.City = dsRate3.Rows[i]["City"] != null ? dsRate3.Rows[i]["City"].ToString() : "";
+                        consultantAddress.ConsultantId = dsRate3.Rows[i]["ConsultantId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["ConsultantId"]) : 0;
+                        consultantAddress.CountryId = dsRate3.Rows[i]["CountryId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["CountryId"]) : 0;
+                        consultantAddress.PIN = dsRate3.Rows[i]["PIN"] != null ? dsRate3.Rows[i]["PIN"].ToString() : "";
+                        consultantAddress.PlacePO = dsRate3.Rows[i]["PlacePO"] != null ? dsRate3.Rows[i]["PlacePO"].ToString() : "";
+                        consultantAddress.State = dsRate3.Rows[i]["State"] != null ? dsRate3.Rows[i]["State"].ToString() : "";
+                        consultantAddress.Street = dsRate3.Rows[i]["Street"] != null ? dsRate3.Rows[i]["Street"].ToString() : "";
 
+
+                    }
                 }
+                consultant.Residence = consultantAddress;
             }
-            consultant.Residence = consultantAddress;
+            
+
+          
            
             return consultant;
         }
