@@ -65,7 +65,8 @@ namespace LeHealth.Entity.DataModel
         public string Location { get; set; }
         public List<LocationModel> LocationIds { get; set; }
         public int BranchId { get; set; }
-
+        public int IsDeleted { get; set; }
+        public int IsDisplayed { get; set; }
         public UserModel UserData { get; set; } 
         //public UserGroupModel UserGroupData { get; set; }
     }

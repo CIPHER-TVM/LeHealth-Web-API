@@ -247,9 +247,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.InsertUpdateConsultantTimeSchedule(timeScheduleMaster);
         }
-        public ConsultantTimeScheduleMaster GetConsultantTimeSchedule(int scheduleId)
+        public ConsultantTimeScheduleMaster GetConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
-            return consultantManager.GetConsultantTimeSchedule(scheduleId);
+            return consultantManager.GetConsultantTimeSchedule(timeScheduleMaster);
         }
         public string DeleteConsultant(int id)
         {
