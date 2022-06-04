@@ -442,7 +442,7 @@ namespace LeHealth.Core.DataManager
         }
         public List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ccm)
         {
-            List<NationalityGroupModel> profList = new List<NationalityGroupModel>();
+            List<NationalityGroupModel> ngroupList = new List<NationalityGroupModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetNationalityGroup", con);
             con.Open();
@@ -465,10 +465,10 @@ namespace LeHealth.Core.DataManager
                         RegionCode = dtCPT.Rows[i]["RegionCode"].ToString(),
                         IsDisplayed = Convert.ToInt32(dtCPT.Rows[i]["IsDisplayed"]),
                     };
-                    profList.Add(obj);
+                    ngroupList.Add(obj);
                 }
             }
-            return profList;
+            return ngroupList;
         }
         public string InsertUpdateNationalityGroup(NationalityGroupModelAll ccm)
         {
@@ -1499,6 +1499,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@CountryId", country.CountryId);
                 cmd.Parameters.AddWithValue("@CountryName", country.CountryName);
                 cmd.Parameters.AddWithValue("@CountryCode", country.CountryCode);
+                cmd.Parameters.AddWithValue("@ReportCode", country.ReportCode);
                 cmd.Parameters.AddWithValue("@NGroupId", country.NGroupId);
                 cmd.Parameters.AddWithValue("@NationalityName", country.NationalityName);
                 cmd.Parameters.AddWithValue("@IsDisplayed", country.IsDisplayed);
