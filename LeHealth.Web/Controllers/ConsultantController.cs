@@ -1696,16 +1696,16 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("GetConsultantTimeSchedule/{scheduleId}")]
+        [Route("GetConsultantTimeSchedule")]
         [HttpPost]
-        public ResponseDataModel<ConsultantTimeScheduleMaster> GetConsultantTimeSchedule(int scheduleId)
+        public ResponseDataModel<ConsultantTimeScheduleMaster> GetConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
             List<ConsultantTimeScheduleMaster> timeSchedulers = new List<ConsultantTimeScheduleMaster>();
             try
             {
 
                 ConsultantTimeScheduleMaster timeSchedule = new ConsultantTimeScheduleMaster();
-                timeSchedule = consultantService.GetConsultantTimeSchedule(scheduleId);
+                timeSchedule = consultantService.GetConsultantTimeSchedule(timeScheduleMaster);
                 timeSchedulers.Add(timeSchedule);
                 var response = new ResponseDataModel<ConsultantTimeScheduleMaster>()
                 {

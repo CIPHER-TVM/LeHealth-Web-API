@@ -2287,13 +2287,14 @@ namespace LeHealth.Core.DataManager
             responselist.Add(responseobj);
             return response;
         }
-        public ConsultantTimeScheduleMaster GetConsultantTimeSchedule(int scheduleId)
+        public ConsultantTimeScheduleMaster GetConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
             ConsultantTimeScheduleMaster consultant = new ConsultantTimeScheduleMaster();
             using SqlConnection con = new SqlConnection(_connStr);
             SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetConsultantTimeScheduleById", con);
             appointmentCountCMD.CommandType = CommandType.StoredProcedure;
-            appointmentCountCMD.Parameters.AddWithValue("@Scheid", scheduleId);
+            appointmentCountCMD.Parameters.AddWithValue("@ConsultantId", timeScheduleMaster.ConsultantId);
+            appointmentCountCMD.Parameters.AddWithValue("@BranchId", timeScheduleMaster.BranchId);
             con.Open();
             SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
             DataTable dataTable = new DataTable();
