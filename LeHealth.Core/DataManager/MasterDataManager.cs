@@ -645,7 +645,9 @@ namespace LeHealth.Core.DataManager
                     CPTModifierModel obj = new CPTModifierModel
                     {
                         Id = Convert.ToInt32(dtCPT.Rows[i]["Id"]),
-                        CPTModifier = dtCPT.Rows[i]["CPTModifier"].ToString()
+                        CPTModifier = dtCPT.Rows[i]["CPTModifier"].ToString(),
+                        CPTModifierDesc = dtCPT.Rows[i]["CPTModifier"].ToString(),
+                        IsDisplayed = dtCPT.Rows[i]["CPTModifier"].ToString()
                     };
                     profList.Add(obj);
                 }
