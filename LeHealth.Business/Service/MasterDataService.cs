@@ -39,9 +39,6 @@ namespace LeHealth.Service.Service
                 case "CommissionRule":
                     returnvalue = masterdataManager.GetCommissionRule(masterItem);
                     break;
-                case "ICDCategory":
-                    returnvalue = masterdataManager.GetICDCategory(masterItem);
-                    break;
                 case "Sign":
                     returnvalue = masterdataManager.GetSign(masterItem);
                     break;
@@ -77,9 +74,6 @@ namespace LeHealth.Service.Service
                     break;
                 case "Company":
                     returnvalue = masterdataManager.InsertUpdateCompany(masterItem);
-                    break;
-                case "ICDCategory":
-                    returnvalue = masterdataManager.InsertUpdateICDCategory(masterItem);
                     break;
                 case "Sign":
                     returnvalue = masterdataManager.InsertUpdateSign(masterItem);
@@ -628,6 +622,17 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteICDGroup(icdGroup); 
         }
+
+        public string InsertUpdateICDCategory(ICDCategoryModelAll icdCateg)
+        {
+            return masterdataManager.InsertUpdateICDCategory(icdCateg);
+        }
+        public List<ICDCategoryModel> GetICDCategory(ICDCategoryModelAll icdCateg)
+        {
+            return masterdataManager.GetICDCategory(icdCateg);
+        }
+
+
         public string InsertUpdateICDLabel(ICDLabelModelAll icdLabel)
         {
             return masterdataManager.InsertUpdateICDLabel(icdLabel);

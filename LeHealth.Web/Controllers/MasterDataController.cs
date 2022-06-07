@@ -4302,6 +4302,74 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
+//  //  //  //
+        [Route("InsertUpdateICDCategory")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateICDCategory(ICDCategoryModelAll icdCategory)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateICDCategory(icdCategory);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetICDCategory")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ICDCategoryModel>> GetICDLabel(ICDCategoryModelAll icdcateg)
+        {
+            try
+            {
+                List<ICDCategoryModel> icdList = new List<ICDCategoryModel>();
+                icdList = masterdataService.GetICDCategory(icdcateg);
+                var response = new ResponseDataModel<IEnumerable<ICDCategoryModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = icdList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ICDCategoryModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+/////////
         [Route("InsertUpdateICDLabel")]
         [HttpPost]
         public ResponseDataModel<string> InsertUpdateICDLabel(ICDLabelModelAll icdLabel)
@@ -4334,6 +4402,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        
         [Route("GetICDLabel")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ICDLabelModel>> GetICDLabel(ICDLabelModelAll label)
@@ -4366,6 +4435,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        
         [Route("DeleteICDLabel")]
         [HttpPost]
         public ResponseDataModel<string> DeleteICDLabel(ICDLabelModelAll icdLabel)

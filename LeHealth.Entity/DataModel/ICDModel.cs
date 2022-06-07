@@ -11,12 +11,12 @@ namespace LeHealth.Entity.DataModel
         public string LabelCode { get; set; }
     }
 
-    public class ICDCategroyModel
-    {
-        public int CatgId { get; set; }
-        public string CatgDesc { get; set; }
+    //public class ICDCategroyModel
+    //{
+    //    public int CatgId { get; set; }
+    //    public string CatgDesc { get; set; }
 
-    }
+    //}
     public class ICDGroupModel
     {
         public int GroupId { get; set; }
@@ -52,12 +52,12 @@ namespace LeHealth.Entity.DataModel
     public class LabelSign
     {
         public int SignId { get; set; }
-        public string SignName { get; set; } 
+        public string SignDesc { get; set; } 
     }
     public class LabelSymptom
     {
         public int SymptomId { get; set; }
-        public string SymptomName { get; set; } 
+        public string SymptomDesc { get; set; } 
     }
 
 }

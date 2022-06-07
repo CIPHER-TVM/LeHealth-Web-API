@@ -25,7 +25,7 @@ namespace LeHealth.Service.Service
                 patientDetail.RegDocLocation = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
             if (patientDetail.PatientPhoto != null)
             {
-                patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto,"documents");
+                patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto, "documents");
             }
             else
             {
@@ -39,7 +39,7 @@ namespace LeHealth.Service.Service
                 patientDetail.RegDocLocation = fileUploadService.SaveFileMultiple(patientDetail.PatientDocs);
             if (patientDetail.PatientPhoto != null)
             {
-                patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto,"documents");
+                patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto, "documents");
             }
             else
             {

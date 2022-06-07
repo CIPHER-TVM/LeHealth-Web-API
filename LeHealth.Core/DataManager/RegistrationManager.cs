@@ -481,7 +481,7 @@ namespace LeHealth.Core.DataManager
                 {
                     //for (Int32 m = 0; m < 1000; m++)
                     //{
-                    string rno = AutoregnoCreate();
+                    string rno = AutoregnoCreate(patientDetail.BranchId);
                     //if (rno != "duplicate")
                     //{
                     patientDetail.RegNo = rno;
@@ -798,7 +798,7 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public string AutoregnoCreate()
+        public string AutoregnoCreate(int BranchId)
         {
             using SqlConnection con = new SqlConnection(_connStr);
             SqlCommand autonumberCMD = new SqlCommand("stLH_AutoNumberReg", con)
@@ -806,6 +806,7 @@ namespace LeHealth.Core.DataManager
                 CommandType = CommandType.StoredProcedure
             };
             autonumberCMD.Parameters.AddWithValue("@NumId", "REG-NO");
+            autonumberCMD.Parameters.AddWithValue("@BranchId", BranchId);
             SqlParameter patidReturnDesc1 = new SqlParameter("@NewNo", SqlDbType.VarChar, 20)
             {
                 Direction = ParameterDirection.Output

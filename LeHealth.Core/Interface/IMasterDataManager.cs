@@ -157,10 +157,9 @@ namespace LeHealth.Core.Interface
         List<KinRelationModel> GetKinRelation();
         List<HospitalModel> GetUserSpecificHospitals(int userId);
         List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);
-
-        string InsertUpdateICDCategory(CommonMasterFieldModelAll icdCategory);
+        string InsertUpdateICDCategory(ICDCategoryModelAll icdCategory);
         string DeleteICDCategory(CommonMasterFieldModelAll icdCategory);
-        List<CommonMasterFieldModel> GetICDCategory(CommonMasterFieldModelAll category); 
+        List<ICDCategoryModel> GetICDCategory(ICDCategoryModelAll category); 
         string InsertUpdateICDGroup(ICDGroupModelAll icdGroup);
         string DeleteICDGroup(ICDGroupModelAll icdGroup);
         List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);

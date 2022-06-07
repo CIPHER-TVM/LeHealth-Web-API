@@ -127,6 +127,8 @@ namespace LeHealth.Service.ServiceInterface
         List<KinRelationModel> GetKinRelation();
         List<HospitalModel> GetUserSpecificHospitals(int UserId);
         List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);
+        List<ICDCategoryModel> GetICDCategory(ICDCategoryModelAll icdcategory);
+        string InsertUpdateICDCategory(ICDCategoryModelAll icdcategory); 
         string InsertUpdateICDGroup(ICDGroupModelAll icdGroup);
         string DeleteICDGroup(ICDGroupModelAll icdGroup);
         List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);

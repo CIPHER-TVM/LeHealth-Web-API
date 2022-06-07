@@ -40,14 +40,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             //try
             //{
-                List<AllPatientModel> patientList = new List<AllPatientModel>();
-                patientList = registrationService.GetAllPatient(BranchId);
-                var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = patientList
-                };
-                return response;
+            List<AllPatientModel> patientList = new List<AllPatientModel>();
+            patientList = registrationService.GetAllPatient(BranchId);
+            var response = new ResponseDataModel<IEnumerable<AllPatientModel>>()
+            {
+                Status = HttpStatusCode.OK,
+                Response = patientList
+            };
+            return response;
             //}
             //catch (Exception ex)
             //{
