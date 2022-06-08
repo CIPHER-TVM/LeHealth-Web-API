@@ -647,7 +647,7 @@ namespace LeHealth.Core.DataManager
                         Id = Convert.ToInt32(dtCPT.Rows[i]["Id"]),
                         CPTModifier = dtCPT.Rows[i]["CPTModifier"].ToString(),
                         CPTModifierDesc = dtCPT.Rows[i]["CPTModifier"].ToString(),
-                        IsDisplayed = dtCPT.Rows[i]["CPTModifier"].ToString()
+                        //IsDisplayed = dtCPT.Rows[i]["CPTModifier"].ToString()
                     };
                     profList.Add(obj);
                 }
@@ -5010,6 +5010,7 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@CatgId", icdCategory.CatgId);
+                cmd.Parameters.AddWithValue("@ICDGroupId", icdCategory.ICDGroupId);
                 cmd.Parameters.AddWithValue("@CatgName", icdCategory.CatgName);
                 cmd.Parameters.AddWithValue("@CatgDesc", icdCategory.CatgDesc);
                 cmd.Parameters.AddWithValue("@BranchId", icdCategory.BranchId);
