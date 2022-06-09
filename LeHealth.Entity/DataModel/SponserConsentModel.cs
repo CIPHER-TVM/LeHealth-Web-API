@@ -17,12 +17,12 @@ namespace LeHealth.Entity.DataModel
         public int Active { get; set; }
         public int IsDeleted { get; set; }
         public string BlockReason { get; set; }
+        public int IsDisplayed { get; set; }
     }
     public class SponserConsentModelAll : SponserConsentModel
     {
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
     }
 }

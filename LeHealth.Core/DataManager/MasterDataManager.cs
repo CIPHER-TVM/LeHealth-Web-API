@@ -6071,10 +6071,7 @@ namespace LeHealth.Core.DataManager
                     obj.CType = dt.Rows[i]["CType"] != null ? dt.Rows[i]["CType"].ToString() : "";
                     obj.CGroupId = dt.Rows[i]["CGroupId"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupId"]) : 0;
                     obj.CGroupName = dt.Rows[i]["CGroupName"] != null ? dt.Rows[i]["CGroupName"].ToString() : "";
-
-
-
-
+                    obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
                     informedConsents.Add(obj);
                 }
             }
@@ -6151,10 +6148,7 @@ namespace LeHealth.Core.DataManager
                     obj.DisplayOrder = dt.Rows[i]["DisplayOrder"] != null ? Convert.ToInt32(dt.Rows[i]["DisplayOrder"]) : 0;
                     obj.CType = dt.Rows[i]["CType"] != null ? dt.Rows[i]["CType"].ToString() : "";
                     obj.CGroupId = dt.Rows[i]["CGroupId"] != null ? Convert.ToInt32(dt.Rows[i]["CGroupId"]) : 0;
-
-
-
-
+                    obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
                     patientConsents.Add(obj);
                 }
             }
@@ -6234,7 +6228,7 @@ namespace LeHealth.Core.DataManager
 
                     obj.SponsorId = dt.Rows[i]["SponsorId"] != null ? Convert.ToInt32(dt.Rows[i]["SponsorId"]) : 0;
                     obj.SponsorName = dt.Rows[i]["SponsorName"] != null ? dt.Rows[i]["SponsorName"].ToString() : "";
-
+                    obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
 
 
                     informedConsents.Add(obj);
