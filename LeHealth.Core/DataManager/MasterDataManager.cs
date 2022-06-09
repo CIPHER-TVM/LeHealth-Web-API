@@ -59,15 +59,15 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<AvailableServiceModel> GetServiceItem(AvailableServiceModel company)
+        public List<ServiceConfigModel> GetServiceItem(AvailableServiceModel company)
         {
-            List<AvailableServiceModel> serviceItemList = new List<AvailableServiceModel>();
+            List<ServiceConfigModel> serviceItemList = new List<ServiceConfigModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetItemDetailById", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ItemId", company.Id);
-            //cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
+            cmd.Parameters.AddWithValue("@GroupId", company.GroupId);
             cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtServiceItem = new DataTable();
@@ -77,21 +77,21 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dtServiceItem.Rows.Count; i++)
                 {
-                    AvailableServiceModel obj = new AvailableServiceModel();
+                    ServiceConfigModel obj = new ServiceConfigModel();
                     obj.ItemId = Convert.ToInt32(dtServiceItem.Rows[i]["ItemId"]);
                     obj.ItemCode = dtServiceItem.Rows[i]["ItemCode"].ToString();
                     obj.ItemName = dtServiceItem.Rows[i]["ItemName"].ToString();
                     obj.GroupId = Convert.ToInt32(dtServiceItem.Rows[i]["GroupId"]);
                     obj.ValidityDays = Convert.ToInt32(dtServiceItem.Rows[i]["ValidityDays"]);
                     obj.ValidityVisits = Convert.ToInt32(dtServiceItem.Rows[i]["ValidityVisits"]);
-                    obj.AllowRateEdit = Convert.ToInt32(dtServiceItem.Rows[i]["AllowRateEdit"]);
-                    obj.AllowDisc = Convert.ToInt32(dtServiceItem.Rows[i]["AllowDisc"]);
-                    obj.AllowPP = Convert.ToInt32(dtServiceItem.Rows[i]["AllowPP"]);
-                    obj.IsVSign = Convert.ToInt32(dtServiceItem.Rows[i]["IsVSign"]);
+                    obj.AllowRateEdit = Convert.ToBoolean(dtServiceItem.Rows[i]["AllowRateEdit"]);
+                    obj.AllowDisc = Convert.ToBoolean(dtServiceItem.Rows[i]["AllowDisc"]);
+                    obj.AllowPP = Convert.ToBoolean(dtServiceItem.Rows[i]["AllowPP"]);
+                    obj.IsVSign = Convert.ToBoolean(dtServiceItem.Rows[i]["IsVSign"]);
                     obj.ResultOn = Convert.ToInt32(dtServiceItem.Rows[i]["ResultOn"]);
                     obj.STypeId = Convert.ToInt32(dtServiceItem.Rows[i]["STypeId"]);
                     obj.TotalTaxPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["TotalTaxPcnt"]);
-                    obj.AllowCommission = Convert.ToInt32(dtServiceItem.Rows[i]["AllowCommission"]);
+                    obj.AllowCommission = Convert.ToBoolean(dtServiceItem.Rows[i]["AllowCommission"]);
                     obj.CommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["CommPcnt"]);
                     obj.CommAmt = Convert.ToInt32(dtServiceItem.Rows[i]["CommAmt"]);
                     obj.MaterialCost = Convert.ToInt32(dtServiceItem.Rows[i]["MaterialCost"]);
@@ -101,20 +101,17 @@ namespace LeHealth.Core.DataManager
                     obj.IsDeleted = Convert.ToInt32(dtServiceItem.Rows[i]["IsDeleted"]);
                     obj.BlockReason = dtServiceItem.Rows[i]["BlockReason"].ToString();
                     obj.CPTCodeId = Convert.ToInt32(dtServiceItem.Rows[i]["CPTCodeId"]);
-                    obj.ExternalItem = Convert.ToInt32(dtServiceItem.Rows[i]["ExternalItem"]);
+                    obj.ExternalItem = Convert.ToBoolean(dtServiceItem.Rows[i]["ExternalItem"]);
                     obj.GroupName = dtServiceItem.Rows[i]["GroupName"].ToString();
                     obj.GroupCode = dtServiceItem.Rows[i]["GroupCode"].ToString();
                     obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
                     obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
                     obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
-                    obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
-                    obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
                     obj.DrugTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["DrugTypeId"]);
                     obj.VaccineTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["VaccineTypeId"]);
                     obj.DefaultTAT = dtServiceItem.Rows[i]["DefaultTAT"].ToString();
-
-
-
+                    obj.StaffMandatory = Convert.ToBoolean(dtServiceItem.Rows[i]["StaffMandatory"]);
+                    obj.ContainerId = Convert.ToInt32(dtServiceItem.Rows[i]["ContainerId"]);
 
                     serviceItemList.Add(obj);
                 }
@@ -4509,7 +4506,7 @@ namespace LeHealth.Core.DataManager
                         ScientificName = dsNumber.Rows[i]["ScientificName"].ToString(),
                         ZoneId = Convert.ToInt32(dsNumber.Rows[i]["ZoneId"]),
                         IsDeleted = Convert.ToInt32(dsNumber.Rows[i]["IsDeleted"]),
-                        Active = Convert.ToInt32(dsNumber.Rows[i]["Active"])
+                        IsDisplayed = Convert.ToInt32(dsNumber.Rows[i]["IsDisplayed"])
                     };
                     itemList.Add(obj);
                 }
@@ -5865,8 +5862,7 @@ namespace LeHealth.Core.DataManager
                         PackagePrice = dt.Rows[i]["PackagePrice"] != null ? dt.Rows[i]["PackagePrice"].ToString() : "",
                         GranularUnit = dt.Rows[i]["GranularUnit"] != null ? dt.Rows[i]["GranularUnit"].ToString() : "",
                         Manufacturer = dt.Rows[i]["Manufacturer"] != null ? dt.Rows[i]["Manufacturer"].ToString() : "",
-                        RegisteredOwner = dt.Rows[i]["RegisteredOwner"] != null ? dt.Rows[i]["RegisteredOwner"].ToString() : "",
-
+                        RegisteredOwner = dt.Rows[i]["RegisteredOwner"] != null ? dt.Rows[i]["RegisteredOwner"].ToString() : ""
                     };
                     tradeNames.Add(obj);
                 }

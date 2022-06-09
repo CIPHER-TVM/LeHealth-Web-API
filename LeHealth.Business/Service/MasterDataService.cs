@@ -126,7 +126,7 @@ namespace LeHealth.Service.Service
             }
             return returnvalue;
         }
-        public List<AvailableServiceModel> GetServiceItem(AvailableServiceModel ccm)
+        public List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm)
         {
             return masterdataManager.GetServiceItem(ccm);
         }

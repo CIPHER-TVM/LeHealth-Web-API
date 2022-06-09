@@ -124,35 +124,35 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetServiceItem")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetServiceItem(AvailableServiceModel cmfma)
+        public ResponseDataModel<IEnumerable<ServiceConfigModel>> GetServiceItem(AvailableServiceModel cmfma)
         {
-            try
-            {
-                List<AvailableServiceModel> cptList = new List<AvailableServiceModel>();
+            //try
+            //{
+                List<ServiceConfigModel> cptList = new List<ServiceConfigModel>();
                 cptList = masterdataService.GetServiceItem(cmfma);
-                var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+                var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = cptList
                 };
                 return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
 
         [Route("InsertUpdateServiceItem")]

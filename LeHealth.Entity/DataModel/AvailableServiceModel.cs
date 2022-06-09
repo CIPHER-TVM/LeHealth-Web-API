@@ -101,4 +101,41 @@ namespace LeHealth.Entity.DataModel
         public float TaxPercent { get; set; }
         public int IsTaxApplicable { get; set; } 
     }
+    public class ServiceConfigModel
+    {
+        public int ItemId { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public int GroupId { get; set; }
+        public int ValidityDays { get; set; }
+        public int ValidityVisits { get; set; }
+        public bool AllowRateEdit { get; set; }
+        public bool AllowDisc { get; set; }
+        public bool AllowPP { get; set; }
+        public bool IsVSign { get; set; }
+        public int ResultOn { get; set; }
+        public int STypeId { get; set; }
+        public int TotalTaxPcnt { get; set; }
+        public bool AllowCommission { get; set; }
+        public int CommPcnt { get; set; }
+        public int CommAmt { get; set; }
+        public int MaterialCost { get; set; }
+        public int BaseCost { get; set; }
+        public int HeadId { get; set; }
+        public int SortOrder { get; set; }
+        public int IsDeleted { get; set; }
+        public string BlockReason { get; set; }
+        public int CPTCodeId { get; set; }
+        public bool ExternalItem { get; set; }
+        public string GroupName { get; set; }
+        public string GroupCode { get; set; }
+        public int GroupCommPcnt { get; set; }
+        public string Category { get; set; }
+        public int GroupType { get; set; }
+        public int DrugTypeId { get; set; }
+        public int VaccineTypeId { get; set; }
+        public string DefaultTAT { get; set; }
+        public bool StaffMandatory { get; set; }//NEW FIELD
+        public int ContainerId { get; set; } //NEW FIELD 
+    }
 }

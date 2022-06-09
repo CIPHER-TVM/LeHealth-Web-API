@@ -215,6 +215,7 @@ namespace LeHealth.Core.DataManager
                         cmdSaveUser.Parameters.Add(retDesc);
                         cmdSaveUser.Transaction = transaction;
                         cmdSaveUser.ExecuteNonQuery();
+                        string sss = retDesc.Value.ToString();
                         //transaction.Commit();
                         if (retVal.Value != System.DBNull.Value)
                         {
