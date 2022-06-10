@@ -114,13 +114,13 @@ namespace LeHealth.Core.DataManager
                     obj.DefaultTAT = dtServiceItem.Rows[i]["DefaultTAT"].ToString();
                     obj.StaffMandatory = Convert.ToBoolean(dtServiceItem.Rows[i]["StaffMandatory"]);
                     obj.ContainerId = Convert.ToInt32(dtServiceItem.Rows[i]["ContainerId"]);
-                    obj.RateData = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
+                    obj.ItemRateList = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
                     serviceItemList.Add(obj);
                 }
             }
             return serviceItemList;
         }
-        public string InsertUpdateServiceItem(ServiceItemModel serviceItemModel)
+        public string InsertUpdateServiceItem(ServiceConfigModelAll serviceItemModel)//(ServiceItemModel serviceItemModel)
         {
             string response1 = string.Empty;
             string response2 = string.Empty;
@@ -152,12 +152,15 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@HeadId", serviceItemModel.HeadId);
                 cmd1.Parameters.AddWithValue("@SortOrder", serviceItemModel.SortOrder);
                 cmd1.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                cmd1.Parameters.AddWithValue("@SessionId", serviceItemModel.SessionId);
                 cmd1.Parameters.AddWithValue("@BranchId", serviceItemModel.BranchId);
                 cmd1.Parameters.AddWithValue("@ExternalItem", serviceItemModel.ExternalItem);
                 cmd1.Parameters.AddWithValue("@CPTCodeId", serviceItemModel.CPTCodeId);
                 cmd1.Parameters.AddWithValue("@DrugTypeId", serviceItemModel.DrugTypeId);
                 cmd1.Parameters.AddWithValue("@VaccineTypeId", serviceItemModel.VaccineTypeId);
                 cmd1.Parameters.AddWithValue("@DefaultTAT", serviceItemModel.DefaultTAT);
+                cmd1.Parameters.AddWithValue("@StaffMandatory", serviceItemModel.StaffMandatory);
+                cmd1.Parameters.AddWithValue("@ContainerId", serviceItemModel.ContainerId);
                 SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -189,26 +192,32 @@ namespace LeHealth.Core.DataManager
                     int listcount = serviceItemModel.ItemTaxList.Count;
                     string TaxIds = "";
                     if (listcount > 0)
+                    {
                         TaxIds = string.Join(",", serviceItemModel.ItemTaxList.ToArray());
-                    cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
-                    cmd2.Parameters.AddWithValue("@TaxIds", TaxIds);
-                    cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd2.Parameters.Add(retValV2);
-                    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd2.Parameters.Add(retDesc2);
-                    con.Open();
-                    var isUpdated2 = cmd2.ExecuteNonQuery();
-                    var ret2 = retValV2.Value;
-                    var descrip2 = retDesc2.Value.ToString();
-                    con.Close();
-                    if (descrip2 == "Saved Successfully")
+                        cmd2.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
+                        cmd2.Parameters.AddWithValue("@TaxIds", TaxIds);
+                        cmd2.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
+                        SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd2.Parameters.Add(retValV2);
+                        SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd2.Parameters.Add(retDesc2);
+                        con.Open();
+                        var isUpdated2 = cmd2.ExecuteNonQuery();
+                        var ret2 = retValV2.Value;
+                        var descrip2 = retDesc2.Value.ToString();
+                        con.Close();
+                        if (descrip2 == "Saved Successfully")
+                        {
+                            response2 = "Success";
+                        }
+                    }
+                    else
                     {
                         response2 = "Success";
                     }
@@ -4754,7 +4763,7 @@ namespace LeHealth.Core.DataManager
             return stateList;
         }
         /// <summary>
-        /// 
+        /// Registration Scheme Data
         /// </summary>
         /// <param name="ibt"></param>
         /// <returns></returns>
@@ -4775,14 +4784,10 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dtNumber.Rows.Count; i++)
                 {
-                    ItemsByTypeModel obj = new ItemsByTypeModel
-                    {
-                        ItemId = Convert.ToInt32(dtNumber.Rows[i]["ItemId"]),
-                        ItemCode = dtNumber.Rows[i]["ItemCode"].ToString(),
-                        ItemName = dtNumber.Rows[i]["ItemName"].ToString(),
-                        GroupId = Convert.ToInt32(dtNumber.Rows[i]["GroupId"]),
-                        GroupCode = dtNumber.Rows[i]["GroupCode"].ToString()
-                    };
+                    ItemsByTypeModel obj = new ItemsByTypeModel();
+                    obj.ItemId = Convert.ToInt32(dtNumber.Rows[i]["ItemId"]);
+                    obj.ItemCode = dtNumber.Rows[i]["ItemCode"].ToString();
+                    obj.ItemName = dtNumber.Rows[i]["ItemName"].ToString();
                     itemList.Add(obj);
                 }
             }

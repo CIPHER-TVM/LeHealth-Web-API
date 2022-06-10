@@ -134,7 +134,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetStandardRate(ccm);
         }
-        public string InsertUpdateServiceItem(ServiceItemModel serviceitem)
+        public string InsertUpdateServiceItem(ServiceConfigModelAll serviceitem)
         {
             return masterdataManager.InsertUpdateServiceItem(serviceitem);
         }

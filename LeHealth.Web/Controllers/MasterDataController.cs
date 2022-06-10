@@ -189,7 +189,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("InsertUpdateServiceItem")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ServiceItemModel>> InsertUpdateServiceItem(ServiceItemModel ServiceItem)
+        public ResponseDataModel<IEnumerable<ServiceItemModel>> InsertUpdateServiceItem(ServiceConfigModelAll ServiceItem)
         {
             try
             {

@@ -9,7 +9,7 @@ namespace LeHealth.Core.Interface
     public interface IMasterDataManager
     {
         string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
-        string InsertUpdateServiceItem(ServiceItemModel serviceitem);
+        string InsertUpdateServiceItem(ServiceConfigModelAll serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
         string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
