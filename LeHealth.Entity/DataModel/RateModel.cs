@@ -9,6 +9,7 @@ namespace LeHealth.Entity.DataModel
         public int RGroupId { get; set; }
         public string RGroupName { get; set; }
         public float Rate { get; set; }
+        public string RateStr { get; set; } 
         public int ItemId { get; set; }
     }
     public class RateModelAll : RateModel

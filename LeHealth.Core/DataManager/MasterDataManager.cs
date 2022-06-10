@@ -114,7 +114,7 @@ namespace LeHealth.Core.DataManager
                     obj.DefaultTAT = dtServiceItem.Rows[i]["DefaultTAT"].ToString();
                     obj.StaffMandatory = Convert.ToBoolean(dtServiceItem.Rows[i]["StaffMandatory"]);
                     obj.ContainerId = Convert.ToInt32(dtServiceItem.Rows[i]["ContainerId"]);
-                    obj.Rate = Convert.ToInt32(dtServiceItem.Rows[i]["Rate"]);
+                    obj.RateData = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
                     serviceItemList.Add(obj);
                 }
             }

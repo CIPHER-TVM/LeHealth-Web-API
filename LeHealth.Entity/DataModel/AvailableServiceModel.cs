@@ -138,6 +138,6 @@ namespace LeHealth.Entity.DataModel
         public string DefaultTAT { get; set; }
         public bool StaffMandatory { get; set; }//NEW FIELD
         public int ContainerId { get; set; } //NEW FIELD 
-        public int Rate { get; set; }
+        public List<RateModel> RateData { get; set; } 
     }
 }
