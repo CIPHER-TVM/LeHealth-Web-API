@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 
 namespace LeHealth.Core.DataManager
 {
+    //LH_ItemGroup Should not be used, Instead of it, use LH_ServiceGroup.
+    //111 pass cheythu data edukkunna dropdown check
     public class MasterDataManager : IMasterDataManager
     {
         private readonly string _connStr;
@@ -150,14 +152,12 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@HeadId", serviceItemModel.HeadId);
                 cmd1.Parameters.AddWithValue("@SortOrder", serviceItemModel.SortOrder);
                 cmd1.Parameters.AddWithValue("@UserId", serviceItemModel.UserId);
-                //cmd1.Parameters.AddWithValue("@SessionId", serviceItemModel.SessionId);
                 cmd1.Parameters.AddWithValue("@BranchId", serviceItemModel.BranchId);
                 cmd1.Parameters.AddWithValue("@ExternalItem", serviceItemModel.ExternalItem);
                 cmd1.Parameters.AddWithValue("@CPTCodeId", serviceItemModel.CPTCodeId);
                 cmd1.Parameters.AddWithValue("@DrugTypeId", serviceItemModel.DrugTypeId);
                 cmd1.Parameters.AddWithValue("@VaccineTypeId", serviceItemModel.VaccineTypeId);
                 cmd1.Parameters.AddWithValue("@DefaultTAT", serviceItemModel.DefaultTAT);
-
                 SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -186,7 +186,6 @@ namespace LeHealth.Core.DataManager
                 {
                     using SqlCommand cmd2 = new SqlCommand("stLH_InsertItemTax", con);
                     cmd2.CommandType = CommandType.StoredProcedure;
-                    //string taxString = JsonConvert.SerializeObject(serviceItemModel.ItemTaxList);
                     int listcount = serviceItemModel.ItemTaxList.Count;
                     string TaxIds = "";
                     if (listcount > 0)
@@ -242,8 +241,16 @@ namespace LeHealth.Core.DataManager
                         response3 = "Success";
                     }
                 }
+                if (response1 == "Success" && response2 == "Success" && response3 == "Success")
+                {
+                    responseFinal = "Success";
+                }
+                else
+                {
+                    responseFinal = "Error";
+                }
             }
-            return responseFinal = response1 + response2 + response3;
+            return responseFinal;
         }
         public string DeleteServiceItem(ServiceItemModel serviceItemModel)
         {
@@ -716,7 +723,34 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
+        public List<ItemRateModel> GetStandardRate(RateGroupModel rm)
+        {
+            List<ItemRateModel> standardRateList = new List<ItemRateModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetStandardRate", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@RGroupId", rm.RGroupId);
+            cmd.Parameters.AddWithValue("@BranchId", rm.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsItemGroup = new DataTable();
+            adapter.Fill(dsItemGroup);
+            con.Close();
+            if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
+                {
+                    ItemRateModel obj = new ItemRateModel
+                    {
+                        ItemId = Convert.ToInt32(dsItemGroup.Rows[i]["ItemId"]),
+                        ItemName = dsItemGroup.Rows[i]["ItemName"].ToString(),
+                        Rate = (float)Convert.ToDouble(dsItemGroup.Rows[i]["Rate"])
+                    };
+                    standardRateList.Add(obj);
+                }
+            }
+            return standardRateList;
+        }
         //Rate group Starts
         /// <summary>
         /// Get Rate group data. if rategroup is zero then lists all rategroups, else returns specific rategroup

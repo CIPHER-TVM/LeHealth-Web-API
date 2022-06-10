@@ -122,12 +122,44 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("GetStandardRate")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemRateModel>> GetStandardRate(RateGroupModel cmfma)
+        {
+            try
+            {
+                List<ItemRateModel> rateList = new List<ItemRateModel>();
+                rateList = masterdataService.GetStandardRate(cmfma);
+                var response = new ResponseDataModel<IEnumerable<ItemRateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = rateList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemRateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
         [Route("GetServiceItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ServiceConfigModel>> GetServiceItem(AvailableServiceModel cmfma)
         {
-            //try
-            //{
+            try
+            {
                 List<ServiceConfigModel> cptList = new List<ServiceConfigModel>();
                 cptList = masterdataService.GetServiceItem(cmfma);
                 var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
@@ -136,23 +168,23 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     Response = cptList
                 };
                 return response;
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-            //    return new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
-            //    {
-            //        Status = HttpStatusCode.InternalServerError,
-            //        Response = null,
-            //        ErrorMessage = new ErrorResponse()
-            //        {
-            //            Message = ex.Message
-            //        }
-            //    };
-            //}
-            //finally
-            //{
-            //}
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
         }
 
         [Route("InsertUpdateServiceItem")]
@@ -2123,7 +2155,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
 
         [HttpPost]
         [Route("GetMaritalStatus")]
@@ -3924,7 +3956,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-        
+
 
         [Route("GetFormMaster")]
         [HttpPost]
@@ -4303,7 +4335,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
-//  //  //  //
+        //  //  //  //
         [Route("InsertUpdateICDCategory")]
         [HttpPost]
         public ResponseDataModel<string> InsertUpdateICDCategory(ICDCategoryModelAll icdCategory)
@@ -4369,7 +4401,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-/////////
+        /////////
         [Route("InsertUpdateICDLabel")]
         [HttpPost]
         public ResponseDataModel<string> InsertUpdateICDLabel(ICDLabelModelAll icdLabel)
@@ -4402,7 +4434,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("GetICDLabel")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ICDLabelModel>> GetICDLabel(ICDLabelModelAll label)
@@ -4435,7 +4467,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("DeleteICDLabel")]
         [HttpPost]
         public ResponseDataModel<string> DeleteICDLabel(ICDLabelModelAll icdLabel)

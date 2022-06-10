@@ -123,44 +123,46 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        
         [HttpPost]
         [Route("GetItem")]
         public ResponseDataModel<IEnumerable<ItemModel>> GetItem(ItemModelAll item)
         {
-            //try
-            //{
-            List<ItemModel> itemGroupList = new List<ItemModel>();
-            itemGroupList = serviceorderService.GetItem(item);
-            var response = new ResponseDataModel<IEnumerable<ItemModel>>()
+            try
             {
-                Status = HttpStatusCode.OK,
-                Response = itemGroupList
-            };
-            return response;
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-            //    return new ResponseDataModel<IEnumerable<ItemModel>>()
-            //    {
-            //        Status = HttpStatusCode.InternalServerError,
-            //        Response = null,
-            //        ErrorMessage = new ErrorResponse()
-            //        {
-            //            Message = ex.Message
-            //        }
+                List<ItemModel> itemGroupList = new List<ItemModel>();
+                itemGroupList = serviceorderService.GetItem(item);
+                var response = new ResponseDataModel<IEnumerable<ItemModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemGroupList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
-            //    };
-            //}
-            //finally
-            //{
-            //}
+                };
+            }
+            finally
+            {
+            }
         }
         /// <summary>
         /// API for getting service items in a package
         /// </summary>
         /// <param name="packId">Package Id</param>
         /// <returns>Service item list</returns>
+        
         [HttpPost]
         [Route("GetPackageItem/{packId}")]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetPackageItem(int packId)
@@ -391,7 +393,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-       
+
         /// <summary>
         /// API For getting profile list
         /// </summary>

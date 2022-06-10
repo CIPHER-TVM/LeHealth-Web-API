@@ -130,6 +130,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetServiceItem(ccm);
         }
+        public List<ItemRateModel> GetStandardRate(RateGroupModel ccm)
+        {
+            return masterdataManager.GetStandardRate(ccm);
+        }
         public string InsertUpdateServiceItem(ServiceItemModel serviceitem)
         {
             return masterdataManager.InsertUpdateServiceItem(serviceitem);

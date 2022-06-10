@@ -1,4 +1,5 @@
-﻿using LeHealth.Core.Interface;
+﻿using LeHealth.Common;
+using LeHealth.Core.Interface;
 using LeHealth.Entity.DataModel;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -39,23 +40,7 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dsItemGroup);
             con.Close();
             if ((dsItemGroup != null) && (dsItemGroup.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsItemGroup.Rows.Count; i++)
-                {
-                    GroupModel obj = new GroupModel
-                    {
-                        GroupId = Convert.ToInt32(dsItemGroup.Rows[i]["GroupId"]),
-                        GroupName = dsItemGroup.Rows[i]["GroupName"].ToString(),
-                        GroupCode = dsItemGroup.Rows[i]["GroupCode"].ToString(),
-                        GroupCommPcnt = Convert.ToInt32(dsItemGroup.Rows[i]["GroupCommPcnt"]),
-                        Category = dsItemGroup.Rows[i]["Category"].ToString(),
-                        GroupType = Convert.ToInt32(dsItemGroup.Rows[i]["GroupType"]),
-                        GroupLevel = dsItemGroup.Rows[i]["GroupLevel"].ToString(),
-                        ParentFlag = Convert.ToInt32(dsItemGroup.Rows[i]["ParentFlag"])
-                    };
-                    itemgroupList.Add(obj);
-                }
-            }
+                itemgroupList = dsItemGroup.ToListOfObject<GroupModel>();
             return itemgroupList;
         }
         public List<RateModel> GetItemRate(RateModelAll group)
@@ -300,6 +285,7 @@ namespace LeHealth.Core.DataManager
             }
             return profileItemList;
         }
+        
         /// <summary>
         /// Get services data in a branch 
         /// </summary>

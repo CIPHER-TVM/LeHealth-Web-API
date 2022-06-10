@@ -11,6 +11,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
         string DeleteCommonMasterItem(CommonMasterFieldModelAll masterItem);
         List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
+        List<ItemRateModel> GetStandardRate(RateGroupModel ccm); 
         List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm); 
         string InsertUpdateServiceItem(ServiceItemModel serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);

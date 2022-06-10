@@ -88,6 +88,7 @@ namespace LeHealth.Entity.DataModel
     public class ItemRateModel
     {
         public int ItemId { get; set; }
+        public string ItemName { get; set; }
         public int RGroupId { get; set; }
         public string RGroupName { get; set; }
         public float Rate { get; set; }

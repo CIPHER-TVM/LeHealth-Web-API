@@ -14,6 +14,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
+        List<ItemRateModel> GetStandardRate(RateGroupModel ccm);
         List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
         string DeleteCPTModifier(CPTModifierAll ccm);
