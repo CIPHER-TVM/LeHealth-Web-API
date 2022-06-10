@@ -9,7 +9,7 @@ namespace LeHealth.Entity.DataModel
         public int Id { get; set; }
         public string CPTModifier { get; set; }
         public string CPTModifierDesc { get; set; }
-        public int IsDisplayed { get; set; }
+        public bool IsDisplayed { get; set; }
     }
     public class CPTModifierAll : CPTModifierModel
     {

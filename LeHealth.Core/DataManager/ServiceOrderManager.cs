@@ -173,7 +173,7 @@ namespace LeHealth.Core.DataManager
                         ItemId = Convert.ToInt32(dsItemGroup.Rows[i]["ItemId"]),
                         ItemCode = dsItemGroup.Rows[i]["ItemCode"].ToString(),
                         ItemName = dsItemGroup.Rows[i]["ItemName"].ToString(),
-                        Rate = Convert.ToInt32(dsItemGroup.Rows[i]["Rate"]),
+                        Rate = (float)Convert.ToDouble(dsItemGroup.Rows[i]["Rate"]),
                         Quantity = Convert.ToInt32(dsItemGroup.Rows[i]["Quantity"])
                     };
                     communicationTypeList.Add(obj);
@@ -278,14 +278,14 @@ namespace LeHealth.Core.DataManager
                         ItemId = Convert.ToInt32(dsItemGroup.Rows[i]["ItemId"]),
                         ItemCode = dsItemGroup.Rows[i]["ItemCode"].ToString(),
                         ItemName = dsItemGroup.Rows[i]["ItemName"].ToString(),
-                        Rate = Convert.ToInt32(dsItemGroup.Rows[i]["Rate"])
+                        Rate = (float)Convert.ToDouble(dsItemGroup.Rows[i]["Rate"])
                     };
                     profileItemList.Add(obj);
                 }
             }
             return profileItemList;
         }
-        
+
         /// <summary>
         /// Get services data in a branch 
         /// </summary>

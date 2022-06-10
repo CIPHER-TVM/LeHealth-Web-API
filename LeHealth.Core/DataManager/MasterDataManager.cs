@@ -660,7 +660,7 @@ namespace LeHealth.Core.DataManager
                         Id = Convert.ToInt32(dtCPT.Rows[i]["Id"]),
                         CPTModifier = dtCPT.Rows[i]["CPTModifier"].ToString(),
                         CPTModifierDesc = dtCPT.Rows[i]["CPTModifier"].ToString(),
-                        //IsDisplayed = dtCPT.Rows[i]["CPTModifier"].ToString()
+                        IsDisplayed = Convert.ToBoolean(dtCPT.Rows[i]["CPTModifier"])
                     };
                     profList.Add(obj);
                 }
@@ -4788,6 +4788,7 @@ namespace LeHealth.Core.DataManager
                     obj.ItemId = Convert.ToInt32(dtNumber.Rows[i]["ItemId"]);
                     obj.ItemCode = dtNumber.Rows[i]["ItemCode"].ToString();
                     obj.ItemName = dtNumber.Rows[i]["ItemName"].ToString();
+                    obj.Rate = (float)Convert.ToDouble(dtNumber.Rows[i]["BaseCost"]);
                     itemList.Add(obj);
                 }
             }
