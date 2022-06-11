@@ -92,5 +92,6 @@ namespace LeHealth.Entity.DataModel
         public string DepartmentName { get; set; }
         public string ConsultantName { get; set; }
         public string ErrorMessage { get; set; }  
+        public float RegAmount { get; set; }   
     }
 }
