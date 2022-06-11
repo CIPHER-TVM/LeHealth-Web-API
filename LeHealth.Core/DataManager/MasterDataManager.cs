@@ -69,8 +69,10 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ItemId", company.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
             cmd.Parameters.AddWithValue("@GroupId", company.GroupId);
             cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
+            
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtServiceItem = new DataTable();
             adapter.Fill(dtServiceItem);
@@ -114,6 +116,7 @@ namespace LeHealth.Core.DataManager
                     obj.DefaultTAT = dtServiceItem.Rows[i]["DefaultTAT"].ToString();
                     obj.StaffMandatory = Convert.ToBoolean(dtServiceItem.Rows[i]["StaffMandatory"]);
                     obj.ContainerId = Convert.ToInt32(dtServiceItem.Rows[i]["ContainerId"]);
+                    obj.IsDisplayed = Convert.ToBoolean(dtServiceItem.Rows[i]["IsDisplayed"]);
                     obj.ItemRateList = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
                     serviceItemList.Add(obj);
                 }
@@ -161,6 +164,7 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@DefaultTAT", serviceItemModel.DefaultTAT);
                 cmd1.Parameters.AddWithValue("@StaffMandatory", serviceItemModel.StaffMandatory);
                 cmd1.Parameters.AddWithValue("@ContainerId", serviceItemModel.ContainerId);
+                cmd1.Parameters.AddWithValue("@IsDisplayed", serviceItemModel.IsDisplayed);
                 SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -639,7 +643,7 @@ namespace LeHealth.Core.DataManager
         }
         public List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm)
         {
-            List<CPTModifierModel> profList = new List<CPTModifierModel>();
+            List<CPTModifierModel> cptModifierList = new List<CPTModifierModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetCPTModifier", con);
             con.Open();
@@ -652,20 +656,8 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dtCPT);
             con.Close();
             if ((dtCPT != null) && (dtCPT.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dtCPT.Rows.Count; i++)
-                {
-                    CPTModifierModel obj = new CPTModifierModel
-                    {
-                        Id = Convert.ToInt32(dtCPT.Rows[i]["Id"]),
-                        CPTModifier = dtCPT.Rows[i]["CPTModifier"].ToString(),
-                        CPTModifierDesc = dtCPT.Rows[i]["CPTModifier"].ToString(),
-                        IsDisplayed = Convert.ToBoolean(dtCPT.Rows[i]["CPTModifier"])
-                    };
-                    profList.Add(obj);
-                }
-            }
-            return profList;
+                cptModifierList = dtCPT.ToListOfObject<CPTModifierModel>();
+            return cptModifierList;
         }
         public string InsertUpdateCPTModifier(CPTModifierAll ccm)
         {
@@ -676,6 +668,8 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", ccm.Id);
                 cmd.Parameters.AddWithValue("@CPTModifier", ccm.CPTModifier);
+                cmd.Parameters.AddWithValue("@CPTModifierDesc", ccm.CPTDescription);
+                cmd.Parameters.AddWithValue("@UserId", ccm.UserId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", ccm.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -712,6 +706,7 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_DeleteCPTModifier", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", ccm.Id);
+                cmd.Parameters.AddWithValue("@UserId", ccm.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

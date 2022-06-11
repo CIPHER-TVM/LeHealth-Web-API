@@ -75,6 +75,7 @@ namespace LeHealth.Entity.DataModel
         public Int32 IsCancelled { get; set; }    
         public Int32 DrugTypeId { get; set; }    
         public Int32 VaccineTypeId { get; set; }    
+        public Int32 ShowAll { get; set; }    
         public string DefaultTAT { get; set; }    
         public List<ItemDataModel> ItemObj { get; set; }
     }
@@ -136,8 +137,9 @@ namespace LeHealth.Entity.DataModel
         public int DrugTypeId { get; set; }
         public int VaccineTypeId { get; set; }
         public string DefaultTAT { get; set; }
-        public bool StaffMandatory { get; set; }//NEW FIELD
-        public int ContainerId { get; set; } //NEW FIELD 
+        public bool StaffMandatory { get; set; }
+        public bool IsDisplayed { get; set; }
+        public int ContainerId { get; set; } 
         public List<RateModel> ItemRateList { get; set; } 
     }
     public class ServiceConfigModelAll : ServiceConfigModel

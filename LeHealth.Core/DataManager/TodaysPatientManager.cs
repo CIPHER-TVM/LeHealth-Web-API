@@ -1291,13 +1291,21 @@ namespace LeHealth.Core.DataManager
                     obj.Emergency = Convert.ToInt32(dt.Rows[i]["Emergency"]);
                     obj.ConsultDate = dt.Rows[i]["ConsultDate"].ToString().Replace("/", "-");
                     obj.ConsultFee = dt.Rows[i]["ConsultFee"].ToString();
+                    string regdate = obj.RegDate;
                     string validupto = dt.Rows[i]["ExpiryDate"].ToString().Replace("/", "-");
                     string consultationExpiry = dt.Rows[i]["ConsultationExpiryDate"].ToString().Replace("/", "-");
                     string todaydateStr = DateTime.Now.ToString("dd-MM-yyyy");
+                    DateTime regdatetime = DateTime.ParseExact(regdate, "dd-MM-yyyy", null);
                     DateTime todaydate = DateTime.ParseExact(todaydateStr, "dd-MM-yyyy", null);
                     DateTime validuptodttime = DateTime.ParseExact(validupto, "dd-MM-yyyy", null);
                     DateTime validuptodttimeConsultation = DateTime.ParseExact(consultationExpiry, "dd-MM-yyyy", null);
-                    if (todaydate < validuptodttime)
+                    obj.ExpiryDate = validupto;
+                    if (regdatetime == validuptodttime)
+                    {
+                        obj.IsRegistrationExpired = false;
+                        obj.ExpiryDate = "No Expiry";
+                    }
+                    else if (todaydate < validuptodttime)
                     {
                         obj.IsRegistrationExpired = false;
                     }
@@ -1314,7 +1322,7 @@ namespace LeHealth.Core.DataManager
                     {
                         obj.IsConsultationExpired = true;
                     }
-                    obj.ExpiryDate = validupto;
+
                     patregdataList.Add(obj);
                 }
             }
