@@ -129,6 +129,10 @@ namespace LeHealth.Service.Service
         public List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm)
         {
             return masterdataManager.GetServiceItem(ccm);
+        } 
+        public List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm)
+        {
+            return masterdataManager.GetItemRateAmountById(ccm);
         }
         public List<ItemRateModel> GetStandardRate(RateGroupModel ccm)
         {

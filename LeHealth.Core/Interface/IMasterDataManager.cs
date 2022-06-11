@@ -16,6 +16,7 @@ namespace LeHealth.Core.Interface
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
         List<ItemRateModel> GetStandardRate(RateGroupModel ccm);
         List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm);
+        List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm); 
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
         string DeleteCPTModifier(CPTModifierAll ccm);
         List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ngm);

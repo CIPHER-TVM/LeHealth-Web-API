@@ -154,6 +154,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("GetItemRateAmountById")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<RateModel>> GetItemRateAmountById(AvailableServiceModel cmfma)
+        {
+            try
+            {
+                List<RateModel> cptList = new List<RateModel>();
+                cptList = masterdataService.GetItemRateAmountById(cmfma);
+                var response = new ResponseDataModel<IEnumerable<RateModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<RateModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
         [Route("GetServiceItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ServiceConfigModel>> GetServiceItem(AvailableServiceModel cmfma)

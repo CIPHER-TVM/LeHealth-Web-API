@@ -13,6 +13,7 @@ namespace LeHealth.Service.ServiceInterface
         List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
         List<ItemRateModel> GetStandardRate(RateGroupModel ccm); 
         List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm); 
+        List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm);  
         string InsertUpdateServiceItem(ServiceConfigModelAll serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
         List<CardTypeModel> GetCardType(CardTypeModelAll ct);

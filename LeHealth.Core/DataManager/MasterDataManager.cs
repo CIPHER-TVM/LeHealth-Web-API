@@ -72,7 +72,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
             cmd.Parameters.AddWithValue("@GroupId", company.GroupId);
             cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
-            
+
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtServiceItem = new DataTable();
             adapter.Fill(dtServiceItem);
@@ -117,7 +117,34 @@ namespace LeHealth.Core.DataManager
                     obj.StaffMandatory = Convert.ToBoolean(dtServiceItem.Rows[i]["StaffMandatory"]);
                     obj.ContainerId = Convert.ToInt32(dtServiceItem.Rows[i]["ContainerId"]);
                     obj.IsDisplayed = Convert.ToBoolean(dtServiceItem.Rows[i]["IsDisplayed"]);
-                    obj.ItemRateList = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
+                    //obj.ItemRateList = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
+                    serviceItemList.Add(obj);
+                }
+            }
+            return serviceItemList;
+        }
+
+        public List<RateModel> GetItemRateAmountById(AvailableServiceModel company)
+        {
+            List<RateModel> serviceItemList = new List<RateModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemRateAmountById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemId", company.Id);
+            cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtServiceItem = new DataTable();
+            adapter.Fill(dtServiceItem);
+            con.Close();
+            if ((dtServiceItem != null) && (dtServiceItem.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtServiceItem.Rows.Count; i++)
+                {
+                    RateModel obj = new RateModel();
+                    obj.RGroupId = Convert.ToInt32(dtServiceItem.Rows[i]["RGroupId"]);
+                    obj.RGroupName = dtServiceItem.Rows[i]["RGroupName"].ToString();
+                    obj.RateStr = dtServiceItem.Rows[i]["RateStr"].ToString();
                     serviceItemList.Add(obj);
                 }
             }
@@ -1724,7 +1751,8 @@ namespace LeHealth.Core.DataManager
                     {
                         Id = Convert.ToInt32(dsCompany.Rows[i]["CmpId"]),
                         NameData = dsCompany.Rows[i]["CmpName"].ToString(),
-                        DescriptionData = dsCompany.Rows[i]["CompanyDescription"].ToString()
+                        DescriptionData = dsCompany.Rows[i]["CompanyDescription"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsCompany.Rows[i]["IsDisplayed"])
                     };
                     companyList.Add(obj);
                 }
