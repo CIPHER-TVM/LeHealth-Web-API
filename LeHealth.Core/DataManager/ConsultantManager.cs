@@ -194,6 +194,8 @@ namespace LeHealth.Core.DataManager
                         {
                             CommandType = CommandType.StoredProcedure
                         };
+
+
                         var json = JsonConvert.SerializeObject(consultant.UserData.BranchIds);
                         var jsongroups = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
                         cmdSaveUser.Parameters.AddWithValue("@P_UserName", consultant.UserData.UserName);
