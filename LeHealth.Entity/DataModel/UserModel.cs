@@ -12,6 +12,7 @@ namespace LeHealth.Entity.DataModel
         public bool Active { get; set; }
         public string BlockReason { get; set; }
         public string Branches { get; set; }
+        public string BrancheIdstr { get; set; } 
         public List<string> BranchIds { get; set; }
         public string Groups { get; set; }
         public List<string> GroupIds { get; set; }

@@ -26,6 +26,6 @@ namespace LeHealth.Entity.DataModel
     public class ItemRateInput
     {
         public int ItemId { get; set; }
-        public float BaseCost { get; set; }
+        public int BaseCost { get; set; }
     }
 }

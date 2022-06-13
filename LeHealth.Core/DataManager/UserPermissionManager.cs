@@ -192,9 +192,7 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(ds);
             con.Close();
             if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
-            {
                 obj = ds.Tables[0].ToListOfObject<UserModel>();
-            }
             return obj;
         }
         public UserModel GetUser(Int32 id)
