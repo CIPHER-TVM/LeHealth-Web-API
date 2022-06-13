@@ -832,6 +832,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
+                 //test commit
                 string message = string.Empty;
                 message = masterdataService.InsertUpdateRateGroup(rategroup);
                 var response = new ResponseDataModel<RateGroupModel>()
