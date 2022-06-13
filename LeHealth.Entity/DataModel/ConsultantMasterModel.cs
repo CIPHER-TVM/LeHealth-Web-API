@@ -25,7 +25,7 @@ namespace LeHealth.Entity.DataModel
         public int SortOrder { get; set; }
 
 
-       
+
         public int NationalityId { get; set; }
         public string Gender { get; set; }
         public string DOB { get; set; }
@@ -39,22 +39,16 @@ namespace LeHealth.Entity.DataModel
         public string OffPhone { get; set; }
         public string Email { get; set; }
         public string Fax { get; set; }
-      
         public int TimeSlice { get; set; }
         public int MaxPatients { get; set; }
-
         public int ConsultantLedger { get; set; }
         public int CommissionId { get; set; }
-
-      
         public bool AllowCommission { get; set; }
         public bool AllowConsultantLogin { get; set; }
         public bool DeptOverrule { get; set; }
         public bool DeptWiseConsultation { get; set; }
         public bool ExternalConsultant { get; set; }
         public bool ConsultantMedicationReport { get; set; }
-
-
         public int AppType { get; set; }
         public int Active { get; set; }
         public string BlockReason { get; set; }
@@ -67,7 +61,8 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int IsDeleted { get; set; }
         public int IsDisplayed { get; set; }
-        public UserModel UserData { get; set; } 
+        public UserModel UserData { get; set; }
+        public int ShowAll { get; set; }
         //public UserGroupModel UserGroupData { get; set; }
     }
     public class ConsultantAddressModel
@@ -101,8 +96,8 @@ namespace LeHealth.Entity.DataModel
     }
     public class ConsultantRegModel : ConsultantMasterModel
     {
-       
+
         public IFormFile PhotoFile { get; set; }
-      
+
     }
 }
