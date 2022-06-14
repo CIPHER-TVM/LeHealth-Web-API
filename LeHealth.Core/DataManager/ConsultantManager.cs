@@ -351,8 +351,8 @@ namespace LeHealth.Core.DataManager
                         cmdSaveConsultant.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
                         cmdSaveConsultant.Parameters.AddWithValue("@AppType", consultant.AppType);
                         cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
-                        cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.BranchId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", Itemidlist);
+                        cmdSaveConsultant.Parameters.AddWithValue("@BranchId", consultant.BranchId);
+                        cmdSaveConsultant.Parameters.AddWithValue("@ItemIdList", Itemidlist);
                         cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
                         cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
                         cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
