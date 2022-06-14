@@ -315,8 +315,14 @@ namespace LeHealth.Core.DataManager
                             transaction.Rollback();
                         }
 
-                        DateTime DateOfBirth = DateTime.Parse(consultant.DateOfBirth, null, DateTimeStyles.RoundtripKind);
-                        DateTime DateOfJoin = DateTime.Parse(consultant.DateOfJoin, null, DateTimeStyles.RoundtripKind);
+                        //DateTime DateOfBirth = DateTime.Parse(consultant.DateOfBirth, null, DateTimeStyles.RoundtripKind);
+                        //DateTime DateOfJoin = DateTime.Parse(consultant.DateOfJoin, null, DateTimeStyles.RoundtripKind);
+                        DateTime dobdttime = DateTime.ParseExact(consultant.DateOfBirth.Trim(), "dd-MM-yyyy", null);
+                        consultant.DateOfBirth = dobdttime.ToString("yyyy-MM-dd");
+
+                        DateTime dojdttime = DateTime.ParseExact(consultant.DateOfJoin.Trim(), "dd-MM-yyyy", null);
+                        consultant.DateOfJoin = dojdttime.ToString("yyyy-MM-dd");
+
                         string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdList);
 
 
@@ -330,7 +336,7 @@ namespace LeHealth.Core.DataManager
                         cmdSaveConsultant.Parameters.AddWithValue("@MiddleName", consultant.MiddleName);
                         cmdSaveConsultant.Parameters.AddWithValue("@LastName", consultant.LastName);
                         cmdSaveConsultant.Parameters.AddWithValue("@Gender", consultant.Gender);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DOB", DateOfBirth);
+                        cmdSaveConsultant.Parameters.AddWithValue("@DOB", consultant.DateOfBirth);
                         cmdSaveConsultant.Parameters.AddWithValue("@Age", consultant.Age);
                         cmdSaveConsultant.Parameters.AddWithValue("@Specialisation", consultant.Specialisation);
                         cmdSaveConsultant.Parameters.AddWithValue("@Designation", consultant.Designation);
@@ -341,7 +347,7 @@ namespace LeHealth.Core.DataManager
                         cmdSaveConsultant.Parameters.AddWithValue("@OffPhone", consultant.OffPhone);
                         cmdSaveConsultant.Parameters.AddWithValue("@Email", consultant.Email);
                         cmdSaveConsultant.Parameters.AddWithValue("@Fax", consultant.Fax);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DOJ", DateOfJoin);
+                        cmdSaveConsultant.Parameters.AddWithValue("@DOJ", consultant.DateOfJoin);
                         cmdSaveConsultant.Parameters.AddWithValue("@CRegNo", consultant.CRegNo);
                         cmdSaveConsultant.Parameters.AddWithValue("@AllowCommission", consultant.AllowCommission);
                         cmdSaveConsultant.Parameters.AddWithValue("@DeptOverrule", consultant.DeptOverrule);
@@ -2115,13 +2121,13 @@ namespace LeHealth.Core.DataManager
                     consultant.DeptId = dt.Rows[i]["DeptId"] != null ? Convert.ToInt32(dt.Rows[i]["DeptId"]) : 0;
                     consultant.Designation = dt.Rows[i]["Designation"] != null ? dt.Rows[i]["Designation"].ToString() : "";
                     consultant.CRegNo = dt.Rows[i]["CRegNo"] != null ? dt.Rows[i]["CRegNo"].ToString() : "";
-                    consultant.DOJ = dt.Rows[i]["DOJ"] != null ? dt.Rows[i]["DOJ"].ToString() : "";
+                    consultant.DOJ = dt.Rows[i]["DOJ"] != null ? dt.Rows[i]["DOJ"].ToString().Replace("/", "-") : "";
                     consultant.Specialisation = dt.Rows[i]["Specialisation"] != null ? dt.Rows[i]["Specialisation"].ToString() : "";
                     consultant.RoomNo = dt.Rows[i]["RoomNo"] != null ? dt.Rows[i]["RoomNo"].ToString() : "";
                     consultant.SortOrder = dt.Rows[i]["SortOrder"] != null ? Convert.ToInt32(dt.Rows[i]["SortOrder"]) : 0;
                     consultant.NationalityId = dt.Rows[i]["NationalityId"] != null ? Convert.ToInt32(dt.Rows[i]["NationalityId"]) : 0;
                     consultant.Gender = dt.Rows[i]["Gender"] != null ? dt.Rows[i]["Gender"].ToString() : "";
-                    consultant.DOB = dt.Rows[i]["DOB"] != null ? dt.Rows[i]["DOB"].ToString() : "";
+                    consultant.DOB = dt.Rows[i]["DOB"] != null ? dt.Rows[i]["DOB"].ToString().Replace("/", "-") : "";
                     consultant.Age = dt.Rows[i]["Age"] != null ? Convert.ToInt32(dt.Rows[i]["Age"]) : 0;
                     consultant.Month = dt.Rows[i]["Month"] != null ? Convert.ToInt32(dt.Rows[i]["Month"]) : 0;
                     consultant.Qualification = dt.Rows[i]["Qualification"] != null ? dt.Rows[i]["Qualification"].ToString() : "";
