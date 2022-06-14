@@ -68,8 +68,8 @@ namespace LeHealth.Entity.DataModel
     }
     public class ItemIdListCls
     {
-        public int ItemId { get; set; } 
-        public string ItemName { get; set; }  
+        public int itemId { get; set; } 
+        public string itemName { get; set; }   
     }
     public class ConsultantAddressModel
     {
