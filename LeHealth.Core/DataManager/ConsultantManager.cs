@@ -317,7 +317,7 @@ namespace LeHealth.Core.DataManager
 
                         DateTime DateOfBirth = DateTime.Parse(consultant.DateOfBirth, null, DateTimeStyles.RoundtripKind);
                         DateTime DateOfJoin = DateTime.Parse(consultant.DateOfJoin, null, DateTimeStyles.RoundtripKind);
-                        string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdListOP);
+                        string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdList);
 
 
                         SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
@@ -2141,7 +2141,7 @@ namespace LeHealth.Core.DataManager
                     consultant.AppType = dt.Rows[i]["AppType"] != null ? Convert.ToInt32(dt.Rows[i]["AppType"]) : 0;
                     consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"] != null ? dt.Rows[i]["SignatureLoc"].ToString() : "";
                     consultant.DrugRefType = Convert.ToInt32(dt.Rows[i]["DrugRefType"]);
-                    consultant.ItemIdListOP = JsonConvert.DeserializeObject<List<ItemIdListCls>>(dt.Rows[i]["ItemIdList"].ToString());
+                    consultant.ItemIdList = JsonConvert.DeserializeObject<List<ItemIdListCls>>(dt.Rows[i]["ItemIdList"].ToString());
                 }
                 con.Open();
                 SqlCommand cmdAddress = new SqlCommand("stLH_GetConsultantAddress", con);
