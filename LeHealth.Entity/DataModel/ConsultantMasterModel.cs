@@ -63,6 +63,7 @@ namespace LeHealth.Entity.DataModel
         public int IsDisplayed { get; set; }
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
+        public List<int> ItemIdList { get; set; }
         //public UserGroupModel UserGroupData { get; set; }
     }
     public class ConsultantAddressModel

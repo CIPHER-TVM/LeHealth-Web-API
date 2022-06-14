@@ -317,7 +317,10 @@ namespace LeHealth.Core.DataManager
 
                         DateTime DateOfBirth = DateTime.Parse(consultant.DateOfBirth, null, DateTimeStyles.RoundtripKind);
                         DateTime DateOfJoin = DateTime.Parse(consultant.DateOfJoin, null, DateTimeStyles.RoundtripKind);
-
+                        int itemIdlistcount = consultant.ItemIdList.Count;
+                        string Itemidlist = string.Empty;
+                        if (itemIdlistcount > 0)
+                            Itemidlist = string.Join(",", consultant.ItemIdList.ToArray());
 
 
                         SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
@@ -348,10 +351,11 @@ namespace LeHealth.Core.DataManager
                         cmdSaveConsultant.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
                         cmdSaveConsultant.Parameters.AddWithValue("@AppType", consultant.AppType);
                         cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
+                        cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.BranchId);
+                        cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", Itemidlist);
                         cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
                         cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
                         cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@ItemId", consultant.ItemId);
                         cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
                         cmdSaveConsultant.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
                         cmdSaveConsultant.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
@@ -2139,7 +2143,6 @@ namespace LeHealth.Core.DataManager
                     consultant.AppType = dt.Rows[i]["AppType"] != null ? Convert.ToInt32(dt.Rows[i]["AppType"]) : 0;
                     consultant.ItemId = dt.Rows[i]["ItemId"] != null ? Convert.ToInt32(dt.Rows[i]["ItemId"]) : 0;
                     consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"] != null ? dt.Rows[i]["SignatureLoc"].ToString() : "";
-
                 }
                 con.Open();
                 SqlCommand cmdAddress = new SqlCommand("stLH_GetConsultantAddress", con);
@@ -2147,27 +2150,25 @@ namespace LeHealth.Core.DataManager
                 cmdAddress.Parameters.AddWithValue("@ConsultantId", consultantId);
                 cmdAddress.Parameters.AddWithValue("@AddType", 0);
                 SqlDataAdapter adapter3 = new SqlDataAdapter(cmdAddress);
-                DataTable dsRate3 = new DataTable();
-                adapter3.Fill(dsRate3);
+                DataTable dsAddress = new DataTable();
+                adapter3.Fill(dsAddress);
                 con.Close();
                 ConsultantAddressModel consultantAddress = new ConsultantAddressModel();
-                if ((dsRate3 != null) && (dsRate3.Rows.Count > 0))
+                if ((dsAddress != null) && (dsAddress.Rows.Count > 0))
                 {
-                    consultantAddress = dsRate3.ToObject<ConsultantAddressModel>();
-                    for (Int32 i = 0; i < dsRate3.Rows.Count; i++)
+                    consultantAddress = dsAddress.ToObject<ConsultantAddressModel>();
+                    for (Int32 i = 0; i < dsAddress.Rows.Count; i++)
                     {
-                        consultantAddress.Address1 = dsRate3.Rows[i]["Address1"] != null ? dsRate3.Rows[i]["Address1"].ToString() : "";
-                        consultantAddress.Address2 = dsRate3.Rows[i]["Address2"] != null ? dsRate3.Rows[i]["Address2"].ToString() : "";
-                        consultantAddress.AddType = dsRate3.Rows[i]["AddType"] != null ? Convert.ToInt32(dsRate3.Rows[i]["AddType"]) : 0;
-                        consultantAddress.City = dsRate3.Rows[i]["City"] != null ? dsRate3.Rows[i]["City"].ToString() : "";
-                        consultantAddress.ConsultantId = dsRate3.Rows[i]["ConsultantId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["ConsultantId"]) : 0;
-                        consultantAddress.CountryId = dsRate3.Rows[i]["CountryId"] != null ? Convert.ToInt32(dsRate3.Rows[i]["CountryId"]) : 0;
-                        consultantAddress.PIN = dsRate3.Rows[i]["PIN"] != null ? dsRate3.Rows[i]["PIN"].ToString() : "";
-                        consultantAddress.PlacePO = dsRate3.Rows[i]["PlacePO"] != null ? dsRate3.Rows[i]["PlacePO"].ToString() : "";
-                        consultantAddress.State = dsRate3.Rows[i]["State"] != null ? dsRate3.Rows[i]["State"].ToString() : "";
-                        consultantAddress.Street = dsRate3.Rows[i]["Street"] != null ? dsRate3.Rows[i]["Street"].ToString() : "";
-
-
+                        consultantAddress.Address1 = dsAddress.Rows[i]["Address1"] != null ? dsAddress.Rows[i]["Address1"].ToString() : "";
+                        consultantAddress.Address2 = dsAddress.Rows[i]["Address2"] != null ? dsAddress.Rows[i]["Address2"].ToString() : "";
+                        consultantAddress.AddType = dsAddress.Rows[i]["AddType"] != null ? Convert.ToInt32(dsAddress.Rows[i]["AddType"]) : 0;
+                        consultantAddress.City = dsAddress.Rows[i]["City"] != null ? dsAddress.Rows[i]["City"].ToString() : "";
+                        consultantAddress.ConsultantId = dsAddress.Rows[i]["ConsultantId"] != null ? Convert.ToInt32(dsAddress.Rows[i]["ConsultantId"]) : 0;
+                        consultantAddress.CountryId = dsAddress.Rows[i]["CountryId"] != null ? Convert.ToInt32(dsAddress.Rows[i]["CountryId"]) : 0;
+                        consultantAddress.PIN = dsAddress.Rows[i]["PIN"] != null ? dsAddress.Rows[i]["PIN"].ToString() : "";
+                        consultantAddress.PlacePO = dsAddress.Rows[i]["PlacePO"] != null ? dsAddress.Rows[i]["PlacePO"].ToString() : "";
+                        consultantAddress.State = dsAddress.Rows[i]["State"] != null ? dsAddress.Rows[i]["State"].ToString() : "";
+                        consultantAddress.Street = dsAddress.Rows[i]["Street"] != null ? dsAddress.Rows[i]["Street"].ToString() : "";
                     }
                 }
                 consultant.Residence = consultantAddress;
