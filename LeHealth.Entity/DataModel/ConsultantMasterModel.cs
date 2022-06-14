@@ -55,6 +55,7 @@ namespace LeHealth.Entity.DataModel
         public int ItemId { get; set; }
         public int UserId { get; set; }
         //public byte[] Signature { get; set; }
+        public int DrugRefType { get; set; } 
         public string SignatureLoc { get; set; }
         public string Location { get; set; }
         public List<LocationModel> LocationIds { get; set; }
@@ -64,7 +65,12 @@ namespace LeHealth.Entity.DataModel
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
         public List<int> ItemIdList { get; set; }
+        public List<ItemIdListCls> ItemIdListOP { get; set; }
         //public UserGroupModel UserGroupData { get; set; }
+    }
+    public class ItemIdListCls
+    {
+        public int ItemId { get; set; } 
     }
     public class ConsultantAddressModel
     {

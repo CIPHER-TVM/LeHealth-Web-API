@@ -1633,8 +1633,8 @@ namespace LeHealth.Base.API.Controllers
         public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetConsultantById(int consultantId)
         {
             List<ConsultantMasterModel> frontOfficePBarList = new List<ConsultantMasterModel>();
-            try
-            {
+            //try
+            //{
 
                 ConsultantMasterModel frontOfficePBar = new ConsultantMasterModel();
                 frontOfficePBar = consultantService.GetConsultantById(consultantId);
@@ -1645,23 +1645,23 @@ namespace LeHealth.Base.API.Controllers
                     Response = frontOfficePBarList
                 };
                 return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
 
         [Route("InsertUpdateConsultantTimeSchedule")]

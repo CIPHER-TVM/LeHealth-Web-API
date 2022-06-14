@@ -353,6 +353,7 @@ namespace LeHealth.Core.DataManager
                         cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
                         cmdSaveConsultant.Parameters.AddWithValue("@BranchId", consultant.BranchId);
                         cmdSaveConsultant.Parameters.AddWithValue("@ItemIdList", Itemidlist);
+                        cmdSaveConsultant.Parameters.AddWithValue("@DrugRefType", consultant.DrugRefType);
                         cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
                         cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
                         cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
@@ -2141,8 +2142,9 @@ namespace LeHealth.Core.DataManager
                     consultant.DeptWiseConsultation = dt.Rows[i]["DeptWiseConsultation"] != null ? Convert.ToBoolean(dt.Rows[i]["DeptWiseConsultation"]) : false;
                     consultant.ExternalConsultant = dt.Rows[i]["ExternalConsultant"] != null ? Convert.ToBoolean(dt.Rows[i]["ExternalConsultant"]) : false;
                     consultant.AppType = dt.Rows[i]["AppType"] != null ? Convert.ToInt32(dt.Rows[i]["AppType"]) : 0;
-                    consultant.ItemId = dt.Rows[i]["ItemId"] != null ? Convert.ToInt32(dt.Rows[i]["ItemId"]) : 0;
                     consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"] != null ? dt.Rows[i]["SignatureLoc"].ToString() : "";
+                    consultant.DrugRefType = Convert.ToInt32(dt.Rows[i]["DrugRefType"]);
+                    consultant.ItemIdListOP = JsonConvert.DeserializeObject<List<ItemIdListCls>>(dt.Rows[i]["ItemIdList"].ToString());
                 }
                 con.Open();
                 SqlCommand cmdAddress = new SqlCommand("stLH_GetConsultantAddress", con);
