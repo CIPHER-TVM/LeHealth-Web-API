@@ -317,10 +317,7 @@ namespace LeHealth.Core.DataManager
 
                         DateTime DateOfBirth = DateTime.Parse(consultant.DateOfBirth, null, DateTimeStyles.RoundtripKind);
                         DateTime DateOfJoin = DateTime.Parse(consultant.DateOfJoin, null, DateTimeStyles.RoundtripKind);
-                        int itemIdlistcount = consultant.ItemIdList.Count;
-                        string Itemidlist = string.Empty;
-                        if (itemIdlistcount > 0)
-                            Itemidlist = string.Join(",", consultant.ItemIdList.ToArray());
+                        string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdListOP);
 
 
                         SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
