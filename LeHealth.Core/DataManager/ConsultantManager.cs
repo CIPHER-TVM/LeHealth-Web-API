@@ -2141,6 +2141,7 @@ namespace LeHealth.Core.DataManager
                     consultant.AppType = dt.Rows[i]["AppType"] != null ? Convert.ToInt32(dt.Rows[i]["AppType"]) : 0;
                     consultant.SignatureLoc = dt.Rows[i]["SignatureLoc"] != null ? dt.Rows[i]["SignatureLoc"].ToString() : "";
                     consultant.DrugRefType = Convert.ToInt32(dt.Rows[i]["DrugRefType"]);
+                    consultant.UserId = Convert.ToInt32(dt.Rows[i]["ConsultantUserId"]);
                     consultant.ItemIdList = JsonConvert.DeserializeObject<List<ItemIdListCls>>(dt.Rows[i]["ItemIdList"].ToString());
                 }
                 con.Open();
