@@ -195,6 +195,23 @@ namespace LeHealth.Core.DataManager
                 obj = ds.Tables[0].ToListOfObject<UserModel>();
             return obj;
         }
+           public List<UserModel> GetUnAssignedUsers(Int32 branchId) 
+        {
+            List<UserModel> obj = new List<UserModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_getUnAssignedUsers", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BranchId", branchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0] != null) && (ds.Tables[0].Rows.Count > 0))
+                obj = ds.Tables[0].ToListOfObject<UserModel>();
+            return obj;
+        }
+
         public UserModel GetUser(Int32 id)
         {
             UserModel obj = new UserModel();

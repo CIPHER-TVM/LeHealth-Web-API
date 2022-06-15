@@ -282,6 +282,37 @@ namespace LeHealth.Base.API.Controllers.UserPermission
                 };
             }
         }
+        [HttpPost]
+        [Route("GetUnAssignedUsers/{BranchId}")]
+        public ResponseDataModel<IEnumerable<UserModel>> GetUnAssignedUsers(int BranchId)
+        {
+            try
+            {
+                List<UserModel> retval = permissionservice.GetUnAssignedUsers(BranchId);
+                var response = new ResponseDataModel<IEnumerable<UserModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = retval,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "UserPermissionController", "SaveUserGroup()");
+
+                return new ResponseDataModel<IEnumerable<UserModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
 
         /// <summary>
         /// API for User details of a specific user

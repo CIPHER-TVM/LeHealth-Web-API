@@ -12,6 +12,7 @@ namespace LeHealth.Service.ServiceInterface
         UserGroupModel GetUserGroup(Int32 id);
         string SaveUser(UserModel obj);
         List<UserModel> GetUsers(int branchId);
+        List<UserModel> GetUnAssignedUsers(int branchId); 
         UserModel GetUser(Int32 id);
         List<HospitalModel> GetUserBranches(Int32 id);
         List<MapLocationModel> GetUserLocations(Int32 userId);
