@@ -179,13 +179,13 @@ namespace LeHealth.Core.DataManager
         public string InsertUpdateConsultant(ConsultantRegModel consultant)
         {
             string response = "";
-            SqlTransaction transaction;
+            //SqlTransaction transaction;
             int userId = 0;
             int ConsultantId = 0;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 con.Open();
-                transaction = con.BeginTransaction();
+                //transaction = con.BeginTransaction();
                 try
                 {
                     if (consultant.AllowConsultantLogin)
@@ -194,8 +194,6 @@ namespace LeHealth.Core.DataManager
                         {
                             CommandType = CommandType.StoredProcedure
                         };
-
-
                         var json = JsonConvert.SerializeObject(consultant.UserData.BranchIds);
                         var jsongroups = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
                         cmdSaveUser.Parameters.AddWithValue("@P_UserName", consultant.UserData.UserName);
@@ -215,19 +213,19 @@ namespace LeHealth.Core.DataManager
                             Direction = ParameterDirection.Output
                         };
                         cmdSaveUser.Parameters.Add(retDesc);
-                        cmdSaveUser.Transaction = transaction;
+                        //cmdSaveUser.Transaction = transaction;
                         cmdSaveUser.ExecuteNonQuery();
                         string sss = retDesc.Value.ToString();
-                        //transaction.Commit();
                         if (retVal.Value != System.DBNull.Value)
                         {
                             userId = (int)retVal.Value;
-                            transaction.Commit();
+                            string asdf = "";
+                            //transaction.Commit();
                         }
                         else
                         {
                             userId = 0;
-                            transaction.Rollback();
+                            //transaction.Rollback();
                             return "Username already exists";
                         }
                         string descr = retDesc.Value.ToString();
@@ -252,7 +250,7 @@ namespace LeHealth.Core.DataManager
                                 };
                                 cmdSaveLocation.Parameters.Add(retValSaveLocation);
                                 cmdSaveLocation.Parameters.Add(retDescSaveLocation);
-                                cmdSaveLocation.Transaction = transaction;
+                                //cmdSaveLocation.Transaction = transaction;
                                 cmdSaveLocation.ExecuteNonQuery();
                                 var retDescSaveLocationV = retDescSaveLocation.Value.ToString();
                                 response = retDescSaveLocationV;
@@ -278,9 +276,8 @@ namespace LeHealth.Core.DataManager
                             };
                             cmdGetMenu.Parameters.Add(retjson);
                             cmdGetMenu.Parameters.Add(subjson);
-                            cmdGetMenu.Transaction = transaction;
+                            //cmdGetMenu.Transaction = transaction;
                             cmdGetMenu.ExecuteNonQuery();
-                            // string ret = retjson.Value.ToString();
                             string sub = subjson.Value.ToString();
                             if (sub != null)
                             {
@@ -305,14 +302,14 @@ namespace LeHealth.Core.DataManager
                                 Direction = ParameterDirection.Output
                             };
                             cmdSaveMenu.Parameters.Add(retDescSaveMenu);
-                            cmdSaveMenu.Transaction = transaction;
+                            //cmdSaveMenu.Transaction = transaction;
                             cmdSaveMenu.ExecuteNonQuery();
                             var retp = retValSaveMenu.Value;
                             var descriptio = retDescSaveMenu.Value.ToString();
                         }
                         else
                         {
-                            transaction.Rollback();
+                            //transaction.Rollback();
                         }
 
                         DateTime dobdttime = DateTime.ParseExact(consultant.DateOfBirth.Trim(), "dd-MM-yyyy", null);
@@ -376,7 +373,7 @@ namespace LeHealth.Core.DataManager
                         };
                         cmdSaveConsultant.Parameters.Add(retValSaveConsultant);
                         cmdSaveConsultant.Parameters.Add(retDescSaveConsultant);
-                        cmdSaveConsultant.Transaction = transaction;
+                        //cmdSaveConsultant.Transaction = transaction;
                         var isInserted = cmdSaveConsultant.ExecuteNonQuery();
 
                         ConsultantId = (int)retValSaveConsultant.Value;
@@ -407,7 +404,7 @@ namespace LeHealth.Core.DataManager
                             };
                             cmdSaveAddress.Parameters.Add(retValSaveAddress);
                             cmdSaveAddress.Parameters.Add(retDescSaveAddress);
-                            cmdSaveAddress.Transaction = transaction;
+                            //cmdSaveAddress.Transaction = transaction;
                             cmdSaveAddress.ExecuteNonQuery();
                             int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
                             var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
@@ -419,7 +416,7 @@ namespace LeHealth.Core.DataManager
 
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
+                    //transaction.Rollback();
                     response = ex.Message.ToString();
                 }
             }
