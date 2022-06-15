@@ -315,8 +315,6 @@ namespace LeHealth.Core.DataManager
                             transaction.Rollback();
                         }
 
-                        //DateTime DateOfBirth = DateTime.Parse(consultant.DateOfBirth, null, DateTimeStyles.RoundtripKind);
-                        //DateTime DateOfJoin = DateTime.Parse(consultant.DateOfJoin, null, DateTimeStyles.RoundtripKind);
                         DateTime dobdttime = DateTime.ParseExact(consultant.DateOfBirth.Trim(), "dd-MM-yyyy", null);
                         consultant.DateOfBirth = dobdttime.ToString("yyyy-MM-dd");
 
@@ -424,7 +422,6 @@ namespace LeHealth.Core.DataManager
                     transaction.Rollback();
                     response = ex.Message.ToString();
                 }
-
             }
 
             return response;

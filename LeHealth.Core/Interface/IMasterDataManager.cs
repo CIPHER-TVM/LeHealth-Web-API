@@ -195,5 +195,6 @@ namespace LeHealth.Core.Interface
         List<FrequencyModel> GetFrequency(FrequencyModelAll frequency);
         string InsertUpdateDeleteFrequency(FrequencyModelAll frequency);
         List<ConsentGroupModel> GetConsentGroup();
+        List<CommonMasterFieldModel> GetMarketStatus(CommonMasterFieldModelAll ms); 
     }
 }

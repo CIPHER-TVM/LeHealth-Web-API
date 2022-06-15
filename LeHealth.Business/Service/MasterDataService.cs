@@ -51,6 +51,9 @@ namespace LeHealth.Service.Service
                 case "Salutation":
                     returnvalue = masterdataManager.GetSalutation(masterItem);
                     break;
+                case "MarketStatus":
+                    returnvalue = masterdataManager.GetMarketStatus(masterItem);
+                    break;
                     //default:
                     //    returnvalue = masterdataManager.GetCPTCode(masterItem);
                     //    break;

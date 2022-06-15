@@ -6475,5 +6475,34 @@ namespace LeHealth.Core.DataManager
             }
             return consentGroups;
         }
+        public List<CommonMasterFieldModel> GetMarketStatus(CommonMasterFieldModelAll ms)
+        {
+            List<CommonMasterFieldModel> marketstatus = new List<CommonMasterFieldModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMarketStatus", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", ms.Id);
+            cmd.Parameters.AddWithValue("@BranchId", ms.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", ms.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
+                    {
+                        Id = dt.Rows[i]["Id"] != null ? Convert.ToInt32(dt.Rows[i]["Id"]) : 0,
+                        NameData = dt.Rows[i]["MarketStatus"] != null ? dt.Rows[i]["MarketStatus"].ToString() : "",
+                    };
+                    marketstatus.Add(obj);
+                }
+            }
+            return marketstatus;
+        }
     }
 }
