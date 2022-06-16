@@ -311,16 +311,15 @@ namespace LeHealth.Core.DataManager
                         {
                             //transaction.Rollback();
                         }
-
+                    }
+                    else
+                    {
                         DateTime dobdttime = DateTime.ParseExact(consultant.DateOfBirth.Trim(), "dd-MM-yyyy", null);
                         consultant.DateOfBirth = dobdttime.ToString("yyyy-MM-dd");
 
                         DateTime dojdttime = DateTime.ParseExact(consultant.DateOfJoin.Trim(), "dd-MM-yyyy", null);
                         consultant.DateOfJoin = dojdttime.ToString("yyyy-MM-dd");
-
                         string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdList);
-
-
                         SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
                         cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
                         cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
@@ -413,6 +412,8 @@ namespace LeHealth.Core.DataManager
                             con.Close();
                         }
                     }
+
+
                 }
 
                 catch (Exception ex)
