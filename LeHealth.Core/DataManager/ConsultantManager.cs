@@ -215,7 +215,7 @@ namespace LeHealth.Core.DataManager
                         cmdSaveUser.Parameters.Add(retDesc);
                         //cmdSaveUser.Transaction = transaction;
                         cmdSaveUser.ExecuteNonQuery();
-                        string sss = retDesc.Value.ToString();
+                        string usersaveoutput = retDesc.Value.ToString();
                         if (retVal.Value != System.DBNull.Value)
                         {
                             userId = (int)retVal.Value;
@@ -226,7 +226,7 @@ namespace LeHealth.Core.DataManager
                         {
                             userId = 0;
                             //transaction.Rollback();
-                            return "Username already exists";
+                            return usersaveoutput;//"Username already exists";
                         }
                         string descr = retDesc.Value.ToString();
                         response = descr;
@@ -361,6 +361,7 @@ namespace LeHealth.Core.DataManager
                         cmdSaveConsultant.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
                         cmdSaveConsultant.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
                         cmdSaveConsultant.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
+                        cmdSaveConsultant.Parameters.AddWithValue("@SpecialityCode", consultant.SpecialityCode);
                         cmdSaveConsultant.Parameters.AddWithValue("@IsDeleted", consultant.IsDeleted);
                         cmdSaveConsultant.Parameters.AddWithValue("@IsDisplayed", consultant.IsDisplayed);
                         SqlParameter retValSaveConsultant = new SqlParameter("@RetVal", SqlDbType.Int)

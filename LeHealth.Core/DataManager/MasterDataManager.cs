@@ -5323,6 +5323,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@LabelId", label.LabelId);
+            cmd.Parameters.AddWithValue("@GroupId", label.GroupId);
+            cmd.Parameters.AddWithValue("@CategoryId", label.CatgId);
             cmd.Parameters.AddWithValue("@ShowAll", label.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", label.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
