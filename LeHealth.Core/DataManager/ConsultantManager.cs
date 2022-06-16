@@ -312,112 +312,111 @@ namespace LeHealth.Core.DataManager
                             //transaction.Rollback();
                         }
                     }
-                    else
+
+                    DateTime dobdttime = DateTime.ParseExact(consultant.DateOfBirth.Trim(), "dd-MM-yyyy", null);
+                    consultant.DateOfBirth = dobdttime.ToString("yyyy-MM-dd");
+
+                    DateTime dojdttime = DateTime.ParseExact(consultant.DateOfJoin.Trim(), "dd-MM-yyyy", null);
+                    consultant.DateOfJoin = dojdttime.ToString("yyyy-MM-dd");
+                    string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdList);
+                    SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
+                    cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
+                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DeptId", consultant.DeptId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantCode", consultant.ConsultantCode);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Title", consultant.Title);
+                    cmdSaveConsultant.Parameters.AddWithValue("@FirstName", consultant.FirstName);
+                    cmdSaveConsultant.Parameters.AddWithValue("@MiddleName", consultant.MiddleName);
+                    cmdSaveConsultant.Parameters.AddWithValue("@LastName", consultant.LastName);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Gender", consultant.Gender);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DOB", consultant.DateOfBirth);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Age", consultant.Age);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Specialisation", consultant.Specialisation);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Designation", consultant.Designation);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Qualification", consultant.Qualification);
+                    cmdSaveConsultant.Parameters.AddWithValue("@NationalityId", consultant.NationalityId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Mobile", consultant.Mobile);
+                    cmdSaveConsultant.Parameters.AddWithValue("@ResPhone", consultant.ResPhone);
+                    cmdSaveConsultant.Parameters.AddWithValue("@OffPhone", consultant.OffPhone);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Email", consultant.Email);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Fax", consultant.Fax);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DOJ", consultant.DateOfJoin);
+                    cmdSaveConsultant.Parameters.AddWithValue("@CRegNo", consultant.CRegNo);
+                    cmdSaveConsultant.Parameters.AddWithValue("@AllowCommission", consultant.AllowCommission);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DeptOverrule", consultant.DeptOverrule);
+                    cmdSaveConsultant.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
+                    cmdSaveConsultant.Parameters.AddWithValue("@AppType", consultant.AppType);
+                    cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
+                    cmdSaveConsultant.Parameters.AddWithValue("@BranchId", consultant.BranchId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@ItemIdList", Itemidlist);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DrugRefType", consultant.DrugRefType);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
+                    cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
+                    cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
+                    cmdSaveConsultant.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
+                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
+                    cmdSaveConsultant.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
+                    cmdSaveConsultant.Parameters.AddWithValue("@SpecialityCode", consultant.SpecialityCode);
+                    cmdSaveConsultant.Parameters.AddWithValue("@IsDeleted", consultant.IsDeleted);
+                    cmdSaveConsultant.Parameters.AddWithValue("@IsDisplayed", consultant.IsDisplayed);
+                    SqlParameter retValSaveConsultant = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
-                        DateTime dobdttime = DateTime.ParseExact(consultant.DateOfBirth.Trim(), "dd-MM-yyyy", null);
-                        consultant.DateOfBirth = dobdttime.ToString("yyyy-MM-dd");
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter retDescSaveConsultant = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmdSaveConsultant.Parameters.Add(retValSaveConsultant);
+                    cmdSaveConsultant.Parameters.Add(retDescSaveConsultant);
+                    //cmdSaveConsultant.Transaction = transaction;
+                    var isInserted = cmdSaveConsultant.ExecuteNonQuery();
 
-                        DateTime dojdttime = DateTime.ParseExact(consultant.DateOfJoin.Trim(), "dd-MM-yyyy", null);
-                        consultant.DateOfJoin = dojdttime.ToString("yyyy-MM-dd");
-                        string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdList);
-                        SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
-                        cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
-                        cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DeptId", consultant.DeptId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@ConsultantCode", consultant.ConsultantCode);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Title", consultant.Title);
-                        cmdSaveConsultant.Parameters.AddWithValue("@FirstName", consultant.FirstName);
-                        cmdSaveConsultant.Parameters.AddWithValue("@MiddleName", consultant.MiddleName);
-                        cmdSaveConsultant.Parameters.AddWithValue("@LastName", consultant.LastName);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Gender", consultant.Gender);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DOB", consultant.DateOfBirth);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Age", consultant.Age);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Specialisation", consultant.Specialisation);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Designation", consultant.Designation);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Qualification", consultant.Qualification);
-                        cmdSaveConsultant.Parameters.AddWithValue("@NationalityId", consultant.NationalityId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Mobile", consultant.Mobile);
-                        cmdSaveConsultant.Parameters.AddWithValue("@ResPhone", consultant.ResPhone);
-                        cmdSaveConsultant.Parameters.AddWithValue("@OffPhone", consultant.OffPhone);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Email", consultant.Email);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Fax", consultant.Fax);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DOJ", consultant.DateOfJoin);
-                        cmdSaveConsultant.Parameters.AddWithValue("@CRegNo", consultant.CRegNo);
-                        cmdSaveConsultant.Parameters.AddWithValue("@AllowCommission", consultant.AllowCommission);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DeptOverrule", consultant.DeptOverrule);
-                        cmdSaveConsultant.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
-                        cmdSaveConsultant.Parameters.AddWithValue("@AppType", consultant.AppType);
-                        cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
-                        cmdSaveConsultant.Parameters.AddWithValue("@BranchId", consultant.BranchId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@ItemIdList", Itemidlist);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DrugRefType", consultant.DrugRefType);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
-                        cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
-                        cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
-                        cmdSaveConsultant.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
-                        cmdSaveConsultant.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
-                        cmdSaveConsultant.Parameters.AddWithValue("@ConsultantLedger", consultant.ConsultantLedger);
-                        cmdSaveConsultant.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
-                        cmdSaveConsultant.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
-                        cmdSaveConsultant.Parameters.AddWithValue("@SpecialityCode", consultant.SpecialityCode);
-                        cmdSaveConsultant.Parameters.AddWithValue("@IsDeleted", consultant.IsDeleted);
-                        cmdSaveConsultant.Parameters.AddWithValue("@IsDisplayed", consultant.IsDisplayed);
-                        SqlParameter retValSaveConsultant = new SqlParameter("@RetVal", SqlDbType.Int)
+                    ConsultantId = (int)retValSaveConsultant.Value;
+                    var description = retDescSaveConsultant.Value.ToString();
+                    response = description;
+                    if (response == "Saved Successfully" && ConsultantId != 0)
+                    {
+                        SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
+                        cmdSaveAddress.CommandType = CommandType.StoredProcedure;
+                        cmdSaveAddress.Parameters.AddWithValue("@UserId", userId);
+                        cmdSaveAddress.Parameters.AddWithValue("@ConsultantId", ConsultantId);
+                        cmdSaveAddress.Parameters.AddWithValue("@Address1", consultant.Residence.Address1);
+                        cmdSaveAddress.Parameters.AddWithValue("@Address2", consultant.Residence.Address2);
+                        cmdSaveAddress.Parameters.AddWithValue("@AddType", consultant.Residence.AddType);
+                        cmdSaveAddress.Parameters.AddWithValue("@City", consultant.Residence.City);
+                        cmdSaveAddress.Parameters.AddWithValue("@CountryId", consultant.Residence.CountryId);
+                        cmdSaveAddress.Parameters.AddWithValue("@PlacePO", consultant.Residence.PlacePO);
+                        cmdSaveAddress.Parameters.AddWithValue("@PIN", consultant.Residence.PIN);
+                        cmdSaveAddress.Parameters.AddWithValue("@State", consultant.Residence.State);
+                        cmdSaveAddress.Parameters.AddWithValue("@Street", consultant.Residence.Street);
+                        SqlParameter retValSaveAddress = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
                         };
-                        SqlParameter retDescSaveConsultant = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        SqlParameter retDescSaveAddress = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                         {
                             Direction = ParameterDirection.Output
                         };
-                        cmdSaveConsultant.Parameters.Add(retValSaveConsultant);
-                        cmdSaveConsultant.Parameters.Add(retDescSaveConsultant);
-                        //cmdSaveConsultant.Transaction = transaction;
-                        var isInserted = cmdSaveConsultant.ExecuteNonQuery();
-
-                        ConsultantId = (int)retValSaveConsultant.Value;
-                        var description = retDescSaveConsultant.Value.ToString();
-                        response = description;
-                        if (response == "Saved Successfully" && ConsultantId != 0)
+                        cmdSaveAddress.Parameters.Add(retValSaveAddress);
+                        cmdSaveAddress.Parameters.Add(retDescSaveAddress);
+                        //cmdSaveAddress.Transaction = transaction;
+                        cmdSaveAddress.ExecuteNonQuery();
+                        int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
+                        var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
+                        if (patadrReturnDesc1V == "Location Mapped Successfully" || patadrReturnDesc1V == "Saved Successfully")
                         {
-                            SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
-                            cmdSaveAddress.CommandType = CommandType.StoredProcedure;
-                            cmdSaveAddress.Parameters.AddWithValue("@UserId", userId);
-                            cmdSaveAddress.Parameters.AddWithValue("@ConsultantId", ConsultantId);
-                            cmdSaveAddress.Parameters.AddWithValue("@Address1", consultant.Residence.Address1);
-                            cmdSaveAddress.Parameters.AddWithValue("@Address2", consultant.Residence.Address2);
-                            cmdSaveAddress.Parameters.AddWithValue("@AddType", consultant.Residence.AddType);
-                            cmdSaveAddress.Parameters.AddWithValue("@City", consultant.Residence.City);
-                            cmdSaveAddress.Parameters.AddWithValue("@CountryId", consultant.Residence.CountryId);
-                            cmdSaveAddress.Parameters.AddWithValue("@PlacePO", consultant.Residence.PlacePO);
-                            cmdSaveAddress.Parameters.AddWithValue("@PIN", consultant.Residence.PIN);
-                            cmdSaveAddress.Parameters.AddWithValue("@State", consultant.Residence.State);
-                            cmdSaveAddress.Parameters.AddWithValue("@Street", consultant.Residence.Street);
-                            SqlParameter retValSaveAddress = new SqlParameter("@RetVal", SqlDbType.Int)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            SqlParameter retDescSaveAddress = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            cmdSaveAddress.Parameters.Add(retValSaveAddress);
-                            cmdSaveAddress.Parameters.Add(retDescSaveAddress);
-                            //cmdSaveAddress.Transaction = transaction;
-                            cmdSaveAddress.ExecuteNonQuery();
-                            int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
-                            var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
-                            if (patadrReturnDesc1V == "Location Mapped Successfully"|| patadrReturnDesc1V== "Saved Successfully")
-                            {
-                                response = "Saved Successfully";
-                            }
-                            else
-                            {
-                                response = patadrReturnDesc1V;
-                            }
-                            con.Close();
+                            response = "Saved Successfully";
                         }
+                        else
+                        {
+                            response = patadrReturnDesc1V;
+                        }
+                        con.Close();
+
                     }
 
 
