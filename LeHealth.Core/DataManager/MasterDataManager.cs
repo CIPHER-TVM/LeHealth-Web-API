@@ -3876,12 +3876,12 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="zone"></param>
         /// <returns>success or reason for error</returns>
-        public string InsertUpdateZone(ZoneModel zone)
+        public string InsertUpdateDeleteZone(ZoneModelAll zone)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateZone", con);//InsertUpdateZone
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateZone", con);//InsertUpdateDeleteZone
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ZoneId", zone.Id);
                 cmd.Parameters.AddWithValue("@OperatorId", zone.OperatorId);
@@ -3889,8 +3889,9 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ZoneCode", zone.ZoneCode);
                 cmd.Parameters.AddWithValue("@ZoneDescription", zone.ZoneDescription);
                 cmd.Parameters.AddWithValue("@ZoneCountry", zone.ZoneCountry);
-                cmd.Parameters.AddWithValue("@Active", zone.IsActive);
-                cmd.Parameters.AddWithValue("@BlockReason", zone.BlockReason);
+                cmd.Parameters.AddWithValue("@IsDeleting", zone.IsDeleting);
+                cmd.Parameters.AddWithValue("@IsDisplayed", zone.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", zone.BranchId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

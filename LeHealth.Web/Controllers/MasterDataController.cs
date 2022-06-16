@@ -3812,14 +3812,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// returns success or reason of failure
         /// </returns>
-        [Route("InsertUpdateZone")]
+        [Route("InsertUpdateDeleteZone")]
         [HttpPost]
-        public ResponseDataModel<ZoneModel> InsertUpdateZone(ZoneModel zone)
+        public ResponseDataModel<ZoneModel> InsertUpdateDeleteZone(ZoneModelAll zone)
         {
             try
             {
                 string message = string.Empty;
-                message = masterdataService.InsertUpdateZone(zone);
+                message = masterdataService.InsertUpdateDeleteZone(zone);
                 var response = new ResponseDataModel<ZoneModel>()
                 {
                     Status = HttpStatusCode.OK,

@@ -498,9 +498,9 @@ namespace LeHealth.Service.Service
             return masterdataManager.GetFormFields(Id);
         }
 
-        public string InsertUpdateZone(ZoneModel zone)
+        public string InsertUpdateDeleteZone(ZoneModelAll zone)
         {
-            return masterdataManager.InsertUpdateZone(zone);
+            return masterdataManager.InsertUpdateDeleteZone(zone);
         }
 
         public List<ZoneModel> GetZone(Int32 zoneId)

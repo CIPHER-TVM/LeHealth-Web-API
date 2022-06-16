@@ -111,7 +111,7 @@ namespace LeHealth.Core.Interface
 
 
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
-        string InsertUpdateZone(ZoneModel zone);
+        string InsertUpdateDeleteZone(ZoneModelAll zone); 
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         List<RouteModel> GetRoute(RouteModel dm);

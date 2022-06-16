@@ -408,7 +408,14 @@ namespace LeHealth.Core.DataManager
                             cmdSaveAddress.ExecuteNonQuery();
                             int patadrReturn1V = Convert.ToInt32(retValSaveAddress.Value);
                             var patadrReturnDesc1V = retDescSaveAddress.Value.ToString();
-                            response = patadrReturnDesc1V;
+                            if (patadrReturnDesc1V == "Location Mapped Successfully"|| patadrReturnDesc1V== "Saved Successfully")
+                            {
+                                response = "Saved Successfully";
+                            }
+                            else
+                            {
+                                response = patadrReturnDesc1V;
+                            }
                             con.Close();
                         }
                     }
