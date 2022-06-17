@@ -26,8 +26,9 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            //cmd.Parameters.AddWithValue("@Status", consultation.Status);
-            //cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
+            consultation.Status = "W";
+            cmd.Parameters.AddWithValue("@Status", consultation.Status);
+            cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
             //cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
             //cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
             //cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
