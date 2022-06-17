@@ -57,6 +57,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        
         [Route("GetCommonMasterItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<CommonMasterFieldModel>> GetCommonMasterItem(CommonMasterFieldModelAll cmfma)
@@ -89,6 +90,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        
         [Route("DeleteCommonMasterItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> DeleteCommonMasterItem(CommonMasterFieldModelAll MasterItem)
