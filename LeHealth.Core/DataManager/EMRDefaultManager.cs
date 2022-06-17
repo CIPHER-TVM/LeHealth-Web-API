@@ -23,42 +23,20 @@ namespace LeHealth.Core.DataManager
         {
             List<ConsultationEMRModel> consultationlist = new List<ConsultationEMRModel>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetConsultation", con);
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultationByPatientConsultant", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             consultation.Status = "W";
             cmd.Parameters.AddWithValue("@Status", consultation.Status);
             cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
             cmd.Parameters.AddWithValue("@PatientId", consultation.PatientId);
-            //cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
-            //cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
             con.Close();
             if ((ds != null) && (ds.Rows.Count > 0))
             {
-                for (Int32 i = 0; i < ds.Rows.Count; i++)
-                {
-                    ConsultationEMRModel obj = new ConsultationEMRModel
-                    {
-                        //ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
-                        //TokenNO = ds.Rows[i]["TokenNO"].ToString(),
-                        //DeptId = Convert.ToInt32(ds.Rows[i]["DeptId"]),
-                        //PatientName = ds.Rows[i]["PatientName"].ToString(),
-                        //TimeNo = (ds.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Rows[i]["TimeNo"]),
-                        //RegNo = ds.Rows[i]["RegNo"].ToString(),
-                        //Status = ds.Rows[i]["Status"].ToString(),
-                        //Gender = ds.Rows[i]["Gender"].ToString(),
-                        //Sponsor = ds.Rows[i]["Sponsor"].ToString(),
-                        //Emergency = Convert.ToInt32(ds.Rows[i]["Emergency"]),
-                        //Address = ds.Rows[i]["Address"].ToString(),
-                        //ConsultDate = ds.Rows[i]["ConsultDate"].ToString(),
-                        //Email = ds.Rows[i]["Email"].ToString(),
-                        //Mobile = ds.Rows[i]["Mobile"].ToString()
-                    };
-                    consultationlist.Add(obj);
-                }
+                consultationlist = ds.ToListOfObject<ConsultationEMRModel>();
             }
             return consultationlist;
         }
