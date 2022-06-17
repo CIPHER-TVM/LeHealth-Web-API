@@ -10,5 +10,6 @@ namespace LeHealth.Core.Interface
         List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll schedule);
         List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel schedule);
         VisitModel InsertVisit(VisitModel visit);
+        List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }

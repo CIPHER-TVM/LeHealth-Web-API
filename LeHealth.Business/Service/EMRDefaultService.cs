@@ -26,6 +26,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertVisit(visit);
         }
+        public List<VisitModel> GetVisitDetails(VisitModel visit)
+        {
+            return masterdataManager.GetVisitDetails(visit);
+        }
     }
 
 }

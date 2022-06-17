@@ -26,8 +26,6 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultationByPatientConsultant", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            consultation.Status = "W";
-            cmd.Parameters.AddWithValue("@Status", consultation.Status);
             cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
             cmd.Parameters.AddWithValue("@PatientId", consultation.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -55,52 +53,86 @@ namespace LeHealth.Core.DataManager
             if ((ds != null) && (ds.Rows.Count > 0))
             {
                 patientData = ds.ToListOfObject<PatientBasicModel>();
-                if(patientData[0].ProfilePicLocation!="")
-                patientData[0].ProfilePicLocation = _uploadpath + patientData[0].ProfilePicLocation;
+                if (patientData[0].ProfilePicLocation != "")
+                    patientData[0].ProfilePicLocation = _uploadpath + patientData[0].ProfilePicLocation;
             }
             return patientData;
         }
 
-        public VisitModel InsertVisit(VisitModel tax)
+        public VisitModel InsertVisit(VisitModel visit)
         {
-            return tax;
-            //string response = string.Empty;
-            //using (SqlConnection con = new SqlConnection(_connStr))
-            //{
-            //    using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTax", con);
-            //    cmd.CommandType = CommandType.StoredProcedure;
-            //    //cmd.Parameters.AddWithValue("@TaxId", tax.TaxId);
-            //    //cmd.Parameters.AddWithValue("@TaxDesc", tax.TaxDesc);
-            //    //cmd.Parameters.AddWithValue("@TaxPcnt", tax.TaxPcnt);
-            //    //cmd.Parameters.AddWithValue("@HeadId", tax.HeadId);
-            //    //cmd.Parameters.AddWithValue("@BranchId", tax.BranchId);
-            //    //cmd.Parameters.AddWithValue("@UserId", tax.UserId);
-            //    //cmd.Parameters.AddWithValue("@IsDisplayed", tax.IsDisplayed);
-            //    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-            //    {
-            //        Direction = ParameterDirection.Output
-            //    };
-            //    cmd.Parameters.Add(retValV);
-            //    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-            //    {
-            //        Direction = ParameterDirection.Output
-            //    };
-            //    cmd.Parameters.Add(retDesc);
-            //    con.Open();
-            //    var isUpdated = cmd.ExecuteNonQuery();
-            //    var ret = retValV.Value;
-            //    var descrip = retDesc.Value.ToString();
-            //    con.Close();
-            //    if (descrip == "Saved Successfully")
-            //    {
-            //        response = "Success";
-            //    }
-            //    else
-            //    {
-            //        response = descrip;
-            //    }
-            //}
-            //return response;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertVisit", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+                cmd.Parameters.AddWithValue("@ConsultantId", visit.ConsultantId);
+                cmd.Parameters.AddWithValue("@ConsultationId", visit.ConsultationId);
+                cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
+                cmd.Parameters.AddWithValue("@VisitType", visit.VisitType);
+                cmd.Parameters.AddWithValue("@UserId", visit.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+
+                SqlParameter retStart = new SqlParameter("@VisitStart", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retStart);
+
+                SqlParameter retEnd = new SqlParameter("@VisitEnd", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retEnd);
+
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                var vs = retStart.Value.ToString();
+                var ve = retEnd.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    visit.VisitId = Convert.ToInt32(ret);
+                    visit.VisitStartTime = vs;
+                    visit.VisitEndTime = ve;
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return visit;
+        }
+        public List<VisitModel> GetVisitDetails(VisitModel visit)
+        {
+            List<VisitModel> visitData = new List<VisitModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetVisitDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                visitData = ds.ToListOfObject<VisitModel>();
+
+            }
+            return visitData;
         }
 
 
