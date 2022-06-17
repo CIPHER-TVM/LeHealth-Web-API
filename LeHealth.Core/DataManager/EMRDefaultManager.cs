@@ -29,7 +29,7 @@ namespace LeHealth.Core.DataManager
             consultation.Status = "W";
             cmd.Parameters.AddWithValue("@Status", consultation.Status);
             cmd.Parameters.AddWithValue("@ConsultantId", consultation.ConsultantId);
-            //cmd.Parameters.AddWithValue("@DepartmentId", consultation.DeptId);
+            cmd.Parameters.AddWithValue("@PatientId", consultation.PatientId);
             //cmd.Parameters.AddWithValue("@ConsultDate", consultation.ConsultantDate);
             //cmd.Parameters.AddWithValue("@BranchId", consultation.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -81,6 +81,48 @@ namespace LeHealth.Core.DataManager
                 patientData[0].ProfilePicLocation = _uploadpath + patientData[0].ProfilePicLocation;
             }
             return patientData;
+        }
+
+        public VisitModel InsertVisit(VisitModel tax)
+        {
+            return tax;
+            //string response = string.Empty;
+            //using (SqlConnection con = new SqlConnection(_connStr))
+            //{
+            //    using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTax", con);
+            //    cmd.CommandType = CommandType.StoredProcedure;
+            //    //cmd.Parameters.AddWithValue("@TaxId", tax.TaxId);
+            //    //cmd.Parameters.AddWithValue("@TaxDesc", tax.TaxDesc);
+            //    //cmd.Parameters.AddWithValue("@TaxPcnt", tax.TaxPcnt);
+            //    //cmd.Parameters.AddWithValue("@HeadId", tax.HeadId);
+            //    //cmd.Parameters.AddWithValue("@BranchId", tax.BranchId);
+            //    //cmd.Parameters.AddWithValue("@UserId", tax.UserId);
+            //    //cmd.Parameters.AddWithValue("@IsDisplayed", tax.IsDisplayed);
+            //    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+            //    {
+            //        Direction = ParameterDirection.Output
+            //    };
+            //    cmd.Parameters.Add(retValV);
+            //    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+            //    {
+            //        Direction = ParameterDirection.Output
+            //    };
+            //    cmd.Parameters.Add(retDesc);
+            //    con.Open();
+            //    var isUpdated = cmd.ExecuteNonQuery();
+            //    var ret = retValV.Value;
+            //    var descrip = retDesc.Value.ToString();
+            //    con.Close();
+            //    if (descrip == "Saved Successfully")
+            //    {
+            //        response = "Success";
+            //    }
+            //    else
+            //    {
+            //        response = descrip;
+            //    }
+            //}
+            //return response;
         }
 
 

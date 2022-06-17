@@ -98,16 +98,13 @@ namespace LeHealth.Entity.DataModel
     {
         public int PatientId { get; set; }
         public string RegNo { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
         public string PatientName { get; set; }
         public string DOB { get; set; }
         public string Mobile { get; set; }
         public string EMail { get; set; }
         public string NationalityName { get; set; }
         public string ProfilePicLocation { get; set; }
-        public int Age { get; set; }
+        public string Age { get; set; }
         public string Gender { get; set; }
     }
 }

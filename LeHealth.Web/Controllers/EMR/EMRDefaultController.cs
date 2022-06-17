@@ -89,39 +89,39 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
-        //[Route("InsertVisit")]
-        //[HttpPost]
-        //public ResponseDataModel<VisitModel> InsertVisit(VisitModel visit)
-        //{
-        //    try
-        //    {
-        //        string message = string.Empty;
-        //        message = masterdataService.InsertVisit(visit);
-        //        var response = new ResponseDataModel<VisitModel>()
-        //        {
-        //            Status = HttpStatusCode.OK,
-        //            Message = message
-        //        };
-        //        return response;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-        //        return new ResponseDataModel<VisitModel>()
-        //        {
-        //            Status = HttpStatusCode.InternalServerError,
-        //            Response = null,
-        //            ErrorMessage = new ErrorResponse()
-        //            {
-        //                Message = ex.Message
-        //            }
+        [Route("InsertVisit")]
+        [HttpPost]
+        public ResponseDataModel<VisitModel> InsertVisit(VisitModel visit)
+        {
+            try
+            {
+                string message = string.Empty;
+                //message = masterdataService.InsertVisit(visit);
+                var response = new ResponseDataModel<VisitModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<VisitModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
 
-        //        };
-        //    }
-        //    finally
-        //    {
-        //    }
-        //}
+                };
+            }
+            finally
+            {
+            }
+        }
 
     }
 }

@@ -22,6 +22,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetBasicPatientDetails(emr);
         }
+        public VisitModel InsertVisit(VisitModel visit)
+        {
+            return masterdataManager.InsertVisit(visit);
+        }
     }
 
 }

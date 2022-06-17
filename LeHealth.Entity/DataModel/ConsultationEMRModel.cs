@@ -8,6 +8,7 @@ namespace LeHealth.Entity.DataModel
     {
         public string Status { get; set; }
         public int ConsultantId { get; set; }
+        public int PatientId { get; set; }
     }
     public class ConsultationEMRModelAll : ConsultationEMRModel
     {
