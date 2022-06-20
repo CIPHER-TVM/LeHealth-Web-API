@@ -106,7 +106,7 @@ namespace LeHealth.Service.ServiceInterface
         List<AppTypeModel> GetAppType();
         List<FormValidationModel> GetFormFields(Int32 Id);
         List<FormValidationModel> GetFormMaster();
-        string InsertUpdateZone(ZoneModel zone);
+        string InsertUpdateDeleteZone(ZoneModelAll zone);
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         List<RouteModel> GetRoute(RouteModel rm);

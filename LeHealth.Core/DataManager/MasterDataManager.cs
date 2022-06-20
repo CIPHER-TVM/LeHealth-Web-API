@@ -3876,12 +3876,12 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="zone"></param>
         /// <returns>success or reason for error</returns>
-        public string InsertUpdateZone(ZoneModel zone)
+        public string InsertUpdateDeleteZone(ZoneModelAll zone)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateZone", con);//InsertUpdateZone
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateZone", con);//InsertUpdateDeleteZone
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ZoneId", zone.Id);
                 cmd.Parameters.AddWithValue("@OperatorId", zone.OperatorId);
@@ -3889,8 +3889,9 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ZoneCode", zone.ZoneCode);
                 cmd.Parameters.AddWithValue("@ZoneDescription", zone.ZoneDescription);
                 cmd.Parameters.AddWithValue("@ZoneCountry", zone.ZoneCountry);
-                cmd.Parameters.AddWithValue("@Active", zone.IsActive);
-                cmd.Parameters.AddWithValue("@BlockReason", zone.BlockReason);
+                cmd.Parameters.AddWithValue("@IsDeleting", zone.IsDeleting);
+                cmd.Parameters.AddWithValue("@IsDisplayed", zone.IsDisplayed);
+                cmd.Parameters.AddWithValue("@BranchId", zone.BranchId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5323,6 +5324,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@LabelId", label.LabelId);
+            cmd.Parameters.AddWithValue("@GroupId", label.GroupId);
+            cmd.Parameters.AddWithValue("@CategoryId", label.CatgId);
             cmd.Parameters.AddWithValue("@ShowAll", label.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", label.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -6474,6 +6477,35 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return consentGroups;
+        }
+        public List<CommonMasterFieldModel> GetMarketStatus(CommonMasterFieldModelAll ms)
+        {
+            List<CommonMasterFieldModel> marketstatus = new List<CommonMasterFieldModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMarketStatus", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", ms.Id);
+            cmd.Parameters.AddWithValue("@BranchId", ms.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", ms.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CommonMasterFieldModel obj = new CommonMasterFieldModel
+                    {
+                        Id = dt.Rows[i]["Id"] != null ? Convert.ToInt32(dt.Rows[i]["Id"]) : 0,
+                        NameData = dt.Rows[i]["MarketStatus"] != null ? dt.Rows[i]["MarketStatus"].ToString() : "",
+                    };
+                    marketstatus.Add(obj);
+                }
+            }
+            return marketstatus;
         }
     }
 }

@@ -94,4 +94,17 @@ namespace LeHealth.Entity.DataModel
         public string ErrorMessage { get; set; }  
         public float RegAmount { get; set; }   
     }
+    public class PatientBasicModel
+    {
+        public int PatientId { get; set; }
+        public string RegNo { get; set; }
+        public string PatientName { get; set; }
+        public string DOB { get; set; }
+        public string Mobile { get; set; }
+        public string EMail { get; set; }
+        public string NationalityName { get; set; }
+        public string ProfilePicLocation { get; set; }
+        public string Age { get; set; }
+        public string Gender { get; set; }
+    }
 }

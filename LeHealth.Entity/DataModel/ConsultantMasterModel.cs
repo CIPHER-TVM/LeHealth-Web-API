@@ -64,13 +64,12 @@ namespace LeHealth.Entity.DataModel
         public int IsDisplayed { get; set; }
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
-        public List<int> ItemIdList { get; set; }
-        public List<ItemIdListCls> ItemIdListOP { get; set; }
-        //public UserGroupModel UserGroupData { get; set; }
+        public List<ItemIdListCls> ItemIdList { get; set; }
     }
     public class ItemIdListCls
     {
-        public int ItemId { get; set; } 
+        public int itemId { get; set; } 
+        public string itemName { get; set; }   
     }
     public class ConsultantAddressModel
     {

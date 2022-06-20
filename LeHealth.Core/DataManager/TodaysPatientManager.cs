@@ -803,7 +803,7 @@ namespace LeHealth.Core.DataManager
         /// <returns>Rate of </returns>
         public List<ConsultRateModel> GetConsultRate(ConsultationModel cm)
         {
-            List<ConsultRateModel> stateList = new List<ConsultRateModel>();
+            List<ConsultRateModel> rateList = new List<ConsultRateModel>();
 
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultRate", con);
@@ -825,10 +825,10 @@ namespace LeHealth.Core.DataManager
                     obj.ItemName = dtRateList.Rows[i]["ItemName"].ToString();
                     obj.Rate = Convert.ToInt32(dtRateList.Rows[i]["Rate"]);
                     obj.EmergencyFees = Convert.ToInt32(dtRateList.Rows[i]["EmergencyFees"]);
-                    stateList.Add(obj);
+                    rateList.Add(obj);
                 }
             }
-            return stateList;
+            return rateList;
         }
         /// <summary>
         /// For registered Scheme amount of a patient

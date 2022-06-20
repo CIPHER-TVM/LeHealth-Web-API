@@ -4,13 +4,13 @@ using System.Text;
 
 namespace LeHealth.Entity.DataModel
 {
-   public class ReligionModel
+    public class ReligionModel
     {
         public int Id { get; set; }
-        public string ReligionName { get; set; } 
-        public string ReligionCode { get; set; } 
+        public string ReligionName { get; set; }
+        public string ReligionCode { get; set; }
     }
-    public class ReligionModelAll:ReligionModel
+    public class ReligionModelAll : ReligionModel
     {
         public int BranchId { get; set; }
         public int UserId { get; set; }

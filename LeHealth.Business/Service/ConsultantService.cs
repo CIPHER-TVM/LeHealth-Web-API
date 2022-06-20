@@ -41,6 +41,10 @@ namespace LeHealth.Service.Service
             {
                 consultant.SignatureLoc = fileUploadService.SaveFile(consultant.PhotoFile, "documents");
             }
+            else
+            {
+                consultant.SignatureLoc = "";
+            }
             return consultantManager.InsertUpdateConsultant(consultant);
         }
         public List<ConsultantMasterModel> GetAllConsultants(int consultantType)

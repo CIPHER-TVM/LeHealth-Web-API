@@ -43,6 +43,10 @@ namespace LeHealth.Service.Service
         {
             return userpermissionmanager.GetUsers(branchId);
         }
+        public List<UserModel> GetUnAssignedUsers(Int32 branchId)
+        {
+            return userpermissionmanager.GetUnAssignedUsers(branchId);
+        }
 
         public UserModel GetUser(Int32 id)
         {

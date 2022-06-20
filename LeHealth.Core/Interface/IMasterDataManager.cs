@@ -111,7 +111,7 @@ namespace LeHealth.Core.Interface
 
 
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
-        string InsertUpdateZone(ZoneModel zone);
+        string InsertUpdateDeleteZone(ZoneModelAll zone); 
         List<ZoneModel> GetZone(Int32 zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         List<RouteModel> GetRoute(RouteModel dm);
@@ -195,5 +195,6 @@ namespace LeHealth.Core.Interface
         List<FrequencyModel> GetFrequency(FrequencyModelAll frequency);
         string InsertUpdateDeleteFrequency(FrequencyModelAll frequency);
         List<ConsentGroupModel> GetConsentGroup();
+        List<CommonMasterFieldModel> GetMarketStatus(CommonMasterFieldModelAll ms); 
     }
 }

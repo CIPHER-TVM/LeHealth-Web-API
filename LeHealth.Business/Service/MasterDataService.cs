@@ -51,6 +51,9 @@ namespace LeHealth.Service.Service
                 case "Salutation":
                     returnvalue = masterdataManager.GetSalutation(masterItem);
                     break;
+                case "MarketStatus":
+                    returnvalue = masterdataManager.GetMarketStatus(masterItem);
+                    break;
                     //default:
                     //    returnvalue = masterdataManager.GetCPTCode(masterItem);
                     //    break;
@@ -495,9 +498,9 @@ namespace LeHealth.Service.Service
             return masterdataManager.GetFormFields(Id);
         }
 
-        public string InsertUpdateZone(ZoneModel zone)
+        public string InsertUpdateDeleteZone(ZoneModelAll zone)
         {
-            return masterdataManager.InsertUpdateZone(zone);
+            return masterdataManager.InsertUpdateDeleteZone(zone);
         }
 
         public List<ZoneModel> GetZone(Int32 zoneId)
