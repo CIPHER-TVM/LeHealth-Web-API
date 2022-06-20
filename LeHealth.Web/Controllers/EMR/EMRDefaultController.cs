@@ -138,10 +138,10 @@ namespace LeHealth.Base.API.Controllers.EMR
                 string message = string.Empty;
                 ComplaintsModel vm = new ComplaintsModel();
                 vm = masterdataService.InsertComplaints(visit);
-                //if (vm.VisitId > 0)
-                //    message = "Success";
-                //else
-                //    message = "Failure";
+                if (vm.ComplaintId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
                 var response = new ResponseDataModel<ComplaintsModel>()
                 {
                     Status = HttpStatusCode.OK,
@@ -202,7 +202,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
-        [Route("InsertPEDetails")]
+        [Route("InsertUpdatePEDetails")]
         [HttpPost]
         public ResponseDataModel<PhysicalExaminationModel> InsertPEDetails(PhysicalExaminationModel pe)
         {
@@ -242,6 +242,41 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+
+        [Route("GetPEDetails")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PhysicalExaminationModel>> GetPEDetails(PhysicalExaminationModel cmfma)
+        {
+            try
+            {
+                List<PhysicalExaminationModel> cptList = new List<PhysicalExaminationModel>();
+                cptList = masterdataService.GetPEDetails(cmfma);
+                var response = new ResponseDataModel<IEnumerable<PhysicalExaminationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PhysicalExaminationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
         [Route("InsertReviewOfSymptoms")]
         [HttpPost]
         public ResponseDataModel<SymptomReviewModel> InsertReviewOfSymptoms(SymptomReviewModel srm)
@@ -275,6 +310,38 @@ namespace LeHealth.Base.API.Controllers.EMR
                         Message = ex.Message
                     }
 
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetReviewOfSymptoms")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SymptomReviewModel>> GetReviewOfSymptoms(SymptomReviewModel cmfma)
+        {
+            try
+            {
+                List<SymptomReviewModel> cptList = new List<SymptomReviewModel>();
+                cptList = masterdataService.GetReviewOfSymptoms(cmfma);
+                var response = new ResponseDataModel<IEnumerable<SymptomReviewModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SymptomReviewModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
                 };
             }
             finally

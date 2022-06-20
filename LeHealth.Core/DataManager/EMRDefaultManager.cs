@@ -258,6 +258,25 @@ namespace LeHealth.Core.DataManager
             }
             return pe;
         }
+        public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel visit)
+        {
+            List<PhysicalExaminationModel> visitData = new List<PhysicalExaminationModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPEDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                visitData = ds.ToListOfObject<PhysicalExaminationModel>();
+
+            }
+            return visitData;
+        }
 
         public SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm)
         {
@@ -306,6 +325,24 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return srm;
+        }
+        public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel visit)
+        {
+            List<SymptomReviewModel> visitData = new List<SymptomReviewModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetReviewOfSymptoms", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                visitData = ds.ToListOfObject<SymptomReviewModel>();
+            }
+            return visitData;
         }
 
     }

@@ -38,9 +38,17 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.InsertPhysicalExamination(pe);
         }
+        public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel emr)
+        {
+            return masterdataManager.GetPEDetails(emr);
+        }
         public SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm)
         {
             return masterdataManager.InsertReviewOfSymptoms(srm);
+        }
+        public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm)
+        {
+            return masterdataManager.GetReviewOfSymptoms(srm); 
         }
 
         public List<VisitModel> GetVisitDetails(VisitModel visit)
