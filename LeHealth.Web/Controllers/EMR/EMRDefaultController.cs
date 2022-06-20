@@ -129,6 +129,46 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("InsertComplaints")]
+        [HttpPost]
+        public ResponseDataModel<ComplaintsModel> InsertComplaints(ComplaintsModel visit)
+        {
+            try
+            {
+                string message = string.Empty;
+                ComplaintsModel vm = new ComplaintsModel();
+                vm = masterdataService.InsertComplaints(visit);
+                //if (vm.VisitId > 0)
+                //    message = "Success";
+                //else
+                //    message = "Failure";
+                var response = new ResponseDataModel<ComplaintsModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ComplaintsModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         [Route("GetVisitDetails")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<VisitModel>> GetVisitDetails(VisitModel visit) 

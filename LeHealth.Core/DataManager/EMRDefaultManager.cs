@@ -115,6 +115,7 @@ namespace LeHealth.Core.DataManager
             }
             return visit;
         }
+
         public List<VisitModel> GetVisitDetails(VisitModel visit)
         {
             List<VisitModel> visitData = new List<VisitModel>();
@@ -133,6 +134,53 @@ namespace LeHealth.Core.DataManager
 
             }
             return visitData;
+        }
+
+        public ComplaintsModel InsertComplaints(ComplaintsModel complaints)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertComplaints", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ComplaintId", complaints.ComplaintId);
+                cmd.Parameters.AddWithValue("@ChiefComplaint", complaints.ChiefComplaint);
+                cmd.Parameters.AddWithValue("@ComplaintOf", complaints.ComplaintOf);
+                cmd.Parameters.AddWithValue("@Site", complaints.Site);
+                cmd.Parameters.AddWithValue("@SymptomSince", complaints.SymptomSince);
+                cmd.Parameters.AddWithValue("@Severity", complaints.Severity);
+                cmd.Parameters.AddWithValue("@Course", complaints.Course);
+                cmd.Parameters.AddWithValue("@Symptom", complaints.Symptom);
+                cmd.Parameters.AddWithValue("@TobaccoStatus", complaints.TobaccoStatus);
+                cmd.Parameters.AddWithValue("@AssociatedSigns", complaints.AssociatedSigns);
+                cmd.Parameters.AddWithValue("@ChiefComplaintsBy", complaints.ChiefComplaintsBy);
+                cmd.Parameters.AddWithValue("@PainScale", complaints.PainScale);
+                cmd.Parameters.AddWithValue("@UserId", complaints.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    //complaints.VisitId = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return complaints;
         }
 
 

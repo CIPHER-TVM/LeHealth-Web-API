@@ -10,6 +10,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll schedule);
         List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel schedule);
         VisitModel InsertVisit(VisitModel visit);
+        ComplaintsModel InsertComplaints(ComplaintsModel complaints);
         List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }
