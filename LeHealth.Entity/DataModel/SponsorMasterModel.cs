@@ -6,11 +6,14 @@ namespace LeHealth.Entity.DataModel
 {
     public class SponsorMasterModel
     {
+
+       
         public int SponsorId { get; set; }
         public string SponsorName { get; set; }
         public int SponsorType { get; set; }
         public string Address1 { get; set; }
-        public string Address2 { get; set; }
+        public string Address2 { get; set; }       
+		
         public string Street { get; set; }
         public string PlacePO { get; set; }
         public string PIN { get; set; }
@@ -22,19 +25,22 @@ namespace LeHealth.Entity.DataModel
         public string Email { get; set; }
         public string Fax { get; set; }
         public string ContactPerson { get; set; }
-        public float DedAmount { get; set; }
-        public float CoPayPcnt { get; set; }
+        public float DedAmount { get; set; }      
+		public float CoPayPcnt { get; set; }
         public string Remarks { get; set; }
         public int SFormId { get; set; }
         public float SponsorLimit { get; set; }
         public string DHANo { get; set; }
-        public int EnableSponsorLimit { get; set; }
+        public int EnableSponsorLimit { get; set; }       
+		
         public int EnableSponsorConsent { get; set; }
         public string AuthorizationMode { get; set; }
         public string URL { get; set; }
-        public int SortOrder { get; set; }
+        public int SortOrder { get; set; }        
         public int PartyId { get; set; }
         public int UnclaimedId { get; set; }
+        //public int HeadId { get; set; }
+
     }
     public class SponsorMasterModelAll : SponsorMasterModel
     {
@@ -42,5 +48,6 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int ShowAll { get; set; }
         public int IsDisplayed { get; set; }
+        public int SessionId { get; set; }
     }
 }
