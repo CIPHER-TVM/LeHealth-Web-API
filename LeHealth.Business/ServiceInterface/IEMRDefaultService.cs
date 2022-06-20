@@ -11,6 +11,9 @@ namespace LeHealth.Service.ServiceInterface
         List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel schedule);
         VisitModel InsertVisit(VisitModel visit);
         ComplaintsModel InsertComplaints(ComplaintsModel complaints);
+        List<ComplaintsModel> GetChiefComplaints(ComplaintsModel schedule);
+        PhysicalExaminationModel InsertPhysicalExamination(PhysicalExaminationModel pe);
+        SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm);
         List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }

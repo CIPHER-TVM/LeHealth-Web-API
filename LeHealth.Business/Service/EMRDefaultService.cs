@@ -25,11 +25,24 @@ namespace LeHealth.Service.Service
         public VisitModel InsertVisit(VisitModel visit)
         {
             return masterdataManager.InsertVisit(visit);
-        } 
+        }
         public ComplaintsModel InsertComplaints(ComplaintsModel visit)
         {
             return masterdataManager.InsertComplaints(visit);
         }
+        public List<ComplaintsModel> GetChiefComplaints(ComplaintsModel emr)
+        {
+            return masterdataManager.GetChiefComplaints(emr);
+        }
+        public PhysicalExaminationModel InsertPhysicalExamination(PhysicalExaminationModel pe)
+        {
+            return masterdataManager.InsertPhysicalExamination(pe);
+        }
+        public SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm)
+        {
+            return masterdataManager.InsertReviewOfSymptoms(srm);
+        }
+
         public List<VisitModel> GetVisitDetails(VisitModel visit)
         {
             return masterdataManager.GetVisitDetails(visit);

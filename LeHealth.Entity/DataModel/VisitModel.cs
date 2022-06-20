@@ -16,5 +16,6 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public string VisitStartTime { get; set; }
         public string VisitEndTime { get; set; }
+        public string VisitDate { get; set; } 
     }
 }

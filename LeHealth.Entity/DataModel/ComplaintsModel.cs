@@ -19,5 +19,6 @@ namespace LeHealth.Entity.DataModel
         public string ChiefComplaintsBy { get; set; }
         public int PainScale { get; set; }
         public int UserId { get; set; } 
+        public int VisitId { get; set; } 
     }
 }
