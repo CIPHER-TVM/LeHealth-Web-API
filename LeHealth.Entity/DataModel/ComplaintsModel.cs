@@ -20,5 +20,7 @@ namespace LeHealth.Entity.DataModel
         public int PainScale { get; set; }
         public int UserId { get; set; } 
         public int VisitId { get; set; } 
+        public int PatientId { get; set; }  
+        public int ShowAll { get; set; }   
     }
 }

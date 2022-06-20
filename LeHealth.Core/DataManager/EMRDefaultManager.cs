@@ -191,6 +191,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", visit.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -260,22 +262,23 @@ namespace LeHealth.Core.DataManager
         }
         public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel visit)
         {
-            List<PhysicalExaminationModel> visitData = new List<PhysicalExaminationModel>();
+            List<PhysicalExaminationModel> peData = new List<PhysicalExaminationModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPEDetails", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", visit.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
             con.Close();
             if ((ds != null) && (ds.Rows.Count > 0))
             {
-                visitData = ds.ToListOfObject<PhysicalExaminationModel>();
-
+                peData = ds.ToListOfObject<PhysicalExaminationModel>();
             }
-            return visitData;
+            return peData;
         }
 
         public SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm)
