@@ -20,6 +20,8 @@ namespace LeHealth.Core.DataManager
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
+       
+
         public SponserConsentModelAll GetSponserConsentById(Int32 ContentId)
         {
             SponserConsentModelAll obj = new SponserConsentModelAll();

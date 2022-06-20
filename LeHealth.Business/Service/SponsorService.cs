@@ -16,6 +16,10 @@ namespace LeHealth.Service.Service
         {
             sponsermanager = _sponsermanager;
         }
+        //public SponsorModel GetSponserById(Int32 SponsorId)
+        //{
+        //    return sponsermanager.GetSponserById(SponsorId);
+        //}
 
         public SponserConsentModelAll GetSponserConsentById(Int32 ContentId)
         {

@@ -7,6 +7,7 @@ namespace LeHealth.Core.Interface
 {
     public interface ISponsorManager
     {
+        
         SponserConsentModelAll GetSponserConsentById(Int32 ContentId);
         List<SponserConsentModel> GetSponsorConsent(Int32 Branchid);
         List<SponsorTypeModel> GetSponsorTypes();

@@ -7,8 +7,10 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface ISponsorService
     {
+        
         List<SponsorTypeModel> GetSponsorTypes();
         List<SponsorFormModel> GetSponsorForms();
+        //SponsorModel GetSponserById(Int32 @SponsorId);
         List<SponsorMasterModelAll> GetAllSponsors(Int32 BranchId);
         string InsertUpdateSponsor(SponsorMasterModelAll obj);
         string DeleteAgentSponsor(SponsorModel obj);
