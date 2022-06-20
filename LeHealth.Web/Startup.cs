@@ -123,6 +123,12 @@ namespace LeHealth.Catalogue.API
             services.AddScoped<IConsultantService, ConsultantService>();
             services.AddScoped<IConsultantManager, ConsultantManager>();
 
+            services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<IAgentManager, AgentManager>();
+
+            services.AddScoped<ISponsorService, SponsorService>();
+            services.AddScoped<ISponsorManager, SponsorManager>();
+
             //services.AddSwaggerGen();
 
         }
