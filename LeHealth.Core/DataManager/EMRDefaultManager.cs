@@ -350,5 +350,75 @@ namespace LeHealth.Core.DataManager
             return rosData;
         }
 
+        //
+        public SymptomReviewModel InsertMedicalDecision(SymptomReviewModel srm)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertReviewOfSymptoms", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SRMId", srm.SRMId);
+                cmd.Parameters.AddWithValue("@Constitutional", srm.Constitutional);
+                cmd.Parameters.AddWithValue("@Respiratory", srm.Respiratory);
+                cmd.Parameters.AddWithValue("@Phychiatry", srm.Phychiatry);
+                cmd.Parameters.AddWithValue("@Gastrointestinial", srm.Gastrointestinial);
+                cmd.Parameters.AddWithValue("@Hemotology", srm.Hemotology);
+                cmd.Parameters.AddWithValue("@Neurological", srm.Neurological);
+                cmd.Parameters.AddWithValue("@Skin", srm.Skin);
+                cmd.Parameters.AddWithValue("@Cardiovascular", srm.Cardiovascular);
+                cmd.Parameters.AddWithValue("@Endocrinal", srm.Endocrinal);
+                cmd.Parameters.AddWithValue("@Genitourinary", srm.Genitourinary);
+                cmd.Parameters.AddWithValue("@ENT", srm.ENT);
+                cmd.Parameters.AddWithValue("@Immunological", srm.Immunological);
+                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    srm.SRMId = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return srm;
+        }
+        public List<SymptomReviewModel> GetMedicalDecision(SymptomReviewModel srm) 
+        {
+            List<SymptomReviewModel> rosData = new List<SymptomReviewModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetReviewOfSymptoms", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                rosData = ds.ToListOfObject<SymptomReviewModel>();
+            }
+            return rosData;
+        }
+
     }
 }
