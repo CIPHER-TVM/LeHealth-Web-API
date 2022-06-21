@@ -243,7 +243,7 @@ namespace LeHealth.Base.API.Controllers.EMR
         }
 
 
-        [Route("GetPEDetails")]
+        [Route("GetPhysicalExaminationDetails")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<PhysicalExaminationModel>> GetPEDetails(PhysicalExaminationModel cmfma)
         {
@@ -277,7 +277,7 @@ namespace LeHealth.Base.API.Controllers.EMR
         }
 
 
-        [Route("InsertReviewOfSymptoms")]
+        [Route("InsertUpdateReviewOfSymptoms")]
         [HttpPost]
         public ResponseDataModel<SymptomReviewModel> InsertReviewOfSymptoms(SymptomReviewModel srm)
         {

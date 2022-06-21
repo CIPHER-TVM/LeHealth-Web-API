@@ -329,23 +329,25 @@ namespace LeHealth.Core.DataManager
             }
             return srm;
         }
-        public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel visit)
+        public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm)
         {
-            List<SymptomReviewModel> visitData = new List<SymptomReviewModel>();
+            List<SymptomReviewModel> rosData = new List<SymptomReviewModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetReviewOfSymptoms", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
             con.Close();
             if ((ds != null) && (ds.Rows.Count > 0))
             {
-                visitData = ds.ToListOfObject<SymptomReviewModel>();
+                rosData = ds.ToListOfObject<SymptomReviewModel>();
             }
-            return visitData;
+            return rosData;
         }
 
     }
