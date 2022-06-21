@@ -414,7 +414,6 @@ namespace LeHealth.Core.DataManager
             }
             return rosData;
         }
-        //
 
         public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm)
         {
@@ -472,6 +471,72 @@ namespace LeHealth.Core.DataManager
             if ((ds != null) && (ds.Rows.Count > 0))
             {
                 rosData = ds.ToListOfObject<PlanAndProcedureModel>();
+            }
+            return rosData;
+        }
+
+        //
+        public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel srm) 
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertMenstrualHistory", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Mid", srm.Mid);
+                cmd.Parameters.AddWithValue("@Menarche", srm.Menarche);
+                cmd.Parameters.AddWithValue("@Cycle", srm.Cycle);
+                cmd.Parameters.AddWithValue("@Lmp", srm.Lmp);
+                cmd.Parameters.AddWithValue("@Flow", srm.Flow);
+                cmd.Parameters.AddWithValue("@Contraception", srm.Contraception);
+                cmd.Parameters.AddWithValue("@PapSmear", srm.PapSmear);
+                cmd.Parameters.AddWithValue("@Memogram", srm.Memogram);
+                cmd.Parameters.AddWithValue("@ObstertrichHistory", srm.ObstertrichHistory);
+                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    srm.Mid = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return srm;
+        }
+        public List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel srm)
+        {
+            List<MenstrualHistoryModel> rosData = new List<MenstrualHistoryModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMenstrualHistory", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                rosData = ds.ToListOfObject<MenstrualHistoryModel>();
             }
             return rosData;
         }

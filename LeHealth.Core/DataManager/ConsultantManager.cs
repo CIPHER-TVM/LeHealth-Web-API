@@ -180,7 +180,7 @@ namespace LeHealth.Core.DataManager
         {
             string response = "";
             //SqlTransaction transaction;
-            int userId = 0;
+            int ConsultantUserId = 0; 
             int ConsultantId = 0;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -219,19 +219,19 @@ namespace LeHealth.Core.DataManager
                         string usersaveoutput = retDesc.Value.ToString();
                         if (retVal.Value != System.DBNull.Value)
                         {
-                            userId = (int)retVal.Value;
+                            ConsultantUserId = (int)retVal.Value;
                             string asdf = "";
                             //transaction.Commit();
                         }
                         else
                         {
-                            userId = 0;
+                            ConsultantUserId = 0;
                             //transaction.Rollback();
                             return usersaveoutput;//"Username already exists";
                         }
                         string descr = retDesc.Value.ToString();
                         response = descr;
-                        if (userId > 0)//Inserted / Updated Successfully
+                        if (ConsultantUserId > 0)//Inserted / Updated Successfully
                         {
                             if (consultant.LocationIds != null)
                             {
@@ -239,7 +239,7 @@ namespace LeHealth.Core.DataManager
                                 List<int> locationIds = consultant.LocationIds.Select(x => x.LocationId).ToList();
                                 var jsonLocationId = JsonConvert.SerializeObject(locationIds);
                                 cmdSaveLocation.CommandType = CommandType.StoredProcedure;
-                                cmdSaveLocation.Parameters.AddWithValue("@P_UserId", userId);
+                                cmdSaveLocation.Parameters.AddWithValue("@P_UserId", ConsultantUserId);
                                 cmdSaveLocation.Parameters.AddWithValue("@P_Locations", jsonLocationId);
                                 SqlParameter retValSaveLocation = new SqlParameter("@RetVal", SqlDbType.Int)
                                 {
@@ -264,7 +264,7 @@ namespace LeHealth.Core.DataManager
                             jsonIntgroups = jsonIntgroups.Replace("]", "");
                             SqlCommand cmdGetMenu = new SqlCommand("stLH_GetMenuongroups", con);
                             cmdGetMenu.CommandType = CommandType.StoredProcedure;
-                            cmdGetMenu.Parameters.AddWithValue("@P_UserId", userId);
+                            cmdGetMenu.Parameters.AddWithValue("@P_UserId", ConsultantUserId);
                             cmdGetMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
                             cmdGetMenu.Parameters.AddWithValue("@P_GroupIds", jsonIntgroups);
                             SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
@@ -289,7 +289,7 @@ namespace LeHealth.Core.DataManager
                                 var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
                                 SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
                                 cmdSaveMenu.CommandType = CommandType.StoredProcedure;
-                                cmdSaveMenu.Parameters.AddWithValue("@P_UserId", userId);
+                                cmdSaveMenu.Parameters.AddWithValue("@P_UserId", ConsultantUserId);
                                 cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
                                 cmdSaveMenu.Parameters.AddWithValue("@P_SubmenuIds", jsonSubMenuIds);
                                 cmdSaveMenu.Parameters.AddWithValue("@P_Groups", jsonGroupIds);
@@ -323,6 +323,7 @@ namespace LeHealth.Core.DataManager
                     string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdList);
                     SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
                     cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
+                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantUserId", ConsultantUserId);
                     cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
                     cmdSaveConsultant.Parameters.AddWithValue("@DeptId", consultant.DeptId);
                     cmdSaveConsultant.Parameters.AddWithValue("@ConsultantCode", consultant.ConsultantCode);
@@ -354,7 +355,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@DrugRefType", consultant.DrugRefType);
                     cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
                     cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
-                    cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@UserId", consultant.UserId);
                     cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
                     cmdSaveConsultant.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
                     cmdSaveConsultant.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
@@ -384,7 +385,6 @@ namespace LeHealth.Core.DataManager
                     {
                         SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
                         cmdSaveAddress.CommandType = CommandType.StoredProcedure;
-                        cmdSaveAddress.Parameters.AddWithValue("@UserId", userId);
                         cmdSaveAddress.Parameters.AddWithValue("@ConsultantId", ConsultantId);
                         cmdSaveAddress.Parameters.AddWithValue("@Address1", consultant.Residence.Address1);
                         cmdSaveAddress.Parameters.AddWithValue("@Address2", consultant.Residence.Address2);
@@ -395,6 +395,7 @@ namespace LeHealth.Core.DataManager
                         cmdSaveAddress.Parameters.AddWithValue("@PIN", consultant.Residence.PIN);
                         cmdSaveAddress.Parameters.AddWithValue("@State", consultant.Residence.State);
                         cmdSaveAddress.Parameters.AddWithValue("@Street", consultant.Residence.Street);
+                        cmdSaveAddress.Parameters.AddWithValue("@UserId", consultant.UserId);
                         SqlParameter retValSaveAddress = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
