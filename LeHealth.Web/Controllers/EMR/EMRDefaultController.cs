@@ -202,7 +202,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
-        [Route("InsertUpdatePEDetails")]
+        [Route("InsertUpdatePhysicalExaminationDetails")]
         [HttpPost]
         public ResponseDataModel<PhysicalExaminationModel> InsertPEDetails(PhysicalExaminationModel pe)
         {
