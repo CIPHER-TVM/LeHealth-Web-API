@@ -19,6 +19,7 @@ namespace LeHealth.Entity.DataModel
         public string Genitourinary { get; set; }
         public string Ent { get; set; }
         public string Immunological { get; set; }
+        public string VisitDate { get; set; }
         public int VisitId { get; set; }
         public int UserId { get; set; }
         public int PatientId { get; set; }
