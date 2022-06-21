@@ -2341,14 +2341,7 @@ namespace LeHealth.Core.DataManager
                         AlldaySameFlag = Convert.ToInt32(dataTable.Rows[i]["AlldaySameFlag"]),
                         UserId = Convert.ToInt32(dataTable.Rows[i]["UserId"]),
                         TimeSchedules = timeSchedules,
-
-
-
-
-
                     };
-
-
                 }
             }
             return consultant;

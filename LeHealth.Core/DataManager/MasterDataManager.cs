@@ -2083,11 +2083,13 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dsVitalSignList.Rows.Count; i++)
                 {
+                    int mast = Convert.ToInt32(dsVitalSignList.Rows[i]["Mandatory"]);
                     VitalSignModel obj = new VitalSignModel
                     {
                         SignId = Convert.ToInt32(dsVitalSignList.Rows[i]["SignId"]),
                         SignName = dsVitalSignList.Rows[i]["SignName"].ToString(),
-                        Mandatory = Convert.ToInt32(dsVitalSignList.Rows[i]["Mandatory"]),
+                        Mandatory = mast,
+                        MandatoryStatus = mast == 1 ? "Yes" : "No",
                         SignCode = dsVitalSignList.Rows[i]["SignCode"].ToString(),
                         SignUnit = dsVitalSignList.Rows[i]["SignUnit"].ToString(),
                         MinValue = Convert.ToDouble(dsVitalSignList.Rows[i]["MinValue"]),
