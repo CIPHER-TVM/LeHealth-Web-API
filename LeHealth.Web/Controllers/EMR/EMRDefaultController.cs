@@ -350,7 +350,6 @@ namespace LeHealth.Base.API.Controllers.EMR
         }
 
 
-        //
         [Route("InsertUpdateMedicalDecision")]
         [HttpPost]
         public ResponseDataModel<MedicalDecisionModel> InsertMedicalDecision(MedicalDecisionModel pe)
@@ -425,6 +424,80 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        //
+        [Route("InsertUpdatePlanAndProcedure")]
+        [HttpPost]
+        public ResponseDataModel<PlanAndProcedureModel> InsertPlanAndProcedure(PlanAndProcedureModel pe)
+        {
+            try
+            {
+                string message = string.Empty;
+                PlanAndProcedureModel vm = new PlanAndProcedureModel();
+                vm = masterdataService.InsertPlanAndProcedure(pe);
+                if (vm.PapId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PlanAndProcedureModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = pe,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PlanAndProcedureModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("GetPlanAndProcedure")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PlanAndProcedureModel>> GetPlanAndProcedure(PlanAndProcedureModel cmfma)
+        {
+            try
+            {
+                List<PlanAndProcedureModel> cptList = new List<PlanAndProcedureModel>();
+                cptList = masterdataService.GetPlanAndProcedure(cmfma);
+                var response = new ResponseDataModel<IEnumerable<PlanAndProcedureModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PlanAndProcedureModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
         //
         [Route("GetVisitDetails")]
         [HttpPost]

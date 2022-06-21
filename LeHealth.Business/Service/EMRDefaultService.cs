@@ -60,6 +60,15 @@ namespace LeHealth.Service.Service
             return masterdataManager.GetMedicalDecision(emr);
         }
 
+        public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel pe)
+        {
+            return masterdataManager.InsertPlanAndProcedure(pe);
+        }
+        public List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel emr)
+        {
+            return masterdataManager.GetPlanAndProcedure(emr);
+        }
+
         public List<VisitModel> GetVisitDetails(VisitModel visit)
         {
             return masterdataManager.GetVisitDetails(visit);

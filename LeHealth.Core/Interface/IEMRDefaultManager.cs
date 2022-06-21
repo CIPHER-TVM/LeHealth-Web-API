@@ -19,6 +19,9 @@ namespace LeHealth.Core.Interface
 
         MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel srm);
         List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel srm);
+
+        PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm);
+        List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel srm);
         List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }

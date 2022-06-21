@@ -414,6 +414,67 @@ namespace LeHealth.Core.DataManager
             }
             return rosData;
         }
+        //
+
+        public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertPlanAndProcedure", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PapId", srm.PapId);
+                cmd.Parameters.AddWithValue("@PlanAndProcedure", srm.PlanAndProcedure);
+                cmd.Parameters.AddWithValue("@PatientInstruction", srm.PatientInstruction);
+                cmd.Parameters.AddWithValue("@FollowUp", srm.FollowUp);
+                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    srm.PapId = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return srm;
+        }
+        public List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel srm)
+        {
+            List<PlanAndProcedureModel> rosData = new List<PlanAndProcedureModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPlanAndProcedure", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                rosData = ds.ToListOfObject<PlanAndProcedureModel>();
+            }
+            return rosData;
+        }
 
     }
 }
