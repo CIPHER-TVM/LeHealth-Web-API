@@ -17,7 +17,7 @@ namespace LeHealth.Entity.DataModel
         public string Cardiovascular { get; set; }
         public string Endocrinal { get; set; }
         public string Genitourinary { get; set; }
-        public string ENT { get; set; }
+        public string Ent { get; set; }
         public string Immunological { get; set; }
         public int VisitId { get; set; }
         public int UserId { get; set; }

@@ -298,7 +298,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@Cardiovascular", srm.Cardiovascular);
                 cmd.Parameters.AddWithValue("@Endocrinal", srm.Endocrinal);
                 cmd.Parameters.AddWithValue("@Genitourinary", srm.Genitourinary);
-                cmd.Parameters.AddWithValue("@ENT", srm.ENT);
+                cmd.Parameters.AddWithValue("@ENT", srm.Ent);
                 cmd.Parameters.AddWithValue("@Immunological", srm.Immunological);
                 cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
                 cmd.Parameters.AddWithValue("@UserId", srm.UserId);
@@ -351,25 +351,20 @@ namespace LeHealth.Core.DataManager
         }
 
         //
-        public SymptomReviewModel InsertMedicalDecision(SymptomReviewModel srm)
+        public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel srm)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertReviewOfSymptoms", con);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertMedicalDecision", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SRMId", srm.SRMId);
-                cmd.Parameters.AddWithValue("@Constitutional", srm.Constitutional);
-                cmd.Parameters.AddWithValue("@Respiratory", srm.Respiratory);
-                cmd.Parameters.AddWithValue("@Phychiatry", srm.Phychiatry);
-                cmd.Parameters.AddWithValue("@Gastrointestinial", srm.Gastrointestinial);
-                cmd.Parameters.AddWithValue("@Hemotology", srm.Hemotology);
-                cmd.Parameters.AddWithValue("@Neurological", srm.Neurological);
-                cmd.Parameters.AddWithValue("@Skin", srm.Skin);
-                cmd.Parameters.AddWithValue("@Cardiovascular", srm.Cardiovascular);
-                cmd.Parameters.AddWithValue("@Endocrinal", srm.Endocrinal);
-                cmd.Parameters.AddWithValue("@Genitourinary", srm.Genitourinary);
-                cmd.Parameters.AddWithValue("@ENT", srm.ENT);
-                cmd.Parameters.AddWithValue("@Immunological", srm.Immunological);
+                cmd.Parameters.AddWithValue("@MDId", srm.MDId);
+                cmd.Parameters.AddWithValue("@LabOrder", srm.LabOrder);
+                cmd.Parameters.AddWithValue("@RadiologyOrder", srm.RadiologyOrder);
+                cmd.Parameters.AddWithValue("@TreatmentOrder", srm.TreatmentOrder);
+                cmd.Parameters.AddWithValue("@OldMedicalRecord", srm.OldMedicalRecord);
+                cmd.Parameters.AddWithValue("@ReferToPhysician", srm.ReferToPhysician);
+                cmd.Parameters.AddWithValue("@DifferencialDiagnosis", srm.DifferencialDiagnosis);
+                cmd.Parameters.AddWithValue("@Eligibility", srm.Eligibility);
                 cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
                 cmd.Parameters.AddWithValue("@UserId", srm.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -389,7 +384,7 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    srm.SRMId = Convert.ToInt32(ret);
+                    srm.MDId = Convert.ToInt32(ret);
                 }
                 else
                 {
@@ -399,11 +394,11 @@ namespace LeHealth.Core.DataManager
             }
             return srm;
         }
-        public List<SymptomReviewModel> GetMedicalDecision(SymptomReviewModel srm) 
+        public List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel srm)
         {
-            List<SymptomReviewModel> rosData = new List<SymptomReviewModel>();
+            List<MedicalDecisionModel> rosData = new List<MedicalDecisionModel>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetReviewOfSymptoms", con);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMedicalDecision", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
@@ -415,7 +410,7 @@ namespace LeHealth.Core.DataManager
             con.Close();
             if ((ds != null) && (ds.Rows.Count > 0))
             {
-                rosData = ds.ToListOfObject<SymptomReviewModel>();
+                rosData = ds.ToListOfObject<MedicalDecisionModel>();
             }
             return rosData;
         }

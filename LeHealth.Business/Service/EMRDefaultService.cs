@@ -51,6 +51,15 @@ namespace LeHealth.Service.Service
             return masterdataManager.GetReviewOfSymptoms(srm); 
         }
 
+        public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel pe)
+        {
+            return masterdataManager.InsertMedicalDecision(pe);
+        }
+        public List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel emr)
+        {
+            return masterdataManager.GetMedicalDecision(emr);
+        }
+
         public List<VisitModel> GetVisitDetails(VisitModel visit)
         {
             return masterdataManager.GetVisitDetails(visit);

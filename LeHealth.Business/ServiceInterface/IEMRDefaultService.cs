@@ -16,6 +16,9 @@ namespace LeHealth.Service.ServiceInterface
         List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel schedule);
         SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm);
         List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm);
+
+        MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel srm);
+        List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel srm);
         List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }

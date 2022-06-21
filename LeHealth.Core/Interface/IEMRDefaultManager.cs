@@ -16,6 +16,9 @@ namespace LeHealth.Core.Interface
         List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel pem);
         SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm);
         List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm);
+
+        MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel srm);
+        List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel srm);
         List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }

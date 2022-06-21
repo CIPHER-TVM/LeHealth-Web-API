@@ -349,6 +349,83 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+
+        //
+        [Route("InsertUpdateMedicalDecision")]
+        [HttpPost]
+        public ResponseDataModel<MedicalDecisionModel> InsertMedicalDecision(MedicalDecisionModel pe)
+        {
+            try
+            {
+                string message = string.Empty;
+                MedicalDecisionModel vm = new MedicalDecisionModel();
+                vm = masterdataService.InsertMedicalDecision(pe);
+                if (vm.MDId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<MedicalDecisionModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = pe,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<MedicalDecisionModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("GetMedicalDecision")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<MedicalDecisionModel>> GetMedicalDecision(MedicalDecisionModel cmfma)
+        {
+            try
+            {
+                List<MedicalDecisionModel> cptList = new List<MedicalDecisionModel>();
+                cptList = masterdataService.GetMedicalDecision(cmfma);
+                var response = new ResponseDataModel<IEnumerable<MedicalDecisionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<MedicalDecisionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //
         [Route("GetVisitDetails")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<VisitModel>> GetVisitDetails(VisitModel visit)
