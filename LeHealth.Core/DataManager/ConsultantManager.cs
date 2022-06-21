@@ -280,33 +280,34 @@ namespace LeHealth.Core.DataManager
                             //cmdGetMenu.Transaction = transaction;
                             cmdGetMenu.ExecuteNonQuery();
                             string sub = subjson.Value.ToString();
-                            if (sub != null)
+                            if (sub != null && sub.Length > 0)
                             {
                                 objMenu.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
+
+                                List<int> subMenuIds = objMenu.subMenuIds.Select(x => x.submenuId).ToList();
+                                var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
+                                var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
+                                SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
+                                cmdSaveMenu.CommandType = CommandType.StoredProcedure;
+                                cmdSaveMenu.Parameters.AddWithValue("@P_UserId", userId);
+                                cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
+                                cmdSaveMenu.Parameters.AddWithValue("@P_SubmenuIds", jsonSubMenuIds);
+                                cmdSaveMenu.Parameters.AddWithValue("@P_Groups", jsonGroupIds);
+                                SqlParameter retValSaveMenu = new SqlParameter("@RetVal", SqlDbType.Int)
+                                {
+                                    Direction = ParameterDirection.Output
+                                };
+                                cmdSaveMenu.Parameters.Add(retValSaveMenu);
+                                SqlParameter retDescSaveMenu = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                                {
+                                    Direction = ParameterDirection.Output
+                                };
+                                cmdSaveMenu.Parameters.Add(retDescSaveMenu);
+                                //cmdSaveMenu.Transaction = transaction;
+                                cmdSaveMenu.ExecuteNonQuery();
+                                var retp = retValSaveMenu.Value;
+                                var descriptio = retDescSaveMenu.Value.ToString();
                             }
-                            List<int> subMenuIds = objMenu.subMenuIds.Select(x => x.submenuId).ToList();
-                            var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
-                            var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
-                            SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
-                            cmdSaveMenu.CommandType = CommandType.StoredProcedure;
-                            cmdSaveMenu.Parameters.AddWithValue("@P_UserId", userId);
-                            cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
-                            cmdSaveMenu.Parameters.AddWithValue("@P_SubmenuIds", jsonSubMenuIds);
-                            cmdSaveMenu.Parameters.AddWithValue("@P_Groups", jsonGroupIds);
-                            SqlParameter retValSaveMenu = new SqlParameter("@RetVal", SqlDbType.Int)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            cmdSaveMenu.Parameters.Add(retValSaveMenu);
-                            SqlParameter retDescSaveMenu = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            cmdSaveMenu.Parameters.Add(retDescSaveMenu);
-                            //cmdSaveMenu.Transaction = transaction;
-                            cmdSaveMenu.ExecuteNonQuery();
-                            var retp = retValSaveMenu.Value;
-                            var descriptio = retDescSaveMenu.Value.ToString();
                         }
                         else
                         {

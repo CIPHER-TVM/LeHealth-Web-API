@@ -22,5 +22,6 @@ namespace LeHealth.Entity.DataModel
         public int VisitId { get; set; } 
         public int PatientId { get; set; }  
         public int ShowAll { get; set; }   
+        public string VisitDate { get; set; }    
     }
 }

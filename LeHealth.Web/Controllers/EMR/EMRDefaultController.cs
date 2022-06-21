@@ -105,7 +105,7 @@ namespace LeHealth.Base.API.Controllers.EMR
                 var response = new ResponseDataModel<VisitModel>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response= vm,
+                    Response = vm,
                     Message = message
                 };
                 return response;
@@ -351,7 +351,7 @@ namespace LeHealth.Base.API.Controllers.EMR
 
         [Route("GetVisitDetails")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<VisitModel>> GetVisitDetails(VisitModel visit) 
+        public ResponseDataModel<IEnumerable<VisitModel>> GetVisitDetails(VisitModel visit)
         {
             try
             {
