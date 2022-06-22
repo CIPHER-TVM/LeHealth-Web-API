@@ -24,6 +24,8 @@ namespace LeHealth.Entity.DataModel
         public int TradeId { get; set; }
         public int IsDeleted { get; set; }
         public int ZoneId { get; set; }
+        public string DosageForm { get; set; }
+        public int IsDisplayed { get; set; }
         public ScientificNameModel ScientificNameDetails { get; set; }
         public RouteModel RouteDetails { get; set; }
         public TradeNameModel TradeNameDetails { get; set; }
@@ -33,6 +35,6 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
+
     }
 }

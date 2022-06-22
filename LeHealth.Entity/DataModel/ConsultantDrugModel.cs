@@ -11,6 +11,7 @@ namespace LeHealth.Entity.DataModel
         public int DrugId { get; set; }
         public string DrugName { get; set; }
         public string DDCCode { get; set; } 
+        public string DrugCode { get; set; }  
         public int DosageId { get; set; }
         public string Dosage { get; set; }
         public string DosageForm { get; set; }

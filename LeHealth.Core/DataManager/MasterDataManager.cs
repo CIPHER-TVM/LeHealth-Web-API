@@ -4463,21 +4463,13 @@ namespace LeHealth.Core.DataManager
                     ConsultantDrugModel obj = new ConsultantDrugModel
                     {
                         DrugId = Convert.ToInt32(dsDrug.Rows[i]["DrugId"]),
-                        DrugTypeId = Convert.ToInt32(dsDrug.Rows[i]["DrugTypeId"]),
-                        DDCCode = dsDrug.Rows[i]["DDCCode"].ToString(),
-                        ScientificNameId = Convert.ToInt32(dsDrug.Rows[i]["RouteId"]),
                         DrugName = dsDrug.Rows[i]["DrugName"].ToString(),
-
-
-
-                        DosageForm = dsDrug.Rows[i]["DosageForm"].ToString(),
-                        FormDatas = dsDrug.Rows[i]["DOSAGE_FORM_PACKAGE"].ToString(),
+                        Dosage = dsDrug.Rows[i]["DOSAGE_FORM_PACKAGE"].ToString(),
                         RouteId = Convert.ToInt32(dsDrug.Rows[i]["RouteId"]),
                         RouteDesc = dsDrug.Rows[i]["Route"].ToString(),
-                        Duration = Convert.ToInt32(dsDrug.Rows[i]["Duration"]),
+                        Duration = 9999,//Convert.ToInt32(dsDrug.Rows[i]["Duration"]);
                         BranchId = dm.BranchId,
-                        ScientificName = dsDrug.Rows[i]["ScientificName"].ToString(),
-                        IsDisplayed = Convert.ToInt32(dsDrug.Rows[i]["IsDisplayed"])
+                        ScientificName = dsDrug.Rows[i]["ScientificName"].ToString()
                     };
                     drugList.Add(obj);
                 }
@@ -5963,6 +5955,7 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DrugId", drug.DrugId);
                 cmd.Parameters.AddWithValue("@DrugCode", drug.DrugCode);
+                cmd.Parameters.AddWithValue("@DosageForm", drug.DosageForm);
                 cmd.Parameters.AddWithValue("@DrugName", drug.DrugName);
                 cmd.Parameters.AddWithValue("@Ingredient", drug.Ingredient);
                 cmd.Parameters.AddWithValue("@Form", drug.Form);
@@ -6047,6 +6040,8 @@ namespace LeHealth.Core.DataManager
                     obj.TradeId = dt.Rows[i]["TradeId"] != null ? Convert.ToInt32(dt.Rows[i]["TradeId"]) : 0;
                     obj.IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0;
                     obj.ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0;
+                    obj.DosageForm = dt.Rows[i]["DosageForm"] != null ? dt.Rows[i]["DosageForm"].ToString() : "";
+                    obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
                     obj.ScientificNameDetails = new ScientificNameModel
                     {
                         ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,

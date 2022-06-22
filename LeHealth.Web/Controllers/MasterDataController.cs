@@ -4933,8 +4933,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<DrugModel>> GetDrug(DrugModelAll drug)
         {
-            try
-            {
+            //try
+            //{
                 List<DrugModel> drugs = new List<DrugModel>();
                 drugs = masterdataService.GetDrug(drug);
                 var response = new ResponseDataModel<IEnumerable<DrugModel>>()
@@ -4943,23 +4943,23 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     Response = drugs
                 };
                 return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<DrugModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by given Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<DrugModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
         [Route("InsertUpdateDeleteInformedConsent")]
         [HttpPost]
