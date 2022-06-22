@@ -151,6 +151,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@P_UserId", obj.P_UserId);
                     cmd.Parameters.AddWithValue("@P_UserName", obj.UserName);
                     cmd.Parameters.AddWithValue("@P_UserPassword", obj.UserPassword);
+                    cmd.Parameters.AddWithValue("@P_UserType", obj.UserType);
                     cmd.Parameters.AddWithValue("@P_Active", obj.Active);
                     cmd.Parameters.AddWithValue("@P_Branches", json);
                     cmd.Parameters.AddWithValue("@P_Groups", jsongroups);

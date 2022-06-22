@@ -9,6 +9,7 @@ namespace LeHealth.Entity.DataModel
         public int P_UserId { get; set; }
         public string UserName { get; set; }
         public string UserPassword { get; set; }
+        public string UserType { get; set; } 
         public bool Active { get; set; }
         public string BlockReason { get; set; }
         public string Branches { get; set; }
