@@ -1360,11 +1360,21 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
+                string message = string.Empty;
                 List<ConsultantItemModel> consultantDrugs = new List<ConsultantItemModel>();
                 consultantDrugs = consultantService.GetConsultantItemByType(cbcm);
+                if (consultantDrugs.Count == 0)
+                {
+                    message = "Empty";
+                }
+                else
+                {
+                    message = "Success";
+                }
                 var response = new ResponseDataModel<IEnumerable<ConsultantItemModel>>()
                 {
                     Status = HttpStatusCode.OK,
+                    Message = message,
                     Response = consultantDrugs
                 };
                 return response;
@@ -1637,15 +1647,15 @@ namespace LeHealth.Base.API.Controllers
             //try
             //{
 
-                ConsultantMasterModel frontOfficePBar = new ConsultantMasterModel();
-                frontOfficePBar = consultantService.GetConsultantById(consultantId);
-                frontOfficePBarList.Add(frontOfficePBar);
-                var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = frontOfficePBarList
-                };
-                return response;
+            ConsultantMasterModel frontOfficePBar = new ConsultantMasterModel();
+            frontOfficePBar = consultantService.GetConsultantById(consultantId);
+            frontOfficePBarList.Add(frontOfficePBar);
+            var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+            {
+                Status = HttpStatusCode.OK,
+                Response = frontOfficePBarList
+            };
+            return response;
             //}
             //catch (Exception ex)
             //{
