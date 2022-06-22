@@ -1983,7 +1983,8 @@ namespace LeHealth.Core.DataManager
                         CityName = dsCity.Rows[i]["CityName"].ToString(),
                         StateId = Convert.ToInt32(dsCity.Rows[i]["StateId"]),
                         CountryId = Convert.ToInt32(dsCity.Rows[i]["CountryId"]),
-                        CountryName = dsCity.Rows[i]["CountryName"].ToString()
+                        CountryName = dsCity.Rows[i]["CountryName"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsCity.Rows[i]["IsDisplayed"])
                     };
                     cityList.Add(obj);
                 }
