@@ -7,10 +7,29 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface ISponsorService
     {
-        
+        string InsertSponsorRuleGroup(SponsorGroupModel grp);
+        string DeleteSponsorRuleItem(SponsorGropuServiceItemModel itm);
+        string InsertSponsorRuleItem(SponsorGropuServiceItemModel itm);
+
+        List<SponsorGropuServiceItemModel> GetSponsorItemForRule(SponsorGropuServiceItemModel itm);
+
+        List<SponsorGroupModel> GetSponsorGroupForRule(SponsorGroupModel grp);
+
+        List<SponsorRuleModel> GetRuleDescription(SponsorRuleModel ruledesc);
+
+        string DeleteConsultantReduction(ConsultantReductionModel creduction);
+
+        string InsertConsultantReduction(ConsultantReductionModel creduction);
+        List<ConsultantReductionModel> GetConsultantReduction(ConsultantReductionModel creduction);
+        string DeleteSponsorRuleDrugList(DrugModelAll drug);
+        string InsertSponsorRuleDrugList(DrugModelAll drug);
+
+        List<DrugModelAll> GetDrugBySponsorRule(DrugModelAll drug);
+        List<SponsorRuleModel> GetSponsorRule(SponsorRuleModel sponsor);
+        List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsor);
         List<SponsorTypeModel> GetSponsorTypes();
         List<SponsorFormModel> GetSponsorForms();
-        //SponsorModel GetSponserById(Int32 @SponsorId);
+        
         List<SponsorMasterModelAll> GetAllSponsors(Int32 BranchId);
         string InsertUpdateSponsor(SponsorMasterModelAll obj);
         string DeleteAgentSponsor(SponsorModel obj);

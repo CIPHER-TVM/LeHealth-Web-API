@@ -7,7 +7,21 @@ namespace LeHealth.Core.Interface
 {
     public interface ISponsorManager
     {
-        
+        string InsertSponsorRuleGroup(SponsorGroupModel itm);
+        string DeleteSponsorRuleItem(SponsorGropuServiceItemModel itm);
+        string InsertSponsorRuleItem(SponsorGropuServiceItemModel itm);
+        List<SponsorGropuServiceItemModel> GetSponsorItemForRule(SponsorGropuServiceItemModel itm);
+        List<SponsorGroupModel> GetSponsorGroupForRule(SponsorGroupModel grp);
+        List<SponsorRuleModel> GetRuleDescription(SponsorRuleModel ruledesc);
+
+        string DeleteConsultantReduction(ConsultantReductionModel creduction);
+        string InsertConsultantReduction(ConsultantReductionModel creduction);
+        List<ConsultantReductionModel> GetConsultantReduction(ConsultantReductionModel creduction);
+        string DeleteSponsorRuleDrugList(DrugModelAll drug);
+        string InsertSponsorRuleDrugList(DrugModelAll drug);
+        List<DrugModelAll> GetDrugBySponsorRule(DrugModelAll drug);
+        List<SponsorRuleModel> GetSponsorRule(SponsorRuleModel sponsorruleid);
+        List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsorid);
         SponserConsentModelAll GetSponserConsentById(Int32 ContentId);
         List<SponserConsentModel> GetSponsorConsent(Int32 Branchid);
         List<SponsorTypeModel> GetSponsorTypes();
