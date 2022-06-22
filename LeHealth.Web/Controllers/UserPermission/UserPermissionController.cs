@@ -320,8 +320,8 @@ namespace LeHealth.Base.API.Controllers.UserPermission
         /// <param name="Id">Primary key of a user </param>
         /// <returns>User details of a specific user</returns>
         [HttpPost]
-        [Route("GetUser/{Id}")]
-        public ResponseDataModel<UserModel> GetUser(int Id)
+        [Route("GetUser")]
+        public ResponseDataModel<UserModel> GetUser([FromBody] int Id)
         {
             try
             {

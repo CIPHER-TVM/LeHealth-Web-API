@@ -4463,13 +4463,21 @@ namespace LeHealth.Core.DataManager
                     ConsultantDrugModel obj = new ConsultantDrugModel
                     {
                         DrugId = Convert.ToInt32(dsDrug.Rows[i]["DrugId"]),
+                        DrugTypeId = Convert.ToInt32(dsDrug.Rows[i]["DrugTypeId"]),
+                        DDCCode = dsDrug.Rows[i]["DDCCode"].ToString(),
+                        ScientificNameId = Convert.ToInt32(dsDrug.Rows[i]["RouteId"]),
                         DrugName = dsDrug.Rows[i]["DrugName"].ToString(),
-                        Dosage = dsDrug.Rows[i]["DOSAGE_FORM_PACKAGE"].ToString(),
+
+
+
+                        DosageForm = dsDrug.Rows[i]["DosageForm"].ToString(),
+                        FormDatas = dsDrug.Rows[i]["DOSAGE_FORM_PACKAGE"].ToString(),
                         RouteId = Convert.ToInt32(dsDrug.Rows[i]["RouteId"]),
                         RouteDesc = dsDrug.Rows[i]["Route"].ToString(),
-                        Duration = 9999,//Convert.ToInt32(dsDrug.Rows[i]["Duration"]);
+                        Duration = Convert.ToInt32(dsDrug.Rows[i]["Duration"]),
                         BranchId = dm.BranchId,
-                        ScientificName = dsDrug.Rows[i]["ScientificName"].ToString()
+                        ScientificName = dsDrug.Rows[i]["ScientificName"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsDrug.Rows[i]["IsDisplayed"])
                     };
                     drugList.Add(obj);
                 }
