@@ -108,7 +108,7 @@ namespace LeHealth.Core.DataManager
                     obj.ExternalItem = Convert.ToBoolean(dtServiceItem.Rows[i]["ExternalItem"]);
                     obj.GroupName = dtServiceItem.Rows[i]["GroupName"].ToString();
                     obj.GroupCode = dtServiceItem.Rows[i]["GroupCode"].ToString();
-                    obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
+                    obj.GroupCommPcnt = (float)Convert.ToDouble(dtServiceItem.Rows[i]["GroupCommPcnt"]);
                     obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
                     obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
                     obj.DrugTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["DrugTypeId"]);
@@ -215,6 +215,7 @@ namespace LeHealth.Core.DataManager
                 else
                 {
                     response1 = descrip1;
+                    return response1;
                 }
                 if (response1 == "Success")
                 {
@@ -754,14 +755,18 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<ItemRateModel> GetStandardRate(RateGroupModel rm)
+        public List<ItemRateModel> GetStandardRate(RateGroupModelAll rm)
         {
             List<ItemRateModel> standardRateList = new List<ItemRateModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetStandardRate", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@RGroupId", rm.RGroupId);
+            int listcount = rm.ItemIds.Count;
+            string ItemIds = "";
+            if (listcount > 0)
+                ItemIds = string.Join(",", rm.ItemIds.ToArray());
+            cmd.Parameters.AddWithValue("@ItemIds", ItemIds);
             cmd.Parameters.AddWithValue("@BranchId", rm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();
@@ -1978,7 +1983,8 @@ namespace LeHealth.Core.DataManager
                         CityName = dsCity.Rows[i]["CityName"].ToString(),
                         StateId = Convert.ToInt32(dsCity.Rows[i]["StateId"]),
                         CountryId = Convert.ToInt32(dsCity.Rows[i]["CountryId"]),
-                        CountryName = dsCity.Rows[i]["CountryName"].ToString()
+                        CountryName = dsCity.Rows[i]["CountryName"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dsCity.Rows[i]["IsDisplayed"])
                     };
                     cityList.Add(obj);
                 }
@@ -2083,11 +2089,13 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dsVitalSignList.Rows.Count; i++)
                 {
+                    int mast = Convert.ToInt32(dsVitalSignList.Rows[i]["Mandatory"]);
                     VitalSignModel obj = new VitalSignModel
                     {
                         SignId = Convert.ToInt32(dsVitalSignList.Rows[i]["SignId"]),
                         SignName = dsVitalSignList.Rows[i]["SignName"].ToString(),
-                        Mandatory = Convert.ToInt32(dsVitalSignList.Rows[i]["Mandatory"]),
+                        Mandatory = mast,
+                        MandatoryStatus = mast == 1 ? "Yes" : "No",
                         SignCode = dsVitalSignList.Rows[i]["SignCode"].ToString(),
                         SignUnit = dsVitalSignList.Rows[i]["SignUnit"].ToString(),
                         MinValue = Convert.ToDouble(dsVitalSignList.Rows[i]["MinValue"]),
@@ -3924,7 +3932,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="zoneId"></param>
         /// <returns>Zone list</returns>
-        public List<ZoneModel> GetZone(Int32 zoneId)
+        public List<ZoneModel> GetZone(ZoneModelAll zoneId)
         {
             List<ZoneModel> zoneList = new List<ZoneModel>();
 
@@ -3932,7 +3940,9 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_ZoneById", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@zoneId", zoneId);
+            cmd.Parameters.AddWithValue("@zoneId", zoneId.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", zoneId.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", zoneId.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtZoneList = new DataTable();
             adapter.Fill(dtZoneList);
@@ -5852,22 +5862,22 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTradeName", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@TradeId", tradeName.TradeId);
+                cmd.Parameters.AddWithValue("@TradeId", tradeName.TradeId);//
                 cmd.Parameters.AddWithValue("@TradeName", tradeName.TradeName);
-                cmd.Parameters.AddWithValue("@ScientificId", tradeName.ScientificId);
-                cmd.Parameters.AddWithValue("@RouteId", tradeName.RouteId);
-                cmd.Parameters.AddWithValue("@DosageForm", tradeName.DosageForm);
-                cmd.Parameters.AddWithValue("@IngredentStrength", tradeName.IngredentStrength);
-                cmd.Parameters.AddWithValue("@PackagePrice", tradeName.PackagePrice);
-                cmd.Parameters.AddWithValue("@GranularUnit", tradeName.GranularUnit);
-                cmd.Parameters.AddWithValue("@Manufacturer", tradeName.Manufacturer);
-                cmd.Parameters.AddWithValue("@RegisteredOwner", tradeName.RegisteredOwner);
+                cmd.Parameters.AddWithValue("@ScientificId", tradeName.ScientificId);//
+                cmd.Parameters.AddWithValue("@RouteId", tradeName.RouteId);//
+                cmd.Parameters.AddWithValue("@DosageForm", tradeName.DosageForm);//
+                cmd.Parameters.AddWithValue("@IngredentStrength", tradeName.IngredentStrength);//
+                cmd.Parameters.AddWithValue("@PackagePrice", tradeName.PackagePrice);//
+                cmd.Parameters.AddWithValue("@GranularUnit", tradeName.GranularUnit);//
+                cmd.Parameters.AddWithValue("@Manufacturer", tradeName.Manufacturer);//
+                cmd.Parameters.AddWithValue("@RegisteredOwner", tradeName.RegisteredOwner);//
                 cmd.Parameters.AddWithValue("@IsDisplayed", tradeName.IsDisplayed);
                 cmd.Parameters.AddWithValue("@IsDeleted", tradeName.IsDeleted);
                 cmd.Parameters.AddWithValue("@BranchId", tradeName.BranchId);
                 cmd.Parameters.AddWithValue("@TradeCode", tradeName.TradeCode);
                 cmd.Parameters.AddWithValue("@UserId", tradeName.UserId);
-                cmd.Parameters.AddWithValue("@ZoneId", tradeName.ZoneId);
+                cmd.Parameters.AddWithValue("@ZoneId", tradeName.ZoneId);//
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5946,6 +5956,7 @@ namespace LeHealth.Core.DataManager
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DrugId", drug.DrugId);
                 cmd.Parameters.AddWithValue("@DrugCode", drug.DrugCode);
+                cmd.Parameters.AddWithValue("@DosageForm", drug.DosageForm);
                 cmd.Parameters.AddWithValue("@DrugName", drug.DrugName);
                 cmd.Parameters.AddWithValue("@Ingredient", drug.Ingredient);
                 cmd.Parameters.AddWithValue("@Form", drug.Form);
@@ -6030,6 +6041,8 @@ namespace LeHealth.Core.DataManager
                     obj.TradeId = dt.Rows[i]["TradeId"] != null ? Convert.ToInt32(dt.Rows[i]["TradeId"]) : 0;
                     obj.IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0;
                     obj.ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0;
+                    obj.DosageForm = dt.Rows[i]["DosageForm"] != null ? dt.Rows[i]["DosageForm"].ToString() : "";
+                    obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
                     obj.ScientificNameDetails = new ScientificNameModel
                     {
                         ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,

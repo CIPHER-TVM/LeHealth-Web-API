@@ -33,7 +33,7 @@ namespace LeHealth.Entity.DataModel
         public int Age { get; set; }
         public int Month { get; set; }
         public string Qualification { get; set; }
-        public ConsultantAddressModel Residence { get; set; }
+        //public ConsultantAddressModel Residence { get; set; }
         public string Mobile { get; set; }
         public string ResPhone { get; set; }
         public string OffPhone { get; set; }
@@ -50,7 +50,6 @@ namespace LeHealth.Entity.DataModel
         public bool ExternalConsultant { get; set; }
         public bool ConsultantMedicationReport { get; set; }
         public int AppType { get; set; }
-        public int Active { get; set; }
         public string BlockReason { get; set; }
         public int ItemId { get; set; }
         public int UserId { get; set; }
@@ -65,15 +64,8 @@ namespace LeHealth.Entity.DataModel
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
         public List<ItemIdListCls> ItemIdList { get; set; }
-    }
-    public class ItemIdListCls
-    {
-        public int itemId { get; set; } 
-        public string itemName { get; set; }   
-    }
-    public class ConsultantAddressModel
-    {
-        public int ConsultantId { get; set; }
+
+        //Address Data Start
         public int AddType { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -83,9 +75,12 @@ namespace LeHealth.Entity.DataModel
         public string City { get; set; }
         public string State { get; set; }
         public int CountryId { get; set; }
-        public int UserId { get; set; }
-
-
+        //Address Data End
+    }
+    public class ItemIdListCls
+    {
+        public int itemId { get; set; } 
+        public string itemName { get; set; }   
     }
     public class UserSettingsModel
     {

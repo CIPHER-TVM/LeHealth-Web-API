@@ -10,13 +10,13 @@ namespace LeHealth.Entity.DataModel
         public string CityName { get; set; }
         public int StateId { get; set; }
         public int CountryId { get; set; }
-        public string CountryName { get; set; } 
+        public string CountryName { get; set; }
+        public int IsDisplayed { get; set; }
     }
-    public class CityModelAll:CityModel
+    public class CityModelAll : CityModel
     {
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
-        public int IsDisplayed { get; set; }
     }
 }

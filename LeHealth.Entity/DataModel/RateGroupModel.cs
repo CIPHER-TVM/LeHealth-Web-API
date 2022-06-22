@@ -20,6 +20,7 @@ namespace LeHealth.Entity.DataModel
     }
     public class RateGroupModelAll : RateGroupModel
     {
+        public List<int> ItemIds { get; set; }
         public int ShowAll { get; set; }
     }
     public class ItemRateInputModel

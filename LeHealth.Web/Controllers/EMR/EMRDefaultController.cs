@@ -105,7 +105,7 @@ namespace LeHealth.Base.API.Controllers.EMR
                 var response = new ResponseDataModel<VisitModel>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response= vm,
+                    Response = vm,
                     Message = message
                 };
                 return response;
@@ -129,7 +129,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
-        [Route("InsertComplaints")]
+        [Route("InsertUpdateChiefComplaints")]
         [HttpPost]
         public ResponseDataModel<ComplaintsModel> InsertComplaints(ComplaintsModel visit)
         {
@@ -138,10 +138,10 @@ namespace LeHealth.Base.API.Controllers.EMR
                 string message = string.Empty;
                 ComplaintsModel vm = new ComplaintsModel();
                 vm = masterdataService.InsertComplaints(visit);
-                //if (vm.VisitId > 0)
-                //    message = "Success";
-                //else
-                //    message = "Failure";
+                if (vm.ComplaintId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
                 var response = new ResponseDataModel<ComplaintsModel>()
                 {
                     Status = HttpStatusCode.OK,
@@ -169,9 +169,339 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("GetChiefComplaints")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ComplaintsModel>> GetChiefComplaints(ComplaintsModel cmfma)
+        {
+            try
+            {
+                List<ComplaintsModel> cptList = new List<ComplaintsModel>();
+                cptList = masterdataService.GetChiefComplaints(cmfma);
+                var response = new ResponseDataModel<IEnumerable<ComplaintsModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ComplaintsModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("InsertUpdatePhysicalExaminationDetails")]
+        [HttpPost]
+        public ResponseDataModel<PhysicalExaminationModel> InsertPEDetails(PhysicalExaminationModel pe)
+        {
+            try
+            {
+                string message = string.Empty;
+                PhysicalExaminationModel vm = new PhysicalExaminationModel();
+                vm = masterdataService.InsertPhysicalExamination(pe);
+                if (vm.PEId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PhysicalExaminationModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = pe,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PhysicalExaminationModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("GetPhysicalExaminationDetails")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PhysicalExaminationModel>> GetPEDetails(PhysicalExaminationModel cmfma)
+        {
+            try
+            {
+                List<PhysicalExaminationModel> cptList = new List<PhysicalExaminationModel>();
+                cptList = masterdataService.GetPEDetails(cmfma);
+                var response = new ResponseDataModel<IEnumerable<PhysicalExaminationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PhysicalExaminationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("InsertUpdateReviewOfSymptoms")]
+        [HttpPost]
+        public ResponseDataModel<SymptomReviewModel> InsertReviewOfSymptoms(SymptomReviewModel srm)
+        {
+            try
+            {
+                string message = string.Empty;
+                SymptomReviewModel vm = new SymptomReviewModel();
+                vm = masterdataService.InsertReviewOfSymptoms(srm);
+                if (vm.SRMId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<SymptomReviewModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = srm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<SymptomReviewModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetReviewOfSymptoms")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<SymptomReviewModel>> GetReviewOfSymptoms(SymptomReviewModel cmfma)
+        {
+            try
+            {
+                List<SymptomReviewModel> cptList = new List<SymptomReviewModel>();
+                cptList = masterdataService.GetReviewOfSymptoms(cmfma);
+                var response = new ResponseDataModel<IEnumerable<SymptomReviewModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SymptomReviewModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("InsertUpdateMedicalDecision")]
+        [HttpPost]
+        public ResponseDataModel<MedicalDecisionModel> InsertMedicalDecision(MedicalDecisionModel pe)
+        {
+            try
+            {
+                string message = string.Empty;
+                MedicalDecisionModel vm = new MedicalDecisionModel();
+                vm = masterdataService.InsertMedicalDecision(pe);
+                if (vm.MDId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<MedicalDecisionModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = pe,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<MedicalDecisionModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("GetMedicalDecision")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<MedicalDecisionModel>> GetMedicalDecision(MedicalDecisionModel cmfma)
+        {
+            try
+            {
+                List<MedicalDecisionModel> cptList = new List<MedicalDecisionModel>();
+                cptList = masterdataService.GetMedicalDecision(cmfma);
+                var response = new ResponseDataModel<IEnumerable<MedicalDecisionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<MedicalDecisionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        //
+        [Route("InsertUpdatePlanAndProcedure")]
+        [HttpPost]
+        public ResponseDataModel<PlanAndProcedureModel> InsertPlanAndProcedure(PlanAndProcedureModel pe)
+        {
+            try
+            {
+                string message = string.Empty;
+                PlanAndProcedureModel vm = new PlanAndProcedureModel();
+                vm = masterdataService.InsertPlanAndProcedure(pe);
+                if (vm.PapId > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PlanAndProcedureModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = pe,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PlanAndProcedureModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("GetPlanAndProcedure")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PlanAndProcedureModel>> GetPlanAndProcedure(PlanAndProcedureModel cmfma)
+        {
+            try
+            {
+                List<PlanAndProcedureModel> cptList = new List<PlanAndProcedureModel>();
+                cptList = masterdataService.GetPlanAndProcedure(cmfma);
+                var response = new ResponseDataModel<IEnumerable<PlanAndProcedureModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PlanAndProcedureModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        //
         [Route("GetVisitDetails")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<VisitModel>> GetVisitDetails(VisitModel visit) 
+        public ResponseDataModel<IEnumerable<VisitModel>> GetVisitDetails(VisitModel visit)
         {
             try
             {

@@ -11,7 +11,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem);
         string DeleteCommonMasterItem(CommonMasterFieldModelAll masterItem);
         List<CommonMasterFieldModel> GetCommonMasterItem(CommonMasterFieldModelAll ccm); 
-        List<ItemRateModel> GetStandardRate(RateGroupModel ccm); 
+        List<ItemRateModel> GetStandardRate(RateGroupModelAll ccm); 
         List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm); 
         List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm);  
         string InsertUpdateServiceItem(ServiceConfigModelAll serviceitem);
@@ -107,7 +107,7 @@ namespace LeHealth.Service.ServiceInterface
         List<FormValidationModel> GetFormFields(Int32 Id);
         List<FormValidationModel> GetFormMaster();
         string InsertUpdateDeleteZone(ZoneModelAll zone);
-        List<ZoneModel> GetZone(Int32 zoneId);
+        List<ZoneModel> GetZone(ZoneModelAll zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         List<RouteModel> GetRoute(RouteModel rm);
         List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData rm);

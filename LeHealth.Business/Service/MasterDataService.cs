@@ -137,7 +137,7 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.GetItemRateAmountById(ccm);
         }
-        public List<ItemRateModel> GetStandardRate(RateGroupModel ccm)
+        public List<ItemRateModel> GetStandardRate(RateGroupModelAll ccm)
         {
             return masterdataManager.GetStandardRate(ccm);
         }
@@ -503,7 +503,7 @@ namespace LeHealth.Service.Service
             return masterdataManager.InsertUpdateDeleteZone(zone);
         }
 
-        public List<ZoneModel> GetZone(Int32 zoneId)
+        public List<ZoneModel> GetZone(ZoneModelAll zoneId)
         {
             return masterdataManager.GetZone(zoneId);
         }

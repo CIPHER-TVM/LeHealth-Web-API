@@ -10,8 +10,12 @@ namespace LeHealth.Entity.DataModel
         public int DrugTypeId { get; set; }
         public int DrugId { get; set; }
         public string DrugName { get; set; }
+        public string DDCCode { get; set; } 
+        public string DrugCode { get; set; }  
         public int DosageId { get; set; }
         public string Dosage { get; set; }
+        public string DosageForm { get; set; }
+        public string FormDatas { get; set; }
         public int RouteId { get; set; }
         public string RouteDesc { get; set; }
         public int FreqId { get; set; }
@@ -19,8 +23,10 @@ namespace LeHealth.Entity.DataModel
         public int Duration { get; set; }
         public string DurationMode { get; set; }
         public string ScientificName { get; set; }
+        public int ScientificNameId { get; set; } 
         public int UserId { get; set; }
         public int BranchId { get; set; }
+        public int IsDisplayed { get; set; } 
 
 
     }

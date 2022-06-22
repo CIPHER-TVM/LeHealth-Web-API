@@ -25,11 +25,50 @@ namespace LeHealth.Service.Service
         public VisitModel InsertVisit(VisitModel visit)
         {
             return masterdataManager.InsertVisit(visit);
-        } 
+        }
         public ComplaintsModel InsertComplaints(ComplaintsModel visit)
         {
             return masterdataManager.InsertComplaints(visit);
         }
+        public List<ComplaintsModel> GetChiefComplaints(ComplaintsModel emr)
+        {
+            return masterdataManager.GetChiefComplaints(emr);
+        }
+        public PhysicalExaminationModel InsertPhysicalExamination(PhysicalExaminationModel pe)
+        {
+            return masterdataManager.InsertPhysicalExamination(pe);
+        }
+        public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel emr)
+        {
+            return masterdataManager.GetPEDetails(emr);
+        }
+        public SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm)
+        {
+            return masterdataManager.InsertReviewOfSymptoms(srm);
+        }
+        public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm)
+        {
+            return masterdataManager.GetReviewOfSymptoms(srm); 
+        }
+
+        public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel pe)
+        {
+            return masterdataManager.InsertMedicalDecision(pe);
+        }
+        public List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel emr)
+        {
+            return masterdataManager.GetMedicalDecision(emr);
+        }
+
+        public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel pe)
+        {
+            return masterdataManager.InsertPlanAndProcedure(pe);
+        }
+        public List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel emr)
+        {
+            return masterdataManager.GetPlanAndProcedure(emr);
+        }
+
         public List<VisitModel> GetVisitDetails(VisitModel visit)
         {
             return masterdataManager.GetVisitDetails(visit);

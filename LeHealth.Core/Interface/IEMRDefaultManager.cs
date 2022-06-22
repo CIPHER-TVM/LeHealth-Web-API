@@ -7,10 +7,21 @@ namespace LeHealth.Core.Interface
 {
     public interface IEMRDefaultManager
     {
-        List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll schedule);
-        List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel schedule);
+        List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll consultation);
+        List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel pbm);
         VisitModel InsertVisit(VisitModel visit);
-        ComplaintsModel InsertComplaints(ComplaintsModel complaints); 
+        ComplaintsModel InsertComplaints(ComplaintsModel complaints);
+        List<ComplaintsModel> GetChiefComplaints(ComplaintsModel complaints);
+        PhysicalExaminationModel InsertPhysicalExamination(PhysicalExaminationModel pem);
+        List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel pem);
+        SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm);
+        List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm);
+
+        MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel srm);
+        List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel srm);
+
+        PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm);
+        List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel srm);
         List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }

@@ -154,6 +154,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@AssociatedSigns", complaints.AssociatedSigns);
                 cmd.Parameters.AddWithValue("@ChiefComplaintsBy", complaints.ChiefComplaintsBy);
                 cmd.Parameters.AddWithValue("@PainScale", complaints.PainScale);
+                cmd.Parameters.AddWithValue("@VisitId", complaints.VisitId);
                 cmd.Parameters.AddWithValue("@UserId", complaints.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -172,7 +173,7 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    //complaints.VisitId = Convert.ToInt32(ret);
+                    complaints.ComplaintId = Convert.ToInt32(ret);
                 }
                 else
                 {
@@ -182,7 +183,363 @@ namespace LeHealth.Core.DataManager
             }
             return complaints;
         }
+        public List<ComplaintsModel> GetChiefComplaints(ComplaintsModel visit)
+        {
+            List<ComplaintsModel> visitData = new List<ComplaintsModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetChiefComplaints", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", visit.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                visitData = ds.ToListOfObject<ComplaintsModel>();
 
+            }
+            return visitData;
+        }
+
+
+        public PhysicalExaminationModel InsertPhysicalExamination(PhysicalExaminationModel pe)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertPhysicalExamination", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PEId", pe.PEId);
+                cmd.Parameters.AddWithValue("@Constitution", pe.Constitution);
+                cmd.Parameters.AddWithValue("@Gastrointestinial", pe.Gastrointestinial);
+                cmd.Parameters.AddWithValue("@Genitourinary", pe.Genitourinary);
+                cmd.Parameters.AddWithValue("@Eyes", pe.Eyes);
+                cmd.Parameters.AddWithValue("@ENT", pe.ENT);
+                cmd.Parameters.AddWithValue("@Neck", pe.Neck);
+                cmd.Parameters.AddWithValue("@Skin", pe.Skin);
+                cmd.Parameters.AddWithValue("@Breast", pe.Breast);
+                cmd.Parameters.AddWithValue("@Respiratory", pe.Respiratory);
+                cmd.Parameters.AddWithValue("@Muscleoskle", pe.Muscleoskle);
+                cmd.Parameters.AddWithValue("@Psychiarty", pe.Psychiarty);
+                cmd.Parameters.AddWithValue("@Cardiovascular", pe.Cardiovascular);
+                cmd.Parameters.AddWithValue("@Neurological", pe.Neurological);
+                cmd.Parameters.AddWithValue("@Hemotology", pe.Hemotology);
+                cmd.Parameters.AddWithValue("@Thyroid", pe.Thyroid);
+                cmd.Parameters.AddWithValue("@Abdomen", pe.Abdomen);
+                cmd.Parameters.AddWithValue("@Pelvis", pe.Pelvis);
+                cmd.Parameters.AddWithValue("@Others", pe.Others);
+                cmd.Parameters.AddWithValue("@VisitId", pe.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", pe.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    pe.PEId = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return pe;
+        }
+        public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel visit)
+        {
+            List<PhysicalExaminationModel> peData = new List<PhysicalExaminationModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPEDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", visit.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                peData = ds.ToListOfObject<PhysicalExaminationModel>();
+            }
+            return peData;
+        }
+
+        public SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertReviewOfSymptoms", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SRMId", srm.SRMId);
+                cmd.Parameters.AddWithValue("@Constitutional", srm.Constitutional);
+                cmd.Parameters.AddWithValue("@Respiratory", srm.Respiratory);
+                cmd.Parameters.AddWithValue("@Phychiatry", srm.Phychiatry);
+                cmd.Parameters.AddWithValue("@Gastrointestinial", srm.Gastrointestinial);
+                cmd.Parameters.AddWithValue("@Hemotology", srm.Hemotology);
+                cmd.Parameters.AddWithValue("@Neurological", srm.Neurological);
+                cmd.Parameters.AddWithValue("@Skin", srm.Skin);
+                cmd.Parameters.AddWithValue("@Cardiovascular", srm.Cardiovascular);
+                cmd.Parameters.AddWithValue("@Endocrinal", srm.Endocrinal);
+                cmd.Parameters.AddWithValue("@Genitourinary", srm.Genitourinary);
+                cmd.Parameters.AddWithValue("@ENT", srm.Ent);
+                cmd.Parameters.AddWithValue("@Immunological", srm.Immunological);
+                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    srm.SRMId = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return srm;
+        }
+        public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm)
+        {
+            List<SymptomReviewModel> rosData = new List<SymptomReviewModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetReviewOfSymptoms", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                rosData = ds.ToListOfObject<SymptomReviewModel>();
+            }
+            return rosData;
+        }
+
+        //
+        public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel srm)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertMedicalDecision", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@MDId", srm.MDId);
+                cmd.Parameters.AddWithValue("@LabOrder", srm.LabOrder);
+                cmd.Parameters.AddWithValue("@RadiologyOrder", srm.RadiologyOrder);
+                cmd.Parameters.AddWithValue("@TreatmentOrder", srm.TreatmentOrder);
+                cmd.Parameters.AddWithValue("@OldMedicalRecord", srm.OldMedicalRecord);
+                cmd.Parameters.AddWithValue("@ReferToPhysician", srm.ReferToPhysician);
+                cmd.Parameters.AddWithValue("@DifferencialDiagnosis", srm.DifferencialDiagnosis);
+                cmd.Parameters.AddWithValue("@Eligibility", srm.Eligibility);
+                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    srm.MDId = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return srm;
+        }
+        public List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel srm)
+        {
+            List<MedicalDecisionModel> rosData = new List<MedicalDecisionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMedicalDecision", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                rosData = ds.ToListOfObject<MedicalDecisionModel>();
+            }
+            return rosData;
+        }
+
+        public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertPlanAndProcedure", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PapId", srm.PapId);
+                cmd.Parameters.AddWithValue("@PlanAndProcedure", srm.PlanAndProcedure);
+                cmd.Parameters.AddWithValue("@PatientInstruction", srm.PatientInstruction);
+                cmd.Parameters.AddWithValue("@FollowUp", srm.FollowUp);
+                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    srm.PapId = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return srm;
+        }
+        public List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel srm)
+        {
+            List<PlanAndProcedureModel> rosData = new List<PlanAndProcedureModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPlanAndProcedure", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                rosData = ds.ToListOfObject<PlanAndProcedureModel>();
+            }
+            return rosData;
+        }
+
+        //
+        public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel srm) 
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertMenstrualHistory", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Mid", srm.Mid);
+                cmd.Parameters.AddWithValue("@Menarche", srm.Menarche);
+                cmd.Parameters.AddWithValue("@Cycle", srm.Cycle);
+                cmd.Parameters.AddWithValue("@Lmp", srm.Lmp);
+                cmd.Parameters.AddWithValue("@Flow", srm.Flow);
+                cmd.Parameters.AddWithValue("@Contraception", srm.Contraception);
+                cmd.Parameters.AddWithValue("@PapSmear", srm.PapSmear);
+                cmd.Parameters.AddWithValue("@Memogram", srm.Memogram);
+                cmd.Parameters.AddWithValue("@ObstertrichHistory", srm.ObstertrichHistory);
+                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    srm.Mid = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return srm;
+        }
+        public List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel srm)
+        {
+            List<MenstrualHistoryModel> rosData = new List<MenstrualHistoryModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetMenstrualHistory", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                rosData = ds.ToListOfObject<MenstrualHistoryModel>();
+            }
+            return rosData;
+        }
 
     }
 }

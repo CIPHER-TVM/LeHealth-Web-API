@@ -180,7 +180,7 @@ namespace LeHealth.Core.DataManager
         {
             string response = "";
             //SqlTransaction transaction;
-            int userId = 0;
+            int ConsultantUserId = 0;
             int ConsultantId = 0;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -198,7 +198,7 @@ namespace LeHealth.Core.DataManager
                         var jsongroups = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
                         cmdSaveUser.Parameters.AddWithValue("@P_UserName", consultant.UserData.UserName);
                         cmdSaveUser.Parameters.AddWithValue("@P_UserPassword", consultant.UserData.UserPassword);
-                        cmdSaveUser.Parameters.AddWithValue("@P_UserId", consultant.UserData.UserId);
+                        cmdSaveUser.Parameters.AddWithValue("@P_UserId", consultant.UserData.P_UserId);
                         cmdSaveUser.Parameters.AddWithValue("@P_UserType", "G");
                         cmdSaveUser.Parameters.AddWithValue("@P_Active", 1);
                         cmdSaveUser.Parameters.AddWithValue("@P_Branches", json);
@@ -219,19 +219,19 @@ namespace LeHealth.Core.DataManager
                         string usersaveoutput = retDesc.Value.ToString();
                         if (retVal.Value != System.DBNull.Value)
                         {
-                            userId = (int)retVal.Value;
+                            ConsultantUserId = (int)retVal.Value;
                             string asdf = "";
                             //transaction.Commit();
                         }
                         else
                         {
-                            userId = 0;
+                            ConsultantUserId = 0;
                             //transaction.Rollback();
                             return usersaveoutput;//"Username already exists";
                         }
                         string descr = retDesc.Value.ToString();
                         response = descr;
-                        if (userId > 0)//Inserted / Updated Successfully
+                        if (ConsultantUserId > 0)//Inserted / Updated Successfully
                         {
                             if (consultant.LocationIds != null)
                             {
@@ -239,7 +239,7 @@ namespace LeHealth.Core.DataManager
                                 List<int> locationIds = consultant.LocationIds.Select(x => x.LocationId).ToList();
                                 var jsonLocationId = JsonConvert.SerializeObject(locationIds);
                                 cmdSaveLocation.CommandType = CommandType.StoredProcedure;
-                                cmdSaveLocation.Parameters.AddWithValue("@P_UserId", userId);
+                                cmdSaveLocation.Parameters.AddWithValue("@P_UserId", ConsultantUserId);
                                 cmdSaveLocation.Parameters.AddWithValue("@P_Locations", jsonLocationId);
                                 SqlParameter retValSaveLocation = new SqlParameter("@RetVal", SqlDbType.Int)
                                 {
@@ -264,7 +264,7 @@ namespace LeHealth.Core.DataManager
                             jsonIntgroups = jsonIntgroups.Replace("]", "");
                             SqlCommand cmdGetMenu = new SqlCommand("stLH_GetMenuongroups", con);
                             cmdGetMenu.CommandType = CommandType.StoredProcedure;
-                            cmdGetMenu.Parameters.AddWithValue("@P_UserId", userId);
+                            cmdGetMenu.Parameters.AddWithValue("@P_UserId", ConsultantUserId);
                             cmdGetMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
                             cmdGetMenu.Parameters.AddWithValue("@P_GroupIds", jsonIntgroups);
                             SqlParameter retjson = new SqlParameter("@RetJSON", SqlDbType.NVarChar, -1)
@@ -280,33 +280,34 @@ namespace LeHealth.Core.DataManager
                             //cmdGetMenu.Transaction = transaction;
                             cmdGetMenu.ExecuteNonQuery();
                             string sub = subjson.Value.ToString();
-                            if (sub != null)
+                            if (sub != null && sub.Length > 0)
                             {
                                 objMenu.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
+
+                                List<int> subMenuIds = objMenu.subMenuIds.Select(x => x.submenuId).ToList();
+                                var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
+                                var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
+                                SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
+                                cmdSaveMenu.CommandType = CommandType.StoredProcedure;
+                                cmdSaveMenu.Parameters.AddWithValue("@P_UserId", ConsultantUserId);
+                                cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
+                                cmdSaveMenu.Parameters.AddWithValue("@P_SubmenuIds", jsonSubMenuIds);
+                                cmdSaveMenu.Parameters.AddWithValue("@P_Groups", jsonGroupIds);
+                                SqlParameter retValSaveMenu = new SqlParameter("@RetVal", SqlDbType.Int)
+                                {
+                                    Direction = ParameterDirection.Output
+                                };
+                                cmdSaveMenu.Parameters.Add(retValSaveMenu);
+                                SqlParameter retDescSaveMenu = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                                {
+                                    Direction = ParameterDirection.Output
+                                };
+                                cmdSaveMenu.Parameters.Add(retDescSaveMenu);
+                                //cmdSaveMenu.Transaction = transaction;
+                                cmdSaveMenu.ExecuteNonQuery();
+                                var retp = retValSaveMenu.Value;
+                                var descriptio = retDescSaveMenu.Value.ToString();
                             }
-                            List<int> subMenuIds = objMenu.subMenuIds.Select(x => x.submenuId).ToList();
-                            var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
-                            var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);
-                            SqlCommand cmdSaveMenu = new SqlCommand("stLH_SaveUserMenus", con);
-                            cmdSaveMenu.CommandType = CommandType.StoredProcedure;
-                            cmdSaveMenu.Parameters.AddWithValue("@P_UserId", userId);
-                            cmdSaveMenu.Parameters.AddWithValue("@P_BranchId", consultant.BranchId);
-                            cmdSaveMenu.Parameters.AddWithValue("@P_SubmenuIds", jsonSubMenuIds);
-                            cmdSaveMenu.Parameters.AddWithValue("@P_Groups", jsonGroupIds);
-                            SqlParameter retValSaveMenu = new SqlParameter("@RetVal", SqlDbType.Int)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            cmdSaveMenu.Parameters.Add(retValSaveMenu);
-                            SqlParameter retDescSaveMenu = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                            {
-                                Direction = ParameterDirection.Output
-                            };
-                            cmdSaveMenu.Parameters.Add(retDescSaveMenu);
-                            //cmdSaveMenu.Transaction = transaction;
-                            cmdSaveMenu.ExecuteNonQuery();
-                            var retp = retValSaveMenu.Value;
-                            var descriptio = retDescSaveMenu.Value.ToString();
                         }
                         else
                         {
@@ -322,6 +323,7 @@ namespace LeHealth.Core.DataManager
                     string Itemidlist = JsonConvert.SerializeObject(consultant.ItemIdList);
                     SqlCommand cmdSaveConsultant = new SqlCommand("stLH_InsertUpdateConsultant", con);
                     cmdSaveConsultant.CommandType = CommandType.StoredProcedure;
+                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantUserId", ConsultantUserId);
                     cmdSaveConsultant.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
                     cmdSaveConsultant.Parameters.AddWithValue("@DeptId", consultant.DeptId);
                     cmdSaveConsultant.Parameters.AddWithValue("@ConsultantCode", consultant.ConsultantCode);
@@ -351,9 +353,9 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@BranchId", consultant.BranchId);
                     cmdSaveConsultant.Parameters.AddWithValue("@ItemIdList", Itemidlist);
                     cmdSaveConsultant.Parameters.AddWithValue("@DrugRefType", consultant.DrugRefType);
-                    cmdSaveConsultant.Parameters.AddWithValue("@Active", consultant.Active);
+                    cmdSaveConsultant.Parameters.AddWithValue("@Active", true);
                     cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
-                    cmdSaveConsultant.Parameters.AddWithValue("@UserId", userId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@UserId", consultant.UserId);
                     cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
                     cmdSaveConsultant.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
                     cmdSaveConsultant.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
@@ -383,17 +385,17 @@ namespace LeHealth.Core.DataManager
                     {
                         SqlCommand cmdSaveAddress = new SqlCommand("stLH_InsertUpdateConsultantAddress", con);
                         cmdSaveAddress.CommandType = CommandType.StoredProcedure;
-                        cmdSaveAddress.Parameters.AddWithValue("@UserId", userId);
                         cmdSaveAddress.Parameters.AddWithValue("@ConsultantId", ConsultantId);
-                        cmdSaveAddress.Parameters.AddWithValue("@Address1", consultant.Residence.Address1);
-                        cmdSaveAddress.Parameters.AddWithValue("@Address2", consultant.Residence.Address2);
-                        cmdSaveAddress.Parameters.AddWithValue("@AddType", consultant.Residence.AddType);
-                        cmdSaveAddress.Parameters.AddWithValue("@City", consultant.Residence.City);
-                        cmdSaveAddress.Parameters.AddWithValue("@CountryId", consultant.Residence.CountryId);
-                        cmdSaveAddress.Parameters.AddWithValue("@PlacePO", consultant.Residence.PlacePO);
-                        cmdSaveAddress.Parameters.AddWithValue("@PIN", consultant.Residence.PIN);
-                        cmdSaveAddress.Parameters.AddWithValue("@State", consultant.Residence.State);
-                        cmdSaveAddress.Parameters.AddWithValue("@Street", consultant.Residence.Street);
+                        cmdSaveAddress.Parameters.AddWithValue("@Address1", consultant.Address1);
+                        cmdSaveAddress.Parameters.AddWithValue("@Address2", consultant.Address2);
+                        cmdSaveAddress.Parameters.AddWithValue("@AddType", consultant.AddType);
+                        cmdSaveAddress.Parameters.AddWithValue("@City", consultant.City);
+                        cmdSaveAddress.Parameters.AddWithValue("@CountryId", consultant.CountryId);
+                        cmdSaveAddress.Parameters.AddWithValue("@PlacePO", consultant.PlacePO);
+                        cmdSaveAddress.Parameters.AddWithValue("@PIN", consultant.PIN);
+                        cmdSaveAddress.Parameters.AddWithValue("@State", consultant.State);
+                        cmdSaveAddress.Parameters.AddWithValue("@Street", consultant.Street);
+                        cmdSaveAddress.Parameters.AddWithValue("@UserId", consultant.UserId);
                         SqlParameter retValSaveAddress = new SqlParameter("@RetVal", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
@@ -417,7 +419,6 @@ namespace LeHealth.Core.DataManager
                             response = patadrReturnDesc1V;
                         }
                         con.Close();
-
                     }
 
 
@@ -2163,30 +2164,21 @@ namespace LeHealth.Core.DataManager
                 DataTable dsAddress = new DataTable();
                 adapter3.Fill(dsAddress);
                 con.Close();
-                ConsultantAddressModel consultantAddress = new ConsultantAddressModel();
                 if ((dsAddress != null) && (dsAddress.Rows.Count > 0))
                 {
-                    consultantAddress = dsAddress.ToObject<ConsultantAddressModel>();
-                    for (Int32 i = 0; i < dsAddress.Rows.Count; i++)
-                    {
-                        consultantAddress.Address1 = dsAddress.Rows[i]["Address1"] != null ? dsAddress.Rows[i]["Address1"].ToString() : "";
-                        consultantAddress.Address2 = dsAddress.Rows[i]["Address2"] != null ? dsAddress.Rows[i]["Address2"].ToString() : "";
-                        consultantAddress.AddType = dsAddress.Rows[i]["AddType"] != null ? Convert.ToInt32(dsAddress.Rows[i]["AddType"]) : 0;
-                        consultantAddress.City = dsAddress.Rows[i]["City"] != null ? dsAddress.Rows[i]["City"].ToString() : "";
-                        consultantAddress.ConsultantId = dsAddress.Rows[i]["ConsultantId"] != null ? Convert.ToInt32(dsAddress.Rows[i]["ConsultantId"]) : 0;
-                        consultantAddress.CountryId = dsAddress.Rows[i]["CountryId"] != null ? Convert.ToInt32(dsAddress.Rows[i]["CountryId"]) : 0;
-                        consultantAddress.PIN = dsAddress.Rows[i]["PIN"] != null ? dsAddress.Rows[i]["PIN"].ToString() : "";
-                        consultantAddress.PlacePO = dsAddress.Rows[i]["PlacePO"] != null ? dsAddress.Rows[i]["PlacePO"].ToString() : "";
-                        consultantAddress.State = dsAddress.Rows[i]["State"] != null ? dsAddress.Rows[i]["State"].ToString() : "";
-                        consultantAddress.Street = dsAddress.Rows[i]["Street"] != null ? dsAddress.Rows[i]["Street"].ToString() : "";
-                    }
+
+                    consultant.Address1 = dsAddress.Rows[0]["Address1"] != null ? dsAddress.Rows[0]["Address1"].ToString() : "";
+                    consultant.Address2 = dsAddress.Rows[0]["Address2"] != null ? dsAddress.Rows[0]["Address2"].ToString() : "";
+                    consultant.AddType = dsAddress.Rows[0]["AddType"] != null ? Convert.ToInt32(dsAddress.Rows[0]["AddType"]) : 0;
+                    consultant.City = dsAddress.Rows[0]["City"] != null ? dsAddress.Rows[0]["City"].ToString() : "";
+                    consultant.ConsultantId = dsAddress.Rows[0]["ConsultantId"] != null ? Convert.ToInt32(dsAddress.Rows[0]["ConsultantId"]) : 0;
+                    consultant.CountryId = dsAddress.Rows[0]["CountryId"] != null ? Convert.ToInt32(dsAddress.Rows[0]["CountryId"]) : 0;
+                    consultant.PIN = dsAddress.Rows[0]["PIN"] != null ? dsAddress.Rows[0]["PIN"].ToString() : "";
+                    consultant.PlacePO = dsAddress.Rows[0]["PlacePO"] != null ? dsAddress.Rows[0]["PlacePO"].ToString() : "";
+                    consultant.State = dsAddress.Rows[0]["State"] != null ? dsAddress.Rows[0]["State"].ToString() : "";
+                    consultant.Street = dsAddress.Rows[0]["Street"] != null ? dsAddress.Rows[0]["Street"].ToString() : "";
                 }
-                consultant.Residence = consultantAddress;
             }
-
-
-
-
             return consultant;
         }
         public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
@@ -2340,14 +2332,7 @@ namespace LeHealth.Core.DataManager
                         AlldaySameFlag = Convert.ToInt32(dataTable.Rows[i]["AlldaySameFlag"]),
                         UserId = Convert.ToInt32(dataTable.Rows[i]["UserId"]),
                         TimeSchedules = timeSchedules,
-
-
-
-
-
                     };
-
-
                 }
             }
             return consultant;
