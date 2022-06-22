@@ -3,6 +3,7 @@ using LeHealth.Core.Interface;
 using LeHealth.Entity.DataModel;
 
 using LeHealth.Service.ServiceInterface;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,10 +16,12 @@ namespace LeHealth.Service.Service
     {
         private readonly IConsultantManager consultantManager;
         private readonly IFileUploadService fileUploadService;
-        public ConsultantService(IConsultantManager _consultantManager, IFileUploadService _fileUploadService)
+        private readonly string _uploadpath;
+        public ConsultantService(IConsultantManager _consultantManager, IConfiguration _configuration, IFileUploadService _fileUploadService)
         {
             consultantManager = _consultantManager;
             fileUploadService = _fileUploadService;
+            _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
         /// <summary>
         ///Getting Consultation details using ConsultantId, Step two in code execution flow
@@ -40,6 +43,10 @@ namespace LeHealth.Service.Service
             if (consultant.PhotoFile != null)
             {
                 consultant.SignatureLoc = fileUploadService.SaveFile(consultant.PhotoFile, "documents");
+            }
+            else if (consultant.SignatureLoc != "")
+            {
+                consultant.SignatureLoc = consultant.SignatureLoc.Replace(_uploadpath, "");
             }
             else
             {
@@ -184,7 +191,7 @@ namespace LeHealth.Service.Service
         }
         public string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
         {
-            return consultantManager.InsertUpdateConsultantBaseCost(cbcm); 
+            return consultantManager.InsertUpdateConsultantBaseCost(cbcm);
         }
         public List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm)
         {
@@ -259,6 +266,6 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.DeleteConsultant(id);
         }
-       
+
     }
 }
