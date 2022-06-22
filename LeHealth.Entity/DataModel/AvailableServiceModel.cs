@@ -131,7 +131,7 @@ namespace LeHealth.Entity.DataModel
         public bool ExternalItem { get; set; }
         public string GroupName { get; set; }
         public string GroupCode { get; set; }
-        public int GroupCommPcnt { get; set; }
+        public float GroupCommPcnt { get; set; }
         public string Category { get; set; }
         public int GroupType { get; set; }
         public int DrugTypeId { get; set; }

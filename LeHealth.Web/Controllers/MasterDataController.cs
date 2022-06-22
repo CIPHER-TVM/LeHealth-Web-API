@@ -126,7 +126,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         }
         [Route("GetStandardRate")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ItemRateModel>> GetStandardRate(RateGroupModel cmfma)
+        public ResponseDataModel<IEnumerable<ItemRateModel>> GetStandardRate(RateGroupModelAll cmfma)
         {
             try
             {
@@ -194,8 +194,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ServiceConfigModel>> GetServiceItem(AvailableServiceModel cmfma)
         {
-            try
-            {
+            //try
+            //{
                 List<ServiceConfigModel> cptList = new List<ServiceConfigModel>();
                 cptList = masterdataService.GetServiceItem(cmfma);
                 var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
@@ -204,23 +204,23 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
                     Response = cptList
                 };
                 return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-                };
-            }
-            finally
-            {
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
 
         [Route("InsertUpdateServiceItem")]
@@ -3774,9 +3774,9 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         /// <returns>
         /// returns List of Zone as JSON
         /// </returns>
-        [Route("GetZone/{zoneId}")]
+        [Route("GetZone")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ZoneModel>> GetZone(Int32 zoneId)
+        public ResponseDataModel<IEnumerable<ZoneModel>> GetZone(ZoneModelAll zoneId)
         {
             try
             {

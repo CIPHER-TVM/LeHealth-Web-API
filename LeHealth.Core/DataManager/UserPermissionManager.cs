@@ -148,7 +148,7 @@ namespace LeHealth.Core.DataManager
                     var json = JsonConvert.SerializeObject(obj.BranchIds);
                     var jsongroups = JsonConvert.SerializeObject(obj.GroupIds);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@P_UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@P_UserId", obj.P_UserId);
                     cmd.Parameters.AddWithValue("@P_UserName", obj.UserName);
                     cmd.Parameters.AddWithValue("@P_UserPassword", obj.UserPassword);
                     cmd.Parameters.AddWithValue("@P_Active", obj.Active);

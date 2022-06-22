@@ -14,7 +14,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
-        List<ItemRateModel> GetStandardRate(RateGroupModel ccm);
+        List<ItemRateModel> GetStandardRate(RateGroupModelAll ccm);
         List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm);
         List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm); 
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
@@ -112,7 +112,7 @@ namespace LeHealth.Core.Interface
 
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
         string InsertUpdateDeleteZone(ZoneModelAll zone); 
-        List<ZoneModel> GetZone(Int32 zoneId);
+        List<ZoneModel> GetZone(ZoneModelAll zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         List<RouteModel> GetRoute(RouteModel dm);
         List<PendingItemModel> GetPendingServiceItemsByPatient(PendingItemInputData dm);

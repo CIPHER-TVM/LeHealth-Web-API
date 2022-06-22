@@ -108,7 +108,7 @@ namespace LeHealth.Core.DataManager
                     obj.ExternalItem = Convert.ToBoolean(dtServiceItem.Rows[i]["ExternalItem"]);
                     obj.GroupName = dtServiceItem.Rows[i]["GroupName"].ToString();
                     obj.GroupCode = dtServiceItem.Rows[i]["GroupCode"].ToString();
-                    obj.GroupCommPcnt = Convert.ToInt32(dtServiceItem.Rows[i]["GroupCommPcnt"]);
+                    obj.GroupCommPcnt = (float)Convert.ToDouble(dtServiceItem.Rows[i]["GroupCommPcnt"]);
                     obj.Category = dtServiceItem.Rows[i]["Category"].ToString();
                     obj.GroupType = Convert.ToInt32(dtServiceItem.Rows[i]["GroupType"]);
                     obj.DrugTypeId = Convert.ToInt32(dtServiceItem.Rows[i]["DrugTypeId"]);
@@ -215,6 +215,7 @@ namespace LeHealth.Core.DataManager
                 else
                 {
                     response1 = descrip1;
+                    return response1;
                 }
                 if (response1 == "Success")
                 {
@@ -754,14 +755,18 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<ItemRateModel> GetStandardRate(RateGroupModel rm)
+        public List<ItemRateModel> GetStandardRate(RateGroupModelAll rm)
         {
             List<ItemRateModel> standardRateList = new List<ItemRateModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetStandardRate", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@RGroupId", rm.RGroupId);
+            int listcount = rm.ItemIds.Count;
+            string ItemIds = "";
+            if (listcount > 0)
+                ItemIds = string.Join(",", rm.ItemIds.ToArray());
+            cmd.Parameters.AddWithValue("@ItemIds", ItemIds);
             cmd.Parameters.AddWithValue("@BranchId", rm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();
@@ -3925,7 +3930,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="zoneId"></param>
         /// <returns>Zone list</returns>
-        public List<ZoneModel> GetZone(Int32 zoneId)
+        public List<ZoneModel> GetZone(ZoneModelAll zoneId)
         {
             List<ZoneModel> zoneList = new List<ZoneModel>();
 
@@ -3933,7 +3938,9 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_ZoneById", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@zoneId", zoneId);
+            cmd.Parameters.AddWithValue("@zoneId", zoneId.Id);
+            cmd.Parameters.AddWithValue("@ShowAll", zoneId.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", zoneId.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtZoneList = new DataTable();
             adapter.Fill(dtZoneList);
