@@ -6,7 +6,8 @@ namespace LeHealth.Entity.DataModel
 {
    public class UserModel
     {
-        public int P_UserId { get; set; }
+        public int P_UserId { get; set; } 
+        public int UserId { get; set; }//Same As P_UserId
         public string UserName { get; set; }
         public string UserPassword { get; set; }
         public string UserType { get; set; } 
