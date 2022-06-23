@@ -1165,7 +1165,7 @@ namespace LeHealth.Core.DataManager
         {
             List<ConsultationByPatientIdModel> consultationList = new List<ConsultationByPatientIdModel>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetConsultationByPatientId", con);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemConsultation", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
@@ -1205,6 +1205,53 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return consultationList;
+
+
+            //// OLD Code May Needed Sometime
+
+
+            //List<ConsultationByPatientIdModel> consultationList = new List<ConsultationByPatientIdModel>();
+            //using SqlConnection con = new SqlConnection(_connStr);
+            //using SqlCommand cmd = new SqlCommand("stLH_GetConsultationByPatientId", con);
+            //con.Open();
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@PatientId", cm.PatientId);
+            //cmd.Parameters.AddWithValue("@ConsultantId", cm.ConsultantId);
+            //SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            //DataTable dt = new DataTable();
+            //adapter.Fill(dt);
+            //con.Close();
+            //if ((dt != null) && (dt.Rows.Count > 0))
+            //{
+            //    for (Int32 i = 0; i < dt.Rows.Count; i++)
+            //    {
+            //        ConsultationByPatientIdModel obj = new ConsultationByPatientIdModel();
+            //        obj.ItemId = Convert.ToInt32(dt.Rows[i]["ItemId"]);
+            //        obj.ItemName = dt.Rows[i]["ItemName"].ToString();
+            //        obj.ConsultDate = dt.Rows[i]["ConsultDate"].ToString();
+            //        obj.SeqNo = Convert.ToInt32(dt.Rows[i]["SeqNo"]);
+            //        obj.ConsultFee = Convert.ToInt32(dt.Rows[i]["ConsultFee"]);
+            //        obj.ExpiryDate = dt.Rows[i]["ExpiryDate"].ToString();
+            //        obj.RemainVisits = Convert.ToInt32(dt.Rows[i]["RemainVisits"]);
+            //        obj.Symptoms = dt.Rows[i]["Symptoms"].ToString();
+            //        obj.ConsultType = Convert.ToInt32(dt.Rows[i]["ConsultType"]);
+            //        obj.Emergency = Convert.ToInt32(dt.Rows[i]["Emergency"]);
+            //        obj.ExpiryVisits = Convert.ToInt32(dt.Rows[i]["ExpiryVisits"]);
+            //        string validupto = obj.ExpiryDate;
+            //        DateTime todaydate = DateTime.Now.Date;
+            //        DateTime validuptodttime = Convert.ToDateTime(validupto);
+            //        if (todaydate < validuptodttime)
+            //        {
+            //            obj.IsConsultationExpired = false;
+            //        }
+            //        else
+            //        {
+            //            obj.IsConsultationExpired = true;
+            //        }
+            //        consultationList.Add(obj);
+            //    }
+            //}
+            //return consultationList;
         }
         /// <summary>
         /// Get Consultation Filtered by Consultation

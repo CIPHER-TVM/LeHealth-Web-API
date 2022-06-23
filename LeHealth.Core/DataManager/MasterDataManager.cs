@@ -1036,8 +1036,8 @@ namespace LeHealth.Core.DataManager
                     {
                         PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]),
                         PackDesc = dsNumber.Rows[i]["PackDesc"].ToString(),
-                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString(),
-                        EffectTo = dsNumber.Rows[i]["EffectTo"].ToString(),
+                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString().Replace("/","-"),
+                        EffectTo = dsNumber.Rows[i]["EffectTo"].ToString().Replace("/", "-"),
                         PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString()),
                         Remarks = dsNumber.Rows[i]["Remarks"].ToString(),
                         ItemRateData = JsonConvert.DeserializeObject<List<ItemRatePackage>>(dsNumber.Rows[i]["PackageItemRate"].ToString()),
@@ -5989,7 +5989,7 @@ namespace LeHealth.Core.DataManager
                 var ret = retValV.Value;
                 var descrip = retDesc.Value.ToString();
                 con.Close();
-                if (descrip == "Saved Successfully")
+                if (descrip == "Saved Successfully" || descrip == "Deleted Successfully")
                 {
                     response = "Success";
                 }
