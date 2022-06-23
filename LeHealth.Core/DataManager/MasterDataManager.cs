@@ -1643,6 +1643,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@StateId", state.StateId);
+            cmd.Parameters.AddWithValue("@CountryId", state.CountryId);
             cmd.Parameters.AddWithValue("@ShowAll", state.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", state.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
