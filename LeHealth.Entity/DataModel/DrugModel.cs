@@ -29,7 +29,7 @@ namespace LeHealth.Entity.DataModel
         public ScientificNameModel ScientificNameDetails { get; set; }
         public RouteModel RouteDetails { get; set; }
         public TradeNameModel TradeNameDetails { get; set; }
-        public int IsDisplayed { get; set; }
+       
     }
     public class DrugModelAll : DrugModel
     {
