@@ -4811,7 +4811,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
-            cmd.Parameters.AddWithValue("@BranchId", ibt.BranchId);
+            cmd.Parameters.AddWithValue("@BranchId", ibt.BranchId); 
+            cmd.Parameters.AddWithValue("@ShowAll", ibt.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtNumber = new DataTable();
             adapter.Fill(dtNumber);
