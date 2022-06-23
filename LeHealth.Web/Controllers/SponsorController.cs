@@ -23,6 +23,574 @@ namespace LeHealth.Base.API.Controllers
             logger = _logger;
             sponserService = _sponserservice;
         }
+
+        /// <summary>
+        /// API For saving SponsorRule group data
+        /// </summary>
+        /// <param name="obj">Sponsor Rule group details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("InsertSponsorRuleGroup")]
+        public ResponseDataModel<string> InsertSponsorRuleGroup(SponsorGroupModel obj)
+        {
+            try
+            {
+                var drug = sponserService.InsertSponsorRuleGroup(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "InsertSponsorRuleGroup()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// API For saving SponsorRule Item data
+        /// </summary>
+        /// <param name="obj">Sponsor Rule Item details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("DeleteSponsorRuleItem")]
+        public ResponseDataModel<string> DeleteSponsorRuleItem(SponsorGropuServiceItemModel obj)
+        {
+            try
+            {
+                var drug = sponserService.DeleteSponsorRuleItem(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "DeleteSponsorRuleItem()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For saving SponsorRule Item data
+        /// </summary>
+        /// <param name="obj">Sponsor Rule Item details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("InsertSponsorRuleItem")]
+        public ResponseDataModel<string> InsertSponsorRuleItem(SponsorGropuServiceItemModel obj)
+        {
+            try
+            {
+                var drug = sponserService.InsertSponsorRuleItem(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "InsertSponsorRuleItem()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting Service Items for rules 
+        /// </summary>
+        /// <param name="ruledetails">SponsorRles table</param>
+        /// <returns> srvice details  for rule</returns>
+
+        [HttpPost]
+        [Route("GetSponsorItemForRule")]
+
+        public ResponseDataModel<IEnumerable<SponsorGropuServiceItemModel>> GetSponsorItemForRule(SponsorGropuServiceItemModel itm)
+        {
+            try
+            {
+                List<SponsorGropuServiceItemModel> itemList = new List<SponsorGropuServiceItemModel>();
+                itemList = sponserService.GetSponsorItemForRule(itm);
+                var response = new ResponseDataModel<IEnumerable<SponsorGropuServiceItemModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorGropuServiceItemModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting sponsor group for rules 
+        /// </summary>
+        /// <param name="ruledetails">SponsorRles table</param>
+        /// <returns>sponsor group  data for rule</returns>
+
+        [HttpPost]
+        [Route("GetSponsorGroupForRule")]
+
+        public ResponseDataModel<IEnumerable<SponsorGroupModel>> GetSponsorGroupForRule(SponsorGroupModel ruledesc)
+        {
+            try
+            {
+                List<SponsorGroupModel> groupList = new List<SponsorGroupModel>();
+                groupList = sponserService.GetSponsorGroupForRule(ruledesc);
+                var response = new ResponseDataModel<IEnumerable<SponsorGroupModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = groupList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorGroupModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For getting Rule description Under Sponsor
+        /// </summary>
+        /// <param name="ruledesc">SponsorRles table</param>
+        /// <returns>SponsorRule data</returns>
+
+        [HttpPost]
+        [Route("GetRuleDescription")]
+
+        public ResponseDataModel<IEnumerable<SponsorRuleModel>> GetRuleDescription(SponsorRuleModel ruledesc)
+        {
+            try
+            {
+                List<SponsorRuleModel> ruleList = new List<SponsorRuleModel>();
+                ruleList = sponserService.GetRuleDescription(ruledesc);
+                var response = new ResponseDataModel<IEnumerable<SponsorRuleModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = ruleList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorRuleModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For Deleting consultant Reduction data
+        /// </summary>
+        /// <param name="obj">consultant Reduction details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("DeleteConsultantReduction")]
+        public ResponseDataModel<string> DeleteConsultantReduction(ConsultantReductionModel obj)
+        {
+            try
+            {
+                var drug = sponserService.DeleteConsultantReduction(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "DeleteConsultantReduction()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For saving consultant Reduction data
+        /// </summary>
+        /// <param name="obj">consultant Reduction details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("InsertConsultantReduction")]
+        public ResponseDataModel<string> InsertConsultantReduction(ConsultantReductionModel obj)
+        {
+            try
+            {
+                var drug = sponserService.InsertConsultantReduction(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "InsertConsultantReduction()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For getting Drug List Under Sponsorrule  
+        /// </summary>
+        /// <param name="drug">Drug table</param>
+        /// <returns>SponsorRule data</returns>
+
+        [HttpPost]
+        [Route("GetConsultantReduction")]
+
+        public ResponseDataModel<IEnumerable<ConsultantReductionModel>> GetConsultantReduction(ConsultantReductionModel creduction)
+        {
+            try
+            {
+                List<ConsultantReductionModel> creductionList = new List<ConsultantReductionModel>();
+                creductionList = sponserService.GetConsultantReduction(creduction);
+                var response = new ResponseDataModel<IEnumerable<ConsultantReductionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = creductionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantReductionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For  Deleting Drugs under SponsorRule data
+        /// </summary>
+        /// <param name="obj">Drug details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("DeleteSponsorRuleDrugList")]
+        public ResponseDataModel<string> DeleteSponsorRuleDrugList(DrugModelAll obj)
+        {
+            try
+            {
+                var drug = sponserService.DeleteSponsorRuleDrugList(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "DeleteSponsorRuleDrugList()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// API For saving Drugs under SponsorRule data
+        /// </summary>
+        /// <param name="obj">Drug details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("InsertSponsorRuleDrugList")]
+        public ResponseDataModel<string> InsertSponsorRuleDrugList(DrugModelAll obj)
+        {
+            try
+            {
+                var drug = sponserService.InsertSponsorRuleDrugList(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "InsertSponsorRuleDrugList()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting Drug List Under Sponsorrule  
+        /// </summary>
+        /// <param name="drug">Drug table</param>
+        /// <returns>SponsorRule data</returns>
+
+        [HttpPost]
+        [Route("GetDrugBySponsorRule")]
+
+        public ResponseDataModel<IEnumerable<DrugModelAll>> GetDrugBySponsorRule(DrugModelAll drug)
+        {
+            try
+            {
+                List<DrugModelAll> drugList = new List<DrugModelAll>();
+                drugList = sponserService.GetDrugBySponsorRule(drug);
+                var response = new ResponseDataModel<IEnumerable<DrugModelAll>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drugList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DrugModelAll>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting Sponsorrule  
+        /// </summary>
+        /// <param name="sponsorrule">sponsor rule model</param>
+        /// <returns>SponsorRule data</returns>
+
+        [HttpPost]
+        [Route("GetSponsorRule")]
+
+        public ResponseDataModel<IEnumerable<SponsorRuleModel>> GetSponsorRule(SponsorRuleModel sponsorrule)
+        {
+            try
+            {
+                List<SponsorRuleModel> sponsorruleList = new List<SponsorRuleModel>();
+                sponsorruleList = sponserService.GetSponsorRule(sponsorrule);
+                var response = new ResponseDataModel<IEnumerable<SponsorRuleModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = sponsorruleList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorRuleModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For getting Sponsor  by  Id
+        /// </summary>
+        /// <param name="Sponsorid">Primary key of Sponsor table</param>
+        /// <returns>Sponsor  data</returns>
+
+        [HttpPost]
+        [Route("GetSponsorById")]
+        
+        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsorById(SponsorMasterModelAll sponsor)
+        {
+            try
+            {
+                List<SponsorMasterModel> professionList = new List<SponsorMasterModel>();
+                professionList = sponserService.GetSponsorById(sponsor);
+                var response = new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = professionList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
         /// <summary>
         /// API For getting Sponsor Consent by  Id
         /// </summary>

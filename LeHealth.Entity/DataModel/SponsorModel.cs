@@ -17,6 +17,29 @@ namespace LeHealth.Entity.DataModel
         public int AgentId { get; set; }
         public int UserId { get; set; }
         public int SessionId { get; set; }
+        public int BranchId { get; set; }
     }
+    public class SponsorRuleModel
+    { 	 
+        public int RuleId { get; set; }
+        public int SponsorId { get; set; }
+        public string RuleDesc { get; set; }
+        public float DedAmount { get; set; }
+        public float CoPayPcnt { get; set; }
+        public int RateGroupId { get; set; }
+        public int UpfrontDed { get; set; }
+        public int CopayBefDisc { get; set; }
+        public int IsDisplayed { get; set; }
+        public int IsDeleted { get; set; }
+        public int ShowAll { get; set; }
+        public int BranchId { get; set; }
+    }
+    public class SponsorRuleModelAll :SponsorRuleModel
+    {        
+        public int UserId { get; set; }
+        public int SessionId { get; set; }
+    }
+        
+
     
 }

@@ -12,4 +12,6 @@ namespace LeHealth.Entity.DataModel
         public string expandedIcon { get; set; } = "pi pi-folder-open";
         public string collapsedIcon { get; set; } = "pi pi-folder";
     }
+    
+   
 }

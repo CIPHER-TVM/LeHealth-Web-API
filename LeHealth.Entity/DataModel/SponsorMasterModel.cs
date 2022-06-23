@@ -26,19 +26,21 @@ namespace LeHealth.Entity.DataModel
         public string Fax { get; set; }
         public string ContactPerson { get; set; }
         public float DedAmount { get; set; }      
-		public float CoPayPcnt { get; set; }
+		public Double CoPayPcnt { get; set; }
         public string Remarks { get; set; }
         public int SFormId { get; set; }
-        public float SponsorLimit { get; set; }
+        public Double SponsorLimit { get; set; }
         public string DHANo { get; set; }
         public int EnableSponsorLimit { get; set; }       
 		
         public int EnableSponsorConsent { get; set; }
+        
         public string AuthorizationMode { get; set; }
         public string URL { get; set; }
         public int SortOrder { get; set; }        
         public int PartyId { get; set; }
         public int UnclaimedId { get; set; }
+       
         //public int HeadId { get; set; }
 
     }

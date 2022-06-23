@@ -11,15 +11,77 @@ namespace LeHealth.Service.Service
     {
         private readonly ISponsorManager sponsermanager;
 
-        
+
+        public string InsertSponsorRuleGroup(SponsorGroupModel grp)
+        {
+            return sponsermanager.InsertSponsorRuleGroup(grp);
+        }
+        public string DeleteSponsorRuleItem(SponsorGropuServiceItemModel itm)
+        {
+            return sponsermanager.DeleteSponsorRuleItem(itm);
+        }
+        public string InsertSponsorRuleItem(SponsorGropuServiceItemModel itm)
+        {
+            return sponsermanager.InsertSponsorRuleItem(itm);
+        }
+
         public SponsorService(ISponsorManager _sponsermanager)
         {
             sponsermanager = _sponsermanager;
         }
-        //public SponsorModel GetSponserById(Int32 SponsorId)
-        //{
-        //    return sponsermanager.GetSponserById(SponsorId);
-        //}
+
+        public List<SponsorGropuServiceItemModel> GetSponsorItemForRule(SponsorGropuServiceItemModel itm)
+        {
+            return sponsermanager.GetSponsorItemForRule(itm);
+        }
+
+        public List<SponsorGroupModel> GetSponsorGroupForRule(SponsorGroupModel grp)
+        {
+            return sponsermanager.GetSponsorGroupForRule(grp);
+        }
+
+
+        public List<SponsorRuleModel> GetRuleDescription(SponsorRuleModel ruledesc)
+        {
+            return sponsermanager.GetRuleDescription(ruledesc);
+        }
+
+        public string DeleteConsultantReduction(ConsultantReductionModel creduction)
+        {
+            return sponsermanager.DeleteConsultantReduction(creduction);
+        }
+
+        public string InsertConsultantReduction(ConsultantReductionModel creduction)
+        {
+            return sponsermanager.InsertConsultantReduction(creduction);
+        }
+        public List<ConsultantReductionModel> GetConsultantReduction(ConsultantReductionModel creduction)
+        {
+            return sponsermanager.GetConsultantReduction(creduction);
+        }
+        public string DeleteSponsorRuleDrugList(DrugModelAll drug)
+        {
+            return sponsermanager.DeleteSponsorRuleDrugList(drug);
+        }
+        public string InsertSponsorRuleDrugList(DrugModelAll drug)
+        {
+            return sponsermanager.InsertSponsorRuleDrugList(drug);
+        }
+        public List<DrugModelAll> GetDrugBySponsorRule(DrugModelAll drug)
+        {
+            return sponsermanager.GetDrugBySponsorRule(drug);
+        }
+
+        public List<SponsorRuleModel> GetSponsorRule(SponsorRuleModel sponsorrule)
+        {
+            return sponsermanager.GetSponsorRule(sponsorrule);
+        }
+
+        public List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsor)
+        {
+            return sponsermanager.GetSponsorById(sponsor);
+        }
+
 
         public SponserConsentModelAll GetSponserConsentById(Int32 ContentId)
         {

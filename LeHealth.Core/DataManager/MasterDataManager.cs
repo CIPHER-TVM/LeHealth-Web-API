@@ -3063,7 +3063,8 @@ namespace LeHealth.Core.DataManager
                 {
                     SponsorMasterModel obj = new SponsorMasterModel
                     {
-                        SponsorId = Convert.ToInt32(dtSponsor.Rows[i]["SponsorId"]),
+                        
+                        SponsorId=Convert.ToInt32(dtSponsor.Rows[i]["SponsorId"]),
                         SponsorName = dtSponsor.Rows[i]["SponsorName"].ToString(),
                         SponsorType = Convert.ToInt32(dtSponsor.Rows[i]["SponsorType"]),
                         Address1 = dtSponsor.Rows[i]["Address1"].ToString(),
