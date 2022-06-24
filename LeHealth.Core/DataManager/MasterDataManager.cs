@@ -5975,7 +5975,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ZoneId", drug.ZoneId);
                 cmd.Parameters.AddWithValue("@BranchId", drug.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", drug.UserId);
-                cmd.Parameters.AddWithValue("@IsDisplayed", drug.IsDisplayed);
+               // cmd.Parameters.AddWithValue("@IsDisplayed", drug.IsDisplayed);
 
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -6044,7 +6044,7 @@ namespace LeHealth.Core.DataManager
                     obj.IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0;
                     obj.ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0;
                     obj.DosageForm = dt.Rows[i]["DosageForm"] != null ? dt.Rows[i]["DosageForm"].ToString() : "";
-                    obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
+                   // obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
                     obj.ScientificNameDetails = new ScientificNameModel
                     {
                         ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,
