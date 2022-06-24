@@ -7,6 +7,6 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IBillService
     {
-        List<SponsorFormModel> GetSponsorForm(SponsorFormModel itm);
+        List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm);
     }
 }

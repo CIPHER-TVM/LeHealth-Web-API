@@ -5,8 +5,8 @@ using LeHealth.Entity.DataModel;
 
 namespace LeHealth.Core.Interface
 {
-    public interface IBillManager
+    public interface billsettle
     {
-        List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm);
+        
     }
 }

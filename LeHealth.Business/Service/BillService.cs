@@ -8,7 +8,7 @@ namespace LeHealth.Service.Service
 {
     public class BillService:IBillService
     {
-        private readonly IBillManager billmanager;
+        private  readonly IBillManager billmanager;
 
         public List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm)
         {
