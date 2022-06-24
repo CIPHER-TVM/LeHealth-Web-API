@@ -9,69 +9,78 @@ namespace LeHealth.Service.Service
 {
     public class EMRDefaultService : IEMRDefaultService
     {
-        private readonly IEMRDefaultManager masterdataManager;
-        public EMRDefaultService(IEMRDefaultManager _masterdataManager)
+        private readonly IEMRDefaultManager emrdataManager;
+        public EMRDefaultService(IEMRDefaultManager _emrdataManager)
         {
-            masterdataManager = _masterdataManager;
+            emrdataManager = _emrdataManager;
         }
         public List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll emr)
         {
-            return masterdataManager.GetConsultation(emr);
+            return emrdataManager.GetConsultation(emr);
         }
         public List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel emr)
         {
-            return masterdataManager.GetBasicPatientDetails(emr);
+            return emrdataManager.GetBasicPatientDetails(emr);
         }
         public VisitModel InsertVisit(VisitModel visit)
         {
-            return masterdataManager.InsertVisit(visit);
+            return emrdataManager.InsertVisit(visit);
         }
         public ComplaintsModel InsertComplaints(ComplaintsModel visit)
         {
-            return masterdataManager.InsertComplaints(visit);
+            return emrdataManager.InsertComplaints(visit);
         }
         public List<ComplaintsModel> GetChiefComplaints(ComplaintsModel emr)
         {
-            return masterdataManager.GetChiefComplaints(emr);
+            return emrdataManager.GetChiefComplaints(emr);
         }
         public PhysicalExaminationModel InsertPhysicalExamination(PhysicalExaminationModel pe)
         {
-            return masterdataManager.InsertPhysicalExamination(pe);
+            return emrdataManager.InsertPhysicalExamination(pe);
         }
         public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel emr)
         {
-            return masterdataManager.GetPEDetails(emr);
+            return emrdataManager.GetPEDetails(emr);
         }
         public SymptomReviewModel InsertReviewOfSymptoms(SymptomReviewModel srm)
         {
-            return masterdataManager.InsertReviewOfSymptoms(srm);
+            return emrdataManager.InsertReviewOfSymptoms(srm);
         }
         public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm)
         {
-            return masterdataManager.GetReviewOfSymptoms(srm); 
+            return emrdataManager.GetReviewOfSymptoms(srm); 
         }
 
         public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel pe)
         {
-            return masterdataManager.InsertMedicalDecision(pe);
+            return emrdataManager.InsertMedicalDecision(pe);
         }
         public List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel emr)
         {
-            return masterdataManager.GetMedicalDecision(emr);
+            return emrdataManager.GetMedicalDecision(emr);
         }
 
         public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel pe)
         {
-            return masterdataManager.InsertPlanAndProcedure(pe);
+            return emrdataManager.InsertPlanAndProcedure(pe);
         }
         public List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel emr)
         {
-            return masterdataManager.GetPlanAndProcedure(emr);
+            return emrdataManager.GetPlanAndProcedure(emr);
         }
 
         public List<VisitModel> GetVisitDetails(VisitModel visit)
         {
-            return masterdataManager.GetVisitDetails(visit);
+            return emrdataManager.GetVisitDetails(visit);
+        }
+
+        public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel pe)
+        {
+            return emrdataManager.InsertMenstrualHistory(pe);
+        }
+        public List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel emr)
+        {
+            return emrdataManager.GetMenstrualHistory(emr);
         }
     }
 

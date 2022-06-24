@@ -16,11 +16,11 @@ namespace LeHealth.Base.API.Controllers.EMR
     public class EMRDefaultController : ControllerBase
     {
         private readonly ILogger<EMRDefaultController> logger;
-        private readonly IEMRDefaultService masterdataService;
-        public EMRDefaultController(ILogger<EMRDefaultController> _logger, IEMRDefaultService _masterdataService)
+        private readonly IEMRDefaultService emrdefaultService;
+        public EMRDefaultController(ILogger<EMRDefaultController> _logger, IEMRDefaultService _emrdefaultService)
         {
             logger = _logger;
-            masterdataService = _masterdataService;
+            emrdefaultService = _emrdefaultService;
         }
         [Route("GetConsultation")]
         [HttpPost]
@@ -29,7 +29,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<ConsultationEMRModel> cptList = new List<ConsultationEMRModel>();
-                cptList = masterdataService.GetConsultation(cmfma);
+                cptList = emrdefaultService.GetConsultation(cmfma);
                 var response = new ResponseDataModel<IEnumerable<ConsultationEMRModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -63,7 +63,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<PatientBasicModel> cptList = new List<PatientBasicModel>();
-                cptList = masterdataService.GetBasicPatientDetails(cmfma);
+                cptList = emrdefaultService.GetBasicPatientDetails(cmfma);
                 var response = new ResponseDataModel<IEnumerable<PatientBasicModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -97,7 +97,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 string message = string.Empty;
                 VisitModel vm = new VisitModel();
-                vm = masterdataService.InsertVisit(visit);
+                vm = emrdefaultService.InsertVisit(visit);
                 if (vm.VisitId > 0)
                     message = "Success";
                 else
@@ -137,7 +137,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 string message = string.Empty;
                 ComplaintsModel vm = new ComplaintsModel();
-                vm = masterdataService.InsertComplaints(visit);
+                vm = emrdefaultService.InsertComplaints(visit);
                 if (vm.ComplaintId > 0)
                     message = "Success";
                 else
@@ -176,7 +176,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<ComplaintsModel> cptList = new List<ComplaintsModel>();
-                cptList = masterdataService.GetChiefComplaints(cmfma);
+                cptList = emrdefaultService.GetChiefComplaints(cmfma);
                 var response = new ResponseDataModel<IEnumerable<ComplaintsModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -210,7 +210,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 string message = string.Empty;
                 PhysicalExaminationModel vm = new PhysicalExaminationModel();
-                vm = masterdataService.InsertPhysicalExamination(pe);
+                vm = emrdefaultService.InsertPhysicalExamination(pe);
                 if (vm.PEId > 0)
                     message = "Success";
                 else
@@ -250,7 +250,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<PhysicalExaminationModel> cptList = new List<PhysicalExaminationModel>();
-                cptList = masterdataService.GetPEDetails(cmfma);
+                cptList = emrdefaultService.GetPEDetails(cmfma);
                 var response = new ResponseDataModel<IEnumerable<PhysicalExaminationModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -285,7 +285,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 string message = string.Empty;
                 SymptomReviewModel vm = new SymptomReviewModel();
-                vm = masterdataService.InsertReviewOfSymptoms(srm);
+                vm = emrdefaultService.InsertReviewOfSymptoms(srm);
                 if (vm.SRMId > 0)
                     message = "Success";
                 else
@@ -323,7 +323,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<SymptomReviewModel> cptList = new List<SymptomReviewModel>();
-                cptList = masterdataService.GetReviewOfSymptoms(cmfma);
+                cptList = emrdefaultService.GetReviewOfSymptoms(cmfma);
                 var response = new ResponseDataModel<IEnumerable<SymptomReviewModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -358,7 +358,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 string message = string.Empty;
                 MedicalDecisionModel vm = new MedicalDecisionModel();
-                vm = masterdataService.InsertMedicalDecision(pe);
+                vm = emrdefaultService.InsertMedicalDecision(pe);
                 if (vm.MDId > 0)
                     message = "Success";
                 else
@@ -398,7 +398,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<MedicalDecisionModel> cptList = new List<MedicalDecisionModel>();
-                cptList = masterdataService.GetMedicalDecision(cmfma);
+                cptList = emrdefaultService.GetMedicalDecision(cmfma);
                 var response = new ResponseDataModel<IEnumerable<MedicalDecisionModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -433,7 +433,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 string message = string.Empty;
                 PlanAndProcedureModel vm = new PlanAndProcedureModel();
-                vm = masterdataService.InsertPlanAndProcedure(pe);
+                vm = emrdefaultService.InsertPlanAndProcedure(pe);
                 if (vm.PapId > 0)
                     message = "Success";
                 else
@@ -473,7 +473,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<PlanAndProcedureModel> cptList = new List<PlanAndProcedureModel>();
-                cptList = masterdataService.GetPlanAndProcedure(cmfma);
+                cptList = emrdefaultService.GetPlanAndProcedure(cmfma);
                 var response = new ResponseDataModel<IEnumerable<PlanAndProcedureModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -506,7 +506,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             try
             {
                 List<VisitModel> visitList = new List<VisitModel>();
-                visitList = masterdataService.GetVisitDetails(visit);
+                visitList = emrdefaultService.GetVisitDetails(visit);
                 var response = new ResponseDataModel<IEnumerable<VisitModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -518,6 +518,81 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<VisitModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        //
+
+        [Route("InsertUpdateMenstrualHistory")]
+        [HttpPost]
+        public ResponseDataModel<MenstrualHistoryModel> InsertMenstrualHistory(MenstrualHistoryModel pe)
+        {
+            try
+            {
+                string message = string.Empty;
+                MenstrualHistoryModel vm = new MenstrualHistoryModel();
+                vm = emrdefaultService.InsertMenstrualHistory(pe);
+                if (vm.Mid > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<MenstrualHistoryModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = pe,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<MenstrualHistoryModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("GetMenstrualHistory")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<MenstrualHistoryModel>> GetMenstrualHistory(MenstrualHistoryModel mh)
+        {
+            try
+            {
+                List<MenstrualHistoryModel> mhList = new List<MenstrualHistoryModel>();
+                mhList = emrdefaultService.GetMenstrualHistory(mh);
+                var response = new ResponseDataModel<IEnumerable<MenstrualHistoryModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = mhList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<MenstrualHistoryModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

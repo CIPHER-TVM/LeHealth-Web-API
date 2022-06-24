@@ -22,6 +22,9 @@ namespace LeHealth.Core.Interface
 
         PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm);
         List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel srm);
+
+        MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel mh);
+        List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel mh);
         List<VisitModel> GetVisitDetails(VisitModel visit);
     }
 }
