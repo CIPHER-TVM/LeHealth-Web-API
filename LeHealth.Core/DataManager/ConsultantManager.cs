@@ -2183,10 +2183,69 @@ namespace LeHealth.Core.DataManager
         }
         public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
+            ////TEST CODE STARTS
+            //string response = string.Empty;
+            //List<ConsultantDaysModel> cdmList = new List<ConsultantDaysModel>();
+
+            //foreach (var timeSchedule in timeScheduleMaster.TimeSchedules)
+            //{
+            //    int DayId = timeSchedule.DayId;
+            //    timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute + " " + timeSchedule.FromAmPm;
+            //    timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute + " " + timeSchedule.ToAmPm;
+            //    DateTime FromTime12Format = DateTime.Parse(timeSchedule.FromTime);
+            //    DateTime ToTime12Format = DateTime.Parse(timeSchedule.ToTime);
+            //    int SliceNoFrom = (int)FromTime12Format.TimeOfDay.TotalMinutes;
+            //    int SliceNoTo = (int)ToTime12Format.TimeOfDay.TotalMinutes;
+            //    for (int i = SliceNoFrom; i <= SliceNoTo; i++)
+            //    {
+            //        ConsultantDaysModel cdm = new ConsultantDaysModel();
+            //        cdm.DayId = DayId;
+            //        cdm.SliceNo = i;
+            //        cdmList.Add(cdm);
+            //    }
+            //}
+
+            //string ConsultantTimeScheduleString = JsonConvert.SerializeObject(cdmList);
+            //using (SqlConnection con = new SqlConnection(_connStr))
+            //{
+            //    con.Open();
+            //    SqlCommand cmd = new SqlCommand("stLH_InsertConsultantDaysData", con);
+            //    cmd.CommandType = CommandType.StoredProcedure;
+            //    cmd.Parameters.AddWithValue("@ConsultantId", timeScheduleMaster.ConsultantId);
+            //    cmd.Parameters.AddWithValue("@BranchId", timeScheduleMaster.BranchId);
+            //    cmd.Parameters.AddWithValue("@ScheduleSaveJSON", ConsultantTimeScheduleString);
+            //    cmd.Parameters.AddWithValue("@UserId", timeScheduleMaster.UserId);
+            //    SqlParameter timeMasterRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+            //    {
+            //        Direction = ParameterDirection.Output
+            //    };
+            //    cmd.Parameters.Add(timeMasterRetVal);
+
+            //    SqlParameter timeMasterRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+            //    {
+            //        Direction = ParameterDirection.Output
+            //    };
+            //    cmd.Parameters.Add(timeMasterRetDesc);
+            //    var isUpdated = cmd.ExecuteNonQuery();
+            //    var ret = timeMasterRetVal.Value;
+            //    var descrip = timeMasterRetDesc.Value.ToString();
+            //    con.Close();
+            //    if (descrip == "Saved Successfully")
+            //    {
+            //        response = "Success";
+            //    }
+            //    else
+            //    {
+            //        response = descrip;
+            //    }
+            //}
+
+            ////TEST CODE ENDS
+            List<ConsultantDaysModel> cdmList = new List<ConsultantDaysModel>();//NIK
             List<ConsultantTimeScheduleMaster> responselist = new List<ConsultantTimeScheduleMaster>();
             ConsultantTimeScheduleMaster responseobj = new ConsultantTimeScheduleMaster();
-            SqlTransaction transaction;
             string response = string.Empty;
+            SqlTransaction transaction;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 con.Open();
@@ -2198,13 +2257,26 @@ namespace LeHealth.Core.DataManager
 
                 foreach (var timeSchedule in timeScheduleMaster.TimeSchedules)
                 {
-
+                    int DayId = timeSchedule.DayId;//NIK
                     string temp = DayIds;
                     temp = temp + timeSchedule.DayId + "-";
                     DayIds = temp;
-
                     timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute;
                     timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute;
+
+                    //New Code Start
+                    DateTime FromTime12Format = DateTime.Parse(timeSchedule.FromTime);
+                    DateTime ToTime12Format = DateTime.Parse(timeSchedule.ToTime);
+                    int SliceNoFrom = (int)FromTime12Format.TimeOfDay.TotalMinutes;
+                    int SliceNoTo = (int)ToTime12Format.TimeOfDay.TotalMinutes;
+                    for (int i = SliceNoFrom; i <= SliceNoTo; i++)
+                    {
+                        ConsultantDaysModel cdm = new ConsultantDaysModel();
+                        cdm.DayId = DayId;
+                        cdm.SliceNo = i;
+                        cdmList.Add(cdm);
+                    }
+                    //New Code End
                 }
 
                 cmd.Parameters.AddWithValue("@ScheMid", timeScheduleMaster.ScheMid);
@@ -2267,7 +2339,6 @@ namespace LeHealth.Core.DataManager
                         cmdTimeSchedule.Parameters.Add(timeScheduleRetVal);
                         cmdTimeSchedule.Parameters.Add(timeScheduleRetDesc);
                         cmdTimeSchedule.ExecuteNonQuery();
-
                         var descTimeSchedule = timeScheduleRetDesc.Value.ToString();
                         con.Close();
                         response = descTimeSchedule;

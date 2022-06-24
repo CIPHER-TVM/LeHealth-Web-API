@@ -44,7 +44,7 @@ namespace LeHealth.Service.Service
             {
                 consultant.SignatureLoc = fileUploadService.SaveFile(consultant.PhotoFile, "documents");
             }
-            else if (consultant.SignatureLoc != "")
+            else if (consultant.SignatureLoc != "" && consultant.SignatureLoc != null)
             {
                 consultant.SignatureLoc = consultant.SignatureLoc.Replace(_uploadpath, "");
             }

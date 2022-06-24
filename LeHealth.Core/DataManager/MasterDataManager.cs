@@ -1036,8 +1036,8 @@ namespace LeHealth.Core.DataManager
                     {
                         PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]),
                         PackDesc = dsNumber.Rows[i]["PackDesc"].ToString(),
-                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString(),
-                        EffectTo = dsNumber.Rows[i]["EffectTo"].ToString(),
+                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString().Replace("/","-"),
+                        EffectTo = dsNumber.Rows[i]["EffectTo"].ToString().Replace("/", "-"),
                         PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString()),
                         Remarks = dsNumber.Rows[i]["Remarks"].ToString(),
                         ItemRateData = JsonConvert.DeserializeObject<List<ItemRatePackage>>(dsNumber.Rows[i]["PackageItemRate"].ToString()),
@@ -1643,6 +1643,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@StateId", state.StateId);
+            cmd.Parameters.AddWithValue("@CountryId", state.CountryId);
             cmd.Parameters.AddWithValue("@ShowAll", state.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", state.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -4810,7 +4811,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
-            cmd.Parameters.AddWithValue("@BranchId", ibt.BranchId);
+            cmd.Parameters.AddWithValue("@BranchId", ibt.BranchId); 
+            cmd.Parameters.AddWithValue("@ShowAll", ibt.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtNumber = new DataTable();
             adapter.Fill(dtNumber);
@@ -5990,7 +5992,7 @@ namespace LeHealth.Core.DataManager
                 var ret = retValV.Value;
                 var descrip = retDesc.Value.ToString();
                 con.Close();
-                if (descrip == "Saved Successfully")
+                if (descrip == "Saved Successfully" || descrip == "Deleted Successfully")
                 {
                     response = "Success";
                 }

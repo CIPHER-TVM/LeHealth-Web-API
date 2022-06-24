@@ -522,7 +522,7 @@ namespace LeHealth.Core.DataManager
         }
         public List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel srm)
         {
-            List<MenstrualHistoryModel> rosData = new List<MenstrualHistoryModel>();
+            List<MenstrualHistoryModel> menstrualData = new List<MenstrualHistoryModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetMenstrualHistory", con);
             con.Open();
@@ -536,9 +536,9 @@ namespace LeHealth.Core.DataManager
             con.Close();
             if ((ds != null) && (ds.Rows.Count > 0))
             {
-                rosData = ds.ToListOfObject<MenstrualHistoryModel>();
+                menstrualData = ds.ToListOfObject<MenstrualHistoryModel>();
             }
-            return rosData;
+            return menstrualData;
         }
 
     }

@@ -14,5 +14,6 @@ namespace LeHealth.Entity.DataModel
         public float Rate { get; set; }
         public int Quantity { get; set; }
         public int BranchId { get; set; } 
+        public int ShowAll { get; set; }  
     }
 }
