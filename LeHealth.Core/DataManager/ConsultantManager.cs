@@ -256,7 +256,6 @@ namespace LeHealth.Core.DataManager
                                 var retDescSaveLocationV = retDescSaveLocation.Value.ToString();
                                 response = retDescSaveLocationV;
                             }
-
                             Lefmenugroupmodel objMenu = new Lefmenugroupmodel();
                             var groupIds = consultant.UserData.GroupIds.Select(s => Convert.ToInt32(s)).ToList();
                             var jsonIntgroups = JsonConvert.SerializeObject(groupIds);
@@ -283,7 +282,6 @@ namespace LeHealth.Core.DataManager
                             if (sub != null && sub.Length > 0)
                             {
                                 objMenu.subMenuIds = JsonConvert.DeserializeObject<List<Submenumapmodel>>(sub);
-
                                 List<int> subMenuIds = objMenu.subMenuIds.Select(x => x.submenuId).ToList();
                                 var jsonSubMenuIds = JsonConvert.SerializeObject(subMenuIds);
                                 var jsonGroupIds = JsonConvert.SerializeObject(consultant.UserData.GroupIds);

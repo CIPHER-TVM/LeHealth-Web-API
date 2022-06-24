@@ -5357,6 +5357,7 @@ namespace LeHealth.Core.DataManager
                     obj.GroupDesc = dataTable.Rows[i]["GroupDesc"].ToString();
                     obj.CatgId = Convert.ToInt32(dataTable.Rows[i]["CatgId"]);
                     obj.CatgDesc = dataTable.Rows[i]["CatgDesc"].ToString();
+                    obj.CatgName= dataTable.Rows[i]["CatgName"].ToString();
                     obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
                     obj.LabelSigns = JsonConvert.DeserializeObject<List<LabelSign>>(dataTable.Rows[i]["LabelSigns"].ToString());
                     obj.LabelSymptoms = JsonConvert.DeserializeObject<List<LabelSymptom>>(dataTable.Rows[i]["LabelSymptoms"].ToString());
