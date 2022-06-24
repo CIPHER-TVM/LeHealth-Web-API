@@ -10,6 +10,10 @@ namespace LeHealth.Service.Service
     {
         private  readonly IBillManager billmanager;
 
+        public BillService(IBillManager _billmanager)
+        {
+            billmanager = _billmanager;
+        }
         public List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm)
         {
             return billmanager.GetSponsorForm(frm);

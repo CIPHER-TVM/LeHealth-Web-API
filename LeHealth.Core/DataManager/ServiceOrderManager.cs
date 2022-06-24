@@ -764,6 +764,7 @@ namespace LeHealth.Core.DataManager
                         ServiceGroupModel obj = new ServiceGroupModel
                         {
                             GroupId = Convert.ToInt32(dsserviceGroup.Rows[i]["groupId"]),
+                            GroupCode = dsserviceGroup.Rows[i]["GroupCode"].ToString().Replace("0",""),
                             Label = dsserviceGroup.Rows[i]["label"].ToString(),
                             Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dsserviceGroup.Rows[i]["children"].ToString())
                         };
