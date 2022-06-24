@@ -1,12 +1,14 @@
 ﻿using LeHealth.Entity.DataModel;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LeHealth.Service.ServiceInterface
 {
     public interface ISponsorService
     {
+        List<SponsorFormModel> GetSponsorForm(SponsorFormModel itm);
+
+        string InsertUpdateSponsorForms(SponsorFormModel frm);
         string InsertSponsorRuleGroup(SponsorGroupModel grp);
         string DeleteSponsorRuleItem(SponsorGropuServiceItemModel itm);
         string InsertSponsorRuleItem(SponsorGropuServiceItemModel itm);

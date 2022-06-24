@@ -20,6 +20,82 @@ namespace LeHealth.Core.DataManager
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
+
+        public List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm)
+        {
+            List<SponsorFormModel> formList = new List<SponsorFormModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsorForms", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SFormId", frm.SFormId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtform = new DataTable();
+            adapter.Fill(dtform);
+            con.Close();
+            if ((dtform != null) && (dtform.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtform.Rows.Count; i++)
+                {
+                    SponsorFormModel obj = new SponsorFormModel
+                    {
+
+                        SFormId = Convert.ToInt32(dtform.Rows[i]["SFormId"]),
+                        SFormName = dtform.Rows[i]["SFormName"].ToString(),
+                        BlockReason =dtform.Rows[i]["BlockReason"].ToString(),
+                        IsDisplayed =Convert.ToInt32( dtform.Rows[i]["IsDisplayed"])
+                       
+                    };
+                    formList.Add(obj);
+                }
+            }
+            return formList;
+        }
+
+
+        public string InsertUpdateSponsorForms(SponsorFormModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorForm", con);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SFormId", obj.SFormId);
+                    cmd.Parameters.AddWithValue("@SFormName", obj.SFormName);
+                    //cmd.Parameters.AddWithValue("@BlockReason", obj.GroupId);
+                    cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
+                   
+
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+
         public string InsertSponsorRuleGroup(SponsorGroupModel obj)
         {
             string response = string.Empty;

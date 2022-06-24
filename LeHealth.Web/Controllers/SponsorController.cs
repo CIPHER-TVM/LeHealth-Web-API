@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
+
 namespace LeHealth.Base.API.Controllers
 {
     [Route("api/Sponsor")]
@@ -23,6 +24,86 @@ namespace LeHealth.Base.API.Controllers
             logger = _logger;
             sponserService = _sponserservice;
         }
+
+        /// <summary>
+        /// API For gettingSponsor Forms 
+        /// </summary>
+        /// <param name="sponsorformdetails">SponsorForm table</param>
+        /// <returns> srvice details  for rule</returns>
+
+        [HttpPost]
+        [Route("GetSponsorForm")]
+
+        public ResponseDataModel<IEnumerable<SponsorFormModel>> GetSponsorForm(SponsorFormModel frm)
+        {
+            try
+            {
+                List<SponsorFormModel> formList = new List<SponsorFormModel>();
+                formList = sponserService.GetSponsorForm(frm);
+                var response = new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = formList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorFormModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For saving sponsor Forms  data
+        /// </summary>
+        /// <param name="obj">Sponsor Form details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("InsertUpdateSponsorForms")]
+        public ResponseDataModel<string> InsertUpdateSponsorForms(SponsorFormModel obj)
+        {
+            try
+            {
+                var drug = sponserService.InsertUpdateSponsorForms(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = drug,
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "InsertUpdateSponsorForms()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+        }
+
 
         /// <summary>
         /// API For saving SponsorRule group data

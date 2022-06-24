@@ -3,7 +3,6 @@ using LeHealth.Entity.DataModel;
 using LeHealth.Service.ServiceInterface;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LeHealth.Service.Service
 {
@@ -11,6 +10,14 @@ namespace LeHealth.Service.Service
     {
         private readonly ISponsorManager sponsermanager;
 
+        public List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm)
+        {
+            return sponsermanager.GetSponsorForm(frm);
+        }
+        public string InsertUpdateSponsorForms(SponsorFormModel frm)
+        {
+            return sponsermanager.InsertUpdateSponsorForms(frm);
+        }
 
         public string InsertSponsorRuleGroup(SponsorGroupModel grp)
         {
