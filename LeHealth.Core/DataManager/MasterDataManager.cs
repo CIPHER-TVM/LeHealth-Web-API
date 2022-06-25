@@ -5941,7 +5941,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ZoneId", drug.ZoneId);
                 cmd.Parameters.AddWithValue("@BranchId", drug.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", drug.UserId);
-                // cmd.Parameters.AddWithValue("@IsDisplayed", drug.IsDisplayed);
+                cmd.Parameters.AddWithValue("@IsDisplayed", drug.IsDisplayed);
 
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
