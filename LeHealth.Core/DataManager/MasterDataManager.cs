@@ -2272,6 +2272,7 @@ namespace LeHealth.Core.DataManager
                     {
                         BodyId = Convert.ToInt32(dtbodypartList.Rows[i]["BodyId"]),
                         BodyDesc = dtbodypartList.Rows[i]["BodyDesc"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dtbodypartList.Rows[i]["IsDisplayed"]),
                         BodyPartImageLocation = imgloc != "" ? _uploadpath + imgloc : imgloc,
                     };
                     bodypartList.Add(obj);
