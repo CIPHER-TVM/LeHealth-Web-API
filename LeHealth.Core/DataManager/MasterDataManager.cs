@@ -999,10 +999,11 @@ namespace LeHealth.Core.DataManager
                     {
                         PackId = Convert.ToInt32(dsNumber.Rows[i]["PackId"]),
                         PackDesc = dsNumber.Rows[i]["PackDesc"].ToString(),
-                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString().Replace("/","-"),
+                        EffectFrom = dsNumber.Rows[i]["EffectFrom"].ToString().Replace("/", "-"),
                         EffectTo = dsNumber.Rows[i]["EffectTo"].ToString().Replace("/", "-"),
                         PackAmount = (float)Convert.ToDouble(dsNumber.Rows[i]["PackAmount"].ToString()),
                         Remarks = dsNumber.Rows[i]["Remarks"].ToString(),
+                        IsDisplayed = Convert.ToBoolean(dsNumber.Rows[i]["IsDisplayed"]),
                         ItemRateData = JsonConvert.DeserializeObject<List<ItemRatePackage>>(dsNumber.Rows[i]["PackageItemRate"].ToString()),
                     };
                     itemList.Add(obj);
@@ -3027,8 +3028,8 @@ namespace LeHealth.Core.DataManager
                 {
                     SponsorMasterModel obj = new SponsorMasterModel
                     {
-                        
-                        SponsorId=Convert.ToInt32(dtSponsor.Rows[i]["SponsorId"]),
+
+                        SponsorId = Convert.ToInt32(dtSponsor.Rows[i]["SponsorId"]),
                         SponsorName = dtSponsor.Rows[i]["SponsorName"].ToString(),
                         SponsorType = Convert.ToInt32(dtSponsor.Rows[i]["SponsorType"]),
                         Address1 = dtSponsor.Rows[i]["Address1"].ToString(),
@@ -4774,7 +4775,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupCode", ibt.GroupCode);
-            cmd.Parameters.AddWithValue("@BranchId", ibt.BranchId); 
+            cmd.Parameters.AddWithValue("@BranchId", ibt.BranchId);
             cmd.Parameters.AddWithValue("@ShowAll", ibt.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtNumber = new DataTable();
@@ -5320,7 +5321,7 @@ namespace LeHealth.Core.DataManager
                     obj.GroupDesc = dataTable.Rows[i]["GroupDesc"].ToString();
                     obj.CatgId = Convert.ToInt32(dataTable.Rows[i]["CatgId"]);
                     obj.CatgDesc = dataTable.Rows[i]["CatgDesc"].ToString();
-                    obj.CatgName= dataTable.Rows[i]["CatgName"].ToString();
+                    obj.CatgName = dataTable.Rows[i]["CatgName"].ToString();
                     obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
                     obj.LabelSigns = JsonConvert.DeserializeObject<List<LabelSign>>(dataTable.Rows[i]["LabelSigns"].ToString());
                     obj.LabelSymptoms = JsonConvert.DeserializeObject<List<LabelSymptom>>(dataTable.Rows[i]["LabelSymptoms"].ToString());
@@ -5939,7 +5940,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ZoneId", drug.ZoneId);
                 cmd.Parameters.AddWithValue("@BranchId", drug.BranchId);
                 cmd.Parameters.AddWithValue("@UserId", drug.UserId);
-               // cmd.Parameters.AddWithValue("@IsDisplayed", drug.IsDisplayed);
+                // cmd.Parameters.AddWithValue("@IsDisplayed", drug.IsDisplayed);
 
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -6008,7 +6009,7 @@ namespace LeHealth.Core.DataManager
                     obj.IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0;
                     obj.ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0;
                     obj.DosageForm = dt.Rows[i]["DosageForm"] != null ? dt.Rows[i]["DosageForm"].ToString() : "";
-                   // obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
+                    // obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
                     obj.ScientificNameDetails = new ScientificNameModel
                     {
                         ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,
