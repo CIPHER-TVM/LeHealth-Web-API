@@ -36,6 +36,7 @@ namespace LeHealth.Entity.DataModel
         public string LabelDesc { get; set; }
         public string LabelCode { get; set; }
         public int GroupId { get; set; }
+        public int ICDGroupId { get; set; } 
         public string GroupDesc { get; set; }
         public int CatgId { get; set; }
         public string CatgDesc { get; set; }

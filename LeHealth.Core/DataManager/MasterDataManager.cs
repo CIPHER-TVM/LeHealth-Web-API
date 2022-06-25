@@ -24,43 +24,6 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
-        public string InsertUpdateCommonMasterItem(CommonMasterFieldModelAll masterItem)
-        {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCommonMasterItem", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ItemId", masterItem.Id);
-                cmd.Parameters.AddWithValue("@ItemName", masterItem.NameData);
-                cmd.Parameters.AddWithValue("@ItemCode", masterItem.CodeData);
-                cmd.Parameters.AddWithValue("@ItemDescription", masterItem.DescriptionData);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
-                }
-                else
-                {
-                    response = descrip;
-                }
-            }
-            return response;
-        }
         public List<ServiceConfigModel> GetServiceItem(AvailableServiceModel company)
         {
             List<ServiceConfigModel> serviceItemList = new List<ServiceConfigModel>();
@@ -5292,7 +5255,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@LabelId", icdLabel.LabelId);
                 cmd.Parameters.AddWithValue("@LabelDesc", icdLabel.LabelDesc);
                 cmd.Parameters.AddWithValue("@LabelCode", icdLabel.LabelCode);
-                cmd.Parameters.AddWithValue("@GroupId", icdLabel.GroupId);
+                cmd.Parameters.AddWithValue("@GroupId", icdLabel.ICDGroupId);
                 cmd.Parameters.AddWithValue("@CatgId", icdLabel.CatgId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", icdLabel.IsDisplayed);
                 cmd.Parameters.AddWithValue("@BranchId", icdLabel.BranchId);
@@ -5337,7 +5300,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@LabelId", label.LabelId);
-            cmd.Parameters.AddWithValue("@GroupId", label.GroupId);
+            cmd.Parameters.AddWithValue("@GroupId", label.ICDGroupId);
             cmd.Parameters.AddWithValue("@CategoryId", label.CatgId);
             cmd.Parameters.AddWithValue("@ShowAll", label.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", label.BranchId);
@@ -5353,7 +5316,7 @@ namespace LeHealth.Core.DataManager
                     obj.LabelId = Convert.ToInt32(dataTable.Rows[i]["LabelId"]);
                     obj.LabelDesc = dataTable.Rows[i]["LabelDesc"].ToString();
                     obj.LabelCode = dataTable.Rows[i]["LabelCode"].ToString();
-                    obj.GroupId = Convert.ToInt32(dataTable.Rows[i]["GroupId"]);
+                    obj.ICDGroupId = Convert.ToInt32(dataTable.Rows[i]["GroupId"]);
                     obj.GroupDesc = dataTable.Rows[i]["GroupDesc"].ToString();
                     obj.CatgId = Convert.ToInt32(dataTable.Rows[i]["CatgId"]);
                     obj.CatgDesc = dataTable.Rows[i]["CatgDesc"].ToString();
