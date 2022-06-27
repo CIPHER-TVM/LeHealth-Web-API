@@ -607,5 +607,152 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+
+        [Route("InsertUpdateNarrativeDiagnosisICD")]
+        [HttpPost]
+        public ResponseDataModel<NarrativeDiagnosisICDModel> InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
+        {
+            try
+            {
+                string message = string.Empty;
+                NarrativeDiagnosisICDModel vm = new NarrativeDiagnosisICDModel();
+                vm = emrdefaultService.InsertNarrativeDiagnosisICD(ndim);
+                if (vm.Nid > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<NarrativeDiagnosisICDModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<NarrativeDiagnosisICDModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetNarrativeDiagnosisICD")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<NarrativeDiagnosisICDModel>> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
+        {
+            try
+            {
+                List<NarrativeDiagnosisICDModel> cptList = new List<NarrativeDiagnosisICDModel>();
+                cptList = emrdefaultService.GetNarrativeDiagnosisICD(ndim);
+                var response = new ResponseDataModel<IEnumerable<NarrativeDiagnosisICDModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<NarrativeDiagnosisICDModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("InsertUpdateEMRVitalSign")]
+        [HttpPost]
+        public ResponseDataModel<VitalSignEMRModel> InsertUpdateEMRVitalSign(VitalSignEMRModel ndim)
+        {
+            try
+            {
+                string message = string.Empty;
+                VitalSignEMRModel vm = new VitalSignEMRModel();
+                vm = emrdefaultService.InsertEMRVitalSign(ndim);
+                if (vm.Eid > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<VitalSignEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<VitalSignEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetEMRVitalSign")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<VitalSignEMRModel>> GetEMRVitalSign(VitalSignEMRModel ndim)
+        {
+            try
+            {
+                List<VitalSignEMRModel> emrList = new List<VitalSignEMRModel>();
+                emrList = emrdefaultService.GetEMRVitalSign(ndim);
+                var response = new ResponseDataModel<IEnumerable<VitalSignEMRModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<VitalSignEMRModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }

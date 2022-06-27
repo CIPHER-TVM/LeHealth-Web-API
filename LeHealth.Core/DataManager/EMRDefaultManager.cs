@@ -2,6 +2,7 @@
 using LeHealth.Core.Interface;
 using LeHealth.Entity.DataModel;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -474,9 +475,7 @@ namespace LeHealth.Core.DataManager
             }
             return rosData;
         }
-
-        //
-        public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel srm) 
+        public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel srm)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -540,6 +539,150 @@ namespace LeHealth.Core.DataManager
             }
             return menstrualData;
         }
+        public NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                string icdlabelString = JsonConvert.SerializeObject(ndim.IcdLabelList);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertNarrativeDiagnosisICD", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Nid", ndim.Nid);
+                cmd.Parameters.AddWithValue("@NarrativeDiagnosis", ndim.NarrativeDiagnosis);
+                cmd.Parameters.AddWithValue("@IcdLabelJSON", icdlabelString);
+                cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", ndim.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    ndim.Nid = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return ndim;
+        }
+        public List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
+        {
+            List<NarrativeDiagnosisICDModel> ndimData = new List<NarrativeDiagnosisICDModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetNarrativeDiagnosisICD", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", ndim.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", ndim.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    NarrativeDiagnosisICDModel obj = new NarrativeDiagnosisICDModel
+                    {
+                        Nid = Convert.ToInt32(ds.Rows[i]["Nid"]),
+                        NarrativeDiagnosis = ds.Rows[i]["NarrativeDiagnosis"].ToString(),
+                        VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
+                        VisitDate = ds.Rows[i]["VisitDate"].ToString(),
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        IcdLabelList = JsonConvert.DeserializeObject<List<ICDModel>>(ds.Rows[i]["ICDLabelList"].ToString()),
+                    };
+                    ndimData.Add(obj);
+                }
+            }
+            return ndimData;
+        }
+        //
+        public VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem) 
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                //string icdlabelString = JsonConvert.SerializeObject(vsem.ICDLabelList);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertNarrativeDiagnosisICD", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Nid", vsem.Eid);
+                //cmd.Parameters.AddWithValue("@NarrativeDiagnosis", vsem.NarrativeDiagnosis);
+                //cmd.Parameters.AddWithValue("@IcdLabelJSON", icdlabelString);
+                cmd.Parameters.AddWithValue("@VisitId", vsem.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", vsem.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    vsem.Eid = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return vsem;
+        }
+        public List<VitalSignEMRModel> GetEMRVitalSign(VitalSignEMRModel ndim)
+        {
+            List<VitalSignEMRModel> ndimData = new List<VitalSignEMRModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetNarrativeDiagnosisICD", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", ndim.PatientId); 
+            cmd.Parameters.AddWithValue("@ShowAll", ndim.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    VitalSignEMRModel obj = new VitalSignEMRModel
+                    {
+                        //Nid = Convert.ToInt32(ds.Rows[i]["Nid"]),
+                        //NarrativeDiagnosis = ds.Rows[i]["NarrativeDiagnosis"].ToString(),
+                        //VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
+                        //VisitDate = ds.Rows[i]["VisitDate"].ToString(),
+                        //PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        //ICDLabelList = JsonConvert.DeserializeObject<List<ICDModel>>(ds.Rows[i]["ICDLabelList"].ToString()),
+                    };
+                    ndimData.Add(obj);
+                }
+            }
+            return ndimData;
+        }
+
 
     }
 }

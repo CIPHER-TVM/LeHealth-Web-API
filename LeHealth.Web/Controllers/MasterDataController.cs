@@ -57,7 +57,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("GetCommonMasterItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<CommonMasterFieldModel>> GetCommonMasterItem(CommonMasterFieldModelAll cmfma)
@@ -90,7 +90,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
         [Route("DeleteCommonMasterItem")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> DeleteCommonMasterItem(CommonMasterFieldModelAll MasterItem)
@@ -196,14 +196,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             //try
             //{
-                List<ServiceConfigModel> cptList = new List<ServiceConfigModel>();
-                cptList = masterdataService.GetServiceItem(cmfma);
-                var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = cptList
-                };
-                return response;
+            List<ServiceConfigModel> cptList = new List<ServiceConfigModel>();
+            cptList = masterdataService.GetServiceItem(cmfma);
+            var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
+            {
+                Status = HttpStatusCode.OK,
+                Response = cptList
+            };
+            return response;
             //}
             //catch (Exception ex)
             //{
@@ -834,7 +834,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             try
             {
-                 //test commit
+                //test commit
                 string message = string.Empty;
                 message = masterdataService.InsertUpdateRateGroup(rategroup);
                 var response = new ResponseDataModel<RateGroupModel>()
@@ -4408,7 +4408,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetICDCategory")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ICDCategoryModel>> GetICDLabel(ICDCategoryModelAll icdcateg)
+        public ResponseDataModel<IEnumerable<ICDCategoryModel>> GetICDCategory(ICDCategoryModelAll icdcateg)
         {
             try
             {
@@ -4935,14 +4935,14 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         {
             //try
             //{
-                List<DrugModel> drugs = new List<DrugModel>();
-                drugs = masterdataService.GetDrug(drug);
-                var response = new ResponseDataModel<IEnumerable<DrugModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = drugs
-                };
-                return response;
+            List<DrugModel> drugs = new List<DrugModel>();
+            drugs = masterdataService.GetDrug(drug);
+            var response = new ResponseDataModel<IEnumerable<DrugModel>>()
+            {
+                Status = HttpStatusCode.OK,
+                Response = drugs
+            };
+            return response;
             //}
             //catch (Exception ex)
             //{

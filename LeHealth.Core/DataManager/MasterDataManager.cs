@@ -5830,22 +5830,22 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTradeName", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@TradeId", tradeName.TradeId);//
+                cmd.Parameters.AddWithValue("@TradeId", tradeName.TradeId);
                 cmd.Parameters.AddWithValue("@TradeName", tradeName.TradeName);
-                cmd.Parameters.AddWithValue("@ScientificId", tradeName.ScientificId);//
-                cmd.Parameters.AddWithValue("@RouteId", tradeName.RouteId);//
-                cmd.Parameters.AddWithValue("@DosageForm", tradeName.DosageForm);//
-                cmd.Parameters.AddWithValue("@IngredentStrength", tradeName.IngredentStrength);//
-                cmd.Parameters.AddWithValue("@PackagePrice", tradeName.PackagePrice);//
-                cmd.Parameters.AddWithValue("@GranularUnit", tradeName.GranularUnit);//
-                cmd.Parameters.AddWithValue("@Manufacturer", tradeName.Manufacturer);//
-                cmd.Parameters.AddWithValue("@RegisteredOwner", tradeName.RegisteredOwner);//
+                cmd.Parameters.AddWithValue("@ScientificId", tradeName.ScientificId);
+                cmd.Parameters.AddWithValue("@RouteId", tradeName.RouteId);
+                cmd.Parameters.AddWithValue("@DosageForm", tradeName.DosageForm);
+                cmd.Parameters.AddWithValue("@IngredentStrength", tradeName.IngredentStrength);
+                cmd.Parameters.AddWithValue("@PackagePrice", tradeName.PackagePrice);
+                cmd.Parameters.AddWithValue("@GranularUnit", tradeName.GranularUnit);
+                cmd.Parameters.AddWithValue("@Manufacturer", tradeName.Manufacturer);
+                cmd.Parameters.AddWithValue("@RegisteredOwner", tradeName.RegisteredOwner);
                 cmd.Parameters.AddWithValue("@IsDisplayed", tradeName.IsDisplayed);
                 cmd.Parameters.AddWithValue("@IsDeleted", tradeName.IsDeleted);
                 cmd.Parameters.AddWithValue("@BranchId", tradeName.BranchId);
                 cmd.Parameters.AddWithValue("@TradeCode", tradeName.TradeCode);
                 cmd.Parameters.AddWithValue("@UserId", tradeName.UserId);
-                cmd.Parameters.AddWithValue("@ZoneId", tradeName.ZoneId);//
+                cmd.Parameters.AddWithValue("@ZoneId", tradeName.ZoneId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5888,7 +5888,6 @@ namespace LeHealth.Core.DataManager
             adapter.Fill(dt);
             con.Close();
             if ((dt != null) && (dt.Rows.Count > 0))
-            //  tradeNames = dt.ToListOfObject<TradeNameModel>();
             {
                 for (Int32 i = 0; i < dt.Rows.Count; i++)
                 {

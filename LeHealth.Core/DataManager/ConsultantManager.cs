@@ -2058,7 +2058,6 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_DeleteConsultantDisease", con);
                 try
                 {
-
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@DiseaseId", diseaseId);
                     cmd.Parameters.AddWithValue("@SessionId", 0);
@@ -2150,6 +2149,7 @@ namespace LeHealth.Core.DataManager
                     string signatureloc = dt.Rows[i]["SignatureLoc"] != null ? dt.Rows[i]["SignatureLoc"].ToString() : "";
                     consultant.SignatureLoc = _uploadpath + signatureloc;
                     consultant.DrugRefType = Convert.ToInt32(dt.Rows[i]["DrugRefType"]);
+                    //consultant.ConsultantMedicationReport = Convert.ToBoolean(dt.Rows[i]["ConsultantMedicationReport"]);
                     consultant.UserId = Convert.ToInt32(dt.Rows[i]["ConsultantUserId"]);
                     consultant.ItemIdList = JsonConvert.DeserializeObject<List<ItemIdListCls>>(dt.Rows[i]["ItemIdList"].ToString());
                 }
@@ -2283,15 +2283,11 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@UserId", timeScheduleMaster.UserId);
                 cmd.Parameters.AddWithValue("@AlldaySameFlag", timeScheduleMaster.AlldaySameFlag);
                 cmd.Parameters.AddWithValue("@DayIds", DayIds);
-
-
-
                 SqlParameter timeMasterRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
                 };
                 cmd.Parameters.Add(timeMasterRetVal);
-
                 SqlParameter timeMasterRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
                 {
                     Direction = ParameterDirection.Output
@@ -2302,8 +2298,6 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.ExecuteNonQuery();
                     int ScheduleMasterId = (int)timeMasterRetVal.Value;
-
-                    //........................
                     var desceMaster = timeMasterRetDesc.Value.ToString();
                     response = desceMaster;
                     if (desceMaster == "Saved Successfully")
@@ -2316,10 +2310,8 @@ namespace LeHealth.Core.DataManager
                         transaction.Commit();
                         //====================InsertTimeSchedules===========================
                         string timeScheduleString = JsonConvert.SerializeObject(timeScheduleMaster.TimeSchedules);
-
                         SqlCommand cmdTimeSchedule = new SqlCommand("stLH_InsertConsultantTimeSchedule", con);
                         cmdTimeSchedule.CommandType = CommandType.StoredProcedure;
-
                         cmdTimeSchedule.Parameters.AddWithValue("@ScheMid", ScheduleMasterId);
                         cmdTimeSchedule.Parameters.AddWithValue("@ConsultantId", timeScheduleMaster.ConsultantId);
                         cmdTimeSchedule.Parameters.AddWithValue("@BranchId", timeScheduleMaster.BranchId);
@@ -2338,12 +2330,45 @@ namespace LeHealth.Core.DataManager
                         cmdTimeSchedule.Parameters.Add(timeScheduleRetDesc);
                         cmdTimeSchedule.ExecuteNonQuery();
                         var descTimeSchedule = timeScheduleRetDesc.Value.ToString();
-                        con.Close();
                         response = descTimeSchedule;
                         if (descTimeSchedule == "Saved Successfully")
                         {
                             response = "Success";
+                            //NEW CODE STARTS
+                            string ConsultantTimeScheduleString = JsonConvert.SerializeObject(cdmList);
+                            SqlCommand cmdCdmList = new SqlCommand("stLH_InsertConsultantDaysData", con);
+                            cmdCdmList.CommandType = CommandType.StoredProcedure;
+                            cmdCdmList.Parameters.AddWithValue("@ConsultantId", timeScheduleMaster.ConsultantId);
+                            cmdCdmList.Parameters.AddWithValue("@BranchId", timeScheduleMaster.BranchId);
+                            cmdCdmList.Parameters.AddWithValue("@ScheduleSaveJSON", ConsultantTimeScheduleString);
+                            cmdCdmList.Parameters.AddWithValue("@UserId", timeScheduleMaster.UserId);
+                            SqlParameter cdmRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            SqlParameter cdmRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmdCdmList.Parameters.Add(cdmRetVal);
+                            cmdCdmList.Parameters.Add(cdmRetDesc);
+                            cmdCdmList.ExecuteNonQuery();
+                            var descCDM = cdmRetDesc.Value.ToString();
+                            response = descCDM;
+                            if (response == "Saved SUccessfully")
+                            {
+                                response = "Success";
+                            }
+                            //NEW CODE ENDS
+
                         }
+
+
+
+
+
+                        con.Close();
+                       
                     }
                     else
                     {
