@@ -32,5 +32,6 @@ namespace LeHealth.Core.Interface
 
         VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem);
         List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem); 
+        List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem); 
     }
 }
