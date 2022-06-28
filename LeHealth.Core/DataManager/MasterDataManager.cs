@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using LeHealth.Common;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace LeHealth.Core.DataManager
 {
@@ -2274,7 +2275,7 @@ namespace LeHealth.Core.DataManager
                         BodyDesc = dtbodypartList.Rows[i]["BodyDesc"].ToString(),
                         IsDisplayed = Convert.ToInt32(dtbodypartList.Rows[i]["IsDisplayed"]),
                         BodyPartImageLocation = imgloc != "" ? _uploadpath + imgloc : imgloc,
-                        BodyPartFileName = imgloc != "" ?  imgloc : imgloc,
+                        BodyPartFileName = imgloc != "" ? imgloc.Split('/').Last() : imgloc,
                     };
                     bodypartList.Add(obj);
                 }
@@ -2375,7 +2376,9 @@ namespace LeHealth.Core.DataManager
                         IndicatorId = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IndicatorId"]),
                         IndicatorDesc = dtSketchIndicatorsList.Rows[i]["IndicatorDesc"].ToString(),
                         ImageUrl = imgloc != "" ? _uploadpath + imgloc : imgloc,
+                        ImageFileName = imgloc != "" ? imgloc.Split('/').Last() : imgloc,
                         IsDisplayed = Convert.ToInt32(dtSketchIndicatorsList.Rows[i]["IsDisplayed"]),
+
                     };
                     sketchIndicators.Add(obj);
                 }
