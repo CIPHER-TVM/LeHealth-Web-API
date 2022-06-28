@@ -678,7 +678,8 @@ namespace LeHealth.Core.DataManager
                     {
                         VitalSignId = Convert.ToInt32(ds.Rows[i]["VitalSignId"]),
                         VitalSignName = ds.Rows[i]["VitalSignName"].ToString(),
-                        VitalSignValue = ds.Rows[i]["VitalSignValue"].ToString()
+                        VitalSignValue = ds.Rows[i]["VitalSignValue"].ToString(),
+                        Eid = Convert.ToInt32(ds.Rows[i]["Eid"])
                     };
                     evsData.Add(obj);
                 }
@@ -703,7 +704,7 @@ namespace LeHealth.Core.DataManager
                 {
                     VitalSignEMRAll obj = new VitalSignEMRAll
                     {
-                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+                        Eid = Convert.ToInt32(ds.Rows[i]["Id"]),
                         CreatedDate = ds.Rows[i]["CreatedDate"].ToString(),
                         VitalSignData = JsonConvert.DeserializeObject<List<VitalSignEMRData>>(ds.Rows[i]["VitalSignData"].ToString()),
                     };
@@ -712,7 +713,33 @@ namespace LeHealth.Core.DataManager
             }
             return evsData;
         }
-
+        //public List<DrugModelAutoComplete> GetAllEMRVitalSignByVisitId(DrugModelAutoComplete ndim)
+        //{
+        //    List<VitalSignEMRAll> evsData = new List<VitalSignEMRAll>();
+        //    using SqlConnection con = new SqlConnection(_connStr);
+        //    using SqlCommand cmd = new SqlCommand("stLH_GetAllEMRVitalSignByVisitId", con);
+        //    con.Open();
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
+        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //    DataTable ds = new DataTable();
+        //    adapter.Fill(ds);
+        //    con.Close();
+        //    if ((ds != null) && (ds.Rows.Count > 0))
+        //    {
+        //        for (Int32 i = 0; i < ds.Rows.Count; i++)
+        //        {
+        //            VitalSignEMRAll obj = new VitalSignEMRAll
+        //            {
+        //                Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+        //                CreatedDate = ds.Rows[i]["CreatedDate"].ToString(),
+        //                VitalSignData = JsonConvert.DeserializeObject<List<VitalSignEMRData>>(ds.Rows[i]["VitalSignData"].ToString()),
+        //            };
+        //            evsData.Add(obj);
+        //        }
+        //    }
+        //    return evsData;
+        //}
 
     }
 }

@@ -41,4 +41,10 @@ namespace LeHealth.Entity.DataModel
         public string TradeCode { get; set; }
 
     }
+
+    public class DrugModelAutoComplete
+    {
+        public int DrugId { get; set; }
+        public string DrugName { get; set; }
+    }
 }
