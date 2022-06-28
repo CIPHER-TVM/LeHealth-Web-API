@@ -615,7 +615,15 @@ namespace LeHealth.Core.DataManager
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                string vitalsignString = JsonConvert.SerializeObject(vsem.VitalSignDataList);
+                List<VitalSignEMRData> vsed = new List<VitalSignEMRData>();
+                foreach (var vitalsign in vsem.VitalSignDataList)
+                {
+                    if (vitalsign.VitalSignValue != "")
+                    {
+                        vsed.Add(vitalsign);
+                    }
+                }
+                string vitalsignString = JsonConvert.SerializeObject(vsed);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertVitalSignEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Eid", vsem.Eid);

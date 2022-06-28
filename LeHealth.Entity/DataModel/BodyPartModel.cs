@@ -30,6 +30,7 @@ namespace LeHealth.Entity.DataModel
         public int BodyId { get; set; }
         public string BodyDesc { get; set; }
         public string BodyPartImageLocation { get; set; }
+        public string BodyPartFileName { get; set; }
         public int IsDisplayed { get; set; }
     }
 }
