@@ -2333,7 +2333,6 @@ namespace LeHealth.Core.DataManager
                         response = descTimeSchedule;
                         if (descTimeSchedule == "Saved Successfully")
                         {
-                            response = "Success";
                             //NEW CODE STARTS
                             string ConsultantTimeScheduleString = JsonConvert.SerializeObject(cdmList);
                             SqlCommand cmdCdmList = new SqlCommand("stLH_InsertConsultantDaysData", con);
@@ -2368,7 +2367,7 @@ namespace LeHealth.Core.DataManager
 
 
                         con.Close();
-                       
+
                     }
                     else
                     {

@@ -97,7 +97,7 @@ namespace LeHealth.Service.Service
         { 
             return emrdataManager.InsertEMRVitalSign(vsem);
         }
-        public List<VitalSignEMRModel> GetEMRVitalSign(VitalSignEMRModel vsem)
+        public List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem)
         {
             return emrdataManager.GetEMRVitalSign(vsem);
         }

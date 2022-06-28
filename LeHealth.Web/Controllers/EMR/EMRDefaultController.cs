@@ -723,13 +723,13 @@ namespace LeHealth.Base.API.Controllers.EMR
 
         [Route("GetEMRVitalSign")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<VitalSignEMRModel>> GetEMRVitalSign(VitalSignEMRModel ndim)
+        public ResponseDataModel<IEnumerable<VitalSignEMRData>> GetEMRVitalSign(VitalSignEMRModel ndim)
         {
             try
             {
-                List<VitalSignEMRModel> emrList = new List<VitalSignEMRModel>();
+                List<VitalSignEMRData> emrList = new List<VitalSignEMRData>();
                 emrList = emrdefaultService.GetEMRVitalSign(ndim);
-                var response = new ResponseDataModel<IEnumerable<VitalSignEMRModel>>()
+                var response = new ResponseDataModel<IEnumerable<VitalSignEMRData>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = emrList
@@ -739,7 +739,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<VitalSignEMRModel>>()
+                return new ResponseDataModel<IEnumerable<VitalSignEMRData>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

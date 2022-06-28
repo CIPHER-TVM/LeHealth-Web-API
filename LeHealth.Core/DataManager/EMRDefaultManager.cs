@@ -611,16 +611,15 @@ namespace LeHealth.Core.DataManager
             return ndimData;
         }
         //
-        public VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem) 
+        public VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                //string icdlabelString = JsonConvert.SerializeObject(vsem.ICDLabelList);
-                using SqlCommand cmd = new SqlCommand("stLH_InsertNarrativeDiagnosisICD", con);
+                string vitalsignString = JsonConvert.SerializeObject(vsem.VitalSignDataList);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertVitalSignEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Nid", vsem.Eid);
-                //cmd.Parameters.AddWithValue("@NarrativeDiagnosis", vsem.NarrativeDiagnosis);
-                //cmd.Parameters.AddWithValue("@IcdLabelJSON", icdlabelString);
+                cmd.Parameters.AddWithValue("@Eid", vsem.Eid);
+                cmd.Parameters.AddWithValue("@VitalSignJSON", vitalsignString);
                 cmd.Parameters.AddWithValue("@VisitId", vsem.VisitId);
                 cmd.Parameters.AddWithValue("@UserId", vsem.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -650,16 +649,16 @@ namespace LeHealth.Core.DataManager
             }
             return vsem;
         }
-        public List<VitalSignEMRModel> GetEMRVitalSign(VitalSignEMRModel ndim)
+        public List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel ndim)
         {
-            List<VitalSignEMRModel> ndimData = new List<VitalSignEMRModel>();
+            List<VitalSignEMRData> evsData = new List<VitalSignEMRData>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetNarrativeDiagnosisICD", con);
+            using SqlCommand cmd = new SqlCommand("stLH_GetEMRVitalSign", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
-            cmd.Parameters.AddWithValue("@PatientId", ndim.PatientId); 
-            cmd.Parameters.AddWithValue("@ShowAll", ndim.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", ndim.BranchId);
+            //cmd.Parameters.AddWithValue("@ShowAll", ndim.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -668,19 +667,16 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    VitalSignEMRModel obj = new VitalSignEMRModel
+                    VitalSignEMRData obj = new VitalSignEMRData
                     {
-                        //Nid = Convert.ToInt32(ds.Rows[i]["Nid"]),
-                        //NarrativeDiagnosis = ds.Rows[i]["NarrativeDiagnosis"].ToString(),
-                        //VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
-                        //VisitDate = ds.Rows[i]["VisitDate"].ToString(),
-                        //PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-                        //ICDLabelList = JsonConvert.DeserializeObject<List<ICDModel>>(ds.Rows[i]["ICDLabelList"].ToString()),
+                        VitalSignId = Convert.ToInt32(ds.Rows[i]["VitalSignId"]),
+                        VitalSignName = ds.Rows[i]["VitalSignName"].ToString(),
+                        VitalSignValue = ds.Rows[i]["VitalSignValue"].ToString()
                     };
-                    ndimData.Add(obj);
+                    evsData.Add(obj);
                 }
             }
-            return ndimData;
+            return evsData;
         }
 
 

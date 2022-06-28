@@ -31,6 +31,6 @@ namespace LeHealth.Core.Interface
         List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim);
 
         VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem);
-        List<VitalSignEMRModel> GetEMRVitalSign(VitalSignEMRModel vsem); 
+        List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem); 
     }
 }
