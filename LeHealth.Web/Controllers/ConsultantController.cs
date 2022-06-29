@@ -395,15 +395,15 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("GetConsultantDrugs/{consultantId}")]
+        [Route("GetConsultantDrugs")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugs(int consultantId)
+        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugs(ConsultantDrugModel consultant)
         {
             try
             {
                 List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
 
-                consultantDrugs = consultantService.GetConsultantDrugs(consultantId);
+                consultantDrugs = consultantService.GetConsultantDrugs(consultant);
                 var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
                 {
                     Status = HttpStatusCode.OK,

@@ -657,14 +657,15 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public List<ConsultantDrugModel> GetConsultantDrugs(int consultantId)
+        public List<ConsultantDrugModel> GetConsultantDrugs(ConsultantDrugModel consultant)
         {
             List<ConsultantDrugModel> consultantServices = new List<ConsultantDrugModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugList", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ConsultantId", consultantId);
+            cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
+            cmd.Parameters.AddWithValue("@DrugId", consultant.DrugId);// NEW
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtConsultantDrugList = new DataTable();
             adapter.Fill(dtConsultantDrugList);
