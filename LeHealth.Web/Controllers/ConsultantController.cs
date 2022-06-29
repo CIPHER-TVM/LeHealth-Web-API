@@ -1320,6 +1320,38 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+        [Route("GetConsultantBaseCosts")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemRateDetailModel>> GetConsultantBaseCosts(ConsultantBaseCostModelAll cbcm)
+        {
+            try
+            {
+                List<ItemRateDetailModel> consultantDrugs = new List<ItemRateDetailModel>();
+                consultantDrugs = consultantService.GetConsultantBaseCosts(cbcm);
+                var response = new ResponseDataModel<IEnumerable<ItemRateDetailModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantDrugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemRateDetailModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
         [Route("InsertUpdateConsultantBaseCost")]
         [HttpPost]
         public ResponseDataModel<string> InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll ServiceItem)

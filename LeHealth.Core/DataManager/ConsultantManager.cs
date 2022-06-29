@@ -660,7 +660,6 @@ namespace LeHealth.Core.DataManager
         public List<ConsultantDrugModel> GetConsultantDrugs(int consultantId)
         {
             List<ConsultantDrugModel> consultantServices = new List<ConsultantDrugModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugList", con);
             con.Open();
@@ -1663,6 +1662,33 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return appointmentlist;
+        }
+        public List<ItemRateDetailModel> GetConsultantBaseCosts(ConsultantBaseCostModelAll ss)
+        {
+            List<ItemRateDetailModel> consultantbasecostlist = new List<ItemRateDetailModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            string SignIds = string.Empty;
+            using SqlCommand cmd = new SqlCommand("stLH_GetConsultantBaseCosts", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ConsultantId", ss.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", ss.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    ItemRateDetailModel obj = new ItemRateDetailModel();
+                    obj.ItemId = Convert.ToInt32(ds.Rows[i]["ItemId"]);
+                    obj.ItemName = ds.Rows[i]["ItemName"].ToString();
+                    obj.BaseCost = ds.Rows[i]["BaseCost"].ToString();
+                    consultantbasecostlist.Add(obj);
+                }
+            }
+            return consultantbasecostlist;
         }
         public List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll ss)
         {
