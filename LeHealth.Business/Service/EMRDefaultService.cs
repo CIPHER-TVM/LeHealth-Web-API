@@ -105,7 +105,10 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetAllEMRVitalSignByVisitId(vsem);
         }
-
+        public List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dmac)
+        {
+            return emrdataManager.GetDrugsAutoComplete(dmac); 
+        }
     }
 
 }

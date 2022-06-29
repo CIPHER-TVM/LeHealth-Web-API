@@ -713,33 +713,34 @@ namespace LeHealth.Core.DataManager
             }
             return evsData;
         }
-        //public List<DrugModelAutoComplete> GetAllEMRVitalSignByVisitId(DrugModelAutoComplete ndim)
-        //{
-        //    List<VitalSignEMRAll> evsData = new List<VitalSignEMRAll>();
-        //    using SqlConnection con = new SqlConnection(_connStr);
-        //    using SqlCommand cmd = new SqlCommand("stLH_GetAllEMRVitalSignByVisitId", con);
-        //    con.Open();
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
-        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //    DataTable ds = new DataTable();
-        //    adapter.Fill(ds);
-        //    con.Close();
-        //    if ((ds != null) && (ds.Rows.Count > 0))
-        //    {
-        //        for (Int32 i = 0; i < ds.Rows.Count; i++)
-        //        {
-        //            VitalSignEMRAll obj = new VitalSignEMRAll
-        //            {
-        //                Id = Convert.ToInt32(ds.Rows[i]["Id"]),
-        //                CreatedDate = ds.Rows[i]["CreatedDate"].ToString(),
-        //                VitalSignData = JsonConvert.DeserializeObject<List<VitalSignEMRData>>(ds.Rows[i]["VitalSignData"].ToString()),
-        //            };
-        //            evsData.Add(obj);
-        //        }
-        //    }
-        //    return evsData;
-        //}
+        public List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dac)
+        {
+            List<DrugModelAutoComplete> dacData = new List<DrugModelAutoComplete>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDrugsAutoComplete", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DrugName", dac.DrugName);
+            cmd.Parameters.AddWithValue("@BranchId", dac.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    DrugModelAutoComplete obj = new DrugModelAutoComplete
+                    {
+                        DrugId = Convert.ToInt32(ds.Rows[i]["DrugId"]),
+                        DrugName = ds.Rows[i]["DrugName"].ToString(),
+                        BranchId = dac.BranchId
+                    };
+                    dacData.Add(obj);
+                }
+            }
+            return dacData;
+        }
 
     }
 }

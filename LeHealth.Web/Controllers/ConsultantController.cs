@@ -193,15 +193,15 @@ namespace LeHealth.Base.API.Controllers
         /// </summary>
         /// <param name="consultantType">Type of consultant</param>
         /// <returns>Consultant list</returns>
-        [Route("GetAllConsultants/{consultantType}")]
+        [Route("GetAllConsultants")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetAllConsultants(int consultantType)
+        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetAllConsultants(ConsultantMasterModel consultant)
         {
 
             try
             {
                 List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
-                consultantList = consultantService.GetAllConsultants(consultantType);
+                consultantList = consultantService.GetAllConsultants(consultant);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
                 {
                     Status = HttpStatusCode.OK,

@@ -11,7 +11,7 @@ namespace LeHealth.Service.ServiceInterface
         List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment);
         List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient);
         string InsertUpdateConsultant(ConsultantRegModel consultant);
-        List<ConsultantMasterModel> GetAllConsultants(int consultantType);
+        List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant);
         string InsertConsultantService(ConsultantServiceModel consultant);
         string DeleteConsultantService(ConsultantItemModel ci);
         List<ConsultantServiceModel> GetConsultantServices(int consultantId);
@@ -46,7 +46,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
         List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm);
         string InsertConsultantSketch(SketchModelAll sketch);
-        string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm); 
+        string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
         List<SketchModel> GetConsultantSketch(SketchModelAll sketch);
         string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking);
         List<ConsultantMarkingModel> GetConsultantMarkings(ConsultantMarkingModel consultant);

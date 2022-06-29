@@ -48,6 +48,7 @@ namespace LeHealth.Entity.DataModel
         public bool DeptOverrule { get; set; }
         public bool DeptWiseConsultation { get; set; }
         public bool ExternalConsultant { get; set; }
+        public int ConsultantType { get; set; } 
         public bool ConsultantMedicationReport { get; set; }
         public int AppType { get; set; }
         public string BlockReason { get; set; }
@@ -97,7 +98,7 @@ namespace LeHealth.Entity.DataModel
     }
     public class ConsultantRegModel : ConsultantMasterModel
     {
-
+        public int AddedFromBranch { get; set; } 
         public IFormFile PhotoFile { get; set; }
 
     }

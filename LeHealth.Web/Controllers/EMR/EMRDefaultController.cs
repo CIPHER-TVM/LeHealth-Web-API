@@ -786,5 +786,38 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("GetDrugsAutoComplete")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DrugModelAutoComplete>> GetDrugsAutoComplete(DrugModelAutoComplete ndim)
+        {
+            try
+            {
+                List<DrugModelAutoComplete> emrList = new List<DrugModelAutoComplete>();
+                emrList = emrdefaultService.GetDrugsAutoComplete(ndim);
+                var response = new ResponseDataModel<IEnumerable<DrugModelAutoComplete>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DrugModelAutoComplete>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
     }
 }

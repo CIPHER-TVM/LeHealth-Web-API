@@ -54,9 +54,9 @@ namespace LeHealth.Service.Service
             }
             return consultantManager.InsertUpdateConsultant(consultant);
         }
-        public List<ConsultantMasterModel> GetAllConsultants(int consultantType)
+        public List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant)
         {
-            return consultantManager.GetAllConsultants(consultantType);
+            return consultantManager.GetAllConsultants(consultant);
         }
         public string InsertConsultantService(ConsultantServiceModel consultant)
         {

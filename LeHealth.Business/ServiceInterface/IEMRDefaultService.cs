@@ -28,7 +28,9 @@ namespace LeHealth.Service.ServiceInterface
         NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim);
         List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim);
         VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem);
-        List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem); 
-        List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem); 
+        List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem);
+        List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem);
+
+        List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dma); 
     }
 }

@@ -348,7 +348,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@TimeSlice", consultant.TimeSlice);
                     cmdSaveConsultant.Parameters.AddWithValue("@AppType", consultant.AppType);
                     cmdSaveConsultant.Parameters.AddWithValue("@MaxPatients", consultant.MaxPatients);
-                    cmdSaveConsultant.Parameters.AddWithValue("@BranchId", consultant.BranchId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@BranchId", consultant.BranchId);//AddedFromBranch
                     cmdSaveConsultant.Parameters.AddWithValue("@ItemIdList", Itemidlist);
                     cmdSaveConsultant.Parameters.AddWithValue("@DrugRefType", consultant.DrugRefType);
                     cmdSaveConsultant.Parameters.AddWithValue("@Active", true);
@@ -361,6 +361,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
                     cmdSaveConsultant.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
                     cmdSaveConsultant.Parameters.AddWithValue("@SpecialityCode", consultant.SpecialityCode);
+                    //cmdSaveConsultant.Parameters.AddWithValue("@AddedFromBranch", consultant.AddedFromBranch);
                     cmdSaveConsultant.Parameters.AddWithValue("@IsDeleted", consultant.IsDeleted);
                     cmdSaveConsultant.Parameters.AddWithValue("@IsDisplayed", consultant.IsDisplayed);
                     SqlParameter retValSaveConsultant = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -437,7 +438,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="consultantType  =2 for all consultants"> </param>
         /// <returns>List of Consultant details</returns>
-        public List<ConsultantMasterModel> GetAllConsultants(int consultantType)
+        public List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant)
         {
             List<ConsultantMasterModel> patientList = new List<ConsultantMasterModel>();
 
@@ -445,15 +446,14 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetAllConsultants", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ConsType", consultantType);
-
+            cmd.Parameters.AddWithValue("@ConsType", consultant.ConsultantType);
+            cmd.Parameters.AddWithValue("@BranchId", consultant.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtPatientList = new DataTable();
             adapter.Fill(dtPatientList);
             con.Close();
             if ((dtPatientList != null) && (dtPatientList.Rows.Count > 0))
                 patientList = dtPatientList.ToListOfObject<ConsultantMasterModel>();
-
             return patientList;
         }
         public string InsertConsultantService(ConsultantServiceModel consultant)

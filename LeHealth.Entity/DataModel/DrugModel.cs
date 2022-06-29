@@ -46,5 +46,6 @@ namespace LeHealth.Entity.DataModel
     {
         public int DrugId { get; set; }
         public string DrugName { get; set; }
+        public int BranchId { get; set; } 
     }
 }
