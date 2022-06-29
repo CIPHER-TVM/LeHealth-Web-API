@@ -82,6 +82,37 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetMenstrualHistory(emr);
         }
+
+
+        public NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
+        { 
+            return emrdataManager.InsertNarrativeDiagnosisICD(ndim); 
+        }
+        public List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
+        {
+            return emrdataManager.GetNarrativeDiagnosisICD(ndim);
+        }
+
+        public VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem)
+        { 
+            return emrdataManager.InsertEMRVitalSign(vsem);
+        }
+        public List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem)
+        {
+            return emrdataManager.GetEMRVitalSign(vsem);
+        }
+        public List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel vsem)
+        {
+            return emrdataManager.GetEMRVitalSignHistory(vsem);
+        }
+        public List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem)
+        {
+            return emrdataManager.GetAllEMRVitalSignByVisitId(vsem);
+        }
+        public List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dmac)
+        {
+            return emrdataManager.GetDrugsAutoComplete(dmac); 
+        }
     }
 
 }

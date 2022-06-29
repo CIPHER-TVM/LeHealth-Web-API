@@ -23,8 +23,15 @@ namespace LeHealth.Service.ServiceInterface
         PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm);
         List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel srm);
         List<VisitModel> GetVisitDetails(VisitModel visit);
-
         MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel mh);
         List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel mh);
+        NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim);
+        List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim);
+        VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem);
+        List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel vsem);
+        List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem);
+        List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem);
+
+        List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dma);
     }
 }

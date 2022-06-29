@@ -54,9 +54,9 @@ namespace LeHealth.Service.Service
             }
             return consultantManager.InsertUpdateConsultant(consultant);
         }
-        public List<ConsultantMasterModel> GetAllConsultants(int consultantType)
+        public List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant)
         {
-            return consultantManager.GetAllConsultants(consultantType);
+            return consultantManager.GetAllConsultants(consultant);
         }
         public string InsertConsultantService(ConsultantServiceModel consultant)
         {
@@ -78,9 +78,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.UpdateConsultantDrugs(consultantDrug);
         }
-        public List<ConsultantDrugModel> GetConsultantDrugs(int consultantId)
+        public List<ConsultantDrugModel> GetConsultantDrugs(ConsultantDrugModel consultant)
         {
-            return consultantManager.GetConsultantDrugs(consultantId);
+            return consultantManager.GetConsultantDrugs(consultant);
         }
         public string DeleteConsultantDrug(int drugId)
         {
@@ -188,6 +188,10 @@ namespace LeHealth.Service.Service
         public List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
         {
             return consultantManager.GetConsultantBaseCost(cbcm);
+        } 
+        public List<ItemRateDetailModel> GetConsultantBaseCosts(ConsultantBaseCostModelAll cbcm)
+        {
+            return consultantManager.GetConsultantBaseCosts(cbcm);
         }
         public string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
         {

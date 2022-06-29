@@ -11,13 +11,13 @@ namespace LeHealth.Service.ServiceInterface
         List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment);
         List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient);
         string InsertUpdateConsultant(ConsultantRegModel consultant);
-        List<ConsultantMasterModel> GetAllConsultants(int consultantType);
+        List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant);
         string InsertConsultantService(ConsultantServiceModel consultant);
         string DeleteConsultantService(ConsultantItemModel ci);
         List<ConsultantServiceModel> GetConsultantServices(int consultantId);
         string InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs);
         string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug);
-        List<ConsultantDrugModel> GetConsultantDrugs(int consultantId);
+        List<ConsultantDrugModel> GetConsultantDrugs(ConsultantDrugModel consultantId);
         string DeleteConsultantDrug(int drugId);
         string InsertConsultantDiseases(DiseaseModel disease);
         List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId);
@@ -44,9 +44,10 @@ namespace LeHealth.Service.ServiceInterface
         List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
         List<ConsultantDrugModel> GetConsultantDrugsById(int drugId);
         List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
+        List<ItemRateDetailModel> GetConsultantBaseCosts(ConsultantBaseCostModelAll cbcm);
         List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm);
         string InsertConsultantSketch(SketchModelAll sketch);
-        string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm); 
+        string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
         List<SketchModel> GetConsultantSketch(SketchModelAll sketch);
         string InsertUpdateConsultantMarking(ConsultantMarkingModel consultantMarking);
         List<ConsultantMarkingModel> GetConsultantMarkings(ConsultantMarkingModel consultant);

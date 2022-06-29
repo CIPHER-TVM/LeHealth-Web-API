@@ -12,13 +12,13 @@ namespace LeHealth.Core.Interface
         List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment);
         List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient);
         string InsertUpdateConsultant(ConsultantRegModel consultant);
-        List<ConsultantMasterModel> GetAllConsultants(int consultantType);
+        List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant); 
         string InsertConsultantService(ConsultantServiceModel consultant);
         string DeleteConsultantService(ConsultantItemModel ci);
         List<ConsultantServiceModel> GetConsultantServices(int consultantId);
         string InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs);
         string UpdateConsultantDrugs(ConsultantDrugModel consultantDrug);
-        List<ConsultantDrugModel> GetConsultantDrugs(int consultantId);
+        List<ConsultantDrugModel> GetConsultantDrugs(ConsultantDrugModel consultantId);
         string DeleteConsultantDrug(int drugId);
         string InsertConsultantDiseases(DiseaseModel disease);
         List<DiseaseSymptomModel> GetDiseaseSymptoms(int diseaseId);
@@ -45,6 +45,7 @@ namespace LeHealth.Core.Interface
         List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
         List<ConsultantDrugModel> GetConsultantDrugsById(int drugId);
         List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
+        List<ItemRateDetailModel> GetConsultantBaseCosts(ConsultantBaseCostModelAll cbcm);
         string InsertUpdateConsultantBaseCost(ConsultantBaseCostModelAll sketch); 
         List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm);
         string InsertConsultantSketch(SketchModelAll sketch);

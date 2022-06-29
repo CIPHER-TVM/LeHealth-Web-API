@@ -7,6 +7,7 @@ namespace LeHealth.Core.Interface
 {
     public interface IEMRDefaultManager
     {
+        List<VisitModel> GetVisitDetails(VisitModel visit);
         List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll consultation);
         List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel pbm);
         VisitModel InsertVisit(VisitModel visit);
@@ -25,6 +26,14 @@ namespace LeHealth.Core.Interface
 
         MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel mh);
         List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel mh);
-        List<VisitModel> GetVisitDetails(VisitModel visit);
+
+        NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim);
+        List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim);
+
+        VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem);
+        List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem);
+        List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel vsem);
+        List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem);
+        List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dac);
     }
 }

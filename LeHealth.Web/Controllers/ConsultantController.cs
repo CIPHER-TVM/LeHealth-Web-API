@@ -193,15 +193,15 @@ namespace LeHealth.Base.API.Controllers
         /// </summary>
         /// <param name="consultantType">Type of consultant</param>
         /// <returns>Consultant list</returns>
-        [Route("GetAllConsultants/{consultantType}")]
+        [Route("GetAllConsultants")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetAllConsultants(int consultantType)
+        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetAllConsultants(ConsultantMasterModel consultant)
         {
 
             try
             {
                 List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
-                consultantList = consultantService.GetAllConsultants(consultantType);
+                consultantList = consultantService.GetAllConsultants(consultant);
                 var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -395,15 +395,15 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        [Route("GetConsultantDrugs/{consultantId}")]
+        [Route("GetConsultantDrugs")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugs(int consultantId)
+        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugs(ConsultantDrugModel consultant)
         {
             try
             {
                 List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
 
-                consultantDrugs = consultantService.GetConsultantDrugs(consultantId);
+                consultantDrugs = consultantService.GetConsultantDrugs(consultant);
                 var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1307,6 +1307,38 @@ namespace LeHealth.Base.API.Controllers
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<ConsultantBaseCostModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("GetConsultantBaseCosts")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemRateDetailModel>> GetConsultantBaseCosts(ConsultantBaseCostModelAll cbcm)
+        {
+            try
+            {
+                List<ItemRateDetailModel> consultantDrugs = new List<ItemRateDetailModel>();
+                consultantDrugs = consultantService.GetConsultantBaseCosts(cbcm);
+                var response = new ResponseDataModel<IEnumerable<ItemRateDetailModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = consultantDrugs
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemRateDetailModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

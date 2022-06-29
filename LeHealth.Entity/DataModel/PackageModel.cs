@@ -12,8 +12,8 @@ namespace LeHealth.Entity.DataModel
         public string EffectTo { get; set; }
         public float PackAmount { get; set; }
         public string Remarks { get; set; }
-        public List<ItemRatePackage> ItemRateData { get; set; }
-        public float PackageItemRate { get; set; }
+        public bool IsDisplayed { get; set; }
+        public List<ItemRatePackage> ItemRateData { get; set; }  
     }
     public class PackageModelAll : PackageModel
     {
@@ -21,7 +21,6 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int BranchId { get; set; }
         public int ShowAll { get; set; }
-        public bool IsDisplayed { get; set; }
     }
     public class ItemRatePackage
     {
