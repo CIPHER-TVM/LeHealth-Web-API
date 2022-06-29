@@ -721,6 +721,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@DrugName", dac.DrugName);
+            cmd.Parameters.AddWithValue("@ConsultantId", dac.ConsultantId);
             cmd.Parameters.AddWithValue("@BranchId", dac.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
@@ -734,13 +735,13 @@ namespace LeHealth.Core.DataManager
                     {
                         DrugId = Convert.ToInt32(ds.Rows[i]["DrugId"]),
                         DrugName = ds.Rows[i]["DrugName"].ToString(),
-                        BranchId = dac.BranchId
+                        BranchId = dac.BranchId,
+                        ConsultantId = dac.ConsultantId
                     };
                     dacData.Add(obj);
                 }
             }
             return dacData;
         }
-
     }
 }
