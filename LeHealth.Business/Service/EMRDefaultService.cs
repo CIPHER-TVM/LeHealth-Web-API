@@ -101,6 +101,10 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetEMRVitalSign(vsem);
         }
+        public List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel vsem)
+        {
+            return emrdataManager.GetEMRVitalSignHistory(vsem);
+        }
         public List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem)
         {
             return emrdataManager.GetAllEMRVitalSignByVisitId(vsem);

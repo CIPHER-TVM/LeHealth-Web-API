@@ -30,4 +30,13 @@ namespace LeHealth.Entity.DataModel
         public string CreatedDate { get; set; } 
         public List<VitalSignEMRData> VitalSignData { get; set; }
     }
+
+    public class VitalSignEMRHistory
+    {
+        public int Eid { get; set; }
+        public int VisitId { get; set; }
+        public int PatientId { get; set; }
+        public string VisitDate { get; set; } 
+        public string CreatedDate { get; set; }
+    }
 }

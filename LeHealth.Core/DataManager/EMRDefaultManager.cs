@@ -686,6 +686,36 @@ namespace LeHealth.Core.DataManager
             }
             return evsData;
         }
+        public List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel ndim)
+        {
+            List<VitalSignEMRHistory> evsData = new List<VitalSignEMRHistory>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetVitalSignEMRHistory", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", ndim.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", ndim.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    VitalSignEMRHistory obj = new VitalSignEMRHistory
+                    {
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        VisitDate = ds.Rows[i]["VisitDate"].ToString(),
+                        VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
+                        Eid = Convert.ToInt32(ds.Rows[i]["Eid"])
+                    };
+                    evsData.Add(obj);
+                }
+            }
+            return evsData;
+        }
         public List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel ndim)
         {
             List<VitalSignEMRAll> evsData = new List<VitalSignEMRAll>();

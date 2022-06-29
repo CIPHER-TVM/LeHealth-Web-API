@@ -753,9 +753,42 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
             }
         }
+
+        [Route("GetEMRVitalSignHistory")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<VitalSignEMRHistory>> GetEMRVitalSignHistory(VitalSignEMRModel ndim)
+        {
+            try
+            {
+                List<VitalSignEMRHistory> emrList = new List<VitalSignEMRHistory>();
+                emrList = emrdefaultService.GetEMRVitalSignHistory(ndim);
+                var response = new ResponseDataModel<IEnumerable<VitalSignEMRHistory>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<VitalSignEMRHistory>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
         [Route("GetAllEMRVitalSignByVisitId")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<VitalSignEMRAll>> GetAllEMRVitalSignByVisitId(VitalSignEMRModel ndim) 
+        public ResponseDataModel<IEnumerable<VitalSignEMRAll>> GetAllEMRVitalSignByVisitId(VitalSignEMRModel ndim)
         {
             try
             {
