@@ -12,7 +12,8 @@ namespace LeHealth.Entity.DataModel
         public string EffectTo { get; set; }
         public float PackAmount { get; set; }
         public string Remarks { get; set; }
-        public List<ItemRatePackage> ItemRateData { get; set; }  
+        public List<ItemRatePackage> ItemRateData { get; set; }
+        public float PackageItemRate { get; set; }
     }
     public class PackageModelAll : PackageModel
     {
