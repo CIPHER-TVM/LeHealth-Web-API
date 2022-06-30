@@ -31,7 +31,8 @@ namespace LeHealth.Service.ServiceInterface
         List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel vsem);
         List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem);
         List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem);
-
         List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dma);
+        DrugsEMRModel InsertDrugsEMR(DrugsEMRModel dem);
+        List<ConsultantDrugModel> GetDrugsEMR(DrugsEMRModel dac);
     }
 }

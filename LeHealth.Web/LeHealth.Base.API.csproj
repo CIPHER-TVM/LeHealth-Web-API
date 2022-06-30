@@ -6,22 +6,17 @@
 
   <ItemGroup>
     <Compile Remove="Business\**" />
-    <Compile Remove="Controllers\EMR\**" />
     <Compile Remove="ViewModel\**" />
     <Content Remove="Business\**" />
-    <Content Remove="Controllers\EMR\**" />
     <Content Remove="ViewModel\**" />
     <EmbeddedResource Remove="Business\**" />
-    <EmbeddedResource Remove="Controllers\EMR\**" />
     <EmbeddedResource Remove="ViewModel\**" />
     <None Remove="Business\**" />
-    <None Remove="Controllers\EMR\**" />
     <None Remove="ViewModel\**" />
   </ItemGroup>
 
   <ItemGroup>
     <!--<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />-->
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />

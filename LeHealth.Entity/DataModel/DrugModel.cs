@@ -49,4 +49,13 @@ namespace LeHealth.Entity.DataModel
         public string DrugName { get; set; }
         public int BranchId { get; set; }
     }
+    public class DrugsEMRModel
+    { 
+        public int Id { get; set; }
+        public int VisitId { get; set; }
+        public int UserId { get; set; } 
+        public int ShowAll { get; set; } 
+        public int PatientId { get; set; } 
+        public List<ConsultantDrugModel> DrugDetails { get; set; }
+    }
 }
