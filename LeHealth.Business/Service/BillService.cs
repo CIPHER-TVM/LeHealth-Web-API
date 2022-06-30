@@ -15,6 +15,14 @@ namespace LeHealth.Service.Service
             billmanager = _billmanager;
         }
 
+        public List<AgentModel> GetSponsorAgent(AgentModel details)
+        {
+            return billmanager.GetSponsorAgent(details);
+        }
+        public List<UnBilledItemModel> GetUnBilledItem(UnBilledItemModel details)
+        {
+            return billmanager.GetUnBilledItem(details);
+        }
         public List<BillItemModel> GetItemForSelectionByGroup(BillItemModel billdetails)
         {
             return billmanager.GetItemForSelectionByGroup(billdetails);

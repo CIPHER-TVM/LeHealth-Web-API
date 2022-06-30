@@ -7,6 +7,8 @@ namespace LeHealth.Core.Interface
 {
     public interface IBillManager
     {
+        List<AgentModel> GetSponsorAgent(AgentModel details);
+        List<UnBilledItemModel> GetUnBilledItem(UnBilledItemModel details);
         List<BillItemModel> GetItemForSelectionByGroup(BillItemModel billdetails);
         List<BillItemModel> SearchServiceItem(BillItemModel billdetails);
         List<PackageItemsModel> GetPackageItem(PackageItemsModel inf);

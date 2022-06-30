@@ -18,6 +18,107 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
+
+        public List<AgentModel> GetSponsorAgent(AgentModel details)
+        {
+            List<AgentModel> itemList = new List<AgentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsorAgent", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@AgentId", details.AgentId);
+            cmd.Parameters.AddWithValue("@IsDisplayed", details.IsDisplayed);
+            cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", details.ShowAll);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    AgentModel obj = new AgentModel
+                    {
+                       
+                        AgentId =Convert.ToInt32( dt.Rows[i]["AgentId"].ToString()),
+                        AgentName = dt.Rows[i]["AgentName"].ToString(),
+                        Address1 = dt.Rows[i]["Address1"].ToString(),
+                        Address2 = dt.Rows[i]["Address2"].ToString(),
+                        Street = dt.Rows[i]["Street"].ToString(),
+                        city = dt.Rows[i]["city"].ToString(),
+                        PlacePO = dt.Rows[i]["PlacePO"].ToString(),
+                        PIN = dt.Rows[i]["PIN"].ToString(),
+                        State = dt.Rows[i]["State"].ToString(),
+                        CountryId =Convert.ToInt32( dt.Rows[i]["CountryId"].ToString()),
+                        Phone = dt.Rows[i]["Phone"].ToString(),
+                        Mobile = dt.Rows[i]["Mobile"].ToString(),
+                        Email = dt.Rows[i]["Email"].ToString(),
+                        Fax = dt.Rows[i]["Fax"].ToString(),
+                        ContactPerson = dt.Rows[i]["ContactPerson"].ToString(),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        DHANo = dt.Rows[i]["DHANo"].ToString(),
+                        PayerId = dt.Rows[i]["PayerId"].ToString(),
+                        HospitalId =Convert.ToInt32( dt.Rows[i]["HospitalId"].ToString()),
+                       
+
+
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+
+        public List<UnBilledItemModel> GetUnBilledItem(UnBilledItemModel details)
+        {
+            List<UnBilledItemModel> itemList = new List<UnBilledItemModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetUnBilledItem", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", details.PatientId);
+            cmd.Parameters.AddWithValue("@ConsultantId", details.ConsultantId);
+            cmd.Parameters.AddWithValue("@External", details.External);
+            cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", details.ShowAll);
+           
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtbillitem = new DataTable();
+            adapter.Fill(dtbillitem);
+            con.Close();
+            if ((dtbillitem != null) && (dtbillitem.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtbillitem.Rows.Count; i++)
+                {
+                    UnBilledItemModel obj = new UnBilledItemModel
+                    {
+
+                        Select = Convert.ToInt32(dtbillitem.Rows[i]["Select"]),
+                        PostId = Convert.ToInt32(dtbillitem.Rows[i]["PostId"]),
+                        PostDate = dtbillitem.Rows[i]["PostDate"].ToString(),
+                        OrderDetId = Convert.ToInt32(dtbillitem.Rows[i]["OrderDetId"]),
+                        LocationId = Convert.ToInt32(dtbillitem.Rows[i]["LocationId"]),
+                        UserId = Convert.ToInt32(dtbillitem.Rows[i]["UserId"]),
+                        ItemId = Convert.ToInt32(dtbillitem.Rows[i]["ItemId"]),
+                        Nos = Convert.ToInt32(dtbillitem.Rows[i]["Nos"]),
+                        PatientId = Convert.ToInt32(dtbillitem.Rows[i]["PatientId"]),                                             
+                        ItemCode = dtbillitem.Rows[i]["ItemCode"].ToString(),                      
+                        ItemName = dtbillitem.Rows[i]["ItemName"].ToString(),
+                        User = dtbillitem.Rows[i]["User"].ToString(),
+                        Location = dtbillitem.Rows[i]["Location"].ToString(),
+                        Packid = Convert.ToInt32(dtbillitem.Rows[i]["Packid"]),
+                        PayStatus = Convert.ToInt32(dtbillitem.Rows[i]["PayStatus"])
+
+
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+
         public List<BillItemModel> GetItemForSelectionByGroup(BillItemModel billdetails)
         {
             List<BillItemModel> itempList = new List<BillItemModel>();
