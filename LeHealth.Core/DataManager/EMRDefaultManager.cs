@@ -839,6 +839,9 @@ namespace LeHealth.Core.DataManager
                         Dosage = ds.Rows[i]["Dosage"].ToString(),
                         VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
                         PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        FreqMode = Convert.ToInt32(ds.Rows[i]["FrequencyMode"]),
+                        Qty = Convert.ToInt32(ds.Rows[i]["Qty"]),
+                        Instruction = ds.Rows[i]["Instruction"].ToString(),
                         VisitDate = ds.Rows[i]["VisitDate"].ToString()
                     };
                     dacData.Add(obj);
