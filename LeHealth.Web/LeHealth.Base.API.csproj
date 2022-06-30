@@ -6,12 +6,16 @@
 
   <ItemGroup>
     <Compile Remove="Business\**" />
+    <Compile Remove="Controllers\EMR\**" />
     <Compile Remove="ViewModel\**" />
     <Content Remove="Business\**" />
+    <Content Remove="Controllers\EMR\**" />
     <Content Remove="ViewModel\**" />
     <EmbeddedResource Remove="Business\**" />
+    <EmbeddedResource Remove="Controllers\EMR\**" />
     <EmbeddedResource Remove="ViewModel\**" />
     <None Remove="Business\**" />
+    <None Remove="Controllers\EMR\**" />
     <None Remove="ViewModel\**" />
   </ItemGroup>
 

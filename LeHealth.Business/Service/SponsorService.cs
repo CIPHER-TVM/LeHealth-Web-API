@@ -9,6 +9,10 @@ namespace LeHealth.Service.Service
     public class SponsorService :ISponsorService
     {
         private readonly ISponsorManager sponsermanager;
+        public SponsorService(ISponsorManager _sponsermanager)
+        {
+            sponsermanager = _sponsermanager;
+        }
 
         public List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm)
         {
@@ -32,10 +36,7 @@ namespace LeHealth.Service.Service
             return sponsermanager.InsertSponsorRuleItem(itm);
         }
 
-        public SponsorService(ISponsorManager _sponsermanager)
-        {
-            sponsermanager = _sponsermanager;
-        }
+      
 
         public List<SponsorGropuServiceItemModel> GetSponsorItemForRule(SponsorGropuServiceItemModel itm)
         {
