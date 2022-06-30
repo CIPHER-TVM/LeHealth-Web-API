@@ -50,7 +50,6 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetReviewOfSymptoms(srm); 
         }
-
         public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel pe)
         {
             return emrdataManager.InsertMedicalDecision(pe);
@@ -59,7 +58,6 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetMedicalDecision(emr);
         }
-
         public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel pe)
         {
             return emrdataManager.InsertPlanAndProcedure(pe);
@@ -68,12 +66,10 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetPlanAndProcedure(emr);
         }
-
         public List<VisitModel> GetVisitDetails(VisitModel visit)
         {
             return emrdataManager.GetVisitDetails(visit);
         }
-
         public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel pe)
         {
             return emrdataManager.InsertMenstrualHistory(pe);
@@ -82,8 +78,6 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetMenstrualHistory(emr);
         }
-
-
         public NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
         { 
             return emrdataManager.InsertNarrativeDiagnosisICD(ndim); 
@@ -113,6 +107,13 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetDrugsAutoComplete(dmac); 
         }
+        public DrugsEMRModel InsertDrugsEMR(DrugsEMRModel vsem)
+        {
+            return emrdataManager.InsertDrugsEMR(vsem);
+        }
+        public List<ConsultantDrugModel> GetDrugsEMR(DrugsEMRModel dmac)
+        {
+            return emrdataManager.GetDrugsEMR(dmac);
+        }
     }
-
 }

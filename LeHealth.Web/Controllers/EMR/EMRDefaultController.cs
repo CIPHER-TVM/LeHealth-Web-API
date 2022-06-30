@@ -821,12 +821,12 @@ namespace LeHealth.Base.API.Controllers.EMR
 
         [Route("GetDrugsAutoComplete")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DrugModelAutoComplete>> GetDrugsAutoComplete(DrugModelAutoComplete ndim)
+        public ResponseDataModel<IEnumerable<DrugModelAutoComplete>> GetDrugsAutoComplete(DrugModelAutoComplete dmac)
         {
             try
             {
                 List<DrugModelAutoComplete> emrList = new List<DrugModelAutoComplete>();
-                emrList = emrdefaultService.GetDrugsAutoComplete(ndim);
+                emrList = emrdefaultService.GetDrugsAutoComplete(dmac);
                 var response = new ResponseDataModel<IEnumerable<DrugModelAutoComplete>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -852,5 +852,77 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("InsertUpdateDrugsEMR")]
+        [HttpPost]
+        public ResponseDataModel<DrugsEMRModel> InsertUpdateDrugsEMR(DrugsEMRModel dem)
+        {
+            try
+            {
+                string message = string.Empty;
+                DrugsEMRModel vm = new DrugsEMRModel();
+                vm = emrdefaultService.InsertDrugsEMR(dem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<DrugsEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<DrugsEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetDrugsEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetDrugsEMR(DrugsEMRModel dmac)
+        {
+            try
+            {
+                List<ConsultantDrugModel> emrList = new List<ConsultantDrugModel>();
+                emrList = emrdefaultService.GetDrugsEMR(dmac);
+                var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }
