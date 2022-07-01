@@ -146,8 +146,8 @@ namespace LeHealth.Service.Service
         public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel vsem)
         {
 
-            //if (vsem.EMRFiles != null)
-            //    vsem.FolderLocation = fileUploadService.SaveFileMultiple(vsem.EMRFiles);
+            if (vsem.EMRFiles != null)
+                vsem.FolderLocation = fileUploadService.SaveEMRFileMultiple(vsem.EMRFiles, vsem.PatientId);
             //if (patientDetail.PatientPhoto != null)
             //{
             //    patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto, "documents");

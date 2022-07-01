@@ -989,7 +989,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
-            cmd.Parameters.AddWithValue("@BranchId", dac.BranchId);
+            //cmd.Parameters.AddWithValue("@BranchId", dac.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);

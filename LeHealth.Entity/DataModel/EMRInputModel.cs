@@ -15,7 +15,7 @@ namespace LeHealth.Entity.DataModel
         public string FolderName { get; set; }
         public int IsDeleting { get; set; }
         public int UserId { get; set; }
-        public string FolderLocation { get; set; } 
+        public List<RegDocLocationModel> FolderLocation { get; set; }
 
     }
     public class EMRSaveFilesModel : EMRInputModel
