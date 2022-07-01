@@ -31,6 +31,8 @@ namespace LeHealth.Core.Interface
         List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem);
         List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dac);
         DrugsEMRModel InsertDrugsEMR(DrugsEMRModel vsem);
-        List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac);
+        List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac); 
+        PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel vsem);
+        PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dac);
     }
 }

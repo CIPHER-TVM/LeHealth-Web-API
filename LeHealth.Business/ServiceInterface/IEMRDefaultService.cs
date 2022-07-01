@@ -34,5 +34,7 @@ namespace LeHealth.Service.ServiceInterface
         List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dma);
         DrugsEMRModel InsertDrugsEMR(DrugsEMRModel dem);
         List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac);
+        PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel vsem);
+        PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dac);
     }
 }

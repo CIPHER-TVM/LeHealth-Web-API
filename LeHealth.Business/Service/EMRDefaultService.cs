@@ -115,5 +115,14 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetDrugsEMR(dmac);
         }
+
+        public PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel vsem)
+        {
+            return emrdataManager.InsertUpdatePatientHistoryEMR(vsem);
+        }
+        public PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dmac)
+        {
+            return emrdataManager.GetPatientHistoryEMR(dmac);
+        }
     }
 }

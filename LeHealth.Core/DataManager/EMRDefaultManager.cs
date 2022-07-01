@@ -843,5 +843,71 @@ namespace LeHealth.Core.DataManager
             return dacData;
         }
 
+
+        public PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel pem)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePatientHistoryEMR", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", pem.Id);
+                cmd.Parameters.AddWithValue("@PastMedicalHistory", pem.PastMedicalHistory);
+                cmd.Parameters.AddWithValue("@FamilyHistory", pem.FamilyHistory);
+                cmd.Parameters.AddWithValue("@SocialHistory", pem.SocialHistory);
+                cmd.Parameters.AddWithValue("@CurrentMedication", pem.CurrentMedication);
+                cmd.Parameters.AddWithValue("@Immunization", pem.Immunization);
+                cmd.Parameters.AddWithValue("@CancerHistory", pem.CancerHistory);
+                cmd.Parameters.AddWithValue("@SurgicalHistory", pem.SurgicalHistory);
+                cmd.Parameters.AddWithValue("@Others", pem.Others);
+                cmd.Parameters.AddWithValue("@TobaccoStatus", pem.TobaccoStatus);
+                cmd.Parameters.AddWithValue("@PatientId", pem.PatientId);
+                cmd.Parameters.AddWithValue("@VisitId", pem.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", pem.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    pem.Id = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return pem;
+        }
+        public PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dac)
+        {
+            PatientHistoryEMRModel dacData = new PatientHistoryEMRModel();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPatientHistoryEMR", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                dacData = ds.ToObject<PatientHistoryEMRModel>();
+            }
+            return dacData;
+        }
+
     }
 }

@@ -927,5 +927,82 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
             }
         }
+
+        [Route("InsertUpdatePatientHistoryEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientHistoryEMRModel> InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel pem)
+        {
+            try
+            {
+                string message = string.Empty;
+                PatientHistoryEMRModel vm = new PatientHistoryEMRModel();
+                vm = emrdefaultService.InsertUpdatePatientHistoryEMR(pem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetPatientHistoryEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientHistoryEMRModel> GetPatientHistoryEMR(PatientHistoryEMRModel dmac)
+        {
+            try
+            {
+                PatientHistoryEMRModel emrList = new PatientHistoryEMRModel();
+                emrList = emrdefaultService.GetPatientHistoryEMR(dmac);
+                if (emrList.Id == 0)
+                {
+                    emrList = null;
+                }
+                var response = new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }
