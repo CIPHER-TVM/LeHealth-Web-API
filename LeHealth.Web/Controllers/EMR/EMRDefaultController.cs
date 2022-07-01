@@ -1004,5 +1004,79 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
             }
         }
+        [Route("InsertUpdatePatientQuestionareEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientQuestionareModelInput> InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput pem)
+        {
+            try
+            {
+                string message = string.Empty;
+                PatientQuestionareModelInput vm = new PatientQuestionareModelInput();
+                vm = emrdefaultService.InsertUpdatePatientQuestionareEMR(pem);
+                //if (vm.Id > 0)
+                //    message = "Success";
+                //else
+                //    message = "Failure";
+                var response = new ResponseDataModel<PatientQuestionareModelInput>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientQuestionareModelInput>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetPatientQuestionareEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientQuestionareModel>> GetPatientQuestionareEMR(PatientQuestionareModel dmac)
+        {
+            try
+            {
+                List<PatientQuestionareModel> emrList = new List<PatientQuestionareModel>();
+                emrList = emrdefaultService.GetPatientQuestionareEMR(dmac);
+                var response = new ResponseDataModel<IEnumerable<PatientQuestionareModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientQuestionareModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
     }
 }

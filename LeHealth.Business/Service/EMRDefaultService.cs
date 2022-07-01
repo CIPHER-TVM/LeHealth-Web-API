@@ -48,7 +48,7 @@ namespace LeHealth.Service.Service
         }
         public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm)
         {
-            return emrdataManager.GetReviewOfSymptoms(srm); 
+            return emrdataManager.GetReviewOfSymptoms(srm);
         }
         public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel pe)
         {
@@ -79,8 +79,8 @@ namespace LeHealth.Service.Service
             return emrdataManager.GetMenstrualHistory(emr);
         }
         public NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
-        { 
-            return emrdataManager.InsertNarrativeDiagnosisICD(ndim); 
+        {
+            return emrdataManager.InsertNarrativeDiagnosisICD(ndim);
         }
         public List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
         {
@@ -88,7 +88,7 @@ namespace LeHealth.Service.Service
         }
 
         public VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem)
-        { 
+        {
             return emrdataManager.InsertEMRVitalSign(vsem);
         }
         public List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem)
@@ -105,7 +105,7 @@ namespace LeHealth.Service.Service
         }
         public List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dmac)
         {
-            return emrdataManager.GetDrugsAutoComplete(dmac); 
+            return emrdataManager.GetDrugsAutoComplete(dmac);
         }
         public DrugsEMRModel InsertDrugsEMR(DrugsEMRModel vsem)
         {
@@ -123,6 +123,15 @@ namespace LeHealth.Service.Service
         public PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dmac)
         {
             return emrdataManager.GetPatientHistoryEMR(dmac);
+        }
+
+        public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput vsem)
+        {
+            return emrdataManager.InsertUpdatePatientQuestionareEMR(vsem);
+        }
+        public List<PatientQuestionareModel> GetPatientQuestionareEMR(PatientQuestionareModel dmac)
+        {
+            return emrdataManager.GetPatientQuestionareEMR(dmac);
         }
     }
 }

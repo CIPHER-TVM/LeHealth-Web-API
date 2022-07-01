@@ -36,5 +36,7 @@ namespace LeHealth.Service.ServiceInterface
         List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac);
         PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel vsem);
         PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dac);
+        List<PatientQuestionareModel> GetPatientQuestionareEMR(PatientQuestionareModel dac);
+        PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput vsem);
     }
 }
