@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="DataModel\NewFolder\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
 

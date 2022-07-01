@@ -980,5 +980,117 @@ namespace LeHealth.Core.DataManager
             return dacData;
         }
 
+
+        public List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dac)
+        {
+            List<PatientFoldersEMRModel> dacData = new List<PatientFoldersEMRModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPatientFoldersEMR", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@BranchId", dac.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    PatientFoldersEMRModel obj = new PatientFoldersEMRModel
+                    {
+                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+                        FolderName = ds.Rows[i]["FolderName"].ToString(),
+                        PatientFiles = JsonConvert.DeserializeObject<List<PatientFilesEMRModel>>(ds.Rows[i]["PatientFiles"].ToString()),
+                    };
+                    dacData.Add(obj);
+                }
+            }
+            return dacData;
+        }
+
+        public PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel dem)
+        {
+            PatientFoldersEMRModel returnData = new PatientFoldersEMRModel();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateFolderEMR", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FolderId", dem.FolderId);
+                cmd.Parameters.AddWithValue("@FolderName", dem.FolderName);
+                cmd.Parameters.AddWithValue("@PatientId", dem.PatientId);
+                cmd.Parameters.AddWithValue("@IsDeleting", dem.IsDeleting);
+                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                cmd.Parameters.AddWithValue("@BranchId", 3);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    returnData.Id = Convert.ToInt32(ret);
+                    returnData.FolderName = dem.FolderName;
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return returnData;
+        }
+        public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel dem)
+        {
+            EMRSaveFilesModel returnData = new EMRSaveFilesModel();
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_UploadFileEMR", con);
+                cmd.CommandType = CommandType.StoredProcedure; 
+                //cmd.Parameters.AddWithValue("@FolderId", dem.FolderId);
+                //cmd.Parameters.AddWithValue("@FolderName", dem.FolderName);
+                //cmd.Parameters.AddWithValue("@PatientId", dem.PatientId);
+                //cmd.Parameters.AddWithValue("@IsDeleting", dem.IsDeleting);
+                //cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                //cmd.Parameters.AddWithValue("@BranchId", dem.BranchId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    //returnData.Id = Convert.ToInt32(ret);
+                    returnData.FolderName = dem.FolderName;
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return returnData;
+        }
     }
 }

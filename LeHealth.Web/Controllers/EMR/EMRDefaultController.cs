@@ -3,6 +3,7 @@ using LeHealth.Entity.DataModel;
 using LeHealth.Service.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1013,10 +1014,7 @@ namespace LeHealth.Base.API.Controllers.EMR
                 string message = string.Empty;
                 PatientQuestionareModelInput vm = new PatientQuestionareModelInput();
                 vm = emrdefaultService.InsertUpdatePatientQuestionareEMR(pem);
-                //if (vm.Id > 0)
-                    message = "Success";
-                //else
-                //    message = "Failure";
+                message = "Success";
                 var response = new ResponseDataModel<PatientQuestionareModelInput>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1070,6 +1068,123 @@ namespace LeHealth.Base.API.Controllers.EMR
                     {
                         Message = ex.Message
                     }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetPatientFoldersEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientFoldersEMRModel>> GetPatientFoldersEMR(EMRInputModel dmac)
+        {
+            try
+            {
+                List<PatientFoldersEMRModel> emrList = new List<PatientFoldersEMRModel>();
+                emrList = emrdefaultService.GetPatientFoldersEMR(dmac);
+                var response = new ResponseDataModel<IEnumerable<PatientFoldersEMRModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientFoldersEMRModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        [Route("InsertUpdateFolderEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientFoldersEMRModel> InsertUpdateFolderEMR(EMRInputModel pem)
+        {
+            try
+            {
+                string message = string.Empty;
+                PatientFoldersEMRModel vm = new PatientFoldersEMRModel();
+                vm = emrdefaultService.InsertUpdateFolderEMR(pem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PatientFoldersEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientFoldersEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("UploadFileEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientFoldersEMRModel> UploadFileEMR([FromForm] EMRFileSaveRequestModel pem)
+        {
+            try 
+            {
+                EMRSaveFilesModel patientDetail = JsonConvert.DeserializeObject<EMRSaveFilesModel>(pem.FileJson);
+                patientDetail.EMRFiles = pem.PatientDocs;
+                EMRSaveFilesModel registrationDetail = emrdefaultService.UploadFileEMR(patientDetail);
+                //string message = string.Empty;
+                //PatientFoldersEMRModel vm = new PatientFoldersEMRModel();
+                //vm = emrdefaultService.UploadFileEMR(pem); 
+                //if (vm.Id > 0)
+                //    message = "Success";
+                //else
+                //    message = "Failure";
+                var response = new ResponseDataModel<PatientFoldersEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    //Response = vm,
+                    //Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientFoldersEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
                 };
             }
             finally

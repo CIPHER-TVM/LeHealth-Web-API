@@ -10,9 +10,11 @@ namespace LeHealth.Service.Service
     public class EMRDefaultService : IEMRDefaultService
     {
         private readonly IEMRDefaultManager emrdataManager;
-        public EMRDefaultService(IEMRDefaultManager _emrdataManager)
+        private readonly IFileUploadService fileUploadService;
+        public EMRDefaultService(IEMRDefaultManager _emrdataManager, IFileUploadService _fileUploadService)
         {
             emrdataManager = _emrdataManager;
+            fileUploadService = _fileUploadService;
         }
         public List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll emr)
         {
@@ -132,6 +134,29 @@ namespace LeHealth.Service.Service
         public List<PatientQuestionareModel> GetPatientQuestionareEMR(PatientQuestionareModel dmac)
         {
             return emrdataManager.GetPatientQuestionareEMR(dmac);
+        }
+        public List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dmac)
+        {
+            return emrdataManager.GetPatientFoldersEMR(dmac);
+        }
+        public PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel vsem)
+        {
+            return emrdataManager.InsertUpdateFolderEMR(vsem);
+        }
+        public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel vsem)
+        {
+
+            //if (vsem.EMRFiles != null)
+            //    vsem.FolderLocation = fileUploadService.SaveFileMultiple(vsem.EMRFiles);
+            //if (patientDetail.PatientPhoto != null)
+            //{
+            //    patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto, "documents");
+            //}
+            //else
+            //{
+            //    patientDetail.PatientPhotoName = "";
+            //}
+            return emrdataManager.UploadFileEMR(vsem);
         }
     }
 }
