@@ -7,6 +7,9 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IBillService
     {
+        
+        List<AgentModel> GetSponsorAgent(AgentModel details);
+        List<UnBilledItemModel> GetUnBilledItem(UnBilledItemModel details);
         List<BillItemModel> GetItemForSelectionByGroup(BillItemModel billdetails);
         List<BillItemModel> SearchServiceItem(BillItemModel billdetails);
         List<PackageItemsModel> GetPackageItem(PackageItemsModel inf);

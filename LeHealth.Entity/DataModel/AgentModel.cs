@@ -30,6 +30,7 @@ namespace LeHealth.Entity.DataModel
         public string DHANo { get; set; }
         public string PayerId { get; set; }
         public int HospitalId { get; set; }
+        public int BranchId { get; set; }
         public int IsDisplayed { get; set; }
         public int IsDeleted { get; set; }
         public int ShowAll { get; set; }

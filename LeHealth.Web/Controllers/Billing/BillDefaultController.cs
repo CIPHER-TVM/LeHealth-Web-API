@@ -24,6 +24,91 @@ namespace LeHealth.Base.API.Controllers.Billing
         }
 
         /// <summary>
+        /// API For getting unbilled item 
+        /// </summary>
+        /// <param name="unbilleditem details">unbilled item table</param>
+        /// <returns> unbilled item details  in branch</returns>
+
+        [HttpPost]
+        [Route("GetSponsorAgent")]
+
+        public ResponseDataModel<IEnumerable<AgentModel>> GetSponsorAgent(AgentModel details)
+        {
+            try
+            {
+                List<AgentModel> agentList = new List<AgentModel>();
+                agentList = billService.GetSponsorAgent(details);
+                var response = new ResponseDataModel<IEnumerable<AgentModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = agentList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<AgentModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting unbilled item 
+        /// </summary>
+        /// <param name="unbilleditem details">unbilled item table</param>
+        /// <returns> unbilled item details  in branch</returns>
+
+        [HttpPost]
+        [Route("GetUnBilledItem")]
+
+        public ResponseDataModel<IEnumerable<UnBilledItemModel>> GetUnBilledItem(UnBilledItemModel details)
+        {
+            try
+            {
+                List<UnBilledItemModel> itemList = new List<UnBilledItemModel>();
+                itemList = billService.GetUnBilledItem(details);
+                var response = new ResponseDataModel<IEnumerable<UnBilledItemModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<UnBilledItemModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
         /// API For getting  item under selected group
         /// </summary>
         /// <param name="item details">item table</param>
