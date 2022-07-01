@@ -33,6 +33,6 @@ namespace LeHealth.Service.ServiceInterface
         List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem);
         List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dma);
         DrugsEMRModel InsertDrugsEMR(DrugsEMRModel dem);
-        List<ConsultantDrugModel> GetDrugsEMR(DrugsEMRModel dac);
+        List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac);
     }
 }

@@ -30,8 +30,5 @@ namespace LeHealth.Entity.DataModel
         public int IsDisplayed { get; set; }
         public int Qty { get; set; }
         public string Instruction { get; set; }
-        public string VisitDate { get; set; }
-        public int VisitId { get; set; }
-        public int PatientId { get; set; }
     }
 }

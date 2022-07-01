@@ -9,10 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-
 
 
 
@@ -901,13 +897,13 @@ namespace LeHealth.Base.API.Controllers.EMR
 
         [Route("GetDrugsEMR")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetDrugsEMR(DrugsEMRModel dmac)
+        public ResponseDataModel<IEnumerable<DrugsEMRModel>> GetDrugsEMR(DrugsEMRModel dmac)
         {
             try
             {
-                List<ConsultantDrugModel> emrList = new List<ConsultantDrugModel>();
+                List<DrugsEMRModel> emrList = new List<DrugsEMRModel>();
                 emrList = emrdefaultService.GetDrugsEMR(dmac);
-                var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                var response = new ResponseDataModel<IEnumerable<DrugsEMRModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = emrList
@@ -917,7 +913,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                return new ResponseDataModel<IEnumerable<DrugsEMRModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

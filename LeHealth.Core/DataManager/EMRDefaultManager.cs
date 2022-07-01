@@ -811,15 +811,15 @@ namespace LeHealth.Core.DataManager
             }
             return dem;
         }
-        public List<ConsultantDrugModel> GetDrugsEMR(DrugsEMRModel dac)
+        public List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac)
         {
-            List<ConsultantDrugModel> dacData = new List<ConsultantDrugModel>();
+            List<DrugsEMRModel> dacData = new List<DrugsEMRModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDrugsEMR", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
-            cmd.Parameters.AddWithValue("@ShowALl", dac.ShowAll);
+            cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
             cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
@@ -829,20 +829,13 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    ConsultantDrugModel obj = new ConsultantDrugModel
+                    DrugsEMRModel obj = new DrugsEMRModel
                     {
-                        DrugId = Convert.ToInt32(ds.Rows[i]["DrugId"]),
-                        DrugName = ds.Rows[i]["DrugName"].ToString(),
-                        RouteDesc = ds.Rows[i]["Route"].ToString(),
-                        Duration = Convert.ToInt32(ds.Rows[i]["Duration"]),
-                        FreqDesc = ds.Rows[i]["Frequency"].ToString(),
-                        Dosage = ds.Rows[i]["Dosage"].ToString(),
+                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
                         VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
+                        VisitDate = ds.Rows[i]["VisitDate"].ToString(),
                         PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-                        FreqMode = Convert.ToInt32(ds.Rows[i]["FrequencyMode"]),
-                        Qty = Convert.ToInt32(ds.Rows[i]["Qty"]),
-                        Instruction = ds.Rows[i]["Instruction"].ToString(),
-                        VisitDate = ds.Rows[i]["VisitDate"].ToString()
+                        DrugDetails = JsonConvert.DeserializeObject<List<ConsultantDrugModel>>(ds.Rows[i]["DrugDetails"].ToString()),
                     };
                     dacData.Add(obj);
                 }

@@ -111,7 +111,7 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.InsertDrugsEMR(vsem);
         }
-        public List<ConsultantDrugModel> GetDrugsEMR(DrugsEMRModel dmac)
+        public List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dmac)
         {
             return emrdataManager.GetDrugsEMR(dmac);
         }
