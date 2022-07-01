@@ -11,6 +11,7 @@ namespace LeHealth.Entity.DataModel
         public string Question { get; set; }
         public int AnsId { get; set; }
         public int BranchId { get; set; }
+        public string Notes { get; set; }
     }
     public class PatientQuestionareModelInput
     {

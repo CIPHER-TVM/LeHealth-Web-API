@@ -935,7 +935,8 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    //dem.Id = Convert.ToInt32(ret);
+                    string response = string.Empty;
+                    response = descrip;
                 }
                 else
                 {
@@ -965,10 +966,11 @@ namespace LeHealth.Core.DataManager
                 {
                     PatientQuestionareModel obj = new PatientQuestionareModel
                     {
-                        PatientId=dac.PatientId,
+                        PatientId = dac.PatientId,
                         QnId = Convert.ToInt32(ds.Rows[i]["QnId"]),
                         Question = ds.Rows[i]["Question"].ToString(),
                         AnsId = Convert.ToInt32(ds.Rows[i]["AnsId"]),
+                        Notes = ds.Rows[i]["Notes"].ToString(),
                         BranchId = dac.BranchId,
                     };
                     dacData.Add(obj);
