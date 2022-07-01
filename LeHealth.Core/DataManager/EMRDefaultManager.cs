@@ -917,6 +917,7 @@ namespace LeHealth.Core.DataManager
                 string questionareString = JsonConvert.SerializeObject(dem.PatientQuestionares);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePatientQuestionareEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PatientId", dem.PatientQuestionares[0].PatientId);
                 cmd.Parameters.AddWithValue("@QuestionareJSON", questionareString);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {

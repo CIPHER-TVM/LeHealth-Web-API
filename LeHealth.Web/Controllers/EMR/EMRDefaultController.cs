@@ -1014,7 +1014,7 @@ namespace LeHealth.Base.API.Controllers.EMR
                 PatientQuestionareModelInput vm = new PatientQuestionareModelInput();
                 vm = emrdefaultService.InsertUpdatePatientQuestionareEMR(pem);
                 //if (vm.Id > 0)
-                //    message = "Success";
+                    message = "Success";
                 //else
                 //    message = "Failure";
                 var response = new ResponseDataModel<PatientQuestionareModelInput>()
