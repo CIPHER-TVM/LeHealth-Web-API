@@ -636,14 +636,14 @@ namespace LeHealth.Base.API.Controllers
         /// <param name="asm">Data in LH_ServiceGroup Table</param>
         /// <returns>Service group list</returns>
         [HttpPost]
-        [Route("GetServicesGroups/{branchId}")]
-        public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups(int branchId)
+        [Route("GetServicesGroups")]
+        public ResponseDataModel<IEnumerable<ServiceGroupModel>> GetServicesGroups(ServiceGroupInput sgi)
         {
             try
             {
                 List<ServiceGroupModel> serviceGroups = new List<ServiceGroupModel>();
 
-                serviceGroups = serviceorderService.GetServicesGroups(branchId);
+                serviceGroups = serviceorderService.GetServicesGroups(sgi);
 
                 var response = new ResponseDataModel<IEnumerable<ServiceGroupModel>>()
                 {

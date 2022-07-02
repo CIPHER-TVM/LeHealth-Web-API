@@ -2208,7 +2208,7 @@ namespace LeHealth.Core.DataManager
         }
         public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
-            ////TEST CODE STARTS
+            ////TESTCODE STARTS
             //string response = string.Empty;
             //List<ConsultantDaysModel> cdmList = new List<ConsultantDaysModel>();
 
@@ -2265,7 +2265,7 @@ namespace LeHealth.Core.DataManager
             //    }
             //}
 
-            ////TEST CODE ENDS
+            ////TESTCODE ENDS
             List<ConsultantDaysModel> cdmList = new List<ConsultantDaysModel>();//NIK
             List<ConsultantTimeScheduleMaster> responselist = new List<ConsultantTimeScheduleMaster>();
             ConsultantTimeScheduleMaster responseobj = new ConsultantTimeScheduleMaster();
@@ -2381,7 +2381,7 @@ namespace LeHealth.Core.DataManager
                             cmdCdmList.ExecuteNonQuery();
                             var descCDM = cdmRetDesc.Value.ToString();
                             response = descCDM;
-                            if (response == "Saved SUccessfully")
+                            if (response == "Saved Successfully")
                             {
                                 response = "Success";
                             }
