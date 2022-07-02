@@ -27,4 +27,16 @@ namespace LeHealth.Entity.DataModel
         public string FileJson { get; set; }
         public List<IFormFile> PatientDocs { get; set; }
     }
+    public class EMRFileOutputModel
+    {
+        public int PatientId { get; set; }
+        public int FolderId { get; set; } 
+        public int UserId { get; set; }
+    }
+
+    public class EMRFileDBSaveModel 
+    {
+        public string FilePath { get; set; }
+        public string FileOriginalName { get; set; }
+    }
 }

@@ -95,7 +95,10 @@ namespace LeHealth.Service.Service
                 Files.ForEach(a =>
                 {
                     string folderLocation = Path.Combine(PathWithFolderName, PatientId.ToString());
-
+                    if (!Directory.Exists(folderLocation))
+                    {
+                        Directory.CreateDirectory(folderLocation);
+                    }
                     RegDocLocationModel rlm = new RegDocLocationModel();
                     string fileName = a.FileName;
                     var fileNameArray = fileName.Split('.');
@@ -103,7 +106,7 @@ namespace LeHealth.Service.Service
                     Guid Uniquefilename = Guid.NewGuid();
                     var actualFileName = Uniquefilename + "." + extension;
                     string fullpathtest = "uploads/emr/" + actualFileName;
-                    using (FileStream stream = new FileStream(Path.Combine(PathWithFolderName, actualFileName), FileMode.Create))
+                    using (FileStream stream = new FileStream(Path.Combine(folderLocation, actualFileName), FileMode.Create))
                     {
                         a.CopyTo(stream);
                     }

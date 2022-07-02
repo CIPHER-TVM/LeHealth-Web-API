@@ -980,7 +980,6 @@ namespace LeHealth.Core.DataManager
             return dacData;
         }
 
-
         public List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dac)
         {
             List<PatientFoldersEMRModel> dacData = new List<PatientFoldersEMRModel>();
@@ -989,7 +988,6 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
-            //cmd.Parameters.AddWithValue("@BranchId", dac.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -1054,16 +1052,24 @@ namespace LeHealth.Core.DataManager
         public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel dem)
         {
             EMRSaveFilesModel returnData = new EMRSaveFilesModel();
+            List<EMRFileDBSaveModel> eds = new List<EMRFileDBSaveModel>();
+            foreach (var folderloc in dem.FolderLocation)
+            {
+                EMRFileDBSaveModel objv = new EMRFileDBSaveModel
+                {
+                    FileOriginalName = folderloc.FileOriginalName,
+                    FilePath = folderloc.FilePath,
+                };
+                eds.Add(objv);
+            }
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                string fileLocationString = JsonConvert.SerializeObject(eds);
                 using SqlCommand cmd = new SqlCommand("stLH_UploadFileEMR", con);
-                cmd.CommandType = CommandType.StoredProcedure; 
-                //cmd.Parameters.AddWithValue("@FolderId", dem.FolderId);
-                //cmd.Parameters.AddWithValue("@FolderName", dem.FolderName);
-                //cmd.Parameters.AddWithValue("@PatientId", dem.PatientId);
-                //cmd.Parameters.AddWithValue("@IsDeleting", dem.IsDeleting);
-                //cmd.Parameters.AddWithValue("@UserId", dem.UserId);
-                //cmd.Parameters.AddWithValue("@BranchId", dem.BranchId);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FileLocationJSON", fileLocationString);
+                cmd.Parameters.AddWithValue("@FolderId", dem.FolderId);
+                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1081,11 +1087,12 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    //returnData.Id = Convert.ToInt32(ret);
-                    returnData.FolderName = dem.FolderName;
+                    returnData.FolderId = Convert.ToInt32(ret);
+                    //returnData.FolderName = dem.FolderName;
                 }
                 else
                 {
+                    returnData.FolderId = 0;
                     string response = string.Empty;
                     response = descrip;
                 }

@@ -1151,32 +1151,40 @@ namespace LeHealth.Base.API.Controllers.EMR
 
         [Route("UploadFileEMR")]
         [HttpPost]
-        public ResponseDataModel<PatientFoldersEMRModel> UploadFileEMR([FromForm] EMRFileSaveRequestModel pem)
+        public ResponseDataModel<EMRFileOutputModel> UploadFileEMR([FromForm] EMRFileSaveRequestModel pem)
         {
-            try 
+            try
             {
+                EMRFileOutputModel eom = new EMRFileOutputModel();
                 EMRSaveFilesModel patientDetail = JsonConvert.DeserializeObject<EMRSaveFilesModel>(pem.FileJson);
                 patientDetail.EMRFiles = pem.PatientDocs;
                 EMRSaveFilesModel registrationDetail = emrdefaultService.UploadFileEMR(patientDetail);
-                //string message = string.Empty;
+                string message = string.Empty;
                 //PatientFoldersEMRModel vm = new PatientFoldersEMRModel();
                 //vm = emrdefaultService.UploadFileEMR(pem); 
-                //if (vm.Id > 0)
-                //    message = "Success";
-                //else
-                //    message = "Failure";
-                var response = new ResponseDataModel<PatientFoldersEMRModel>()
+                if (registrationDetail.FolderId > 0)
+                {
+                    message = "Success";
+                    eom.UserId = patientDetail.UserId;
+                    eom.FolderId = patientDetail.FolderId;
+                    eom.PatientId = patientDetail.PatientId;
+                }
+                else
+                {
+                    message = "Failure";
+                }
+                var response = new ResponseDataModel<EMRFileOutputModel>()
                 {
                     Status = HttpStatusCode.OK,
-                    //Response = vm,
-                    //Message = message
+                    Response = eom,
+                    Message = message
                 };
                 return response;
             }
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<PatientFoldersEMRModel>()
+                return new ResponseDataModel<EMRFileOutputModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
