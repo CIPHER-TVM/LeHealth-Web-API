@@ -1124,11 +1124,11 @@ namespace LeHealth.Core.DataManager
             }
             return ServiceorderItemList;
         }
-        public DrugsEMRModel InsertServiceItemsEMR(DrugsEMRModel dem)
+        public ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel dem)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                string serviceItemString = JsonConvert.SerializeObject(dem.DrugDetails);
+                string serviceItemString = JsonConvert.SerializeObject(dem.ItemDetails);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertServiceItemsEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", dem.Id);
@@ -1162,5 +1162,37 @@ namespace LeHealth.Core.DataManager
             }
             return dem;
         }
+        public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dac)
+        {
+            List<ItemEMRInputModel> siData = new List<ItemEMRInputModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetServiceItemsEMR", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
+            cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
+            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    ItemEMRInputModel obj = new ItemEMRInputModel
+                    {
+                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+                        VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
+                        VisitDate = ds.Rows[i]["VisitDate"].ToString(),
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        ItemDetails = JsonConvert.DeserializeObject<List<ItemEMRModel>>(ds.Rows[i]["DrugDetails"].ToString()),
+                    };
+                    siData.Add(obj);
+                }
+            }
+            return siData;
+        }
+
     }
 }

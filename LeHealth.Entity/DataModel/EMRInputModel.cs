@@ -12,6 +12,7 @@ namespace LeHealth.Entity.DataModel
         public int ConsultantId { get; set; }
         public int BranchId { get; set; }
         public int FolderId { get; set; }
+        public int ShowAll { get; set; }
         public string FolderName { get; set; }
         public int IsDeleting { get; set; }
         public int UserId { get; set; }

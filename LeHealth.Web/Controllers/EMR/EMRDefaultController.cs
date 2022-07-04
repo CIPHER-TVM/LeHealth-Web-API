@@ -1234,18 +1234,18 @@ namespace LeHealth.Base.API.Controllers.EMR
 
         [Route("InsertServiceItemsEMR")]
         [HttpPost]
-        public ResponseDataModel<DrugsEMRModel> InsertServiceItemsEMR(DrugsEMRModel dem)
+        public ResponseDataModel<ItemEMRInputModel> InsertServiceItemsEMR(ItemEMRInputModel dem)
         {
             try
             {
                 string message = string.Empty;
-                DrugsEMRModel vm = new DrugsEMRModel();
+                ItemEMRInputModel vm = new ItemEMRInputModel();
                 vm = emrdefaultService.InsertServiceItemsEMR(dem);
                 if (vm.Id > 0)
                     message = "Success";
                 else
                     message = "Failure";
-                var response = new ResponseDataModel<DrugsEMRModel>()
+                var response = new ResponseDataModel<ItemEMRInputModel>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = vm,
@@ -1256,7 +1256,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<DrugsEMRModel>()
+                return new ResponseDataModel<ItemEMRInputModel>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -1264,7 +1264,6 @@ namespace LeHealth.Base.API.Controllers.EMR
                     {
                         Message = ex.Message
                     }
-
                 };
             }
             finally
@@ -1272,6 +1271,38 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("GetServiceItemsEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemEMRInputModel>> GetServiceItemsEMR(EMRInputModel dmac)
+        {
+            try
+            {
+                List<ItemEMRInputModel> emrList = new List<ItemEMRInputModel>();
+                emrList = emrdefaultService.GetServiceItemsEMR(dmac);
+                var response = new ResponseDataModel<IEnumerable<ItemEMRInputModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemEMRInputModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
 
     }
 }

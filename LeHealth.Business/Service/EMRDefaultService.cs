@@ -160,9 +160,13 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetEMRServiceItem(dmac);
         }
-        public DrugsEMRModel InsertServiceItemsEMR(DrugsEMRModel vsem)
+        public ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel vsem)
         {
             return emrdataManager.InsertServiceItemsEMR(vsem);
-        } 
+        }
+        public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dmac)
+        {
+            return emrdataManager.GetServiceItemsEMR(dmac);
+        }
     }
 }

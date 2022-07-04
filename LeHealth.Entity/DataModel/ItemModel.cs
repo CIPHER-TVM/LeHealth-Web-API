@@ -42,8 +42,17 @@ namespace LeHealth.Entity.DataModel
     public class ItemEMRModel
     {
         public int ItemId { get; set; }
-        public string ItemCode { get; set; }
-        public string ItemName { get; set; }
+        public int Qty { get; set; }
+        public string Notes { get; set; }
+    }
+    public class ItemEMRInputModel
+    {
+        public int Id { get; set; }
+        public int VisitId { get; set; }
+        public int UserId { get; set; }
+        public int PatientId { get; set; }
+        public string VisitDate { get; set; }
+        public List<ItemEMRModel> ItemDetails { get; set; }
     }
 
 }
