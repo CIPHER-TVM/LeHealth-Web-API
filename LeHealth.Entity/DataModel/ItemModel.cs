@@ -39,4 +39,11 @@ namespace LeHealth.Entity.DataModel
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
     }
+    public class ItemEMRModel
+    {
+        public int ItemId { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+    }
+
 }

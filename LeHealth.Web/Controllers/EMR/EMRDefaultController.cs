@@ -1108,7 +1108,6 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
-
         [Route("InsertUpdateFolderEMR")]
         [HttpPost]
         public ResponseDataModel<PatientFoldersEMRModel> InsertUpdateFolderEMR(EMRInputModel pem)
@@ -1233,6 +1232,45 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("InsertServiceItemsEMR")]
+        [HttpPost]
+        public ResponseDataModel<DrugsEMRModel> InsertServiceItemsEMR(DrugsEMRModel dem)
+        {
+            try
+            {
+                string message = string.Empty;
+                DrugsEMRModel vm = new DrugsEMRModel();
+                vm = emrdefaultService.InsertServiceItemsEMR(dem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<DrugsEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<DrugsEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
 
 
     }

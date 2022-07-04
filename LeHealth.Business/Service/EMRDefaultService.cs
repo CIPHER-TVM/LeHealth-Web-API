@@ -117,7 +117,6 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetDrugsEMR(dmac);
         }
-
         public PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel vsem)
         {
             return emrdataManager.InsertUpdatePatientHistoryEMR(vsem);
@@ -126,7 +125,6 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetPatientHistoryEMR(dmac);
         }
-
         public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput vsem)
         {
             return emrdataManager.InsertUpdatePatientQuestionareEMR(vsem);
@@ -162,5 +160,9 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetEMRServiceItem(dmac);
         }
+        public DrugsEMRModel InsertServiceItemsEMR(DrugsEMRModel vsem)
+        {
+            return emrdataManager.InsertServiceItemsEMR(vsem);
+        } 
     }
 }

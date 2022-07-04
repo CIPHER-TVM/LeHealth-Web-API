@@ -842,8 +842,6 @@ namespace LeHealth.Core.DataManager
             }
             return dacData;
         }
-
-
         public PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel pem)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -908,8 +906,6 @@ namespace LeHealth.Core.DataManager
             }
             return dacData;
         }
-
-
         public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput dem)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -979,7 +975,6 @@ namespace LeHealth.Core.DataManager
             }
             return dacData;
         }
-
         public List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dac)
         {
             List<PatientFoldersEMRModel> dacData = new List<PatientFoldersEMRModel>();
@@ -1007,7 +1002,6 @@ namespace LeHealth.Core.DataManager
             }
             return dacData;
         }
-
         public PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel dem)
         {
             PatientFoldersEMRModel returnData = new PatientFoldersEMRModel();
@@ -1099,7 +1093,6 @@ namespace LeHealth.Core.DataManager
             }
             return returnData;
         }
-
         public List<ItemEMR> GetEMRServiceItem(EMRInputModel sid)
         {
             List<ItemEMR> ServiceorderItemList = new List<ItemEMR>();
@@ -1107,7 +1100,6 @@ namespace LeHealth.Core.DataManager
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetEMRServiceItem", con);
             con.Open();
-
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupId", sid.GroupId);
             cmd.Parameters.AddWithValue("@ServiceName", sid.ServiceName);
@@ -1131,6 +1123,44 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return ServiceorderItemList;
+        }
+        public DrugsEMRModel InsertServiceItemsEMR(DrugsEMRModel dem)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                string serviceItemString = JsonConvert.SerializeObject(dem.DrugDetails);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertServiceItemsEMR", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", dem.Id);
+                cmd.Parameters.AddWithValue("@ServiceItemsJSON", serviceItemString);
+                cmd.Parameters.AddWithValue("@VisitId", dem.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    dem.Id = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return dem;
         }
     }
 }
