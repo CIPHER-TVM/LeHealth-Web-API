@@ -1186,7 +1186,7 @@ namespace LeHealth.Core.DataManager
                         VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
                         VisitDate = ds.Rows[i]["VisitDate"].ToString(),
                         PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-                        ItemDetails = JsonConvert.DeserializeObject<List<ItemEMRModel>>(ds.Rows[i]["DrugDetails"].ToString()),
+                        ItemDetails = JsonConvert.DeserializeObject<List<ItemEMRModel>>(ds.Rows[i]["ItemDetails"].ToString()),
                     };
                     siData.Add(obj);
                 }
