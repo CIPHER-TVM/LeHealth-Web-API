@@ -158,5 +158,9 @@ namespace LeHealth.Service.Service
             //}
             return emrdataManager.UploadFileEMR(vsem);
         }
+        public List<ItemEMR> GetEMRServiceItem(EMRInputModel dmac)
+        {
+            return emrdataManager.GetEMRServiceItem(dmac);
+        }
     }
 }

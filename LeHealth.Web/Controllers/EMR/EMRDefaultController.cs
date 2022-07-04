@@ -1200,6 +1200,40 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("GetEMRServiceItem")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemEMR>> GetEMRServiceItem(EMRInputModel dmac)
+        {
+            try
+            {
+                List<ItemEMR> emrList = new List<ItemEMR>();
+                emrList = emrdefaultService.GetEMRServiceItem(dmac);
+                var response = new ResponseDataModel<IEnumerable<ItemEMR>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemEMR>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
 
     }
 }

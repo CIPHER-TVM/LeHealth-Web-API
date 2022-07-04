@@ -1099,5 +1099,38 @@ namespace LeHealth.Core.DataManager
             }
             return returnData;
         }
+
+        public List<ItemEMR> GetEMRServiceItem(EMRInputModel sid)
+        {
+            List<ItemEMR> ServiceorderItemList = new List<ItemEMR>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetEMRServiceItem", con);
+            con.Open();
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@GroupId", sid.GroupId);
+            cmd.Parameters.AddWithValue("@ServiceName", sid.ServiceName);
+            cmd.Parameters.AddWithValue("@ConsultantId", sid.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", sid.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsavailableService = new DataTable();
+            adapter.Fill(dsavailableService);
+            con.Close();
+            if ((dsavailableService != null) && (dsavailableService.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsavailableService.Rows.Count; i++)
+                {
+                    ItemEMR obj = new ItemEMR
+                    {
+                        ItemId = Convert.ToInt32(dsavailableService.Rows[i]["ItemId"]),
+                        ItemCode = dsavailableService.Rows[i]["ItemCode"].ToString(),
+                        ItemName = dsavailableService.Rows[i]["ItemName"].ToString()
+                    };
+                    ServiceorderItemList.Add(obj);
+                }
+            }
+            return ServiceorderItemList;
+        }
     }
 }

@@ -39,5 +39,6 @@ namespace LeHealth.Core.Interface
         List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dac);
         PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel vsem);
         EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel vsem);
+        List<ItemEMR> GetEMRServiceItem(EMRInputModel dac);
     }
 }

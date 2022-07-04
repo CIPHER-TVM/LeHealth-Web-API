@@ -15,6 +15,8 @@ namespace LeHealth.Entity.DataModel
         public string FolderName { get; set; }
         public int IsDeleting { get; set; }
         public int UserId { get; set; }
+        public int GroupId { get; set; }
+        public string ServiceName { get; set; }
         public List<RegDocLocationModel> FolderLocation { get; set; }
 
     }
@@ -30,11 +32,11 @@ namespace LeHealth.Entity.DataModel
     public class EMRFileOutputModel
     {
         public int PatientId { get; set; }
-        public int FolderId { get; set; } 
+        public int FolderId { get; set; }
         public int UserId { get; set; }
     }
 
-    public class EMRFileDBSaveModel 
+    public class EMRFileDBSaveModel
     {
         public string FilePath { get; set; }
         public string FileOriginalName { get; set; }

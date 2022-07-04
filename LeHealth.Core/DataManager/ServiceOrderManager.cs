@@ -749,7 +749,6 @@ namespace LeHealth.Core.DataManager
             try
             {
                 List<ServiceGroupModel> serviceModels = new List<ServiceGroupModel>();
-
                 for (int i = 0; i < sgi.GroupCodes.Count; i++)
                 {
                     sgi.GroupCodes[i] = sgi.GroupCodes[i] + "0000000";
@@ -786,5 +785,7 @@ namespace LeHealth.Core.DataManager
                 return null;
             }
         }
+
+        
     }
 }
