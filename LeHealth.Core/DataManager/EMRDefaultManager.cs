@@ -1128,6 +1128,14 @@ namespace LeHealth.Core.DataManager
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                //for (int i = 0; i < dem.ItemDetails.Count; i++)
+                //{
+                //    dem.ItemDetails[i].Qty = dem.ItemDetails[i].Qty == null ? 0 : dem.ItemDetails[i].Qty;
+                //}
+                foreach (var data in dem.ItemDetails)
+                {
+                    data.Qty = data.Qty == null ? 0 : data.Qty;
+                }
                 string serviceItemString = JsonConvert.SerializeObject(dem.ItemDetails);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertServiceItemsEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;

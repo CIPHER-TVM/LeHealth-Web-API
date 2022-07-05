@@ -1954,8 +1954,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@BodyPartId", consultantMarking.BodyPartId);
                 cmd.Parameters.AddWithValue("@ConsultantMarkingImageLocation", consultantMarking.ConsultantMarkingImageLocation);
                 cmd.Parameters.AddWithValue("@BranchId", consultantMarking.BranchId);
-
-
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

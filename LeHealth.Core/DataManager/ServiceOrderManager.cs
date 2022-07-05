@@ -775,6 +775,10 @@ namespace LeHealth.Core.DataManager
                             Label = dsserviceGroup.Rows[i]["label"].ToString(),
                             Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dsserviceGroup.Rows[i]["children"].ToString())
                         };
+                        foreach (var item in obj.Children)
+                        {
+                            item.GroupCode = obj.GroupCode;
+                        }
                         serviceModels.Add(obj);
                     }
                 }
@@ -786,6 +790,6 @@ namespace LeHealth.Core.DataManager
             }
         }
 
-        
+
     }
 }
