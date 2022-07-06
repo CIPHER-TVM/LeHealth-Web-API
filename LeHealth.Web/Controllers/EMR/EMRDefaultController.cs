@@ -1375,7 +1375,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
             }
         }
-        ////
+
         [Route("InsertDentalProcedureEMR")]
         [HttpPost]
         public ResponseDataModel<DentalProcedureEMRModel> InsertDentalProcedureEMR(DentalProcedureEMRModel ndim)

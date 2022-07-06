@@ -141,7 +141,7 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
                 cmd1.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
                 cmd1.Parameters.AddWithValue("@GroupId", GroupId);
-                cmd1.Parameters.AddWithValue("@ChildId", ChildId);
+                cmd1.Parameters.AddWithValue("@ChildGroupId", ChildId);
                 cmd1.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
                 cmd1.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
                 cmd1.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);

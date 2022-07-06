@@ -192,16 +192,16 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
 
         [Route("GetServiceItem")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ServiceConfigModel>> GetServiceItem(AvailableServiceModel cmfma)
+        public ResponseDataModel<IEnumerable<ServiceConfigModel>> GetServiceItem(AvailableServiceModel asm)
         {
             //try
             //{
-            List<ServiceConfigModel> cptList = new List<ServiceConfigModel>();
-            cptList = masterdataService.GetServiceItem(cmfma);
+            List<ServiceConfigModel> itemList = new List<ServiceConfigModel>();
+            itemList = masterdataService.GetServiceItem(asm);
             var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
             {
                 Status = HttpStatusCode.OK,
-                Response = cptList
+                Response = itemList
             };
             return response;
             //}
