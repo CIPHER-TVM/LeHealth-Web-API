@@ -2284,8 +2284,8 @@ namespace LeHealth.Core.DataManager
                     string temp = DayIds;
                     temp = temp + timeSchedule.DayId + "-";
                     DayIds = temp;
-                    timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute;
-                    timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute;
+                    timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute + " " + timeSchedule.FromAmPm;
+                    timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute + " " + timeSchedule.ToAmPm;
 
                     //New Code Start
                     DateTime FromTime12Format = DateTime.Parse(timeSchedule.FromTime);
