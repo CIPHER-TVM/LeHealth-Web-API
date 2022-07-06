@@ -29,7 +29,7 @@ namespace LeHealth.Core.DataManager
         {
             List<GroupModel> itemgroupList = new List<GroupModel>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetItemGroup", con);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemGroup", con) ;
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupId", group.GroupId);

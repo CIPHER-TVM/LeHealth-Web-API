@@ -1759,7 +1759,7 @@ namespace LeHealth.Core.DataManager
         {
             DiseaseModel disease = new DiseaseModel();
             using SqlConnection con = new SqlConnection(_connStr);
-            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDisInsertUpdatePackageeaseDetailsById", con);
+            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
             appointmentCountCMD.CommandType = CommandType.StoredProcedure;
             appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
             con.Open();

@@ -1128,10 +1128,6 @@ namespace LeHealth.Core.DataManager
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                //for (int i = 0; i < dem.ItemDetails.Count; i++)
-                //{
-                //    dem.ItemDetails[i].Qty = dem.ItemDetails[i].Qty == null ? 0 : dem.ItemDetails[i].Qty;
-                //}
                 foreach (var data in dem.ItemDetails)
                 {
                     data.Qty = data.Qty == null ? 0 : data.Qty;
@@ -1201,6 +1197,73 @@ namespace LeHealth.Core.DataManager
             }
             return siData;
         }
-
+        //NEW 
+        //public ItemEMRInputModel InsertDentalExamination(DentalExaminationModel dem) 
+        //{
+        //    using (SqlConnection con = new SqlConnection(_connStr))
+        //    {
+        //        using SqlCommand cmd = new SqlCommand("stLH_InsertServiceItemsEMR", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("@Id", dem.Id);
+        //        cmd.Parameters.AddWithValue("@VisitId", dem.VisitId);
+        //        cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+        //        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+        //        {
+        //            Direction = ParameterDirection.Output
+        //        };
+        //        cmd.Parameters.Add(retValV);
+        //        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+        //        {
+        //            Direction = ParameterDirection.Output
+        //        };
+        //        cmd.Parameters.Add(retDesc);
+        //        con.Open();
+        //        var isUpdated = cmd.ExecuteNonQuery();
+        //        var ret = retValV.Value;
+        //        var descrip = retDesc.Value.ToString();
+        //        con.Close();
+        //        if (descrip == "Saved Successfully")
+        //        {
+        //            dem.Id = Convert.ToInt32(ret);
+        //        }
+        //        else
+        //        {
+        //            string response = string.Empty;
+        //            response = descrip;
+        //        }
+        //    }
+        //    return dem;
+        //}
+        //public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dac)
+        //{
+        //    List<ItemEMRInputModel> siData = new List<ItemEMRInputModel>();
+        //    using SqlConnection con = new SqlConnection(_connStr);
+        //    using SqlCommand cmd = new SqlCommand("stLH_GetServiceItemsEMR", con);
+        //    con.Open();
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
+        //    cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
+        //    cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //    DataTable ds = new DataTable();
+        //    adapter.Fill(ds);
+        //    con.Close();
+        //    if ((ds != null) && (ds.Rows.Count > 0))
+        //    {
+        //        for (Int32 i = 0; i < ds.Rows.Count; i++)
+        //        {
+        //            ItemEMRInputModel obj = new ItemEMRInputModel
+        //            {
+        //                Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+        //                VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
+        //                VisitDate = ds.Rows[i]["VisitDate"].ToString(),
+        //                PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+        //                ItemDetails = JsonConvert.DeserializeObject<List<ItemEMRModel>>(ds.Rows[i]["ItemDetails"].ToString()),
+        //            };
+        //            siData.Add(obj);
+        //        }
+        //    }
+        //    return siData;
+        //}
     }
 }
