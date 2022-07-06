@@ -1303,7 +1303,6 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
             }
         }
-        //NEW API
         [Route("InsertDentalExamination")]
         [HttpPost]
         public ResponseDataModel<DentalExaminationModel> InsertDentalExamination(DentalExaminationModel ndim)
@@ -1363,6 +1362,79 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
                 return new ResponseDataModel<IEnumerable<DentalExaminationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        ////
+        [Route("InsertDentalProcedureEMR")]
+        [HttpPost]
+        public ResponseDataModel<DentalProcedureEMRModel> InsertDentalProcedureEMR(DentalProcedureEMRModel ndim)
+        {
+            try
+            {
+                string message = string.Empty;
+                DentalProcedureEMRModel vm = new DentalProcedureEMRModel();
+                vm = emrdefaultService.InsertDentalProcedureEMR(ndim);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<DentalProcedureEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<DentalProcedureEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetDentalProcedureEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DentalProcedureEMRModel>> GetDentalProcedureEMR(EMRInputModel ndim)
+        {
+            try
+            {
+                List<DentalProcedureEMRModel> cptList = new List<DentalProcedureEMRModel>();
+                cptList = emrdefaultService.GetDentalProcedureEMR(ndim);
+                var response = new ResponseDataModel<IEnumerable<DentalProcedureEMRModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DentalProcedureEMRModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

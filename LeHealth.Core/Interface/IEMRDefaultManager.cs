@@ -44,5 +44,7 @@ namespace LeHealth.Core.Interface
         List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dac);
         DentalExaminationModel InsertDentalExamination(DentalExaminationModel dem);
         List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel dac);
+        DentalProcedureEMRModel InsertDentalProcedureEMR(DentalProcedureEMRModel dem);
+        List<DentalProcedureEMRModel> GetDentalProcedureEMR(EMRInputModel dac);
     }
 }

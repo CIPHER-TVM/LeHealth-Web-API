@@ -56,35 +56,35 @@ namespace LeHealth.Entity.DataModel
         public String ItemStatus { get; set; }
         public String Status { get; set; }
         public String PayStatus { get; set; }
-        public String PatientName { get; set; } 
+        public String PatientName { get; set; }
         public int LocationId { get; set; }
-        public int SerialNo { get; set; } 
-        public int OrderDetId { get; set; }  
-        public String CancelReason { get; set; }  
-        public String OrderFromDate { get; set; }  
-        public String OrderToDate { get; set; }   
-        public String ConsultantName { get; set; }   
-        public String FirstName { get; set; }   
-        public String MiddleName { get; set; }   
-        public String LastName { get; set; }   
-        public String RegNo { get; set; }   
-        public String Mobile { get; set; }   
-        public String ResNo { get; set; }    
-        public Int32 Selected { get; set; }    
-        public Int32 IsExternalConsultant { get; set; }    
-        public Int32 IsCancelled { get; set; }    
-        public Int32 DrugTypeId { get; set; }    
-        public Int32 VaccineTypeId { get; set; }    
-        public Int32 ShowAll { get; set; }    
-        public string DefaultTAT { get; set; }    
+        public int SerialNo { get; set; }
+        public int OrderDetId { get; set; }
+        public String CancelReason { get; set; }
+        public String OrderFromDate { get; set; }
+        public String OrderToDate { get; set; }
+        public String ConsultantName { get; set; }
+        public String FirstName { get; set; }
+        public String MiddleName { get; set; }
+        public String LastName { get; set; }
+        public String RegNo { get; set; }
+        public String Mobile { get; set; }
+        public String ResNo { get; set; }
+        public Int32 Selected { get; set; }
+        public Int32 IsExternalConsultant { get; set; }
+        public Int32 IsCancelled { get; set; }
+        public Int32 DrugTypeId { get; set; }
+        public Int32 VaccineTypeId { get; set; }
+        public Int32 ShowAll { get; set; }
+        public string DefaultTAT { get; set; }
         public List<ItemDataModel> ItemObj { get; set; }
     }
     public class ItemDataModel
     {
-        public Int32 ItemId { get; set; } 
-        public Int32 ItemType { get; set; } 
-        public Int32 itemTypeId { get; set; } 
-        
+        public Int32 ItemId { get; set; }
+        public Int32 ItemType { get; set; }
+        public Int32 itemTypeId { get; set; }
+
     }
     public class ItemRateModel
     {
@@ -101,7 +101,7 @@ namespace LeHealth.Entity.DataModel
         public int TaxId { get; set; }
         public string TaxName { get; set; }
         public float TaxPercent { get; set; }
-        public int IsTaxApplicable { get; set; } 
+        public int IsTaxApplicable { get; set; }
     }
     public class ServiceConfigModel
     {
@@ -109,6 +109,8 @@ namespace LeHealth.Entity.DataModel
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
         public int GroupId { get; set; }
+        public int ChildId { get; set; }
+        public int ParentId { get; set; }
         public int ValidityDays { get; set; }
         public int ValidityVisits { get; set; }
         public bool AllowRateEdit { get; set; }
@@ -139,14 +141,14 @@ namespace LeHealth.Entity.DataModel
         public string DefaultTAT { get; set; }
         public bool StaffMandatory { get; set; }
         public bool IsDisplayed { get; set; }
-        public int ContainerId { get; set; } 
-        public List<RateModel> ItemRateList { get; set; } 
+        public int ContainerId { get; set; }
+        public List<RateModel> ItemRateList { get; set; }
     }
     public class ServiceConfigModelAll : ServiceConfigModel
     {
         public List<int> ItemTaxList { get; set; }
         public int UserId { get; set; }
         public int BranchId { get; set; }
-        public int SessionId { get; set; } 
+        public int SessionId { get; set; }
     }
 }

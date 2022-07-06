@@ -120,6 +120,18 @@ namespace LeHealth.Core.DataManager
             string response2 = string.Empty;
             string response3 = string.Empty;
             string responseFinal = string.Empty;
+            int GroupId = 0;
+            int ChildId = 0;
+            if (serviceItemModel.ParentId == 0)
+            {
+                GroupId = serviceItemModel.GroupId;
+                ChildId = 0;
+            }
+            else
+            {
+                GroupId = serviceItemModel.ParentId;
+                ChildId = serviceItemModel.GroupId;
+            }
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateItemMaster", con);
@@ -128,7 +140,8 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
                 cmd1.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
                 cmd1.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
-                cmd1.Parameters.AddWithValue("@GroupId", serviceItemModel.GroupId);
+                cmd1.Parameters.AddWithValue("@GroupId", GroupId);
+                cmd1.Parameters.AddWithValue("@ChildId", ChildId);
                 cmd1.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
                 cmd1.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
                 cmd1.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);
