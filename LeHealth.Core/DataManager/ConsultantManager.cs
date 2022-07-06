@@ -2284,12 +2284,14 @@ namespace LeHealth.Core.DataManager
                     string temp = DayIds;
                     temp = temp + timeSchedule.DayId + "-";
                     DayIds = temp;
-                    timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute + " " + timeSchedule.FromAmPm;
-                    timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute + " " + timeSchedule.ToAmPm;
+                    timeSchedule.FromTime = timeSchedule.FromHour + ":" + timeSchedule.FromMinute;
+                    timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute;
 
                     //New Code Start
-                    DateTime FromTime12Format = DateTime.Parse(timeSchedule.FromTime);
-                    DateTime ToTime12Format = DateTime.Parse(timeSchedule.ToTime);
+                    string FromTimeStr = timeSchedule.FromTime + " " + timeSchedule.FromAmPm;
+                    string ToTimeStr = timeSchedule.ToTime + " " + timeSchedule.ToAmPm;
+                    DateTime FromTime12Format = DateTime.Parse(FromTimeStr);
+                    DateTime ToTime12Format = DateTime.Parse(ToTimeStr);
                     int SliceNoFrom = (int)FromTime12Format.TimeOfDay.TotalMinutes;
                     int SliceNoTo = (int)ToTime12Format.TimeOfDay.TotalMinutes;
                     for (int i = SliceNoFrom; i <= SliceNoTo; i++)
