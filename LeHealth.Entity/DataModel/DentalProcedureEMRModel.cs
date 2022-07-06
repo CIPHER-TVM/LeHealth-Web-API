@@ -19,6 +19,7 @@ namespace LeHealth.Entity.DataModel
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
+        public string ItemName { get; set; }
         public string Teeths { get; set; }
         public int Qty { get; set; }
         public string Notes { get; set; }
