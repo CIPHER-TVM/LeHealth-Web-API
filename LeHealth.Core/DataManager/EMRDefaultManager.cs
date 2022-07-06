@@ -1197,73 +1197,80 @@ namespace LeHealth.Core.DataManager
             }
             return siData;
         }
-        //NEW 
-        //public ItemEMRInputModel InsertDentalExamination(DentalExaminationModel dem) 
-        //{
-        //    using (SqlConnection con = new SqlConnection(_connStr))
-        //    {
-        //        using SqlCommand cmd = new SqlCommand("stLH_InsertServiceItemsEMR", con);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@Id", dem.Id);
-        //        cmd.Parameters.AddWithValue("@VisitId", dem.VisitId);
-        //        cmd.Parameters.AddWithValue("@UserId", dem.UserId);
-        //        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-        //        {
-        //            Direction = ParameterDirection.Output
-        //        };
-        //        cmd.Parameters.Add(retValV);
-        //        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-        //        {
-        //            Direction = ParameterDirection.Output
-        //        };
-        //        cmd.Parameters.Add(retDesc);
-        //        con.Open();
-        //        var isUpdated = cmd.ExecuteNonQuery();
-        //        var ret = retValV.Value;
-        //        var descrip = retDesc.Value.ToString();
-        //        con.Close();
-        //        if (descrip == "Saved Successfully")
-        //        {
-        //            dem.Id = Convert.ToInt32(ret);
-        //        }
-        //        else
-        //        {
-        //            string response = string.Empty;
-        //            response = descrip;
-        //        }
-        //    }
-        //    return dem;
-        //}
-        //public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dac)
-        //{
-        //    List<ItemEMRInputModel> siData = new List<ItemEMRInputModel>();
-        //    using SqlConnection con = new SqlConnection(_connStr);
-        //    using SqlCommand cmd = new SqlCommand("stLH_GetServiceItemsEMR", con);
-        //    con.Open();
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
-        //    cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
-        //    cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
-        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //    DataTable ds = new DataTable();
-        //    adapter.Fill(ds);
-        //    con.Close();
-        //    if ((ds != null) && (ds.Rows.Count > 0))
-        //    {
-        //        for (Int32 i = 0; i < ds.Rows.Count; i++)
-        //        {
-        //            ItemEMRInputModel obj = new ItemEMRInputModel
-        //            {
-        //                Id = Convert.ToInt32(ds.Rows[i]["Id"]),
-        //                VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
-        //                VisitDate = ds.Rows[i]["VisitDate"].ToString(),
-        //                PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-        //                ItemDetails = JsonConvert.DeserializeObject<List<ItemEMRModel>>(ds.Rows[i]["ItemDetails"].ToString()),
-        //            };
-        //            siData.Add(obj);
-        //        }
-        //    }
-        //    return siData;
-        //}
+        ////NEW 
+        public DentalExaminationModel InsertDentalExamination(DentalExaminationModel dem)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertDentalExamination", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", dem.Id);
+                cmd.Parameters.AddWithValue("@ExtraOral", dem.ExtraOral);
+                cmd.Parameters.AddWithValue("@SoftTissue", dem.SoftTissue);
+                cmd.Parameters.AddWithValue("@HardTissue", dem.HardTissue);
+                cmd.Parameters.AddWithValue("@Others", dem.Others);
+                cmd.Parameters.AddWithValue("@VisitId", dem.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    dem.Id = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return dem;
+        }
+        public List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel dac)
+        {
+            List<DentalExaminationModel> siData = new List<DentalExaminationModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetDentalExamination", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
+            cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
+            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    DentalExaminationModel obj = new DentalExaminationModel
+                    {
+                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+                        VisitId = Convert.ToInt32(ds.Rows[i]["VisitId"]),
+                        ExtraOral = ds.Rows[i]["ExtraOral"].ToString(),
+                        SoftTissue = ds.Rows[i]["SoftTissue"].ToString(),
+                        HardTissue = ds.Rows[i]["HardTissue"].ToString(),
+                        Others = ds.Rows[i]["Others"].ToString(),
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        VisitDate = ds.Rows[i]["VisitDate"].ToString()
+                    };
+                    siData.Add(obj);
+                }
+            }
+            return siData;
+        }
     }
 }

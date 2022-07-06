@@ -168,5 +168,13 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetServiceItemsEMR(dmac);
         }
+        public DentalExaminationModel InsertDentalExamination(DentalExaminationModel vsem)
+        {
+            return emrdataManager.InsertDentalExamination(vsem);
+        } 
+        public List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel dmac)
+        {
+            return emrdataManager.GetDentalExaminationEMR(dmac);
+        }
     }
 }
