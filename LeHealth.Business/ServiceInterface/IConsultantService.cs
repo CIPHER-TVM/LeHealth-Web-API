@@ -43,7 +43,7 @@ namespace LeHealth.Service.ServiceInterface
         DiseaseModel GetDiseaseDetailsById(int diseaseId);
         List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
         List<ConsultantDrugModel> GetConsultantDrugsById(int drugId);
-        List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
+        List<ItemRateDetailModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
         List<ItemRateDetailModel> GetConsultantBaseCosts(ConsultantBaseCostModelAll cbcm);
         List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm);
         string InsertConsultantSketch(SketchModelAll sketch);

@@ -1691,9 +1691,9 @@ namespace LeHealth.Core.DataManager
             }
             return consultantbasecostlist;
         }
-        public List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll ss)
+        public List<ItemRateDetailModel> GetConsultantBaseCost(ConsultantBaseCostModelAll ss)
         {
-            List<ConsultantBaseCostModel> consultantbasecostlist = new List<ConsultantBaseCostModel>();
+            List<ItemRateDetailModel> consultantbasecostlist = new List<ItemRateDetailModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             string SignIds = string.Empty;
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantBaseCost", con);
@@ -1709,10 +1709,11 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    ConsultantBaseCostModel obj = new ConsultantBaseCostModel();
-                    obj.ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]);
-                    obj.ConsultantName = ds.Rows[i]["ConsultantName"].ToString();
-                    obj.ItemRates = JsonConvert.DeserializeObject<List<ItemRateDetailModel>>(ds.Rows[i]["ConsultantItemRate"].ToString());
+                    ItemRateDetailModel obj = new ItemRateDetailModel();
+                    obj.ItemId = Convert.ToInt32(ds.Rows[i]["ItemId"]);
+                    obj.ItemName = ds.Rows[i]["ItemName"].ToString();
+                    obj.ItemCode = ds.Rows[i]["ItemCode"].ToString();
+                    obj.BaseCost = ds.Rows[i]["BaseCost"].ToString();
                     consultantbasecostlist.Add(obj);
                 }
             }
