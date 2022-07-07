@@ -2493,9 +2493,6 @@ namespace LeHealth.Core.DataManager
                     {
                         response = descrip;
                     }
-
-
-
                 }
                 catch (Exception ex)
                 {

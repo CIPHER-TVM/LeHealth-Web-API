@@ -1275,7 +1275,25 @@ namespace LeHealth.Core.DataManager
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                string procedureDetailString = JsonConvert.SerializeObject(dem.ProcedureDetails);
+                List<DentalProcedureEMR> ProcedureDetailsList = new List<DentalProcedureEMR>();
+                for (int i = 0; i < dem.ProcedureDetails.Count; i++)
+                {
+                    if (dem.ProcedureDetails[i].IsCompleted == 0)
+                    {
+                        DentalProcedureEMR obj = new DentalProcedureEMR
+                        {
+                            ItemId = Convert.ToInt32(dem.ProcedureDetails[i].ItemId),
+                            Teeths = dem.ProcedureDetails[i].Teeths,
+                            Qty = Convert.ToInt32(dem.ProcedureDetails[i].Qty),
+                            Notes = dem.ProcedureDetails[i].Notes.ToString(),
+                            ApprovalStatus = Convert.ToInt32(dem.ProcedureDetails[i].ApprovalStatus),
+                            ApprovalNumber = dem.ProcedureDetails[i].ApprovalNumber.ToString(),
+                            BillingMode = Convert.ToInt32(dem.ProcedureDetails[i].BillingMode),
+                        };
+                        ProcedureDetailsList.Add(obj);
+                    }
+                }
+                string procedureDetailString = JsonConvert.SerializeObject(ProcedureDetailsList);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertDentalProcedureEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", dem.Id);
@@ -1341,6 +1359,48 @@ namespace LeHealth.Core.DataManager
                 }
             }
             return dacData;
+        }
+        public DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR dem)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_CompleteDentalProcedureEMR", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", dem.Id);
+                cmd.Parameters.AddWithValue("@ItemId", dem.ItemId);
+                cmd.Parameters.AddWithValue("@Teeths", dem.Teeths);
+                cmd.Parameters.AddWithValue("@Qty", dem.Qty);
+                cmd.Parameters.AddWithValue("@Notes", dem.Notes);
+                cmd.Parameters.AddWithValue("@ApprovalStatus", dem.ApprovalStatus);
+                cmd.Parameters.AddWithValue("@ApprovalNumber", dem.ApprovalNumber);
+                cmd.Parameters.AddWithValue("@BillingMode", dem.BillingMode);
+                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Completed Successfully")
+                {
+                    dem.Id = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return dem;
         }
     }
 }

@@ -184,5 +184,9 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetDentalProcedureEMR(dmac);
         }
+        public DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR vsem)
+        {
+            return emrdataManager.CompleteDentalProcedureEMR(vsem);
+        }
     }
 }

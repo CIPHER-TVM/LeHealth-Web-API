@@ -1449,5 +1449,44 @@ namespace LeHealth.Base.API.Controllers.EMR
             }
         }
 
+        [Route("CompleteDentalProcedureEMR")]
+        [HttpPost]
+        public ResponseDataModel<DentalProcedureEMR> CompleteDentalProcedureEMR(DentalProcedureEMR ndim)
+        {
+            try
+            {
+                string message = string.Empty;
+                DentalProcedureEMR vm = new DentalProcedureEMR();
+                vm = emrdefaultService.CompleteDentalProcedureEMR(ndim);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<DentalProcedureEMR>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<DentalProcedureEMR>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
     }
 }

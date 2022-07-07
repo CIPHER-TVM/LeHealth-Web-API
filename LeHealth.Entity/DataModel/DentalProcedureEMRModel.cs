@@ -26,5 +26,7 @@ namespace LeHealth.Entity.DataModel
         public int ApprovalStatus { get; set; }
         public string ApprovalNumber { get; set; }
         public int BillingMode { get; set; }
+        public int IsCompleted { get; set; } 
+        public int UserId { get; set; } 
     }
 }
