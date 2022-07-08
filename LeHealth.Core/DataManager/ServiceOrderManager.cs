@@ -159,7 +159,6 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PackId", packId);
-            cmd.Parameters.AddWithValue("@PackId", packId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();
             adapter.Fill(dsItemGroup);
