@@ -87,7 +87,6 @@ namespace LeHealth.Core.DataManager
             }
             return serviceItemList;
         }
-
         public List<RateModel> GetItemRateAmountById(AvailableServiceModel company)
         {
             List<RateModel> serviceItemList = new List<RateModel>();
@@ -294,6 +293,45 @@ namespace LeHealth.Core.DataManager
                 var descrip = retDesc.Value.ToString();
                 con.Close();
                 response = descrip;
+            }
+            return response;
+        }
+        public string InsertUpdateServiceItemGroup(ServiceConfigModel ccm)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateServiceItemGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@GroupId", ccm.GroupId);
+                cmd.Parameters.AddWithValue("@ParentId", ccm.ParentId);
+                cmd.Parameters.AddWithValue("@GroupName", ccm.GroupName);
+                cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+                cmd.Parameters.AddWithValue("@UserId", ccm.UserId);
+                cmd.Parameters.AddWithValue("@IsDeleting", ccm.IsDeleting);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Success")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
             }
             return response;
         }
@@ -558,18 +596,16 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
-
-        public List<CardTypeModel> GetCardType(CardTypeModelAll ccm)
+        public List<CardTypeModel> GetCardType(CardTypeModelAll ctm)
         {
             List<CardTypeModel> ctList = new List<CardTypeModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetCard", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CardId", ccm.CardId);
-            cmd.Parameters.AddWithValue("@ShowAll", ccm.ShowAll);
-            cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
+            cmd.Parameters.AddWithValue("@CardId", ctm.CardId);
+            cmd.Parameters.AddWithValue("@ShowAll", ctm.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", ctm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtCT = new DataTable();
             adapter.Fill(dtCT);

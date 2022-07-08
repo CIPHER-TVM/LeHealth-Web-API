@@ -194,33 +194,33 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
         [HttpPost]
         public ResponseDataModel<IEnumerable<ServiceConfigModel>> GetServiceItem(AvailableServiceModel asm)
         {
-            //try
-            //{
-            List<ServiceConfigModel> itemList = new List<ServiceConfigModel>();
-            itemList = masterdataService.GetServiceItem(asm);
-            var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
+            try
             {
-                Status = HttpStatusCode.OK,
-                Response = itemList
-            };
-            return response;
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-            //    return new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
-            //    {
-            //        Status = HttpStatusCode.InternalServerError,
-            //        Response = null,
-            //        ErrorMessage = new ErrorResponse()
-            //        {
-            //            Message = ex.Message
-            //        }
-            //    };
-            //}
-            //finally
-            //{
-            //}
+                List<ServiceConfigModel> itemList = new List<ServiceConfigModel>();
+                itemList = masterdataService.GetServiceItem(asm);
+                var response = new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = itemList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ServiceConfigModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
         }
 
         [Route("InsertUpdateServiceItem")]
@@ -256,6 +256,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        
 
         [Route("DeleteServiceItem")]
         [HttpPost]
@@ -289,6 +290,41 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+
+        [Route("InsertUpdateServiceItemGroup")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateServiceItemGroup(ServiceConfigModel ServiceItem)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateServiceItemGroup(ServiceItem);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
         [Route("GetCommunicationConfiguration")]
         [HttpPost]
         public ResponseDataModel<CommunicationConfigurationModel> GetCommunicationConfiguration(CommunicationConfigurationModel cmfma)

@@ -39,14 +39,14 @@ namespace LeHealth.Core.DataManager
             }
             return consultationlist;
         }
-        public List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel consultation)
+        public List<PatientBasicModel> GetBasicPatientDetails(PatientBasicModel patientdetail)
         {
             List<PatientBasicModel> patientData = new List<PatientBasicModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetBasicPatientDetails", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PatientId", consultation.PatientId);
+            cmd.Parameters.AddWithValue("@PatientId", patientdetail.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -184,16 +184,16 @@ namespace LeHealth.Core.DataManager
             }
             return complaints;
         }
-        public List<ComplaintsModel> GetChiefComplaints(ComplaintsModel visit)
+        public List<ComplaintsModel> GetChiefComplaints(ComplaintsModel complaints)
         {
             List<ComplaintsModel> visitData = new List<ComplaintsModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetChiefComplaints", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
-            cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
-            cmd.Parameters.AddWithValue("@ShowAll", visit.ShowAll);
+            cmd.Parameters.AddWithValue("@VisitId", complaints.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", complaints.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", complaints.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -261,16 +261,16 @@ namespace LeHealth.Core.DataManager
             }
             return pe;
         }
-        public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel visit)
+        public List<PhysicalExaminationModel> GetPEDetails(PhysicalExaminationModel pe)
         {
             List<PhysicalExaminationModel> peData = new List<PhysicalExaminationModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPEDetails", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", visit.VisitId);
-            cmd.Parameters.AddWithValue("@PatientId", visit.PatientId);
-            cmd.Parameters.AddWithValue("@ShowAll", visit.ShowAll);
+            cmd.Parameters.AddWithValue("@VisitId", pe.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", pe.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", pe.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -352,22 +352,22 @@ namespace LeHealth.Core.DataManager
         }
 
         //
-        public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel srm)
+        public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel mdm)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertMedicalDecision", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@MDId", srm.MDId);
-                cmd.Parameters.AddWithValue("@LabOrder", srm.LabOrder);
-                cmd.Parameters.AddWithValue("@RadiologyOrder", srm.RadiologyOrder);
-                cmd.Parameters.AddWithValue("@TreatmentOrder", srm.TreatmentOrder);
-                cmd.Parameters.AddWithValue("@OldMedicalRecord", srm.OldMedicalRecord);
-                cmd.Parameters.AddWithValue("@ReferToPhysician", srm.ReferToPhysician);
-                cmd.Parameters.AddWithValue("@DifferencialDiagnosis", srm.DifferencialDiagnosis);
-                cmd.Parameters.AddWithValue("@Eligibility", srm.Eligibility);
-                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
-                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                cmd.Parameters.AddWithValue("@MDId", mdm.MDId);
+                cmd.Parameters.AddWithValue("@LabOrder", mdm.LabOrder);
+                cmd.Parameters.AddWithValue("@RadiologyOrder", mdm.RadiologyOrder);
+                cmd.Parameters.AddWithValue("@TreatmentOrder", mdm.TreatmentOrder);
+                cmd.Parameters.AddWithValue("@OldMedicalRecord", mdm.OldMedicalRecord);
+                cmd.Parameters.AddWithValue("@ReferToPhysician", mdm.ReferToPhysician);
+                cmd.Parameters.AddWithValue("@DifferencialDiagnosis", mdm.DifferencialDiagnosis);
+                cmd.Parameters.AddWithValue("@Eligibility", mdm.Eligibility);
+                cmd.Parameters.AddWithValue("@VisitId", mdm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", mdm.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -385,7 +385,7 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    srm.MDId = Convert.ToInt32(ret);
+                    mdm.MDId = Convert.ToInt32(ret);
                 }
                 else
                 {
@@ -393,18 +393,18 @@ namespace LeHealth.Core.DataManager
                     response = descrip;
                 }
             }
-            return srm;
+            return mdm;
         }
-        public List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel srm)
+        public List<MedicalDecisionModel> GetMedicalDecision(MedicalDecisionModel mdm)
         {
             List<MedicalDecisionModel> rosData = new List<MedicalDecisionModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetMedicalDecision", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
-            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
-            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            cmd.Parameters.AddWithValue("@VisitId", mdm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", mdm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", mdm.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -416,18 +416,18 @@ namespace LeHealth.Core.DataManager
             return rosData;
         }
 
-        public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel srm)
+        public PlanAndProcedureModel InsertPlanAndProcedure(PlanAndProcedureModel pap)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertPlanAndProcedure", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@PapId", srm.PapId);
-                cmd.Parameters.AddWithValue("@PlanAndProcedure", srm.PlanAndProcedure);
-                cmd.Parameters.AddWithValue("@PatientInstruction", srm.PatientInstruction);
-                cmd.Parameters.AddWithValue("@FollowUp", srm.FollowUp);
-                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
-                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                cmd.Parameters.AddWithValue("@PapId", pap.PapId);
+                cmd.Parameters.AddWithValue("@PlanAndProcedure", pap.PlanAndProcedure);
+                cmd.Parameters.AddWithValue("@PatientInstruction", pap.PatientInstruction);
+                cmd.Parameters.AddWithValue("@FollowUp", pap.FollowUp);
+                cmd.Parameters.AddWithValue("@VisitId", pap.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", pap.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -445,7 +445,7 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    srm.PapId = Convert.ToInt32(ret);
+                    pap.PapId = Convert.ToInt32(ret);
                 }
                 else
                 {
@@ -453,18 +453,18 @@ namespace LeHealth.Core.DataManager
                     response = descrip;
                 }
             }
-            return srm;
+            return pap;
         }
-        public List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel srm)
+        public List<PlanAndProcedureModel> GetPlanAndProcedure(PlanAndProcedureModel pap)
         {
             List<PlanAndProcedureModel> rosData = new List<PlanAndProcedureModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPlanAndProcedure", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
-            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
-            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            cmd.Parameters.AddWithValue("@VisitId", pap.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", pap.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", pap.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -475,23 +475,23 @@ namespace LeHealth.Core.DataManager
             }
             return rosData;
         }
-        public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel srm)
+        public MenstrualHistoryModel InsertMenstrualHistory(MenstrualHistoryModel mhm)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertMenstrualHistory", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Mid", srm.Mid);
-                cmd.Parameters.AddWithValue("@Menarche", srm.Menarche);
-                cmd.Parameters.AddWithValue("@Cycle", srm.Cycle);
-                cmd.Parameters.AddWithValue("@Lmp", srm.Lmp);
-                cmd.Parameters.AddWithValue("@Flow", srm.Flow);
-                cmd.Parameters.AddWithValue("@Contraception", srm.Contraception);
-                cmd.Parameters.AddWithValue("@PapSmear", srm.PapSmear);
-                cmd.Parameters.AddWithValue("@Memogram", srm.Memogram);
-                cmd.Parameters.AddWithValue("@ObstertrichHistory", srm.ObstertrichHistory);
-                cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
-                cmd.Parameters.AddWithValue("@UserId", srm.UserId);
+                cmd.Parameters.AddWithValue("@Mid", mhm.Mid);
+                cmd.Parameters.AddWithValue("@Menarche", mhm.Menarche);
+                cmd.Parameters.AddWithValue("@Cycle", mhm.Cycle);
+                cmd.Parameters.AddWithValue("@Lmp", mhm.Lmp);
+                cmd.Parameters.AddWithValue("@Flow", mhm.Flow);
+                cmd.Parameters.AddWithValue("@Contraception", mhm.Contraception);
+                cmd.Parameters.AddWithValue("@PapSmear", mhm.PapSmear);
+                cmd.Parameters.AddWithValue("@Memogram", mhm.Memogram);
+                cmd.Parameters.AddWithValue("@ObstertrichHistory", mhm.ObstertrichHistory);
+                cmd.Parameters.AddWithValue("@VisitId", mhm.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", mhm.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -509,7 +509,7 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    srm.Mid = Convert.ToInt32(ret);
+                    mhm.Mid = Convert.ToInt32(ret);
                 }
                 else
                 {
@@ -517,18 +517,18 @@ namespace LeHealth.Core.DataManager
                     response = descrip;
                 }
             }
-            return srm;
+            return mhm;
         }
-        public List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel srm)
+        public List<MenstrualHistoryModel> GetMenstrualHistory(MenstrualHistoryModel mhm)
         {
             List<MenstrualHistoryModel> menstrualData = new List<MenstrualHistoryModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetMenstrualHistory", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", srm.VisitId);
-            cmd.Parameters.AddWithValue("@PatientId", srm.PatientId);
-            cmd.Parameters.AddWithValue("@ShowAll", srm.ShowAll);
+            cmd.Parameters.AddWithValue("@VisitId", mhm.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", mhm.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", mhm.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -656,15 +656,15 @@ namespace LeHealth.Core.DataManager
             }
             return vsem;
         }
-        public List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel ndim)
+        public List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem)
         {
             List<VitalSignEMRData> evsData = new List<VitalSignEMRData>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetEMRVitalSign", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
-            cmd.Parameters.AddWithValue("@BranchId", ndim.BranchId);
+            cmd.Parameters.AddWithValue("@VisitId", vsem.VisitId);
+            cmd.Parameters.AddWithValue("@BranchId", vsem.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -685,16 +685,16 @@ namespace LeHealth.Core.DataManager
             }
             return evsData;
         }
-        public List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel ndim)
+        public List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel vsem)
         {
             List<VitalSignEMRHistory> evsData = new List<VitalSignEMRHistory>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetVitalSignEMRHistory", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
-            cmd.Parameters.AddWithValue("@PatientId", ndim.PatientId);
-            cmd.Parameters.AddWithValue("@ShowAll", ndim.ShowAll);
+            cmd.Parameters.AddWithValue("@VisitId", vsem.VisitId);
+            cmd.Parameters.AddWithValue("@PatientId", vsem.PatientId);
+            cmd.Parameters.AddWithValue("@ShowAll", vsem.ShowAll);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -715,14 +715,14 @@ namespace LeHealth.Core.DataManager
             }
             return evsData;
         }
-        public List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel ndim)
+        public List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem)
         {
             List<VitalSignEMRAll> evsData = new List<VitalSignEMRAll>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetAllEMRVitalSignByVisitId", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", ndim.VisitId);
+            cmd.Parameters.AddWithValue("@VisitId", vsem.VisitId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -810,16 +810,16 @@ namespace LeHealth.Core.DataManager
             }
             return dem;
         }
-        public List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac)
+        public List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dem)
         {
             List<DrugsEMRModel> dacData = new List<DrugsEMRModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDrugsEMR", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
-            cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
-            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@VisitId", dem.VisitId);
+            cmd.Parameters.AddWithValue("@ShowAll", dem.ShowAll);
+            cmd.Parameters.AddWithValue("@PatientId", dem.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -887,14 +887,14 @@ namespace LeHealth.Core.DataManager
             }
             return pem;
         }
-        public PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dac)
+        public PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel pem)
         {
             PatientHistoryEMRModel dacData = new PatientHistoryEMRModel();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPatientHistoryEMR", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@PatientId", pem.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -905,14 +905,14 @@ namespace LeHealth.Core.DataManager
             }
             return dacData;
         }
-        public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput dem)
+        public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput pqmi)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                string questionareString = JsonConvert.SerializeObject(dem.PatientQuestionares);
+                string questionareString = JsonConvert.SerializeObject(pqmi.PatientQuestionares);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePatientQuestionareEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@PatientId", dem.PatientQuestionares[0].PatientId);
+                cmd.Parameters.AddWithValue("@PatientId", pqmi.PatientQuestionares[0].PatientId);
                 cmd.Parameters.AddWithValue("@QuestionareJSON", questionareString);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -940,18 +940,17 @@ namespace LeHealth.Core.DataManager
                     response = descrip;
                 }
             }
-            return dem;
+            return pqmi;
         }
-        public List<PatientQuestionareModel> GetPatientQuestionareEMR(PatientQuestionareModel dac)
+        public List<PatientQuestionareModel> GetPatientQuestionareEMR(PatientQuestionareModel pqm)
         {
-            List<PatientQuestionareModel> dacData = new List<PatientQuestionareModel>();
+            List<PatientQuestionareModel> pqData = new List<PatientQuestionareModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetEMRQuestionByPatient", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
-            cmd.Parameters.AddWithValue("@BranchId", dac.BranchId);
-            //cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@PatientId", pqm.PatientId);
+            cmd.Parameters.AddWithValue("@BranchId", pqm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -962,26 +961,26 @@ namespace LeHealth.Core.DataManager
                 {
                     PatientQuestionareModel obj = new PatientQuestionareModel
                     {
-                        PatientId = dac.PatientId,
+                        PatientId = pqm.PatientId,
                         QnId = Convert.ToInt32(ds.Rows[i]["QnId"]),
                         Question = ds.Rows[i]["Question"].ToString(),
                         AnsId = Convert.ToInt32(ds.Rows[i]["AnsId"]),
                         Notes = ds.Rows[i]["Notes"].ToString(),
-                        BranchId = dac.BranchId,
+                        BranchId = pqm.BranchId,
                     };
-                    dacData.Add(obj);
+                    pqData.Add(obj);
                 }
             }
-            return dacData;
+            return pqData;
         }
-        public List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dac)
+        public List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel eim)
         {
-            List<PatientFoldersEMRModel> dacData = new List<PatientFoldersEMRModel>();
+            List<PatientFoldersEMRModel> pfData = new List<PatientFoldersEMRModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPatientFoldersEMR", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -996,23 +995,23 @@ namespace LeHealth.Core.DataManager
                         FolderName = ds.Rows[i]["FolderName"].ToString(),
                         PatientFiles = JsonConvert.DeserializeObject<List<PatientFilesEMRModel>>(ds.Rows[i]["PatientFiles"].ToString()),
                     };
-                    dacData.Add(obj);
+                    pfData.Add(obj);
                 }
             }
-            return dacData;
+            return pfData;
         }
-        public PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel dem)
+        public PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel eim)
         {
             PatientFoldersEMRModel returnData = new PatientFoldersEMRModel();
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateFolderEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@FolderId", dem.FolderId);
-                cmd.Parameters.AddWithValue("@FolderName", dem.FolderName);
-                cmd.Parameters.AddWithValue("@PatientId", dem.PatientId);
-                cmd.Parameters.AddWithValue("@IsDeleting", dem.IsDeleting);
-                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                cmd.Parameters.AddWithValue("@FolderId", eim.FolderId);
+                cmd.Parameters.AddWithValue("@FolderName", eim.FolderName);
+                cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
+                cmd.Parameters.AddWithValue("@IsDeleting", eim.IsDeleting);
+                cmd.Parameters.AddWithValue("@UserId", eim.UserId);
                 cmd.Parameters.AddWithValue("@BranchId", 3);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -1032,7 +1031,7 @@ namespace LeHealth.Core.DataManager
                 if (descrip == "Saved Successfully")
                 {
                     returnData.Id = Convert.ToInt32(ret);
-                    returnData.FolderName = dem.FolderName;
+                    returnData.FolderName = eim.FolderName;
                 }
                 else
                 {
@@ -1042,11 +1041,11 @@ namespace LeHealth.Core.DataManager
             }
             return returnData;
         }
-        public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel dem)
+        public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel esfm)
         {
             EMRSaveFilesModel returnData = new EMRSaveFilesModel();
             List<EMRFileDBSaveModel> eds = new List<EMRFileDBSaveModel>();
-            foreach (var folderloc in dem.FolderLocation)
+            foreach (var folderloc in esfm.FolderLocation)
             {
                 EMRFileDBSaveModel objv = new EMRFileDBSaveModel
                 {
@@ -1061,8 +1060,8 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_UploadFileEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@FileLocationJSON", fileLocationString);
-                cmd.Parameters.AddWithValue("@FolderId", dem.FolderId);
-                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                cmd.Parameters.AddWithValue("@FolderId", esfm.FolderId);
+                cmd.Parameters.AddWithValue("@UserId", esfm.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1092,7 +1091,7 @@ namespace LeHealth.Core.DataManager
             }
             return returnData;
         }
-        public List<ItemEMR> GetEMRServiceItem(EMRInputModel sid)
+        public List<ItemEMR> GetEMRServiceItem(EMRInputModel eim)
         {
             List<ItemEMR> ServiceorderItemList = new List<ItemEMR>();
 
@@ -1100,10 +1099,10 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetEMRServiceItem", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@GroupId", sid.GroupId);
-            cmd.Parameters.AddWithValue("@ServiceName", sid.ServiceName);
-            cmd.Parameters.AddWithValue("@ConsultantId", sid.ConsultantId);
-            cmd.Parameters.AddWithValue("@BranchId", sid.BranchId);
+            cmd.Parameters.AddWithValue("@GroupId", eim.GroupId);
+            cmd.Parameters.AddWithValue("@ServiceName", eim.ServiceName);
+            cmd.Parameters.AddWithValue("@ConsultantId", eim.ConsultantId);
+            cmd.Parameters.AddWithValue("@BranchId", eim.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsavailableService = new DataTable();
             adapter.Fill(dsavailableService);
@@ -1123,21 +1122,21 @@ namespace LeHealth.Core.DataManager
             }
             return ServiceorderItemList;
         }
-        public ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel dem)
+        public ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel iem)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                foreach (var data in dem.ItemDetails)
+                foreach (var data in iem.ItemDetails)
                 {
                     data.Qty = data.Qty == null ? 0 : data.Qty;
                 }
-                string serviceItemString = JsonConvert.SerializeObject(dem.ItemDetails);
+                string serviceItemString = JsonConvert.SerializeObject(iem.ItemDetails);
                 using SqlCommand cmd = new SqlCommand("stLH_InsertServiceItemsEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", dem.Id);
+                cmd.Parameters.AddWithValue("@Id", iem.Id);
                 cmd.Parameters.AddWithValue("@ServiceItemsJSON", serviceItemString);
-                cmd.Parameters.AddWithValue("@VisitId", dem.VisitId);
-                cmd.Parameters.AddWithValue("@UserId", dem.UserId);
+                cmd.Parameters.AddWithValue("@VisitId", iem.VisitId);
+                cmd.Parameters.AddWithValue("@UserId", iem.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -1155,7 +1154,7 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if (descrip == "Saved Successfully")
                 {
-                    dem.Id = Convert.ToInt32(ret);
+                    iem.Id = Convert.ToInt32(ret);
                 }
                 else
                 {
@@ -1163,18 +1162,18 @@ namespace LeHealth.Core.DataManager
                     response = descrip;
                 }
             }
-            return dem;
+            return iem;
         }
-        public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dac)
+        public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel eim)
         {
             List<ItemEMRInputModel> siData = new List<ItemEMRInputModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetServiceItemsEMR", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
-            cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
-            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@VisitId", eim.VisitId);
+            cmd.Parameters.AddWithValue("@ShowAll", eim.ShowAll);
+            cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -1236,16 +1235,16 @@ namespace LeHealth.Core.DataManager
             }
             return dem;
         }
-        public List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel dac)
+        public List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel eim)
         {
             List<DentalExaminationModel> siData = new List<DentalExaminationModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDentalExamination", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
-            cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
-            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@VisitId", eim.VisitId);
+            cmd.Parameters.AddWithValue("@ShowAll", eim.ShowAll);
+            cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -1270,7 +1269,6 @@ namespace LeHealth.Core.DataManager
             }
             return siData;
         }
-        ////
         public DentalProcedureEMRModel InsertDentalProcedureEMR(DentalProcedureEMRModel dem)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1328,16 +1326,16 @@ namespace LeHealth.Core.DataManager
             }
             return dem;
         }
-        public List<DentalProcedureEMRModel> GetDentalProcedureEMR(EMRInputModel dac)
+        public List<DentalProcedureEMRModel> GetDentalProcedureEMR(EMRInputModel eim)
         {
             List<DentalProcedureEMRModel> dacData = new List<DentalProcedureEMRModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetDentalProcedureEMR", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@VisitId", dac.VisitId);
-            cmd.Parameters.AddWithValue("@ShowAll", dac.ShowAll);
-            cmd.Parameters.AddWithValue("@PatientId", dac.PatientId);
+            cmd.Parameters.AddWithValue("@VisitId", eim.VisitId);
+            cmd.Parameters.AddWithValue("@ShowAll", eim.ShowAll);
+            cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);

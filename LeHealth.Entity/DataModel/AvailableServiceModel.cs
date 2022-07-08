@@ -142,13 +142,15 @@ namespace LeHealth.Entity.DataModel
         public bool StaffMandatory { get; set; }
         public bool IsDisplayed { get; set; }
         public int ContainerId { get; set; }
+        public int BranchId { get; set; }
+        public int UserId { get; set; } 
+        public int IsDeleting { get; set; }  
         public List<RateModel> ItemRateList { get; set; }
     }
     public class ServiceConfigModelAll : ServiceConfigModel
     {
         public List<int> ItemTaxList { get; set; }
         public int UserId { get; set; }
-        public int BranchId { get; set; }
         public int SessionId { get; set; }
     }
 }

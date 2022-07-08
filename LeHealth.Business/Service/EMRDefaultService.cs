@@ -160,21 +160,21 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetEMRServiceItem(dmac);
         }
-        public ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel vsem)
+        public ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel iim)
         {
-            return emrdataManager.InsertServiceItemsEMR(vsem);
+            return emrdataManager.InsertServiceItemsEMR(iim);
         }
-        public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dmac)
+        public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel eim)
         {
-            return emrdataManager.GetServiceItemsEMR(dmac);
+            return emrdataManager.GetServiceItemsEMR(eim);
         }
-        public DentalExaminationModel InsertDentalExamination(DentalExaminationModel vsem)
+        public DentalExaminationModel InsertDentalExamination(DentalExaminationModel dem)
         {
-            return emrdataManager.InsertDentalExamination(vsem);
+            return emrdataManager.InsertDentalExamination(dem);
         }
-        public List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel dmac)
+        public List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel eic)
         {
-            return emrdataManager.GetDentalExaminationEMR(dmac);
+            return emrdataManager.GetDentalExaminationEMR(eic);
         }
         public DentalProcedureEMRModel InsertDentalProcedureEMR(DentalProcedureEMRModel vsem)
         {
