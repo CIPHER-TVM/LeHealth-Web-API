@@ -29,7 +29,7 @@ namespace LeHealth.Core.DataManager
         {
             List<GroupModel> itemgroupList = new List<GroupModel>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetItemGroup", con) ;
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemGroup", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupId", group.GroupId);
@@ -775,10 +775,16 @@ namespace LeHealth.Core.DataManager
                             Label = dsserviceGroup.Rows[i]["label"].ToString(),
                             Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dsserviceGroup.Rows[i]["children"].ToString())
                         };
-                        foreach (var item in obj.Children)
-                        {
-                            item.GroupCode = obj.GroupCode;
-                        }
+                        ////for(int j = 0; j < obj.Children.Count; j++)
+                        ////{
+                        ////    obj.Children[j].GroupCode = obj.GroupCode;
+                        ////}
+
+                        var childjson = JsonConvert.SerializeObject(obj.Children);
+                        ////childjson = childjson.Replace("\"GroupCode\":null", "\"GroupCode\":\"ASD\"");
+                        string newgroupcode = "\"GroupCode\":\"" + obj.GroupCode + "\"";
+                        childjson = childjson.Replace("\"GroupCode\":null", newgroupcode);
+                        obj.Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(childjson);
                         serviceModels.Add(obj);
                     }
                 }

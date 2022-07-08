@@ -629,8 +629,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
                 cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
                 cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
-
-
                 SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output

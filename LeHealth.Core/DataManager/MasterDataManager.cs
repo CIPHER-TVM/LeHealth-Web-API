@@ -4487,7 +4487,6 @@ namespace LeHealth.Core.DataManager
                         Dosage = dsDrug.Rows[i]["DOSAGE_FORM_PACKAGE"].ToString(),
                         RouteId = Convert.ToInt32(dsDrug.Rows[i]["RouteId"]),
                         RouteDesc = dsDrug.Rows[i]["Route"].ToString(),
-                        Duration = 9999,//Convert.ToInt32(dsDrug.Rows[i]["Duration"]);
                         BranchId = dm.BranchId,
                         ScientificName = dsDrug.Rows[i]["ScientificName"].ToString()
                     };

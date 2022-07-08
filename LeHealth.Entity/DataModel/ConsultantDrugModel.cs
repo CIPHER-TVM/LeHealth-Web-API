@@ -21,7 +21,7 @@ namespace LeHealth.Entity.DataModel
         public int FreqId { get; set; }
         public string FreqDesc { get; set; }
         public int FreqMode { get; set; }
-        public int Duration { get; set; }
+        public string Duration { get; set; }
         public string DurationMode { get; set; }
         public string ScientificName { get; set; }
         public int ScientificNameId { get; set; }
