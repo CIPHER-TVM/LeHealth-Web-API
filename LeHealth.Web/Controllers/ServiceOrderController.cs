@@ -124,7 +124,7 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
-        
+
         [HttpPost]
         [Route("GetItem")]
         public ResponseDataModel<IEnumerable<ItemModel>> GetItem(ItemModelAll item)
@@ -163,7 +163,7 @@ namespace LeHealth.Base.API.Controllers
         /// </summary>
         /// <param name="packId">Package Id</param>
         /// <returns>Service item list</returns>
-        
+
         [HttpPost]
         [Route("GetPackageItem/{packId}")]
         public ResponseDataModel<IEnumerable<ItemsByTypeModel>> GetPackageItem(int packId)
@@ -288,35 +288,35 @@ namespace LeHealth.Base.API.Controllers
         [HttpPost]
         public ResponseDataModel<ServiceInsertResponse> InsertServiceNew(ServiceInsertInputModel siim)
         {
-            try
-            {
-                ServiceInsertResponse groups = new ServiceInsertResponse();
+            //try
+            //{
+            ServiceInsertResponse groups = new ServiceInsertResponse();
 
-                groups = serviceorderService.InsertServiceNew(siim);
-                var response = new ResponseDataModel<ServiceInsertResponse>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = groups
-                };
-                return response;
-            }
-            catch (Exception ex)
+            groups = serviceorderService.InsertServiceNew(siim);
+            var response = new ResponseDataModel<ServiceInsertResponse>()
             {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<ServiceInsertResponse>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+                Status = HttpStatusCode.OK,
+                Response = groups
+            };
+            return response;
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<ServiceInsertResponse>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
 
-                };
-            }
-            finally
-            {
-            }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
         /// <summary>
         /// API for canclling a service order

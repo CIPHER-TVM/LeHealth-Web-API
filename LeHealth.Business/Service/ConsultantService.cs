@@ -181,9 +181,9 @@ namespace LeHealth.Service.Service
         {
             return consultantManager.GetDiseaseByConsultantId(consultantId);
         }
-        public List<ConsultantDrugModel> GetConsultantDrugsById(int drugId)
+        public List<ConsultantDrugModel> GetConsultantDrugsById(ConsultantDrugModel cdm)
         {
-            return consultantManager.GetConsultantDrugsById(drugId);
+            return consultantManager.GetConsultantDrugsById(cdm);
         }
         public List<ItemRateDetailModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
         {

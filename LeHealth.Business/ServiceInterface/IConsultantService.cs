@@ -42,7 +42,7 @@ namespace LeHealth.Service.ServiceInterface
         List<ICDModel> GetICDBySymptomSign(SymptomSignModel ss);
         DiseaseModel GetDiseaseDetailsById(int diseaseId);
         List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
-        List<ConsultantDrugModel> GetConsultantDrugsById(int drugId);
+        List<ConsultantDrugModel> GetConsultantDrugsById(ConsultantDrugModel cdm);
         List<ItemRateDetailModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);
         List<ItemRateDetailModel> GetConsultantBaseCosts(ConsultantBaseCostModelAll cbcm);
         List<ConsultantItemModel> GetConsultantItemByType(ConsultantItemModel cbcm);
