@@ -10,7 +10,7 @@ using System.Text;
 
 namespace LeHealth.Core.DataManager
 {
-    public class SponsorManager :ISponsorManager
+    public class SponsorManager : ISponsorManager
     {
         private readonly string _connStr;
         private readonly string _uploadpath;
@@ -43,9 +43,9 @@ namespace LeHealth.Core.DataManager
 
                         SFormId = Convert.ToInt32(dtform.Rows[i]["SFormId"]),
                         SFormName = dtform.Rows[i]["SFormName"].ToString(),
-                        BlockReason =dtform.Rows[i]["BlockReason"].ToString(),
-                        IsDisplayed =Convert.ToInt32( dtform.Rows[i]["IsDisplayed"])
-                       
+                        BlockReason = dtform.Rows[i]["BlockReason"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dtform.Rows[i]["IsDisplayed"])
+
                     };
                     formList.Add(obj);
                 }
@@ -67,7 +67,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@SFormName", obj.SFormName);
                     //cmd.Parameters.AddWithValue("@BlockReason", obj.GroupId);
                     cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
-                   
+
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -116,7 +116,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@DedPer", obj.DedPer);
                     cmd.Parameters.AddWithValue("@CoPayAmt", obj.CoPayAmt);
                     cmd.Parameters.AddWithValue("@CopayPer", obj.CopayPer);
-                    
+
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -154,7 +154,7 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
-                    
+
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
@@ -191,7 +191,7 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertSponsorRuleItem", con);
                 try
-                {  
+                {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
                     cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
@@ -203,7 +203,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@CoPayItem", obj.CoPayItem);
                     cmd.Parameters.AddWithValue("@DedItem", obj.DedItem);
                     cmd.Parameters.AddWithValue("@AuthReq", obj.AuthReq);
-                    
+
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -250,11 +250,9 @@ namespace LeHealth.Core.DataManager
                 {
                     SponsorGropuServiceItemModel obj = new SponsorGropuServiceItemModel
                     {
-
                         ItemId = Convert.ToInt32(dtitem.Rows[i]["ItemId"]),
                         GroupId = Convert.ToInt32(dtitem.Rows[i]["GroupId"]),
                         SponsorId = Convert.ToInt32(dtitem.Rows[i]["SponsorId"]),
-
                         ItemName = dtitem.Rows[i]["ItemName"].ToString(),
                         NewName = dtitem.Rows[i]["NewName"].ToString(),
                         CPTCode = dtitem.Rows[i]["CPTCode"].ToString(),
@@ -267,11 +265,7 @@ namespace LeHealth.Core.DataManager
                         CoPayItem = Convert.ToInt32(dtitem.Rows[i]["CoPayItem"]),
                         RuleCategory = dtitem.Rows[i]["RuleCategory"].ToString(),
                         ItemCode = dtitem.Rows[i]["ItemCode"].ToString(),
-                        AuthReq=Convert.ToInt32( dtitem.Rows[i]["AuthReq"])
-                       
-
-
-
+                        AuthReq = Convert.ToInt32(dtitem.Rows[i]["AuthReq"])
                     };
                     itemList.Add(obj);
                 }
@@ -301,18 +295,18 @@ namespace LeHealth.Core.DataManager
                     {
 
                         GroupId = Convert.ToInt32(dtgroup.Rows[i]["GroupId"]),
-                       // SponsorId = Convert.ToInt32(dtgroup.Rows[i]["SponsorId"]),
+                        // SponsorId = Convert.ToInt32(dtgroup.Rows[i]["SponsorId"]),
                         GroupName = dtgroup.Rows[i]["GroupName"].ToString(),
-                        DedGroup = Convert.ToInt32( dtgroup.Rows[i]["DedGroup"]),
+                        DedGroup = Convert.ToInt32(dtgroup.Rows[i]["DedGroup"]),
                         DiscPcnt = (float)Convert.ToDouble(dtgroup.Rows[i]["DiscPcnt"].ToString()),
                         DiscAmount = (float)Convert.ToDouble(dtgroup.Rows[i]["DiscAmount"].ToString()),
-                       // DedGroup = Convert.ToInt32(dtgroup.Rows[i]["UpfrontDed"]),
+                        // DedGroup = Convert.ToInt32(dtgroup.Rows[i]["UpfrontDed"]),
                         CoPayGroup = Convert.ToInt32(dtgroup.Rows[i]["CoPayGroup"]),
                         DedAmt = (float)Convert.ToInt32(dtgroup.Rows[i]["DedAmt"]),
                         DedPer = (float)Convert.ToInt32(dtgroup.Rows[i]["DedPer"]),
                         CoPayAmt = (float)Convert.ToInt32(dtgroup.Rows[i]["CoPayAmt"]),
                         CopayPer = (float)Convert.ToInt32(dtgroup.Rows[i]["CopayPer"]),
-                        RuleCategory= dtgroup.Rows[i]["RuleCategory"].ToString()
+                        RuleCategory = dtgroup.Rows[i]["RuleCategory"].ToString()
 
 
 
@@ -375,9 +369,9 @@ namespace LeHealth.Core.DataManager
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    
+
                     cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
-                   
+
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -455,7 +449,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@SponsorId", creduction.SponsorId);
-            
+
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtcreduction = new DataTable();
             adapter.Fill(dtcreduction);
@@ -468,9 +462,9 @@ namespace LeHealth.Core.DataManager
                     {
 
                         ItemGroupId = Convert.ToInt32(dtcreduction.Rows[i]["ItemGroupId"]),
-                        ItemGroupName =dtcreduction.Rows[i]["ItemGroupName"].ToString(),
+                        ItemGroupName = dtcreduction.Rows[i]["ItemGroupName"].ToString(),
                         DiscPerc = (float)Convert.ToDouble(dtcreduction.Rows[i]["DiscPerc"].ToString()),
-                        
+
 
 
                     };
@@ -493,7 +487,7 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
-                  
+
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -532,12 +526,12 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
                     cmd.Parameters.AddWithValue("@DrugId", obj.DrugId);
                     cmd.Parameters.AddWithValue("@DDCCode", obj.DDCCode);
-                   
-                    
+
+
                     //cmd.Parameters.AddWithValue("@P_Active", Convert.ToInt32(obj.Active));
                     //cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
 
-                    
+
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -587,7 +581,7 @@ namespace LeHealth.Core.DataManager
                     {
 
                         DrugId = Convert.ToInt32(dtDrug.Rows[i]["DrugId"]),
-                        
+
                         DrugName = dtDrug.Rows[i]["DrugName"].ToString(),
                         TradeCode = dtDrug.Rows[i]["TradeCode"].ToString(),
                     };
@@ -618,7 +612,7 @@ namespace LeHealth.Core.DataManager
                 {
                     SponsorRuleModel obj = new SponsorRuleModel
                     {
-                        
+
                         RuleId = Convert.ToInt32(dtSponsorrule.Rows[i]["RuleId"]),
                         SponsorId = Convert.ToInt32(dtSponsorrule.Rows[i]["SponsorId"]),
                         RuleDesc = dtSponsorrule.Rows[i]["RuleDesc"].ToString(),
@@ -626,7 +620,7 @@ namespace LeHealth.Core.DataManager
                         CoPayPcnt = (float)Convert.ToDouble(dtSponsorrule.Rows[i]["CoPayPcnt"].ToString()),
                         UpfrontDed = Convert.ToInt32(dtSponsorrule.Rows[i]["UpfrontDed"]),
                         CopayBefDisc = Convert.ToInt32(dtSponsorrule.Rows[i]["CopayBefDisc"]),
-                        
+
                         RateGroupId = Convert.ToInt32(dtSponsorrule.Rows[i]["RateGroupId"]),
                         BranchId = Convert.ToInt32(dtSponsorrule.Rows[i]["BranchId"]),
                         IsDisplayed = Convert.ToInt32(dtSponsorrule.Rows[i]["IsDisplayed"]),
@@ -708,7 +702,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@ContentId", ContentId);
             cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-           
+
             DataTable dt = new DataTable();
             adapter.Fill(dt);
             con.Close();
@@ -824,7 +818,7 @@ namespace LeHealth.Core.DataManager
 
                     //cmd.Parameters.AddWithValue("@P_Active", Convert.ToInt32(obj.Active));
                     //cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
-                                      
+
                     cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
                     cmd.Parameters.AddWithValue("@IsDeleted", 0);
                     cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
@@ -891,8 +885,8 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-       
-       public string InsertAgentSponsor(SponsorModel obj)
+
+        public string InsertAgentSponsor(SponsorModel obj)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -905,7 +899,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
                     cmd.Parameters.AddWithValue("@UserId", obj.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
-                    
+
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -932,7 +926,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-       
+
         public List<SponsorMasterModelAll> GetAllSponsors(Int32 Branchid)
         {
             List<SponsorMasterModelAll> obj = new List<SponsorMasterModelAll>();
@@ -954,7 +948,7 @@ namespace LeHealth.Core.DataManager
             return obj;
         }
 
-        
+
 
         public string InsertUpdateSponsorConsent(SponserConsentModelAll obj)
         {
@@ -965,7 +959,7 @@ namespace LeHealth.Core.DataManager
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ContentId",obj.ContentId);
+                    cmd.Parameters.AddWithValue("@ContentId", obj.ContentId);
                     cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
                     cmd.Parameters.AddWithValue("@DisplayOrder", obj.DisplayOrder);
                     //cmd.Parameters.AddWithValue("@EnglishTxt", obj.CTEnglish);
@@ -976,7 +970,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@UserId", obj.UserId);
                     cmd.Parameters.AddWithValue("@IsDeleted", 0);
                     cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
-                    
+
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output

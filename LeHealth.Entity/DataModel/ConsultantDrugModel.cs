@@ -29,6 +29,7 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int IsDisplayed { get; set; }
         public int Qty { get; set; }
+        public int IsUpdate { get; set; } 
         public string Instruction { get; set; }
     }
 }

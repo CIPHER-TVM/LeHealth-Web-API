@@ -79,6 +79,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ItemId", asm.ItemId);
+            cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsavailableService = new DataTable();
             adapter.Fill(dsavailableService);

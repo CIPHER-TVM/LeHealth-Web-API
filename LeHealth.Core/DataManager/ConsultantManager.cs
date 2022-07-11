@@ -566,13 +566,9 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                for (int i = 0; i < 1; i++)
-                {
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs[i].ConsultantId);
-                    cmd.Parameters.AddWithValue("@UserId", consultantDrugs[i].UserId);
-
-                }
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs[0].ConsultantId);
+                cmd.Parameters.AddWithValue("@UserId", consultantDrugs[0].UserId);
+                cmd.Parameters.AddWithValue("@IsUpdate", consultantDrugs[0].IsUpdate);
                 string drugJson = JsonConvert.SerializeObject(consultantDrugs);
                 cmd.Parameters.AddWithValue("@DrugJson", drugJson);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
