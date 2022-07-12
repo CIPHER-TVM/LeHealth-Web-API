@@ -20,7 +20,7 @@ namespace LeHealth.Core.Interface
         String InsertService(AvailableServiceModel asm);
         ServiceInsertResponse InsertServiceNew(ServiceInsertInputModel asm);
         String CancelServiceOrder(AvailableServiceModel asm);
-        List<ServiceGroupModel> GetServicesGroups(int branchId);
+        List<ServiceGroupModel> GetServicesGroups(ServiceGroupInput sgi); 
         List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel asm);
         List<AvailableServiceModel> GetServicesOrderLoad(AvailableServiceModel asm);
         List<AvailableServiceModel> GetServicesOrderDetailById(int sid);

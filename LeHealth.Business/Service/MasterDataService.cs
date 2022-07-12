@@ -149,6 +149,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteServiceItem(serviceitem);
         }
+        public string InsertUpdateServiceItemGroup(ServiceConfigModel serviceitemGroup)
+        {
+            return masterdataManager.InsertUpdateServiceItemGroup(serviceitemGroup);
+        }
         public CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel ngm)
         {
             return masterdataManager.GetCommunicationConfiguration(ngm);

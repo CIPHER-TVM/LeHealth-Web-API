@@ -53,6 +53,7 @@ namespace LeHealth.Entity.DataModel
     { 
         public int Id { get; set; }
         public int VisitId { get; set; }
+        public string VisitDate { get; set; } 
         public int UserId { get; set; } 
         public int ShowAll { get; set; } 
         public int PatientId { get; set; } 

@@ -33,6 +33,21 @@ namespace LeHealth.Service.ServiceInterface
         List<VitalSignEMRAll> GetAllEMRVitalSignByVisitId(VitalSignEMRModel vsem);
         List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dma);
         DrugsEMRModel InsertDrugsEMR(DrugsEMRModel dem);
-        List<ConsultantDrugModel> GetDrugsEMR(DrugsEMRModel dac);
+        List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dac);
+        PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel vsem);
+        PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dac);
+        List<PatientQuestionareModel> GetPatientQuestionareEMR(PatientQuestionareModel dac);
+        PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput vsem);
+        List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dac);
+        PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel vsem);
+        EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel vsem);
+        List<ItemEMR> GetEMRServiceItem(EMRInputModel dac);
+        ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel dem);
+        List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel dac);
+        DentalExaminationModel InsertDentalExamination(DentalExaminationModel dem);
+        List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel dac);
+        DentalProcedureEMRModel InsertDentalProcedureEMR(DentalProcedureEMRModel dem);
+        List<DentalProcedureEMRModel> GetDentalProcedureEMR(EMRInputModel dac);
+        DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR dem);
     }
 }

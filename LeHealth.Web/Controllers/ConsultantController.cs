@@ -1254,15 +1254,15 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
-        [Route("GetConsultantDrugsById/{drugId}")]
+        [Route("GetConsultantDrugsById")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugsById(int drugId)
+        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetConsultantDrugsById(ConsultantDrugModel cdm)
         {
             try
             {
                 List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
 
-                consultantDrugs = consultantService.GetConsultantDrugsById(drugId);
+                consultantDrugs = consultantService.GetConsultantDrugsById(cdm);
                 var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
                 {
                     Status = HttpStatusCode.OK,
@@ -1290,13 +1290,13 @@ namespace LeHealth.Base.API.Controllers
 
         [Route("GetConsultantBaseCost")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantBaseCostModel>> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
+        public ResponseDataModel<IEnumerable<ItemRateDetailModel>> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm)
         {
             try
             {
-                List<ConsultantBaseCostModel> consultantDrugs = new List<ConsultantBaseCostModel>();
+                List<ItemRateDetailModel> consultantDrugs = new List<ItemRateDetailModel>();
                 consultantDrugs = consultantService.GetConsultantBaseCost(cbcm);
-                var response = new ResponseDataModel<IEnumerable<ConsultantBaseCostModel>>()
+                var response = new ResponseDataModel<IEnumerable<ItemRateDetailModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = consultantDrugs
@@ -1306,7 +1306,7 @@ namespace LeHealth.Base.API.Controllers
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantBaseCostModel>>()
+                return new ResponseDataModel<IEnumerable<ItemRateDetailModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

@@ -79,6 +79,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ItemId", asm.ItemId);
+            cmd.Parameters.AddWithValue("@BranchId", asm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsavailableService = new DataTable();
             adapter.Fill(dsavailableService);
@@ -158,7 +159,6 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetPackageItem", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PackId", packId);
             cmd.Parameters.AddWithValue("@PackId", packId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();
@@ -744,15 +744,22 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="asm">Data in LH_ServiceGroup Table</param>
         /// <returns>Service group list</returns>
-        public List<ServiceGroupModel> GetServicesGroups(int branchId)
+        public List<ServiceGroupModel> GetServicesGroups(ServiceGroupInput sgi)
         {
             try
             {
                 List<ServiceGroupModel> serviceModels = new List<ServiceGroupModel>();
+                for (int i = 0; i < sgi.GroupCodes.Count; i++)
+                {
+                    sgi.GroupCodes[i] = sgi.GroupCodes[i] + "0000000";
+                }
+
+                string groupCodeString = JsonConvert.SerializeObject(sgi.GroupCodes);
                 using SqlConnection con = new SqlConnection(_connStr);
                 using SqlCommand cmd = new SqlCommand("stLH_GetServiceGroups", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@BranchId", branchId);
+                cmd.Parameters.AddWithValue("@BranchId", sgi.BranchId);
+                cmd.Parameters.AddWithValue("@ServiceGroups", groupCodeString);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dsserviceGroup = new DataTable();
                 adapter.Fill(dsserviceGroup);
@@ -764,10 +771,20 @@ namespace LeHealth.Core.DataManager
                         ServiceGroupModel obj = new ServiceGroupModel
                         {
                             GroupId = Convert.ToInt32(dsserviceGroup.Rows[i]["groupId"]),
-                            GroupCode = dsserviceGroup.Rows[i]["GroupCode"].ToString().Replace("0",""),
+                            GroupCode = dsserviceGroup.Rows[i]["GroupCode"].ToString().Replace("0", ""),
                             Label = dsserviceGroup.Rows[i]["label"].ToString(),
                             Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dsserviceGroup.Rows[i]["children"].ToString())
                         };
+                        ////for(int j = 0; j < obj.Children.Count; j++)
+                        ////{
+                        ////    obj.Children[j].GroupCode = obj.GroupCode;
+                        ////}
+
+                        var childjson = JsonConvert.SerializeObject(obj.Children);
+                        ////childjson = childjson.Replace("\"GroupCode\":null", "\"GroupCode\":\"ASD\"");
+                        string newgroupcode = "\"GroupCode\":\"" + obj.GroupCode + "\"";
+                        childjson = childjson.Replace("\"GroupCode\":null", newgroupcode);
+                        obj.Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(childjson);
                         serviceModels.Add(obj);
                     }
                 }
@@ -778,5 +795,7 @@ namespace LeHealth.Core.DataManager
                 return null;
             }
         }
+
+
     }
 }

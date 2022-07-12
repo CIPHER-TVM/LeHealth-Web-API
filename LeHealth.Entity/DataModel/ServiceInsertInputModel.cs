@@ -21,7 +21,7 @@ namespace LeHealth.Entity.DataModel
         public int SerialNo { get; set; }
         public int LocationId { get; set; }
         public string Status { get; set; }
-        public string PayStatus { get; set; }
+        public int PayStatus { get; set; }
         public List<ItemObj> ItemObj { get; set; }
     }
     public class ItemObj
@@ -30,9 +30,10 @@ namespace LeHealth.Entity.DataModel
         //public int itemType { get; set; }
         //public int itemTypeId { get; set; }
         public object itemId { get; set; }
+        //public int itemId { get; set; }
         public int itemType { get; set; }
         public int itemTypeId { get; set; }
-        public int rate { get; set; }
+        public float rate { get; set; }
     }
 
 }

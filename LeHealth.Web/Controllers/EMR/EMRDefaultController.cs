@@ -3,15 +3,12 @@ using LeHealth.Entity.DataModel;
 using LeHealth.Service.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
 
 
 
@@ -901,13 +898,13 @@ namespace LeHealth.Base.API.Controllers.EMR
 
         [Route("GetDrugsEMR")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<ConsultantDrugModel>> GetDrugsEMR(DrugsEMRModel dmac)
+        public ResponseDataModel<IEnumerable<DrugsEMRModel>> GetDrugsEMR(DrugsEMRModel dmac)
         {
             try
             {
-                List<ConsultantDrugModel> emrList = new List<ConsultantDrugModel>();
+                List<DrugsEMRModel> emrList = new List<DrugsEMRModel>();
                 emrList = emrdefaultService.GetDrugsEMR(dmac);
-                var response = new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                var response = new ResponseDataModel<IEnumerable<DrugsEMRModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = emrList
@@ -917,7 +914,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantDrugModel>>()
+                return new ResponseDataModel<IEnumerable<DrugsEMRModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,
@@ -925,6 +922,566 @@ namespace LeHealth.Base.API.Controllers.EMR
                     {
                         Message = ex.Message
                     }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("InsertUpdatePatientHistoryEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientHistoryEMRModel> InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel pem)
+        {
+            try
+            {
+                string message = string.Empty;
+                PatientHistoryEMRModel vm = new PatientHistoryEMRModel();
+                vm = emrdefaultService.InsertUpdatePatientHistoryEMR(pem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetPatientHistoryEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientHistoryEMRModel> GetPatientHistoryEMR(PatientHistoryEMRModel dmac)
+        {
+            try
+            {
+                PatientHistoryEMRModel emrList = new PatientHistoryEMRModel();
+                emrList = emrdefaultService.GetPatientHistoryEMR(dmac);
+                if (emrList.Id == 0)
+                {
+                    emrList = null;
+                }
+                var response = new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientHistoryEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertUpdatePatientQuestionareEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientQuestionareModelInput> InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput pem)
+        {
+            try
+            {
+                string message = string.Empty;
+                PatientQuestionareModelInput vm = new PatientQuestionareModelInput();
+                vm = emrdefaultService.InsertUpdatePatientQuestionareEMR(pem);
+                message = "Success";
+                var response = new ResponseDataModel<PatientQuestionareModelInput>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientQuestionareModelInput>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetPatientQuestionareEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientQuestionareModel>> GetPatientQuestionareEMR(PatientQuestionareModel dmac)
+        {
+            try
+            {
+                List<PatientQuestionareModel> emrList = new List<PatientQuestionareModel>();
+                emrList = emrdefaultService.GetPatientQuestionareEMR(dmac);
+                var response = new ResponseDataModel<IEnumerable<PatientQuestionareModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientQuestionareModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetPatientFoldersEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PatientFoldersEMRModel>> GetPatientFoldersEMR(EMRInputModel dmac)
+        {
+            try
+            {
+                List<PatientFoldersEMRModel> emrList = new List<PatientFoldersEMRModel>();
+                emrList = emrdefaultService.GetPatientFoldersEMR(dmac);
+                var response = new ResponseDataModel<IEnumerable<PatientFoldersEMRModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PatientFoldersEMRModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("InsertUpdateFolderEMR")]
+        [HttpPost]
+        public ResponseDataModel<PatientFoldersEMRModel> InsertUpdateFolderEMR(EMRInputModel pem)
+        {
+            try
+            {
+                string message = string.Empty;
+                PatientFoldersEMRModel vm = new PatientFoldersEMRModel();
+                vm = emrdefaultService.InsertUpdateFolderEMR(pem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PatientFoldersEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PatientFoldersEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("UploadFileEMR")]
+        [HttpPost]
+        public ResponseDataModel<EMRFileOutputModel> UploadFileEMR([FromForm] EMRFileSaveRequestModel pem)
+        {
+            try
+            {
+                EMRFileOutputModel eom = new EMRFileOutputModel();
+                EMRSaveFilesModel patientDetail = JsonConvert.DeserializeObject<EMRSaveFilesModel>(pem.FileJson);
+                patientDetail.EMRFiles = pem.PatientDocs;
+                EMRSaveFilesModel registrationDetail = emrdefaultService.UploadFileEMR(patientDetail);
+                string message = string.Empty;
+                //PatientFoldersEMRModel vm = new PatientFoldersEMRModel();
+                //vm = emrdefaultService.UploadFileEMR(pem); 
+                if (registrationDetail.FolderId > 0)
+                {
+                    message = "Success";
+                    eom.UserId = patientDetail.UserId;
+                    eom.FolderId = patientDetail.FolderId;
+                    eom.PatientId = patientDetail.PatientId;
+                }
+                else
+                {
+                    message = "Failure";
+                }
+                var response = new ResponseDataModel<EMRFileOutputModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = eom,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<EMRFileOutputModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetEMRServiceItem")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemEMR>> GetEMRServiceItem(EMRInputModel dmac)
+        {
+            try
+            {
+                List<ItemEMR> emrList = new List<ItemEMR>();
+                emrList = emrdefaultService.GetEMRServiceItem(dmac);
+                var response = new ResponseDataModel<IEnumerable<ItemEMR>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemEMR>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("InsertServiceItemsEMR")]
+        [HttpPost]
+        public ResponseDataModel<ItemEMRInputModel> InsertServiceItemsEMR(ItemEMRInputModel dem)
+        {
+            try
+            {
+                string message = string.Empty;
+                ItemEMRInputModel vm = new ItemEMRInputModel();
+                vm = emrdefaultService.InsertServiceItemsEMR(dem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<ItemEMRInputModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ItemEMRInputModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetServiceItemsEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemEMRInputModel>> GetServiceItemsEMR(EMRInputModel dmac)
+        {
+            try
+            {
+                List<ItemEMRInputModel> emrList = new List<ItemEMRInputModel>();
+                emrList = emrdefaultService.GetServiceItemsEMR(dmac);
+                var response = new ResponseDataModel<IEnumerable<ItemEMRInputModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = emrList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemEMRInputModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+        [Route("InsertDentalExamination")]
+        [HttpPost]
+        public ResponseDataModel<DentalExaminationModel> InsertDentalExamination(DentalExaminationModel ndim)
+        {
+            try
+            {
+                string message = string.Empty;
+                DentalExaminationModel vm = new DentalExaminationModel();
+                vm = emrdefaultService.InsertDentalExamination(ndim);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<DentalExaminationModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<DentalExaminationModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetDentalExaminationEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DentalExaminationModel>> GetDentalExaminationEMR(EMRInputModel ndim)
+        {
+            try
+            {
+                List<DentalExaminationModel> cptList = new List<DentalExaminationModel>();
+                cptList = emrdefaultService.GetDentalExaminationEMR(ndim);
+                var response = new ResponseDataModel<IEnumerable<DentalExaminationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DentalExaminationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("InsertDentalProcedureEMR")]
+        [HttpPost]
+        public ResponseDataModel<DentalProcedureEMRModel> InsertDentalProcedureEMR(DentalProcedureEMRModel ndim)
+        {
+            try
+            {
+                string message = string.Empty;
+                DentalProcedureEMRModel vm = new DentalProcedureEMRModel();
+                vm = emrdefaultService.InsertDentalProcedureEMR(ndim);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<DentalProcedureEMRModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<DentalProcedureEMRModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetDentalProcedureEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<DentalProcedureEMRModel>> GetDentalProcedureEMR(EMRInputModel ndim)
+        {
+            try
+            {
+                List<DentalProcedureEMRModel> cptList = new List<DentalProcedureEMRModel>();
+                cptList = emrdefaultService.GetDentalProcedureEMR(ndim);
+                var response = new ResponseDataModel<IEnumerable<DentalProcedureEMRModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<DentalProcedureEMRModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("CompleteDentalProcedureEMR")]
+        [HttpPost]
+        public ResponseDataModel<DentalProcedureEMR> CompleteDentalProcedureEMR(DentalProcedureEMR ndim)
+        {
+            try
+            {
+                string message = string.Empty;
+                DentalProcedureEMR vm = new DentalProcedureEMR();
+                vm = emrdefaultService.CompleteDentalProcedureEMR(ndim);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<DentalProcedureEMR>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<DentalProcedureEMR>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
                 };
             }
             finally

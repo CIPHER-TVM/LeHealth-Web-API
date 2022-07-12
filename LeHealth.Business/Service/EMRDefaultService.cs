@@ -10,9 +10,11 @@ namespace LeHealth.Service.Service
     public class EMRDefaultService : IEMRDefaultService
     {
         private readonly IEMRDefaultManager emrdataManager;
-        public EMRDefaultService(IEMRDefaultManager _emrdataManager)
+        private readonly IFileUploadService fileUploadService;
+        public EMRDefaultService(IEMRDefaultManager _emrdataManager, IFileUploadService _fileUploadService)
         {
             emrdataManager = _emrdataManager;
+            fileUploadService = _fileUploadService;
         }
         public List<ConsultationEMRModel> GetConsultation(ConsultationEMRModelAll emr)
         {
@@ -48,7 +50,7 @@ namespace LeHealth.Service.Service
         }
         public List<SymptomReviewModel> GetReviewOfSymptoms(SymptomReviewModel srm)
         {
-            return emrdataManager.GetReviewOfSymptoms(srm); 
+            return emrdataManager.GetReviewOfSymptoms(srm);
         }
         public MedicalDecisionModel InsertMedicalDecision(MedicalDecisionModel pe)
         {
@@ -79,8 +81,8 @@ namespace LeHealth.Service.Service
             return emrdataManager.GetMenstrualHistory(emr);
         }
         public NarrativeDiagnosisICDModel InsertNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
-        { 
-            return emrdataManager.InsertNarrativeDiagnosisICD(ndim); 
+        {
+            return emrdataManager.InsertNarrativeDiagnosisICD(ndim);
         }
         public List<NarrativeDiagnosisICDModel> GetNarrativeDiagnosisICD(NarrativeDiagnosisICDModel ndim)
         {
@@ -88,7 +90,7 @@ namespace LeHealth.Service.Service
         }
 
         public VitalSignEMRModel InsertEMRVitalSign(VitalSignEMRModel vsem)
-        { 
+        {
             return emrdataManager.InsertEMRVitalSign(vsem);
         }
         public List<VitalSignEMRData> GetEMRVitalSign(VitalSignEMRModel vsem)
@@ -105,15 +107,86 @@ namespace LeHealth.Service.Service
         }
         public List<DrugModelAutoComplete> GetDrugsAutoComplete(DrugModelAutoComplete dmac)
         {
-            return emrdataManager.GetDrugsAutoComplete(dmac); 
+            return emrdataManager.GetDrugsAutoComplete(dmac);
         }
         public DrugsEMRModel InsertDrugsEMR(DrugsEMRModel vsem)
         {
             return emrdataManager.InsertDrugsEMR(vsem);
         }
-        public List<ConsultantDrugModel> GetDrugsEMR(DrugsEMRModel dmac)
+        public List<DrugsEMRModel> GetDrugsEMR(DrugsEMRModel dmac)
         {
             return emrdataManager.GetDrugsEMR(dmac);
+        }
+        public PatientHistoryEMRModel InsertUpdatePatientHistoryEMR(PatientHistoryEMRModel vsem)
+        {
+            return emrdataManager.InsertUpdatePatientHistoryEMR(vsem);
+        }
+        public PatientHistoryEMRModel GetPatientHistoryEMR(PatientHistoryEMRModel dmac)
+        {
+            return emrdataManager.GetPatientHistoryEMR(dmac);
+        }
+        public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput vsem)
+        {
+            return emrdataManager.InsertUpdatePatientQuestionareEMR(vsem);
+        }
+        public List<PatientQuestionareModel> GetPatientQuestionareEMR(PatientQuestionareModel dmac)
+        {
+            return emrdataManager.GetPatientQuestionareEMR(dmac);
+        }
+        public List<PatientFoldersEMRModel> GetPatientFoldersEMR(EMRInputModel dmac)
+        {
+            return emrdataManager.GetPatientFoldersEMR(dmac);
+        }
+        public PatientFoldersEMRModel InsertUpdateFolderEMR(EMRInputModel vsem)
+        {
+            return emrdataManager.InsertUpdateFolderEMR(vsem);
+        }
+        public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel vsem)
+        {
+
+            if (vsem.EMRFiles != null)
+                vsem.FolderLocation = fileUploadService.SaveEMRFileMultiple(vsem.EMRFiles, vsem.PatientId);
+            //if (patientDetail.PatientPhoto != null)
+            //{
+            //    patientDetail.PatientPhotoName = fileUploadService.SaveFile(patientDetail.PatientPhoto, "documents");
+            //}
+            //else
+            //{
+            //    patientDetail.PatientPhotoName = "";
+            //}
+            return emrdataManager.UploadFileEMR(vsem);
+        }
+        public List<ItemEMR> GetEMRServiceItem(EMRInputModel dmac)
+        {
+            return emrdataManager.GetEMRServiceItem(dmac);
+        }
+        public ItemEMRInputModel InsertServiceItemsEMR(ItemEMRInputModel iim)
+        {
+            return emrdataManager.InsertServiceItemsEMR(iim);
+        }
+        public List<ItemEMRInputModel> GetServiceItemsEMR(EMRInputModel eim)
+        {
+            return emrdataManager.GetServiceItemsEMR(eim);
+        }
+        public DentalExaminationModel InsertDentalExamination(DentalExaminationModel dem)
+        {
+            return emrdataManager.InsertDentalExamination(dem);
+        }
+        public List<DentalExaminationModel> GetDentalExaminationEMR(EMRInputModel eic)
+        {
+            return emrdataManager.GetDentalExaminationEMR(eic);
+        }
+        public DentalProcedureEMRModel InsertDentalProcedureEMR(DentalProcedureEMRModel vsem)
+        {
+            return emrdataManager.InsertDentalProcedureEMR(vsem);
+        }
+        public List<DentalProcedureEMRModel> GetDentalProcedureEMR(EMRInputModel dmac)
+        {
+            return emrdataManager.GetDentalProcedureEMR(dmac);
+        }
+        public DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR vsem)
+        {
+            return emrdataManager.CompleteDentalProcedureEMR(vsem);
         }
     }
 }

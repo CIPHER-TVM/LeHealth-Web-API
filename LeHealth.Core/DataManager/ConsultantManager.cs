@@ -545,7 +545,6 @@ namespace LeHealth.Core.DataManager
         public List<ConsultantServiceModel> GetConsultantServices(int consultantId)
         {
             List<ConsultantServiceModel> consultantServices = new List<ConsultantServiceModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantServices", con);
             con.Open();
@@ -567,26 +566,11 @@ namespace LeHealth.Core.DataManager
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                for (int i = 0; i < 1; i++)
-                {
-                    cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs[i].ConsultantId);
-                    cmd.Parameters.AddWithValue("@UserId", consultantDrugs[i].UserId);
-
-                }
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs[0].ConsultantId);
+                cmd.Parameters.AddWithValue("@UserId", consultantDrugs[0].UserId);
+                cmd.Parameters.AddWithValue("@IsUpdate", consultantDrugs[0].IsUpdate);
                 string drugJson = JsonConvert.SerializeObject(consultantDrugs);
                 cmd.Parameters.AddWithValue("@DrugJson", drugJson);
-                //cmd.Parameters.AddWithValue("@ConsultantId", consultantDrug.ConsultantId);
-                //cmd.Parameters.AddWithValue("@DrugId", consultantDrug.DrugId);
-                //cmd.Parameters.AddWithValue("@Dosage", consultantDrug.Dosage);
-                //cmd.Parameters.AddWithValue("@RouteId", consultantDrug.RouteId);
-                //cmd.Parameters.AddWithValue("@FreqId", consultantDrug.FreqId);
-                //cmd.Parameters.AddWithValue("@Duration", consultantDrug.Duration);
-                //cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
-                //cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
-                //cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
-
-
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -629,8 +613,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@DurationMode", consultantDrug.DurationMode);
                 cmd.Parameters.AddWithValue("@UserId", consultantDrug.UserId);
                 cmd.Parameters.AddWithValue("@DosageId", consultantDrug.DosageId);
-
-
                 SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -666,6 +648,7 @@ namespace LeHealth.Core.DataManager
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ConsultantId", consultant.ConsultantId);
             cmd.Parameters.AddWithValue("@DrugId", consultant.DrugId);// NEW
+            cmd.Parameters.AddWithValue("@BranchId", consultant.BranchId);// NEW
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtConsultantDrugList = new DataTable();
             adapter.Fill(dtConsultantDrugList);
@@ -1691,9 +1674,9 @@ namespace LeHealth.Core.DataManager
             }
             return consultantbasecostlist;
         }
-        public List<ConsultantBaseCostModel> GetConsultantBaseCost(ConsultantBaseCostModelAll ss)
+        public List<ItemRateDetailModel> GetConsultantBaseCost(ConsultantBaseCostModelAll ss)
         {
-            List<ConsultantBaseCostModel> consultantbasecostlist = new List<ConsultantBaseCostModel>();
+            List<ItemRateDetailModel> consultantbasecostlist = new List<ItemRateDetailModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             string SignIds = string.Empty;
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantBaseCost", con);
@@ -1709,10 +1692,11 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    ConsultantBaseCostModel obj = new ConsultantBaseCostModel();
-                    obj.ConsultantId = Convert.ToInt32(ds.Rows[i]["ConsultantId"]);
-                    obj.ConsultantName = ds.Rows[i]["ConsultantName"].ToString();
-                    obj.ItemRates = JsonConvert.DeserializeObject<List<ItemRateDetailModel>>(ds.Rows[i]["ConsultantItemRate"].ToString());
+                    ItemRateDetailModel obj = new ItemRateDetailModel();
+                    obj.ItemId = Convert.ToInt32(ds.Rows[i]["ItemId"]);
+                    obj.ItemName = ds.Rows[i]["ItemName"].ToString();
+                    obj.ItemCode = ds.Rows[i]["ItemCode"].ToString();
+                    obj.BaseCost = ds.Rows[i]["BaseCost"].ToString();
                     consultantbasecostlist.Add(obj);
                 }
             }
@@ -1759,7 +1743,7 @@ namespace LeHealth.Core.DataManager
         {
             DiseaseModel disease = new DiseaseModel();
             using SqlConnection con = new SqlConnection(_connStr);
-            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDisInsertUpdatePackageeaseDetailsById", con);
+            SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
             appointmentCountCMD.CommandType = CommandType.StoredProcedure;
             appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
             con.Open();
@@ -1851,7 +1835,7 @@ namespace LeHealth.Core.DataManager
             return diseases;
         }
 
-        public List<ConsultantDrugModel> GetConsultantDrugsById(int drugId)
+        public List<ConsultantDrugModel> GetConsultantDrugsById(ConsultantDrugModel cdm)
         {
             List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
 
@@ -1859,7 +1843,8 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugById", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@DrugId", drugId);
+            cmd.Parameters.AddWithValue("@DrugId", cdm.DrugId);
+            cmd.Parameters.AddWithValue("@ConsultantId", cdm.ConsultantId);
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtConsultantDrugList = new DataTable();
@@ -1954,8 +1939,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@BodyPartId", consultantMarking.BodyPartId);
                 cmd.Parameters.AddWithValue("@ConsultantMarkingImageLocation", consultantMarking.ConsultantMarkingImageLocation);
                 cmd.Parameters.AddWithValue("@BranchId", consultantMarking.BranchId);
-
-
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -2208,7 +2191,7 @@ namespace LeHealth.Core.DataManager
         }
         public string InsertUpdateConsultantTimeSchedule(ConsultantTimeScheduleMaster timeScheduleMaster)
         {
-            ////TEST CODE STARTS
+            ////TESTCODE STARTS
             //string response = string.Empty;
             //List<ConsultantDaysModel> cdmList = new List<ConsultantDaysModel>();
 
@@ -2265,7 +2248,7 @@ namespace LeHealth.Core.DataManager
             //    }
             //}
 
-            ////TEST CODE ENDS
+            ////TESTCODE ENDS
             List<ConsultantDaysModel> cdmList = new List<ConsultantDaysModel>();//NIK
             List<ConsultantTimeScheduleMaster> responselist = new List<ConsultantTimeScheduleMaster>();
             ConsultantTimeScheduleMaster responseobj = new ConsultantTimeScheduleMaster();
@@ -2290,8 +2273,10 @@ namespace LeHealth.Core.DataManager
                     timeSchedule.ToTime = timeSchedule.ToHour + ":" + timeSchedule.ToMinute;
 
                     //New Code Start
-                    DateTime FromTime12Format = DateTime.Parse(timeSchedule.FromTime);
-                    DateTime ToTime12Format = DateTime.Parse(timeSchedule.ToTime);
+                    string FromTimeStr = timeSchedule.FromTime + " " + timeSchedule.FromAmPm;
+                    string ToTimeStr = timeSchedule.ToTime + " " + timeSchedule.ToAmPm;
+                    DateTime FromTime12Format = DateTime.Parse(FromTimeStr);
+                    DateTime ToTime12Format = DateTime.Parse(ToTimeStr);
                     int SliceNoFrom = (int)FromTime12Format.TimeOfDay.TotalMinutes;
                     int SliceNoTo = (int)ToTime12Format.TimeOfDay.TotalMinutes;
                     for (int i = SliceNoFrom; i <= SliceNoTo; i++)
@@ -2381,7 +2366,7 @@ namespace LeHealth.Core.DataManager
                             cmdCdmList.ExecuteNonQuery();
                             var descCDM = cdmRetDesc.Value.ToString();
                             response = descCDM;
-                            if (response == "Saved SUccessfully")
+                            if (response == "Saved Successfully")
                             {
                                 response = "Success";
                             }
@@ -2493,9 +2478,6 @@ namespace LeHealth.Core.DataManager
                     {
                         response = descrip;
                     }
-
-
-
                 }
                 catch (Exception ex)
                 {

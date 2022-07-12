@@ -31,6 +31,7 @@
     <Folder Include="wwwroot\uploads\documents\" />
     <Folder Include="wwwroot\uploads\bodyparts\" />
     <Folder Include="wwwroot\uploads\consultantmarkings\" />
+    <Folder Include="wwwroot\uploads\emr\" />
     <Folder Include="wwwroot\uploads\sketches\" />
   </ItemGroup>
 

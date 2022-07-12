@@ -16,6 +16,7 @@ namespace LeHealth.Service.ServiceInterface
         List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm);  
         string InsertUpdateServiceItem(ServiceConfigModelAll serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
+        string InsertUpdateServiceItemGroup(ServiceConfigModel serviceitem);
         List<CardTypeModel> GetCardType(CardTypeModelAll ct);
         string InsertUpdateCardType(CardTypeModelAll ct);
         string DeleteCardType(CardTypeModelAll ct);

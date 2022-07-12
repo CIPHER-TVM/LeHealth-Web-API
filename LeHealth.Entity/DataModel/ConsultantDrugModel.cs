@@ -21,7 +21,7 @@ namespace LeHealth.Entity.DataModel
         public int FreqId { get; set; }
         public string FreqDesc { get; set; }
         public int FreqMode { get; set; }
-        public int Duration { get; set; }
+        public string Duration { get; set; }
         public string DurationMode { get; set; }
         public string ScientificName { get; set; }
         public int ScientificNameId { get; set; }
@@ -29,9 +29,7 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int IsDisplayed { get; set; }
         public int Qty { get; set; }
+        public int IsUpdate { get; set; } 
         public string Instruction { get; set; }
-        public string VisitDate { get; set; }
-        public int VisitId { get; set; }
-        public int PatientId { get; set; }
     }
 }

@@ -67,9 +67,9 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.CancelServiceOrder(asm);
         }
-        public List<ServiceGroupModel> GetServicesGroups(int branchId)
+        public List<ServiceGroupModel> GetServicesGroups(ServiceGroupInput sgi)
         {
-            return serviceorderManager.GetServicesGroups(branchId);
+            return serviceorderManager.GetServicesGroups(sgi); 
         }
         public List<AvailableServiceModel> GetServicesOrderByDate(AvailableServiceModel asm)
         {

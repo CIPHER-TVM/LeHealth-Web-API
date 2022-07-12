@@ -6,12 +6,13 @@ using System.Data;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace LeHealth.Service.ServiceInterface 
+namespace LeHealth.Service.ServiceInterface
 {
-    public interface IFileUploadService 
+    public interface IFileUploadService
     {
-        List<RegDocLocationModel> SaveFileMultiple(List<IFormFile> Files); 
-        string SaveFile(IFormFile File,string foldername); 
-        string SaveBase64Fn(string filestring,string foldername);  
+        List<RegDocLocationModel> SaveFileMultiple(List<IFormFile> Files);
+        List<RegDocLocationModel> SaveEMRFileMultiple(List<IFormFile> Files,int PatientId);
+        string SaveFile(IFormFile File, string foldername);
+        string SaveBase64Fn(string filestring, string foldername);
     }
 }

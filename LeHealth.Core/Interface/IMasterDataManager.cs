@@ -10,17 +10,18 @@ namespace LeHealth.Core.Interface
     {
         string InsertUpdateServiceItem(ServiceConfigModelAll serviceitem);
         string DeleteServiceItem(ServiceItemModel serviceitem);
+        string InsertUpdateServiceItemGroup(ServiceConfigModel serviceitemGroup);
         string InsertUpdateCPTCode(CommonMasterFieldModelAll ccm);
         string DeleteCPTCode(CPTCodeModel ccm);
         List<CPTModifierModel> GetCPTModifier(CPTModifierAll ccm);
         List<ItemRateModel> GetStandardRate(RateGroupModelAll ccm);
         List<ServiceConfigModel> GetServiceItem(AvailableServiceModel ccm);
-        List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm); 
+        List<RateModel> GetItemRateAmountById(AvailableServiceModel ccm);
         string InsertUpdateCPTModifier(CPTModifierAll ccm);
         string DeleteCPTModifier(CPTModifierAll ccm);
         List<NationalityGroupModel> GetNationalityGroup(NationalityGroupModelAll ngm);
         string InsertUpdateNationalityGroup(NationalityGroupModelAll ngm);
-        string DeleteNationalityGroup(NationalityGroupModelAll ngm); 
+        string DeleteNationalityGroup(NationalityGroupModelAll ngm);
         List<RateGroupModel> GetRateGroup(RateGroupModelAll RateGroup);
         string InsertUpdateRateGroup(RateGroupModelAll RateGroup);
         string DeleteRateGroup(RateGroupModel RateGroup);
@@ -31,18 +32,18 @@ namespace LeHealth.Core.Interface
         string InsertUpdateCurrency(CurrencyModelAll ct);
         string DeleteCurrency(CurrencyModelAll ct);
         List<PackageModel> GetPackage(PackageModelAll pm);
-        CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel pm); 
-        List<PackageModel> GetPackageItemRate(PackageModelAll pm); 
+        CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel pm);
+        List<PackageModel> GetPackageItemRate(PackageModelAll pm);
         string InsertUpdatePackage(PackageModelAll package);
         string DeletePackage(PackageModel package);
-        string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm); 
+        string InsertUpdateCommunicationConfiguration(CommunicationConfigurationModel ccm);
         List<DepartmentModel> GetDepartment(DepartmentModelAll department);
         string InsertUpdateDepartment(DepartmentModelAll Dept);
         string DeleteDepartment(DepartmentModel Dept);
         List<SymptomModel> GetSymptom(SymptomModelAll symptom);
         string InsertUpdateSymptom(CommonMasterFieldModelAll symptom);
         string DeleteSymptom(CommonMasterFieldModelAll symptom);
-        string DeleteSign(CommonMasterFieldModelAll symptom); 
+        string DeleteSign(CommonMasterFieldModelAll symptom);
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
         string DeleteLocation(LocationModel location);
@@ -96,7 +97,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateSponsor(SponsorMasterModelAll sponsor);
         string DeleteSponsor(SponsorMasterModelAll sponsor);
         List<CommonMasterFieldModel> GetDrugType(CommonMasterFieldModelAll ccm);
-        List<CommonMasterFieldModel> GetContainer(CommonMasterFieldModelAll ccm); 
+        List<CommonMasterFieldModel> GetContainer(CommonMasterFieldModelAll ccm);
         List<CommonMasterFieldModel> GetVaccineType(CommonMasterFieldModelAll ccm);
         List<CommonMasterFieldModel> GetCPTCode(CommonMasterFieldModelAll ccm);
         List<TaxModel> GetTax(TaxModelAll tax);
@@ -110,7 +111,7 @@ namespace LeHealth.Core.Interface
 
 
         string InsertUpdateMenuGroupMap(MenuGroupModel mgm);
-        string InsertUpdateDeleteZone(ZoneModelAll zone); 
+        string InsertUpdateDeleteZone(ZoneModelAll zone);
         List<ZoneModel> GetZone(ZoneModelAll zoneId);
         List<ConsultantDrugModel> GetDrugs(ConsultantDrugModel cm);
         List<RouteModel> GetRoute(RouteModel dm);
@@ -143,9 +144,9 @@ namespace LeHealth.Core.Interface
         List<ScientificNameModel> GetScientificName(ScientificNameModelAll scientificName);
         string InsertUpdateScientificName(ScientificNameModelAll scientificName);
 
-        List<CommonMasterFieldModel> GetTendern(CommonMasterFieldModelAll tenderness); 
+        List<CommonMasterFieldModel> GetTendern(CommonMasterFieldModelAll tenderness);
         string InsertUpdateTendern(CommonMasterFieldModelAll tenderness);
-        string DeleteTendern(CommonMasterFieldModelAll tenderness); 
+        string DeleteTendern(CommonMasterFieldModelAll tenderness);
         List<AppTypeModel> GetAppType();
         List<FormValidationModel> GetFormFields(Int32 Id);
         List<FormValidationModel> GetFormMaster();
@@ -160,7 +161,7 @@ namespace LeHealth.Core.Interface
         List<LocationModel> GetUserSpecificHospitalLocations(int userId, int branch);
         string InsertUpdateICDCategory(ICDCategoryModelAll icdCategory);
         string DeleteICDCategory(CommonMasterFieldModelAll icdCategory);
-        List<ICDCategoryModel> GetICDCategory(ICDCategoryModelAll category); 
+        List<ICDCategoryModel> GetICDCategory(ICDCategoryModelAll category);
         string InsertUpdateICDGroup(ICDGroupModelAll icdGroup);
         string DeleteICDGroup(ICDGroupModelAll icdGroup);
         List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);
@@ -194,6 +195,6 @@ namespace LeHealth.Core.Interface
         List<FrequencyModel> GetFrequency(FrequencyModelAll frequency);
         string InsertUpdateDeleteFrequency(FrequencyModelAll frequency);
         List<ConsentGroupModel> GetConsentGroup();
-        List<CommonMasterFieldModel> GetMarketStatus(CommonMasterFieldModelAll ms); 
+        List<CommonMasterFieldModel> GetMarketStatus(CommonMasterFieldModelAll ms);
     }
 }
