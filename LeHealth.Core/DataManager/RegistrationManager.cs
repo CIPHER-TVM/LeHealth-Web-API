@@ -479,15 +479,18 @@ namespace LeHealth.Core.DataManager
             {
                 if (IsUpdate == 0 && patientDetail.IsManualRegNo == 0)
                 {
-                    //for (Int32 m = 0; m < 1000; m++)
-                    //{
                     string rno = AutoregnoCreate(patientDetail.BranchId);
-                    //if (rno != "duplicate")
-                    //{
                     patientDetail.RegNo = rno;
-                    //break;
-                    //}
-                    //}
+                }
+                else if (IsUpdate == 0 && patientDetail.IsManualRegNo == 1)
+                {
+                    string IsDuplicate = RegnoDuplicateCheck(patientDetail.RegNo, patientDetail.BranchId);
+                    if (IsDuplicate == "duplicate")
+                    {
+                        responseobj.ErrorMessage = "Registration number already exists";
+                        responselist.Add(responseobj);
+                        return responselist;
+                    }
                 }
                 con.Open();
                 transaction = con.BeginTransaction();
@@ -808,6 +811,26 @@ namespace LeHealth.Core.DataManager
             autonumberCMD.Parameters.AddWithValue("@NumId", "REG-NO");
             autonumberCMD.Parameters.AddWithValue("@BranchId", BranchId);
             SqlParameter patidReturnDesc1 = new SqlParameter("@NewNo", SqlDbType.VarChar, 20)
+            {
+                Direction = ParameterDirection.Output
+            };
+            autonumberCMD.Parameters.Add(patidReturnDesc1);
+            con.Open();
+            var isgenerated = autonumberCMD.ExecuteNonQuery();
+            con.Close();
+            var newregno = patidReturnDesc1.Value.ToString();
+            return newregno;
+        }
+        public string RegnoDuplicateCheck(string RegNo, int BranchId)
+        {
+            using SqlConnection con = new SqlConnection(_connStr);
+            SqlCommand autonumberCMD = new SqlCommand("stLH_RegNoCheck", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            autonumberCMD.Parameters.AddWithValue("@RegNo", RegNo);
+            autonumberCMD.Parameters.AddWithValue("@BranchId", BranchId);
+            SqlParameter patidReturnDesc1 = new SqlParameter("@HasDuplicate", SqlDbType.VarChar, 20)
             {
                 Direction = ParameterDirection.Output
             };
