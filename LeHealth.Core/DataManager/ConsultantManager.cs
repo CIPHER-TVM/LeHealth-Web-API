@@ -2181,7 +2181,6 @@ namespace LeHealth.Core.DataManager
                 con.Close();
                 if ((dsAddress != null) && (dsAddress.Rows.Count > 0))
                 {
-
                     consultant.Address1 = dsAddress.Rows[0]["Address1"] != null ? dsAddress.Rows[0]["Address1"].ToString() : "";
                     consultant.Address2 = dsAddress.Rows[0]["Address2"] != null ? dsAddress.Rows[0]["Address2"].ToString() : "";
                     consultant.AddType = dsAddress.Rows[0]["AddType"] != null ? Convert.ToInt32(dsAddress.Rows[0]["AddType"]) : 0;
@@ -2192,6 +2191,19 @@ namespace LeHealth.Core.DataManager
                     consultant.PlacePO = dsAddress.Rows[0]["PlacePO"] != null ? dsAddress.Rows[0]["PlacePO"].ToString() : "";
                     consultant.State = dsAddress.Rows[0]["State"] != null ? dsAddress.Rows[0]["State"].ToString() : "";
                     consultant.Street = dsAddress.Rows[0]["Street"] != null ? dsAddress.Rows[0]["Street"].ToString() : "";
+                }
+                else
+                {
+                    consultant.Address1 = "";
+                    consultant.Address2 = "";
+                    consultant.AddType = 0;
+                    consultant.City = "";
+                    consultant.ConsultantId = 0;
+                    consultant.CountryId = 0;
+                    consultant.PIN = "";
+                    consultant.PlacePO = "";
+                    consultant.State = "";
+                    consultant.Street = "";
                 }
             }
             return consultant;
