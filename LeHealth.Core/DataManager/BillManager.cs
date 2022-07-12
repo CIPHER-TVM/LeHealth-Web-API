@@ -18,6 +18,1441 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
+        //InsertUpdateInvestigation
+
+        public string InsertTransactionSOExternal(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionSOExternal", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);                    
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string InsertUpdateInvestigation(InvestigationModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateInvestigation", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InvestgnId", obj.InvestgnId);
+                    cmd.Parameters.AddWithValue("@PatientId", obj.PatientId);
+                    cmd.Parameters.AddWithValue("@LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@InvestgnNo", obj.InvestgnNo);
+                    cmd.Parameters.AddWithValue("@InvestgnDate", obj.InvestgnDate);
+                    cmd.Parameters.AddWithValue("@STypeId", obj.STypeId);
+                    cmd.Parameters.AddWithValue("@SPointId", obj.SPointId);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    cmd.Parameters.AddWithValue("@Remarks", obj.Remarks);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+
+        public List<ServiceAutoInitiateModel> GetServicesForAutoInitiate(ServiceAutoInitiateModel details)
+        {
+            List<ServiceAutoInitiateModel> transList = new List<ServiceAutoInitiateModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetServicesForAutoInitiate", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@OrderId", details.OrderId);
+            
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ServiceAutoInitiateModel obj = new ServiceAutoInitiateModel
+                    {
+
+                        GroupTypeName = dt.Rows[i]["GroupTypeName"].ToString(),
+                        GroupName = dt.Rows[i]["GroupName"].ToString(),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),
+                        OrderId = Convert.ToInt32(dt.Rows[i]["OrderId"].ToString()),
+                        OrderDate = dt.Rows[i]["OrderDate"].ToString(),
+                        ItemName = dt.Rows[i]["ItemName"].ToString(),
+                        OrderDetId = Convert.ToInt32(dt.Rows[i]["OrderDetId"].ToString()),
+                        ItemId = Convert.ToInt32(dt.Rows[i]["ItemId"].ToString()),
+                        SPointId = Convert.ToInt32(dt.Rows[i]["SPointId"].ToString()),
+                        STypeId = Convert.ToInt32(dt.Rows[i]["STypeId"].ToString()),
+                        InvestgnId = Convert.ToInt32(dt.Rows[i]["InvestgnId"].ToString()),
+                        InvestgnNo = dt.Rows[i]["InvestgnNo"].ToString(),
+                       
+                    };
+                    transList.Add(obj);
+                }
+            }
+            return transList;
+        }
+
+        public string InsertTransactionSO(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionSO", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                   
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string InsertTransactionLOC(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionLOC", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@SerialNo", obj.SerialNo);
+                    cmd.Parameters.AddWithValue("@DeductionAmount", obj.DeductionAmount);                   
+                    cmd.Parameters.AddWithValue("@CoPayAmount", obj.CoPayAmount);
+                    cmd.Parameters.AddWithValue("@SponsoredAmount", obj.SponsoredAmount);
+                    cmd.Parameters.AddWithValue("@AppliedDed", obj.AppliedDed);
+                    cmd.Parameters.AddWithValue("@AppliedCoPay", obj.AppliedCoPay);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string DeleteTransactionLoc(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteTransactionLoc", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string InsertTransactionTAX(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionTAX", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransDetId", obj.TransDetId);
+                    cmd.Parameters.AddWithValue("@TaxId", obj.TaxId);
+
+                    cmd.Parameters.AddWithValue("@TaxPcnt", obj.TaxPcnt);
+                    cmd.Parameters.AddWithValue("@TaxAmount", obj.TaxAmount);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string DeleteTransactionTax(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteTransactionTax", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransdetId", obj.TransDetId);
+
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string InsertTransLocItem(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransLocItem", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransLOcItemId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@TransDetId", obj.TransDetId);
+                    cmd.Parameters.AddWithValue("@Copay", obj.Copay);
+                    cmd.Parameters.AddWithValue("@Deduction", obj.Deduction);
+                    cmd.Parameters.AddWithValue("@CopayPer", obj.CopayPer);
+                    cmd.Parameters.AddWithValue("@CopayAmt", obj.CopayAmt);
+                    cmd.Parameters.AddWithValue("@DedPer", obj.DedPer);
+                    cmd.Parameters.AddWithValue("@DedAmt", obj.DedAmt);
+                   
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+
+        public string InsertTransactionDet(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionDet", con);
+                try
+                {
+                    
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@TransDetId", obj.TransDetId);
+
+                    cmd.Parameters.AddWithValue("@ItemId", obj.ItemId);
+                    cmd.Parameters.AddWithValue("@Qty", obj.Qty);
+                    cmd.Parameters.AddWithValue("@Rate", obj.Rate);
+                    cmd.Parameters.AddWithValue("@ActualRate", obj.ActualRate);
+                    cmd.Parameters.AddWithValue("@DiscPcnt", obj.DiscPcnt);
+                    cmd.Parameters.AddWithValue("@DiscAmount", obj.DiscAmount);
+                    cmd.Parameters.AddWithValue("@OrderDetId", obj.OrderDetId);
+                    cmd.Parameters.AddWithValue("@PostId", obj.PostId);
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    cmd.Parameters.AddWithValue("@AprovalNo", obj.AprovalNo);
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+
+        public string DeleteTransactionDet(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteTransactionDet", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string InsertUpdateTransaction(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTransaction", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@TransDate", obj.TransDate);
+
+                    cmd.Parameters.AddWithValue("@PatientId", obj.PatientId);
+                    cmd.Parameters.AddWithValue("@TransNo", obj.TransNo);
+                    cmd.Parameters.AddWithValue("@TransFlag", obj.TransFlag);
+                    cmd.Parameters.AddWithValue("@Remarks", obj.Remarks);
+                    cmd.Parameters.AddWithValue("@TotalAmount", obj.TotalAmount);
+                    cmd.Parameters.AddWithValue("@TotalDiscount", obj.TotalDiscount);
+                    cmd.Parameters.AddWithValue("@TotalTax", obj.TotalTax);
+                    cmd.Parameters.AddWithValue("@SpdiscPcnt", obj.SpdiscPcnt);
+                    cmd.Parameters.AddWithValue("@SpdiscAmount", obj.SpdiscAmount);
+                    cmd.Parameters.AddWithValue("@NetAmount", obj.NetAmount);
+                    cmd.Parameters.AddWithValue("@TotalDeduction", obj.TotalDeduction);
+                    cmd.Parameters.AddWithValue("@TotalCopay", obj.TotalCoPay);
+                    cmd.Parameters.AddWithValue("@TotalSponsored", obj.TotalSponsored);
+                    cmd.Parameters.AddWithValue("@TotalNonInsured", obj.TotalNonInsured);
+                   // cmd.Parameters.AddWithValue("@TotalSponsored", obj.TotalSponsored);
+                    cmd.Parameters.AddWithValue("@DeductionSurplus", obj.DeductionSurplus);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    cmd.Parameters.AddWithValue("@Duplicate", obj.Duplicate);
+                    cmd.Parameters.AddWithValue("@LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", obj.ConsultantId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    cmd.Parameters.AddWithValue("@RGroupId", obj.RGroupId);
+                    cmd.Parameters.AddWithValue("@PackId", obj.PackId);
+                    //cmd.Parameters.AddWithValue("@ExtLabId", obj.ExtLabId);
+                    cmd.Parameters.AddWithValue("@SplDiscRemarks", obj.SplDiscRemarks);
+                    cmd.Parameters.AddWithValue("@ItmDiscRemarks", obj.ItmDiscRemarks);
+                    cmd.Parameters.AddWithValue("@ConsultationId", obj.ConsultationId);
+                    cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    SqlParameter rettransno = new SqlParameter("@RetTransNo", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                  
+                    cmd.Parameters.Add(rettransno);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+
+        public string InsertTransCreditItemGroup(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransCreditItemGroup", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    //cmd.Parameters.AddWithValue("@Category", obj.Category);
+                   
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string InsertTransactionLOCExternal(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionLOCExternal", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@SerialNo", obj.SerialNo);
+                    cmd.Parameters.AddWithValue("@DeductionAmount", obj.DeductionAmount);
+                    cmd.Parameters.AddWithValue("@CoPayAmount", obj.CoPayAmount);
+                    cmd.Parameters.AddWithValue("@SponsoredAmount", obj.SponsoredAmount);
+                    cmd.Parameters.AddWithValue("@AppliedDed", obj.AppliedDed);
+                    cmd.Parameters.AddWithValue("@AppliedCoPay", obj.AppliedCoPay);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string DeleteTransactionLocExternal(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteTransactionLocExternal", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        
+        public string InsertTransactionDetExternal(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionDetExternal", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@TransDetId", obj.TransDetId);
+                    cmd.Parameters.AddWithValue("@ItemId", obj.ItemId);
+                    cmd.Parameters.AddWithValue("@Qty", obj.Qty);
+                    cmd.Parameters.AddWithValue("@Rate", obj.Rate);
+                    cmd.Parameters.AddWithValue("@ActualRate", obj.ActualRate);
+                    cmd.Parameters.AddWithValue("@DiscPcnt", obj.DiscPcnt);
+                    cmd.Parameters.AddWithValue("@DiscAmount", obj.DiscAmount);
+                    cmd.Parameters.AddWithValue("@OrderDetId", obj.OrderDetId);
+                    cmd.Parameters.AddWithValue("@PostId", obj.PostId);
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                   // cmd.Parameters.AddWithValue("@PhysioDetId", obj.PhysioDetId);
+                    
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+                    
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string DeleteTransactionDetExternal(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_DeleteTransactionDetExternal", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string InsertUpdateTransactionExternal(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateTransactionExternal", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@TransDate", obj.TransDate);
+                    cmd.Parameters.AddWithValue("@PatientId", obj.PatientId);
+                    cmd.Parameters.AddWithValue("@TransNo", obj.TransNo);
+                    cmd.Parameters.AddWithValue("@TransFlag", obj.TransFlag);
+                    cmd.Parameters.AddWithValue("@Remarks", obj.Remarks);
+                    cmd.Parameters.AddWithValue("@TotalAmount", obj.TotalAmount);
+                    cmd.Parameters.AddWithValue("@TotalDiscount", obj.TotalDiscount);
+                    cmd.Parameters.AddWithValue("@TotalTax", obj.TotalTax);
+                    cmd.Parameters.AddWithValue("@SpdiscPcnt", obj.SpdiscPcnt);
+                    cmd.Parameters.AddWithValue("@SpdiscAmount", obj.SpdiscAmount);
+                    cmd.Parameters.AddWithValue("@NetAmount", obj.NetAmount);
+                    cmd.Parameters.AddWithValue("@TotalDeduction", obj.TotalDeduction);
+                    cmd.Parameters.AddWithValue("@TotalCopay", obj.TotalCoPay);
+                    cmd.Parameters.AddWithValue("@TotalSponsored", obj.TotalSponsored);
+                    cmd.Parameters.AddWithValue("@TotalNonInsured", obj.TotalNonInsured);
+                   // cmd.Parameters.AddWithValue("@TotalSponsored", obj.TotalSponsored);
+                    cmd.Parameters.AddWithValue("@DeductionSurplus", obj.DeductionSurplus);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    cmd.Parameters.AddWithValue("@Duplicate", obj.Duplicate);
+                    cmd.Parameters.AddWithValue("@LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@ConsultantId", obj.ConsultantId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    cmd.Parameters.AddWithValue("@RGroupId", obj.RGroupId);
+                    cmd.Parameters.AddWithValue("@PackId", obj.PackId);
+                    cmd.Parameters.AddWithValue("@ExtLabId", obj.ExtLabId);
+                    cmd.Parameters.AddWithValue("@SplDiscRemarks", obj.SplDiscRemarks);
+                    cmd.Parameters.AddWithValue("@ItmDiscRemarks", obj.ItmDiscRemarks);
+                    cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    SqlParameter rettransno = new SqlParameter("@RetTransNo", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(rettransno);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string CheckPatientSOHistory(ServiceOrderModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_CheckPatientSOHistory", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientId", obj.PatientId);
+                    cmd.Parameters.AddWithValue("@ItemId", obj.ItemId);
+
+                    //SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                   // cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    //var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public List<AgentModel> CheckSubAgentStatus(CreditModel details)
+        {
+            List<AgentModel> Agent = new List<AgentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_CheckSubAgentStatus", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CreditId", details.CreditId);
+            cmd.Parameters.AddWithValue("@SponsorId", details.SponsorId);
+           
+
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    AgentModel obj = new AgentModel
+                    {
+
+                        AgentId = Convert.ToInt32(dt.Rows[i]["AgentId"].ToString()),
+                     
+                    };
+                    Agent.Add(obj);
+                }
+            }
+            return Agent;
+        }
+
+        public string CheckForClaimGeneration(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_CheckForClaimGeneration", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string CancelBill(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_CancelBill", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@CancelReason", obj.CancelReason);
+                   
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@OrderDate", obj.OrderDate);
+                    cmd.Parameters.AddWithValue("@LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string IsBilledTransaction(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_IsBilledTransaction", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                   
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public List<CreditModel> GetManageCreditForBilling(CreditModelAll details)
+        {
+            List<CreditModel> transList = new List<CreditModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            
+            using SqlCommand cmd = new SqlCommand("stLH_GetManageCreditForBilling", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FromDate", details.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", details.ToDate);            
+            cmd.Parameters.AddWithValue("@RegNo", details.RegNo);
+            cmd.Parameters.AddWithValue("@Status", details.Status);
+            cmd.Parameters.AddWithValue("@Active", details.Active);
+            cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
+
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CreditModel obj = new CreditModel
+                    {
+
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"].ToString()),
+                        Limit = (float)Convert.ToDecimal(dt.Rows[i]["Limit"].ToString()),
+                        Balance = (float)Convert.ToDecimal(dt.Rows[i]["Balance"].ToString()),
+                        CreditAvailed = (float)Convert.ToDecimal(dt.Rows[i]["CreditAvailed"].ToString()),
+                        Date = dt.Rows[i]["Date"].ToString(),
+                        RefNo = dt.Rows[i]["RefNo"].ToString(),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        Age = dt.Rows[i]["Age"].ToString(),
+                        Active = Convert.ToInt32(dt.Rows[i]["Active"].ToString()),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        RegNo = dt.Rows[i]["RegNo"].ToString(),
+                        SponsorName = dt.Rows[i]["SponsorName"].ToString()
+
+
+
+                    };
+                    transList.Add(obj);
+                }
+            }
+            return transList;
+        }
+        public string CancelBillSettlement(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_CancelBillSettlement", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@CancelReason", obj.CancelReason);
+                    cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);                    
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public List<TransactionModel> GetBillList(TransactionModelAll details)
+        {
+            List<TransactionModel> transList = new List<TransactionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            string spname = "";
+            if (details.Externalstatus == 1)
+            {
+                spname = "stLH_GetBillListExternal";
+              //  using SqlCommand cmd = new SqlCommand("stLH_GetBillListExternal", con);
+            }
+            else
+            {
+                spname = "stLH_GetBillList";
+            }
+            using SqlCommand cmd = new SqlCommand(spname, con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Locationid", details.LocationId);
+            cmd.Parameters.AddWithValue("@TransFromDate", details.TransFromDate);
+            cmd.Parameters.AddWithValue("@TransToDate", details.TransToDate);
+            cmd.Parameters.AddWithValue("@RegNo", details.RegNo);
+            cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
+
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    TransactionModel obj = new TransactionModel
+                    {
+
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"].ToString()),
+                        BillAmount = (float)Convert.ToDecimal(dt.Rows[i]["BillAmount"].ToString()),
+                        DueAmt = (float)Convert.ToDecimal(dt.Rows[i]["DueAmt"].ToString()),
+                        BillDate = dt.Rows[i]["BillDate"].ToString(),
+                        BillNo = dt.Rows[i]["BillNo"].ToString(),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        ConsultantName = dt.Rows[i]["ConsultantName"].ToString(),
+                        Location = dt.Rows[i]["Location"].ToString(),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        RegNo = dt.Rows[i]["RegNo"].ToString(),
+                        SettledUser = dt.Rows[i]["SettledUser"].ToString(),
+                        SponsorName = dt.Rows[i]["SponsorName"].ToString()
+
+                    };
+                    transList.Add(obj);
+                }
+            }
+            return transList;
+        }
+
+        public List<TransactionModel> GetPendingBill(TransactionModel details)
+        {
+            List<TransactionModel> transList = new List<TransactionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPendingBill", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", details.PatientId);
+            cmd.Parameters.AddWithValue("@LocationId", details.LocationId);
+            cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
+            
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    TransactionModel obj = new TransactionModel
+                    {
+
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"].ToString()),
+                        Amount =(float) Convert.ToDecimal(dt.Rows[i]["TransId"].ToString()),
+                       
+
+                        Date = dt.Rows[i]["Date"].ToString(),
+                        Location = dt.Rows[i]["Location"].ToString(),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        RegNo = dt.Rows[i]["RegNo"].ToString()
+
+                    };
+                    transList.Add(obj);
+                }
+            }
+            return transList;
+        }
+        public List<PaymentModel> GetPaymentList(PaymentModelAll details)
+        {
+            List<PaymentModel> pymntList = new List<PaymentModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPaymentList", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FromDate", details.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", details.ToDate);
+            cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", details.ShowAll);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    PaymentModel obj = new PaymentModel
+                    {
+
+                        PaymentId = Convert.ToInt32(dt.Rows[i]["PaymentId"].ToString()),
+                        PaymentNo = dt.Rows[i]["PaymentNo"].ToString(),
+                        PayDate = dt.Rows[i]["PayDate"].ToString(),
+                        PayType = Convert.ToInt32(dt.Rows[i]["HeadId"].ToString()),
+                        HeadId = Convert.ToInt32(dt.Rows[i]["HeadId"].ToString()),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"].ToString()),
+                        Mode = Convert.ToInt32(dt.Rows[i]["Mode"].ToString()),
+                        Amount = (float)Convert.ToDecimal(dt.Rows[i]["Amount"].ToString()),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        //CardType = dt.Rows[i]["CardType"].ToString(),
+                        //CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        ChqNo = dt.Rows[i]["ChqNo"].ToString(),
+                        ChqDate = dt.Rows[i]["ChqDate"].ToString(),                       
+                        ChqBranch = dt.Rows[i]["ChqBranch"].ToString(),
+                        LocationId = Convert.ToInt32(dt.Rows[i]["LocationId"].ToString()),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        CancelReason = dt.Rows[i]["CancelReason"].ToString(),
+                       
+                        //TransId = Convert.ToInt32(dt.Rows[i]["TransId"].ToString()),
+                        //SponsorId = Convert.ToInt32(dt.Rows[i]["SponsorId"]),
+                        BranchId = Convert.ToInt32(dt.Rows[i]["BranchId"]),
+                        IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]),
+                        IsDeleted = Convert.ToInt32(dt.Rows[i]["IsDeleted"].ToString()),                      
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        RegNo = dt.Rows[i]["RegNo"].ToString()
+                      
+                       
+
+
+                    };
+                    pymntList.Add(obj);
+                }
+            }
+            return pymntList;
+        }
+
+        public List<ReceiptModel> GetReceiptList(ReceiptModelAll details)
+        {
+            List<ReceiptModel> receiptList = new List<ReceiptModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetReceiptList", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FromDate", details.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", details.ToDate);
+            cmd.Parameters.AddWithValue("@RecType", details.RecType);
+            cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
+            cmd.Parameters.AddWithValue("@ShowAll", details.ShowAll);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ReceiptModel obj = new ReceiptModel
+                    {
+
+                        ReceiptId = Convert.ToInt32(dt.Rows[i]["ReceiptId"].ToString()),
+                        ReceiptNo = dt.Rows[i]["ReceiptNo"].ToString(),
+                        RecDate = dt.Rows[i]["RecDate"].ToString(),
+                        HeadId = Convert.ToInt32(dt.Rows[i]["HeadId"].ToString()),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        CardType = dt.Rows[i]["CardType"].ToString(),
+                        CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        ChqNo = dt.Rows[i]["ChqNo"].ToString(),
+                        ChqDate = dt.Rows[i]["ChqDate"].ToString(),
+                        ChqBranch = dt.Rows[i]["ChqBranch"].ToString(),
+                        LocationId = Convert.ToInt32(dt.Rows[i]["LocationId"].ToString()),
+                        CancelReason = dt.Rows[i]["CancelReason"].ToString(),
+                        RecType = Convert.ToInt32(dt.Rows[i]["RecType"].ToString()),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),                       
+                        Mode = Convert.ToInt32(dt.Rows[i]["Mode"].ToString()),
+                        Amount = (float)Convert.ToDecimal(dt.Rows[i]["Amount"].ToString()),                        
+                        BranchId = Convert.ToInt32(dt.Rows[i]["BranchId"]),
+                        IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]),                      
+                        IsDeleted = Convert.ToInt32(dt.Rows[i]["IsDeleted"].ToString()),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        ShiftId = Convert.ToInt32(dt.Rows[i]["ShiftId"].ToString()),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"].ToString()),
+                        SponsorId = Convert.ToInt32(dt.Rows[i]["SponsorId"]),
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"].ToString()),
+
+
+                    };
+                    receiptList.Add(obj);
+                }
+            }
+            return receiptList;
+        }
+
+        public string InsertUpdateCredit(CreditModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateCredit", con);
+                try
+                {
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@CreditRefNo", obj.CreditRefNo);
+                    cmd.Parameters.AddWithValue("@CreditType", obj.CreditType);
+                    cmd.Parameters.AddWithValue("@OpenDate", obj.OpenDate);
+                    cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
+                    cmd.Parameters.AddWithValue("@PatientId", obj.PatientId);
+                    cmd.Parameters.AddWithValue("@AgentId", obj.AgentId);
+                    cmd.Parameters.AddWithValue("@CreditLimit", obj.CreditLimit);
+                    cmd.Parameters.AddWithValue("@CreditAvailed", obj.CreditAvailed);
+                    cmd.Parameters.AddWithValue("@ValidUpto", obj.ValidUpto);
+                    cmd.Parameters.AddWithValue("@DedAmount", obj.DedAmount);
+                    cmd.Parameters.AddWithValue("@CoPayPcnt", obj.CoPayPcnt);
+                    cmd.Parameters.AddWithValue("@MaxLimit", obj.MaxLimit);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    cmd.Parameters.AddWithValue("@Priority", obj.Priority);
+                    cmd.Parameters.AddWithValue("@PolicyNo", obj.PolicyNo);
+                    cmd.Parameters.AddWithValue("@PayerId", obj.PayerId);
+                    cmd.Parameters.AddWithValue("@CertificateNo", obj.CertificateNo);
+                    cmd.Parameters.AddWithValue("@DependantNo", obj.DependantNo);
+                    cmd.Parameters.AddWithValue("@PolicyDate", obj.PolicyDate);
+                    cmd.Parameters.AddWithValue("@ExpiryDate", obj.ExpiryDate);
+                    cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    cmd.Parameters.AddWithValue("@ImageId", obj.ImageId);
+                    cmd.Parameters.AddWithValue("@Image", obj.Image);
+                   // cmd.Parameters.AddWithValue("@ImageId", obj.ImageId);
+                    cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
+                   // cmd.Parameters.AddWithValue("@IsDeleted", obj.IsDeleted);
+                    cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
 
         public List<AgentModel> GetSponsorAgent(AgentModel details)
         {
@@ -48,8 +1483,8 @@ namespace LeHealth.Core.DataManager
                         Address2 = dt.Rows[i]["Address2"].ToString(),
                         Street = dt.Rows[i]["Street"].ToString(),
                         city = dt.Rows[i]["city"].ToString(),
-                        PlacePO = dt.Rows[i]["PlacePO"].ToString(),
-                        PIN = dt.Rows[i]["PIN"].ToString(),
+                        PlacePo = dt.Rows[i]["PlacePO"].ToString(),
+                        Pin = dt.Rows[i]["PIN"].ToString(),
                         State = dt.Rows[i]["State"].ToString(),
                         CountryId =Convert.ToInt32( dt.Rows[i]["CountryId"].ToString()),
                         Phone = dt.Rows[i]["Phone"].ToString(),
@@ -58,7 +1493,7 @@ namespace LeHealth.Core.DataManager
                         Fax = dt.Rows[i]["Fax"].ToString(),
                         ContactPerson = dt.Rows[i]["ContactPerson"].ToString(),
                         Remarks = dt.Rows[i]["Remarks"].ToString(),
-                        DHANo = dt.Rows[i]["DHANo"].ToString(),
+                        DhaNo = dt.Rows[i]["DHANo"].ToString(),
                         PayerId = dt.Rows[i]["PayerId"].ToString(),
                         HospitalId =Convert.ToInt32( dt.Rows[i]["HospitalId"].ToString()),
                        

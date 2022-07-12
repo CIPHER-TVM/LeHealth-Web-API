@@ -29,8 +29,9 @@ namespace LeHealth.Entity.DataModel
         public int SponsorId { get; set; }
         public int BranchId { get; set; }
         public int IsDisplayed { get; set; }
-          public int IsDeleted { get; set; }
-          public string Status { get; set; }
+        public int IsDeleted { get; set; }
+        public string Status { get; set; }
+        public string PatientName { get; set; }
         
 
     }
@@ -38,6 +39,9 @@ namespace LeHealth.Entity.DataModel
     {
         public int UserId { get; set; }
         public int SessionId { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public int ShowAll { get; set; }
        
     }
 }

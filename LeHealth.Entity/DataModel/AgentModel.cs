@@ -14,8 +14,8 @@ namespace LeHealth.Entity.DataModel
         public string Address2 { get; set; }
         public string Street { get; set; }
         public string city { get; set; }
-        public string PlacePO { get; set; }
-        public string PIN { get; set; }
+        public string PlacePo { get; set; }
+        public string Pin { get; set; }
         public string State { get; set; }
 
         public int CountryId { get; set; }
@@ -27,7 +27,7 @@ namespace LeHealth.Entity.DataModel
         public string Remarks { get; set; }
         //public int Active { get; set; }
         //public string BlockReason { get; set; }
-        public string DHANo { get; set; }
+        public string DhaNo { get; set; }
         public string PayerId { get; set; }
         public int HospitalId { get; set; }
         public int BranchId { get; set; }

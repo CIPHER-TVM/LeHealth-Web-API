@@ -34,8 +34,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@P_Address1", obj.Address1);
                     cmd.Parameters.AddWithValue("@P_Address2", obj.Address2);
                     cmd.Parameters.AddWithValue("@P_Street", obj.Street);
-                    cmd.Parameters.AddWithValue("@P_PlacePO", obj.PlacePO);
-                    cmd.Parameters.AddWithValue("@P_PIN", obj.PIN);
+                    cmd.Parameters.AddWithValue("@P_PlacePO", obj.PlacePo);
+                    cmd.Parameters.AddWithValue("@P_PIN", obj.Pin);
                     cmd.Parameters.AddWithValue("@P_City", obj.city);
                     cmd.Parameters.AddWithValue("@P_State", obj.State);
                     cmd.Parameters.AddWithValue("@P_CountryId", Convert.ToInt32(obj.CountryId));
@@ -49,7 +49,7 @@ namespace LeHealth.Core.DataManager
                     //cmd.Parameters.AddWithValue("@P_Active", Convert.ToInt32(obj.Active));
                     //cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
 
-                    cmd.Parameters.AddWithValue("@P_DhaId", obj.DHANo);
+                    cmd.Parameters.AddWithValue("@P_DhaId", obj.DhaNo);
                     cmd.Parameters.AddWithValue("@P_PayerId", obj.PayerId);
                     cmd.Parameters.AddWithValue("@P_HospitalId", Convert.ToInt32(obj.HospitalId));
                     cmd.Parameters.AddWithValue("@IsDisplayed", Convert.ToInt32(obj.IsDisplayed));

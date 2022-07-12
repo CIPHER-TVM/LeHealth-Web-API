@@ -31,11 +31,16 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int IsDisplayed { get; set; }
         public int IsDeleted { get; set; }
+        public string PatientName { get; set; }
+        public string RegNo { get; set; }
         
     }
     public class PaymentModelAll:PaymentModel
     {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
         public int UserId { get; set; }
         public int SessionId { get; set; }
+        public int ShowAll { get; set; }
     }
 }
