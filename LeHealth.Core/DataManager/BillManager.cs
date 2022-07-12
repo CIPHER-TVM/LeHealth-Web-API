@@ -18,7 +18,283 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
-        //InsertUpdateInvestigation
+
+        //ActionSettleBill
+        public string ActionSettleBill(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_ActionSettleBill", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    cmd.Parameters.AddWithValue("@LocationId", obj.LocationId);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                   // cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
+
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+
+                    response = descrip;
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public List<CreditModel> GetAdvanceBalance(CreditModel details)
+        {
+
+            List<CreditModel> creditList = new List<CreditModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetAdvanceBalance", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", details.PatientId);
+           
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CreditModel obj = new CreditModel
+                    {
+
+                        AdvBal =(float) Convert.ToDouble(dt.Rows[i]["AdvBal"].ToString()),
+                        
+
+                    };
+
+                    creditList.Add(obj);
+                }
+            }
+            return creditList;
+        }
+
+        public List<CreditModel> GetOutstandingBalance(CreditModel details)
+        {
+
+            List<CreditModel> creditList = new List<CreditModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetOutstandingBalance", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", details.PatientId);
+            cmd.Parameters.AddWithValue("@CreditId", details.CreditId);
+            cmd.Parameters.AddWithValue("@Branchid", details.BranchId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CreditModel obj = new CreditModel
+                    {
+
+                        Amount =(float) Convert.ToDouble(dt.Rows[i]["Amount"].ToString()),
+                        OpenDate = dt.Rows[i]["OpenDate"].ToString()
+
+                    };
+
+                    creditList.Add(obj);
+                }
+            }
+            return creditList;
+        }
+
+        public List<CreditModel> GetCredit(CreditModel details)
+        {
+
+            List<CreditModel> creditList = new List<CreditModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetCredit", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CreditId", details.CreditId);
+            cmd.Parameters.AddWithValue("@Branchid", details.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CreditModel obj = new CreditModel
+                    {
+
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"].ToString()),
+                        CreditRefNo =dt.Rows[i]["CreditRefNo"].ToString(),
+                        AgentId = Convert.ToInt32(dt.Rows[i]["AgentId"].ToString()),
+                        RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"].ToString()),
+                        BlockReason = dt.Rows[i]["BlockReason"].ToString(),
+                        MaxLimit = (float)Convert.ToDouble(dt.Rows[i]["MaxLimit"].ToString()),
+                        PayerId = dt.Rows[i]["PayerId"].ToString(),
+                        IsDeleted = Convert.ToInt32(dt.Rows[i]["IsDeleted"].ToString()),
+                        BranchId = Convert.ToInt32(dt.Rows[i]["BranchId"].ToString()),
+                        Active = Convert.ToInt32(dt.Rows[i]["Active"].ToString()),
+
+                        CreditType = Convert.ToInt32(dt.Rows[i]["CreditType"].ToString()),
+                        OpenDate = dt.Rows[i]["OpenDate"].ToString(),
+
+
+                        SponsorId = Convert.ToInt32(dt.Rows[i]["SponsorId"].ToString()),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),
+                        CreditLimit = (float)Convert.ToDouble(dt.Rows[i]["CreditLimit"].ToString()),
+
+
+
+                        CreditAvailed = (float)Convert.ToDouble(dt.Rows[i]["CreditLimit"].ToString()),
+                        ValidUpto = dt.Rows[i]["ValidUpto"].ToString(),
+                        DedAmount = (float)Convert.ToDouble(dt.Rows[i]["DedAmount"].ToString()),
+                        CoPayPcnt = (float)Convert.ToDouble(dt.Rows[i]["CoPayPcnt"].ToString()),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        Priority = Convert.ToInt32(dt.Rows[i]["Priority"].ToString()),
+
+
+
+                    };
+
+                    creditList.Add(obj);
+                }
+            }
+            return creditList;
+        }
+        public List<CreditModel> GetCreditForPatAcc(CreditModel details)
+        {
+            
+            List<CreditModel> creditList = new List<CreditModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetCreditForPatAcc", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PatientId", details.PatientId);
+            cmd.Parameters.AddWithValue("@Branchid", details.BranchId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CreditModel obj = new CreditModel
+                    {
+
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"].ToString()),
+                        Credit = dt.Rows[i]["Credit"].ToString()
+                        
+                    };
+
+                    creditList.Add(obj);
+                }
+            }
+            return creditList;
+        }
+
+
+        public List<TransactionModelAll> GetTransaction(TransactionModelAll details)
+        {
+            //List<LocationType> obj = new List<LocationType>();
+            List<TransactionModelAll> transList = new List<TransactionModelAll>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetTransaction", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Transid", details.TransId);
+            cmd.Parameters.AddWithValue("@Branchid", details.BranchId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    TransactionModelAll obj = new TransactionModelAll
+                    {
+
+                        TransId =Convert.ToInt32( dt.Rows[i]["TransId"].ToString()),
+                        PatientId = Convert.ToInt32( dt.Rows[i]["PatientId"].ToString()),
+                        TransDate =  dt.Rows[i]["TransDate"].ToString(),
+                        TransNo =  dt.Rows[i]["TransNo"].ToString(),
+                        TransFlag =Convert.ToInt32(dt.Rows[i]["TransFlag"].ToString()),
+                        Remarks =  dt.Rows[i]["Remarks"].ToString(),
+                        TotalAmount =(float)Convert.ToDouble( dt.Rows[i]["TotalAmount"].ToString()),
+                        TotalDiscount = (float)Convert.ToDouble( dt.Rows[i]["TotalDiscount"].ToString()),
+                        TotalTax = (float)Convert.ToDouble( dt.Rows[i]["TotalTax"].ToString()),
+                        SpdiscPcnt = (float)Convert.ToDouble( dt.Rows[i]["SpdiscPcnt"].ToString()),
+                        SpdiscAmount = (float)Convert.ToDouble( dt.Rows[i]["SpdiscAmount"].ToString()),
+                        NetAmount = (float)Convert.ToDouble(dt.Rows[i]["NetAmount"].ToString()),
+                        TotalDeduction = (float)Convert.ToDouble(dt.Rows[i]["TotalDeduction"].ToString()),
+                        TotalCoPay = (float)Convert.ToDouble(dt.Rows[i]["TotalCopay"].ToString()),
+                        TotalSponsored = (float)Convert.ToDouble(dt.Rows[i]["TotalSponsored"].ToString()),
+                        TotalNonInsured = (float)Convert.ToDouble(dt.Rows[i]["TotalNonInsured"].ToString()),
+                        DeductionSurplus = (float)Convert.ToDouble(dt.Rows[i]["DeductionSurplus"].ToString()),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        CancelReason = dt.Rows[i]["CancelReason"].ToString(),
+                        CancelSettleReason = dt.Rows[i]["CancelSettleReason"].ToString(),
+                        Duplicate = Convert.ToInt32(dt.Rows[i]["Duplicate"].ToString()),
+                        LocationId = Convert.ToInt32(dt.Rows[i]["LocationId"].ToString()),
+                        ConsultantId = Convert.ToInt32(dt.Rows[i]["ConsultantId"].ToString()),
+                        RGroupId = Convert.ToInt32(dt.Rows[i]["RGroupId"].ToString()),
+
+                        PackId = Convert.ToInt32(dt.Rows[i]["PackId"].ToString()),
+                        ShiftId = Convert.ToInt32(dt.Rows[i]["ShiftId"].ToString()),
+                        SplDiscRemarks = dt.Rows[i]["SplDiscRemarks"].ToString(),
+
+                        ItemDiscRemarks = dt.Rows[i]["ItemDiscRemarks"].ToString(),
+                        AprovalNo = dt.Rows[i]["AprovalNo"].ToString(),
+                        ConsultationId = Convert.ToInt32(dt.Rows[i]["ConsultationId"].ToString()),
+                        BranchId = Convert.ToInt32(dt.Rows[i]["BranchId"].ToString()),
+
+
+
+                    };
+                    
+                    transList.Add(obj);
+                }
+            }
+            return transList;
+        }
+
 
         public string InsertTransactionSOExternal(TransactionModelAll obj)
         {

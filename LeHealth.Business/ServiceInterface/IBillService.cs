@@ -8,6 +8,13 @@ namespace LeHealth.Service.ServiceInterface
     public interface IBillService
     {
         // 
+
+        string ActionSettleBill(TransactionModelAll trans);
+        List<CreditModel> GetAdvanceBalance(CreditModel details);
+        List<CreditModel> GetOutstandingBalance(CreditModel details);
+        List<CreditModel> GetCredit(CreditModel details);
+        List<CreditModel> GetCreditForPatAcc(CreditModel details);
+        List<TransactionModelAll> GetTransaction(TransactionModelAll details);
         string InsertTransactionSOExternal(TransactionModelAll trans);
         string InsertUpdateInvestigation(InvestigationModel inv);
         List<ServiceAutoInitiateModel> GetServicesForAutoInitiate(ServiceAutoInitiateModel details);

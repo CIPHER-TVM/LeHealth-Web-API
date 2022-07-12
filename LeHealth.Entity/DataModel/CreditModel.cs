@@ -6,6 +6,9 @@ namespace LeHealth.Entity.DataModel
 {
     public class CreditModel
     {
+        public float AdvBal { get; set; }
+        public float Amount { get; set; }
+        public string Credit { get; set; }
         public int CreditId { get; set; }
         public string CreditRefNo { get; set; }
         public int CreditType { get; set; }
@@ -16,6 +19,7 @@ namespace LeHealth.Entity.DataModel
         public float CreditLimit { get; set; }
         public float CreditAvailed { get; set; }
         public string ValidUpto { get; set; }
+       
         public float DedAmount { get; set; }
         public float CoPayPcnt { get; set; }
         public float MaxLimit { get; set; }
@@ -27,6 +31,7 @@ namespace LeHealth.Entity.DataModel
         public string CertificateNo { get; set; }
         public int DependantNo { get; set; }
         public string PolicyDate { get; set; }
+        public string BlockReason { get; set; }
         public string ExpiryDate { get; set; }
         public int RuleId { get; set; }
         public int Active { get; set; }

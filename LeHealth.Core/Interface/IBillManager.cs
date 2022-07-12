@@ -7,6 +7,15 @@ namespace LeHealth.Core.Interface
 {
     public interface IBillManager
     {
+
+        
+        string ActionSettleBill(TransactionModelAll trans);
+        List<CreditModel> GetAdvanceBalance(CreditModel details);
+        List<CreditModel> GetOutstandingBalance(CreditModel details);
+        List<CreditModel> GetCredit(CreditModel details);
+        List<CreditModel> GetCreditForPatAcc(CreditModel details);
+        List<TransactionModelAll> GetTransaction(TransactionModelAll details);
+
         string InsertTransactionSOExternal(TransactionModelAll trans);
         string InsertUpdateInvestigation(InvestigationModel trans);
         List<ServiceAutoInitiateModel> GetServicesForAutoInitiate(ServiceAutoInitiateModel details);

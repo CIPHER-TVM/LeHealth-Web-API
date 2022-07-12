@@ -31,10 +31,8 @@ namespace LeHealth.Entity.DataModel
         public int SFormId { get; set; }
         public Double SponsorLimit { get; set; }
         public string DhaNo { get; set; }
-        public int EnableSponsorLimit { get; set; }       
-		
-        public int EnableSponsorConsent { get; set; }
-        
+        public int EnableSponsorLimit { get; set; }  		
+        public int EnableSponsorConsent { get; set; }        
         public string AuthorizationMode { get; set; }
         public string URL { get; set; }
         public int SortOrder { get; set; }        

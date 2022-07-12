@@ -743,6 +743,7 @@ namespace LeHealth.Core.DataManager
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@STypeId", 0);
+           
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
@@ -754,6 +755,7 @@ namespace LeHealth.Core.DataManager
             return obj;
         }
 
+       
         public List<SponsorFormModel> GetSponsorForms()
         {
             List<SponsorFormModel> obj = new List<SponsorFormModel>();
