@@ -661,8 +661,8 @@ namespace LeHealth.Core.DataManager
                         Address1 = dtSponsor.Rows[i]["Address1"].ToString(),
                         Address2 = dtSponsor.Rows[i]["Address2"].ToString(),
                         Street = dtSponsor.Rows[i]["Street"].ToString(),
-                        PlacePO = dtSponsor.Rows[i]["PlacePO"].ToString(),
-                        PIN = dtSponsor.Rows[i]["PIN"].ToString(),
+                        PlacePo = dtSponsor.Rows[i]["PlacePO"].ToString(),
+                        Pin = dtSponsor.Rows[i]["PIN"].ToString(),
                         City = dtSponsor.Rows[i]["City"].ToString(),
                         State = dtSponsor.Rows[i]["State"].ToString(),
                         CountryId = Convert.ToInt32(dtSponsor.Rows[i]["CountryId"]),
@@ -676,7 +676,7 @@ namespace LeHealth.Core.DataManager
                         Remarks = dtSponsor.Rows[i]["Remarks"].ToString(),
                         SFormId = Convert.ToInt32(dtSponsor.Rows[i]["SFormId"]),
                         SponsorLimit = (float)Convert.ToDouble(dtSponsor.Rows[i]["SponsorLimit"].ToString()),
-                        DHANo = dtSponsor.Rows[i]["DHANo"].ToString(),
+                        DhaNo = dtSponsor.Rows[i]["DHANo"].ToString(),
                         EnableSponsorLimit = Convert.ToInt32(dtSponsor.Rows[i]["EnableSponsorLimit"]),
                         EnableSponsorConsent = Convert.ToInt32(dtSponsor.Rows[i]["EnableSponsorConsent"]),
                         AuthorizationMode = dtSponsor.Rows[i]["AuthorizationMode"].ToString(),
@@ -789,8 +789,8 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Address1", obj.Address1);
                     cmd.Parameters.AddWithValue("@Address2", obj.Address2);
                     cmd.Parameters.AddWithValue("@Street", obj.Street);
-                    cmd.Parameters.AddWithValue("@PlacePO", obj.PlacePO);
-                    cmd.Parameters.AddWithValue("@PIN", obj.PIN);
+                    cmd.Parameters.AddWithValue("@PlacePO", obj.PlacePo);
+                    cmd.Parameters.AddWithValue("@PIN", obj.Pin);
                     cmd.Parameters.AddWithValue("@City", obj.City);
                     cmd.Parameters.AddWithValue("@State", obj.State);
                     cmd.Parameters.AddWithValue("@CountryId", obj.CountryId);
@@ -809,7 +809,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@SponsorLimit", obj.SponsorLimit);
                     cmd.Parameters.AddWithValue("@UserId", obj.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
-                    cmd.Parameters.AddWithValue("@DHANo", obj.DHANo);
+                    cmd.Parameters.AddWithValue("@DHANo", obj.DhaNo);
                     cmd.Parameters.AddWithValue("@EnableLimit", obj.EnableSponsorLimit);
                     cmd.Parameters.AddWithValue("@EnableConsent", obj.EnableSponsorConsent);
                     cmd.Parameters.AddWithValue("@AuthorizationMode", obj.AuthorizationMode);
