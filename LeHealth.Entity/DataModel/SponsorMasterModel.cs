@@ -54,6 +54,7 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
+        public int IsDeleted { get; set; }
         public int IsDisplayed { get; set; }
         public int SessionId { get; set; }
     }

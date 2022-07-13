@@ -658,6 +658,7 @@ namespace LeHealth.Core.DataManager
                     SponsorMasterModel obj = new SponsorMasterModel
                     {
 
+                        //SponsorId = Convert.ToInt32(dtSponsor.Rows[i]["SponsorId"]),
                         SponsorId = Convert.ToInt32(dtSponsor.Rows[i]["SponsorId"]),
                         SponsorName = dtSponsor.Rows[i]["SponsorName"].ToString(),
                         SponsorType = Convert.ToInt32(dtSponsor.Rows[i]["SponsorType"]),
@@ -836,7 +837,7 @@ namespace LeHealth.Core.DataManager
                     //cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
 
                     cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
-                    cmd.Parameters.AddWithValue("@IsDeleted", 0);
+                    cmd.Parameters.AddWithValue("@IsDeleted", obj.IsDeleted);
                     cmd.Parameters.AddWithValue("@BranchId", obj.BranchId);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
