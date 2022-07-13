@@ -16,7 +16,7 @@ namespace LeHealth.Entity.DataModel
 		
         public string Street { get; set; }
         public string PlacePo { get; set; }
-        public string Pin { get; set; }
+        
         public string City { get; set; }
         public string State { get; set; }
         public int CountryId { get; set; }
@@ -30,21 +30,27 @@ namespace LeHealth.Entity.DataModel
         public string Remarks { get; set; }
         public int SFormId { get; set; }
         public Double SponsorLimit { get; set; }
-        public string DhaNo { get; set; }
+        public string DHANo { get; set; }
+        public string PIN { get; set; }
+        public string ResNo { get; set; }
+        public string URL { get; set; }
+        public string VATRegNo { get; set; }
         public int EnableSponsorLimit { get; set; }  		
         public int EnableSponsorConsent { get; set; }        
         public string AuthorizationMode { get; set; }
-        public string URL { get; set; }
+        
         public int SortOrder { get; set; }        
         public int PartyId { get; set; }
         public int UnclaimedId { get; set; }
-       
+        public List<AgentforSponsorModel> AgentData { get; set; }
+        public List<AgentforSponsorModel> AgentforSponsorList { get; set; }
+
         //public int HeadId { get; set; }
 
     }
     public class SponsorMasterModelAll : SponsorMasterModel
     {
-        public List<AgentforSponsorModel> AgentforSponsorList { get; set; }
+        
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }

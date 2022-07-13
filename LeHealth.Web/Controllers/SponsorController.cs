@@ -801,11 +801,14 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
+                string message = string.Empty;
+                message = sponserService.InsertUpdateSponsor(obj);
                 var agent = sponserService.InsertUpdateSponsor(obj);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = agent,
+                    Message = message
 
                 };
                 return response;

@@ -665,7 +665,7 @@ namespace LeHealth.Core.DataManager
                         Address2 = dtSponsor.Rows[i]["Address2"].ToString(),
                         Street = dtSponsor.Rows[i]["Street"].ToString(),
                         PlacePo = dtSponsor.Rows[i]["PlacePO"].ToString(),
-                        Pin = dtSponsor.Rows[i]["PIN"].ToString(),
+                        PIN = dtSponsor.Rows[i]["PIN"].ToString(),
                         City = dtSponsor.Rows[i]["City"].ToString(),
                         State = dtSponsor.Rows[i]["State"].ToString(),
                         CountryId = Convert.ToInt32(dtSponsor.Rows[i]["CountryId"]),
@@ -673,20 +673,25 @@ namespace LeHealth.Core.DataManager
                         Mobile = dtSponsor.Rows[i]["Mobile"].ToString(),
                         Email = dtSponsor.Rows[i]["Email"].ToString(),
                         Fax = dtSponsor.Rows[i]["Fax"].ToString(),
+                        ResNo = dtSponsor.Rows[i]["Phone"].ToString(),
+                        VATRegNo = dtSponsor.Rows[i]["SpoVATRegNo"].ToString(),
                         ContactPerson = dtSponsor.Rows[i]["ContactPerson"].ToString(),
                         DedAmount = (float)Convert.ToDouble(dtSponsor.Rows[i]["DedAmount"].ToString()),
                         CoPayPcnt = (float)Convert.ToDouble(dtSponsor.Rows[i]["CoPayPcnt"].ToString()),
                         Remarks = dtSponsor.Rows[i]["Remarks"].ToString(),
                         SFormId = Convert.ToInt32(dtSponsor.Rows[i]["SFormId"]),
                         SponsorLimit = (float)Convert.ToDouble(dtSponsor.Rows[i]["SponsorLimit"].ToString()),
-                        DhaNo = dtSponsor.Rows[i]["DHANo"].ToString(),
+                        DHANo = dtSponsor.Rows[i]["DHANo"].ToString(),
                         EnableSponsorLimit = Convert.ToInt32(dtSponsor.Rows[i]["EnableSponsorLimit"]),
                         EnableSponsorConsent = Convert.ToInt32(dtSponsor.Rows[i]["EnableSponsorConsent"]),
                         AuthorizationMode = dtSponsor.Rows[i]["AuthorizationMode"].ToString(),
                         URL = dtSponsor.Rows[i]["URL"].ToString(),
                         SortOrder = Convert.ToInt32(dtSponsor.Rows[i]["SortOrder"]),
                         PartyId = Convert.ToInt32(dtSponsor.Rows[i]["PartyId"]),
-                        UnclaimedId = Convert.ToInt32(dtSponsor.Rows[i]["UnclaimedId"])
+                        UnclaimedId = Convert.ToInt32(dtSponsor.Rows[i]["UnclaimedId"]),
+                        AgentData = JsonConvert.DeserializeObject<List<AgentforSponsorModel>>(dtSponsor.Rows[i]["AgentList"].ToString()),
+
+
                     };
                     sponsorList.Add(obj);
                 }
@@ -782,6 +787,7 @@ namespace LeHealth.Core.DataManager
         public string InsertUpdateSponsor(SponsorMasterModelAll obj)
         {
             string response = string.Empty;
+            
             string agentString = JsonConvert.SerializeObject(obj.AgentforSponsorList);
             using (SqlConnection con = new SqlConnection(_connStr))
             {
@@ -796,13 +802,13 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@Address2", obj.Address2);
                     cmd.Parameters.AddWithValue("@Street", obj.Street);
                     cmd.Parameters.AddWithValue("@PlacePO", obj.PlacePo);
-                    cmd.Parameters.AddWithValue("@PIN", obj.Pin);
+                    cmd.Parameters.AddWithValue("@PIN", obj.PIN);
                     cmd.Parameters.AddWithValue("@City", obj.City);
                     cmd.Parameters.AddWithValue("@State", obj.State);
+                    	
                     cmd.Parameters.AddWithValue("@CountryId", obj.CountryId);
                     cmd.Parameters.AddWithValue("@Phone", obj.Phone);
                     cmd.Parameters.AddWithValue("@Mobile", obj.Mobile);
-
                     cmd.Parameters.AddWithValue("@Email", obj.Email);
                     cmd.Parameters.AddWithValue("@Fax", obj.Fax);
                     cmd.Parameters.AddWithValue("@ContactPerson", obj.ContactPerson);
@@ -812,16 +818,20 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@PartyId", obj.PartyId);
                     cmd.Parameters.AddWithValue("@UnclaimedId", obj.UnclaimedId);
                     cmd.Parameters.AddWithValue("@SFormId", obj.SFormId);
+
                     cmd.Parameters.AddWithValue("@SponsorLimit", obj.SponsorLimit);
                     cmd.Parameters.AddWithValue("@UserId", obj.UserId);
                     cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
-                    cmd.Parameters.AddWithValue("@DHANo", obj.DhaNo);
+                    cmd.Parameters.AddWithValue("@DHANo", obj.DHANo);
                     cmd.Parameters.AddWithValue("@EnableLimit", obj.EnableSponsorLimit);
                     cmd.Parameters.AddWithValue("@EnableConsent", obj.EnableSponsorConsent);
                     cmd.Parameters.AddWithValue("@AuthorizationMode", obj.AuthorizationMode);
                     cmd.Parameters.AddWithValue("@URL", obj.URL);
+                    //cmd.Parameters.AddWithValue("@Phone", obj.Phone);
                     cmd.Parameters.AddWithValue("@SortOrder", obj.SortOrder);
+                    cmd.Parameters.AddWithValue("@SpoVATRegNo", obj.VATRegNo);
                     cmd.Parameters.AddWithValue("@AgentJSON", agentString);
+                    
                     //cmd.Parameters.AddWithValue("@P_Active", Convert.ToInt32(obj.Active));
                     //cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
 
@@ -842,16 +852,27 @@ namespace LeHealth.Core.DataManager
                     var isUpdated = cmd.ExecuteNonQuery();
                     con.Close();
                     var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
-
-                    response = descrip;
+                    var descrip = retDesc.Value.ToString();                  
+                                       
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                       
+                    }
+                    else
+                    {
+                        response = descrip;
+                       
+                    }
                 }
                 catch (Exception ex)
                 {
                     response = ex.Message;
+                    
                 }
             }
             return response;
+            
         }
 
         public string DeleteAgentSponsor(SponsorModel obj)
