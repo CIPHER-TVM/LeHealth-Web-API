@@ -689,7 +689,7 @@ namespace LeHealth.Core.DataManager
                         SortOrder = Convert.ToInt32(dtSponsor.Rows[i]["SortOrder"]),
                         PartyId = Convert.ToInt32(dtSponsor.Rows[i]["PartyId"]),
                         UnclaimedId = Convert.ToInt32(dtSponsor.Rows[i]["UnclaimedId"]),
-                        AgentData = JsonConvert.DeserializeObject<List<AgentforSponsorModel>>(dtSponsor.Rows[i]["AgentList"].ToString()),
+                        AgentforSponsorList = JsonConvert.DeserializeObject<List<AgentforSponsorModel>>(dtSponsor.Rows[i]["AgentList"].ToString()),
 
 
                     };
@@ -807,7 +807,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@State", obj.State);
                     	
                     cmd.Parameters.AddWithValue("@CountryId", obj.CountryId);
-                    cmd.Parameters.AddWithValue("@Phone", obj.Phone);
+                    cmd.Parameters.AddWithValue("@Phone", obj.ResNo);
                     cmd.Parameters.AddWithValue("@Mobile", obj.Mobile);
                     cmd.Parameters.AddWithValue("@Email", obj.Email);
                     cmd.Parameters.AddWithValue("@Fax", obj.Fax);
@@ -827,7 +827,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@EnableConsent", obj.EnableSponsorConsent);
                     cmd.Parameters.AddWithValue("@AuthorizationMode", obj.AuthorizationMode);
                     cmd.Parameters.AddWithValue("@URL", obj.URL);
-                    //cmd.Parameters.AddWithValue("@Phone", obj.Phone);
+                   // cmd.Parameters.AddWithValue("@Phone", obj.ResNo);
                     cmd.Parameters.AddWithValue("@SortOrder", obj.SortOrder);
                     cmd.Parameters.AddWithValue("@SpoVATRegNo", obj.VATRegNo);
                     cmd.Parameters.AddWithValue("@AgentJSON", agentString);
