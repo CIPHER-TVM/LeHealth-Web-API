@@ -24,7 +24,8 @@ namespace LeHealth.Core.Interface
         string InsertSponsorRuleDrugList(DrugModelAll drug);
         List<DrugModelAll> GetDrugBySponsorRule(DrugModelAll drug);
         List<SponsorRuleModel> GetSponsorRule(SponsorRuleModel sponsorruleid);
-        List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsorid);
+       // List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsorid);
+        List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsorid);
         SponserConsentModelAll GetSponserConsentById(Int32 ContentId);
         List<SponserConsentModel> GetSponsorConsent(Int32 Branchid);
         List<SponsorTypeModel> GetSponsorTypes();

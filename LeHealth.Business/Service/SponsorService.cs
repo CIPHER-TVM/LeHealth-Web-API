@@ -85,9 +85,13 @@ namespace LeHealth.Service.Service
             return sponsermanager.GetSponsorRule(sponsorrule);
         }
 
-        public List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsor)
+        //public List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsor)
+        //{
+        //    return sponsermanager.GetSponsorById(sponsor);
+        //}
+        public List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor)
         {
-            return sponsermanager.GetSponsorById(sponsor);
+            return sponsermanager.GetSponsor(sponsor);
         }
 
 

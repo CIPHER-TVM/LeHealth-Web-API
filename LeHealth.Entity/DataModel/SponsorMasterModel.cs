@@ -31,10 +31,8 @@ namespace LeHealth.Entity.DataModel
         public int SFormId { get; set; }
         public Double SponsorLimit { get; set; }
         public string DhaNo { get; set; }
-        public int EnableSponsorLimit { get; set; }       
-		
-        public int EnableSponsorConsent { get; set; }
-        
+        public int EnableSponsorLimit { get; set; }  		
+        public int EnableSponsorConsent { get; set; }        
         public string AuthorizationMode { get; set; }
         public string URL { get; set; }
         public int SortOrder { get; set; }        
@@ -46,10 +44,16 @@ namespace LeHealth.Entity.DataModel
     }
     public class SponsorMasterModelAll : SponsorMasterModel
     {
+        public List<AgentforSponsorModel> AgentforSponsorList { get; set; }
         public int BranchId { get; set; }
         public int UserId { get; set; }
         public int ShowAll { get; set; }
         public int IsDisplayed { get; set; }
         public int SessionId { get; set; }
+    }
+    public class AgentforSponsorModel
+    {
+         public int Agentid { get; set; }
+        public string AgentName { get; set; }
     }
 }

@@ -28,7 +28,8 @@ namespace LeHealth.Service.ServiceInterface
 
         List<DrugModelAll> GetDrugBySponsorRule(DrugModelAll drug);
         List<SponsorRuleModel> GetSponsorRule(SponsorRuleModel sponsor);
-        List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsor);
+        //List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsor);
+        List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor);
         List<SponsorTypeModel> GetSponsorTypes();
         List<SponsorFormModel> GetSponsorForms();
         

@@ -15,6 +15,33 @@ namespace LeHealth.Service.Service
             billmanager = _billmanager;
         }
 
+        
+        public string ActionSettleBill(TransactionModelAll inv)
+        {
+
+            return billmanager.ActionSettleBill(inv);
+        }
+        public List<CreditModel> GetAdvanceBalance(CreditModel details)
+        {
+            return billmanager.GetAdvanceBalance(details);
+        }
+        public List<CreditModel> GetOutstandingBalance(CreditModel details)
+        {
+            return billmanager.GetOutstandingBalance(details);
+        }
+        public List<CreditModel> GetCredit(CreditModel details)
+        {
+            return billmanager.GetCredit(details);
+        }
+        public List<CreditModel> GetCreditForPatAcc(CreditModel details)
+        {
+            return billmanager.GetCreditForPatAcc(details);
+        }
+        public List<TransactionModelAll> GetTransaction(TransactionModelAll details)
+        {
+            return billmanager.GetTransaction(details);
+        }
+
         public string InsertTransactionSOExternal(TransactionModelAll inv)
         {
 

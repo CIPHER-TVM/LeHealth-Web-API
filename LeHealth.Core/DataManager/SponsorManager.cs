@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Globalization;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace LeHealth.Core.DataManager
 {
@@ -634,7 +637,7 @@ namespace LeHealth.Core.DataManager
 
 
 
-        public List<SponsorMasterModel> GetSponsorById(SponsorMasterModelAll sponsor)
+        public List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor)
         {
             List<SponsorMasterModel> sponsorList = new List<SponsorMasterModel>();
             using SqlConnection con = new SqlConnection(_connStr);
@@ -743,6 +746,7 @@ namespace LeHealth.Core.DataManager
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@STypeId", 0);
+           
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
@@ -754,6 +758,7 @@ namespace LeHealth.Core.DataManager
             return obj;
         }
 
+       
         public List<SponsorFormModel> GetSponsorForms()
         {
             List<SponsorFormModel> obj = new List<SponsorFormModel>();
@@ -777,9 +782,10 @@ namespace LeHealth.Core.DataManager
         public string InsertUpdateSponsor(SponsorMasterModelAll obj)
         {
             string response = string.Empty;
+            string agentString = JsonConvert.SerializeObject(obj.AgentforSponsorList);
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("[stLH_InsertUpdateSponsor]", con);
+                using SqlCommand cmd = new SqlCommand("stLH_UpdateSponsor", con);
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -815,7 +821,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@AuthorizationMode", obj.AuthorizationMode);
                     cmd.Parameters.AddWithValue("@URL", obj.URL);
                     cmd.Parameters.AddWithValue("@SortOrder", obj.SortOrder);
-
+                    cmd.Parameters.AddWithValue("@AgentJSON", agentString);
                     //cmd.Parameters.AddWithValue("@P_Active", Convert.ToInt32(obj.Active));
                     //cmd.Parameters.AddWithValue("@P_BlockReason", obj.BlockReason);
 
