@@ -141,6 +141,7 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.InsertUpdateFolderEMR(vsem);
         }
+
         public EMRSaveFilesModel UploadFileEMR(EMRSaveFilesModel vsem)
         {
 
@@ -187,6 +188,14 @@ namespace LeHealth.Service.Service
         public DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR vsem)
         {
             return emrdataManager.CompleteDentalProcedureEMR(vsem);
+        }
+        public PhysioAnalysisHistoryModel InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel vsem)
+        {
+            return emrdataManager.InsertUpdatePhysioAnalysisHistoryTreatment(vsem);
+        }
+        public List<PhysioAnalysisHistoryModel> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dmac)
+        {
+            return emrdataManager.GetPhysioAnalysisHistoryTreatment(dmac); 
         }
     }
 }

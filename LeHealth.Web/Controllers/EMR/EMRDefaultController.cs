@@ -1488,5 +1488,80 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
             }
         }
+
+        [Route("InsertUpdatePhysioAnalysisHistoryTreatment")]
+        [HttpPost]
+        public ResponseDataModel<PhysioAnalysisHistoryModel> InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel pem)
+        {
+            try
+            {
+                string message = string.Empty;
+                PhysioAnalysisHistoryModel vm = new PhysioAnalysisHistoryModel();
+                vm = emrdefaultService.InsertUpdatePhysioAnalysisHistoryTreatment(pem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<PhysioAnalysisHistoryModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<PhysioAnalysisHistoryModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetPhysioAnalysisHistoryTreatment")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<PhysioAnalysisHistoryModel>> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel ndim) 
+        {
+            try
+            {
+                List<PhysioAnalysisHistoryModel> cptList = new List<PhysioAnalysisHistoryModel>();
+                cptList = emrdefaultService.GetPhysioAnalysisHistoryTreatment(ndim);
+                var response = new ResponseDataModel<IEnumerable<PhysioAnalysisHistoryModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = cptList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<PhysioAnalysisHistoryModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
     }
 }

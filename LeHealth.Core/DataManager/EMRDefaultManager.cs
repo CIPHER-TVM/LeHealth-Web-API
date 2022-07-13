@@ -905,6 +905,7 @@ namespace LeHealth.Core.DataManager
             }
             return dacData;
         }
+
         public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput pqmi)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1405,5 +1406,89 @@ namespace LeHealth.Core.DataManager
             }
             return dem;
         }
+
+        public PhysioAnalysisHistoryModel InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel pem)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                string gmqaString = JsonConvert.SerializeObject(pem.GmQuestionList);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdatePhysioAnalysisHistoryTreatment", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", pem.Id);
+                cmd.Parameters.AddWithValue("@OccupationalHistory", pem.OccupationalHistory);
+                cmd.Parameters.AddWithValue("@HazardExposureHistory", pem.HazardExposureHistory);
+                cmd.Parameters.AddWithValue("@FamilyMedicalHistory", pem.FamilyMedicalHistory);
+                cmd.Parameters.AddWithValue("@VaccinationHistory", pem.VaccinationHistory);
+                cmd.Parameters.AddWithValue("@PastMedicalHistory", pem.PastMedicalHistory);
+                cmd.Parameters.AddWithValue("@AllergyHistory", pem.AllergyHistory);
+                cmd.Parameters.AddWithValue("@SocialHistory", pem.SocialHistory);
+                cmd.Parameters.AddWithValue("@GMQuestionareJSON", gmqaString);
+                cmd.Parameters.AddWithValue("@PatientId", pem.PatientId);
+                cmd.Parameters.AddWithValue("@UserId", pem.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    pem.Id = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return pem;
+        }
+
+        public List<PhysioAnalysisHistoryModel> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel eim)
+        {
+            List<PhysioAnalysisHistoryModel> dacData = new List<PhysioAnalysisHistoryModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetPhysioAnalysisHistoryTreatment", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@VisitId", eim.VisitId);
+            //cmd.Parameters.AddWithValue("@ShowAll", eim.ShowAll);
+            cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    PhysioAnalysisHistoryModel obj = new PhysioAnalysisHistoryModel
+                    {
+                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+                        OccupationalHistory = ds.Rows[i]["OccupationalHistory"].ToString(),
+                        HazardExposureHistory = ds.Rows[i]["HazardExposureHistory"].ToString(),
+                        FamilyMedicalHistory = ds.Rows[i]["FamilyMedicalHistory"].ToString(),
+                        VaccinationHistory = ds.Rows[i]["VaccinationHistory"].ToString(),
+                        PastMedicalHistory = ds.Rows[i]["PastMedicalHistory"].ToString(),
+                        AllergyHistory = ds.Rows[i]["AllergyHistory"].ToString(),
+                        SocialHistory = ds.Rows[i]["SocialHistory"].ToString(),
+                        PatientId = eim.PatientId,
+                        GmQuestionList = JsonConvert.DeserializeObject<List<GMQuestionModel>>(ds.Rows[i]["Questionare"].ToString()),
+                    };
+                    dacData.Add(obj);
+                }
+            }
+            return dacData;
+        }
+
     }
 }

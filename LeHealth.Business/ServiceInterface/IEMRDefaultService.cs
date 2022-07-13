@@ -1,4 +1,5 @@
-﻿using LeHealth.Entity.DataModel;
+﻿using LeHealth.Core.DataManager;
+using LeHealth.Entity.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -49,5 +50,7 @@ namespace LeHealth.Service.ServiceInterface
         DentalProcedureEMRModel InsertDentalProcedureEMR(DentalProcedureEMRModel dem);
         List<DentalProcedureEMRModel> GetDentalProcedureEMR(EMRInputModel dac);
         DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR dem);
+        PhysioAnalysisHistoryModel InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dem);
+        List<PhysioAnalysisHistoryModel> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dac);
     }
 }
