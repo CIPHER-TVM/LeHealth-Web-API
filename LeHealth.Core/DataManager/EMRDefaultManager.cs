@@ -989,12 +989,17 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    PatientFoldersEMRModel obj = new PatientFoldersEMRModel
+                    PatientFoldersEMRModel obj = new PatientFoldersEMRModel();
+                    obj.Id = Convert.ToInt32(ds.Rows[i]["Id"]);
+                    obj.FolderName = ds.Rows[i]["FolderName"].ToString();
+                    obj.PatientFiles = JsonConvert.DeserializeObject<List<PatientFilesEMRModel>>(ds.Rows[i]["PatientFiles"].ToString());
+                    if (obj.PatientFiles != null)
                     {
-                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
-                        FolderName = ds.Rows[i]["FolderName"].ToString(),
-                        PatientFiles = JsonConvert.DeserializeObject<List<PatientFilesEMRModel>>(ds.Rows[i]["PatientFiles"].ToString()),
-                    };
+                        for (int j = 0; j < obj.PatientFiles.Count; j++)
+                        {
+                            obj.PatientFiles[j].FileLocation = _uploadpath + obj.PatientFiles[j].FileLocation;
+                        }
+                    }
                     pfData.Add(obj);
                 }
             }

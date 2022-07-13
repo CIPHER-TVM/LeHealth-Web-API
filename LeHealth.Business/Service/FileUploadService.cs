@@ -105,7 +105,7 @@ namespace LeHealth.Service.Service
                     var extension = fileNameArray[fileNameArray.Length - 1];
                     Guid Uniquefilename = Guid.NewGuid();
                     var actualFileName = Uniquefilename + "." + extension;
-                    string fullpathtest = "uploads/emr/" + actualFileName;
+                    string fullpathtest = "uploads/emr/" + PatientId.ToString() + "/" + actualFileName;
                     using (FileStream stream = new FileStream(Path.Combine(folderLocation, actualFileName), FileMode.Create))
                     {
                         a.CopyTo(stream);

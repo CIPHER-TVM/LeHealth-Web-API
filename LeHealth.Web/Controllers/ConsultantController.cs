@@ -336,8 +336,20 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
+
                 string message = string.Empty;
-                message = consultantService.InsertConsultantDrugs(consultantDrugs);
+                var dupes = consultantDrugs.GroupBy(x => new { x.DrugId })
+                   .Where(x => x.Skip(1).Any());
+                int count = dupes.Count();
+                if (count == 0)
+                {
+                    //dupes.First().Count()
+                    message = consultantService.InsertConsultantDrugs(consultantDrugs);
+                }
+                else
+                {
+                    message = "Same Drug has added multiple times";
+                }
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
