@@ -636,14 +636,14 @@ namespace LeHealth.Base.API.Controllers
         /// <returns>Sponsor  data</returns>
 
         [HttpPost]
-        [Route("GetSponsorById")]
+        [Route("GetSponsor")]
         
-        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsorById(SponsorMasterModelAll sponsor)
+        public ResponseDataModel<IEnumerable<SponsorMasterModel>> GetSponsor(SponsorMasterModelAll sponsor)
         {
             try
             {
                 List<SponsorMasterModel> professionList = new List<SponsorMasterModel>();
-                professionList = sponserService.GetSponsorById(sponsor);
+                professionList = sponserService.GetSponsor(sponsor);
                 var response = new ResponseDataModel<IEnumerable<SponsorMasterModel>>()
                 {
                     Status = HttpStatusCode.OK,
