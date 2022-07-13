@@ -54,5 +54,6 @@ namespace LeHealth.Entity.DataModel
     public class AgentforSponsorModel
     {
          public int Agentid { get; set; }
+        public string AgentName { get; set; }
     }
 }
