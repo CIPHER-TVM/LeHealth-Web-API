@@ -103,6 +103,8 @@ namespace LeHealth.Entity.DataModel
         public float TaxPercent { get; set; }
         public int IsTaxApplicable { get; set; }
     }
+
+
     public class ServiceConfigModel
     {
         public int ItemId { get; set; }
@@ -153,4 +155,5 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int SessionId { get; set; }
     }
+  
 }

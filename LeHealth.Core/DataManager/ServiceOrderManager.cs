@@ -33,7 +33,6 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupId", group.GroupId);
-            cmd.Parameters.AddWithValue("@ShowAll", group.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", group.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();

@@ -1561,6 +1561,45 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
             }
         }
+        [Route("InsertTreatmentDetails")]
+        [HttpPost]
+        public ResponseDataModel<TreatmentDetailsModel> InsertTreatmentDetails(TreatmentDetailsModel dem)
+        {
+            try
+            {
+                string message = string.Empty;
+                TreatmentDetailsModel vm = new TreatmentDetailsModel();
+                vm = emrdefaultService.InsertTreatmentDetails(dem);
+                if (vm.Id > 0)
+                    message = "Success";
+                else
+                    message = "Failure";
+                var response = new ResponseDataModel<TreatmentDetailsModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = vm,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<TreatmentDetailsModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
 
 
     }

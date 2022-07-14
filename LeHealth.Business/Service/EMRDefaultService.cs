@@ -197,5 +197,9 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.GetPhysioAnalysisHistoryTreatment(dmac); 
         }
+        public TreatmentDetailsModel InsertTreatmentDetails(TreatmentDetailsModel dem)
+        {
+            return emrdataManager.InsertTreatmentDetails(dem);
+        }
     }
 }

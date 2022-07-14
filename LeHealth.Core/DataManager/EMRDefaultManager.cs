@@ -1490,5 +1490,83 @@ namespace LeHealth.Core.DataManager
             return dacData;
         }
 
+        public TreatmentDetailsModel InsertTreatmentDetails(TreatmentDetailsModel iem)
+        {
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                DateTime TDate = DateTime.ParseExact(iem.TreatmentDate.Trim(), "dd-MM-yyyy", null);
+                iem.TreatmentDate = TDate.ToString("yyyy-MM-dd");
+                for (int i = 0; i < iem.ItemDetails.Count; i++)
+                {
+                    DateTime datetimeValue = DateTime.ParseExact(iem.ItemDetails[i].StartDate, "dd-MM-yyyy", null);
+                    iem.ItemDetails[i].StartDate = datetimeValue.ToString("yyyy-MM-dd");
+                    DateTime datetimeValue2 = DateTime.ParseExact(iem.ItemDetails[i].EndDate, "dd-MM-yyyy", null);
+                    iem.ItemDetails[i].EndDate = datetimeValue2.ToString("yyyy-MM-dd");
+                }
+                iem.TreatmentNumber = AutoregnoCreate(iem.BranchId);
+                string itemDetailsString = JsonConvert.SerializeObject(iem.ItemDetails);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTreatmentDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", iem.Id);
+                cmd.Parameters.AddWithValue("@PatientId", iem.PatientId);
+                cmd.Parameters.AddWithValue("@ServicePoint", iem.ServicePoint);
+                cmd.Parameters.AddWithValue("@PerformingStaff", iem.PerformingStaff);
+                cmd.Parameters.AddWithValue("@TreatmentNumber", iem.TreatmentNumber);
+                cmd.Parameters.AddWithValue("@TreatmentDate", iem.TreatmentDate);
+                cmd.Parameters.AddWithValue("@TreatmentDetails", iem.TreatmentDetails);
+                cmd.Parameters.AddWithValue("@TreatmentRemarks", iem.TreatmentRemarks);
+                cmd.Parameters.AddWithValue("@ItemDetailsJSON", itemDetailsString);
+                cmd.Parameters.AddWithValue("@ConsultationId", iem.ConsultationId);
+                cmd.Parameters.AddWithValue("@AppointmentId", iem.AppointmentId);
+                cmd.Parameters.AddWithValue("@UserId", 183);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    iem.Id = Convert.ToInt32(ret);
+                }
+                else
+                {
+                    string response = string.Empty;
+                    response = descrip;
+                }
+            }
+            return iem;
+        }
+
+        public string AutoregnoCreate(int BranchId)
+        {
+            using SqlConnection con = new SqlConnection(_connStr);
+            SqlCommand autonumberCMD = new SqlCommand("stLH_AutoNumberReg", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            autonumberCMD.Parameters.AddWithValue("@NumId", "TREAT-NO");
+            autonumberCMD.Parameters.AddWithValue("@BranchId", BranchId);
+            SqlParameter patidReturnDesc1 = new SqlParameter("@NewNo", SqlDbType.VarChar, 20)
+            {
+                Direction = ParameterDirection.Output
+            };
+            autonumberCMD.Parameters.Add(patidReturnDesc1);
+            con.Open();
+            var isgenerated = autonumberCMD.ExecuteNonQuery();
+            con.Close();
+            var newregno = patidReturnDesc1.Value.ToString();
+            return newregno;
+        }
+
     }
 }

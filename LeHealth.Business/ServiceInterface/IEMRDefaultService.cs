@@ -52,5 +52,8 @@ namespace LeHealth.Service.ServiceInterface
         DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR dem);
         PhysioAnalysisHistoryModel InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dem);
         List<PhysioAnalysisHistoryModel> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dac);
+
+        TreatmentDetailsModel InsertTreatmentDetails(TreatmentDetailsModel vsem); 
+        //List<VitalSignEMRHistory> GetEMRVitalSignHistory(VitalSignEMRModel vsem);
     }
 }
