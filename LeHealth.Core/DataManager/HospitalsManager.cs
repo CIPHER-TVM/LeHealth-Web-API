@@ -86,6 +86,7 @@ namespace LeHealth.Core.DataManager
                         ConsultationId = Convert.ToInt32(ds.Rows[i]["ConsultationId"]),
                         TokenNO = ds.Rows[i]["TokenNO"].ToString(),
                         DeptId = Convert.ToInt32(ds.Rows[i]["DeptId"]),
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
                         PatientName = ds.Rows[i]["PatientName"].ToString(),
                         TimeNo = (ds.Rows[i]["TimeNo"] == DBNull.Value) ? 0 : Convert.ToInt32(ds.Rows[i]["TimeNo"]),
                         RegNo = ds.Rows[i]["RegNo"].ToString(),
