@@ -14,13 +14,26 @@ namespace LeHealth.Service.Service
         {
             billmanager = _billmanager;
         }
+        public List<ClaimModel> GetSponsorshipDetails(ClaimModelAll details)
+        {
+            return billmanager.GetSponsorshipDetails(details);
+        }
+        public List<ClaimModel> GetManageClaimForBilling(ClaimModelAll details)
+        {
+            return billmanager.GetManageClaimForBilling(details);
+        }
 
-        
-        public string ActionSettleBill(TransactionModelAll inv)
+        public string InsertTransactionPayment(TransactionModelAll inv)
+        {
+
+            return billmanager.InsertTransactionPayment(inv);
+        }
+      public string ActionSettleBill(TransactionModelAll inv)
         {
 
             return billmanager.ActionSettleBill(inv);
         }
+      
         public List<CreditModel> GetAdvanceBalance(CreditModel details)
         {
             return billmanager.GetAdvanceBalance(details);

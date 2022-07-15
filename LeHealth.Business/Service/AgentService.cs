@@ -20,9 +20,9 @@ namespace LeHealth.Service.Service
         {
             return agentmanager.Save(obj);
         }
-        public List<AgentModel> GetAgents(Int32 hospitalId)
+        public List<AgentModel> GetAgents(AgentModel agent)
         {
-            return agentmanager.GetAgents(hospitalId);
+            return agentmanager.GetAgents(agent);
         }
         public AgentModel GetAgentById(Int32 Agentid)
         {

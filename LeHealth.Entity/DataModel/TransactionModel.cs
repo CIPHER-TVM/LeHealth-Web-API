@@ -81,6 +81,13 @@ namespace LeHealth.Entity.DataModel
         public int TaxId { get; set; }
         public float TaxPcnt { get; set; }
         public float TaxAmount { get; set; }
+        public int Mode { get; set; }
+        public int HeadId { get; set; }
+        public int CardId { get; set; }
+        public string CardNo { get; set; }
+        public string ChqNo { get; set; }
+        public string Chqdate { get; set; }
+        public string ChqBranch { get; set; }
 
     }
     public class TransactionModelAll :TransactionModel

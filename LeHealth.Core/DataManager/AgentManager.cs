@@ -53,7 +53,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@P_PayerId", obj.PayerId);
                     cmd.Parameters.AddWithValue("@P_HospitalId", Convert.ToInt32(obj.HospitalId));
                     cmd.Parameters.AddWithValue("@IsDisplayed", Convert.ToInt32(obj.IsDisplayed));
-                    cmd.Parameters.AddWithValue("@IsDeleted", Convert.ToInt32(0));
+                    cmd.Parameters.AddWithValue("@IsDeleted", obj.IsDeleted);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -70,7 +70,14 @@ namespace LeHealth.Core.DataManager
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
 
-                    response = descrip;
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -80,7 +87,7 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
-        public List<AgentModel> GetAgents(Int32 hospitalId)
+        public List<AgentModel> GetAgents(AgentModel agent)
         {
             List<AgentModel> obj = new List<AgentModel>();
             using SqlConnection con = new SqlConnection(_connStr);
@@ -88,8 +95,8 @@ namespace LeHealth.Core.DataManager
             con.Open();
 
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@AgentId", 0);
-            cmd.Parameters.AddWithValue("@HospitalId", hospitalId);
+            cmd.Parameters.AddWithValue("@AgentId", agent.AgentId);          
+            cmd.Parameters.AddWithValue("@HospitalId", agent.HospitalId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
