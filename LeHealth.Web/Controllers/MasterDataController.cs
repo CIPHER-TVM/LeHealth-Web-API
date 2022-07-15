@@ -594,6 +594,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
             }
+        } 
+        
+        [Route("GetItemGroupType")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ItemGroupTypeModel>> GetItemGroupType(ItemGroupTypeModel ct)
+        {
+            try
+            {
+                List<ItemGroupTypeModel> ctList = new List<ItemGroupTypeModel>();
+                ctList = masterdataService.GetItemGroupType(ct);
+                var response = new ResponseDataModel<IEnumerable<ItemGroupTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = ctList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ItemGroupTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
         }
 
         [Route("InsertUpdateCurrency")]

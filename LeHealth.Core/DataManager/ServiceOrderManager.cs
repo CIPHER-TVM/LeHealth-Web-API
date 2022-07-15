@@ -33,7 +33,6 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@GroupId", group.GroupId);
-            cmd.Parameters.AddWithValue("@ShowAll", group.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", group.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dsItemGroup = new DataTable();
@@ -771,17 +770,12 @@ namespace LeHealth.Core.DataManager
                         ServiceGroupModel obj = new ServiceGroupModel
                         {
                             GroupId = Convert.ToInt32(dsserviceGroup.Rows[i]["groupId"]),
+                            GroupTypeId = Convert.ToInt32(dsserviceGroup.Rows[i]["GroupTypeId"]),
                             GroupCode = dsserviceGroup.Rows[i]["GroupCode"].ToString().Replace("0", ""),
                             Label = dsserviceGroup.Rows[i]["label"].ToString(),
                             Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(dsserviceGroup.Rows[i]["children"].ToString())
                         };
-                        ////for(int j = 0; j < obj.Children.Count; j++)
-                        ////{
-                        ////    obj.Children[j].GroupCode = obj.GroupCode;
-                        ////}
-
                         var childjson = JsonConvert.SerializeObject(obj.Children);
-                        ////childjson = childjson.Replace("\"GroupCode\":null", "\"GroupCode\":\"ASD\"");
                         string newgroupcode = "\"GroupCode\":\"" + obj.GroupCode + "\"";
                         childjson = childjson.Replace("\"GroupCode\":null", newgroupcode);
                         obj.Children = JsonConvert.DeserializeObject<List<ServiceGroupModel>>(childjson);

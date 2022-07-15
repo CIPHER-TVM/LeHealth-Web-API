@@ -10,7 +10,8 @@ namespace LeHealth.Entity.DataModel
         public string Title { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
-        public string LastName { get; set; }
+        public string LastName { get; set; } 
+        public string ConsultantName { get; set; }
 
         public int ConsultantId { get; set; }
         public string SpecialityCode { get; set; }

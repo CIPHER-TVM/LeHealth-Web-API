@@ -8,12 +8,14 @@ namespace LeHealth.Entity.DataModel
     {
         public int Id { get; set; }
         public string FolderName { get; set; }
-        public List<PatientFilesEMRModel> PatientFiles { get; set; } 
+        public List<PatientFilesEMRModel> PatientFiles { get; set; }
     }
     public class PatientFilesEMRModel
     {
         public int Id { get; set; }
         public string FileName { get; set; }
-        public string FileLocation { get; set; } 
+        public string FileLocation { get; set; }
+        public string Notes { get; set; } = "";
+        public string UploadedDate { get; set; } = "";
     }
 }

@@ -453,6 +453,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteTax(tax);
         }
+        public List<ItemGroupTypeModel> GetItemGroupType(ItemGroupTypeModel tax)
+        {
+            return masterdataManager.GetItemGroupType(tax);
+        }
         public List<CurrencyModel> GetCurrency(CurrencyModelAll tax)
         {
             return masterdataManager.GetCurrency(tax);

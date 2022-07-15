@@ -119,18 +119,18 @@ namespace LeHealth.Core.DataManager
             string response2 = string.Empty;
             string response3 = string.Empty;
             string responseFinal = string.Empty;
-            int GroupId = 0;
-            int ChildId = 0;
-            if (serviceItemModel.ParentId == 0)
-            {
-                GroupId = serviceItemModel.GroupId;
-                ChildId = 0;
-            }
-            else
-            {
-                GroupId = serviceItemModel.ParentId;
-                ChildId = serviceItemModel.GroupId;
-            }
+            //int GroupId = 0;
+            //int ChildId = 0;
+            //if (serviceItemModel.ParentId == 0)
+            //{
+            //   GroupId = serviceItemModel.GroupId;
+            //    ChildId = 0;
+            //}
+            //else
+            //{
+            //    GroupId = serviceItemModel.ParentId;
+            //    ChildId = serviceItemModel.GroupId;
+            //}
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateItemMaster", con);
@@ -139,8 +139,8 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@ItemId", serviceItemModel.ItemId);
                 cmd1.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
                 cmd1.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
-                cmd1.Parameters.AddWithValue("@GroupId", GroupId);
-                cmd1.Parameters.AddWithValue("@ChildGroupId", ChildId);
+                cmd1.Parameters.AddWithValue("@GroupId", serviceItemModel.GroupId);
+                //cmd1.Parameters.AddWithValue("@ChildGroupId", ChildId);
                 cmd1.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
                 cmd1.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
                 cmd1.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);
@@ -1017,6 +1017,32 @@ namespace LeHealth.Core.DataManager
 
             }
             return response;
+        }
+        public List<ItemGroupTypeModel> GetItemGroupType(ItemGroupTypeModel pm)
+        {
+            List<ItemGroupTypeModel> itemList = new List<ItemGroupTypeModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemGroupType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemGroupTypeId", pm.GroupTypeId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
+                    ItemGroupTypeModel obj = new ItemGroupTypeModel
+                    {
+                        GroupTypeId = Convert.ToInt32(dsNumber.Rows[i]["GroupTypeId"]),
+                        GroupTypeName = dsNumber.Rows[i]["GroupTypeName"].ToString()
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
         }
 
 

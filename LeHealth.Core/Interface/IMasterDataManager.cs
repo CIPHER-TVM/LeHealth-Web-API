@@ -32,6 +32,7 @@ namespace LeHealth.Core.Interface
         string InsertUpdateCurrency(CurrencyModelAll ct);
         string DeleteCurrency(CurrencyModelAll ct);
         List<PackageModel> GetPackage(PackageModelAll pm);
+        List<ItemGroupTypeModel> GetItemGroupType(ItemGroupTypeModel pm);
         CommunicationConfigurationModel GetCommunicationConfiguration(CommunicationConfigurationModel pm);
         List<PackageModel> GetPackageItemRate(PackageModelAll pm);
         string InsertUpdatePackage(PackageModelAll package);
