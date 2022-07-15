@@ -23,7 +23,130 @@ namespace LeHealth.Base.API.Controllers.Billing
             billService = _billservice;
         }
 
-        //ActionSettleBill
+        /// <summary>
+        /// API For searching Claim Details across Sponsor
+        /// </summary>
+        /// <param name="claimdetails ">LLH_Claim,Lh_Credit,Lh_SponsorRules.... table</param>
+        /// <returns> Claim Details </returns>
+
+        [HttpPost]
+        [Route("GetSponsorshipDetails")]
+
+        public ResponseDataModel<IEnumerable<ClaimModel>> GetSponsorshipDetails(ClaimModelAll details)
+        {
+            try
+            {
+                List<ClaimModel> claimList = new List<ClaimModel>();
+                claimList = billService.GetSponsorshipDetails(details);
+                var response = new ResponseDataModel<IEnumerable<ClaimModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = claimList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ClaimModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For searching Claim Details  
+        /// </summary>
+        /// <param name="claimdetails ">LLH_Claim table</param>
+        /// <returns> Claim Details </returns>
+
+        [HttpPost]
+        [Route("GetManageClaimForBilling")] 
+        
+
+        public ResponseDataModel<IEnumerable<ClaimModel>> GetManageClaimForBilling(ClaimModelAll details)
+        {
+            try
+            {
+                List<ClaimModel> claimList = new List<ClaimModel>();
+                claimList = billService.GetManageClaimForBilling(details);
+                var response = new ResponseDataModel<IEnumerable<ClaimModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = claimList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ClaimModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// API For saving Transactionpayments
+        /// </summary>
+        /// <param name="claimdetails ">LH_TransactionPayments table</param>
+        /// <returns>Success or reason for failure</returns>
+
+        [HttpPost]
+        [Route("InsertTransactionPayment")]
+        public ResponseDataModel<TransactionModelAll> InsertTransactionPayment(TransactionModelAll obj)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = billService.InsertTransactionPayment(obj);
+                var response = new ResponseDataModel<TransactionModelAll>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<TransactionModelAll>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
 
         /// <summary>
         /// API For updating Lh_Transaction  Details

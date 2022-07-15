@@ -18,8 +18,113 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
+        
 
-        //ActionSettleBill
+        public List<ClaimModel> GetSponsorshipDetails(ClaimModelAll details)
+        {
+
+            List<ClaimModel> claimList = new List<ClaimModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsorshipDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FromDate", details.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", details.ToDate);
+            cmd.Parameters.AddWithValue("@SponsorId", details.SponsorId);
+            cmd.Parameters.AddWithValue("@AgentId", details.AgentId);
+            cmd.Parameters.AddWithValue("@ClaimId", details.ClaimId);
+            cmd.Parameters.AddWithValue("@ConsultantId", details.ConsultantId);
+            cmd.Parameters.AddWithValue("@RuleId", details.RuleId);
+            cmd.Parameters.AddWithValue("@Branchid", details.Branchid);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimModel obj = new ClaimModel
+                    {
+                        BillSelect = Convert.ToBoolean(dt.Rows[i]["BillSelect"].ToString()),
+                        EncounterType = Convert.ToInt32(dt.Rows[i]["EncounterType"].ToString()),
+                        AsoapNo = dt.Rows[i]["AsoapNo"].ToString(),
+
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"].ToString()),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"].ToString()),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        BillDate = dt.Rows[i]["BillDate"].ToString().Replace("/", "-"),
+
+
+                        BillNo = dt.Rows[i]["BillNo"].ToString(),
+                        CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        TotalAmount = (float)Convert.ToDouble(dt.Rows[i]["TotalAmount"].ToString()),
+                        BillAmount = (float)Convert.ToDouble(dt.Rows[i]["BillAmount"].ToString()),
+                        ClaimAmt = (float)Convert.ToDouble(dt.Rows[i]["ClaimAmt"].ToString()),
+                        CoPay = (float)Convert.ToDouble(dt.Rows[i]["CoPay"].ToString()),
+                        Discount = (float)Convert.ToDouble(dt.Rows[i]["Discount"].ToString()),
+                        Consultant = dt.Rows[i]["Consultant"].ToString(),
+                        AprovalNo = dt.Rows[i]["AprovalNo"].ToString(),
+                        RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"].ToString()),
+                        ConsultationId = Convert.ToInt32(dt.Rows[i]["ConsultationId"].ToString()),
+                        Rule = dt.Rows[i]["Rule"].ToString()
+
+                    };
+
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+        public List<ClaimModel> GetManageClaimForBilling(ClaimModelAll details)
+        {
+
+            List<ClaimModel> claimList = new List<ClaimModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetManageClaimForBilling", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FromDate", details.FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", details.ToDate);
+            cmd.Parameters.AddWithValue("@SponsorId", details.SponsorId);
+            cmd.Parameters.AddWithValue("@AgentId", details.AgentId);
+            cmd.Parameters.AddWithValue("@ConsultantId", details.ConsultantId);
+            cmd.Parameters.AddWithValue("@Branchid", details.Branchid);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimModel obj = new ClaimModel
+                    {
+
+                        ClaimId = Convert.ToInt32(dt.Rows[i]["ClaimId"].ToString()),
+                        SponsorName = dt.Rows[i]["SponsorName"].ToString(),
+                        SponsorId = Convert.ToInt32(dt.Rows[i]["SponsorId"].ToString()),
+                        //RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"].ToString()),
+                        AgentName = dt.Rows[i]["AgentName"].ToString(),
+                        ClaimDate = dt.Rows[i]["ClaimDate"].ToString().Replace("/", "-"),
+                        RefNo = dt.Rows[i]["RefNo"].ToString(),
+                        ClaimAmount =(float) Convert.ToDouble(dt.Rows[i]["ClaimAmount"].ToString()),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        PeriodFrom = dt.Rows[i]["PeriodFrom"].ToString().Replace("/", "-"),
+                        PeriodTo = dt.Rows[i]["PeriodTo"].ToString().Replace("/", "-"),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        Consultant = dt.Rows[i]["Consultant"].ToString(),
+                       
+                    };
+
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
         public string ActionSettleBill(TransactionModelAll obj)
         {
             string response = string.Empty;
@@ -65,6 +170,56 @@ namespace LeHealth.Core.DataManager
             return response;
         }
 
+        public string InsertTransactionPayment(TransactionModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_InsertTransactionPayment", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);
+                    cmd.Parameters.AddWithValue("@Mode", obj.Mode);
+                    cmd.Parameters.AddWithValue("@HeadId", obj.HeadId);
+                    cmd.Parameters.AddWithValue("@Amount", obj.Amount);
+                    cmd.Parameters.AddWithValue("@CardId", obj.CardId);
+                    cmd.Parameters.AddWithValue("@CardNo", obj.CardNo);
+                    cmd.Parameters.AddWithValue("@ChqNo", obj.ChqNo);
+                    cmd.Parameters.AddWithValue("@Chqdate", obj.Chqdate);
+                    cmd.Parameters.AddWithValue("@ChqBranch", obj.ChqBranch);
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@Remarks", obj.Remarks);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    SqlParameter retvalv = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retvalv);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var ret = retvalv.Value;
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+                    
+                    response = descrip;
+                    
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        
         public List<CreditModel> GetAdvanceBalance(CreditModel details)
         {
 

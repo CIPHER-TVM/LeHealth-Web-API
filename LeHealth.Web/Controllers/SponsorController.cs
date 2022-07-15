@@ -803,11 +803,11 @@ namespace LeHealth.Base.API.Controllers
             {
                 string message = string.Empty;
                 message = sponserService.InsertUpdateSponsor(obj);
-                var agent = sponserService.InsertUpdateSponsor(obj);
+                //var agent = sponserService.InsertUpdateSponsor(obj);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = agent,
+                   // Response = agent,
                     Message = message
 
                 };
@@ -827,6 +827,9 @@ namespace LeHealth.Base.API.Controllers
                     }
 
                 };
+            }
+            finally
+            {
             }
         }
 

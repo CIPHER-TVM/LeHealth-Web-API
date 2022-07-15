@@ -37,11 +37,13 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
-                var agent = agentService.Save(obj);
+                string message = string.Empty;
+                message = agentService.Save(obj);
+                //var agent = agentService.Save(obj);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = agent,
+                    Message = message,
 
                 };
                 return response;
@@ -61,6 +63,9 @@ namespace LeHealth.Base.API.Controllers
 
                 };
             }
+            finally
+            {
+            }
         }
 
 
@@ -78,8 +83,9 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
+                
                 List<AgentModel> Agent = new List<AgentModel>();
-                Agent = agentService.GetAgents(obj.HospitalId);
+                Agent = agentService.GetAgents(obj);
                 var response = new ResponseDataModel<IEnumerable<AgentModel>>()
                 {
                     Status = HttpStatusCode.OK,
