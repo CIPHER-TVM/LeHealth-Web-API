@@ -1018,6 +1018,32 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public List<ItemGroupTypeModel> GetItemGroupType(ItemGroupTypeModel pm)
+        {
+            List<ItemGroupTypeModel> itemList = new List<ItemGroupTypeModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetItemGroupType", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ItemGroupTypeId", pm.GroupTypeId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsNumber = new DataTable();
+            adapter.Fill(dsNumber);
+            con.Close();
+            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
+                {
+                    ItemGroupTypeModel obj = new ItemGroupTypeModel
+                    {
+                        GroupTypeId = Convert.ToInt32(dsNumber.Rows[i]["GroupTypeId"]),
+                        GroupTypeName = dsNumber.Rows[i]["GroupTypeName"].ToString()
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
 
 
         /// <summary>

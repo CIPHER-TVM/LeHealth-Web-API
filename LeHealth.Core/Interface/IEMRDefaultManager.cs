@@ -50,5 +50,6 @@ namespace LeHealth.Core.Interface
         PhysioAnalysisHistoryModel InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dem);
         List<PhysioAnalysisHistoryModel> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dac);
         TreatmentDetailsModel InsertTreatmentDetails(TreatmentDetailsModel vsem);
+        List<TreatmentDetailsModel> GetTreatmentDetails(TreatmentDetailsModel vsem);
     }
 }

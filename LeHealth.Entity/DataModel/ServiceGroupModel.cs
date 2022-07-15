@@ -8,6 +8,7 @@ namespace LeHealth.Entity.DataModel
     {
         public int GroupId { get; set; }
         public string GroupCode { get; set; }
+        public int GroupTypeId { get; set; }
         public String Label { get; set; }
         public List<ServiceGroupModel> Children { get; set; }
         public string expandedIcon { get; set; } = "pi pi-folder-open";

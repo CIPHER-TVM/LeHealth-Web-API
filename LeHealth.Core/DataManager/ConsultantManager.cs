@@ -361,7 +361,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@CommissionId", consultant.CommissionId);
                     cmdSaveConsultant.Parameters.AddWithValue("@SortOrder", consultant.SortOrder);
                     cmdSaveConsultant.Parameters.AddWithValue("@SpecialityCode", consultant.SpecialityCode);
-                    //cmdSaveConsultant.Parameters.AddWithValue("@AddedFromBranch", consultant.AddedFromBranch);
+                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantMedicationReport", consultant.ConsultantMedicationReport);
                     cmdSaveConsultant.Parameters.AddWithValue("@IsDeleted", consultant.IsDeleted);
                     cmdSaveConsultant.Parameters.AddWithValue("@IsDisplayed", consultant.IsDisplayed);
                     SqlParameter retValSaveConsultant = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -2166,7 +2166,7 @@ namespace LeHealth.Core.DataManager
                         consultant.SignatureLoc = "";
                     }
                     consultant.DrugRefType = Convert.ToInt32(dt.Rows[i]["DrugRefType"]);
-                    //consultant.ConsultantMedicationReport = Convert.ToBoolean(dt.Rows[i]["ConsultantMedicationReport"]);
+                    consultant.ConsultantMedicationReport = Convert.ToBoolean(dt.Rows[i]["ConsultantMedicationReport"]);
                     consultant.UserId = Convert.ToInt32(dt.Rows[i]["ConsultantUserId"]);
                     consultant.ItemIdList = JsonConvert.DeserializeObject<List<ItemIdListCls>>(dt.Rows[i]["ItemIdList"].ToString());
                 }

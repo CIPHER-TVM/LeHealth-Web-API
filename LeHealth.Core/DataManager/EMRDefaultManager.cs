@@ -905,7 +905,6 @@ namespace LeHealth.Core.DataManager
             }
             return dacData;
         }
-
         public PatientQuestionareModelInput InsertUpdatePatientQuestionareEMR(PatientQuestionareModelInput pqmi)
         {
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -1546,7 +1545,42 @@ namespace LeHealth.Core.DataManager
             }
             return iem;
         }
-
+        public List<TreatmentDetailsModel> GetTreatmentDetails(TreatmentDetailsModel eim)
+        {
+            List<TreatmentDetailsModel> dacData = new List<TreatmentDetailsModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetTreatmentDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DateFrom", eim.DateFrom);
+            cmd.Parameters.AddWithValue("@DateTo", eim.DateTo);
+            cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+            con.Close();
+            if ((ds != null) && (ds.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < ds.Rows.Count; i++)
+                {
+                    TreatmentDetailsModel obj = new TreatmentDetailsModel
+                    {
+                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
+                        //PatientId = ds.Rows[i]["PatientId"].ToString(),
+                        //ServicePoint = ds.Rows[i]["ServicePoint"].ToString(),
+                        //PerformingStaff = ds.Rows[i]["PerformingStaff"].ToString(),
+                        //TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString(),
+                        //PastMedicalHistory = ds.Rows[i]["PastMedicalHistory"].ToString(),
+                        //AllergyHistory = ds.Rows[i]["AllergyHistory"].ToString(),
+                        //SocialHistory = ds.Rows[i]["SocialHistory"].ToString(),
+                        PatientId = eim.PatientId,
+                        ItemDetails = JsonConvert.DeserializeObject<List<TreatmentItemModel>>(ds.Rows[i]["Questionare"].ToString()),
+                    };
+                    dacData.Add(obj);
+                }
+            }
+            return dacData;
+        }
         public string AutoregnoCreate(int BranchId)
         {
             using SqlConnection con = new SqlConnection(_connStr);

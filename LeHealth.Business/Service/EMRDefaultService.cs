@@ -201,5 +201,9 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.InsertTreatmentDetails(dem);
         }
+        public List<TreatmentDetailsModel> GetTreatmentDetails(TreatmentDetailsModel dmac)
+        {
+            return emrdataManager.GetTreatmentDetails(dmac);
+        }
     }
 }
