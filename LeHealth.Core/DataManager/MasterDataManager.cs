@@ -304,6 +304,7 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateServiceItemGroup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@GroupId", ccm.GroupId);
+                cmd.Parameters.AddWithValue("@GroupTypeId", ccm.GroupTypeId); 
                 cmd.Parameters.AddWithValue("@ParentId", ccm.ParentId);
                 cmd.Parameters.AddWithValue("@GroupName", ccm.GroupName);
                 cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);

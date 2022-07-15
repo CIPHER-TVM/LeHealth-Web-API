@@ -112,6 +112,7 @@ namespace LeHealth.Entity.DataModel
         public string ItemName { get; set; }
         public int GroupId { get; set; }
         public int ChildId { get; set; }
+        public int GroupTypeId { get; set; }
         public int ParentId { get; set; }
         public int ValidityDays { get; set; }
         public int ValidityVisits { get; set; }
@@ -145,8 +146,8 @@ namespace LeHealth.Entity.DataModel
         public bool IsDisplayed { get; set; }
         public int ContainerId { get; set; }
         public int BranchId { get; set; }
-        public int UserId { get; set; } 
-        public int IsDeleting { get; set; }  
+        public int UserId { get; set; }
+        public int IsDeleting { get; set; }
         public List<RateModel> ItemRateList { get; set; }
     }
     public class ServiceConfigModelAll : ServiceConfigModel
@@ -155,5 +156,5 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int SessionId { get; set; }
     }
-  
+
 }
