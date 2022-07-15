@@ -10,6 +10,7 @@ namespace LeHealth.Entity.DataModel
         public int? ConsultationId { get; set; } = 0;
         public int? AppointmentId { get; set; } = 0;
         public int PatientId { get; set; }
+        public string PatientName { get; set; }
         public int ServicePoint { get; set; }
         public int PerformingStaff { get; set; }
         public string TreatmentNumber { get; set; }
