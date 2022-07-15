@@ -2155,6 +2155,7 @@ namespace LeHealth.Core.DataManager
                     consultant.DeptOverrule = dt.Rows[i]["DeptOverrule"] != null ? Convert.ToBoolean(dt.Rows[i]["DeptOverrule"]) : false;
                     consultant.DeptWiseConsultation = dt.Rows[i]["DeptWiseConsultation"] != null ? Convert.ToBoolean(dt.Rows[i]["DeptWiseConsultation"]) : false;
                     consultant.ExternalConsultant = dt.Rows[i]["ExternalConsultant"] != null ? Convert.ToBoolean(dt.Rows[i]["ExternalConsultant"]) : false;
+                    //consultant.ConsultantMedicationReport = Convert.ToBoolean(dt.Rows[i]["ConsultantMedicationReport"]);
                     consultant.AppType = dt.Rows[i]["AppType"] != null ? Convert.ToInt32(dt.Rows[i]["AppType"]) : 0;
                     string signatureloc = dt.Rows[i]["SignatureLoc"] != null ? dt.Rows[i]["SignatureLoc"].ToString() : "";
                     if (signatureloc != "")
