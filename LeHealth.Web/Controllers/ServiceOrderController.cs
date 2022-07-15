@@ -365,8 +365,8 @@ namespace LeHealth.Base.API.Controllers
         [Route("GetAvailableService")]
         public ResponseDataModel<IEnumerable<AvailableServiceModel>> GetAvailableService(AvailableServiceModel asm)
         {
-            try
-            {
+            //try
+            //{
                 List<AvailableServiceModel> itemGroupList = new List<AvailableServiceModel>();
                 itemGroupList = serviceorderService.GetAvailableService(asm);
                 var response = new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
@@ -375,24 +375,24 @@ namespace LeHealth.Base.API.Controllers
                     Response = itemGroupList
                 };
                 return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<AvailableServiceModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
 
-                };
-            }
-            finally
-            {
-            }
+            //    };
+            //}
+            //finally
+            //{
+            //}
         }
 
         /// <summary>

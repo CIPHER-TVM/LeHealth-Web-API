@@ -1550,11 +1550,21 @@ namespace LeHealth.Core.DataManager
             List<TreatmentDetailsModel> dacData = new List<TreatmentDetailsModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetTreatmentDetails", con);
+
+            DateTime TDateFrom = DateTime.ParseExact(eim.DateFrom.Trim(), "dd-MM-yyyy", null);
+            eim.DateFrom = TDateFrom.ToString("yyyy-MM-dd");
+
+            DateTime TDateTo = DateTime.ParseExact(eim.DateTo.Trim(), "dd-MM-yyyy", null);
+            eim.DateTo = TDateTo.ToString("yyyy-MM-dd");
+
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
+
+
             cmd.Parameters.AddWithValue("@DateFrom", eim.DateFrom);
             cmd.Parameters.AddWithValue("@DateTo", eim.DateTo);
             cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
+            cmd.Parameters.AddWithValue("@TreatmentId", eim.Id);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
             adapter.Fill(ds);
@@ -1566,15 +1576,14 @@ namespace LeHealth.Core.DataManager
                     TreatmentDetailsModel obj = new TreatmentDetailsModel
                     {
                         Id = Convert.ToInt32(ds.Rows[i]["Id"]),
-                        //PatientId = ds.Rows[i]["PatientId"].ToString(),
-                        //ServicePoint = ds.Rows[i]["ServicePoint"].ToString(),
-                        //PerformingStaff = ds.Rows[i]["PerformingStaff"].ToString(),
-                        //TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString(),
-                        //PastMedicalHistory = ds.Rows[i]["PastMedicalHistory"].ToString(),
-                        //AllergyHistory = ds.Rows[i]["AllergyHistory"].ToString(),
-                        //SocialHistory = ds.Rows[i]["SocialHistory"].ToString(),
-                        PatientId = eim.PatientId,
-                        ItemDetails = JsonConvert.DeserializeObject<List<TreatmentItemModel>>(ds.Rows[i]["Questionare"].ToString()),
+                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
+                        ServicePoint = Convert.ToInt32(ds.Rows[i]["ServicePoint"]),
+                        PerformingStaff = Convert.ToInt32(ds.Rows[i]["PerformingStaff"]),
+                        TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString(),
+                        TreatmentDate = ds.Rows[i]["TreatmentDate"].ToString(),
+                        TreatmentDetails = ds.Rows[i]["TreatmentDetails"].ToString(),
+                        TreatmentRemarks = ds.Rows[i]["TreatmentRemarks"].ToString(),
+                        ItemDetails = JsonConvert.DeserializeObject<List<TreatmentItemModel>>(ds.Rows[i]["ItemDetails"].ToString()),
                     };
                     dacData.Add(obj);
                 }
