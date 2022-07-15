@@ -1578,6 +1578,8 @@ namespace LeHealth.Core.DataManager
                         Id = Convert.ToInt32(ds.Rows[i]["Id"]),
                         PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
                         PatientName = ds.Rows[i]["PatientName"].ToString(),
+                        RegNo = ds.Rows[i]["RegNo"].ToString(), 
+                        Mobile = ds.Rows[i]["Mobile"].ToString(),
                         ServicePoint = Convert.ToInt32(ds.Rows[i]["ServicePoint"]),
                         PerformingStaff = Convert.ToInt32(ds.Rows[i]["PerformingStaff"]),
                         TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString(),
