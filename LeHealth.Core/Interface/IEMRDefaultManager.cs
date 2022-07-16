@@ -47,9 +47,6 @@ namespace LeHealth.Core.Interface
         DentalProcedureEMRModel InsertDentalProcedureEMR(DentalProcedureEMRModel dem);
         List<DentalProcedureEMRModel> GetDentalProcedureEMR(EMRInputModel dac);
         DentalProcedureEMR CompleteDentalProcedureEMR(DentalProcedureEMR dem);
-        PhysioAnalysisHistoryModel InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dem);
-        List<PhysioAnalysisHistoryModel> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dac);
-        TreatmentDetailsModel InsertTreatmentDetails(TreatmentDetailsModel vsem);
-        List<TreatmentDetailsModel> GetTreatmentDetails(TreatmentDetailsModel vsem);
+        
     }
 }

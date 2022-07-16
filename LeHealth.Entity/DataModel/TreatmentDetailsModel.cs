@@ -22,6 +22,7 @@ namespace LeHealth.Entity.DataModel
         public string TreatmentDetails { get; set; }
         public string TreatmentRemarks { get; set; }
         public int BranchId { get; set; }
+        public int UserId { get; set; }
         public List<TreatmentItemModel> ItemDetails { get; set; }
     }
     public class TreatmentDetailsModelIP

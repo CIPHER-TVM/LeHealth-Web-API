@@ -189,21 +189,6 @@ namespace LeHealth.Service.Service
         {
             return emrdataManager.CompleteDentalProcedureEMR(vsem);
         }
-        public PhysioAnalysisHistoryModel InsertUpdatePhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel vsem)
-        {
-            return emrdataManager.InsertUpdatePhysioAnalysisHistoryTreatment(vsem);
-        }
-        public List<PhysioAnalysisHistoryModel> GetPhysioAnalysisHistoryTreatment(PhysioAnalysisHistoryModel dmac)
-        {
-            return emrdataManager.GetPhysioAnalysisHistoryTreatment(dmac); 
-        }
-        public TreatmentDetailsModel InsertTreatmentDetails(TreatmentDetailsModel dem)
-        {
-            return emrdataManager.InsertTreatmentDetails(dem);
-        }
-        public List<TreatmentDetailsModel> GetTreatmentDetails(TreatmentDetailsModel dmac)
-        {
-            return emrdataManager.GetTreatmentDetails(dmac);
-        }
+       
     }
 }
