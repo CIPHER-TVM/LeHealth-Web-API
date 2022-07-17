@@ -135,6 +135,8 @@ namespace LeHealth.Catalogue.API
             services.AddScoped<IBillService, BillService>();
             services.AddScoped<IBillManager, BillManager>();
 
+            services.AddScoped<ITreatmentService, TreatmentService>();
+            services.AddScoped<ITreatmentManager, TreatmentManager>();
 
 
 
