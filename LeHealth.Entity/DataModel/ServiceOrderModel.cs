@@ -29,10 +29,15 @@ namespace LeHealth.Entity.DataModel
         public string EndDate { get; set; }
         public int PerStaffId { get; set; }
         public string Remarks { get; set; }
+        public string ToothNo { get; set; }
         public string PerLocation { get; set; }
         public string UnlistedCodeValue { get; set; }
+        public int Branchid { get; set; }
+        public int TransId { get; set; }
         public string ItmDiscRemarks { get; set; }
-        public int IcdLabelId { get; set; }
+        public int IcdLabelId { get; set; }        
+        public string ItemName { get; set; }
+        public bool Selected { get; set; }
     }
     public class ServiceAutoInitiateModel:ServiceOrderModel
     {

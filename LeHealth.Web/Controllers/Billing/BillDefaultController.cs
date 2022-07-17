@@ -24,6 +24,297 @@ namespace LeHealth.Base.API.Controllers.Billing
         }
 
         /// <summary>
+        /// API For getting Tooth Details
+        /// </summary>
+        
+        /// <returns>Tooth Details </returns>
+
+        [HttpPost]
+        [Route("GetToothNo")]
+
+        //public ResponseDataModel<IEnumerable<StaffModel>> GetToothNo(StaffModel details)
+        //{
+        //    try
+        //    {
+        //        List<StaffModel> staffList = new List<StaffModel>();
+        //        staffList = billService.GetToothNo(details);
+        //        var response = new ResponseDataModel<IEnumerable<StaffModel>>()
+        //        {
+        //            Status = HttpStatusCode.OK,
+        //            Response = staffList
+        //        };
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+        //        return new ResponseDataModel<IEnumerable<StaffModel>>()
+        //        {
+        //            Status = HttpStatusCode.InternalServerError,
+        //            Response = null,
+        //            ErrorMessage = new ErrorResponse()
+        //            {
+        //                Message = ex.Message
+        //            }
+
+        //        };
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
+
+
+        /// <summary>
+        /// API For Closing credit
+        /// </summary>
+        /// <param name="creditDetails ">LH_Credit  table</param>
+        /// <returns>Success or reason for failure</returns>
+
+        [HttpPost]
+        [Route("CloseCredit")]
+        public ResponseDataModel<CreditModelAll> CloseCredit(CreditModelAll obj)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = billService.CloseCredit(obj);
+                var response = new ResponseDataModel<CreditModelAll>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<CreditModelAll>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For approving credit
+        /// </summary>
+        /// <param name="creditDetails ">LH_Credit  table</param>
+        /// <returns>Success or reason for failure</returns>
+
+        [HttpPost]
+        [Route("ApproveCredit")]
+        public ResponseDataModel<CreditModelAll> ApproveCredit(CreditModelAll obj)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = billService.ApproveCredit(obj);
+                var response = new ResponseDataModel<CreditModelAll>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<CreditModelAll>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For Transaction summary Details
+        /// </summary>
+        /// <param name="creditdetails">L</param>
+        /// <returns>Staff Details </returns>
+
+        [HttpPost]
+        [Route("GetTransactionSummary")]
+
+        public ResponseDataModel<IEnumerable<CreditModel>> GetTransactionSummary(CreditModel details)
+        {
+            try
+            {
+                List<CreditModel> transList = new List<CreditModel>();
+                transList = billService.GetTransactionSummary(details);
+                var response = new ResponseDataModel<IEnumerable<CreditModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = transList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<CreditModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting All Staff
+        /// </summary>
+        /// <param name="Branchid ">L</param>
+        /// <returns>Staff Details </returns>
+
+        [HttpPost]
+        [Route("GetAllStaff")]
+
+        public ResponseDataModel<IEnumerable<StaffModel>> GetAllStaff(StaffModel details)
+        {
+            try
+            {
+                List<StaffModel> staffList = new List<StaffModel>();
+                staffList = billService.GetAllStaff(details);
+                var response = new ResponseDataModel<IEnumerable<StaffModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = staffList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<StaffModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting transactionclaimdetails
+        /// </summary>
+        /// <param name="claimdetails ">L</param>
+        /// <returns> transactionClaim Details </returns>
+
+        [HttpPost]
+        [Route("GetTransactionClaimDetails")]
+
+        public ResponseDataModel<IEnumerable<ServiceOrderModel>> GetTransactionClaimDetails(ServiceOrderModel details)
+        {
+            try
+            {
+                List<ServiceOrderModel> soList = new List<ServiceOrderModel>();
+                soList = billService.GetTransactionClaimDetails(details);
+                var response = new ResponseDataModel<IEnumerable<ServiceOrderModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = soList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ServiceOrderModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For Verifying Claimdetails
+        /// </summary>
+        /// <param name="claimdetails ">LH_TransactionPayments table</param>
+        /// <returns>Success or reason for failure</returns>
+
+        [HttpPost]
+        [Route("VerifyClaim")]
+        public ResponseDataModel<ClaimModelAll> VerifyClaim(ClaimModelAll obj)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = billService.VerifyClaim(obj);
+                var response = new ResponseDataModel<ClaimModelAll>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ClaimModelAll>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
         /// API For searching Claim Details across Sponsor
         /// </summary>
         /// <param name="claimdetails ">LLH_Claim,Lh_Credit,Lh_SponsorRules.... table</param>

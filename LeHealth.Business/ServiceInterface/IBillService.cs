@@ -8,7 +8,15 @@ namespace LeHealth.Service.ServiceInterface
     public interface IBillService
     {
         // 
-        
+
+        // List<StaffModel> GetToothNo(StaffModel details);
+
+        string CloseCredit(CreditModelAll details);
+        string ApproveCredit(CreditModelAll details);
+        List<CreditModel> GetTransactionSummary(CreditModel details);
+        List<StaffModel> GetAllStaff(StaffModel details);
+        List<ServiceOrderModel> GetTransactionClaimDetails(ServiceOrderModel details);
+        string VerifyClaim(ClaimModelAll details);
         List<ClaimModel> GetSponsorshipDetails(ClaimModelAll details);
         List<ClaimModel> GetManageClaimForBilling(ClaimModelAll details);
         string InsertTransactionPayment(TransactionModelAll trans);

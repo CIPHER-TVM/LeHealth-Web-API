@@ -14,6 +14,36 @@ namespace LeHealth.Service.Service
         {
             billmanager = _billmanager;
         }
+
+        public string CloseCredit(CreditModelAll details)
+        {
+
+            return billmanager.CloseCredit(details);
+        }
+        public string ApproveCredit(CreditModelAll details)
+        {
+
+            return billmanager.ApproveCredit(details);
+        }
+
+        public List<CreditModel> GetTransactionSummary(CreditModel details)
+        {
+            return billmanager.GetTransactionSummary(details);
+        }
+        public List<StaffModel> GetAllStaff(StaffModel details)
+        {
+            return billmanager.GetAllStaff(details);
+        }
+        public List<ServiceOrderModel> GetTransactionClaimDetails(ServiceOrderModel details)
+        {
+            return billmanager.GetTransactionClaimDetails(details);
+        }
+
+        public string VerifyClaim(ClaimModelAll details)
+        {
+
+            return billmanager.VerifyClaim(details);
+        }
         public List<ClaimModel> GetSponsorshipDetails(ClaimModelAll details)
         {
             return billmanager.GetSponsorshipDetails(details);
