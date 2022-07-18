@@ -36,6 +36,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
             cmd.Parameters.AddWithValue("@GroupId", company.GroupId);
             cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
+            cmd.Parameters.AddWithValue("@ConsultantId", company.ConsultantId);
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtServiceItem = new DataTable();
@@ -81,12 +82,13 @@ namespace LeHealth.Core.DataManager
                     obj.StaffMandatory = Convert.ToBoolean(dtServiceItem.Rows[i]["StaffMandatory"]);
                     obj.ContainerId = Convert.ToInt32(dtServiceItem.Rows[i]["ContainerId"]);
                     obj.IsDisplayed = Convert.ToBoolean(dtServiceItem.Rows[i]["IsDisplayed"]);
-                    //obj.ItemRateList = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
                     serviceItemList.Add(obj);
                 }
             }
             return serviceItemList;
         }
+
+        
         public List<RateModel> GetItemRateAmountById(AvailableServiceModel company)
         {
             List<RateModel> serviceItemList = new List<RateModel>();

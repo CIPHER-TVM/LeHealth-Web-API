@@ -12,6 +12,7 @@ namespace LeHealth.Core.Interface
         List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment);
         List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient);
         string InsertUpdateConsultant(ConsultantRegModel consultant);
+        string InsertUpdateConsultantUser(ConsultantMasterModel consultant);
         List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant); 
         string InsertConsultantService(ConsultantServiceModel consultant);
         string DeleteConsultantService(ConsultantItemModel ci);
