@@ -177,7 +177,7 @@ namespace LeHealth.Service.Service
         }
 
 
-        public DiseaseModel GetDiseaseDetailsById(int diseaseId)
+        public DiseaseModel GetDiseaseDetailsById(DiseaseModel diseaseId)
         {
             return consultantManager.GetDiseaseDetailsById(diseaseId);
         }

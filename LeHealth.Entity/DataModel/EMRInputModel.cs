@@ -18,6 +18,7 @@ namespace LeHealth.Entity.DataModel
         public int UserId { get; set; }
         public int GroupId { get; set; }
         public string ServiceName { get; set; }
+        public string Notes { get; set; }
         public List<RegDocLocationModel> FolderLocation { get; set; }
 
     }

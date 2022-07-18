@@ -182,7 +182,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@PatientName", eim.PatientName);
             cmd.Parameters.AddWithValue("@Mobile", eim.Mobile);
             cmd.Parameters.AddWithValue("@RegNo", eim.RegNo);
-            cmd.Parameters.AddWithValue("@CountryId", eim.CountryId);
+            cmd.Parameters.AddWithValue("@TreatmentNumber", eim.TreatmentNumber); 
             cmd.Parameters.AddWithValue("@TreatmentId", eim.Id);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();

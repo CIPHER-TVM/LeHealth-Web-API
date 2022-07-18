@@ -1230,9 +1230,9 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
-        [Route("GetDiseaseDetailsById/{diseaseId}")]
+        [Route("GetDiseaseDetailsById")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseDetailsById(int diseaseId)
+        public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseDetailsById(DiseaseModel diseaseId)
         {
             List<DiseaseModel> frontOfficePBarList = new List<DiseaseModel>();
             try

@@ -398,7 +398,7 @@ namespace LeHealth.Core.DataManager
                     response = "Failed To Save User";
                 }
                 con.Close();
-                if(response== "User Menu Mapped Successfully")
+                if (response == "User Menu Mapped Successfully")
                 {
                     return "success";
                 }
@@ -1716,15 +1716,14 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-        public DiseaseModel GetDiseaseDetailsById(int diseaseId)
+        public DiseaseModel GetDiseaseDetailsById(DiseaseModel diseasedata)
         {
             DiseaseModel disease = new DiseaseModel();
             using SqlConnection con = new SqlConnection(_connStr);
             SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
             appointmentCountCMD.CommandType = CommandType.StoredProcedure;
-            appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
-            //appointmentCountCMD.Parameters.AddWithValue("@ConsultantId", diseaseId);
-            appointmentCountCMD.Parameters.AddWithValue("@BranchId", diseaseId);
+            appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseasedata.DiseaseId);
+            appointmentCountCMD.Parameters.AddWithValue("@BranchId", diseasedata.BranchId);
             con.Open();
             SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
             DataTable dtDisease = new DataTable();
