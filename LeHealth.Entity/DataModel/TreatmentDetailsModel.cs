@@ -23,6 +23,7 @@ namespace LeHealth.Entity.DataModel
         public string TreatmentRemarks { get; set; }
         public int BranchId { get; set; }
         public int UserId { get; set; }
+        public int CountryId { get; set; }
         public List<TreatmentItemModel> ItemDetails { get; set; }
     }
     public class TreatmentDetailsModelIP
@@ -33,6 +34,7 @@ namespace LeHealth.Entity.DataModel
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
+        public string ItemName { get; set; }
         public int Qty { get; set; }
         public string OrderDate { get; set; }
         public int Route { get; set; }

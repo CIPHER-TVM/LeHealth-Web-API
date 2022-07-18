@@ -10,9 +10,9 @@ using System.Text;
 
 namespace LeHealth.Core.DataManager
 {
-   public class TreatmentManager : ITreatmentManager
+    public class TreatmentManager : ITreatmentManager
     {
-        private readonly string _connStr; 
+        private readonly string _connStr;
         private readonly string _uploadpath;
         public TreatmentManager(IConfiguration _configuration)
         {
@@ -179,6 +179,10 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@DateFrom", eim.DateFrom);
             cmd.Parameters.AddWithValue("@DateTo", eim.DateTo);
             cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
+            cmd.Parameters.AddWithValue("@PatientName", eim.PatientName);
+            cmd.Parameters.AddWithValue("@Mobile", eim.Mobile);
+            cmd.Parameters.AddWithValue("@RegNo", eim.RegNo);
+            cmd.Parameters.AddWithValue("@CountryId", eim.CountryId);
             cmd.Parameters.AddWithValue("@TreatmentId", eim.Id);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
