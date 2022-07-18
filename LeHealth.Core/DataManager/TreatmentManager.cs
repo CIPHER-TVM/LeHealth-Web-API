@@ -192,21 +192,27 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    TreatmentDetailsModel obj = new TreatmentDetailsModel
+                    TreatmentDetailsModel obj = new TreatmentDetailsModel();
+
+                    obj.Id = Convert.ToInt32(ds.Rows[i]["Id"]);
+                    obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
+                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                    obj.ServicePoint = Convert.ToInt32(ds.Rows[i]["ServicePoint"]);
+                    obj.PerformingStaff = Convert.ToInt32(ds.Rows[i]["PerformingStaff"]);
+                    obj.TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString();
+                    obj.TreatmentDate = ds.Rows[i]["TreatmentDate"].ToString().Replace("/", "-");
+                    obj.TreatmentDetails = ds.Rows[i]["TreatmentDetails"].ToString();
+                    obj.TreatmentRemarks = ds.Rows[i]["TreatmentRemarks"].ToString();
+                    obj.ItemDetails = JsonConvert.DeserializeObject<List<TreatmentItemModel>>(ds.Rows[i]["ItemDetails"].ToString());
+
+                    for(int j = 0; j < obj.ItemDetails.Count; j++)
                     {
-                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
-                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-                        PatientName = ds.Rows[i]["PatientName"].ToString(),
-                        RegNo = ds.Rows[i]["RegNo"].ToString(),
-                        Mobile = ds.Rows[i]["Mobile"].ToString(),
-                        ServicePoint = Convert.ToInt32(ds.Rows[i]["ServicePoint"]),
-                        PerformingStaff = Convert.ToInt32(ds.Rows[i]["PerformingStaff"]),
-                        TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString(),
-                        TreatmentDate = ds.Rows[i]["TreatmentDate"].ToString(),
-                        TreatmentDetails = ds.Rows[i]["TreatmentDetails"].ToString(),
-                        TreatmentRemarks = ds.Rows[i]["TreatmentRemarks"].ToString(),
-                        ItemDetails = JsonConvert.DeserializeObject<List<TreatmentItemModel>>(ds.Rows[i]["ItemDetails"].ToString()),
-                    };
+                        obj.ItemDetails[j].OrderDate = obj.ItemDetails[j].OrderDate.Replace("/", "-");
+                        obj.ItemDetails[j].StartDate = obj.ItemDetails[j].StartDate.Replace("/", "-");
+                        obj.ItemDetails[j].EndDate = obj.ItemDetails[j].EndDate.Replace("/", "-");
+                    }
                     dacData.Add(obj);
                 }
             }

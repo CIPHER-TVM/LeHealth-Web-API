@@ -15,6 +15,7 @@ namespace LeHealth.Entity.DataModel
         public DiseaseICDModel ICD { get; set; }
         public int Active { get; set; }
         public string BlockReason { get; set; }
+        public int BranchId { get; set; }
     }
     public class DiseaseSymptomModel
     {
@@ -33,7 +34,7 @@ namespace LeHealth.Entity.DataModel
         public string Duration { get; set; }
     }
 
-    public class DiseaseICDModel 
+    public class DiseaseICDModel
     {
         public int LabelId { get; set; }
         public int DiseaseId { get; set; }
