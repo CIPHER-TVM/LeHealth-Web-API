@@ -165,14 +165,14 @@ namespace LeHealth.Core.DataManager
             List<TreatmentDetailsModel> dacData = new List<TreatmentDetailsModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetTreatmentDetails", con);
+            if (eim.DateFrom.Trim() != "" && eim.DateTo.Trim() != "")
+            {
+                DateTime TDateFrom = DateTime.ParseExact(eim.DateFrom.Trim(), "dd-MM-yyyy", null);
+                eim.DateFrom = TDateFrom.ToString("yyyy-MM-dd");
 
-            DateTime TDateFrom = DateTime.ParseExact(eim.DateFrom.Trim(), "dd-MM-yyyy", null);
-            eim.DateFrom = TDateFrom.ToString("yyyy-MM-dd");
-
-            DateTime TDateTo = DateTime.ParseExact(eim.DateTo.Trim(), "dd-MM-yyyy", null);
-            eim.DateTo = TDateTo.ToString("yyyy-MM-dd");
-
-
+                DateTime TDateTo = DateTime.ParseExact(eim.DateTo.Trim(), "dd-MM-yyyy", null);
+                eim.DateTo = TDateTo.ToString("yyyy-MM-dd");
+            }
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
 

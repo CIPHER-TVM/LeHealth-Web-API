@@ -1723,6 +1723,8 @@ namespace LeHealth.Core.DataManager
             SqlCommand appointmentCountCMD = new SqlCommand("stLH_GetDiseaseDetailsById", con);
             appointmentCountCMD.CommandType = CommandType.StoredProcedure;
             appointmentCountCMD.Parameters.AddWithValue("@DiseaseId", diseaseId);
+            appointmentCountCMD.Parameters.AddWithValue("@ConsultantId", diseaseId);
+            appointmentCountCMD.Parameters.AddWithValue("@BranchId", diseaseId);
             con.Open();
             SqlDataAdapter adapter1 = new SqlDataAdapter(appointmentCountCMD);
             DataTable dtDisease = new DataTable();
