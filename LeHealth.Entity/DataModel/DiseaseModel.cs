@@ -24,6 +24,7 @@ namespace LeHealth.Entity.DataModel
         public string SymptomDesc { get; set; }
         public int Since { get; set; }
         public string Duration { get; set; }
+        public string Selected { get; set; }
     }
     public class DiseaseSignModel
     {
@@ -32,6 +33,7 @@ namespace LeHealth.Entity.DataModel
         public string SignDesc { get; set; }
         public int Since { get; set; }
         public string Duration { get; set; }
+        public string Selected { get; set; }
     }
 
     public class DiseaseICDModel

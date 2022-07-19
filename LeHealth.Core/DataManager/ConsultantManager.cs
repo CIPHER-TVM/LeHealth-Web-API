@@ -662,17 +662,22 @@ namespace LeHealth.Core.DataManager
         {
             List<DiseaseModel> responselist = new List<DiseaseModel>();
             DiseaseModel responseobj = new DiseaseModel();
-            SqlTransaction transaction;
+            //SqlTransaction transaction;
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
+                string signsString = JsonConvert.SerializeObject(disease.Signs);
+                string symptomsString = JsonConvert.SerializeObject(disease.Symptoms);
                 con.Open();
-                transaction = con.BeginTransaction();
+                //transaction = con.BeginTransaction();
                 SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDisease", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@DiseaseId", disease.DiseaseId);
                 cmd.Parameters.AddWithValue("@DiseaseDesc", disease.DiseaseDesc);
                 cmd.Parameters.AddWithValue("@ConsultantId", disease.ConsultantId);
+                cmd.Parameters.AddWithValue("@SignJSON", signsString);
+                cmd.Parameters.AddWithValue("@SymptomJSON", symptomsString);
+                cmd.Parameters.AddWithValue("@ICDLabelId", disease.LabelId);
                 SqlParameter diseaseIdParam = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -684,13 +689,11 @@ namespace LeHealth.Core.DataManager
                     Direction = ParameterDirection.Output
                 };
                 cmd.Parameters.Add(retDesc);
-                cmd.Transaction = transaction;
+                //cmd.Transaction = transaction;
                 try
                 {
                     cmd.ExecuteNonQuery();
                     int diseaseId = (int)diseaseIdParam.Value;
-
-                    //........................
                     var descrip = retDesc.Value.ToString();
                     if (descrip == "Saved Successfully")
                     {
@@ -701,89 +704,88 @@ namespace LeHealth.Core.DataManager
                         response = descrip;
                     }
 
-                    if (diseaseId > 0)//Inserted / Updated Successfully
-                    {
-                        transaction.Commit();
-                        //====================InsertDiseaseICD===========================
+                    //if (diseaseId > 0)//Inserted / Updated Successfully
+                    //{
+                    //    transaction.Commit();
+                    //====================InsertDiseaseICD===========================
 
-                        SqlCommand cmdICD = new SqlCommand("stLH_InsertDiseaseICD", con);
-                        cmdICD.CommandType = CommandType.StoredProcedure;
+                    //SqlCommand cmdICD = new SqlCommand("stLH_InsertDiseaseICD", con);
+                    //cmdICD.CommandType = CommandType.StoredProcedure;
 
-                        cmdICD.Parameters.AddWithValue("@DiseaseId", diseaseId);
-                        cmdICD.Parameters.AddWithValue("@LabelId", disease.LabelId);
+                    //cmdICD.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                    //cmdICD.Parameters.AddWithValue("@LabelId", disease.LabelId);
 
-                        SqlParameter icdRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        SqlParameter icdRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmdICD.Parameters.Add(icdRetVal);
-                        cmdICD.Parameters.Add(icdRetDesc);
-                        cmdICD.ExecuteNonQuery();
+                    //SqlParameter icdRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //SqlParameter icdRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //cmdICD.Parameters.Add(icdRetVal);
+                    //cmdICD.Parameters.Add(icdRetDesc);
+                    //cmdICD.ExecuteNonQuery();
 
-                        //........................
+                    //........................
 
-                        //........................
+                    //........................
 
-                        //====================InsertDiseaseSymptom===========================
+                    //====================InsertDiseaseSymptom===========================
 
-                        SqlCommand cmdSymptom = new SqlCommand("stLH_InsertDiseaseSymptom", con);
-                        cmdSymptom.CommandType = CommandType.StoredProcedure;
-                        cmdSymptom.Parameters.AddWithValue("@DiseaseId", diseaseId);
-                        string symptomsString = JsonConvert.SerializeObject(disease.Symptoms);
-                        cmdSymptom.Parameters.AddWithValue("@SymptomJSON", symptomsString);
-                        SqlParameter symRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        SqlParameter symRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmdSymptom.Parameters.Add(symRetVal);
-                        cmdSymptom.Parameters.Add(symRetDesc);
-                        cmdSymptom.ExecuteNonQuery();
+                    //SqlCommand cmdSymptom = new SqlCommand("stLH_InsertDiseaseSymptom", con);
+                    //cmdSymptom.CommandType = CommandType.StoredProcedure;
+                    //cmdSymptom.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                    //string symptomsString = JsonConvert.SerializeObject(disease.Symptoms);
+                    //cmdSymptom.Parameters.AddWithValue("@SymptomJSON", symptomsString);
+                    //SqlParameter symRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //SqlParameter symRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //cmdSymptom.Parameters.Add(symRetVal);
+                    //cmdSymptom.Parameters.Add(symRetDesc);
+                    //cmdSymptom.ExecuteNonQuery();
 
 
-                        //====================InsertDiseaseSign===========================
+                    ////====================InsertDiseaseSign===========================
 
-                        SqlCommand cmdSign = new SqlCommand("stLH_InsertDiseaseSign", con);
-                        cmdSign.CommandType = CommandType.StoredProcedure;
-                        cmdSign.Parameters.AddWithValue("@DiseaseId", diseaseId);
-                        string signsString = JsonConvert.SerializeObject(disease.Signs);
-                        cmdSign.Parameters.AddWithValue("@SignJSON", signsString);
-                        SqlParameter signRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        SqlParameter signRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmdSign.Parameters.Add(signRetVal);
-                        cmdSign.Parameters.Add(signRetDesc);
-                        cmdSign.ExecuteNonQuery();
+                    //SqlCommand cmdSign = new SqlCommand("stLH_InsertDiseaseSign", con);
+                    //cmdSign.CommandType = CommandType.StoredProcedure;
+                    //cmdSign.Parameters.AddWithValue("@DiseaseId", diseaseId);
+                    //string signsString = JsonConvert.SerializeObject(disease.Signs);
+                    //cmdSign.Parameters.AddWithValue("@SignJSON", signsString);
+                    //SqlParameter signRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //SqlParameter signRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    //{
+                    //    Direction = ParameterDirection.Output
+                    //};
+                    //cmdSign.Parameters.Add(signRetVal);
+                    //cmdSign.Parameters.Add(signRetDesc);
+                    //cmdSign.ExecuteNonQuery();
 
-                        var descript = signRetDesc.Value.ToString();
-                        con.Close();
-                        if (descript == "Saved Successfully")
-                        {
-                            response = "Success";
-                        }
-                        else
-                        {
-                            response = descript;
-                        }
-                    }
-                    else
-                    {
-                        transaction.Rollback();
-                        responseobj.DiseaseId = 0;
-
-                    }
+                    //var descript = signRetDesc.Value.ToString();
+                    //con.Close();
+                    //if (descript == "Saved Successfully")
+                    //{
+                    //    response = "Success";
+                    //}
+                    //else
+                    //{
+                    //    response = descript;
+                    //}
+                    //}
+                    //else
+                    //{
+                    //    transaction.Rollback();
+                    //    responseobj.DiseaseId = 0;
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -1736,9 +1738,9 @@ namespace LeHealth.Core.DataManager
                     List<DiseaseICDModel> diseaseICDs = JsonConvert.DeserializeObject<List<DiseaseICDModel>>(dtDisease.Rows[i]["ICD"].ToString());
                     disease = new DiseaseModel
                     {
-                        DiseaseId = Convert.ToInt32(dtDisease.Rows[i]["DiseaseId"]),
-                        DiseaseDesc = dtDisease.Rows[i]["DiseaseDesc"].ToString(),
-                        ConsultantId = Convert.ToInt32(dtDisease.Rows[i]["ConsultantId"]),
+                        DiseaseId = diseasedata.DiseaseId,
+                        DiseaseDesc = diseasedata.DiseaseId == 0 ? "" : dtDisease.Rows[i]["DiseaseDesc"].ToString(),
+                        ConsultantId = diseasedata.DiseaseId == 0 ? 0 : Convert.ToInt32(dtDisease.Rows[i]["ConsultantId"]),
                         Active = Convert.ToInt32(dtDisease.Rows[i]["Active"]),
                         BlockReason = dtDisease.Rows[i]["BlockReason"].ToString(),
                         Symptoms = JsonConvert.DeserializeObject<List<DiseaseSymptomModel>>(dtDisease.Rows[i]["Symptoms"].ToString()),
@@ -1794,7 +1796,6 @@ namespace LeHealth.Core.DataManager
                 diseases = dtDiseases.ToListOfObject<DiseaseModel>();
             return diseases;
         }
-
         public List<DiseaseModel> GetDiseaseByConsultantId(int consultantId)
         {
             List<DiseaseModel> diseases = new List<DiseaseModel>();
@@ -1809,28 +1810,24 @@ namespace LeHealth.Core.DataManager
             con.Close();
             if ((dtDiseases != null) && (dtDiseases.Rows.Count > 0))
                 diseases = dtDiseases.ToListOfObject<DiseaseModel>();
-
             return diseases;
         }
 
         public List<ConsultantDrugModel> GetConsultantDrugsById(ConsultantDrugModel cdm)
         {
             List<ConsultantDrugModel> consultantDrugs = new List<ConsultantDrugModel>();
-
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantDrugById", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@DrugId", cdm.DrugId);
             cmd.Parameters.AddWithValue("@ConsultantId", cdm.ConsultantId);
-
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtConsultantDrugList = new DataTable();
             adapter.Fill(dtConsultantDrugList);
             con.Close();
             if ((dtConsultantDrugList != null) && (dtConsultantDrugList.Rows.Count > 0))
                 consultantDrugs = dtConsultantDrugList.ToListOfObject<ConsultantDrugModel>();
-
             return consultantDrugs;
         }
         public string InsertConsultantSketch(SketchModelAll sketch)
@@ -2117,7 +2114,7 @@ namespace LeHealth.Core.DataManager
                     consultant.NationalityId = dt.Rows[i]["NationalityId"] != null ? Convert.ToInt32(dt.Rows[i]["NationalityId"]) : 0;
                     consultant.Gender = dt.Rows[i]["Gender"] != null ? dt.Rows[i]["Gender"].ToString() : "";
                     consultant.DOB = dt.Rows[i]["DOB"] != null ? dt.Rows[i]["DOB"].ToString().Replace("/", "-") : "";
-                    consultant.Age = dt.Rows[i]["Age"] != null ? Convert.ToInt32(dt.Rows[i]["Age"]) : 0;
+                    //consultant.Age = dt.Rows[i]["Age"] != null ? Convert.ToInt32(dt.Rows[i]["Age"]) : 0;
                     consultant.Month = dt.Rows[i]["Month"] != null ? Convert.ToInt32(dt.Rows[i]["Month"]) : 0;
                     consultant.Qualification = dt.Rows[i]["Qualification"] != null ? dt.Rows[i]["Qualification"].ToString() : "";
                     consultant.Mobile = dt.Rows[i]["Mobile"] != null ? dt.Rows[i]["Mobile"].ToString() : "";
@@ -2133,7 +2130,7 @@ namespace LeHealth.Core.DataManager
                     consultant.DeptOverrule = dt.Rows[i]["DeptOverrule"] != null ? Convert.ToBoolean(dt.Rows[i]["DeptOverrule"]) : false;
                     consultant.DeptWiseConsultation = dt.Rows[i]["DeptWiseConsultation"] != null ? Convert.ToBoolean(dt.Rows[i]["DeptWiseConsultation"]) : false;
                     consultant.ExternalConsultant = dt.Rows[i]["ExternalConsultant"] != null ? Convert.ToBoolean(dt.Rows[i]["ExternalConsultant"]) : false;
-                    //consultant.ConsultantMedicationReport = Convert.ToBoolean(dt.Rows[i]["ConsultantMedicationReport"]);
+                    consultant.ConsultantMedicationReport = Convert.ToBoolean(dt.Rows[i]["ConsultantMedicationReport"]);
                     consultant.AppType = dt.Rows[i]["AppType"] != null ? Convert.ToInt32(dt.Rows[i]["AppType"]) : 0;
                     string signatureloc = dt.Rows[i]["SignatureLoc"] != null ? dt.Rows[i]["SignatureLoc"].ToString() : "";
                     if (signatureloc != "")

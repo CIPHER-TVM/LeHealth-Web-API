@@ -87,8 +87,6 @@ namespace LeHealth.Core.DataManager
             }
             return serviceItemList;
         }
-
-        
         public List<RateModel> GetItemRateAmountById(AvailableServiceModel company)
         {
             List<RateModel> serviceItemList = new List<RateModel>();
