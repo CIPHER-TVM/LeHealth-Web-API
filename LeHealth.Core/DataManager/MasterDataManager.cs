@@ -5827,6 +5827,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@RoutineNos", servicePoint.RoutineNos);
                     cmd.Parameters.AddWithValue("@UrgentNos", servicePoint.UrgentNos);
                     cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
+                    cmd.Parameters.AddWithValue("@Active", servicePoint.Active);
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {
