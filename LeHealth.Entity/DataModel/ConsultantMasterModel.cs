@@ -54,12 +54,12 @@ namespace LeHealth.Entity.DataModel
         public int DrugRefType { get; set; } 
         public string SignatureLoc { get; set; }
         public string Location { get; set; }
-        public List<LocationModel> LocationIds { get; set; }
         public int BranchId { get; set; }
         public int IsDeleted { get; set; }
         public int IsDisplayed { get; set; }
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
+        public int IsNewUser { get; set; } 
         public List<ItemIdListCls> ItemIdList { get; set; }
 
         //Address Data Start

@@ -256,7 +256,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
-        
+
 
         [Route("DeleteServiceItem")]
         [HttpPost]
@@ -594,8 +594,8 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             finally
             {
             }
-        } 
-        
+        }
+
         [Route("GetItemGroupType")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<ItemGroupTypeModel>> GetItemGroupType(ItemGroupTypeModel ct)
@@ -1317,6 +1317,39 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+
+        [Route("GetAssociativeLocationById")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<LocationModel>> GetAssociativeLocationById(LocationAll location)
+        {
+            try
+            {
+                List<LocationModel> locationList = new List<LocationModel>();
+                locationList = masterdataService.GetAssociativeLocationById(location);
+                var response = new ResponseDataModel<IEnumerable<LocationModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = locationList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<LocationModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
         /// <summary>
         /// To get list of all Country Or Country Detail of Input parameter. 
         /// id=Primary key of LH_Country Table, Returns all if id=0

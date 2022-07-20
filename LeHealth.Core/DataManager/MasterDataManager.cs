@@ -119,18 +119,6 @@ namespace LeHealth.Core.DataManager
             string response2 = string.Empty;
             string response3 = string.Empty;
             string responseFinal = string.Empty;
-            //int GroupId = 0;
-            //int ChildId = 0;
-            //if (serviceItemModel.ParentId == 0)
-            //{
-            //   GroupId = serviceItemModel.GroupId;
-            //    ChildId = 0;
-            //}
-            //else
-            //{
-            //    GroupId = serviceItemModel.ParentId;
-            //    ChildId = serviceItemModel.GroupId;
-            //}
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateItemMaster", con);
@@ -140,7 +128,6 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
                 cmd1.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
                 cmd1.Parameters.AddWithValue("@GroupId", serviceItemModel.GroupId);
-                //cmd1.Parameters.AddWithValue("@ChildGroupId", ChildId);
                 cmd1.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
                 cmd1.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
                 cmd1.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);
@@ -1580,6 +1567,43 @@ namespace LeHealth.Core.DataManager
                 response = descrip;
             }
             return response;
+        }
+        public List<LocationModel> GetAssociativeLocationById(LocationAll la)
+        {
+            List<LocationModel> itemList = new List<LocationModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetAssociativeLocationById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@LocationId", la.LocationId);
+            cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsLocation = new DataTable();
+            adapter.Fill(dsLocation);
+            con.Close();
+            if ((dsLocation != null) && (dsLocation.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsLocation.Rows.Count; i++)
+                {
+                    LocationModel obj = new LocationModel
+                    {
+                        LocationId = Convert.ToInt32(dsLocation.Rows[i]["LocationId"]),
+                        LocationName = dsLocation.Rows[i]["LocationName"].ToString(),
+                        Supervisor = dsLocation.Rows[i]["Supervisor"].ToString(),
+                        ContactNumber = dsLocation.Rows[i]["ContactNumber"].ToString(),
+                        LTypeId = Convert.ToInt32(dsLocation.Rows[i]["LTypeId"]),
+                        ManageSPoints = Convert.ToBoolean(dsLocation.Rows[i]["ManageSPoints"]),
+                        ManageBilling = Convert.ToBoolean(dsLocation.Rows[i]["ManageBilling"]),
+                        ManageCash = Convert.ToBoolean(dsLocation.Rows[i]["ManageCash"]),
+                        ManageCredit = Convert.ToBoolean(dsLocation.Rows[i]["ManageCredit"]),
+                        ManageIPCredit = Convert.ToBoolean(dsLocation.Rows[i]["ManageIPCredit"]),
+                        RepHeadImg = dsLocation.Rows[i]["RepHeadImg"].ToString()
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
         }
         public List<CountryModel> GetCountry(CountryModel country)
         {

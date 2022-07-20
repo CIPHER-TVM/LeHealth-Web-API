@@ -48,6 +48,7 @@ namespace LeHealth.Core.Interface
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
         string DeleteLocation(LocationModel location);
+        List<LocationModel> GetAssociativeLocationById(LocationAll location); 
         List<CountryModel> GetCountry(CountryModel country);
         string InsertUpdateCountry(CountryModel country);
         string DeleteCountry(CountryModel country);

@@ -253,6 +253,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteLocation(location);
         }
+        public List<LocationModel> GetAssociativeLocationById(LocationAll location)
+        {
+            return masterdataManager.GetAssociativeLocationById(location);
+        }
         public List<CountryModel> GetCountry(CountryModel country)
         {
             return masterdataManager.GetCountry(country);

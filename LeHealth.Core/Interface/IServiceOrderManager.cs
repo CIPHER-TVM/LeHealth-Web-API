@@ -12,7 +12,6 @@ namespace LeHealth.Core.Interface
         List<TaxModel> GetItemTax(TaxModelAll groupId); 
         List<ItemModel> GetItem(ItemModelAll groupId); 
         List<ItemsByTypeModel> GetPackageItem(int packId);
-        List<FrequencyModel> GetFrequency(FrequencyModel fm);
         List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm);
         List<AvailableServiceModel> GetLastConsultation(AvailableServiceModel asm);
         List<ProfileModel> GetProfile(ProfileModel pm);

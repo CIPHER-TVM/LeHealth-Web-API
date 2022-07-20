@@ -34,10 +34,6 @@ namespace LeHealth.Service.Service
         {
             return serviceorderManager.GetPackageItem(packId);
         } 
-        public List<FrequencyModel> GetFrequency(FrequencyModel fm)
-        {
-            return serviceorderManager.GetFrequency(fm);
-        }
         public List<AvailableServiceModel> GetAvailableService(AvailableServiceModel asm)
         {
             return serviceorderManager.GetAvailableService(asm);
