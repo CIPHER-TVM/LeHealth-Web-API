@@ -21,6 +21,7 @@ namespace LeHealth.Entity.DataModel
         public int HospitalId { get; set; }
         public string HospitalName { get; set; }
         public int UserId { get; set; }
+        public string BlockReason { get; set; }
         public int IsDisplayed { get; set; }
     }
     public class LocationType

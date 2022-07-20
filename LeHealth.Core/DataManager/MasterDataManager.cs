@@ -1482,6 +1482,7 @@ namespace LeHealth.Core.DataManager
                         RepHeadImg = dsLocation.Rows[i]["RepHeadImg"].ToString(),
                         HospitalId = la.HospitalId,
                         HospitalName = dsLocation.Rows[i]["HospitalName"].ToString(),
+                        BlockReason =(dsLocation.Rows[i]["BlockReason"]!=null)? dsLocation.Rows[i]["BlockReason"].ToString():"",
                         IsDisplayed = Convert.ToInt32(dsLocation.Rows[i]["IsDisplayed"])
                     };
                     itemList.Add(obj);
@@ -1514,6 +1515,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@RepHeadImg", location.RepHeadImg);
                 cmd.Parameters.AddWithValue("@UserId", location.UserId);
                 cmd.Parameters.AddWithValue("@HospitalId", location.HospitalId);
+                cmd.Parameters.AddWithValue("@BlockReason", location.BlockReason);
                 cmd.Parameters.AddWithValue("@IsDisplayed", location.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
