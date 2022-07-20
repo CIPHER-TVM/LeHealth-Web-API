@@ -1497,5 +1497,45 @@ namespace LeHealth.Core.DataManager
             }
             return fopb;
         }
+
+        public string CheckConsultantSchedule(CheckConsultantScheduleModel scheduleModel)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                DateTime dateTime = DateTime.Parse(scheduleModel.Date);
+
+                string sliceNos = String.Empty;
+                if (scheduleModel.SliceNo.Count > 0)
+                    sliceNos = string.Join(",", scheduleModel.SliceNo.ToArray());
+
+                using SqlCommand cmd = new SqlCommand("stLH_CheckConsultantAppoinments", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@ConsultantId", scheduleModel.ConsultantId);
+                cmd.Parameters.AddWithValue("@AppDate", dateTime);
+                cmd.Parameters.AddWithValue("@BranchId", scheduleModel.BranchId);
+                cmd.Parameters.AddWithValue("@SliceNo", sliceNos);
+
+                SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retVal);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var retV = retVal.Value;
+                var retD = retDesc.Value.ToString();
+                con.Close();
+                response = retD;
+            }
+            return response;
+        }
+
     }
 }
