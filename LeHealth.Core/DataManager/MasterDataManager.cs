@@ -5342,6 +5342,80 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        public string InsertUpdateDeleteQuestionareEMR(QuestionModel icdGroup)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@QnId", icdGroup.QnId);
+                cmd.Parameters.AddWithValue("@Question", icdGroup.Question);
+                cmd.Parameters.AddWithValue("@UserId", icdGroup.UserId);
+                cmd.Parameters.AddWithValue("@BranchId", icdGroup.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", icdGroup.IsDisplayed);
+                cmd.Parameters.AddWithValue("@IsDeleting", icdGroup.IsDeleting);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        /// <summary>
+        /// Get ICD Group list
+        /// </summary>
+        /// <param name="icdGroup"></param>
+        /// <returns></returns>
+        public List<QuestionModel> GetQuestionareEMR(QuestionModel group)
+        {
+            List<QuestionModel> itemList = new List<QuestionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetICDGroup", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ShowAll", group.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", group.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    QuestionModel obj = new QuestionModel();
+                    obj.QnId = Convert.ToInt32(dataTable.Rows[i]["GroupId"]);
+                    obj.Question = dataTable.Rows[i]["GroupDesc"].ToString();
+                    obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+
         /// <summary>
         /// Save ICD Label
         /// </summary>

@@ -4640,6 +4640,72 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             }
         }
 
+        [Route("InsertUpdateDeleteQuestionareEMR")]
+        [HttpPost]
+        public ResponseDataModel<string> InsertUpdateDeleteQuestionareEMR(QuestionModel icdLabel)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = masterdataService.InsertUpdateDeleteQuestionareEMR(icdLabel);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+        [Route("GetQuestionareEMR")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<QuestionModel>> GetQuestionareEMR(QuestionModel label)
+        {
+            try
+            {
+                List<QuestionModel> icdList = new List<QuestionModel>();
+                icdList = masterdataService.GetQuestionareEMR(label);
+                var response = new ResponseDataModel<IEnumerable<QuestionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = icdList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<QuestionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
         [Route("InsertUpdateProfile")]
         [HttpPost]
         public ResponseDataModel<IEnumerable<string>> InsertUpdateProfile(ProfileModelAll profile)

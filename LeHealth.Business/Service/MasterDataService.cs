@@ -425,6 +425,14 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteLeadAgent(la);
         }
+        public List<QuestionModel> GetQuestionareEMR(QuestionModel ccm)
+        {
+            return masterdataManager.GetQuestionareEMR(ccm);
+        }
+        public string InsertUpdateDeleteQuestionareEMR(QuestionModel serviceitem)
+        {
+            return masterdataManager.InsertUpdateDeleteQuestionareEMR(serviceitem);
+        }
         public List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor)
         {
             return masterdataManager.GetSponsor(sponsor);

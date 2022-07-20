@@ -141,6 +141,8 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteICDLabel(ICDLabelModelAll icdLabel);
         List<ICDLabelModel> GetICDLabel(ICDLabelModelAll label);
 
+        string InsertUpdateDeleteQuestionareEMR(QuestionModel icdLabel);
+        List<QuestionModel> GetQuestionareEMR(QuestionModel label);
         string InsertUpdateProfile(ProfileModelAll profile);
         List<ProfileModel> GetProfile(ProfileModelAll profile);
         string DeleteProfile(ProfileModelAll profile);

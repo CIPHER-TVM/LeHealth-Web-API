@@ -169,6 +169,8 @@ namespace LeHealth.Core.Interface
         List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);
         string InsertUpdateICDLabel(ICDLabelModelAll icdLabel);
         string DeleteICDLabel(ICDLabelModelAll icdLabel);
+        string InsertUpdateDeleteQuestionareEMR(QuestionModel icdLabel);
+        List<QuestionModel> GetQuestionareEMR(QuestionModel label);
         List<ICDLabelModel> GetICDLabel(ICDLabelModelAll icdLabel);
         string InsertUpdateProfile(ProfileModelAll profile);
         List<ProfileModel> GetProfile(ProfileModelAll profile);
