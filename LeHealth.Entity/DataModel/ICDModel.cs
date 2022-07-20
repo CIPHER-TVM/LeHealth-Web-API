@@ -10,6 +10,7 @@ namespace LeHealth.Entity.DataModel
         public string LabelDesc { get; set; }
         public string LabelCode { get; set; }
         public string LabelType { get; set; } 
+        public string CatgDesc { get; set; }  
     }
 
     //public class ICDCategroyModel
