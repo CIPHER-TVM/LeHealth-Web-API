@@ -5409,6 +5409,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@CategoryId", label.CatgId);
             cmd.Parameters.AddWithValue("@ShowAll", label.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", label.BranchId);
+            cmd.Parameters.AddWithValue("@LabelDesc", label.LabelDesc);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
