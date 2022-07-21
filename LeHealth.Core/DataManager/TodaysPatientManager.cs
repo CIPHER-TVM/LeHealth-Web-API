@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -680,7 +681,7 @@ namespace LeHealth.Core.DataManager
         /// </summary>
         /// <param name="app">ConsultantId,AppDate,AppNo,SliceNo,SliceTime,UserId</param>
         /// <returns>Appointment valid or not</returns>
-        public string PostponeAppointment(Appointments app)
+        public string PostponeAppointment1(Appointments app)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -725,6 +726,116 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+        public string PostponeAppointment(Appointments app)
+        {
+            
+            string response = string.Empty;
+            SqlTransaction transaction;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                con.Open();
+                transaction = con.BeginTransaction();
+                //check appoinment exists
+                DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd-MM-yyyy", null);
+                
+
+                int listcount = app.SliceData.Count;
+                string sliceNos = string.Empty;
+                if (listcount > 0)
+                {
+
+                    sliceNos = string.Join(",", app.SliceData.Select(x => x.SliceNo));
+                }
+                   
+
+                using SqlCommand cmdCheck = new SqlCommand("stLH_CheckConsultantAppoinments", con);
+                cmdCheck.CommandType = CommandType.StoredProcedure;
+
+                cmdCheck.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
+                cmdCheck.Parameters.AddWithValue("@AppDate", postponeDate);
+                cmdCheck.Parameters.AddWithValue("@BranchId", app.BranchId);
+                cmdCheck.Parameters.AddWithValue("@SliceNo", sliceNos);
+                SqlParameter timeMasterRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmdCheck.Parameters.Add(timeMasterRetVal);
+                SqlParameter timeMasterRetDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmdCheck.Parameters.Add(timeMasterRetDesc);
+                cmdCheck.Transaction = transaction;
+                try
+                {
+                    cmdCheck.ExecuteNonQuery();
+                    int ScheduleMasterId = (int)timeMasterRetVal.Value;
+                    var desceMaster = timeMasterRetDesc.Value.ToString();
+                    response = desceMaster;
+                    //Schedule Exists
+                    //Schedule does not Exists
+
+                    if (ScheduleMasterId > 0)//Inserted / Updated Successfully
+                    {
+                        transaction.Commit();
+                        ////====================InsertTimeSchedules===========================
+                        SqlCommand cmd = new SqlCommand("stLH_ActionPostponeApp", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        app.AppDate = postponeDate.ToString("yyyy-MM-dd");
+                        cmd.Parameters.AddWithValue("@AppId", app.AppId);
+                        cmd.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
+                        cmd.Parameters.AddWithValue("@AppDate", app.AppDate);
+                        cmd.Parameters.AddWithValue("@AppNo", app.AppNo);
+                        cmd.Parameters.AddWithValue("@PatientId", app.PatientId);
+                        cmd.Parameters.AddWithValue("@UserId", app.UserId);
+                        cmd.Parameters.AddWithValue("@BranchId", app.BranchId);
+                        cmd.Parameters.AddWithValue("@AppType", app.AppType);
+                        string sliceString = JsonConvert.SerializeObject(app.SliceData);
+                        cmd.Parameters.AddWithValue("@SliceDataJson", sliceString);
+                        SqlParameter retVal = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retVal);
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                       
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        var retV = retVal.Value;
+                        var retD = retDesc.Value.ToString();
+                        if (retD.ToString() == "Appointment Postponed")
+                        {
+                            response = "success";
+                        }
+                        else
+                        {
+                            response = retD;
+                        }
+                        con.Close();
+
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        response = "Slot is not available on " + app.AppDate;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                   
+                }
+                con.Close();
+            }
+           
+            return response;
+        }
+
+
         /// <summary>
         /// appointment available checking
         /// </summary>
