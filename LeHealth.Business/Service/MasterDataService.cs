@@ -253,6 +253,10 @@ namespace LeHealth.Service.Service
         {
             return masterdataManager.DeleteLocation(location);
         }
+        public List<LocationModel> GetAssociativeLocationById(LocationAll location)
+        {
+            return masterdataManager.GetAssociativeLocationById(location);
+        }
         public List<CountryModel> GetCountry(CountryModel country)
         {
             return masterdataManager.GetCountry(country);
@@ -420,6 +424,14 @@ namespace LeHealth.Service.Service
         public string DeleteLeadAgent(LeadAgentModelAll la)
         {
             return masterdataManager.DeleteLeadAgent(la);
+        }
+        public List<QuestionModel> GetQuestionareEMR(QuestionModel ccm)
+        {
+            return masterdataManager.GetQuestionareEMR(ccm);
+        }
+        public string InsertUpdateDeleteQuestionareEMR(QuestionModel serviceitem)
+        {
+            return masterdataManager.InsertUpdateDeleteQuestionareEMR(serviceitem);
         }
         public List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor)
         {

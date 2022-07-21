@@ -36,6 +36,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@ShowAll", company.ShowAll);
             cmd.Parameters.AddWithValue("@GroupId", company.GroupId);
             cmd.Parameters.AddWithValue("@BranchId", company.BranchId);
+            cmd.Parameters.AddWithValue("@ConsultantId", company.ConsultantId);
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dtServiceItem = new DataTable();
@@ -81,7 +82,6 @@ namespace LeHealth.Core.DataManager
                     obj.StaffMandatory = Convert.ToBoolean(dtServiceItem.Rows[i]["StaffMandatory"]);
                     obj.ContainerId = Convert.ToInt32(dtServiceItem.Rows[i]["ContainerId"]);
                     obj.IsDisplayed = Convert.ToBoolean(dtServiceItem.Rows[i]["IsDisplayed"]);
-                    //obj.ItemRateList = JsonConvert.DeserializeObject<List<RateModel>>(dtServiceItem.Rows[i]["RateData"].ToString());
                     serviceItemList.Add(obj);
                 }
             }
@@ -119,18 +119,6 @@ namespace LeHealth.Core.DataManager
             string response2 = string.Empty;
             string response3 = string.Empty;
             string responseFinal = string.Empty;
-            //int GroupId = 0;
-            //int ChildId = 0;
-            //if (serviceItemModel.ParentId == 0)
-            //{
-            //   GroupId = serviceItemModel.GroupId;
-            //    ChildId = 0;
-            //}
-            //else
-            //{
-            //    GroupId = serviceItemModel.ParentId;
-            //    ChildId = serviceItemModel.GroupId;
-            //}
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateItemMaster", con);
@@ -140,7 +128,6 @@ namespace LeHealth.Core.DataManager
                 cmd1.Parameters.AddWithValue("@ItemCode", serviceItemModel.ItemCode);
                 cmd1.Parameters.AddWithValue("@ItemName", serviceItemModel.ItemName);
                 cmd1.Parameters.AddWithValue("@GroupId", serviceItemModel.GroupId);
-                //cmd1.Parameters.AddWithValue("@ChildGroupId", ChildId);
                 cmd1.Parameters.AddWithValue("@ValidityDays", serviceItemModel.ValidityDays);
                 cmd1.Parameters.AddWithValue("@ValidityVisits", serviceItemModel.ValidityVisits);
                 cmd1.Parameters.AddWithValue("@AllowRateEdit", serviceItemModel.AllowRateEdit);
@@ -304,7 +291,7 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateServiceItemGroup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@GroupId", ccm.GroupId);
-                cmd.Parameters.AddWithValue("@GroupTypeId", ccm.GroupTypeId); 
+                cmd.Parameters.AddWithValue("@GroupTypeId", ccm.GroupTypeId);
                 cmd.Parameters.AddWithValue("@ParentId", ccm.ParentId);
                 cmd.Parameters.AddWithValue("@GroupName", ccm.GroupName);
                 cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
@@ -1495,6 +1482,7 @@ namespace LeHealth.Core.DataManager
                         RepHeadImg = dsLocation.Rows[i]["RepHeadImg"].ToString(),
                         HospitalId = la.HospitalId,
                         HospitalName = dsLocation.Rows[i]["HospitalName"].ToString(),
+                        BlockReason = (dsLocation.Rows[i]["BlockReason"] != null) ? dsLocation.Rows[i]["BlockReason"].ToString() : "",
                         IsDisplayed = Convert.ToInt32(dsLocation.Rows[i]["IsDisplayed"])
                     };
                     itemList.Add(obj);
@@ -1527,6 +1515,7 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@RepHeadImg", location.RepHeadImg);
                 cmd.Parameters.AddWithValue("@UserId", location.UserId);
                 cmd.Parameters.AddWithValue("@HospitalId", location.HospitalId);
+                cmd.Parameters.AddWithValue("@BlockReason", location.BlockReason);
                 cmd.Parameters.AddWithValue("@IsDisplayed", location.IsDisplayed);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -1580,6 +1569,43 @@ namespace LeHealth.Core.DataManager
                 response = descrip;
             }
             return response;
+        }
+        public List<LocationModel> GetAssociativeLocationById(LocationAll la)
+        {
+            List<LocationModel> itemList = new List<LocationModel>();
+
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetAssociativeLocationById", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@LocationId", la.LocationId);
+            cmd.Parameters.AddWithValue("@ShowAll", la.ShowAll);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dsLocation = new DataTable();
+            adapter.Fill(dsLocation);
+            con.Close();
+            if ((dsLocation != null) && (dsLocation.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dsLocation.Rows.Count; i++)
+                {
+                    LocationModel obj = new LocationModel
+                    {
+                        LocationId = Convert.ToInt32(dsLocation.Rows[i]["LocationId"]),
+                        LocationName = dsLocation.Rows[i]["LocationName"].ToString(),
+                        Supervisor = dsLocation.Rows[i]["Supervisor"].ToString(),
+                        ContactNumber = dsLocation.Rows[i]["ContactNumber"].ToString(),
+                        LTypeId = Convert.ToInt32(dsLocation.Rows[i]["LTypeId"]),
+                        ManageSPoints = Convert.ToBoolean(dsLocation.Rows[i]["ManageSPoints"]),
+                        ManageBilling = Convert.ToBoolean(dsLocation.Rows[i]["ManageBilling"]),
+                        ManageCash = Convert.ToBoolean(dsLocation.Rows[i]["ManageCash"]),
+                        ManageCredit = Convert.ToBoolean(dsLocation.Rows[i]["ManageCredit"]),
+                        ManageIPCredit = Convert.ToBoolean(dsLocation.Rows[i]["ManageIPCredit"]),
+                        RepHeadImg = dsLocation.Rows[i]["RepHeadImg"].ToString()
+                    };
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
         }
         public List<CountryModel> GetCountry(CountryModel country)
         {
@@ -5318,6 +5344,83 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
+
+        public string InsertUpdateDeleteQuestionareEMR(QuestionModel icdGroup)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDeleteQuestionareEMR", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@QnId", icdGroup.QnId);
+                cmd.Parameters.AddWithValue("@Question", icdGroup.Question);
+                cmd.Parameters.AddWithValue("@SortOrder", icdGroup.SortOrder);
+                cmd.Parameters.AddWithValue("@BranchId", icdGroup.BranchId);
+                cmd.Parameters.AddWithValue("@IsDisplayed", icdGroup.IsDisplayed);
+                cmd.Parameters.AddWithValue("@IsDeleting", icdGroup.IsDeleting);
+                cmd.Parameters.AddWithValue("@UserId", icdGroup.UserId);
+                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retValV);
+                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(retDesc);
+                con.Open();
+                var isUpdated = cmd.ExecuteNonQuery();
+                var ret = retValV.Value;
+                var descrip = retDesc.Value.ToString();
+                con.Close();
+                if (descrip == "Saved Successfully")
+                {
+                    response = "Success";
+                }
+                else
+                {
+                    response = descrip;
+                }
+            }
+            return response;
+        }
+        /// <summary>
+        /// Get ICD Group list
+        /// </summary>
+        /// <param name="icdGroup"></param>
+        /// <returns></returns>
+        public List<QuestionModel> GetQuestionareEMR(QuestionModel group)
+        {
+            List<QuestionModel> itemList = new List<QuestionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetQuestionareEMR", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@QnId", group.QnId);
+            cmd.Parameters.AddWithValue("@ShowAll", group.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", group.BranchId);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            con.Close();
+            if ((dataTable != null) && (dataTable.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    QuestionModel obj = new QuestionModel();
+                    obj.QnId = Convert.ToInt32(dataTable.Rows[i]["Id"]);
+                    obj.Question = dataTable.Rows[i]["Question"].ToString();
+                    obj.SortOrder = Convert.ToInt32(dataTable.Rows[i]["SortOrder"]);
+                    obj.IsDisplayed = Convert.ToBoolean(dataTable.Rows[i]["IsDisplayed"]);
+                    itemList.Add(obj);
+                }
+            }
+            return itemList;
+        }
+
         /// <summary>
         /// Save ICD Label
         /// </summary>
@@ -5385,6 +5488,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@CategoryId", label.CatgId);
             cmd.Parameters.AddWithValue("@ShowAll", label.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", label.BranchId);
+            cmd.Parameters.AddWithValue("@LabelDesc", label.LabelDesc);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
@@ -5803,6 +5907,7 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@RoutineNos", servicePoint.RoutineNos);
                     cmd.Parameters.AddWithValue("@UrgentNos", servicePoint.UrgentNos);
                     cmd.Parameters.AddWithValue("@UserId", servicePoint.UserId);
+                    cmd.Parameters.AddWithValue("@Active", servicePoint.Active);
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                     {

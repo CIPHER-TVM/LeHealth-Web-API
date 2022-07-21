@@ -10,9 +10,9 @@ using System.Text;
 
 namespace LeHealth.Core.DataManager
 {
-   public class TreatmentManager : ITreatmentManager
+    public class TreatmentManager : ITreatmentManager
     {
-        private readonly string _connStr; 
+        private readonly string _connStr;
         private readonly string _uploadpath;
         public TreatmentManager(IConfiguration _configuration)
         {
@@ -165,20 +165,24 @@ namespace LeHealth.Core.DataManager
             List<TreatmentDetailsModel> dacData = new List<TreatmentDetailsModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetTreatmentDetails", con);
+            if (eim.DateFrom.Trim() != "" && eim.DateTo.Trim() != "")
+            {
+                DateTime TDateFrom = DateTime.ParseExact(eim.DateFrom.Trim(), "dd-MM-yyyy", null);
+                eim.DateFrom = TDateFrom.ToString("yyyy-MM-dd");
 
-            DateTime TDateFrom = DateTime.ParseExact(eim.DateFrom.Trim(), "dd-MM-yyyy", null);
-            eim.DateFrom = TDateFrom.ToString("yyyy-MM-dd");
-
-            DateTime TDateTo = DateTime.ParseExact(eim.DateTo.Trim(), "dd-MM-yyyy", null);
-            eim.DateTo = TDateTo.ToString("yyyy-MM-dd");
-
-
+                DateTime TDateTo = DateTime.ParseExact(eim.DateTo.Trim(), "dd-MM-yyyy", null);
+                eim.DateTo = TDateTo.ToString("yyyy-MM-dd");
+            }
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@DateFrom", eim.DateFrom);
             cmd.Parameters.AddWithValue("@DateTo", eim.DateTo);
             cmd.Parameters.AddWithValue("@PatientId", eim.PatientId);
+            cmd.Parameters.AddWithValue("@PatientName", eim.PatientName);
+            cmd.Parameters.AddWithValue("@Mobile", eim.Mobile);
+            cmd.Parameters.AddWithValue("@RegNo", eim.RegNo);
+            cmd.Parameters.AddWithValue("@TreatmentNumber", eim.TreatmentNumber); 
             cmd.Parameters.AddWithValue("@TreatmentId", eim.Id);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable ds = new DataTable();
@@ -188,21 +192,27 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < ds.Rows.Count; i++)
                 {
-                    TreatmentDetailsModel obj = new TreatmentDetailsModel
+                    TreatmentDetailsModel obj = new TreatmentDetailsModel();
+
+                    obj.Id = Convert.ToInt32(ds.Rows[i]["Id"]);
+                    obj.PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]);
+                    obj.PatientName = ds.Rows[i]["PatientName"].ToString();
+                    obj.RegNo = ds.Rows[i]["RegNo"].ToString();
+                    obj.Mobile = ds.Rows[i]["Mobile"].ToString();
+                    obj.ServicePoint = Convert.ToInt32(ds.Rows[i]["ServicePoint"]);
+                    obj.PerformingStaff = Convert.ToInt32(ds.Rows[i]["PerformingStaff"]);
+                    obj.TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString();
+                    obj.TreatmentDate = ds.Rows[i]["TreatmentDate"].ToString().Replace("/", "-");
+                    obj.TreatmentDetails = ds.Rows[i]["TreatmentDetails"].ToString();
+                    obj.TreatmentRemarks = ds.Rows[i]["TreatmentRemarks"].ToString();
+                    obj.ItemDetails = JsonConvert.DeserializeObject<List<TreatmentItemModel>>(ds.Rows[i]["ItemDetails"].ToString());
+
+                    for(int j = 0; j < obj.ItemDetails.Count; j++)
                     {
-                        Id = Convert.ToInt32(ds.Rows[i]["Id"]),
-                        PatientId = Convert.ToInt32(ds.Rows[i]["PatientId"]),
-                        PatientName = ds.Rows[i]["PatientName"].ToString(),
-                        RegNo = ds.Rows[i]["RegNo"].ToString(),
-                        Mobile = ds.Rows[i]["Mobile"].ToString(),
-                        ServicePoint = Convert.ToInt32(ds.Rows[i]["ServicePoint"]),
-                        PerformingStaff = Convert.ToInt32(ds.Rows[i]["PerformingStaff"]),
-                        TreatmentNumber = ds.Rows[i]["TreatmentNumber"].ToString(),
-                        TreatmentDate = ds.Rows[i]["TreatmentDate"].ToString(),
-                        TreatmentDetails = ds.Rows[i]["TreatmentDetails"].ToString(),
-                        TreatmentRemarks = ds.Rows[i]["TreatmentRemarks"].ToString(),
-                        ItemDetails = JsonConvert.DeserializeObject<List<TreatmentItemModel>>(ds.Rows[i]["ItemDetails"].ToString()),
-                    };
+                        obj.ItemDetails[j].OrderDate = obj.ItemDetails[j].OrderDate.Replace("/", "-");
+                        obj.ItemDetails[j].StartDate = obj.ItemDetails[j].StartDate.Replace("/", "-");
+                        obj.ItemDetails[j].EndDate = obj.ItemDetails[j].EndDate.Replace("/", "-");
+                    }
                     dacData.Add(obj);
                 }
             }

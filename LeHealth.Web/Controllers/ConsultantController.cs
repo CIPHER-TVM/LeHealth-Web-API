@@ -188,6 +188,41 @@ namespace LeHealth.Base.API.Controllers
             {
             }
         }
+
+        [Route("InsertUpdateConsultantUser")]
+        [HttpPost]
+        public ResponseDataModel<IEnumerable<ConsultantMasterModel>> InsertUpdateConsultantUser(ConsultantMasterModel consultant)
+        {
+
+            try
+            {
+                string message = string.Empty;
+                message = consultantService.InsertUpdateConsultantUser(consultant);
+                var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
         /// <summary>
         /// API for getting all consultant's list by consultant type 
         /// </summary>
@@ -1195,9 +1230,9 @@ namespace LeHealth.Base.API.Controllers
             }
         }
 
-        [Route("GetDiseaseDetailsById/{diseaseId}")]
+        [Route("GetDiseaseDetailsById")]
         [HttpPost]
-        public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseDetailsById(int diseaseId)
+        public ResponseDataModel<IEnumerable<DiseaseModel>> GetDiseaseDetailsById(DiseaseModel diseaseId)
         {
             List<DiseaseModel> frontOfficePBarList = new List<DiseaseModel>();
             try

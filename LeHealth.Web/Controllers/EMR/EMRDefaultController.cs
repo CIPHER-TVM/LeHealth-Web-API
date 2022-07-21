@@ -1083,6 +1083,7 @@ namespace LeHealth.Base.API.Controllers.EMR
             {
                 List<PatientFoldersEMRModel> emrList = new List<PatientFoldersEMRModel>();
                 emrList = emrdefaultService.GetPatientFoldersEMR(dmac);
+                
                 var response = new ResponseDataModel<IEnumerable<PatientFoldersEMRModel>>()
                 {
                     Status = HttpStatusCode.OK,

@@ -46,6 +46,7 @@ namespace LeHealth.Service.ServiceInterface
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
         string DeleteLocation(LocationModel location);
+        List<LocationModel> GetAssociativeLocationById(LocationAll location); 
         List<CountryModel> GetCountry(CountryModel country);
         string InsertUpdateCountry(CountryModel country);
         string DeleteCountry(CountryModel country);
@@ -140,6 +141,8 @@ namespace LeHealth.Service.ServiceInterface
         string DeleteICDLabel(ICDLabelModelAll icdLabel);
         List<ICDLabelModel> GetICDLabel(ICDLabelModelAll label);
 
+        string InsertUpdateDeleteQuestionareEMR(QuestionModel icdLabel);
+        List<QuestionModel> GetQuestionareEMR(QuestionModel label);
         string InsertUpdateProfile(ProfileModelAll profile);
         List<ProfileModel> GetProfile(ProfileModelAll profile);
         string DeleteProfile(ProfileModelAll profile);

@@ -181,37 +181,6 @@ namespace LeHealth.Core.DataManager
             return communicationTypeList;
         }
 
-        public List<FrequencyModel> GetFrequency(FrequencyModel fm)
-        {
-            List<FrequencyModel> freqList = new List<FrequencyModel>();
-
-            using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetFrequencyList", con);
-            con.Open();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@FrequencyId", fm.FreqId);
-            cmd.Parameters.AddWithValue("@BranchId", fm.BranchId);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dsNumber = new DataTable();
-            adapter.Fill(dsNumber);
-            con.Close();
-            if ((dsNumber != null) && (dsNumber.Rows.Count > 0))
-            {
-                for (Int32 i = 0; i < dsNumber.Rows.Count; i++)
-                {
-                    FrequencyModel obj = new FrequencyModel
-                    {
-                        FreqId = Convert.ToInt32(dsNumber.Rows[i]["FreqId"]),
-                        FreqDesc = dsNumber.Rows[i]["FreqDesc"].ToString(),
-                        FreqValue = Convert.ToInt32(dsNumber.Rows[i]["FreqValue"]),
-                        BranchId = fm.BranchId
-                    };
-                    freqList.Add(obj);
-                }
-            }
-            return freqList;
-        }
-
         /// <summary>
         /// API For getting profile list
         /// </summary>

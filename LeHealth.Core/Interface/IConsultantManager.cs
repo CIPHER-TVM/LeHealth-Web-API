@@ -12,6 +12,7 @@ namespace LeHealth.Core.Interface
         List<SearchAppointmentModel> SearchAppointmentByConsultantId(SearchAppointmentModel appointment);
         List<ConsultantPatientModel> SearchPatientByConsultantId(PatientSearchModel patient);
         string InsertUpdateConsultant(ConsultantRegModel consultant);
+        string InsertUpdateConsultantUser(ConsultantMasterModel consultant);
         List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant); 
         string InsertConsultantService(ConsultantServiceModel consultant);
         string DeleteConsultantService(ConsultantItemModel ci);
@@ -41,7 +42,7 @@ namespace LeHealth.Core.Interface
         FrontOfficePBarModel GetFrontOfficeProgressBarsByConsultantId(AppointmentModel appointment);
         FrontOfficeProgressBarModel GetFrontOfficeProgressBarByConsultantId(AppointmentModel appointment);
         List<ICDModel> GetICDBySymptomSign(SymptomSignModel ss);
-        DiseaseModel GetDiseaseDetailsById(int diseaseId);
+        DiseaseModel GetDiseaseDetailsById(DiseaseModel diseaseId);
         List<DiseaseModel> GetDiseaseByConsultantId(int consultantId);
         List<ConsultantDrugModel> GetConsultantDrugsById(ConsultantDrugModel cdm); 
         List<ItemRateDetailModel> GetConsultantBaseCost(ConsultantBaseCostModelAll cbcm);

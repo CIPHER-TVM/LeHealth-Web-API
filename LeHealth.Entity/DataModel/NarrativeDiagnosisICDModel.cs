@@ -13,6 +13,7 @@ namespace LeHealth.Entity.DataModel
         public int ShowAll { get; set; }  
         public int UserId { get; set; }
         public string VisitDate { get; set; }
+        public string CatgDesc { get; set; }
         public List<ICDModel> IcdLabelList { get; set; } 
     }
 }

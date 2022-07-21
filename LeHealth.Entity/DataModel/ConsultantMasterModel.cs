@@ -12,7 +12,6 @@ namespace LeHealth.Entity.DataModel
         public string MiddleName { get; set; }
         public string LastName { get; set; } 
         public string ConsultantName { get; set; }
-
         public int ConsultantId { get; set; }
         public string SpecialityCode { get; set; }
         public string ConsultantCode { get; set; }
@@ -24,9 +23,6 @@ namespace LeHealth.Entity.DataModel
         public string Specialisation { get; set; }
         public string RoomNo { get; set; }
         public int SortOrder { get; set; }
-
-
-
         public int NationalityId { get; set; }
         public string Gender { get; set; }
         public string DOB { get; set; }
@@ -34,7 +30,6 @@ namespace LeHealth.Entity.DataModel
         public int Age { get; set; }
         public int Month { get; set; }
         public string Qualification { get; set; }
-        //public ConsultantAddressModel Residence { get; set; }
         public string Mobile { get; set; }
         public string ResPhone { get; set; }
         public string OffPhone { get; set; }
@@ -55,16 +50,15 @@ namespace LeHealth.Entity.DataModel
         public string BlockReason { get; set; }
         public int ItemId { get; set; }
         public int UserId { get; set; }
-        //public byte[] Signature { get; set; }
         public int DrugRefType { get; set; } 
         public string SignatureLoc { get; set; }
         public string Location { get; set; }
-        public List<LocationModel> LocationIds { get; set; }
         public int BranchId { get; set; }
         public int IsDeleted { get; set; }
         public int IsDisplayed { get; set; }
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
+        
         public List<ItemIdListCls> ItemIdList { get; set; }
 
         //Address Data Start

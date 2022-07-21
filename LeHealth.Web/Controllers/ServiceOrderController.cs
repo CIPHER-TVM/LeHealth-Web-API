@@ -200,48 +200,6 @@ namespace LeHealth.Base.API.Controllers
         }
 
         /// <summary>
-        /// API for getting frequencies
-        /// </summary>
-        /// <param name="freqkId">Frequency Id</param>
-        /// <returns>Frequency item list</returns>
-        [HttpPost]
-        [Route("GetFrequency")]
-        public ResponseDataModel<IEnumerable<FrequencyModel>> GetFrequency(FrequencyModel fm)
-        {
-
-            try
-            {
-                List<FrequencyModel> freqList = new List<FrequencyModel>();
-                freqList = serviceorderService.GetFrequency(fm);
-                var response = new ResponseDataModel<IEnumerable<FrequencyModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = freqList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<FrequencyModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
-
-                };
-            }
-            finally
-            {
-            }
-        }
-
-
-
-        /// <summary>
         /// API for saving a service item
         /// </summary>
         /// <param name="asm">Service item Details</param>

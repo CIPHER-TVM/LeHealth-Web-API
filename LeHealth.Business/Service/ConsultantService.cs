@@ -54,6 +54,10 @@ namespace LeHealth.Service.Service
             }
             return consultantManager.InsertUpdateConsultant(consultant);
         }
+        public string InsertUpdateConsultantUser(ConsultantMasterModel consultant)
+        {
+            return consultantManager.InsertUpdateConsultantUser(consultant); 
+        }
         public List<ConsultantMasterModel> GetAllConsultants(ConsultantMasterModel consultant)
         {
             return consultantManager.GetAllConsultants(consultant);
@@ -173,7 +177,7 @@ namespace LeHealth.Service.Service
         }
 
 
-        public DiseaseModel GetDiseaseDetailsById(int diseaseId)
+        public DiseaseModel GetDiseaseDetailsById(DiseaseModel diseaseId)
         {
             return consultantManager.GetDiseaseDetailsById(diseaseId);
         }

@@ -149,6 +149,9 @@ namespace LeHealth.Service.Service
         {
             return todaysPatientManager.GetConsultantItemSchemeRate(cisr);
         }
-
+        public string CheckConsultantSchedule(CheckConsultantScheduleModel cm)
+        {
+            return todaysPatientManager.CheckConsultantSchedule(cm);
+        }
     }
 }

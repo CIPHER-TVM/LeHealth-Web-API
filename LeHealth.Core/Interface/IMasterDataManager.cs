@@ -48,6 +48,7 @@ namespace LeHealth.Core.Interface
         List<LocationModel> GetLocation(LocationAll location);
         string InsertUpdateLocation(LocationAll location);
         string DeleteLocation(LocationModel location);
+        List<LocationModel> GetAssociativeLocationById(LocationAll location); 
         List<CountryModel> GetCountry(CountryModel country);
         string InsertUpdateCountry(CountryModel country);
         string DeleteCountry(CountryModel country);
@@ -168,6 +169,8 @@ namespace LeHealth.Core.Interface
         List<ICDGroupModel> GetICDGroup(ICDGroupModelAll group);
         string InsertUpdateICDLabel(ICDLabelModelAll icdLabel);
         string DeleteICDLabel(ICDLabelModelAll icdLabel);
+        string InsertUpdateDeleteQuestionareEMR(QuestionModel icdLabel);
+        List<QuestionModel> GetQuestionareEMR(QuestionModel label);
         List<ICDLabelModel> GetICDLabel(ICDLabelModelAll icdLabel);
         string InsertUpdateProfile(ProfileModelAll profile);
         List<ProfileModel> GetProfile(ProfileModelAll profile);

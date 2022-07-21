@@ -1400,5 +1400,40 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
             }
         }
+        [Route("CheckConsultantSchedule")]
+        [HttpPost]
+        public ResponseDataModel<CheckConsultantScheduleModel> CheckConsultantSchedule(CheckConsultantScheduleModel schedule)
+        {
+            try
+            {
+                CheckConsultantScheduleModel responseData = new CheckConsultantScheduleModel();
+                string appResponse = todaysPatientService.CheckConsultantSchedule(schedule);
+                var response = new ResponseDataModel<CheckConsultantScheduleModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = null,
+                    Message = appResponse
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<CheckConsultantScheduleModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
     }
 }

@@ -38,5 +38,6 @@ namespace LeHealth.Core.Interface
         string PostponeAppointment(Appointments cons);
         string SetUrgentConsultation(ConsultationModel cons);
         List<ConsultantModel> GetConsultants(DepartmentIdModel deptId);
+        string CheckConsultantSchedule(CheckConsultantScheduleModel scheduleModel);
     }
 }
