@@ -38,15 +38,37 @@ namespace LeHealth.Entity.DataModel
         public int IcdLabelId { get; set; }        
         public string ItemName { get; set; }
         public bool Selected { get; set; }
+        public int LoginUserId { get; set; }
+        public int SessionId { get; set; }
+        public List<ServiceOrderDetailsModel> ServiceorderList { get; set; }
     }
     public class ServiceAutoInitiateModel:ServiceOrderModel
     {
         public string GroupTypeName { get; set; }
         public string GroupName { get; set; }
-        public string ItemName { get; set; }
+       // public string ItemName { get; set; }
         public int STypeId { get; set; }
         public int SPointId { get; set; }
         public int InvestgnId { get; set; }
         public string InvestgnNo { get; set; }
+    }
+    public class ServiceOrderDetailsModel
+    {
+        public int OrderDetId { get; set; }
+        public int PerStaffId { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string Remarks { get; set; }
+        public string ToothNo { get; set; }
+        public string PerLocation { get; set; }
+        public string UnlistedCodeValue { get; set; }
+        public int LoginUserId { get; set; }
+        public int SessionId { get; set; }
+        public int IcdLabelId { get; set; }
+        public List<CptmodifierModel> CptModifierList { get; set; }
+    }
+    public class CptmodifierModel
+    {
+        public int CPTModifierId { get; set; }
     }
 }

@@ -19,7 +19,8 @@ namespace LeHealth.Entity.DataModel
         public string Mobile { get; set; }
         public string Signature { get; set; }
         public string DhaNo { get; set; }
-        public int Active { get; set; }
+        public int IsDisplayed { get; set; }
+        public int IsDeleted { get; set; }
         public string BlockReason { get; set; }
         public int Branchid { get; set; }
         public string Name { get; set; }

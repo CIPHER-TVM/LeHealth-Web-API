@@ -7,9 +7,21 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IBillService
     {
-        // 
 
-        // List<StaffModel> GetToothNo(StaffModel details);
+        
+        List<ClaimReceiptModel> GetSponsorChequeReceiptDetails(ClaimReceiptModel details);
+        List<ClaimReceiptModel> GetClaimReceiptList(ClaimReceiptModel details);
+        string CancelClaimReceipt(ClaimReceiptModel details);
+        List<ClaimReceiptModel> GetClaimReceipts(ClaimReceiptModel details);
+        string CancelClaim(ClaimModelAll details);
+        List<ClaimModelAll> GetClaimDetails(ClaimModelAll details);
+        List<ClaimModelAll> GetClaim(ClaimModelAll details);
+
+        string InsertUpdateClaim(ClaimModelAll details);
+        string UpdateSOPerformingDetails(ServiceOrderModel details);
+        string UpdateApprovalNo(TransactionDetailsModel details);
+        List<TransactionDetailsModel> GetTransactionDetails(TransactionDetailsModel details);
+        List<ToothModel> GetToothNo(ToothModel details);
 
         string CloseCredit(CreditModelAll details);
         string ApproveCredit(CreditModelAll details);
