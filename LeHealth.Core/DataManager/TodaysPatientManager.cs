@@ -753,8 +753,12 @@ namespace LeHealth.Core.DataManager
 
                 cmdCheck.Parameters.AddWithValue("@ConsultantId", app.ConsultantId);
                 cmdCheck.Parameters.AddWithValue("@AppDate", postponeDate);
-                cmdCheck.Parameters.AddWithValue("@BranchId", app.BranchId);
+                cmdCheck.Parameters.AddWithValue("@AppId", app.AppId);
+                cmdCheck.Parameters.AddWithValue("@PatientId", app.PatientId);
                 cmdCheck.Parameters.AddWithValue("@SliceNo", sliceNos);
+
+
+
                 SqlParameter timeMasterRetVal = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
