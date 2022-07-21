@@ -291,7 +291,7 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateServiceItemGroup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@GroupId", ccm.GroupId);
-                cmd.Parameters.AddWithValue("@GroupTypeId", ccm.GroupTypeId); 
+                cmd.Parameters.AddWithValue("@GroupTypeId", ccm.GroupTypeId);
                 cmd.Parameters.AddWithValue("@ParentId", ccm.ParentId);
                 cmd.Parameters.AddWithValue("@GroupName", ccm.GroupName);
                 cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
@@ -1482,7 +1482,7 @@ namespace LeHealth.Core.DataManager
                         RepHeadImg = dsLocation.Rows[i]["RepHeadImg"].ToString(),
                         HospitalId = la.HospitalId,
                         HospitalName = dsLocation.Rows[i]["HospitalName"].ToString(),
-                        BlockReason =(dsLocation.Rows[i]["BlockReason"]!=null)? dsLocation.Rows[i]["BlockReason"].ToString():"",
+                        BlockReason = (dsLocation.Rows[i]["BlockReason"] != null) ? dsLocation.Rows[i]["BlockReason"].ToString() : "",
                         IsDisplayed = Convert.ToInt32(dsLocation.Rows[i]["IsDisplayed"])
                     };
                     itemList.Add(obj);
@@ -5351,15 +5351,16 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
 
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateICDGroup", con);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateDeleteQuestionareEMR", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@QnId", icdGroup.QnId);
                 cmd.Parameters.AddWithValue("@Question", icdGroup.Question);
-                cmd.Parameters.AddWithValue("@UserId", icdGroup.UserId);
+                cmd.Parameters.AddWithValue("@SortOrder", icdGroup.SortOrder);
                 cmd.Parameters.AddWithValue("@BranchId", icdGroup.BranchId);
                 cmd.Parameters.AddWithValue("@IsDisplayed", icdGroup.IsDisplayed);
                 cmd.Parameters.AddWithValue("@IsDeleting", icdGroup.IsDeleting);
+                cmd.Parameters.AddWithValue("@UserId", icdGroup.UserId);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -5395,9 +5396,10 @@ namespace LeHealth.Core.DataManager
         {
             List<QuestionModel> itemList = new List<QuestionModel>();
             using SqlConnection con = new SqlConnection(_connStr);
-            using SqlCommand cmd = new SqlCommand("stLH_GetICDGroup", con);
+            using SqlCommand cmd = new SqlCommand("stLH_GetQuestionareEMR", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@QnId", group.QnId);
             cmd.Parameters.AddWithValue("@ShowAll", group.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", group.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -5409,9 +5411,10 @@ namespace LeHealth.Core.DataManager
                 for (Int32 i = 0; i < dataTable.Rows.Count; i++)
                 {
                     QuestionModel obj = new QuestionModel();
-                    obj.QnId = Convert.ToInt32(dataTable.Rows[i]["GroupId"]);
-                    obj.Question = dataTable.Rows[i]["GroupDesc"].ToString();
-                    obj.IsDisplayed = Convert.ToInt32(dataTable.Rows[i]["IsDisplayed"]);
+                    obj.QnId = Convert.ToInt32(dataTable.Rows[i]["Id"]);
+                    obj.Question = dataTable.Rows[i]["Question"].ToString();
+                    obj.SortOrder = Convert.ToInt32(dataTable.Rows[i]["SortOrder"]);
+                    obj.IsDisplayed = Convert.ToBoolean(dataTable.Rows[i]["IsDisplayed"]);
                     itemList.Add(obj);
                 }
             }

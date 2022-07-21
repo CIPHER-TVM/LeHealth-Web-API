@@ -4681,7 +4681,7 @@ namespace LeHealth.Base.API.Controllers.FrontOffice
             {
                 List<QuestionModel> icdList = new List<QuestionModel>();
                 icdList = masterdataService.GetQuestionareEMR(label);
-                var response = new ResponseDataModel<IEnumerable<QuestionModel>>()
+                var response = new ResponseDataModel<IEnumerable<QuestionModel>>() 
                 {
                     Status = HttpStatusCode.OK,
                     Response = icdList

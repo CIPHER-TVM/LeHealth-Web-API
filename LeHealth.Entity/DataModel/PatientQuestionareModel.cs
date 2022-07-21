@@ -17,9 +17,10 @@ namespace LeHealth.Entity.DataModel
         public string Question { get; set; }
         public int BranchId { get; set; }
         public int UserId { get; set; } 
-        public int IsDisplayed { get; set; } 
+        public bool IsDisplayed { get; set; } 
         public int IsDeleting { get; set; }   
         public int ShowAll { get; set; }    
+        public int SortOrder { get; set; }    
     }
     public class PatientQuestionareModelInput
     {
