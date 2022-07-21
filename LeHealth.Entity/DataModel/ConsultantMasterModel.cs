@@ -50,7 +50,6 @@ namespace LeHealth.Entity.DataModel
         public string BlockReason { get; set; }
         public int ItemId { get; set; }
         public int UserId { get; set; }
-        public int ConsultantUserId { get; set; } 
         public int DrugRefType { get; set; } 
         public string SignatureLoc { get; set; }
         public string Location { get; set; }
@@ -59,7 +58,7 @@ namespace LeHealth.Entity.DataModel
         public int IsDisplayed { get; set; }
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
-        public int IsNewUser { get; set; } 
+        
         public List<ItemIdListCls> ItemIdList { get; set; }
 
         //Address Data Start

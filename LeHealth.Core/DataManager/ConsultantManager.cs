@@ -188,7 +188,7 @@ namespace LeHealth.Core.DataManager
                 try
                 {
                     //USER SAVE CODE STARTS
-                    if (consultant.IsNewUser == 1)
+                    if (consultant.UserData.IsNewUser == 1)
                     {
                         SqlCommand cmdSaveUser = new SqlCommand("stLH_SaveUser", con)
                         {
@@ -300,7 +300,7 @@ namespace LeHealth.Core.DataManager
                                 var descriptio = retDescSaveMenu.Value.ToString();
                                 response = descriptio;
                             }
-                            consultant.ConsultantUserId = NewConsultantUserId;
+                            consultant.UserData.ConsultantUserId = NewConsultantUserId;
                         }
                         else
                         {
@@ -348,7 +348,7 @@ namespace LeHealth.Core.DataManager
                     cmdSaveConsultant.Parameters.AddWithValue("@Active", true);
                     cmdSaveConsultant.Parameters.AddWithValue("@RoomNo", consultant.RoomNo);
                     cmdSaveConsultant.Parameters.AddWithValue("@UserId", consultant.UserId);
-                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantUserId", consultant.ConsultantUserId);
+                    cmdSaveConsultant.Parameters.AddWithValue("@ConsultantUserId", consultant.UserData.ConsultantUserId);
                     cmdSaveConsultant.Parameters.AddWithValue("@DeptwiseCons", consultant.DeptWiseConsultation);
                     cmdSaveConsultant.Parameters.AddWithValue("@Signature", consultant.SignatureLoc);
                     cmdSaveConsultant.Parameters.AddWithValue("@External", consultant.ExternalConsultant);
