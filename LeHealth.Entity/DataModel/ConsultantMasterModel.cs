@@ -58,6 +58,7 @@ namespace LeHealth.Entity.DataModel
         public int IsDisplayed { get; set; }
         public UserModel UserData { get; set; }
         public int ShowAll { get; set; }
+        public int Cuid { get; set; } 
         
         public List<ItemIdListCls> ItemIdList { get; set; }
 

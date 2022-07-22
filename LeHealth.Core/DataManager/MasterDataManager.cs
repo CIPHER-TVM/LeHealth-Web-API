@@ -2942,43 +2942,94 @@ namespace LeHealth.Core.DataManager
                 religionList = dsReligionList.ToListOfObject<ReligionModel>();
             return religionList;
         }
+        //public string InsertUpdateReligion(ReligionModelAll religion)
+        //{
+        //    string response = string.Empty;
+        //    using (SqlConnection con = new SqlConnection(_connStr))
+        //    {
+        //        using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateReligion", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("@Id", religion.Id);
+        //        cmd.Parameters.AddWithValue("@ReligionName", religion.ReligionName);
+        //        cmd.Parameters.AddWithValue("@ReligionCode", religion.ReligionCode);
+        //        cmd.Parameters.AddWithValue("@BranchId", religion.BranchId);
+        //        cmd.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
+        //        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+        //        {
+        //            Direction = ParameterDirection.Output
+        //        };
+        //        cmd.Parameters.Add(retValV);
+        //        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+        //        {
+        //            Direction = ParameterDirection.Output
+        //        };
+        //        cmd.Parameters.Add(retDesc);
+        //        con.Open();
+        //        var isUpdated = cmd.ExecuteNonQuery();
+        //        var ret = retValV.Value;
+        //        var descrip = retDesc.Value.ToString();
+        //        con.Close();
+        //        if (descrip == "Saved Successfully")
+        //        {
+        //            response = "Success";
+        //        }
+        //        else
+        //        {
+        //            response = descrip;
+        //        }
+        //    }
+        //    return response;
+        //}
         public string InsertUpdateReligion(ReligionModelAll religion)
         {
-            string response = string.Empty;
-            using (SqlConnection con = new SqlConnection(_connStr))
+            SqlTransaction objTrans = null;
+            try
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateReligion", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", religion.Id);
-                cmd.Parameters.AddWithValue("@ReligionName", religion.ReligionName);
-                cmd.Parameters.AddWithValue("@ReligionCode", religion.ReligionCode);
-                cmd.Parameters.AddWithValue("@BranchId", religion.BranchId);
-                cmd.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
-                SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                string response = string.Empty;
+                using (SqlConnection con = new SqlConnection(_connStr))
                 {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retValV);
-                SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
-                cmd.Parameters.Add(retDesc);
-                con.Open();
-                var isUpdated = cmd.ExecuteNonQuery();
-                var ret = retValV.Value;
-                var descrip = retDesc.Value.ToString();
-                con.Close();
-                if (descrip == "Saved Successfully")
-                {
-                    response = "Success";
+                    using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateReligion", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", religion.Id);
+                    cmd.Parameters.AddWithValue("@ReligionName", religion.ReligionName);
+                    cmd.Parameters.AddWithValue("@ReligionCode", religion.ReligionCode);
+                    cmd.Parameters.AddWithValue("@BranchId", religion.BranchId);
+                    cmd.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
+                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retValV);
+                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retDesc);
+                    con.Open();
+                    var isUpdated = cmd.ExecuteNonQuery();
+                    var ret = retValV.Value;
+                    var descrip = retDesc.Value.ToString();
+                    con.Close();
+                    if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
                 }
-                else
-                {
-                    response = descrip;
-                }
+                return response;
             }
-            return response;
+            catch (Exception ex)
+            {
+                objTrans.Rollback();
+            }
+            finally
+            {
+                //con.Close();
+            }
+            return "";
         }
         public string DeleteReligion(ReligionModelAll religion)
         {
