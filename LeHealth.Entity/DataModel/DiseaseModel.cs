@@ -42,6 +42,7 @@ namespace LeHealth.Entity.DataModel
         public int DiseaseId { get; set; }
         public string LabelDesc { get; set; }
         public string LabelCode { get; set; }
+        public string Selected { get; set; } = "true";
     }
 
 }
