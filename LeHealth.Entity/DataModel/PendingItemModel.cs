@@ -15,6 +15,7 @@ namespace LeHealth.Entity.DataModel
         public string RegNo { get; set; }
         public string Mobile { get; set; }
         public string ResNo { get; set; }
+        public int IsCancelled { get; set; }
         public List<ServiceItem> ItemData { get; set; }
     }
     public class ServiceItem
