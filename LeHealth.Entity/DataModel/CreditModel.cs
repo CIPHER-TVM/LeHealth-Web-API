@@ -6,9 +6,16 @@ namespace LeHealth.Entity.DataModel
 {
     public class CreditModel
     {
+        public string Particulars { get; set; }
+        public string BalType { get; set; }
+        public string TransType { get; set; }
+        public string PatAccNo { get; set; }
+        public string PatName { get; set; }
+        public float Debit { get; set; }
         public float AdvBal { get; set; }
         public float Amount { get; set; }
-        public string Credit { get; set; }
+        //public string Credit { get; set; }
+        public float Credit { get; set; }
         public int CreditId { get; set; }
         public string CreditRefNo { get; set; }
         public int CreditType { get; set; }

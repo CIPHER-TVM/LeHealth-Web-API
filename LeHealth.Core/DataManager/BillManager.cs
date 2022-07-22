@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Globalization;
+using Newtonsoft.Json;
+using System.Linq;
 namespace LeHealth.Core.DataManager
 {
     public class BillManager:IBillManager
@@ -18,7 +21,851 @@ namespace LeHealth.Core.DataManager
             _connStr = _configuration.GetConnectionString("NetroxeDb");
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
-        
+
+        //GetSponsorChequeReceiptDetails
+
+        public List<ClaimReceiptModel> GetSponsorChequeReceiptDetails(ClaimReceiptModel details)
+        {
+            List<ClaimReceiptModel> claimList = new List<ClaimReceiptModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsorChequeReceiptDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SponsorId", details.SponsorId);
+            cmd.Parameters.AddWithValue("@ClaimReceiptId", details.ClaimReceiptId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimReceiptModel obj = new ClaimReceiptModel
+                    {
+
+                        // BillSelect = Convert.ToBoolean(dt.Rows[i]["BillSelect"]),
+                        ReceiptId = Convert.ToInt32(dt.Rows[i]["ReceiptId"]),
+                        RecType = Convert.ToInt32(dt.Rows[i]["RecType"]),
+                        HeadId = Convert.ToInt32(dt.Rows[i]["HeadId"]),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"]),
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"]),
+                        Mode = Convert.ToInt32(dt.Rows[i]["Mode"]),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"]),
+                        SponsorId = Convert.ToInt32(dt.Rows[i]["SponsorId"]),
+                        Active = Convert.ToInt32(dt.Rows[i]["Active"]),
+                        
+
+                        PaymentMode = dt.Rows[i]["PaymentMode"].ToString(),
+                        ReceiptNo = dt.Rows[i]["ReceiptNo"].ToString(),
+                        CardType = dt.Rows[i]["CardType"].ToString(),
+                        CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        ChqNo = dt.Rows[i]["ChqNo"].ToString(),
+                        ChqDate = dt.Rows[i]["ChqDate"].ToString(),
+                        ChqBranch = dt.Rows[i]["ChqBranch"].ToString(),
+                        HeadDesc = dt.Rows[i]["HeadDesc"].ToString(),
+                        SponsorName = dt.Rows[i]["SponsorName"].ToString(),
+
+
+                        RecDate = dt.Rows[i]["RecDate"].ToString().Replace("/", "-"),
+
+
+                        Amount = (float)Convert.ToDouble(dt.Rows[i]["Amount"].ToString()),
+                        ReceivedAmount = (float)Convert.ToDouble(dt.Rows[i]["ReceivedAmount"].ToString()),
+                        BalanceAmount = (float)Convert.ToDouble(dt.Rows[i]["BalanceAmount"].ToString()),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+        public List<ClaimReceiptModel> GetClaimReceiptList(ClaimReceiptModel details)
+        {
+            List<ClaimReceiptModel> claimList = new List<ClaimReceiptModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetClaimReceiptList", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ClaimId", details.ClaimId);
+            cmd.Parameters.AddWithValue("@ClaimRecId", details.ClaimRecId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimReceiptModel obj = new ClaimReceiptModel
+                    {
+
+                       // BillSelect = Convert.ToBoolean(dt.Rows[i]["BillSelect"]),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"]),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"]),
+                         ClaimRecId = Convert.ToInt32(dt.Rows[i]["ClaimRecId"]),
+                        // ConsultationId = Convert.ToInt32(dt.Rows[i]["ConsultationId"]),
+                        //  RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"]),
+
+                        AsoapNo = dt.Rows[i]["AsoapNo"].ToString(),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        BillNo = dt.Rows[i]["BillNo"].ToString(),
+                        ClaimNo = dt.Rows[i]["ClaimNo"].ToString(),
+                        SponsorName = dt.Rows[i]["SponsorName"].ToString(),
+                        AgentName = dt.Rows[i]["AgentName"].ToString(),
+                        CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        ReceiptRemarks = dt.Rows[i]["ReceiptRemarks"].ToString(),
+
+                        BillDate = dt.Rows[i]["BillDate"].ToString().Replace("/", "-"),
+                        ClaimDate = dt.Rows[i]["ClaimDate"].ToString().Replace("/", "-"),
+                        BillPeriod = dt.Rows[i]["BillPeriod"].ToString().Replace("/", "-"),
+                        BillPeriodTo = dt.Rows[i]["BillPeriodTo"].ToString().Replace("/", "-"),
+                        RecDate = dt.Rows[i]["RecDate"].ToString().Replace("/", "-"),
+
+                        //BillAmount = (float)Convert.ToDouble(dt.Rows[i]["BillAmount"].ToString()),
+                        InvoiceAmount = (float)Convert.ToDouble(dt.Rows[i]["InvoiceAmount"].ToString()),
+                        //Discount = (float)Convert.ToDouble(dt.Rows[i]["Discount"].ToString()),
+
+                        Collectedamount = (float)Convert.ToDouble(dt.Rows[i]["Collectedamount"].ToString()),
+                        ReceivedAmount = (float)Convert.ToDouble(dt.Rows[i]["ReceivedAmount"].ToString()),
+
+                        RecAmt = (float)Convert.ToDouble(dt.Rows[i]["RecAmt"].ToString()),
+                        DeniedAmt = (float)Convert.ToDouble(dt.Rows[i]["DeniedAmt"].ToString()),
+                        OutStanding = (float)Convert.ToDouble(dt.Rows[i]["OutStanding"].ToString()),
+                        ClaimedAmount = (float)Convert.ToDouble(dt.Rows[i]["ClaimedAmount"].ToString()),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+
+        public string CancelClaimReceipt(ClaimReceiptModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_CancelClaimReceipt", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@claimRecId", obj.ClaimRecId);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    
+
+                    SqlParameter retval = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retval);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+
+                    response = descrip;
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+
+        public List<ClaimReceiptModel> GetClaimReceipts(ClaimReceiptModel details)
+        {
+            List<ClaimReceiptModel> claimList = new List<ClaimReceiptModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetClaimReceipts", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ClaimId", details.ClaimId);
+            cmd.Parameters.AddWithValue("@Branchid", details.Branchid);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimReceiptModel obj = new ClaimReceiptModel
+                    {
+
+                        
+                        ClaimId = Convert.ToInt32(dt.Rows[i]["Claimid"]),
+                        ClaimRecId = Convert.ToInt32(dt.Rows[i]["ClaimRecId"]),                       
+                        RefNo = dt.Rows[i]["RefNo"].ToString(),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        Status = dt.Rows[i]["Status"].ToString(),         
+
+                        RecDate = dt.Rows[i]["RecDate"].ToString().Replace("/", "-"),
+
+                        TotRecAmt = (float)Convert.ToDouble(dt.Rows[i]["TotRecAmt"].ToString()),
+                        TotDeniedAmt = (float)Convert.ToDouble(dt.Rows[i]["TotDeniedAmt"].ToString()),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+        public string CancelClaim(ClaimModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_CancelClaim", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ClaimId", obj.ClaimId);
+                    cmd.Parameters.AddWithValue("@CancelReason", obj.CancelReason);
+                    cmd.Parameters.AddWithValue("@Branchid", obj.Branchid);
+                    cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+
+                    SqlParameter retval = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retval);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+
+                    response = descrip;
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public List<ClaimModelAll> GetClaimDetails(ClaimModelAll details)
+        {
+            List<ClaimModelAll> claimList = new List<ClaimModelAll>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetClaimDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ClaimId", details.ClaimId);
+            
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimModelAll obj = new ClaimModelAll
+                    {
+
+                        BillSelect = Convert.ToBoolean(dt.Rows[i]["BillSelect"]),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"]),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"]),
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"]),
+                        ConsultationId = Convert.ToInt32(dt.Rows[i]["ConsultationId"]),
+                        RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"]),
+
+                        AsoapNo = dt.Rows[i]["AsoapNo"].ToString(),
+                        AprovalNo = dt.Rows[i]["AprovalNo"].ToString(),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        BillNo = dt.Rows[i]["BillNo"].ToString(),
+                        CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        Rule = dt.Rows[i]["Rule"].ToString(),
+
+                        BillDate = dt.Rows[i]["BillDate"].ToString().Replace("/", "-"),
+                      
+                        BillAmount = (float)Convert.ToDouble(dt.Rows[i]["BillAmount"].ToString()),
+                        ClaimAmt = (float)Convert.ToDouble(dt.Rows[i]["ClaimAmt"].ToString()),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+
+        public List<ClaimModelAll> GetClaim(ClaimModelAll sponsor)
+        {
+            List<ClaimModelAll> claimList = new List<ClaimModelAll>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetClaim", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ClaimId", sponsor.ClaimId);
+            cmd.Parameters.AddWithValue("@ShowAll", sponsor.ShowAll);
+            cmd.Parameters.AddWithValue("@BranchId", sponsor.Branchid);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimModelAll obj = new ClaimModelAll
+                    {
+
+                        ClaimId = Convert.ToInt32(dt.Rows[i]["ClaimId"]),
+                        SponsorId = Convert.ToInt32(dt.Rows[i]["SponsorId"]),
+                        ConsultantId = Convert.ToInt32(dt.Rows[i]["ConsultantId"]),
+                        AgentId = Convert.ToInt32(dt.Rows[i]["AgentId"]),
+                        RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"]),
+
+                        RefNo = dt.Rows[i]["RefNo"].ToString(),
+                        ClaimDate = dt.Rows[i]["ClaimDate"].ToString().Replace("/", "-"),
+                        PeriodFrom = dt.Rows[i]["PeriodFrom"].ToString().Replace("/", "-"),
+                        PeriodTo = dt.Rows[i]["PeriodTo"].ToString().Replace("/", "-"),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        ClaimAmount = (float)Convert.ToDouble(dt.Rows[i]["ClaimAmount"].ToString()),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+
+        public string InsertUpdateClaim(ClaimModelAll details)//(ServiceItemModel serviceItemModel)
+        {
+            string response1 = string.Empty;
+            string response2 = string.Empty;
+           
+            string responseFinal = string.Empty;
+            
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateClaim", con);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.Clear();
+                cmd1.Parameters.AddWithValue("@ClaimId", details.ClaimId);
+                cmd1.Parameters.AddWithValue("@ClaimDate", details.ClaimDate);
+                cmd1.Parameters.AddWithValue("@RefNo", details.RefNo);
+                cmd1.Parameters.AddWithValue("@ClaimAmount", details.ClaimAmount);
+                //cmd1.Parameters.AddWithValue("@ChildGroupId", ChildId);
+                cmd1.Parameters.AddWithValue("@SponsorId", details.SponsorId);
+                cmd1.Parameters.AddWithValue("@UserId", details.UserId);
+                cmd1.Parameters.AddWithValue("@PeriodFrom", details.PeriodFrom);
+                cmd1.Parameters.AddWithValue("@PeriodTo", details.PeriodTo);
+                cmd1.Parameters.AddWithValue("@AgentId", details.AgentId);
+                cmd1.Parameters.AddWithValue("@Remarks", details.Remarks);
+                cmd1.Parameters.AddWithValue("@Status", details.Status);
+                cmd1.Parameters.AddWithValue("@ConsultantId", details.ConsultantId);
+                cmd1.Parameters.AddWithValue("@SessionId", details.SessionId);
+                cmd1.Parameters.AddWithValue("@RuleId", details.RuleId);
+                cmd1.Parameters.AddWithValue("@Branchid", details.Branchid);
+                 SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd1.Parameters.Add(retValV1);
+                SqlParameter retDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd1.Parameters.Add(retDesc1);
+                con.Open();
+                var isUpdated1 = cmd1.ExecuteNonQuery();
+                var ret1 = retValV1.Value;
+                var descrip1 = retDesc1.Value.ToString();
+                con.Close();
+                if (descrip1 == "Saved Successfully")
+                {
+                    response1 = "Success";
+                    details.ClaimId = Convert.ToInt32(ret1);
+                }
+                else
+                {
+                    response1 = descrip1;
+                    return response1;
+                }
+               
+                if (response1 == "Success")
+                {
+                    using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateClaimDet", con);
+                    cmd3.CommandType = CommandType.StoredProcedure;
+                    cmd3.Parameters.AddWithValue("@Claimid", details.ClaimId);
+                    string ClaimdetailsString = JsonConvert.SerializeObject(details.ClaimDetailList);
+                    cmd3.Parameters.AddWithValue("@ClaimdetJSON", ClaimdetailsString);
+                    cmd3.Parameters.AddWithValue("@UserId", details.UserId);
+                    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retValV2);
+                    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retDesc2);
+                    con.Open();
+                    var isUpdated3 = cmd3.ExecuteNonQuery();
+                    var ret2 = retValV2.Value;
+                    var descrip2 = retDesc2.Value.ToString();
+                    con.Close();
+                    if (descrip2 == "Saved Successfully")
+                    {
+                        response2 = "Success";
+                    }
+                }
+                if (response1 == "Success" &&  response2 == "Success")
+                {
+                    responseFinal = "Success";
+                }
+                else
+                {
+                    responseFinal = "Error";
+                }
+            }
+            return responseFinal;
+        }
+
+        public string UpdateSOPerformingDetails(ServiceOrderModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_UpdateSOPerformingDetails", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@OrderDetId", obj.OrderDetId);
+                    //cmd.Parameters.AddWithValue("@PerStaffId", obj.PerStaffId);
+                    //cmd.Parameters.AddWithValue("@StartDate", obj.StartDate);
+                    //cmd.Parameters.AddWithValue("@EndDate", obj.EndDate);
+                    //cmd.Parameters.AddWithValue("@Remarks", obj.Remarks);
+                    //cmd.Parameters.AddWithValue("@ToothNo", obj.ToothNo);
+                    //cmd.Parameters.AddWithValue("@PerLocation", obj.PerLocation);
+                    //cmd.Parameters.AddWithValue("@UnlistedCodeValue", obj.UnlistedCodeValue);
+                    //cmd.Parameters.AddWithValue("@LoginUserId", obj.LoginUserId);
+                    //cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    string ServiceorderString = JsonConvert.SerializeObject(obj.ServiceorderList);
+                    cmd.Parameters.AddWithValue("@SOPerformingDetailsJSON", ServiceorderString);
+
+                    SqlParameter retval = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retval);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+
+                    response = descrip;
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+        public string UpdateApprovalNo(TransactionDetailsModel obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_UpdateApprovalNo", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Transid", obj.TransId);
+                    cmd.Parameters.AddWithValue("@ItemId", obj.ItemId);
+                    cmd.Parameters.AddWithValue("@AprovalNo", obj.AprovalNo);
+                    
+                    SqlParameter retval = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retval);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+
+                    response = descrip;
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public List<TransactionDetailsModel> GetTransactionDetails(TransactionDetailsModel details)
+        {
+
+            List<TransactionDetailsModel> transList = new List<TransactionDetailsModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetTransactionDet", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@TransId", details.TransId);
+            cmd.Parameters.AddWithValue("@Branchid", details.Branchid);
+            cmd.Parameters.AddWithValue("@ShowAll", details.ShowAll);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    TransactionDetailsModel obj = new TransactionDetailsModel
+                    {
+                        TransDetId =Convert.ToInt32( dt.Rows[i]["TransDetId"].ToString()),
+                        ItemId = Convert.ToInt32( dt.Rows[i]["ItemId"].ToString()),
+                        ItemCode = dt.Rows[i]["ItemCode"].ToString(),
+                        ItemName = dt.Rows[i]["ItemName"].ToString(),
+                        Rate = (float)Convert.ToDouble(dt.Rows[i]["Rate"].ToString()),
+                        ActualRate = (float)Convert.ToDouble(dt.Rows[i]["ActualRate"].ToString()),
+                        DiscPcnt = (float)Convert.ToDouble(dt.Rows[i]["DiscPcnt"].ToString()),
+                        DiscAmount = (float)Convert.ToDouble(dt.Rows[i]["DiscAmount"].ToString()),
+                        Qty = (float)Convert.ToDouble(dt.Rows[i]["Qty"].ToString()),
+                        TaxAmount = (float)Convert.ToDouble(dt.Rows[i]["TaxAmount"].ToString()),
+                        AllowRateEdit =Convert.ToBoolean( dt.Rows[i]["AllowRateEdit"].ToString()),
+                        AllowDisc = Convert.ToBoolean( dt.Rows[i]["AllowDisc"].ToString()),
+                        PostId = Convert.ToInt32( dt.Rows[i]["PostId"].ToString()),
+                        OrderDetId = Convert.ToInt32( dt.Rows[i]["OrderDetId"].ToString()),
+                        CreditId = Convert.ToInt32( dt.Rows[i]["CreditId"].ToString()),
+                        DedItem = Convert.ToBoolean( dt.Rows[i]["DedItem"].ToString()),
+                        CoPayItem = Convert.ToBoolean( dt.Rows[i]["CoPayItem"].ToString()),
+                        ServiceDate = dt.Rows[i]["ServiceDate"].ToString().Replace("/","-"),
+                        GroupId =Convert.ToInt32( dt.Rows[i]["GroupId"].ToString()),
+                        AprovalNo = dt.Rows[i]["AprovalNo"].ToString(),
+                    };
+
+                    transList.Add(obj);
+                }
+            }
+            return transList;
+        }
+        public string CloseCredit(CreditModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_ApproveCloseCredit", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    cmd.Parameters.AddWithValue("@Branchid", obj.BranchId);
+                    cmd.Parameters.AddWithValue("@Userid", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    SqlParameter retval = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retval);
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+
+                    response = descrip;
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+        public string ApproveCredit(CreditModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_ActionApproveCredit", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@Status", obj.Status);
+                    cmd.Parameters.AddWithValue("@Branchid", obj.BranchId);
+                    cmd.Parameters.AddWithValue("@Userid", obj.UserId);
+                    cmd.Parameters.AddWithValue("@SessionId", obj.SessionId);
+                    SqlParameter retval = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retval); 
+                    SqlParameter retdesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+
+                    response = descrip;
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
+
+        public List<CreditModel> GetTransactionSummary(CreditModel details)
+        {
+
+            List<CreditModel> transList = new List<CreditModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetTransactionSummary", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Creditid", details.CreditId);
+            cmd.Parameters.AddWithValue("@Branchid", details.BranchId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    CreditModel obj = new CreditModel
+                    {
+                        Date = dt.Rows[i]["Date"].ToString().Replace("/", "-"),
+                        RefNo = dt.Rows[i]["RefNo"].ToString(),
+                        Particulars = dt.Rows[i]["Particulars"].ToString(),
+                        Debit =(float)Convert.ToDouble( dt.Rows[i]["Debit"].ToString()),
+                        Credit = (float)Convert.ToDouble(dt.Rows[i]["Credit"].ToString()),
+                        Balance = (float)Convert.ToDouble(dt.Rows[i]["Balance"].ToString()),
+                        BalType =dt.Rows[i]["BalType"].ToString(),
+                        TransType = dt.Rows[i]["TransType"].ToString(),
+                        PatAccNo = dt.Rows[i]["PatAccNo"].ToString(),
+                        OpenDate = dt.Rows[i]["OpenDate"].ToString().Replace("/", "-"),
+                        PatName = dt.Rows[i]["PatName"].ToString(),
+                        RegNo = dt.Rows[i]["RegNo"].ToString(),
+                    };
+
+                    transList.Add(obj);
+                }
+            }
+            return transList;
+        }
+
+        public List<ToothModel> GetToothNo(ToothModel details)
+        {
+
+            List<ToothModel> toothList = new List<ToothModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetToothNo", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            
+            cmd.Parameters.AddWithValue("@Type", details.Type);
+            
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ToothModel obj = new ToothModel
+                    {                       
+                        ToothId = Convert.ToInt32(dt.Rows[i]["ToothId"].ToString()),
+                        ToothNo = dt.Rows[i]["ToothNo"].ToString(),
+                       
+                    };
+
+                    toothList.Add(obj);
+                }
+            }
+            return toothList;
+        }
+
+       public List<StaffModel> GetAllStaff(StaffModel details)
+        {
+
+            List<StaffModel> claimList = new List<StaffModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetAllStaff", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            
+            cmd.Parameters.AddWithValue("@staffid", details.StaffId);
+            cmd.Parameters.AddWithValue("@Branchid", details.Branchid);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    StaffModel obj = new StaffModel
+                    {                       
+                        StaffId = Convert.ToInt32(dt.Rows[i]["StaffId"].ToString()),
+                        Designation = dt.Rows[i]["Designation"].ToString(),
+                        LicenceNo = dt.Rows[i]["LicenceNo"].ToString(),
+                        Category = dt.Rows[i]["Category"].ToString(),
+                        Name = dt.Rows[i]["Name"].ToString(),
+                        DhaNo = dt.Rows[i]["DHANo"].ToString(),
+                        IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"].ToString()),                       
+                    };
+
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+
+
+
+        public List<ServiceOrderModel> GetTransactionClaimDetails(ServiceOrderModel details)
+        {
+
+            List<ServiceOrderModel> claimList = new List<ServiceOrderModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+
+            using SqlCommand cmd = new SqlCommand("stLH_GetTransactionClaimDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@TransId", details.TransId);
+            cmd.Parameters.AddWithValue("@OrderId", details.OrderId);
+            cmd.Parameters.AddWithValue("@Branchid", details.Branchid);
+            
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ServiceOrderModel obj = new ServiceOrderModel
+                    {
+
+                        Selected = Convert.ToBoolean(dt.Rows[i]["Selected"].ToString()),
+                        OrderId = Convert.ToInt32(dt.Rows[i]["OrderId"].ToString()),
+                        OrderDetId = Convert.ToInt32(dt.Rows[i]["OrderDetId"].ToString()),
+                        ItemId = Convert.ToInt32(dt.Rows[i]["ItemId"].ToString()),
+                        PerStaffId = Convert.ToInt32(dt.Rows[i]["PerStaffId"].ToString()),
+                        ItemName = dt.Rows[i]["ItemName"].ToString(),
+                        ToothNo = dt.Rows[i]["ToothNo"].ToString(),
+                       // TransId = Convert.ToInt32(dt.Rows[i]["TransId"].ToString()),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        StartDate = dt.Rows[i]["StartDate"].ToString().Replace("/", "-"),
+                        EndDate = dt.Rows[i]["EndDate"].ToString().Replace("/", "-"),
+                        PerLocation = dt.Rows[i]["PerLocation"].ToString(),
+                        UnlistedCodeValue = dt.Rows[i]["UnlistedCodeValue"].ToString(),
+
+
+                    };
+
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+        public string VerifyClaim(ClaimModelAll obj)
+        {
+            string response = string.Empty;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                using SqlCommand cmd = new SqlCommand("stLH_VerifyClaim", con);
+                try
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ConsultationId", obj.ConsultationId);
+                    cmd.Parameters.AddWithValue("@CreditId", obj.CreditId);
+                    cmd.Parameters.AddWithValue("@PatientId", obj.PatientId);
+                    cmd.Parameters.AddWithValue("@TransId", obj.TransId);              
+                    SqlParameter retdesc = new SqlParameter("@RetVal", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(retdesc);
+                    con.Open();
+                    var isupdated = cmd.ExecuteNonQuery();
+                    var descrip = retdesc.Value.ToString();
+                    con.Close();
+
+                    response = descrip;
+
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                }
+            }
+            return response;
+        }
+
 
         public List<ClaimModel> GetSponsorshipDetails(ClaimModelAll details)
         {
@@ -372,7 +1219,7 @@ namespace LeHealth.Core.DataManager
                     {
 
                         CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"].ToString()),
-                        Credit = dt.Rows[i]["Credit"].ToString()
+                        Credit =(float)Convert.ToDouble( dt.Rows[i]["Credit"].ToString())
                         
                     };
 
@@ -1546,7 +2393,7 @@ namespace LeHealth.Core.DataManager
                         Limit = (float)Convert.ToDecimal(dt.Rows[i]["Limit"].ToString()),
                         Balance = (float)Convert.ToDecimal(dt.Rows[i]["Balance"].ToString()),
                         CreditAvailed = (float)Convert.ToDecimal(dt.Rows[i]["CreditAvailed"].ToString()),
-                        Date = dt.Rows[i]["Date"].ToString(),
+                        Date = dt.Rows[i]["Date"].ToString().Replace("/", "-"),
                         RefNo = dt.Rows[i]["RefNo"].ToString(),
                         PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"].ToString()),
                         PatientName = dt.Rows[i]["PatientName"].ToString(),

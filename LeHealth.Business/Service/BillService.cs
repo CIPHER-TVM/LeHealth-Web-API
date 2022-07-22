@@ -14,6 +14,91 @@ namespace LeHealth.Service.Service
         {
             billmanager = _billmanager;
         }
+        //
+
+        public List<ClaimReceiptModel> GetSponsorChequeReceiptDetails(ClaimReceiptModel details)
+        {
+            return billmanager.GetSponsorChequeReceiptDetails(details);
+        }
+        public List<ClaimReceiptModel> GetClaimReceiptList(ClaimReceiptModel details)
+        {
+            return billmanager.GetClaimReceiptList(details);
+        }
+        public string CancelClaimReceipt(ClaimReceiptModel details)
+        {
+
+            return billmanager.CancelClaimReceipt(details);
+        }
+        public List<ClaimReceiptModel> GetClaimReceipts(ClaimReceiptModel details)
+        {
+            return billmanager.GetClaimReceipts(details);
+        }
+        public string CancelClaim(ClaimModelAll details)
+        {
+
+            return billmanager.CancelClaim(details);
+        }
+        public List<ClaimModelAll> GetClaimDetails(ClaimModelAll details)
+        {
+            return billmanager.GetClaimDetails(details);
+        }
+        public List<ClaimModelAll> GetClaim(ClaimModelAll details)
+        {
+            return billmanager.GetClaim(details);
+        }
+
+        public string InsertUpdateClaim(ClaimModelAll details)
+        {
+
+            return billmanager.InsertUpdateClaim(details);
+        }
+        public string UpdateSOPerformingDetails(ServiceOrderModel details)
+        {
+
+            return billmanager.UpdateSOPerformingDetails(details);
+        }
+        public string UpdateApprovalNo(TransactionDetailsModel details)
+        {
+
+            return billmanager.UpdateApprovalNo(details);
+        }
+        public List<TransactionDetailsModel> GetTransactionDetails(TransactionDetailsModel details)
+        {
+            return billmanager.GetTransactionDetails(details);
+        }
+        public string CloseCredit(CreditModelAll details)
+        {
+
+            return billmanager.CloseCredit(details);
+        }
+        public string ApproveCredit(CreditModelAll details)
+        {
+
+            return billmanager.ApproveCredit(details);
+        }
+
+        public List<CreditModel> GetTransactionSummary(CreditModel details)
+        {
+            return billmanager.GetTransactionSummary(details);
+        }
+        public List<StaffModel> GetAllStaff(StaffModel details)
+        {
+            return billmanager.GetAllStaff(details);
+        }
+        public List<ToothModel> GetToothNo(ToothModel details)
+        {
+            return billmanager.GetToothNo(details);
+        }
+        public List<ServiceOrderModel> GetTransactionClaimDetails(ServiceOrderModel details)
+        {
+            return billmanager.GetTransactionClaimDetails(details);
+        }
+
+        public string VerifyClaim(ClaimModelAll details)
+        {
+
+            return billmanager.VerifyClaim(details);
+        }
         public List<ClaimModel> GetSponsorshipDetails(ClaimModelAll details)
         {
             return billmanager.GetSponsorshipDetails(details);
