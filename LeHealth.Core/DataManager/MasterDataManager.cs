@@ -291,7 +291,7 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateServiceItemGroup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@GroupId", ccm.GroupId);
-                cmd.Parameters.AddWithValue("@GroupTypeId", ccm.GroupTypeId);
+                cmd.Parameters.AddWithValue("@GroupTypeId", ccm.GroupTypeId == null ? 0 : ccm.GroupTypeId);
                 cmd.Parameters.AddWithValue("@ParentId", ccm.ParentId);
                 cmd.Parameters.AddWithValue("@GroupName", ccm.GroupName);
                 cmd.Parameters.AddWithValue("@BranchId", ccm.BranchId);
@@ -2983,16 +2983,19 @@ namespace LeHealth.Core.DataManager
         public string InsertUpdateReligion(ReligionModelAll religion)
         {
             SqlTransaction objTrans = null;
+            SqlConnection con = new SqlConnection(_connStr);
             try
             {
                 string response = string.Empty;
-                using (SqlConnection con = new SqlConnection(_connStr))
+                using (con)
                 {
+                    con.Open();
+                    objTrans = con.BeginTransaction();
                     using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateReligion", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id", religion.Id);
-                    cmd.Parameters.AddWithValue("@ReligionName", religion.ReligionName);
-                    cmd.Parameters.AddWithValue("@ReligionCode", religion.ReligionCode);
+                    cmd.Parameters.AddWithValue("@Id", 0);
+                    cmd.Parameters.AddWithValue("@ReligionName", "AAA");
+                    cmd.Parameters.AddWithValue("@ReligionCode", "AAA");
                     cmd.Parameters.AddWithValue("@BranchId", religion.BranchId);
                     cmd.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -3005,12 +3008,107 @@ namespace LeHealth.Core.DataManager
                         Direction = ParameterDirection.Output
                     };
                     cmd.Parameters.Add(retDesc);
-                    con.Open();
+                    cmd.Transaction = objTrans;
                     var isUpdated = cmd.ExecuteNonQuery();
                     var ret = retValV.Value;
                     var descrip = retDesc.Value.ToString();
-                    con.Close();
                     if (descrip == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                    using SqlCommand cmd2 = new SqlCommand("stLH_InsertUpdateReligion", con);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    cmd2.Parameters.AddWithValue("@Id", 0);
+                    cmd2.Parameters.AddWithValue("@ReligionName", "BBB");
+                    cmd2.Parameters.AddWithValue("@ReligionCode", "BBB");
+                    cmd2.Parameters.AddWithValue("@BranchId", religion.BranchId);
+                    cmd2.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
+                    SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd2.Parameters.Add(retValV2);
+                    SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd2.Parameters.Add(retDesc2);
+                    cmd2.Transaction = objTrans;
+                    var isUpdated2 = cmd2.ExecuteNonQuery();
+                    var ret2 = retValV2.Value;
+                    var descrip2 = retDesc2.Value.ToString();
+                    if (descrip2 == "Saved Successfully")
+                    {
+                        response = "Success";
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                    using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateReligion", con);
+                    cmd3.CommandType = CommandType.StoredProcedure;
+                    cmd3.Parameters.AddWithValue("@Id", 0);
+                    cmd3.Parameters.AddWithValue("@ReligionName", "CCC");
+                    cmd3.Parameters.AddWithValue("@ReligionCode", "CCC");
+                    cmd3.Parameters.AddWithValue("@BranchId", religion.BranchId);
+                    cmd3.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
+                    SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retValV3);
+                    SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd3.Parameters.Add(retDesc3);
+                    cmd3.Transaction = objTrans;
+                    var isUpdated3 = cmd3.ExecuteNonQuery();
+                    var ret3 = retValV3.Value;
+                    var descrip3 = retDesc3.Value.ToString();
+
+                    if (descrip3 == "Saved Successfully")
+                    {
+                        response = "Success";
+                        if (religion.ReligionCode == "s")
+                        {
+                            objTrans.Commit();
+                            return "";
+                        }
+                        else
+                        {
+                            throw new Exception("this is a test");
+                        }
+                    }
+                    else
+                    {
+                        response = descrip;
+                    }
+                    using SqlCommand cmd4 = new SqlCommand("stLH_InsertUpdateReligion", con);
+                    cmd4.CommandType = CommandType.StoredProcedure;
+                    cmd4.Parameters.AddWithValue("@Id", 0);
+                    cmd4.Parameters.AddWithValue("@ReligionName", "DDD");
+                    cmd4.Parameters.AddWithValue("@ReligionCode", "DDD");
+                    cmd4.Parameters.AddWithValue("@BranchId", religion.BranchId);
+                    cmd4.Parameters.AddWithValue("@IsDisplayed", religion.IsDisplayed);
+                    SqlParameter retValV4 = new SqlParameter("@RetVal", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd4.Parameters.Add(retValV4);
+                    SqlParameter retDesc4 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd4.Parameters.Add(retDesc4);
+                    var isUpdated4 = cmd4.ExecuteNonQuery();
+                    var ret4 = retValV4.Value;
+                    var descrip4 = retDesc4.Value.ToString();
+                    if (descrip4 == "Saved Successfully")
                     {
                         response = "Success";
                     }
@@ -3027,7 +3125,7 @@ namespace LeHealth.Core.DataManager
             }
             finally
             {
-                //con.Close();
+                con.Close();
             }
             return "";
         }
