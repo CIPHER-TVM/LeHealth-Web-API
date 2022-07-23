@@ -3121,13 +3121,16 @@ namespace LeHealth.Core.DataManager
             }
             catch (Exception ex)
             {
-                objTrans.Rollback();
+                if (objTrans != null)
+                {
+                    objTrans.Rollback();
+                }
             }
             finally
             {
                 con.Close();
             }
-            return "";
+            return "OK";
         }
         public string DeleteReligion(ReligionModelAll religion)
         {
