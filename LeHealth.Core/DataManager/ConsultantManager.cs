@@ -659,17 +659,17 @@ namespace LeHealth.Core.DataManager
                 consultantServices = dtServicesList.ToListOfObject<ConsultantServiceModel>();
             return consultantServices;
         }
-        public string InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs)
+        public string InsertConsultantDrugs(ConsultantDrugsModel consultantDrugs)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs[0].ConsultantId);
-                cmd.Parameters.AddWithValue("@UserId", consultantDrugs[0].UserId);
-                cmd.Parameters.AddWithValue("@IsUpdate", consultantDrugs[0].IsUpdate);
-                string drugJson = JsonConvert.SerializeObject(consultantDrugs);
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs.DrugDetails[0].ConsultantId);
+                cmd.Parameters.AddWithValue("@UserId", consultantDrugs.UserId);
+                cmd.Parameters.AddWithValue("@IsUpdate", consultantDrugs.DrugDetails[0].IsUpdate);
+                string drugJson = JsonConvert.SerializeObject(consultantDrugs.DrugDetails);
                 cmd.Parameters.AddWithValue("@DrugJson", drugJson);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {

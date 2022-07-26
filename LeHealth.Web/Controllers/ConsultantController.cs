@@ -367,13 +367,13 @@ namespace LeHealth.Base.API.Controllers
 
         [Route("InsertConsultantDrugs")]
         [HttpPost]
-        public ResponseDataModel<string> InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs)
+        public ResponseDataModel<string> InsertConsultantDrugs(ConsultantDrugsModel consultantDrugs)
         {
             try
             {
 
                 string message = string.Empty;
-                var dupes = consultantDrugs.GroupBy(x => new { x.DrugId })
+                var dupes = consultantDrugs.DrugDetails.GroupBy(x => new { x.DrugId })
                    .Where(x => x.Skip(1).Any());
                 int count = dupes.Count();
                 if (count == 0)
