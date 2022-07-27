@@ -6,6 +6,8 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsultantDrugModel
     {
+ 
+
         public int ConsultantId { get; set; }
         public int DrugTypeId { get; set; }
         public int DrugId { get; set; }
