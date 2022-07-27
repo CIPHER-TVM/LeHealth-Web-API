@@ -6,7 +6,10 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsultantByDeptModel
     {
-        public Int32 DeptId { get; set; }
-        public bool ShowExternal { get; set; }
+        //public string DeptId { get; set; }
+        public int DeptId { get; set; }
+        //public int ShowExternal { get; set; } 
+        public bool ShowExternal { get; set; } 
+        public int BranchId { get; set; }
     }
 }
