@@ -6589,6 +6589,7 @@ namespace LeHealth.Core.DataManager
             cmd.Parameters.AddWithValue("@ContentId", sponserConsent.ContentId);
             cmd.Parameters.AddWithValue("@ShowAll", sponserConsent.ShowAll);
             cmd.Parameters.AddWithValue("@BranchId", sponserConsent.BranchId);
+            cmd.Parameters.AddWithValue("@SponsorId", sponserConsent.SponsorId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
