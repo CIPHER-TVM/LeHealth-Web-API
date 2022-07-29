@@ -7,8 +7,15 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface IBillService
     {
+        //
+        string CheckEligibleForBillsave(PatientSponsorModel details);
+        List<ClaimResubmissionDetailsModel> GetClaimDetailsForResubmission(ClaimResubmissionDetailsModel details);
+        List<ClaimResubmissionModel> GetClaimResubmissionDetails(ClaimResubmissionModel details);
+        List<ClaimResubmissionModel> GetClaimResubmission(ClaimResubmissionModel details);
+        List<ClaimReceiptModel> GetSponsorChequeDetails(ClaimReceiptModel details);
 
-        
+        string InsertUpdateClaimReceipt(ClaimReceiptModel details);
+      
         List<ClaimReceiptModel> GetSponsorChequeReceiptDetails(ClaimReceiptModel details);
         List<ClaimReceiptModel> GetClaimReceiptList(ClaimReceiptModel details);
         string CancelClaimReceipt(ClaimReceiptModel details);
@@ -80,7 +87,7 @@ namespace LeHealth.Service.ServiceInterface
         string InsertUpdateCreditItemGroup(CreditItemGroupModel grp);
         List<CreditItemGroupModel> GetCreditItemGroup(CreditItemGroupModel spdetails);
 
-        List<PatientSponsorModel> GetSponsorDetailsByPatient(PatientSponsorModel spons);
+        List<BillSaveModel> GetSponsorDetailsByPatient(BillSaveModel spons);
         List<PatientBillModel> SearchTodayPatientBill(PatientBillModel patbill);
         string CancelReceipt(ReceiptModelAll rcpt);
         string CancelPayment(PaymentModelAll pymnt);

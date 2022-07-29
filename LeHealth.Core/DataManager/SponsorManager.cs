@@ -23,6 +23,204 @@ namespace LeHealth.Core.DataManager
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
+       
+        public List<SponsorTypeModel> GetSponsorTypeByID(SponsorTypeModel details)
+        {
+            List<SponsorTypeModel> sponsorList = new List<SponsorTypeModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsorTypeByID", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure; 
+            cmd.Parameters.AddWithValue("@STypeId", details.STypeId);
+            
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dtSponsor = new DataTable();
+            adapter.Fill(dtSponsor);
+            con.Close();
+            if ((dtSponsor != null) && (dtSponsor.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dtSponsor.Rows.Count; i++)
+                {
+                    SponsorTypeModel obj = new SponsorTypeModel
+                    {                       
+                        STypeId = Convert.ToInt32(dtSponsor.Rows[i]["STypeId"]),
+                        STypeDesc = dtSponsor.Rows[i]["STypeDesc"].ToString(),
+                        
+                    };
+                    sponsorList.Add(obj);
+                }
+            }
+            return sponsorList;
+        }
+
+
+        public string InsertUpdateSponsorRule(SponsorRuleModel sponsmodel)//(ServiceItemModel serviceItemModel)
+        {
+            string response1 = string.Empty;
+            string response2 = string.Empty;
+            string response3 = string.Empty;
+            string response4 = string.Empty;
+            string responseFinal = string.Empty;
+            SqlTransaction transaction;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                con.Open();
+                transaction = con.BeginTransaction();
+
+                using SqlCommand cmd1 = new SqlCommand("stLH_InsertSponsorRule", con);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.Clear();
+                cmd1.Parameters.AddWithValue("@RuleId", sponsmodel.RuleId);
+                cmd1.Parameters.AddWithValue("@RuleDesc", sponsmodel.RuleDesc);
+                cmd1.Parameters.AddWithValue("@SponsorId", sponsmodel.SponsorId);
+                cmd1.Parameters.AddWithValue("@DedAmount", sponsmodel.DedAmount);
+                cmd1.Parameters.AddWithValue("@CoPayPcnt", sponsmodel.CoPayPcnt);
+                cmd1.Parameters.AddWithValue("@UpfrontDed", sponsmodel.UpfrontDed);
+                cmd1.Parameters.AddWithValue("@CopayBefDisc", sponsmodel.CopayBefDisc);
+                cmd1.Parameters.AddWithValue("@RateGroupId", sponsmodel.RateGroupId);
+                cmd1.Parameters.AddWithValue("@Branchid", sponsmodel.BranchId);
+                cmd1.Parameters.AddWithValue("@isDisplayed", sponsmodel.IsDisplayed);
+                cmd1.Parameters.AddWithValue("@IsDeleted", sponsmodel.IsDeleted);
+                cmd1.Parameters.AddWithValue("@UserId", sponsmodel.UserId);
+                cmd1.Parameters.AddWithValue("@SessionId", sponsmodel.SessionId);
+                SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd1.Parameters.Add(retValV1);
+                SqlParameter retDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd1.Parameters.Add(retDesc1);
+                //con.Open();
+                cmd1.Transaction = transaction;
+                try
+                {
+                    var isUpdated1 = cmd1.ExecuteNonQuery();
+                    var ret1 = retValV1.Value;
+                    var descrip1 = retDesc1.Value.ToString();
+                    //con.Close();
+                    if (descrip1 == "Saved Successfully")
+                    {
+                        response1 = "Success";
+                        sponsmodel.RuleId = Convert.ToInt32(ret1);
+                    }
+                    else
+                    {
+                        response1 = descrip1;
+                        return response1;
+                    }
+                    if (response1 == "Success")
+                    {
+                        //give modification to stLH_InsertSponsorRuleGroup and create new
+                        //stLH_InsertUpdateSponsorRuleGroup for the same use with param json
+                        using SqlCommand cmd2 = new SqlCommand("stLH_InsertUpdateSponsorRuleGroup", con);
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        int listcount = sponsmodel.SponsorRuleGroupList.Count;
+                        if (listcount > 0)
+                        {
+                            cmd2.Parameters.AddWithValue("@Ruleid", sponsmodel.RuleId);
+                            cmd2.Parameters.AddWithValue("@SponsorId", sponsmodel.SponsorId);
+
+                            string SponsorRuleGroupString = JsonConvert.SerializeObject(sponsmodel.SponsorRuleGroupList);
+                            cmd2.Parameters.AddWithValue("@SponsorRuleGroupJSON", SponsorRuleGroupString);
+                            cmd2.Transaction = transaction;
+                            SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd2.Parameters.Add(retValV2);
+                            SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd2.Parameters.Add(retDesc2);
+                            //con.Open();
+                            var isUpdated2 = cmd2.ExecuteNonQuery();
+                            var ret2 = retValV2.Value;
+                            var descrip2 = retDesc2.Value.ToString();
+                            //con.Close();
+                            if (descrip2 == "Saved Successfully")
+                            {
+                                response2 = "Success";
+                            }
+                            else
+                            {
+                                response2 = descrip2;
+                            }
+                        }
+                        else
+                        {
+                            response2 = "Success";
+                        }
+
+                        using SqlCommand cmd3 = new SqlCommand("stLH_InsertSponsorRuleItem", con);
+                        cmd3.CommandType = CommandType.StoredProcedure;
+                        int listcount1 = sponsmodel.SponsorRuleItemList.Count;
+                        if (listcount1 > 0)
+                        {
+                            cmd3.Parameters.AddWithValue("@Ruleid", sponsmodel.RuleId);
+                            cmd3.Parameters.AddWithValue("@SponsorId", sponsmodel.SponsorId);
+
+                            string SponsorRuleItemString = JsonConvert.SerializeObject(sponsmodel.SponsorRuleItemList);
+                            cmd3.Parameters.AddWithValue("@SponsorRuleItemJSON", SponsorRuleItemString);
+                            cmd3.Transaction = transaction;
+                            SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd3.Parameters.Add(retValV3);
+                            SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd3.Parameters.Add(retDesc3);
+                            //con.Open();
+                            var isUpdated3 = cmd3.ExecuteNonQuery();
+                            var ret3 = retValV3.Value;
+                            var descrip3 = retDesc3.Value.ToString();
+                            //con.Close();
+                            if (descrip3 == "Saved Successfully")
+                            {
+                                response3 = "Success";
+                            }
+                            else
+                            {
+                                response3 = descrip3;
+                            }
+                        }
+                        else
+                        {
+                            response2 = "Success";
+                        }
+
+
+                    }
+
+                    if (response1 == "Success" && response2 == "Success" && response3 == "Success" )
+                    {
+                        responseFinal = "Success";
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        responseFinal = "Error";
+                        transaction.Rollback();
+                    }
+
+                }
+                catch
+                {
+                    responseFinal = "Error";
+                    transaction.Rollback();
+                }
+                con.Close();
+            }
+            return responseFinal;
+        }
+
+
 
         public List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm)
         {
@@ -69,7 +267,10 @@ namespace LeHealth.Core.DataManager
                     cmd.Parameters.AddWithValue("@SFormId", obj.SFormId);
                     cmd.Parameters.AddWithValue("@SFormName", obj.SFormName);
                     //cmd.Parameters.AddWithValue("@BlockReason", obj.GroupId);
-                    cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
+                    // cmd.Parameters.AddWithValue("@IsDisplayed", obj.IsDisplayed);
+                    string SponsorRuleGroupString = JsonConvert.SerializeObject(obj.SponsorRuleGroupList);
+                    cmd.Parameters.AddWithValue("@SponsorRuleGroupJSON", SponsorRuleGroupString);
+
 
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -104,21 +305,25 @@ namespace LeHealth.Core.DataManager
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
-                using SqlCommand cmd = new SqlCommand("stLH_InsertSponsorRuleGroup", con);
+                //using SqlCommand cmd = new SqlCommand("stLH_InsertSponsorRuleGroup", con);
+                using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateSponsorRuleGroup", con);
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
                     cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
-                    cmd.Parameters.AddWithValue("@GroupId", obj.GroupId);
-                    cmd.Parameters.AddWithValue("@DiscPcnt", obj.DiscPcnt);
-                    cmd.Parameters.AddWithValue("@DiscAmount", obj.DiscAmount);
-                    cmd.Parameters.AddWithValue("@DedGroup", obj.DedGroup);
-                    cmd.Parameters.AddWithValue("@CoPayGroup", obj.CoPayGroup);
-                    cmd.Parameters.AddWithValue("@DedAmt", obj.DedAmt);
-                    cmd.Parameters.AddWithValue("@DedPer", obj.DedPer);
-                    cmd.Parameters.AddWithValue("@CoPayAmt", obj.CoPayAmt);
-                    cmd.Parameters.AddWithValue("@CopayPer", obj.CopayPer);
+                    //cmd.Parameters.AddWithValue("@GroupId", obj.GroupId);
+                    string SponsorRuleGroupString = JsonConvert.SerializeObject(obj.SponsorRuleGroupList);
+                    cmd.Parameters.AddWithValue("@SponsorRuleGroupJSON", SponsorRuleGroupString);
+
+                    //cmd.Parameters.AddWithValue("@DiscPcnt", obj.DiscPcnt);
+                    //cmd.Parameters.AddWithValue("@DiscAmount", obj.DiscAmount);
+                    //cmd.Parameters.AddWithValue("@DedGroup", obj.DedGroup);
+                    //cmd.Parameters.AddWithValue("@CoPayGroup", obj.CoPayGroup);
+                    //cmd.Parameters.AddWithValue("@DedAmt", obj.DedAmt);
+                    //cmd.Parameters.AddWithValue("@DedPer", obj.DedPer);
+                    //cmd.Parameters.AddWithValue("@CoPayAmt", obj.CoPayAmt);
+                    //cmd.Parameters.AddWithValue("@CopayPer", obj.CopayPer);
 
 
                     SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
@@ -195,35 +400,41 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertSponsorRuleItem", con);
                 try
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
-                    cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
-                    cmd.Parameters.AddWithValue("@ItemId", obj.ItemId);
-                    cmd.Parameters.AddWithValue("@NewName", obj.NewName);
-                    cmd.Parameters.AddWithValue("@Rate", obj.Rate);
-                    cmd.Parameters.AddWithValue("@DiscPcnt", obj.DiscPcnt);
-                    cmd.Parameters.AddWithValue("@DiscAmount", obj.DiscAmount);
-                    cmd.Parameters.AddWithValue("@CoPayItem", obj.CoPayItem);
-                    cmd.Parameters.AddWithValue("@DedItem", obj.DedItem);
-                    cmd.Parameters.AddWithValue("@AuthReq", obj.AuthReq);
+                    int listcount = obj.SponsorRuleItemList.Count;
+                    
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
+                        cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
+                        string SponsorRuleItemString = JsonConvert.SerializeObject(obj.SponsorRuleItemList);
+                        cmd.Parameters.AddWithValue("@SponsorRuleItemJSON", SponsorRuleItemString);
 
-                    SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retValV);
-                    SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(retDesc);
-                    con.Open();
-                    var isUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
-                    var ret = retValV.Value;
-                    var descrip = retDesc.Value.ToString();
+                        //cmd.Parameters.AddWithValue("@ItemId", obj.ItemId);
+                        //cmd.Parameters.AddWithValue("@NewName", obj.NewName);
+                        //cmd.Parameters.AddWithValue("@Rate", obj.Rate);
+                        //cmd.Parameters.AddWithValue("@DiscPcnt", obj.DiscPcnt);
+                        //cmd.Parameters.AddWithValue("@DiscAmount", obj.DiscAmount);
+                        //cmd.Parameters.AddWithValue("@CoPayItem", obj.CoPayItem);
+                        //cmd.Parameters.AddWithValue("@DedItem", obj.DedItem);
+                        //cmd.Parameters.AddWithValue("@AuthReq", obj.AuthReq);
 
-                    response = descrip;
+                        SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retValV);
+                        SqlParameter retDesc = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(retDesc);
+                        con.Open();
+                        var isUpdated = cmd.ExecuteNonQuery();
+                        con.Close();
+                        var ret = retValV.Value;
+                        var descrip = retDesc.Value.ToString();
+
+                        response = descrip;
+                    
                 }
                 catch (Exception ex)
                 {
@@ -298,7 +509,7 @@ namespace LeHealth.Core.DataManager
                     {
 
                         GroupId = Convert.ToInt32(dtgroup.Rows[i]["GroupId"]),
-                        // SponsorId = Convert.ToInt32(dtgroup.Rows[i]["SponsorId"]),
+                        //SponsorId = Convert.ToInt32(dtgroup.Rows[i]["SponsorId"]),
                         GroupName = dtgroup.Rows[i]["GroupName"].ToString(),
                         DedGroup = Convert.ToInt32(dtgroup.Rows[i]["DedGroup"]),
                         DiscPcnt = (float)Convert.ToDouble(dtgroup.Rows[i]["DiscPcnt"].ToString()),
@@ -310,8 +521,6 @@ namespace LeHealth.Core.DataManager
                         CoPayAmt = (float)Convert.ToInt32(dtgroup.Rows[i]["CoPayAmt"]),
                         CopayPer = (float)Convert.ToInt32(dtgroup.Rows[i]["CopayPer"]),
                         RuleCategory = dtgroup.Rows[i]["RuleCategory"].ToString()
-
-
 
                     };
                     groupList.Add(obj);
@@ -410,11 +619,15 @@ namespace LeHealth.Core.DataManager
                 using SqlCommand cmd = new SqlCommand("stLH_InsertConsultantReduction", con);
                 try
                 {
+                   
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ConsultantId", obj.ConsultantId);
                     cmd.Parameters.AddWithValue("@SponsorId", obj.SponsorId);
-                    cmd.Parameters.AddWithValue("@ItemGroupId", obj.ItemGroupId);
-                    cmd.Parameters.AddWithValue("@DiscPerc", obj.DiscPerc);
+                    string ConsultantReductionListString = JsonConvert.SerializeObject(obj.ConsultantReductionList);
+                    cmd.Parameters.AddWithValue("@ConsultantReductionListJSON", ConsultantReductionListString);
+
+                    //cmd.Parameters.AddWithValue("@ItemGroupId", obj.ItemGroupId);
+                    //cmd.Parameters.AddWithValue("@DiscPerc", obj.DiscPerc);
 
 
 
@@ -527,8 +740,11 @@ namespace LeHealth.Core.DataManager
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@RuleId", obj.RuleId);
-                    cmd.Parameters.AddWithValue("@DrugId", obj.DrugId);
-                    cmd.Parameters.AddWithValue("@DDCCode", obj.DDCCode);
+                    string DrugsforSponsorString = JsonConvert.SerializeObject(obj.DrugbySponsorList);
+                    cmd.Parameters.AddWithValue("@DrugsforSponsorJSON", DrugsforSponsorString);
+
+                    //cmd.Parameters.AddWithValue("@DrugId", obj.DrugId);
+                    //cmd.Parameters.AddWithValue("@DDCCode", obj.DDCCode);
 
 
                     //cmd.Parameters.AddWithValue("@P_Active", Convert.ToInt32(obj.Active));
@@ -636,7 +852,7 @@ namespace LeHealth.Core.DataManager
         }
 
 
-
+        
         public List<SponsorMasterModel> GetSponsor(SponsorMasterModelAll sponsor)
         {
             List<SponsorMasterModel> sponsorList = new List<SponsorMasterModel>();
@@ -751,7 +967,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
 
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@STypeId", 0);
+            
            
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();

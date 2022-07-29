@@ -22,7 +22,213 @@ namespace LeHealth.Base.API.Controllers.Billing
             logger = _logger;
             billService = _billservice;
         }
-        //GetSponsorChequeReceiptDetails
+        //
+
+        /// <summary>
+        /// API For getting Claim Details for Resubmission List 
+        /// </summary>
+        /// <returns>Claim details  </returns>
+
+        [HttpPost]
+        [Route("GetClaimDetailsForResubmission")]
+
+        public ResponseDataModel<IEnumerable<ClaimResubmissionDetailsModel>> GetClaimDetailsForResubmission(ClaimResubmissionDetailsModel details)
+        {
+            try
+            {
+                List<ClaimResubmissionDetailsModel> claimList = new List<ClaimResubmissionDetailsModel>();
+                claimList = billService.GetClaimDetailsForResubmission(details);
+                var response = new ResponseDataModel<IEnumerable<ClaimResubmissionDetailsModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = claimList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ClaimResubmissionDetailsModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting Claim Resubmission Details Against Resubid List 
+        /// </summary>
+        /// <returns>Claim Resubmission Detail details  </returns>
+
+        [HttpPost]
+        [Route("GetClaimResubmissionDetails")]
+
+        public ResponseDataModel<IEnumerable<ClaimResubmissionModel>> GetClaimResubmissionDetails(ClaimResubmissionModel details)
+        {
+            try
+            {
+                List<ClaimResubmissionModel> claimList = new List<ClaimResubmissionModel>();
+                claimList = billService.GetClaimResubmissionDetails(details);
+                var response = new ResponseDataModel<IEnumerable<ClaimResubmissionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = claimList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ClaimResubmissionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting Claim Resubmission List 
+        /// </summary>
+        /// <returns>Claim Resubmission details  </returns>
+
+        [HttpPost]
+        [Route("GetClaimResubmission")]
+
+        public ResponseDataModel<IEnumerable<ClaimResubmissionModel>> GetClaimResubmission(ClaimResubmissionModel details)
+        {
+            try
+            {
+                List<ClaimResubmissionModel> claimList = new List<ClaimResubmissionModel>();
+                claimList = billService.GetClaimResubmission(details);
+                var response = new ResponseDataModel<IEnumerable<ClaimResubmissionModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = claimList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ClaimResubmissionModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For getting Claim Receiptlist and sponsor details
+        /// </summary>
+        /// <returns>Claim sponsor details and receipt details </returns>
+
+        [HttpPost]
+        [Route("GetSponsorChequeDetails")]
+
+        public ResponseDataModel<IEnumerable<ClaimReceiptModel>> GetSponsorChequeDetails(ClaimReceiptModel details)
+        {
+            try
+            {
+                List<ClaimReceiptModel> claimList = new List<ClaimReceiptModel>();
+                claimList = billService.GetSponsorChequeDetails(details);
+                var response = new ResponseDataModel<IEnumerable<ClaimReceiptModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = claimList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<ClaimReceiptModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+
+        /// <summary>
+        /// API For insert claimreceipt Details
+        /// </summary>
+        /// <param name="claimreceiptdetails ">LH_ClaimReceipt,LH_ClaimReceiptDet,LH_ClaimReceiptItems,LH_Xml table</param>
+        /// <returns>Success or reason for failure</returns>
+
+        [HttpPost]
+        [Route("InsertUpdateClaimReceipt")]
+        public ResponseDataModel<ClaimReceiptModel> InsertUpdateClaimReceipt(ClaimReceiptModel obj)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = billService.InsertUpdateClaimReceipt(obj);
+                var response = new ResponseDataModel<ClaimReceiptModel>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Message = message
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<ClaimReceiptModel>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
 
         /// <summary>
         /// API For getting Claim Receiptlist and sponsor details
@@ -2738,13 +2944,13 @@ namespace LeHealth.Base.API.Controllers.Billing
         [HttpPost]
         [Route("GetSponsorDetailsByPatient")]
 
-        public ResponseDataModel<IEnumerable<PatientSponsorModel>> GetSponsorDetailsByPatient(PatientSponsorModel sponsor)
+        public ResponseDataModel<IEnumerable<BillSaveModel>> GetSponsorDetailsByPatient(BillSaveModel sponsor)
         {
             try
             {
-                List<PatientSponsorModel> sponsorList = new List<PatientSponsorModel>();
+                List<BillSaveModel> sponsorList = new List<BillSaveModel>();
                 sponsorList = billService.GetSponsorDetailsByPatient(sponsor);
-                var response = new ResponseDataModel<IEnumerable<PatientSponsorModel>>()
+                var response = new ResponseDataModel<IEnumerable<BillSaveModel>>()
                 {
                     Status = HttpStatusCode.OK,
                     Response = sponsorList
@@ -2754,7 +2960,7 @@ namespace LeHealth.Base.API.Controllers.Billing
             catch (Exception ex)
             {
                 logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<PatientSponsorModel>>()
+                return new ResponseDataModel<IEnumerable<BillSaveModel>>()
                 {
                     Status = HttpStatusCode.InternalServerError,
                     Response = null,

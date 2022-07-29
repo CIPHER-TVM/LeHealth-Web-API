@@ -22,7 +22,457 @@ namespace LeHealth.Core.DataManager
             _uploadpath = _configuration["UploadPathConfig:UplodPath"].ToString();
         }
 
-        //GetSponsorChequeReceiptDetails
+        //CheckEligibleForBillsave
+        public string CheckEligibleForBillsave(PatientSponsorModel psmodel)//(ServiceItemModel serviceItemModel)
+        {
+            string response1 = string.Empty;
+            string response2 = string.Empty;
+            string response3 = string.Empty;
+            string response4 = string.Empty;
+            string responseFinal = string.Empty;
+            //SqlTransaction transaction;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                con.Open();
+                int listcount = psmodel.BillSaveList.Count;
+                if (listcount > 0)
+                {
+                    for (int j = 0; j < psmodel.BillSaveList.Count; j++)
+                    {
+
+                        using SqlCommand cmd1 = new SqlCommand("stLH_CheckSubAgentStatus", con);
+                        cmd1.CommandType = CommandType.StoredProcedure;
+                        cmd1.Parameters.Clear();
+                        string BillsavedetailsString = JsonConvert.SerializeObject(psmodel.BillSaveList[j]);
+                        cmd1.Parameters.AddWithValue("@BillSavedetailJSON", BillsavedetailsString);
+                                               
+                        SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd1.Parameters.Add(retValV1);
+                        SqlParameter retDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd1.Parameters.Add(retDesc1);
+                       
+                        
+                        con.Close();
+                    }
+                }
+            }
+            return responseFinal;
+        }
+
+        public List<ClaimResubmissionDetailsModel> GetClaimDetailsForResubmission(ClaimResubmissionDetailsModel details)
+        {
+            List<ClaimResubmissionDetailsModel> claimList = new List<ClaimResubmissionDetailsModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetClaimDetailsForResubmission", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ClaimId", details.ClaimId);
+            cmd.Parameters.AddWithValue("@ClaimRecId", details.ClaimRecId);
+            cmd.Parameters.AddWithValue("@ClaimresubId", details.ClaimResubId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimResubmissionDetailsModel obj = new ClaimResubmissionDetailsModel
+                    {
+
+                        BillSelect = Convert.ToBoolean(dt.Rows[i]["BillSelect"]),
+                        HasAttachment = Convert.ToBoolean(dt.Rows[i]["HasAttachment"]),
+
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"]),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"]),
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"]),
+                        ConsultationId = Convert.ToInt32(dt.Rows[i]["ConsultationId"]),
+                        ClaimResubDetId = Convert.ToInt32(dt.Rows[i]["ClaimResubDetId"]),
+                        //RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"]),
+
+                        AsoapNo = dt.Rows[i]["AsoapNo"].ToString(),
+                        AprovalNo = dt.Rows[i]["AprovalNo"].ToString(),
+                        IdPayer = dt.Rows[i]["IDpayer"].ToString(),
+                        PatientName = dt.Rows[i]["PatientName"].ToString(),
+                        BillNo = dt.Rows[i]["BillNo"].ToString(),
+                        CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        Type = dt.Rows[i]["Type"].ToString(),
+                        Comment = dt.Rows[i]["Comment"].ToString(),
+                        FileContent = dt.Rows[i]["FileContent"].ToString(),
+                        ConsultantName = dt.Rows[i]["ConsultantName"].ToString(),
+                        DenialStatus = dt.Rows[i]["DenialStatus"].ToString(),
+                        RuleDesc = dt.Rows[i]["RuleDesc"].ToString(),
+                        ResubRefno = dt.Rows[i]["ResubRefno"].ToString(),
+                        CodingInstructions = dt.Rows[i]["CodingInstructions"].ToString(),
+                        TransStatus = dt.Rows[i]["TransStatus"].ToString(),
+
+                        BillDate = dt.Rows[i]["BillDate"].ToString().Replace("/", "-"),
+
+                        BillAmount = (float)Convert.ToDouble(dt.Rows[i]["BillAmount"].ToString()),
+                        ClaimAmt = (float)Convert.ToDouble(dt.Rows[i]["ClaimAmt"].ToString()),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+        public List<ClaimResubmissionModel> GetClaimResubmissionDetails(ClaimResubmissionModel details)
+        {
+            List<ClaimResubmissionModel> claimList = new List<ClaimResubmissionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetClaimResubDet", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ClaimResubId", details.ClaimResubId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimResubmissionModel obj = new ClaimResubmissionModel
+                    {
+
+                        ClaimResubDetId = Convert.ToInt32(dt.Rows[i]["ClaimResubDetId"]),
+                        ClaimResubId = Convert.ToInt32(dt.Rows[i]["ClaimResubId"]),
+                      //  ClaimId = Convert.ToInt32(dt.Rows[i]["ClaimId"]),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"]),
+                        TransFlag = Convert.ToInt32(dt.Rows[i]["TransFlag"]),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"]),
+                        Duplicate = Convert.ToInt32(dt.Rows[i]["Duplicate"]),
+                        LocationId = Convert.ToInt32(dt.Rows[i]["LocationId"]),
+                        ConsultantId = Convert.ToInt32(dt.Rows[i]["ConsultantId"]),
+                        RGroupId = Convert.ToInt32(dt.Rows[i]["RGroupId"]),
+                        PackId = Convert.ToInt32(dt.Rows[i]["PackId"]),
+                        ShiftId = Convert.ToInt32(dt.Rows[i]["ShiftId"]),
+                        ConsultationId = Convert.ToInt32(dt.Rows[i]["ConsultationId"]),
+
+                        Type = dt.Rows[i]["Type"].ToString(),
+                        Comment = dt.Rows[i]["Comment"].ToString(),
+                        IdPayer = dt.Rows[i]["IDPayer"].ToString(),
+                        FileContent = dt.Rows[i]["FileContent"].ToString(),
+                        TransDate = dt.Rows[i]["TransDate"].ToString(),
+                        TransNo = dt.Rows[i]["TransNo"].ToString(),
+                        Remarks = dt.Rows[i]["Remarks"].ToString(),
+                        Status = dt.Rows[i]["Status"].ToString(),
+                        CancelReason = dt.Rows[i]["CancelReason"].ToString(),
+                        CancelSettleReason = dt.Rows[i]["CancelSettleReason"].ToString(),
+                        SplDiscRemarks = dt.Rows[i]["SplDiscRemarks"].ToString(),
+                        ItemDiscRemarks = dt.Rows[i]["ItemDiscRemarks"].ToString(),
+                        AprovalNo = dt.Rows[i]["AprovalNo"].ToString(),
+                       // Category = dt.Rows[i]["Category"].ToString(),
+                         
+
+                        TotalAmount =(float) Convert.ToDouble(dt.Rows[i]["TotalAmount"]),
+                        TotalDiscount =(float) Convert.ToDouble(dt.Rows[i]["TotalDiscount"]),
+                        TotalTax =(float) Convert.ToDouble(dt.Rows[i]["TotalTax"]),
+                        SpdiscPcnt =(float) Convert.ToDouble(dt.Rows[i]["SpdiscPcnt"]),
+                        SpdiscAmount =(float) Convert.ToDouble(dt.Rows[i]["SpdiscAmount"]),
+                        NetAmount =(float) Convert.ToDouble(dt.Rows[i]["NetAmount"]),
+                        TotalDeduction =(float) Convert.ToDouble(dt.Rows[i]["TotalDeduction"]),
+                        TotalCoPay =(float) Convert.ToDouble(dt.Rows[i]["TotalCoPay"]),
+                        TotalSponsored =(float) Convert.ToDouble(dt.Rows[i]["TotalSponsored"]),
+                        TotalNonInsured =(float) Convert.ToDouble(dt.Rows[i]["TotalNonInsured"]),
+                        DeductionSurplus =(float) Convert.ToDouble(dt.Rows[i]["DeductionSurplus"]),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+
+        public List<ClaimResubmissionModel> GetClaimResubmission(ClaimResubmissionModel details)
+        {
+            List<ClaimResubmissionModel> claimList = new List<ClaimResubmissionModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetClaimResubmission", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ClaimId", details.ClaimId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimResubmissionModel obj = new ClaimResubmissionModel
+                    {
+
+                        ClaimId = Convert.ToInt32(dt.Rows[i]["ClaimId"]),  
+                        ClaimResubId = Convert.ToInt32(dt.Rows[i]["ClaimResubId"]),
+                        ClaimRecId = Convert.ToInt32(dt.Rows[i]["ClaimRecId"]),
+
+                        ResubDate = dt.Rows[i]["ResubDate"].ToString().Replace("/","-"),
+                        ResubRefno = dt.Rows[i]["ResubRefno"].ToString(),
+                        
+                        //Comment = dt.Rows[i]["Comment"].ToString(),
+                        //IdPayer = dt.Rows[i]["IDPayer"].ToString(),
+                        //FileContent = dt.Rows[i]["FileContent"].ToString(),
+                      
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+
+
+        public List<ClaimReceiptModel> GetSponsorChequeDetails(ClaimReceiptModel details)
+        {
+            List<ClaimReceiptModel> claimList = new List<ClaimReceiptModel>();
+            using SqlConnection con = new SqlConnection(_connStr);
+            using SqlCommand cmd = new SqlCommand("stLH_GetSponsorChequeDetails", con);
+            con.Open();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SponsorId", details.SponsorId);           
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            con.Close();
+            if ((dt != null) && (dt.Rows.Count > 0))
+            {
+                for (Int32 i = 0; i < dt.Rows.Count; i++)
+                {
+                    ClaimReceiptModel obj = new ClaimReceiptModel
+                    {
+
+                        // BillSelect = Convert.ToBoolean(dt.Rows[i]["BillSelect"]),
+
+                        //ReceiptId = Convert.ToInt32(dt.Rows[i]["ReceiptId"]),
+                        RecType = Convert.ToInt32(dt.Rows[i]["RecType"]),
+                        HeadId = Convert.ToInt32(dt.Rows[i]["HeadId"]),
+                        PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"]),
+                        CreditId = Convert.ToInt32(dt.Rows[i]["CreditId"]),
+                        Mode = Convert.ToInt32(dt.Rows[i]["Mode"]),
+                        TransId = Convert.ToInt32(dt.Rows[i]["TransId"]),
+                        SponsorId = Convert.ToInt32(dt.Rows[i]["SponsorId"]),
+                        Active = Convert.ToInt32(dt.Rows[i]["Active"]),
+
+
+                        //PaymentMode = dt.Rows[i]["PaymentMode"].ToString(),
+                        //ReceiptNo = dt.Rows[i]["ReceiptNo"].ToString(),
+                        CardType = dt.Rows[i]["CardType"].ToString(),
+                        CardNo = dt.Rows[i]["CardNo"].ToString(),
+                        ChqNo = dt.Rows[i]["ChqNo"].ToString(),
+                        ChqDate = dt.Rows[i]["ChqDate"].ToString(),
+                        ChqBranch = dt.Rows[i]["ChqBranch"].ToString(),
+                        HeadDesc = dt.Rows[i]["HeadDesc"].ToString(),
+                        SponsorName = dt.Rows[i]["SponsorName"].ToString(),
+
+
+                        RecDate = dt.Rows[i]["RecDate"].ToString().Replace("/", "-"),
+
+
+                        Amount = (float)Convert.ToDouble(dt.Rows[i]["Amount"].ToString()),
+                        ReceivedAmount = (float)Convert.ToDouble(dt.Rows[i]["ReceivedAmount"].ToString()),
+                        BalanceAmount = (float)Convert.ToDouble(dt.Rows[i]["BalanceAmount"].ToString()),
+
+                    };
+                    claimList.Add(obj);
+                }
+            }
+            return claimList;
+        }
+
+
+        public string InsertUpdateClaimReceipt(ClaimReceiptModel recmodel)//(ServiceItemModel serviceItemModel)
+        {
+            string response1 = string.Empty;
+            string response2 = string.Empty;
+            string response3 = string.Empty;
+            string response4 = string.Empty;
+            string responseFinal = string.Empty;
+            SqlTransaction transaction;
+            using (SqlConnection con = new SqlConnection(_connStr))
+            {
+                con.Open();
+                transaction = con.BeginTransaction();
+                
+                using SqlCommand cmd1 = new SqlCommand("stLH_InsertUpdateClaimReceipt", con);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.Clear();
+                cmd1.Parameters.AddWithValue("@ClaimRecId", recmodel.ClaimRecId);
+                cmd1.Parameters.AddWithValue("@ClaimId", recmodel.ClaimId);
+                cmd1.Parameters.AddWithValue("@RecDate", recmodel.RecDate);
+                cmd1.Parameters.AddWithValue("@Remarks", recmodel.Remarks);
+                SqlParameter retValV1 = new SqlParameter("@RetVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd1.Parameters.Add(retValV1);
+                SqlParameter retDesc1 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd1.Parameters.Add(retDesc1);
+                //con.Open();
+                cmd1.Transaction = transaction;
+                try
+                {
+                    var isUpdated1 = cmd1.ExecuteNonQuery();
+                    var ret1 = retValV1.Value;
+                    var descrip1 = retDesc1.Value.ToString();
+                    //con.Close();
+                    if (descrip1 == "Saved Successfully")
+                    {
+                        response1 = "Success";
+                        recmodel.ClaimReceiptId = Convert.ToInt32(ret1);
+                    }
+                    else
+                    {
+                        response1 = descrip1;
+                        return response1;
+                    }
+                    if (response1 == "Success")
+                    {
+                        using SqlCommand cmd2 = new SqlCommand("stLH_InsertClaimReceiptDet", con);
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        int listcount = recmodel.ClaimReceiptDetailList.Count;
+                        if (listcount > 0)
+                        {
+                            cmd2.Parameters.AddWithValue("@ClaimRecId", recmodel.ClaimReceiptId);
+
+                            string ClaimReceiptdetailsString = JsonConvert.SerializeObject(recmodel.ClaimReceiptDetailList);
+                            cmd2.Parameters.AddWithValue("@ClaimReceiptdetJSON", ClaimReceiptdetailsString);
+                             cmd2.Transaction=transaction;
+                            SqlParameter retValV2 = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd2.Parameters.Add(retValV2);
+                            SqlParameter retDesc2 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd2.Parameters.Add(retDesc2);
+                            //con.Open();
+                            var isUpdated2 = cmd2.ExecuteNonQuery();
+                            var ret2 = retValV2.Value;
+                            var descrip2 = retDesc2.Value.ToString();
+                            //con.Close();
+                            if (descrip2 == "Saved Successfully")
+                            {
+                                response2 = "Success";
+                            }
+                            else
+                            {
+                                response2 = descrip2;
+                            }
+                        }
+                        else
+                        {
+                            response2 = "Success";
+                        }
+
+                        using SqlCommand cmd3 = new SqlCommand("stLH_InsertUpdateClaimDenailDetails", con);
+                        cmd3.CommandType = CommandType.StoredProcedure;
+                        int listcount2 = recmodel.RecItemList.Count;
+
+                        if (listcount2 > 0)
+                        {
+
+                            cmd3.Parameters.AddWithValue("@ClaimRecId", recmodel.ClaimReceiptId);
+                            string RecitemString = JsonConvert.SerializeObject(recmodel.RecItemList);
+                            cmd3.Parameters.AddWithValue("@RecItemJSON", RecitemString);
+
+                            SqlParameter retValV3 = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd3.Parameters.Add(retValV3);
+                            SqlParameter retDesc3 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd3.Parameters.Add(retDesc3);
+                        // con.Open();
+                           cmd3.Transaction = transaction;
+                            var isUpdated3 = cmd3.ExecuteNonQuery();
+                            var ret3 = retValV3.Value;
+                            var descrip3 = retDesc3.Value.ToString();
+                            //con.Close();
+                            if (descrip3 == "Saved Successfully")
+                            {
+                                response3 = "Success";
+                            }
+                        }
+                        else
+                        {
+                            response3 = "Success";
+                        }
+                        using SqlCommand cmd4 = new SqlCommand("stLH_UpdateClaimIDPayer", con);
+                        cmd4.CommandType = CommandType.StoredProcedure;
+                        int listcount3 = recmodel.IdPayerList.Count;
+
+                        if (listcount3 > 0)
+                        {
+                            string IdPayerString = JsonConvert.SerializeObject(recmodel.IdPayerList);
+                            cmd4.Parameters.AddWithValue("@IdPayerJSON", IdPayerString);
+                            SqlParameter retValV4 = new SqlParameter("@RetVal", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd4.Parameters.Add(retValV4);
+                            SqlParameter retDesc4 = new SqlParameter("@RetDesc", SqlDbType.VarChar, 500)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd4.Parameters.Add(retDesc4);
+                        //con.Open();
+                            cmd4.Transaction = transaction;
+                            var isUpdated4 = cmd4.ExecuteNonQuery();
+                            var ret4 = retValV4.Value;
+                            var descrip4 = retDesc4.Value.ToString();
+                            //con.Close();
+                            if (descrip4 == "Saved Successfully")
+                            {
+                                response4 = "Success";
+                            }
+                        }
+                        else
+                        {
+                            response4 = "Success";
+                        }
+                    }
+
+                    if (response1 == "Success" && response2 == "Success" && response3 == "Success" && response4 == "Success")
+                    {
+                        responseFinal = "Success";
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        responseFinal = "Error";
+                        transaction.Rollback();
+                    }
+
+                }
+                catch
+                {
+                    responseFinal = "Error";
+                    transaction.Rollback();
+                }
+                con.Close();
+            }
+            return responseFinal;
+        }
+
 
         public List<ClaimReceiptModel> GetSponsorChequeReceiptDetails(ClaimReceiptModel details)
         {
@@ -82,7 +532,7 @@ namespace LeHealth.Core.DataManager
             return claimList;
         }
         public List<ClaimReceiptModel> GetClaimReceiptList(ClaimReceiptModel details)
-        {
+        {   //getting llist whose status<>c
             List<ClaimReceiptModel> claimList = new List<ClaimReceiptModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetClaimReceiptList", con);
@@ -105,7 +555,7 @@ namespace LeHealth.Core.DataManager
                        // BillSelect = Convert.ToBoolean(dt.Rows[i]["BillSelect"]),
                         PatientId = Convert.ToInt32(dt.Rows[i]["PatientId"]),
                         TransId = Convert.ToInt32(dt.Rows[i]["TransId"]),
-                         ClaimRecId = Convert.ToInt32(dt.Rows[i]["ClaimRecId"]),
+                        ClaimRecId = Convert.ToInt32(dt.Rows[i]["ClaimRecId"]),
                         // ConsultationId = Convert.ToInt32(dt.Rows[i]["ConsultationId"]),
                         //  RuleId = Convert.ToInt32(dt.Rows[i]["RuleId"]),
 
@@ -183,7 +633,6 @@ namespace LeHealth.Core.DataManager
             }
             return response;
         }
-
 
         public List<ClaimReceiptModel> GetClaimReceipts(ClaimReceiptModel details)
         {
@@ -2740,7 +3189,7 @@ namespace LeHealth.Core.DataManager
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@AgentId", details.AgentId);
-            cmd.Parameters.AddWithValue("@IsDisplayed", details.IsDisplayed);
+           // cmd.Parameters.AddWithValue("@IsDisplayed", details.IsDisplayed);
             cmd.Parameters.AddWithValue("@BranchId", details.BranchId);
             cmd.Parameters.AddWithValue("@ShowAll", details.ShowAll);
 
@@ -3137,10 +3586,11 @@ namespace LeHealth.Core.DataManager
             return sponsorgrpList;
         }
 
-
-        public List<PatientSponsorModel> GetSponsorDetailsByPatient(PatientSponsorModel sponsor)
+        
+        public List<BillSaveModel> GetSponsorDetailsByPatient(BillSaveModel sponsor)
         {
-            List<PatientSponsorModel> sponsorList = new List<PatientSponsorModel>();
+            //List<PatientSponsorModel> sponsorList = new List<PatientSponsorModel>();
+            List<BillSaveModel> sponsorList = new List<BillSaveModel>();
             using SqlConnection con = new SqlConnection(_connStr);
             using SqlCommand cmd = new SqlCommand("stLH_GetPatientSponsorForCredit", con);
             con.Open();
@@ -3156,7 +3606,7 @@ namespace LeHealth.Core.DataManager
             {
                 for (Int32 i = 0; i < dtsponsor.Rows.Count; i++)
                 {
-                    PatientSponsorModel obj = new PatientSponsorModel
+                    BillSaveModel obj = new BillSaveModel
                     {
 
                         SponsorId = Convert.ToInt32(dtsponsor.Rows[i]["SponsorId"]),

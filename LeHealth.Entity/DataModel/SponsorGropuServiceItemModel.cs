@@ -22,6 +22,7 @@ namespace LeHealth.Entity.DataModel
             public int AuthReq { get; set; }
             public string RuleCategory { get; set; }
             public string ItemCode { get; set; }
-        
+           public List<SponsorRuleItemModel> SponsorRuleItemList { get; set; }
+
     }
 }

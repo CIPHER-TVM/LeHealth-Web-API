@@ -24,6 +24,95 @@ namespace LeHealth.Base.API.Controllers
             logger = _logger;
             sponserService = _sponserservice;
         }
+        //
+
+        /// <summary>
+        /// API For gettingSponsor Types 
+        /// </summary>
+        /// <param name="sponsortypedetails">SponsorType table</param>
+        /// <returns> srvice details  for rule</returns>
+
+        [HttpPost]
+        [Route("GetSponsorTypeByID")]
+
+        public ResponseDataModel<IEnumerable<SponsorTypeModel>> GetSponsorTypeByID(SponsorTypeModel sponsor)
+        {
+            try
+            {
+                List<SponsorTypeModel> StypeList = new List<SponsorTypeModel>();
+                StypeList = sponserService.GetSponsorTypeByID(sponsor);
+                var response = new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.OK,
+                    Response = StypeList
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+                return new ResponseDataModel<IEnumerable<SponsorTypeModel>>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
+        /// <summary>
+        /// API For saving Sponsor Rule data and 
+        /// saving SponsorRuleGroup and SponsorRuleItem under SponsorRule
+        /// </summary>
+        /// <param name="obj">Sponsor Rule Details</param>
+        /// <returns>Success or reason for failure</returns>
+        [HttpPost]
+        [Route("InsertUpdateSponsorRule")]
+        public ResponseDataModel<string> InsertUpdateSponsorRule(SponsorRuleModel obj)
+        {
+            try
+            {
+                string message = string.Empty;
+                message = sponserService.InsertUpdateSponsorRule(obj);
+                //var agent = sponserService.InsertUpdateSponsor(obj);
+                var response = new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.OK,
+                    // Response = agent,
+                    Message = message
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "SponsorController", "InsertUpdateSponsorRule()");
+
+                return new ResponseDataModel<string>()
+                {
+                    Status = HttpStatusCode.InternalServerError,
+                    Response = null,
+                    ErrorMessage = new ErrorResponse()
+                    {
+                        Message = ex.Message
+                    }
+
+                };
+            }
+            finally
+            {
+            }
+        }
+
+
 
         /// <summary>
         /// API For gettingSponsor Forms 
@@ -78,11 +167,13 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
-                var drug = sponserService.InsertUpdateSponsorForms(obj);
+                string message = string.Empty;
+                message = sponserService.InsertUpdateSponsorForms(obj);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = drug,
+                    Response = "",
+                    Message = message,
 
                 };
                 return response;
@@ -397,11 +488,12 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
-                var drug = sponserService.InsertConsultantReduction(obj);
+                string message = string.Empty;
+               message = sponserService.InsertConsultantReduction(obj);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = drug,
+                    Message = message,
 
                 };
                 return response;
@@ -517,11 +609,13 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
-                var drug = sponserService.InsertSponsorRuleDrugList(obj);
+                string message = string.Empty;
+                message = sponserService.InsertSponsorRuleDrugList(obj);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = drug,
+                    //Response = drug,
+                    Message = message
 
                 };
                 return response;
@@ -962,11 +1056,13 @@ namespace LeHealth.Base.API.Controllers
         {
             try
             {
-                var agent = sponserService.InsertUpdateSponsorConsent(obj);
+                string message = string.Empty;
+                message = sponserService.InsertUpdateSponsorConsent(obj);
                 var response = new ResponseDataModel<string>()
                 {
                     Status = HttpStatusCode.OK,
-                    Response = agent,
+                    Response = "",
+                    Message = message,
 
                 };
                 return response;

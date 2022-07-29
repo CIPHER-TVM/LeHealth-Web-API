@@ -15,6 +15,32 @@ namespace LeHealth.Service.Service
             billmanager = _billmanager;
         }
         //
+        public string CheckEligibleForBillsave(PatientSponsorModel details)
+        {
+
+            return billmanager.CheckEligibleForBillsave(details);
+        }
+        public List<ClaimResubmissionDetailsModel> GetClaimDetailsForResubmission(ClaimResubmissionDetailsModel details)
+        {
+            return billmanager.GetClaimDetailsForResubmission(details);
+        }
+        public List<ClaimResubmissionModel> GetClaimResubmissionDetails(ClaimResubmissionModel details)
+        {
+            return billmanager.GetClaimResubmissionDetails(details);
+        }
+        public List<ClaimResubmissionModel> GetClaimResubmission(ClaimResubmissionModel details)
+        {
+            return billmanager.GetClaimResubmission(details);
+        }
+        public List<ClaimReceiptModel> GetSponsorChequeDetails(ClaimReceiptModel details)
+        {
+            return billmanager.GetSponsorChequeDetails(details);
+        }
+        public string InsertUpdateClaimReceipt(ClaimReceiptModel details)
+        {
+
+            return billmanager.InsertUpdateClaimReceipt(details);
+        }
 
         public List<ClaimReceiptModel> GetSponsorChequeReceiptDetails(ClaimReceiptModel details)
         {
@@ -333,7 +359,7 @@ namespace LeHealth.Service.Service
         {
             return billmanager.GetCreditItemGroup(spdetails);
         }
-        public List<PatientSponsorModel> GetSponsorDetailsByPatient(PatientSponsorModel sponsor)
+        public List<BillSaveModel> GetSponsorDetailsByPatient(BillSaveModel sponsor)
         {
             return billmanager.GetSponsorDetailsByPatient(sponsor);
         }
