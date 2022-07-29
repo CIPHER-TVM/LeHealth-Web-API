@@ -728,7 +728,7 @@ namespace LeHealth.Core.DataManager
         }
         public string PostponeAppointment(Appointments app)
         {
-            
+
             string response = string.Empty;
             SqlTransaction transaction;
             using (SqlConnection con = new SqlConnection(_connStr))
@@ -737,7 +737,7 @@ namespace LeHealth.Core.DataManager
                 transaction = con.BeginTransaction();
                 //check appoinment exists
                 DateTime postponeDate = DateTime.ParseExact(app.AppDate.Trim(), "dd-MM-yyyy", null);
-                
+
 
                 int listcount = app.SliceData.Count;
                 string sliceNos = string.Empty;
@@ -746,7 +746,7 @@ namespace LeHealth.Core.DataManager
 
                     sliceNos = string.Join(",", app.SliceData.Select(x => x.SliceNo));
                 }
-                   
+
 
                 using SqlCommand cmdCheck = new SqlCommand("stLH_CheckConsultantAppoinments", con);
                 cmdCheck.CommandType = CommandType.StoredProcedure;
@@ -806,7 +806,7 @@ namespace LeHealth.Core.DataManager
                             Direction = ParameterDirection.Output
                         };
                         cmd.Parameters.Add(retDesc);
-                       
+
                         var isUpdated = cmd.ExecuteNonQuery();
                         var retV = retVal.Value;
                         var retD = retDesc.Value.ToString();
@@ -831,11 +831,11 @@ namespace LeHealth.Core.DataManager
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                   
+
                 }
                 con.Close();
             }
-           
+
             return response;
         }
 
@@ -1212,8 +1212,10 @@ namespace LeHealth.Core.DataManager
             using SqlCommand cmd = new SqlCommand("stLH_GetConsultantOfDeptById", con);
             con.Open();
             cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@DeptId", cm.DeptId.ToString());
             cmd.Parameters.AddWithValue("@DeptId", cm.DeptId);
             cmd.Parameters.AddWithValue("@ShowExternal", cm.ShowExternal);
+            //cmd.Parameters.AddWithValue("@BranchId", cm.BranchId);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
@@ -1225,8 +1227,8 @@ namespace LeHealth.Core.DataManager
                     ConsultantModel obj = new ConsultantModel();
                     obj.ConsultantId = Convert.ToInt32(dt.Rows[i]["ConsultantId"]);
                     obj.ConsultantName = dt.Rows[i]["ConsultantName"].ToString();
-                    obj.DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]);
-                    obj.DeptName = dt.Rows[i]["DeptName"].ToString();
+                    //obj.DeptId = Convert.ToInt32(dt.Rows[i]["DeptId"]);
+                    //obj.DeptName = dt.Rows[i]["DeptName"].ToString();
                     consultantList.Add(obj);
                 }
             }

@@ -112,7 +112,7 @@ namespace LeHealth.Entity.DataModel
         public string ItemName { get; set; }
         public int GroupId { get; set; }
         public int ChildId { get; set; }
-        public int GroupTypeId { get; set; }
+        public int? GroupTypeId { get; set; }
         public int ParentId { get; set; }
         public int ValidityDays { get; set; }
         public int ValidityVisits { get; set; }

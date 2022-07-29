@@ -6,6 +6,8 @@ namespace LeHealth.Entity.DataModel
 {
     public class ConsultantDrugModel
     {
+ 
+
         public int ConsultantId { get; set; }
         public int DrugTypeId { get; set; }
         public int DrugId { get; set; }
@@ -22,7 +24,7 @@ namespace LeHealth.Entity.DataModel
         public string FreqDesc { get; set; }
         public int FreqMode { get; set; }
         public string Duration { get; set; }
-        public string DurationMode { get; set; }
+        public int DurationMode { get; set; }
         public string ScientificName { get; set; }
         public int ScientificNameId { get; set; }
         public int UserId { get; set; }

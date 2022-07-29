@@ -413,7 +413,8 @@ namespace LeHealth.Core.DataManager
                         ResNo = dsavailableService.Rows[i]["ResNo"].ToString(),
                         ConsultationId = Convert.ToInt32(dsavailableService.Rows[i]["ConsultationId"]),
                         BranchId = Convert.ToInt32(dsavailableService.Rows[i]["BranchId"]),
-                        IsExternalConsultant = Convert.ToInt32(dsavailableService.Rows[i]["ExternalConsultant"])
+                        IsExternalConsultant = Convert.ToInt32(dsavailableService.Rows[i]["ExternalConsultant"]),
+                        IsCancelled = Convert.ToInt32(dsavailableService.Rows[i]["IsCancelled"])
                     };
                     availableServiceList.Add(obj);
                 }

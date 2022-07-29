@@ -200,7 +200,6 @@ namespace LeHealth.Core.DataManager
                 obj.RGroupId = Convert.ToInt32(dsPatientData.Rows[0]["RGroupId"]);
                 obj.Mode = dsPatientData.Rows[0]["Mode"].ToString();
                 obj.NationalityId = Convert.ToInt32(dsPatientData.Rows[0]["NationalityId"]);
-                obj.RefBy = dsPatientData.Rows[0]["ReferredBy"].ToString();
                 obj.PrivilegeCard = Convert.ToBoolean(dsPatientData.Rows[0]["PrivilegeCard"]);
                 obj.UserId = Convert.ToInt32(dsPatientData.Rows[0]["UserId"]);
                 obj.WorkEnvironMent = dsPatientData.Rows[0]["WorkEnvironment"].ToString();
@@ -532,7 +531,6 @@ namespace LeHealth.Core.DataManager
                 cmd.Parameters.AddWithValue("@ConsultantId", patientDetail.ConsultantId);
                 cmd.Parameters.AddWithValue("@Active", patientDetail.Active);
                 cmd.Parameters.AddWithValue("@AppId", patientDetail.AppId);
-                cmd.Parameters.AddWithValue("@RefBy", patientDetail.RefBy);
                 cmd.Parameters.AddWithValue("@PrivilegeCard", patientDetail.PrivilegeCard);
                 cmd.Parameters.AddWithValue("@UserId", patientDetail.UserId);
                 cmd.Parameters.AddWithValue("@LocationId", patientDetail.LocationId);

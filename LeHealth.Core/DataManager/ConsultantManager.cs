@@ -659,17 +659,17 @@ namespace LeHealth.Core.DataManager
                 consultantServices = dtServicesList.ToListOfObject<ConsultantServiceModel>();
             return consultantServices;
         }
-        public string InsertConsultantDrugs(List<ConsultantDrugModel> consultantDrugs)
+        public string InsertConsultantDrugs(ConsultantDrugsModel consultantDrugs)
         {
             string response = string.Empty;
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 using SqlCommand cmd = new SqlCommand("stLH_InsertUpdateConsultantDrugs", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs[0].ConsultantId);
-                cmd.Parameters.AddWithValue("@UserId", consultantDrugs[0].UserId);
-                cmd.Parameters.AddWithValue("@IsUpdate", consultantDrugs[0].IsUpdate);
-                string drugJson = JsonConvert.SerializeObject(consultantDrugs);
+                cmd.Parameters.AddWithValue("@ConsultantId", consultantDrugs.DrugDetails[0].ConsultantId);
+                cmd.Parameters.AddWithValue("@UserId", consultantDrugs.UserId);
+                cmd.Parameters.AddWithValue("@IsUpdate", consultantDrugs.DrugDetails[0].IsUpdate);
+                string drugJson = JsonConvert.SerializeObject(consultantDrugs.DrugDetails);
                 cmd.Parameters.AddWithValue("@DrugJson", drugJson);
                 SqlParameter retValV = new SqlParameter("@RetVal", SqlDbType.Int)
                 {
@@ -1868,7 +1868,7 @@ namespace LeHealth.Core.DataManager
                         BlockReason = dtDisease.Rows[i]["BlockReason"].ToString(),
                         Symptoms = JsonConvert.DeserializeObject<List<DiseaseSymptomModel>>(dtDisease.Rows[i]["Symptoms"].ToString()),
                         Signs = JsonConvert.DeserializeObject<List<DiseaseSignModel>>(dtDisease.Rows[i]["Signs"].ToString()),
-                        LabelId=(diseaseICDs == null)?0: diseaseICDs[0].LabelId,
+                        LabelId = (diseaseICDs == null) ? 0 : diseaseICDs[0].LabelId,
                         ICD = diseaseICDs == null ? null : diseaseICDs[0]
                     };
                 }
@@ -2238,6 +2238,8 @@ namespace LeHealth.Core.DataManager
                     consultant.NationalityId = dt.Rows[i]["NationalityId"] != null ? Convert.ToInt32(dt.Rows[i]["NationalityId"]) : 0;
                     consultant.Gender = dt.Rows[i]["Gender"] != null ? dt.Rows[i]["Gender"].ToString() : "";
                     consultant.DOB = dt.Rows[i]["DOB"] != null ? dt.Rows[i]["DOB"].ToString().Replace("/", "-") : "";
+                    int CUID = Convert.ToInt32(dt.Rows[i]["ConsultantUserId"]);
+                    consultant.Cuid = CUID;
                     //consultant.Age = dt.Rows[i]["Age"] != null ? Convert.ToInt32(dt.Rows[i]["Age"]) : 0;
                     consultant.Month = dt.Rows[i]["Month"] != null ? Convert.ToInt32(dt.Rows[i]["Month"]) : 0;
                     consultant.Qualification = dt.Rows[i]["Qualification"] != null ? dt.Rows[i]["Qualification"].ToString() : "";
