@@ -12,5 +12,11 @@ namespace LeHealth.Entity.DataModel
         public int ItemGroupId { get; set; }
         public float DiscPerc { get; set; }
         public string ItemGroupName { get; set; }
+        public List<ConsultantReductionListModel> ConsultantReductionList { get; set; }
+    }
+    public class ConsultantReductionListModel
+    {
+        public int ItemGroupId { get; set; }
+        public float DiscPerc { get; set; }
     }
 }

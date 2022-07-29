@@ -5706,6 +5706,7 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 con.Open();
+                
                 transaction = con.BeginTransaction();
                 SqlCommand cmdSaveProfile = new SqlCommand("stLH_InsertUpdateProfile", con);
                 cmdSaveProfile.CommandType = CommandType.StoredProcedure;

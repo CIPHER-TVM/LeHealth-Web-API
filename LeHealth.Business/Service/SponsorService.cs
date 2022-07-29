@@ -13,6 +13,16 @@ namespace LeHealth.Service.Service
         {
             sponsermanager = _sponsermanager;
         }
+        //
+        public List<SponsorTypeModel> GetSponsorTypeByID(SponsorTypeModel sponsor)
+        {
+            return sponsermanager.GetSponsorTypeByID(sponsor);
+        }
+        public string InsertUpdateSponsorRule(SponsorRuleModel details)
+        {
+
+            return sponsermanager.InsertUpdateSponsorRule(details);
+        }
 
         public List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm)
         {

@@ -6,6 +6,8 @@ namespace LeHealth.Service.ServiceInterface
 {
     public interface ISponsorService
     {
+        List<SponsorTypeModel> GetSponsorTypeByID(SponsorTypeModel sponsor);
+        string InsertUpdateSponsorRule(SponsorRuleModel details);
         List<SponsorFormModel> GetSponsorForm(SponsorFormModel itm);
 
         string InsertUpdateSponsorForms(SponsorFormModel frm);

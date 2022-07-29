@@ -39,9 +39,18 @@ namespace LeHealth.Entity.DataModel
         public int ShowAll { get; set; }
 
         public string TradeCode { get; set; }
+        public List<DrugforSponsorModel> DrugbySponsorList { get; set; }
 
     }
-
+    public class DrugforSponsorModel
+    {
+        public int DrugId { get; set; }
+        public string DrugName { get; set; }
+        public string TradeCode { get; set; }
+        public string DdcCode { get; set; }
+        public string Remarks { get; set; }
+        
+    }
     public class DrugModelAutoComplete
     {
         public int ConsultantId { get; set; }

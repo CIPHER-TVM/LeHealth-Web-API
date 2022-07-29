@@ -8,6 +8,13 @@ namespace LeHealth.Core.Interface
     public interface IBillManager
     {
         //
+        string CheckEligibleForBillsave(PatientSponsorModel details);
+        List<ClaimResubmissionDetailsModel> GetClaimDetailsForResubmission(ClaimResubmissionDetailsModel details);
+        List<ClaimResubmissionModel> GetClaimResubmissionDetails(ClaimResubmissionModel details);
+        List<ClaimResubmissionModel> GetClaimResubmission(ClaimResubmissionModel details);
+        List<ClaimReceiptModel> GetSponsorChequeDetails(ClaimReceiptModel details);
+
+        string InsertUpdateClaimReceipt(ClaimReceiptModel details);
         List<ClaimReceiptModel> GetSponsorChequeReceiptDetails(ClaimReceiptModel details);
         List<ClaimReceiptModel> GetClaimReceiptList(ClaimReceiptModel details);
         string CancelClaimReceipt(ClaimReceiptModel details);
@@ -76,7 +83,7 @@ namespace LeHealth.Core.Interface
         List<BillItemModel> GetItemForSelection(BillItemModel billdetails);
         string InsertUpdateCreditItemGroup(CreditItemGroupModel grp);
         List<CreditItemGroupModel> GetCreditItemGroup(CreditItemGroupModel spdetails);
-        List<PatientSponsorModel> GetSponsorDetailsByPatient(PatientSponsorModel sponsor);
+        List<BillSaveModel> GetSponsorDetailsByPatient(BillSaveModel sponsor);
         List<PatientBillModel> SearchTodayPatientBill(PatientBillModel patbill);
         string CancelReceipt(ReceiptModelAll rcpt);
         string CancelPayment(PaymentModelAll pymnt);

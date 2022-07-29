@@ -7,6 +7,9 @@ namespace LeHealth.Core.Interface
 {
     public interface ISponsorManager
     {
+        //
+        List<SponsorTypeModel> GetSponsorTypeByID(SponsorTypeModel details);
+        string InsertUpdateSponsorRule(SponsorRuleModel details);
         List<SponsorFormModel> GetSponsorForm(SponsorFormModel frm);
 
         string InsertUpdateSponsorForms(SponsorFormModel frm);

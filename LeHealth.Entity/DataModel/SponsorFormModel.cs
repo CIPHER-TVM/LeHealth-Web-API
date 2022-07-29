@@ -6,6 +6,7 @@ namespace LeHealth.Entity.DataModel
 {
     public class SponsorFormModel
     {
+        public List<SponsorRuleGroupModel> SponsorRuleGroupList { get; set; }
         public int SFormId { get; set; }
         public string SFormName { get; set; }
         public int IsDisplayed { get; set; }

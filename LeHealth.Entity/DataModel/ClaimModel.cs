@@ -6,6 +6,10 @@ namespace LeHealth.Entity.DataModel
 {
     public class ClaimModel
     {
+        public string Type { get; set; }
+        public string Comment { get; set; }
+        public string IdPayer { get; set; }
+        public string FileContent { get; set; }
         public int ClaimId { get; set; }
         public int Branchid { get; set; }
         public int SponsorId { get; set; }
@@ -101,10 +105,76 @@ namespace LeHealth.Entity.DataModel
          public float ClaimedAmount { get; set; }
          public float Amount { get; set; }
          public float BalanceAmount { get; set; }
+        public List<RecItemModel> RecItemList { get; set; }
+        public List<IdPayerModel> IdPayerList { get; set; }
+        public List<ClaimReceiptDetailModel> ClaimReceiptDetailList { get; set; }
+    }
+
+    
+    public class ClaimReceiptDetailModel
+    {
+        public float DeniedAmt { get; set; }
+        public float RecAmt { get; set; }
+        public string Remarks { get; set; }
+        public int TransId { get; set; }
+        public int ReceiptId { get; set; }
+        public string PaymentRef { get; set; }
+    }
+        
+
+    public class RecItemModel
+    {
+        public int EntryId { get; set; }
+        public int ClaimId { get; set; }
+        public int TransId { get; set; }
+        public string ActivityId { get; set; }
+        public int ItemId { get; set; }
+        public string CPTCode { get; set; }
+        //public float Net { get; set; }
+        public float ItemClaimAmount { get; set; }
+        public string DenialCode { get; set; }
+       
+        public float ReceivedAmount { get; set; }
+        public float DeniedAmount { get; set; }
+       // public string PaymentRef { get; set; }
+    }
+    public class IdPayerModel
+    {
+        public int ClaimId { get; set; }
+        public int TransId { get; set; }
+        public string IdPayer { get; set; }
+        public string XmlClaimId { get; set; }
+    }
+
+    public class ClaimResubmissionModel:TransactionModel
+    {
+        public int ClaimResubDetId { get; set; }
+        public int ClaimResubId { get; set; }
+        public int ClaimId { get; set; }
+        public string Type { get; set; }
+        public string Comment { get; set; }
+        public string ResubDate { get; set; }
+        public string ResubRefno { get; set; }
+        public string IdPayer { get; set; }
+        public string FileContent { get; set; }
+        public int ClaimRecId { get; set; }
     }
     
     
 
-
+    public class ClaimResubmissionDetailsModel:ClaimResubmissionModel
+    {
+        public bool BillSelect { get; set; }
+        public bool HasAttachment { get; set; }
+       
+        public int ClaimResubDetId { get; set; }
+        public string AsoapNo { get; set; }
+        public string DenialStatus { get; set; }
+        public string RuleDesc { get; set; }
+        
+        public string CodingInstructions { get; set; }
+        public string TransStatus { get; set; }
+        public float ClaimAmt { get; set; }
+    }
 
 }
