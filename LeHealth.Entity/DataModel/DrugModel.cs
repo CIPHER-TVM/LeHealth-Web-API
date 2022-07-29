@@ -25,6 +25,8 @@ namespace LeHealth.Entity.DataModel
         public int IsDeleted { get; set; }
         public int ZoneId { get; set; }
         public string DosageForm { get; set; }
+        public string ScientificName { get; set; } 
+        public string RouteDesc { get; set; }  
         public int IsDisplayed { get; set; }
         public ScientificNameModel ScientificNameDetails { get; set; }
         public RouteModel RouteDetails { get; set; }

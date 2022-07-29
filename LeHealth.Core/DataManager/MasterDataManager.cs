@@ -5706,7 +5706,7 @@ namespace LeHealth.Core.DataManager
             using (SqlConnection con = new SqlConnection(_connStr))
             {
                 con.Open();
-                
+
                 transaction = con.BeginTransaction();
                 SqlCommand cmdSaveProfile = new SqlCommand("stLH_InsertUpdateProfile", con);
                 cmdSaveProfile.CommandType = CommandType.StoredProcedure;
@@ -6349,6 +6349,8 @@ namespace LeHealth.Core.DataManager
                     obj.ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0;
                     obj.DosageForm = dt.Rows[i]["DosageForm"] != null ? dt.Rows[i]["DosageForm"].ToString() : "";
                     obj.IsDisplayed = Convert.ToInt32(dt.Rows[i]["IsDisplayed"]);
+                    obj.ScientificName = dt.Rows[i]["ScientificName"] != null ? dt.Rows[i]["ScientificName"].ToString() : "";
+                    obj.RouteDesc = dt.Rows[i]["RouteDesc"] != null ? dt.Rows[i]["RouteDesc"].ToString() : "";
                     obj.ScientificNameDetails = new ScientificNameModel
                     {
                         ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,
