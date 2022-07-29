@@ -9,7 +9,9 @@ namespace LeHealth.Entity.DataModel
         public int TradeId { get; set; }
         public string TradeName { get; set; }
         public int ScientificId { get; set; }
+        public string ScientificName { get; set; }
         public int RouteId { get; set; }
+        public string RouteDesc { get; set; } 
         public string DosageForm { get; set; }
         public string IngredentStrength { get; set; }
         public string PackagePrice { get; set; }

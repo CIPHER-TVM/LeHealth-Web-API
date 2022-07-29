@@ -6231,7 +6231,9 @@ namespace LeHealth.Core.DataManager
                     {
                         TradeId = dt.Rows[i]["TradeId"] != null ? Convert.ToInt32(dt.Rows[i]["TradeId"]) : 0,
                         ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0,
+                        ScientificName = dt.Rows[i]["ScientificName"].ToString(),
                         RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0,
+                        RouteDesc = dt.Rows[i]["RouteDesc"].ToString(),
                         IsDeleted = dt.Rows[i]["IsDeleted"] != null ? Convert.ToInt32(dt.Rows[i]["IsDeleted"]) : 0,
                         ZoneId = dt.Rows[i]["ZoneId"] != null ? Convert.ToInt32(dt.Rows[i]["ZoneId"]) : 0,
                         IsDisplayed = dt.Rows[i]["IsDisplayed"] != null ? Convert.ToInt32(dt.Rows[i]["IsDisplayed"]) : 0,

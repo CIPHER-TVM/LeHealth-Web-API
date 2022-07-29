@@ -233,35 +233,35 @@ namespace LeHealth.Base.API.Controllers
         public ResponseDataModel<IEnumerable<ConsultantMasterModel>> GetAllConsultants(ConsultantMasterModel consultant)
         {
 
-            try
+            //try
+            //{
+            List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
+            consultantList = consultantService.GetAllConsultants(consultant);
+            var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
             {
-                List<ConsultantMasterModel> consultantList = new List<ConsultantMasterModel>();
-                consultantList = consultantService.GetAllConsultants(consultant);
-                var response = new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
-                {
-                    Status = HttpStatusCode.OK,
-                    Response = consultantList
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
-                return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
-                {
-                    Status = HttpStatusCode.InternalServerError,
-                    Response = null,
-                    ErrorMessage = new ErrorResponse()
-                    {
-                        Message = ex.Message
-                    }
+                Status = HttpStatusCode.OK,
+                Response = consultantList
+            };
+            return response;
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogInformation("Failed to perform operation by following Exception: " + ex.Message + " " + DateTime.Now.ToString());
+            //    return new ResponseDataModel<IEnumerable<ConsultantMasterModel>>()
+            //    {
+            //        Status = HttpStatusCode.InternalServerError,
+            //        Response = null,
+            //        ErrorMessage = new ErrorResponse()
+            //        {
+            //            Message = ex.Message
+            //        }
 
-                };
-            }
-            finally
-            {
+            //    };
+            //}
+            //finally
+            //{
 
-            }
+            //}
         }
 
         [Route("InsertConsultantService")]
