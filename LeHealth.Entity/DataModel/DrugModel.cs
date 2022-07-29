@@ -25,8 +25,9 @@ namespace LeHealth.Entity.DataModel
         public int IsDeleted { get; set; }
         public int ZoneId { get; set; }
         public string DosageForm { get; set; }
-        public string ScientificName { get; set; } 
-        public string RouteDesc { get; set; }  
+        public string ScientificName { get; set; }
+        public string RouteDesc { get; set; }
+        public string DrugTypeName { get; set; }
         public int IsDisplayed { get; set; }
         public ScientificNameModel ScientificNameDetails { get; set; }
         public RouteModel RouteDetails { get; set; }
@@ -51,7 +52,7 @@ namespace LeHealth.Entity.DataModel
         public string TradeCode { get; set; }
         public string DdcCode { get; set; }
         public string Remarks { get; set; }
-        
+
     }
     public class DrugModelAutoComplete
     {
@@ -61,13 +62,13 @@ namespace LeHealth.Entity.DataModel
         public int BranchId { get; set; }
     }
     public class DrugsEMRModel
-    { 
+    {
         public int Id { get; set; }
         public int VisitId { get; set; }
-        public string VisitDate { get; set; } 
-        public int UserId { get; set; } 
-        public int ShowAll { get; set; } 
-        public int PatientId { get; set; } 
+        public string VisitDate { get; set; }
+        public int UserId { get; set; }
+        public int ShowAll { get; set; }
+        public int PatientId { get; set; }
         public List<ConsultantDrugModel> DrugDetails { get; set; }
     }
 }

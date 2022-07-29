@@ -6342,6 +6342,7 @@ namespace LeHealth.Core.DataManager
                     obj.DDCCode = dt.Rows[i]["DDCCode"] != null ? dt.Rows[i]["DDCCode"].ToString() : "";
                     obj.PackageNo = dt.Rows[i]["PackageNo"] != null ? dt.Rows[i]["PackageNo"].ToString() : "";
                     obj.DrugTypeId = dt.Rows[i]["DrugTypeId"] != null ? Convert.ToInt32(dt.Rows[i]["DrugTypeId"]) : 0;
+                    obj.DrugTypeName = dt.Rows[i]["DrugTypeName"].ToString();
                     obj.RouteId = dt.Rows[i]["RouteId"] != null ? Convert.ToInt32(dt.Rows[i]["RouteId"]) : 0;
                     obj.ScientificId = dt.Rows[i]["ScientificId"] != null ? Convert.ToInt32(dt.Rows[i]["ScientificId"]) : 0;
                     obj.TradeId = dt.Rows[i]["TradeId"] != null ? Convert.ToInt32(dt.Rows[i]["TradeId"]) : 0;
