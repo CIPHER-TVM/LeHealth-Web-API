@@ -22,13 +22,13 @@ namespace LeHealth.Entity.DataModel
         public ConsultationModel Consultation { get; set; }
         public List<RegAddressModel> RegAddress { get; set; }
         public List<RegIdentitiesModel> RegIdentities { get; set; }
-        public List<RegSymptomsModel> Symptoms { get; set; }  
+        public List<RegSymptomsModel> Symptoms { get; set; }
         public List<RegDocLocationModel> RegDocLocation { get; set; }
         public List<String> PatientDocNames { get; set; }
         public string PatientPhotoName { get; set; }
         public int PatientId { get; set; }
         public string RegNo { get; set; }
-        public int IsManualRegNo { get; set; } 
+        public int IsManualRegNo { get; set; }
         public string RegDate { get; set; }
         public int ItemId { get; set; }
         public int Salutation { get; set; }
@@ -49,7 +49,7 @@ namespace LeHealth.Entity.DataModel
         public string FaxNo { get; set; }
         public int Religion { get; set; }
         public int CmpId { get; set; }
-        public int Status { get; set; } 
+        public int Status { get; set; }
         public int PatState { get; set; }
         public int ProfId { get; set; }
         public int RGroupId { get; set; }
@@ -57,7 +57,7 @@ namespace LeHealth.Entity.DataModel
         public string Remarks { get; set; }
         public string OtherReasons { get; set; }
         public int NationalityId { get; set; }
-        public string NationalityName { get; set; }  
+        public string NationalityName { get; set; }
         public int ConsultantId { get; set; }
         public int Active { get; set; }
         public int AppId { get; set; }
@@ -77,22 +77,23 @@ namespace LeHealth.Entity.DataModel
         public string BlockReason { get; set; }
         public int CommunicationType { get; set; }
         public int AgeInMonth { get; set; }
-        public int AgeInYear { get; set; } 
+        public int AgeInYear { get; set; }
         //
-        public string RGroupName { get; set; } 
-        public string ItemName { get; set; } 
-        public string CountryName { get; set; } 
-        public string MaritalStatusDescription { get; set; } 
-        public string GenderName { get; set; } 
-        public string VisaType { get; set; } 
-        public string ProfName { get; set; } 
-        public string CmpName { get; set; }  
-        public int DepartmentId { get; set; }  
+        public string RGroupName { get; set; }
+        public string ItemName { get; set; }
+        public string CountryName { get; set; }
+        public string MaritalStatusDescription { get; set; }
+        public string GenderName { get; set; }
+        public string VisaType { get; set; }
+        public string ProfName { get; set; }
+        public string CmpName { get; set; }
+        public int DepartmentId { get; set; }
         public int? ConsultationId { get; set; }
         public string DepartmentName { get; set; }
         public string ConsultantName { get; set; }
-        public string ErrorMessage { get; set; }  
-        public float RegAmount { get; set; }   
+        public string ErrorMessage { get; set; }
+        public string BranchName { get; set; }
+        public float RegAmount { get; set; }
     }
     public class PatientBasicModel
     {

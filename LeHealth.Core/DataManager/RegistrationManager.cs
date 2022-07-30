@@ -227,6 +227,7 @@ namespace LeHealth.Core.DataManager
                 obj.DepartmentName = dsPatientData.Rows[0]["DeptName"].ToString();
                 obj.ConsultantName = dsPatientData.Rows[0]["ConsultantName"].ToString();
                 obj.ConsultationId = Convert.ToInt32(dsPatientData.Rows[0]["ConsultationId"]);
+                obj.BranchName = dsPatientData.Rows[0]["BranchName"].ToString();
             }
 
             con.Open();
